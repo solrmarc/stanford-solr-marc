@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a1</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">single unmatched 880 for 505 field</subfield>
+        </datafield>
+        <datafield tag="880" ind1="1" ind2=" ">
+            <subfield code="6">505-00</subfield>
+            <subfield code="a">vernsuba</subfield>
+            <subfield code="b">vernsubb</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a2</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">two unmatched 880 for 500, 505 field</subfield>
+        </datafield>
+        <datafield tag="880" ind1="1" ind2=" ">
+            <subfield code="6">500-00</subfield>
+            <subfield code="a">vernsuba</subfield>
+            <subfield code="b">vernsubb</subfield>
+        </datafield>
+        <datafield tag="880" ind1="1" ind2="0">
+            <subfield code="6">505-00</subfield>
+            <subfield code="a">vernsuba</subfield>
+            <subfield code="c">vernsubc</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a3</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="6">880-01</subfield>
+            <subfield code="a">matched and unmatched 880</subfield>
+        </datafield>
+        <datafield tag="880" ind1="1" ind2="0">
+            <subfield code="6">245-01</subfield>
+            <subfield code="a">vernsuba</subfield>
+            <subfield code="b">vernsubb</subfield>
+        </datafield>
+        <datafield tag="880" ind1="1" ind2=" ">
+            <subfield code="6">505-00</subfield>
+            <subfield code="a">vernsuba</subfield>
+            <subfield code="g">vernsubg</subfield>
+        </datafield>
+    </record>
+</collection>
