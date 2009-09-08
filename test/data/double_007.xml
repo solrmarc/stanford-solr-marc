@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><collection xmlns="http://www.loc.gov/MARC21/slim">
+  <record>
+    <leader>01952cim  2200457Ia 45í0</leader>
+    <controlfield tag="001">ocm57136914 </controlfield>
+    <controlfield tag="003">OCoLC</controlfield>
+    <controlfield tag="005">20060406084200.0</controlfield>
+    <controlfield tag="006">m        h        </controlfield>
+    <controlfield tag="007">sz uunnnn---ed</controlfield>
+    <controlfield tag="007">cr nnannnanuuu</controlfield>
+    <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">1417559128 (electronic audio bk.)</subfield>
+    </datafield>
+    <datafield tag="040" ind1=" " ind2=" ">
+      <subfield code="a">N$T</subfield>
+      <subfield code="c">N$T</subfield>
+      <subfield code="d">OCL</subfield>
+      <subfield code="d">OCLCQ</subfield>
+    </datafield>
+    <datafield tag="049" ind1=" " ind2=" ">
+      <subfield code="a">PBLA</subfield>
+    </datafield>
+    <datafield tag="050" ind1="1" ind2="4">
+      <subfield code="a">PS3569.A516</subfield>
+      <subfield code="b">.D48 2000eab</subfield>
+    </datafield>
+    <datafield tag="082" ind1="0" ind2="4">
+      <subfield code="a">813.54</subfield>
+      <subfield code="2">22</subfield>
+    </datafield>
+    <datafield tag="100" ind1="1" ind2=" ">
+      <subfield code="a">Sandford, John,</subfield>
+      <subfield code="d">1944 Feb. 23-</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="4">
+      <subfield code="a">The devil's code</subfield>
+      <subfield code="h">[electronic resource] /</subfield>
+      <subfield code="c">by John Sandford.</subfield>
+    </datafield>
+    <datafield tag="250" ind1=" " ind2=" ">
+      <subfield code="a">Unabridged.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">Prince Frederick, MD :</subfield>
+      <subfield code="b">Recorded Books ;</subfield>
+      <subfield code="a">[Boulder, Colo. :</subfield>
+      <subfield code="b">Made available electronically by] NetLibrary,</subfield>
+      <subfield code="c">p2000.</subfield>
+    </datafield>
+    <datafield tag="300" ind1=" " ind2=" ">
+      <subfield code="a">1 sound file (9 hr.) :</subfield>
+      <subfield code="b">digital, wma file.</subfield>
+    </datafield>
+    <datafield tag="306" ind1=" " ind2=" ">
+      <subfield code="a">090000</subfield>
+    </datafield>
+    <datafield tag="500" ind1=" " ind2=" ">
+      <subfield code="a">Title from image of compact disc cover on Web page (viewed Dec. 2, 2004).</subfield>
+    </datafield>
+    <datafield tag="506" ind1=" " ind2=" ">
+      <subfield code="a">Access may be limited to NetLibrary affiliated libraries.</subfield>
+    </datafield>
+    <datafield tag="511" ind1="0" ind2=" ">
+      <subfield code="a">Narrated by Richard Ferrone.</subfield>
+    </datafield>
+    <datafield tag="538" ind1=" " ind2=" ">
+      <subfield code="a">System requirements: Windows Media Player compatible, check NetLibrary Web site for version information.</subfield>
+    </datafield>
+    <datafield tag="538" ind1=" " ind2=" ">
+      <subfield code="a">Mode of access: World Wide Web.</subfield>
+    </datafield>
+    <datafield tag="650" ind1=" " ind2="0">
+      <subfield code="a">Kidd (Fictitious character : Camp)</subfield>
+      <subfield code="v">Fiction.</subfield>
+    </datafield>
+    <datafield tag="650" ind1=" " ind2="0">
+      <subfield code="a">Criminals</subfield>
+      <subfield code="v">Fiction.</subfield>
+    </datafield>
+    <datafield tag="650" ind1=" " ind2="0">
+      <subfield code="a">Conspiracies</subfield>
+      <subfield code="v">Fiction.</subfield>
+    </datafield>
+    <datafield tag="655" ind1=" " ind2="7">
+      <subfield code="a">Mystery fiction</subfield>
+      <subfield code="2">gsafd</subfield>
+    </datafield>
+    <datafield tag="655" ind1=" " ind2="7">
+      <subfield code="a">Downloadable audio books.</subfield>
+      <subfield code="2">local</subfield>
+    </datafield>
+    <datafield tag="700" ind1="1" ind2=" ">
+      <subfield code="a">Ferrone, Richard</subfield>
+      <subfield code="4">nrt</subfield>
+    </datafield>
+    <datafield tag="710" ind1="2" ind2=" ">
+      <subfield code="a">NetLibrary, Inc.</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="3">Bibliographic record display</subfield>
+      <subfield code="u">http://www.netLibrary.com/urlapi.asp?action=summary&amp;v=1&amp;bookid=122436</subfield>
+      <subfield code="z">A downloadable audio book accessible through the World Wide Web; click for information</subfield>
+      <subfield code="y">/uPortal/media/com/dynix/hip/uportal/layout/tab-column/dynix-nest-tables/default/ebook_button_netlib.jpg</subfield>
+      <subfield code="9">http://206.245.157.132:80/rpa/default/webauth.htm?rs=NetLibAudioHIP&amp;op=122436</subfield>
+    </datafield>
+    <datafield tag="949" ind1=" " ind2=" ">
+      <subfield code="a">496826</subfield>
+    </datafield>
+    <datafield tag="959" ind1=" " ind2=" ">
+      <subfield code="a">aapl</subfield>
+    </datafield>
+    <datafield tag="959" ind1=" " ind2=" ">
+      <subfield code="a">bmain</subfield>
+    </datafield>
+    <datafield tag="959" ind1=" " ind2=" ">
+      <subfield code="a">emain</subfield>
+    </datafield>
+    <datafield tag="994" ind1=" " ind2=" ">
+      <subfield code="a">92</subfield>
+      <subfield code="b">PBL</subfield>
+    </datafield>
+  </record>
+</collection>
