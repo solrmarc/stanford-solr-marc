@@ -13,7 +13,7 @@ import org.xml.sax.SAXException;
  * 
  * @author Naomi Dushay
  */
-public class TableOfContentsTests extends BibIndexTest {
+public class TableOfContentsTests extends AbstractStanfordBlacklightTest {
 	
     /**
      * table of contents search field should have appropriate properties.
@@ -24,7 +24,7 @@ public class TableOfContentsTests extends BibIndexTest {
     {
         String fldName = "toc_search";
         createIxInitVars("allfieldsTests.mrc");
-        assertSearchFldMultValProps(fldName, solrCore, sis);
+        assertSearchFldMultValProps(fldName);
     }
 
 
@@ -37,10 +37,10 @@ public class TableOfContentsTests extends BibIndexTest {
 	{
 		String fldName = "vern_toc_search";
 		createIxInitVars("vernacularSearchTests.mrc");
-		assertSearchFldMultValProps(fldName, solrCore, sis);
-		assertSingleResult("505VernSearch", fldName, "a505vern", sis);
+		assertSearchFldMultValProps(fldName);
+		assertSingleResult("505VernSearch", fldName, "a505vern");
 		
-		assertZeroResults(fldName, "none", sis);
+		assertZeroResults(fldName, "none");
 	}
 
 }
