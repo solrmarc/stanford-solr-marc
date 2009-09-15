@@ -17,7 +17,7 @@ public class CallNumberUnitTests
     /**
      * unit test for Utils.normalizeFloat()
      */
-    @Test
+@Test
     public void testNormalizeFloat()
     {
         String normed = normalizeFloat("1", 5, 3);
@@ -45,7 +45,7 @@ public class CallNumberUnitTests
     /**
      * unit test for Utils.getLCStringB4FirstCutter()
      */
-    @Test
+@Test
     public void testLCStringB4FirstCutter()
     {
         String callnum = "M1 L33";
@@ -121,7 +121,7 @@ public class CallNumberUnitTests
      * unit test to make sure the numeric portion of the LC classification is
      * parsed properly (before it's normalized)
      */
-    @Test
+@Test
     public void testLCClassNum()
     {
         String callnum = "M211 .M93 K.240 1988";
@@ -156,10 +156,9 @@ public class CallNumberUnitTests
      * unit test to make sure the optional suffix portion of the LC
      * classification is parsed properly (before it's normalized)
      */
-    @Test
+@Test
     public void testLCClassSuffix()
     {
-
         String callnum = "M1 L33";
         assertNull(getLCClassSuffix(callnum));
         // decimal class before cutter
@@ -212,7 +211,7 @@ public class CallNumberUnitTests
     /**
      * unit test for finding the first cutter for LC call numbers
      */
-    @Test
+@Test
     public void testFirstLCcutter()
     {
         String callnum = "M1 L33";
@@ -293,7 +292,7 @@ public class CallNumberUnitTests
     /**
      * unit test for finding optional suffix after LC first cutter
      */
-    @Test
+@Test
     public void testFirstLCcutterSuffix()
     {
         String callnum = "M1 L33";
@@ -375,7 +374,7 @@ public class CallNumberUnitTests
     /**
      * unit test for finding the second cutter for LC call numbers
      */
-    @Test
+@Test
     public void testSecondLCcutter()
     {
         // no second cutter
@@ -451,7 +450,7 @@ public class CallNumberUnitTests
     /**
      * unit test for finding optional suffix after LC first cutter
      */
-    @Test
+@Test
     public void testSecondLCcutterSuffix()
     {
         String callnum = "M1 L33";
@@ -509,7 +508,7 @@ public class CallNumberUnitTests
     /**
      * unit test for getLCShelfKey
      */
-    @Test
+@Test
     public void testLCShelfKey()
     {
         String callnum = "M1 L33";
@@ -630,7 +629,7 @@ public class CallNumberUnitTests
     /**
      * unit test for Utils.getDeweyB4Cutter()
      */
-    @Test
+@Test
     public void testDeweyB4Cutter()
     {
         // missing leading zeros in class
@@ -661,7 +660,7 @@ public class CallNumberUnitTests
     /**
      * unit test for getting the cutter for Dewey call numbers
      */
-    @Test
+@Test
     public void testDeweyCutter()
     {
         // missing leading zeros in class
@@ -713,7 +712,7 @@ public class CallNumberUnitTests
     /**
      * unit test for getting the cutter for Dewey call numbers
      */
-    @Test
+@Test
     public void testDeweyCutterSuffix()
     {
         // cutter has following letters
@@ -746,7 +745,7 @@ public class CallNumberUnitTests
     /**
      * unit test for getting Dewey shelf key
      */
-    @Test
+@Test
     public void testDeweyShelfKey()
     {
         // missing leading zeros in class
@@ -1070,7 +1069,7 @@ public class CallNumberUnitTests
      * test the sort of LC call numbers (via the shelf key) - diabolical data
 //TODO: improve sort and check results against "correct" sort
      */
-    @Test
+@Test
     public final void testLCcallnumsSorted() throws IOException,
             ParserConfigurationException, SAXException
     {
@@ -1095,7 +1094,7 @@ public class CallNumberUnitTests
      * test the reverse sort of LC call numbers (via the reverse shelf key) -
      * diabolical data
      */
-    @Test
+@Test
     public final void testLCcallNumsReverseSorted() throws IOException,
             ParserConfigurationException, SAXException
     {
@@ -1131,7 +1130,7 @@ public class CallNumberUnitTests
      * unit test for removing volume/part info at end of call number, if it
      * exists
      */
-    @Test
+@Test
     public void testRemoveLC_V_VolInfo()
     {
         // call nums to be left as is
@@ -1249,7 +1248,7 @@ public class CallNumberUnitTests
      * unit test for removing volume/part info at end of call number, if it
      * exists
      */
-    @Test
+@Test
     public void testRemoveLC_vol_VolInfo()
     {
         // Vol
@@ -1345,7 +1344,7 @@ public class CallNumberUnitTests
      * unit test for removing volume/part info at end of call number, if it
      * exists
      */
-    @Test
+@Test
     public void testRemoveLC_NonEng_VolInfo()
     {
         // bd
@@ -1386,7 +1385,7 @@ public class CallNumberUnitTests
      * unit test for removing volume/part info at end of call number, if it
      * exists
      */
-    @Test
+@Test
     public void testRemoveDewey_VolInfo()
     {
         // leave alone
@@ -1490,7 +1489,7 @@ public class CallNumberUnitTests
     /**
      * remove LC call number 3 letter month suffix, if it exists
      */
-    @Test
+@Test
     public void testRemoveLC3LetMonths()
     {
         String callnum = "BM198.2 .H85 OCT 2006";
