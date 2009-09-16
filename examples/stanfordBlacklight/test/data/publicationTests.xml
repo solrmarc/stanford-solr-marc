@@ -108,7 +108,51 @@
             <subfield code="B">s.n.,</subfield>
         </datafield>
     </record>
+
+<!-- 880 for publication -->
+    <!-- vern260abc -->
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">avern260abc</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">vern260abc</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="6">880-01</subfield>
+            <subfield code="a">something</subfield>
+        </datafield>
+        <datafield tag="880" ind1=" " ind2=" ">
+            <subfield code="6">260-01/$1</subfield>
+            <subfield code="a">vern260a :</subfield>
+            <subfield code="b">vern260b,</subfield>
+            <subfield code="c">2008.</subfield>
+        </datafield>
+    </record>
     
+    <!-- vern260abcg -->
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">avern260abcg</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">vern260abcg</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="6">880-01</subfield>
+            <subfield code="a">something else</subfield>
+        </datafield>
+        <datafield tag="880" ind1=" " ind2=" ">
+            <subfield code="6">260-01/$1</subfield>
+            <subfield code="a">vern260a :</subfield>
+            <subfield code="b">vern260b,</subfield>
+            <subfield code="c">1990</subfield>
+            <subfield code="g">(1992 printing)</subfield>
+        </datafield>    
+    </record>
+ 
+<!-- 260c publication dates -->
+ 
     <!-- 260 c right bracket -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>

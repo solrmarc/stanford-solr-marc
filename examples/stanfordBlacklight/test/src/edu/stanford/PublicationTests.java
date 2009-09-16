@@ -10,8 +10,6 @@ import org.apache.lucene.document.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.solrmarc.index.SolrFieldMappingTest;
-import org.solrmarc.solr.DocumentProxy;
 import org.xml.sax.SAXException;
 
 import org.junit.*;
@@ -67,11 +65,43 @@ public class PublicationTests extends AbstractStanfordBlacklightTest
 		solrFldMapTest.assertSolrFldHasNoValue(publTestFilePath, "260abunknown", fldName, "[S.l. : s.n.");
 		solrFldMapTest.assertSolrFldHasNoValue(publTestFilePath, "260abunknown", fldName, "S.l. : s.n.");
 		
-		// these codes should be skipped
+		// test searching
 		createIxInitVars("publicationTests.mrc");
+		assertSingleResult("260aunknown", fldName, "Insight");
+		assertSingleResult("260bunknown", fldName, "victoria"); // downcased
+		
+		// these codes should be skipped
 		assertDocHasNoField("260abunknown", fldName);  // 260a s.l, 260b s.n.
+		assertZeroResults(fldName, "s.l.");
+		assertZeroResults(fldName, "s.n.");
 	}
 	
+	/**
+	 * assure publication field is populated correctly  
+	 */
+@Test
+	public void testVernPublication()
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+		String fldName = "vern_pub_search";
+		assertTextFieldProperties(fldName);
+		assertFieldOmitsNorms(fldName);
+		assertFieldMultiValued(fldName);
+		assertFieldIndexed(fldName);
+		String publTestFilePath = testDataParentPath + File.separator + "publicationTests.mrc";
+	
+		// 260ab from 880
+		solrFldMapTest.assertSolrFldValue(publTestFilePath, "vern260abc", fldName, "vern260a : vern260b");
+		solrFldMapTest.assertSolrFldValue(publTestFilePath, "vern260abcg", fldName, "vern260a : vern260b");
+
+		// test searching
+		createIxInitVars("publicationTests.mrc");
+		Set<String> docIds = new HashSet<String>();
+		docIds.add("vern260abc");
+		docIds.add("vern260abcg");
+		assertSearchResults(fldName, "vern260a", docIds);
+	}
+
 
 	/**
 	 * assure publication country field is populated correctly  
@@ -393,7 +423,7 @@ public class PublicationTests extends AbstractStanfordBlacklightTest
 		expectedOrderList.add("pubDate0019"); 			
 		
 		// get search results sorted by pub_date_sort field
-		List<Document> results = getDescSortDocs("collection", "sirsi", "pub_date_sort");
+		List<Document> results = getDescSortDocs("collection", "sirsi", fldName);
 		Document firstDoc = results.get(0);
 		assertTrue("0000 pub date should not sort first", firstDoc.getValues(docIDfname)[0] != "pubDate0000");
 
