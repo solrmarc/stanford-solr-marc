@@ -2,12 +2,10 @@ package edu.stanford;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.lucene.document.Document;
 import org.junit.*;
 import org.xml.sax.SAXException;
 

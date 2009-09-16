@@ -187,8 +187,9 @@ public class TitleSearchVernTests extends AbstractStanfordBlacklightTest {
 		throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "vern_title_related_search";
+		createIxInitVars("summaryTests.mrc");
 		assertSearchFldMultValProps(fldName);
-		assertSingleResult("4xxVernSearch", fldName, "vern505t");
+		assertSingleResult("505", fldName, "vern505t");
 		assertZeroResults(fldName, "nope");
 	}
 
