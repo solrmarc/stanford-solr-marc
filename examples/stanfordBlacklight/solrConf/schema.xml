@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<schema name="Stanford Searchworks Bib Index" version="1.1">
+<schema name="Stanford Searchworks Index" version="1.1">
   <types>
     <fieldtype name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true" />
     <fieldtype name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true" />
@@ -156,24 +156,24 @@
 
     <!-- Title Search Fields -->
     <field name="title_245a_search" type="text" indexed="true" stored="false" />
-    <field name="vern_title_245a_search" type="text" indexed="true" stored="false" />
+    <field name="vern_title_245a_search" type="textNoStem" indexed="true" stored="false" />
     <field name="title_245a_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="title_245_search" type="text" indexed="true" stored="false" />
-    <field name="vern_title_245_search" type="text" indexed="true" stored="false" />
+    <field name="vern_title_245_search" type="textNoStem" indexed="true" stored="false" />
     <field name="title_245_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="title_uniform_search" type="text" indexed="true" stored="false" />
-    <field name="vern_title_uniform_search" type="text" indexed="true" stored="false" />
+    <field name="vern_title_uniform_search" type="textNoStem" indexed="true" stored="false" />
     <field name="title_uniform_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="title_variant_search" type="text" indexed="true" stored="false" multiValued="true" />
-    <field name="vern_title_variant_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_title_variant_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="title_variant_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="title_related_search" type="text" indexed="true" stored="false" multiValued="true" />
-    <field name="vern_title_related_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_title_related_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="title_related_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
 
 <!-- TODO:  revisions to series search!!!! -->
     <field name="title_series_search" type="text" indexed="true" stored="false" multiValued="true" />
-    <field name="vern_title_series_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_title_series_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="title_series_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     
     <!-- Title Display fields -->
@@ -193,13 +193,13 @@
 
     <!-- Author Search Fields -->
     <field name="author_1xx_search" type="text" indexed="true" stored="false" />
-    <field name="vern_author_1xx_search" type="text" indexed="true" stored="false" />
+    <field name="vern_author_1xx_search" type="textNoStem" indexed="true" stored="false" />
     <field name="author_1xx_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="author_7xx_search" type="text" indexed="true" stored="false" multiValued="true" />
-    <field name="vern_author_7xx_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_author_7xx_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="author_7xx_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="author_8xx_search" type="text" indexed="true" stored="false" multiValued="true" />
-    <field name="vern_author_8xx_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_author_8xx_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="author_8xx_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     
     <!-- Author Facet Fields -->
@@ -222,22 +222,22 @@
     
     <!--  Subject Search Fields -->
     <field name="topic_search" type="text" indexed="true" stored="false" multiValued="true" />
-    <field name="vern_topic_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_topic_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="topic_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="topic_subx_search" type="text" indexed="true" stored="false" multiValued="true" />
-    <field name="vern_topic_subx_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_topic_subx_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="topic_subx_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="geographic_search" type="text" indexed="true" stored="false" multiValued="true" />
-    <field name="vern_geographic_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_geographic_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="geographic_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="geographic_subz_search" type="text" indexed="true" stored="false" multiValued="true" />
-    <field name="vern_geographic_subz_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_geographic_subz_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="geographic_subz_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="subject_other_search" type="text" indexed="true" stored="false" multiValued="true" />
-    <field name="vern_subject_other_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_subject_other_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="subject_other_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="subject_other_subvy_search" type="text" indexed="true" stored="false" multiValued="true" />
-    <field name="vern_subject_other_subvy_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_subject_other_subvy_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="subject_other_subvy_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     
     <!-- Subject Facet Fields -->
@@ -247,7 +247,7 @@
 
     <!-- Publishing Fields -->
     <field name="pub_search" type="text" indexed="true" stored="false" omitNorms="true" multiValued="true"/>
-    <field name="vern_pub_search" type="text" indexed="true" stored="false" omitNorms="true" multiValued="true"/>
+    <field name="vern_pub_search" type="textNoStem" indexed="true" stored="false" omitNorms="true" multiValued="true"/>
     <field name="pub_country" type="text" indexed="true" stored="false" omitNorms="true"/>
     <!-- TODO: should pub_date_search be a date or a text field? -->
     <field name="pub_date_search" type="text" indexed="true" stored="false" omitNorms="true"/>
@@ -265,19 +265,19 @@
 
     <!-- Physical Fields -->
     <field name="physical" type="text" indexed="true" stored="true" multiValued="true" />
-    <field name="vern_physical" type="text" indexed="true" stored="true" multiValued="true" />
+    <field name="vern_physical" type="textNoStem" indexed="true" stored="true" multiValued="true" />
     
     <!-- Table of Contents -->
     <field name="toc_search" type="text" indexed="true" stored="false" multiValued="true" />
-    <field name="vern_toc_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_toc_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="toc_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <!-- Context -->
     <field name="context_search" type="text" indexed="true" stored="false" multiValued="true" />
-    <field name="vern_context_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_context_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="context_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <!-- Summary -->
     <field name="summary_search" type="text" indexed="true" stored="false" multiValued="true" />
-    <field name="vern_summary_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_summary_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="summary_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     
     <!-- Item Info Fields (derived from 999) -->
@@ -312,44 +312,26 @@
   <copyField source="pub_date" dest="pub_date_search" />
   <!-- unstemmed search fields: title -->
   <copyField source="title_245a_search" dest="title_245a_unstem_search" />
-  <copyField source="vern_title_245a_search" dest="title_245a_unstem_search" />
   <copyField source="title_245_search" dest="title_245_unstem_search" />
-  <copyField source="vern_title_245_search" dest="title_245_unstem_search" />
   <copyField source="title_uniform_search" dest="title_uniform_unstem_search" />
-  <copyField source="vern_title_uniform_search" dest="title_uniform_unstem_search" />
   <copyField source="title_variant_search" dest="title_variant_unstem_search" />
-  <copyField source="vern_title_variant_search" dest="title_variant_unstem_search" />
   <copyField source="title_related_search" dest="title_related_unstem_search" />
-  <copyField source="vern_title_related_search" dest="title_related_unstem_search" />
   <copyField source="title_series_search" dest="title_series_unstem_search" />
-  <copyField source="vern_title_series_search" dest="title_series_unstem_search" />
   <!-- unstemmed search fields: author -->  
   <copyField source="author_1xx_search" dest="author_1xx_unstem_search" />
-  <copyField source="vern_author_1xx_search" dest="author_1xx_unstem_search" />
   <copyField source="author_7xx_search" dest="author_7xx_unstem_search" />
-  <copyField source="vern_author_7xx_search" dest="author_7xx_unstem_search" />
   <copyField source="author_8xx_search" dest="author_8xx_unstem_search" />
-  <copyField source="vern_author_8xx_search" dest="author_8xx_unstem_search" />
   <!-- unstemmed search fields: subject -->
   <copyField source="topic_search" dest="topic_unstem_search" />
-  <copyField source="vern_topic_search" dest="topic_unstem_search" />
   <copyField source="topic_subx_search" dest="topic_subx_unstem_search" />
-  <copyField source="vern_topic_subx_search" dest="topic_subx_unstem_search" />
   <copyField source="geographic_search" dest="geographic_unstem_search" />
-  <copyField source="vern_geographic_search" dest="geographic_unstem_search" />
   <copyField source="geographic_subz_search" dest="geographic_subz_unstem_search" />
-  <copyField source="vern_geographic_subz_search" dest="geographic_subz_unstem_search" />
   <copyField source="subject_other_search" dest="subject_other_unstem_search" />
-  <copyField source="vern_subject_other_search" dest="subject_other_unstem_search" />
   <copyField source="subject_other_subvy_search" dest="subject_other_subvy_unstem_search" />
-  <copyField source="vern_subject_other_subvy_search" dest="subject_other_subvy_unstem_search" />
   <!-- unstemmed search fields: toc/summary -->
   <copyField source="toc_search" dest="toc_unstem_search" />
-  <copyField source="vern_toc_search" dest="toc_unstem_search" />
   <copyField source="context_search" dest="context_unstem_search" />
-  <copyField source="vern_context_search" dest="context_unstem_search" />
   <copyField source="summary_search" dest="summary_unstem_search" />
-  <copyField source="vern_summary_search" dest="summary_unstem_search" />
   
   <!-- Spell copyFields -->
   <copyField source="all_search" dest="spell" />
