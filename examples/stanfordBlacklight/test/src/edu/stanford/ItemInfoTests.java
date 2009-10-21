@@ -1,5 +1,6 @@
 package edu.stanford;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -49,6 +50,7 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	    assertSingleResult("4823592", fldName, "\"Crown (Law)\"");
 	    assertSingleResult("5666387", fldName, "Music");
 	    assertSingleResult("6676531", fldName, "\"East Asia\"");
+	    assertSingleResult("2797607", fldName, "Meyer");
 	
 	    // hoover tests are a separate method below
 	    
@@ -116,11 +118,6 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 //	    assertSingleResult("1111", fldName, "\"Inter-Library Borrowing\""); 
 	    assertZeroResults(fldName, "\"Inter-Library Borrowing\"");
 	    assertZeroResults(fldName, "\"ILB\"");
-	    
-	    // MEYER not a valid building
-//	    assertSingleResult("2797607", fldName, "Meyer");
-	    assertZeroResults(fldName, "Meyer");
-	    assertZeroResults(fldName, "MEYER");
 	    
 	    // SPEC-DESK   Green (Humanities & Social Sciences)   not a valid building
 //	    assertSingleResult("2222", fldName, "Green (Humanities & Social Sciences)");
@@ -379,7 +376,7 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum);
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey);
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, !isSerial);
-		assertDocHasFieldValue("2797607", fldName, "36105004381195 -|- MEYER -|- Stacks -|- " +
+		assertDocHasFieldValue("2797607", fldName, "36105004381195 -|- Meyer -|- Stacks -|- " +
 				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort);
 
 		// MUSIC
@@ -1113,5 +1110,36 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, isSerial);
 		assertDocHasFieldValue("460947", fldName, "36105007402873 -|- Falconer -|- Stacks -|- " +
 				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort);
+	}
+
+
+	/**
+	 * Assert that multiple copies of an item each have a separate field
+	 */
+//@Test
+	public final void testMultipleCopies() 
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+		String fldName = "item_display";
+		String fileName = "multipleCopies.mrc";
+		createIxInitVars(fileName);
+		mappingTestInit();
+	    String testFilePath = testDataParentPath + File.separator + fileName;
+
+	    String callnum = "PR3724.T2";
+		String lopped = CallNumUtils.removeLCVolSuffix(callnum);
+		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped);
+		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey);
+		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, isSerial);
+		String rest = " -|- SAL3 -|- Stacks -|- " +
+				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+	    String item1 = "36105003934432" + rest;
+	    String item2 = "36105003934424" + rest;
+
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, item1);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, item2);
+	    
+	    assertDocHasFieldValue("1", fldName, item1);
+	    assertDocHasFieldValue("1", fldName, item2);
 	}
 }
