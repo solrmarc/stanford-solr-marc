@@ -1,7 +1,10 @@
 package edu.stanford;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -22,6 +25,7 @@ public class VernFieldsTests extends AbstractStanfordBlacklightTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		createIxInitVars("vernacularNonSearchTests.mrc");
+		mappingTestInit();
 	}
 
 
@@ -88,6 +92,65 @@ public class VernFieldsTests extends AbstractStanfordBlacklightTest {
 		assertDocHasNoFieldValue("trailingPunct", fldName, "vernacular ends in slash /");
 	}
 	
+	/**
+	 * Test indexing of unmatched 880s with getLinkedField method
+	 */
+@Test
+	public final void testUnmatched880sLinkedField() 
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+		String fldName = "vern_toc_search";
+	    createIxInitVars("unmatched880sTests.mrc");
+
+	    Set<String> docIds = new HashSet<String>();
+		docIds.add("1");
+		docIds.add("2");
+		docIds.add("3");
+		assertSearchResults(fldName, "vern505a", docIds);
+
+		// subfields to be ignored
+        assertZeroResults(fldName, "vern505b");
+        assertZeroResults(fldName, "vern505c");
+        assertZeroResults(fldName, "vern505g");
+	}
+
+	/**
+	 * Test indexing of unmatched 880s using Stanford's getVernacular method
+	 */
+@Test
+	public final void testUnmatched880sVernacular() 
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+		String fldName = "vern_title_uniform_display";
+	    String testFilePath = testDataParentPath + File.separator + "unmatched880sTests.mrc";
+		solrFldMapTest.assertSolrFldValue(testFilePath, "4", fldName, "vern130a");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5", fldName, "vern240a");
+	}
+	
+	/**
+	 * Test indexing of unmatched 880s using Stanford's getVernAllAlphaExcept method
+	 */
+@Test
+	public final void testUnmatched880sVernAllAlphaExcept() 
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+		String fldName = "vern_topic_search";
+	    String testFilePath = testDataParentPath + File.separator + "unmatched880sTests.mrc";
+		solrFldMapTest.assertSolrFldValue(testFilePath, "6", fldName, "vern650a");
+	}
+	
+	/**
+	 * Test indexing of unmatched 880s using Stanford's vernRemoveTrailingPunct method
+	 */
+@Test
+	public final void testUnmatched880sVernRemovePunct() 
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+		String fldName = "vern_author_person_display";
+	    String testFilePath = testDataParentPath + File.separator + "unmatched880sTests.mrc";
+		solrFldMapTest.assertSolrFldValue(testFilePath, "7", fldName, "vern100a");
+	}
+
 	/**
 	 * Test record with chinese vernacular
 	 */
