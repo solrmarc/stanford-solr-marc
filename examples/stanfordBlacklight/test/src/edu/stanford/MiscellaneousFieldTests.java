@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.solrmarc.solr.DocumentProxy;
 import org.solrmarc.solr.SolrSearcherProxy;
 import org.xml.sax.SAXException;
 
@@ -165,6 +166,23 @@ public class MiscellaneousFieldTests extends AbstractStanfordBlacklightTest {
 		assertFieldMultiValued("spell_subject");
 	}
 
+
+	/**
+	 * test preservation of field ordering from marc21 input to marc21 stored in record
+	 */
+//@Test
+	public final void testFieldOrdering() 
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+		createIxInitVars("fieldOrdering.mrc");
+		int solrDocNum = getSingleDocNum(docIDfname, "1");
+		DocumentProxy doc = getSearcherProxy().getDocumentBySolrDocNum(solrDocNum);
+		String marc21 = doc.getValuesForField("marc21")[0];
+		int ix650 = marc21.indexOf("650first");
+		int ix600 = marc21.indexOf("600second");
+		assertTrue("fields are NOT in the original order", ix650 < ix600);
+	}
+	
 
 	/**
 	 * Hokey horrible way to create a test index.
