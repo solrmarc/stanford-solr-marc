@@ -1,5 +1,6 @@
 package edu.stanford;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -1346,6 +1347,33 @@ public class SubjectTests extends AbstractStanfordBlacklightTest {
 		docIds.add("1133");
 		assertSearchResults(fldName, "\"Internet Resource\"", docIds);
 	}
+
+	/**
+	 * topic_facet field should not be case sensitive (?)
+	 */
+//@Test
+	public final void testTopicFacetCaseSensitive()
+			throws ParserConfigurationException, IOException, SAXException
+	{
+		String fileName = "topicFacetCaseSensitive.mrc";
+		createIxInitVars(fileName);
+		mappingTestInit();
+		String fldName = "topic_facet";
+	    String testFilePath = testDataParentPath + File.separator + fileName;
+
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, "what case am i?");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2", fldName, "WHAT CASE AM I?");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "3", fldName, "What case am I?");
+		
+		Set<String> docIds = new HashSet<String>();
+		docIds.add("1");
+		docIds.add("2");
+		docIds.add("3");
+		assertSearchResults(fldName, "\"what case am i?", docIds);
+		assertSearchResults(fldName, "\"WHAT CASE AM I?\"", docIds);
+		assertSearchResults(fldName, "\"What case am I?\"", docIds);
+	}
+
 
 	/**
 	 * Test population of geographic_facet field.  No trailing periods or 
