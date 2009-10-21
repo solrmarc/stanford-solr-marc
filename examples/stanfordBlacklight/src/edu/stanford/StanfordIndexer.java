@@ -2057,7 +2057,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/**
 	 * Get the vernacular (880) fields which corresponds to the marc field
 	 *  in the 880 subfield 6 linkage 
-     * @param marc field - which marc field to seek in 880 fields (via linkages)
+     * @param marcField - which field to be matched by 880 fields 
 	 */
 	@SuppressWarnings("unchecked")
 	protected final Set<VariableField> getVernacularFields(final Record record, String marcField) 
@@ -2075,11 +2075,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         //  subfield 6 (linkage info) in the 880
         for (VariableField vf : list880s) {
          	DataField df880 = (DataField) vf;
-        	String linkage = Utils.getSubfieldData(df880, '6');
-       		int dashIx = linkage.indexOf('-');
-        	if (dashIx == 3 && marcField.equals(linkage.substring(0, dashIx)) ) {
+        	String sub6 = Utils.getSubfieldData(df880, '6');
+       		int dashIx = sub6.indexOf('-');
+        	if ((dashIx == 3) && marcField.equals(sub6.substring(0, 3)) ) 
         		resultSet.add(df880);
-          	}
         }        
         return (resultSet);
 	}
@@ -2120,8 +2119,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         return result;
 	}
 
-	
-	
+
 	/**
 	 *  
      * For each occurrence of a marc field in the fieldSpec list, get the 
