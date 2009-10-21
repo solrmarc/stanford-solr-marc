@@ -371,7 +371,7 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		assertDocHasFieldValue("1732616", fldName, "36105033142303 -|- Math/CS -|- Stacks -|- " +
 				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort);
 
-		// MEYER - ignored for building facet, but not here
+		// MEYER
 		callnum = "B781 .A33 I55 1993";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum);
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey);
