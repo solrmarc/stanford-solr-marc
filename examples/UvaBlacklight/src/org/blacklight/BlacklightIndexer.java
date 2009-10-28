@@ -2,32 +2,28 @@ package org.blacklight;
 
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.Collator;
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.Locale;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-
-import org.marc4j.marc.ControlField;
+import org.marc4j.marc.DataField;
 import org.marc4j.marc.Record;
+import org.marc4j.marc.Subfield;
 import org.solrmarc.index.SolrIndexer;
+import org.solrmarc.tools.CallNumUtils;
 import org.solrmarc.tools.StringNaturalCompare;
 import org.solrmarc.tools.Utils;
-
 
 
 /**
@@ -53,7 +49,7 @@ public class BlacklightIndexer extends SolrIndexer
      * @throws Exception
      */
     Map<String, String> addnlShadowedIds = null;
-    String extraIdsFilename = "extra_data/AllShadowedIds.txt";
+    String extraIdsFilename = "AllShadowedIds.txt";
     
     public BlacklightIndexer(final String propertiesMapFile, final String propertyPaths[])
     {
@@ -276,39 +272,57 @@ public class BlacklightIndexer extends SolrIndexer
     } */
     
     /* 
-     * Extract a cleaned call number from a record
+     * Extract a single cleaned call number from a record
     * @param record
     * @return Clean call number
     */
-   public String getCallNumberCleaned(final Record record)
+   public String getCallNumberCleaned(final Record record, String fieldSpec, String sortable)
    {
-       String val = getFirstFieldVal(record, "999a");
-       if (val == null || val.length() == 0) {
+       Set<String> fieldList = getFieldList(record, fieldSpec);
+       if (fieldList.isEmpty())  {
            return(null);
        }
-       val = val.trim().replaceAll("\\s\\s+", " ").replaceAll("\\s?\\.\\s?", ".");
-       return(val);
+       Map<String, Set<String>> resultNormed = getCallNumbersCleanedConflated(fieldList);
+       if (resultNormed == null || resultNormed.size() == 0) {
+           return(null);
+       }
+       boolean sortableFlag = (sortable != null && ( sortable.equals("sortable") || sortable.equals("true")));
+       int maxEntries = 0;
+       String maxEntriesKey = null;
+       Set<String> maxEntrySet = null;
+       Set<String> keys = resultNormed.keySet();
+       for (String key : keys)
+       {
+           Set<String> values = resultNormed.get(key);
+           if (values.size() > maxEntries)
+           {
+               maxEntries = values.size();
+               maxEntriesKey = key;
+               maxEntrySet = values;
+           }
+       }
+       String valueArr[] = maxEntrySet.toArray(new String[0]);
+       Comparator<String> comp = new StringNaturalCompare();
+       Arrays.sort(valueArr, comp);
+       String result = valueArr[0];
+       result = result.trim().replaceAll(":", " ").replaceAll("\\s\\s+", " ")
+                             .replaceAll("\\s?\\.\\s?", ".").replaceAll("[(][0-9]* volumes[)]", "");
+       if (sortableFlag) 
+           result = CallNumUtils.getLCShelfkey(result, record.getControlNumberField().getData());
+       return(result);
+
    }
    
-    /**
-     * Extract a cleaned call number from a record
-     * @param record
-     * @return Clean call number
-     */
+   /**
+    * Extract a set of cleaned call numbers from a record
+    * @param record
+    * @return Clean call number
+    */
     public Set<String> getCallNumbersCleaned(final Record record, String fieldSpec, String conflatePrefixes)
     {
-        Comparator<String> normedComparator = new Comparator<String>() 
-        {
-            public int compare(String s1, String s2)
-            {
-                String s1Norm = s1.replaceAll("[. ]", "");
-                String s2Norm = s2.replaceAll("[. ]", "");
-                return s1Norm.compareToIgnoreCase(s2Norm);
-            }
-        };
+        boolean conflate = !conflatePrefixes.equalsIgnoreCase("false");
         boolean processExtraShadowedIds = fieldSpec.contains("';'");
 
-        boolean conflate = !conflatePrefixes.equalsIgnoreCase("false");
         //int conflateThreshhold = conflate ? Integer.parseInt(conflatePrefixes) : 0;
         Set<String> fieldList = getFieldList(record, fieldSpec);
         if (fieldList.isEmpty())  {
@@ -331,9 +345,10 @@ public class BlacklightIndexer extends SolrIndexer
             }
             fieldList = newFieldList;
         }
-        if (conflate)
+        if (!conflate)
         {
-            Map<String, Set<String>> resultNormed = new TreeMap<String, Set<String>>();
+            Comparator<String> comp = new StringNaturalCompare();
+            Set<String> resultNormed = new TreeSet<String>(comp);
             for (String callNum : fieldList)
             {
                 String val = callNum.trim().replaceAll("\\s\\s+", " ").replaceAll("\\s?\\.\\s?", ".");
@@ -342,20 +357,23 @@ public class BlacklightIndexer extends SolrIndexer
                 {
                     val = nVal;
                 }
-                String key = val.substring(0, Math.min(val.length(), 5)).toUpperCase();
-                if (resultNormed.containsKey(key))
-                {
-                    Set<String> set = resultNormed.get(key);
-                    set.add(val);
-                    resultNormed.put(key, set);
-                }
-                else
-                {
-                    Set<String> set = new TreeSet<String>(normedComparator);
-                    set.add(val);
-                    resultNormed.put(key, set);
-                }
+                resultNormed.add(val);
             }
+            return resultNormed;
+        }
+        else
+        {
+            Comparator<String> normedComparator = new Comparator<String>() 
+            {
+                public int compare(String s1, String s2)
+                {
+                    String s1Norm = s1.replaceAll("[. ]", "");
+                    String s2Norm = s2.replaceAll("[. ]", "");
+                    return s1Norm.compareToIgnoreCase(s2Norm);
+                }
+            };
+
+            Map<String, Set<String>> resultNormed = getCallNumbersCleanedConflated(fieldList);
             Set<String> keys = resultNormed.keySet();
             Set<String> results = new TreeSet<String>(normedComparator);
             for (String key : keys)
@@ -403,24 +421,119 @@ public class BlacklightIndexer extends SolrIndexer
                     }
                 }
             }
-            return(results);
+            return (results);
         }
-        else 
+    }
+    
+   /**
+     * Extract a set of cleaned call numbers from a record
+     * @param record
+     * @return Clean call number
+     */
+    private Map<String, Set<String>> getCallNumbersCleanedConflated(Set<String> fieldList)
+    {
+        Comparator<String> normedComparator = new Comparator<String>() 
         {
-            Comparator<String> comp = new StringNaturalCompare();
-            Set<String> resultNormed = new TreeSet<String>(comp);
-            for (String callNum : fieldList)
+            public int compare(String s1, String s2)
             {
-                String val = callNum.trim().replaceAll("\\s\\s+", " ").replaceAll("\\s?\\.\\s?", ".");
-                String nVal = val.replaceAll("^([A-Z][A-Z]?[A-Z]?) ([0-9])", "$1$2");
-                if (!nVal.equals(val))
-                {
-                    val = nVal;
-                }
-                resultNormed.add(val);
+                String s1Norm = s1.replaceAll("[. ]", "");
+                String s2Norm = s2.replaceAll("[. ]", "");
+                return s1Norm.compareToIgnoreCase(s2Norm);
             }
-            return resultNormed;
+        };
+        Map<String, Set<String>> resultNormed = new TreeMap<String, Set<String>>();
+        for (String callNum : fieldList)
+        {
+            String val = callNum.trim().replaceAll("\\s\\s+", " ").replaceAll("\\s?\\.\\s?", ".");
+            String nVal = val.replaceAll("^([A-Z][A-Z]?[A-Z]?) ([0-9])", "$1$2");
+            if (!nVal.equals(val))
+            {
+                val = nVal;
+            }
+            String key = val.substring(0, Math.min(val.length(), 5)).toUpperCase();
+            if (resultNormed.containsKey(key))
+            {
+                Set<String> set = resultNormed.get(key);
+                set.add(val);
+                resultNormed.put(key, set);
+            }
+            else
+            {
+                Set<String> set = new TreeSet<String>(normedComparator);
+                set.add(val);
+                resultNormed.put(key, set);
+            }
         }
+        return(resultNormed);
+    }
+    
+    private String buildParsableURLString(DataField df, String defaultLabel)
+    {
+        String label = (df.getSubfield('z') != null) ? df.getSubfield('z').getData() : defaultLabel;
+        String url = df.getSubfield('u').getData(); 
+        String result = url + "||" + label;
+        return(result);
+    }
+    
+    public Set<String> getLabelledURL(final Record record, String defaultLabel)
+    {
+        Set<String> resultSet = new LinkedHashSet<String>();
+        Set<String> backupResultSet = new LinkedHashSet<String>();
+        List<?> urlFields = record.getVariableFields("856");
+        for (Object field : urlFields)
+        {
+            if (field instanceof DataField)
+            {
+                DataField dField = (DataField)field;
+                if (dField.getIndicator1() == '4' && dField.getIndicator2() == '0')
+                {
+                    if (dField.getSubfield('u') != null) 
+                    {
+                        resultSet.add(buildParsableURLString(dField, defaultLabel));
+                    }
+                }
+                if (dField.getIndicator1() == '4' && dField.getIndicator2() == '1')
+                {
+                    if (dField.getSubfield('u') != null) 
+                    {
+                        resultSet.add(buildParsableURLString(dField, defaultLabel));
+                    }
+                }
+                if (dField.getIndicator1() == '4' && dField.getIndicator2() == ' ')
+                {
+                    if (dField.getSubfield('u') != null) 
+                    {
+                        resultSet.add(buildParsableURLString(dField, defaultLabel));
+                    }
+                }
+                if (dField.getIndicator1() == ' ' && dField.getIndicator2() == '0')
+                {
+                    if (dField.getSubfield('u') != null) 
+                    {
+                        backupResultSet.add(buildParsableURLString(dField, defaultLabel));
+                    }
+                }
+                if (dField.getIndicator1() == ' ' && dField.getIndicator2() == '1')
+                {
+                    if (dField.getSubfield('u') != null) 
+                    {
+                        backupResultSet.add(buildParsableURLString(dField, defaultLabel));
+                    }
+                }
+                if (dField.getIndicator1() == ' ' && dField.getIndicator2() == ' ')
+                {
+                    if (dField.getSubfield('u') != null) 
+                    {
+                        backupResultSet.add(buildParsableURLString(dField, defaultLabel));
+                    }
+                }
+            }
+        }
+        if (resultSet.size() == 0 && backupResultSet.size() != 0)
+        {
+            return(backupResultSet);
+        }
+        return(resultSet);
     }
     
     private String getCommonPrefix(String string1, String string2, Comparator comp)
@@ -566,6 +679,106 @@ public class BlacklightIndexer extends SolrIndexer
         }
     }
     
+    public Set<String>getCustomLocation(final Record record, String locationMap, String visibilityMap, String libraryMap)
+    {
+        Set<String> resultSet = new LinkedHashSet<String>();
+        List<?> fields999 = record.getVariableFields("999");
+        String locMapName = loadTranslationMap(null, locationMap);
+        String visMapName = loadTranslationMap(null, visibilityMap);
+        String libMapName = loadTranslationMap(null, libraryMap);
+        for ( DataField field : (List<DataField>)fields999 )
+        {
+            Subfield curLocF = field.getSubfield('k');
+            Subfield homeLocF = field.getSubfield('l');
+            Subfield libF = field.getSubfield('m');
+            String curLoc = (curLocF != null ? curLocF.getData() : null);
+            String homeLoc = (homeLocF != null ? homeLocF.getData() : null);
+            String lib = (libF != null ? libF.getData() : null);
+            String mappedHomeVis = Utils.remap(homeLoc, findMap(visMapName), true);
+            String mappedHomeLoc = Utils.remap(homeLoc, findMap(locMapName), true);
+            if (mappedHomeVis.equals("VISIBLE") && mappedHomeLoc == null)
+            {
+                String combinedLocMapped = Utils.remap(homeLoc + "__" + lib, findMap(locMapName), true);
+                if (combinedLocMapped != null) mappedHomeLoc = combinedLocMapped;
+            }
+            String mappedLib = Utils.remap(lib, findMap(libMapName), true);
+            if (curLoc != null)
+            {
+                String mappedCurLoc = Utils.remap(curLoc, findMap(locMapName), true);
+                String mappedCurVis = Utils.remap(curLoc, findMap(visMapName), true);
+                if (mappedCurVis.equals("HIDDEN")) continue; // this copy of the item is Hidden, go no further
+                if (mappedCurLoc != null) 
+                {
+                    if (mappedCurLoc.contains("$m"))
+                    {
+          //              mappedCurLoc.replaceAll("$l", mappedHomeLoc);
+                        mappedCurLoc = mappedCurLoc.replaceAll("[$]m", mappedLib);
+                    }
+                    resultSet.add(mappedCurLoc);
+                    continue;   // Used
+                }
+            }
+            if (mappedHomeVis.equals("HIDDEN"))  continue; // this copy of the item is Hidden, go no further
+            if (mappedHomeLoc != null && mappedHomeLoc.contains("$"))
+            {
+                mappedHomeLoc.replaceAll("$m", mappedLib);
+            }
+            if (mappedHomeLoc != null) resultSet.add(mappedHomeLoc);
+        }
+        return(resultSet);
+    }
+    
+    public Set<String> getCustomLanguage(final Record record, String propertiesMap)
+    {
+        Set<String> resultSet = new LinkedHashSet<String>();
+        String mapName = loadTranslationMap(null, propertiesMap);
+        String primaryLanguage = getFirstFieldVal(record, mapName, "008[35-37]");
+        Set<String> otherLanguages = getFieldList(record, "041a:041d");
+        otherLanguages = Utils.remap(otherLanguages, findMap(mapName), true);
+        Set<String> translatedFrom = getFieldList(record, "041h");
+        translatedFrom = Utils.remap(translatedFrom, findMap(mapName), true);
+        Set<String> subtitleLanguage = getFieldList(record, "041b");
+        subtitleLanguage = Utils.remap(subtitleLanguage, findMap(mapName), true);
+        Set<String> format = getCombinedFormat(record);
+        boolean isBook = Utils.setItemContains(format, "Book") || Utils.setItemContains(format, "Journal");
+        boolean isDVD = Utils.setItemContains(format, "DVD") ;
+        Set<String> notesFields = getFieldList(record, "500a");
+        boolean isTranslated = Utils.setItemContains(notesFields, "[Tt]ranslat((ed)|(ion))");
+        if (primaryLanguage != null)  resultSet.add(primaryLanguage);
+        if (primaryLanguage != null && Utils.setItemContains(otherLanguages, primaryLanguage))
+        {
+            otherLanguages.remove(primaryLanguage);
+        }
+        if (isBook && isTranslated && otherLanguages.size() == 1 && translatedFrom.size() == 0)
+        {
+            copySetWithSuffix(resultSet, otherLanguages, " (translated from)");
+        }
+        else 
+        {
+            if (isDVD)
+                copySetWithSuffix(resultSet, otherLanguages, " (dubbed in)");
+            else
+                copySetWithSuffix(resultSet, otherLanguages, " (also in)");
+            
+            if (primaryLanguage != null && Utils.setItemContains(translatedFrom, primaryLanguage))
+            {
+                translatedFrom.remove(primaryLanguage);
+            }
+            copySetWithSuffix(resultSet, translatedFrom, " (translated from)");
+        }
+        copySetWithSuffix(resultSet, subtitleLanguage, (isBook ? " (summary in)" : " (subtitles in)") );
+        return(resultSet);
+    }
+    
+    private void copySetWithSuffix(Set<String> resultSet, Set<String> languageList, String suffix)
+    {
+        for (String language : languageList)
+        {
+            String toAdd = language + suffix;
+            resultSet.add(toAdd);
+        }  
+    }
+
     public String getShadowedLocation(final Record record, String propertiesMap, String returnHidden, String processExtra)
     {
         boolean processExtraShadowedIds = processExtra.startsWith("extraIds");

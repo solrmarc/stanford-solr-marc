@@ -4,16 +4,16 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-import org.apache.lucene.document.*;
+//import org.apache.lucene.document.*;
 
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.xml.sax.SAXException;
-
 import org.junit.*;
 
+import org.solrmarc.solr.DocumentProxy;
 import edu.stanford.StanfordIndexer.PubDateGroup;
 
 /**
@@ -224,7 +224,7 @@ public class PublicationTests extends AbstractStanfordBlacklightTest
 	 */
 @Test
 	public final void testPubDateSortAsc() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, InvocationTargetException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException 
 	{
 		String fldName = "pub_date_sort";
 		assertSortFldProps(fldName);
@@ -289,57 +289,26 @@ public class PublicationTests extends AbstractStanfordBlacklightTest
 		expectedOrderList.add("z2009");   // "2009"
 		expectedOrderList.add("pubDate2010");   // "2010"
 		
-/*
-		List<Document> results = getSortedDocs("collection", "Catalog", "pub_date_sort", sis);
-		Document firstDoc = results.get(0);
-		if (firstDoc.getField(docIDfname) != null) {
-			String firstDocId = firstDoc.getField(docIDfname).stringValue();
-			assertTrue("9999 pub date should not sort first", firstDocId != "pubDate9999");
-		}		
-		
-		// we know we have documents that are not in the expected order list
-		int expDocIx = 0;
-		for (Document doc : results) 
-		{
-			if (expDocIx < expectedOrderList.size() - 1) 
-			{
-				// we haven't found all docs in the expected list yet
-				Field f = doc.getField(docIDfname);  // pub_date_sort isn't stored
-				if (f != null) 
-				{
-					String docId = f.stringValue();
-					if (docId.equals(expectedOrderList.get(expDocIx + 1))) 
-						expDocIx++;
-				}
-			}
-			else break;  // we found all the documents in the expected order list
-		}		
-
- */		
-		
 		// get search results sorted by pub_date_sort field
 		// pub_date_sort isn't stored, so we must look at id field
-		List<Document> results = getAscSortDocs("collection", "sirsi", "pub_date_sort");
-		Document firstDoc = results.get(0);
+        List<DocumentProxy> results = getAscSortDocs("collection", "sirsi", "pub_date_sort");
+		DocumentProxy firstDoc = results.get(0);
 		assertTrue("9999 pub date should not sort first", firstDoc.getValues(docIDfname)[0] != "pubDate9999");
 		
 		// we know we have documents that are not in the expected order list
 		int expDocIx = 0;
-		for (Document doc : results) 
+		for (DocumentProxy doc : results) 
 		{
 			if (expDocIx < expectedOrderList.size() - 1) 
 			{
 				// we haven't found all docs in the expected list yet
-				Field f = doc.getField(docIDfname);  // pub_date_sort isn't stored
-				if (f != null) 
-				{
-					String docId = f.stringValue();
-					if (docId.equals(expectedOrderList.get(expDocIx + 1))) 
-						expDocIx++;
-				}
-//				String docId = doc.getValues(fldName)[0];
-//				if (docId.equals(expectedOrderList.get(expDocIx + 1))) 
-//					expDocIx++;
+			    String[] vals = doc.getValues(docIDfname);
+			    if (vals != null && vals.length > 0) 
+			    {
+	                String docId = vals[0];
+	                if (docId.equals(expectedOrderList.get(expDocIx + 1))) 
+	                    expDocIx++;
+			    }
 			}
 			else break;  // we found all the documents in the expected order list
 		}		
@@ -358,7 +327,7 @@ public class PublicationTests extends AbstractStanfordBlacklightTest
 	 */
 @Test
 	public void testPubDateSortDesc()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, NoSuchMethodException, InstantiationException, InvocationTargetException, ClassNotFoundException, IllegalAccessException 
 	{
 		String fldName = "pub_date_sort";
 		
@@ -423,25 +392,25 @@ public class PublicationTests extends AbstractStanfordBlacklightTest
 		expectedOrderList.add("pubDate0019"); 			
 		
 		// get search results sorted by pub_date_sort field
-		List<Document> results = getDescSortDocs("collection", "sirsi", fldName);
-		Document firstDoc = results.get(0);
+		List<DocumentProxy> results = getDescSortDocs("collection", "sirsi", fldName);
+		DocumentProxy firstDoc = results.get(0);
 		assertTrue("0000 pub date should not sort first", firstDoc.getValues(docIDfname)[0] != "pubDate0000");
 
 		
 		// we know we have documents that are not in the expected order list
 		int expDocIx = 0;
-		for (Document doc : results) 
+		for (DocumentProxy doc : results) 
 		{
 			if (expDocIx < expectedOrderList.size() - 1) 
 			{
 				// we haven't found all docs in the expected list yet
-				Field f = doc.getField(docIDfname);  // pub_date_sort isn't stored
-				if (f != null) 
-				{
-					String docId = f.stringValue();
-					if (docId.equals(expectedOrderList.get(expDocIx + 1))) 
-						expDocIx++;
-				}
+                String[] vals = doc.getValues(docIDfname);
+                if (vals != null && vals.length > 0) 
+                {
+                    String docId = vals[0];
+                    if (docId.equals(expectedOrderList.get(expDocIx + 1))) 
+                        expDocIx++;
+                }
 			}
 			else break;  // we found all the documents in the expected order list
 		}		

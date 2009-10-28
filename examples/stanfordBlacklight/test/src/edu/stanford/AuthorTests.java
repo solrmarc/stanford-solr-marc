@@ -3,6 +3,7 @@ package edu.stanford;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -944,7 +945,7 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testAuthorSortOrder() 
-		throws ParserConfigurationException, IOException, SAXException
+		throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException
 	{
 		// list of doc ids in correct author sort order
 		List<String> expectedOrderList = new ArrayList<String>(30);

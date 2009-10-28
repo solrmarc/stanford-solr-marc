@@ -46,7 +46,7 @@ public class SolrReIndexer extends MarcImporter
         super(args);
         loadLocalProperties(configProps);
         processAdditionalArgs(addnlArgs);
-        solrSearcherProxy = new SolrSearcherProxy(solrCoreProxy);
+        solrSearcherProxy = new SolrSearcherProxy((SolrCoreProxy)solrProxy);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class SolrReIndexer extends MarcImporter
             int solrDocNums[] = solrSearcherProxy.getDocSet(queryparts[0], queryparts[1]);
             for (int docNum : solrDocNums)
             {
-                DocumentProxy doc = solrSearcherProxy.getDocumentBySolrDocNum(docNum);
+                DocumentProxy doc = solrSearcherProxy.getDocumentProxyBySolrDocNum(docNum);
                 Record record = getRecordFromDocument(doc);
                 if (output != null) 
                 {
@@ -505,7 +505,7 @@ public class SolrReIndexer extends MarcImporter
     public void update(Map<String, Object> map)
     { 
         try {
-            String docStr = solrCoreProxy.addDoc(map, verbose, true);
+            String docStr = solrProxy.addDoc(map, verbose, true);
             if (verbose)
             {
  //               logger.info(record.toString());
