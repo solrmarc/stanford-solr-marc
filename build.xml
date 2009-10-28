@@ -93,7 +93,8 @@
             <property name="site.test.data.dir" value="${site.test.dir}/data" />
             <property name="site.test.solr.dir" value="${site.test.dir}/solr" />
             <property name="site.map.dir" value="${site.dir}/${trans.map.path}" />
-            <property name="site.script.dir" value="${site.dir}/${script.template.dir}" />
+            <property name="site.script.template.dir" value="${site.dir}/${script.template.dir}" />
+            <property name="site.scripts.dir" value="${site.dir}/${scripts.dir}" />
         </sequential>
     </macrodef>
 
@@ -106,7 +107,8 @@
             <mkdir dir="${site.test.src.dir}" />
             <mkdir dir="${site.test.solr.dir}" />
             <mkdir dir="${site.map.dir}" />
-            <mkdir dir="${site.script.dir}" />
+            <mkdir dir="${site.script.template.dir}" />
+            <mkdir dir="${site.scripts.dir}" />
         </sequential>
     </macrodef>
 
@@ -202,6 +204,11 @@
             <input-save message="Enter encoding of MARC records:${line.separator}MARC8 - Longstanding standard encoding scheme used by U.S. libraries${line.separator}UNIMARC - Encoding scheme used in many places in Europe${line.separator}UTF8 - Unicode character encoding scheme, used in some newer systems${line.separator}BESTGUESS - You want the program to try to determine the encoding${line.separator}" 
                 addproperty="marc.default_encoding"  validargs="MARC8,UNIMARC,UTF-8,BESTGUESS" 
                 defaultvalue="${example.default.marc.default_encoding}" propertyfile="${site.dir}/build_override.properties" />
+            <input-save message="Properties files should be copied to the one-jar jar file that is produced " 
+                addproperty="bundle.properties.in.jar"  validargs="true,false" 
+                defaultvalue="${example.default.bundle.properties.in.jar}" propertyfile="${site.dir}/build_override.properties" />
+            <echo level="error" message="example.default.bundle.properties.in.jar = ${example.default.bundle.properties.in.jar}" />
+            <echo level="error" message="bundle.properties.in.jar = ${bundle.properties.in.jar}" />
         </sequential>
     </macrodef>
 
@@ -231,7 +238,7 @@
     <macrodef name="copy_files_from_example_directory_1">
         <sequential>
             <copy todir="${site.dir}" preservelastmodified="true">
-                <fileset dir="examples/${example.configuration}" includes="src/**/*.java,lib/**,translation_maps/*.properties,script_templates/*,test/**,log4j.properties,extra_data/**" >
+                <fileset dir="examples/${example.configuration}" includes="src/**/*.java,lib/**,translation_maps/*.properties,script_templates/*,scripts/*,test/**,log4j.properties,extra_data/**" >
                     <depend targetdir="${site.dir}" />
                 </fileset>
             </copy>
@@ -275,7 +282,7 @@
         <input-save message="Enter name of directory to contain all site-specific files:"       
             addproperty="site.dir" propertyfile="site.dir.properties" />
         <init_site_props />
-
+        
         <echo message="site.test.solr.dir = ${site.test.solr.dir}" />
         <if>
             <and>
@@ -296,7 +303,7 @@
                     </and>
                     <then>
                         <union id="nonuptodatecopies">
-                            <fileset dir="examples/${example.configuration}" includes="src/**/*.java,lib/**,translation_maps/*.properties,script_templates/*,test/**,log4j.properties,extra_data/*.txt" >
+                            <fileset dir="examples/${example.configuration}" includes="src/**/*.java,lib/**,translation_maps/*.properties,script_templates/*,test/**,log4j.properties,extra_data/**" excludes="test/bin/**" >
                                 <depend targetdir="${site.dir}" />
                                 <different targetdir="${site.dir}" />
                             </fileset>
@@ -372,12 +379,12 @@
                         <loadproperties srcfile="examples/${example.configuration}/build.properties">
                             <filterchain>
                                 <tokenfilter>
-                                    <containsregex pattern="(custom.config.file.prefix|custom.jar.name|distribution.jar.name|exe.mem.args|solr.hosturl|marc.default_encoding|default.config)" />
+                                    <containsregex pattern="(custom.config.file.prefix|custom.jar.name|distribution.jar.name|exe.mem.args|solr.hosturl|marc.default_encoding|default.config|bundle.properties.in.jar)" />
                                 </tokenfilter>
                                 <prefixlines prefix="example.default." />
                             </filterchain>
                         </loadproperties>
-
+                        <echo level="error" message="example.default.bundle.properties.in.jar = ${example.default.bundle.properties.in.jar}" />
                         <make_site_dirs />
                         <get_site_specific_settings />
                         <copy_files_from_example_directory_1 />
@@ -590,7 +597,7 @@
             <then>
                 <copy todir="${dist.dir}" overwrite="true">
                     <fileset dir="${script.template.dir}" includes="*.bat" />
-                    <fileset dir="${site.script.dir}" includes="*.bat" />
+                    <fileset dir="${site.script.template.dir}" includes="*.bat" />
                     <filterchain>
                         <fixcrlf eol="dos"/>
                     </filterchain>
@@ -612,7 +619,7 @@
             <then>
                 <copy todir="${dist.dir}" overwrite="true">
                     <fileset dir="${script.template.dir}" includes="*" excludes="*.bat" />
-                    <fileset dir="${site.script.dir}" includes="*" excludes="*.bat" />
+                    <fileset dir="${site.script.template.dir}" includes="*" excludes="*.bat" />
                     <filterchain>
                         <fixcrlf eol="unix"/>
                     </filterchain>
@@ -708,21 +715,49 @@
         </copy>
         
         <merge_maps />
-                
-        <one-jar destfile="${dist.dir}/${distribution.jar.name}.jar" 
-               manifest="${buildtools.path}/manifest.mf">
-            <main jar="${lib.dir}/solrmarc/${solrmarc.core.build.dir}/${solrmarc.core.jar.name}" />
-            <lib>
-                <fileset dir="${lib.dir}" includes="*.jar" excludes="junit*.jar,jzkit_client.jar" />
-                <fileset dir="${lib.dir}/solr_${solr.version}" includes="*.jar" />
-                <fileset dir="${site.build.dir}" includes="*.jar" />
-                <fileset dir="${site.lib.dir}" includes="*.jar" />
-            </lib>
-            <fileset dir="${buildtools.path}" includes="JarUtils.jar" />
-            <fileset dir="${build.dir}/tmp_map_dir" includes="*.properties" />
-            <fileset dir="${site.dir}" includes="${custom.config.file.prefix}*.properties" excludes="build.properties" />
-            <fileset dir="${site.dir}" includes="extra_data/**" />
-        </one-jar>
+        
+        <copy todir="${build.dir}/tmp_map_dir" >
+             <flattenmapper/>
+             <fileset dir="${site.dir}" includes="extra_data/**" />
+        </copy>
+        <copy todir="${build.dir}/tmp_map_dir" >
+             <flattenmapper/>
+             <fileset dir="${site.dir}" includes="scripts/**" />
+        </copy>
+        <if >
+            <equals arg1="${bundle.properties.in.jar}" arg2="false"/>
+            <then>
+                <one-jar destfile="${dist.dir}/${distribution.jar.name}.jar" 
+                        manifest="${buildtools.path}/manifest.mf">
+                     <main jar="${lib.dir}/solrmarc/${solrmarc.core.build.dir}/${solrmarc.core.jar.name}" />
+                     <lib>
+                         <fileset dir="${lib.dir}" includes="*.jar" excludes="junit*.jar,jzkit_client.jar" />
+                         <fileset dir="${lib.dir}/solr_${solr.version}" includes="*.jar" />
+                         <fileset dir="${site.build.dir}" includes="*.jar" />
+                         <fileset dir="${site.lib.dir}" includes="*.jar" />
+                     </lib>
+                    <fileset dir="${buildtools.path}" includes="JarUtils.jar" />
+                    <fileset dir="${build.dir}/tmp_map_dir" includes="log4j.properties" />
+                     <!-- <fileset dir="${site.dir}" includes="extra_data/**" /> -->   
+                 </one-jar>
+            </then>
+            <else>
+                <one-jar destfile="${dist.dir}/${distribution.jar.name}.jar" 
+                       manifest="${buildtools.path}/manifest.mf">
+                    <main jar="${lib.dir}/solrmarc/${solrmarc.core.build.dir}/${solrmarc.core.jar.name}" />
+                    <lib>
+                        <fileset dir="${lib.dir}" includes="*.jar" excludes="junit*.jar,jzkit_client.jar" />
+                        <fileset dir="${lib.dir}/solr_${solr.version}" includes="*.jar" />
+                        <fileset dir="${site.build.dir}" includes="*.jar" />
+                        <fileset dir="${site.lib.dir}" includes="*.jar" />
+                    </lib>
+                    <fileset dir="${buildtools.path}" includes="JarUtils.jar" />
+                    <fileset dir="${build.dir}/tmp_map_dir" includes="**" />
+                    <fileset dir="${site.dir}" includes="${custom.config.file.prefix}*.properties" excludes="build.properties" />
+                    <!-- <fileset dir="${site.dir}" includes="extra_data/**" /> -->   
+                </one-jar>
+            </else>
+        </if>
         
         <delete_merged_maps />
         
@@ -733,6 +768,7 @@
     </target>
 
     <target name="package-src" description="Create a gzipped src tarball for distribution" >
+        <delete file="SolrMarc_Distribution.tar.gz" />
         <tar destfile="SolrMarc_Distribution.tar.gz" compression="gzip" >
             <tarfileset dir=".">
                 <include name="build.xml" />
@@ -753,21 +789,7 @@
                 <include name="docs/*" />
                 <include name="buildtools/**" />
                 <exclude name="buildtools/manifest.mf"/>
-                <include name="examples/GenericVuFind/script_templates/*"/>
-                <include name="examples/GenericVuFind/src/**"/>
-                <include name="examples/GenericVuFind/translation_maps/*"/>
-                <include name="examples/GenericVuFind/*.properties"/>
-                <include name="examples/GenericBlacklight/*.properties"/>
-                <include name="examples/UvaBlacklight/script_templates/*"/>
-                <include name="examples/UvaBlacklight/src/**"/>
-                <include name="examples/UvaBlacklight/translation_maps/*"/>
-                <include name="examples/UvaBlacklight/*.properties"/>
-                <include name="examples/stanfordBlacklight/scripts/*"/>
-                <include name="examples/stanfordBlacklight/src/**"/>
-                <include name="examples/stanfordBlacklight/translation_maps/*"/>
-                <include name="examples/stanfordBlacklight/*.properties"/>
-                <include name="examples/stanfordBlacklight/test/src/**"/>
-                <include name="examples/stanfordBlacklight/bibixSolrConf/*"/>
+                <include name="examples/**"/>
             </tarfileset>
         </tar>
     </target>
@@ -782,13 +804,18 @@
             <param name="package-prebuilt.allscripts.batch" value="true" />
             <param name="package-prebuilt.allscripts.shell" value="true" />
         </antcall>
+        <property name="path.in.zip.for.jar" value="" />
+        <mkdir dir="external/${scripts.dir}" />
+        <mkdir dir="external/${trans.map.path}" />
+        <copy todir="external/${scripts.dir}" file="${buildtools.path}/README_SCRIPTS" />
+        <copy todir="external/${trans.map.path}" file="${buildtools.path}/README_MAPS" />
         <if>
             <available file="tmpexternal/build_override.properties" />
             <then>
                 <loadproperties srcfile="tmpexternal/build_override.properties">
                     <filterchain>
                         <tokenfilter>
-                            <containsregex pattern="distribution.jar.name" />
+                            <containsregex pattern="(distribution.jar.name|bundle.properties.in.jar)" />
                         </tokenfilter>
                         <prefixlines prefix="external." />
                     </filterchain>
@@ -801,34 +828,66 @@
                 <loadproperties srcfile="tmpexternal/build.properties">
                     <filterchain>
                         <tokenfilter>
-                            <containsregex pattern="distribution.jar.name" />
+                            <containsregex pattern="(distribution.jar.name|bundle.properties.in.jar)" />
                         </tokenfilter>
                         <prefixlines prefix="external." />
                     </filterchain>
                 </loadproperties>
             </then>
         </if>
+        <echo level="error" message="bundle properties in jar = ${external.bundle.properties.in.jar} " />
+        <if>
+             <equals arg1="${external.bundle.properties.in.jar}" arg2="false" />
+             <then>
+                 <copy todir="external/${scripts.dir}" >
+                     <fileset dir="tmpexternal/${scripts.dir}" includes="*.bsh" />
+                 </copy>
+                 <copy todir="external/${trans.map.path}" >
+                     <fileset dir="tmpexternal/${trans.map.path}" includes="*.properties" />
+                 </copy>
+                 <copy todir="external" >
+                     <fileset dir="tmpexternal" includes="*.properties" excludes="build*.properties,log4j.properties"/>
+                 </copy>
+             </then>
+        </if>
         <property name="external.distribution.jar.name" value="SolrMarc" />
+        <delete file="Binary_${external.distribution.jar.name}_Unix.tar.gz" />
+        <delete file="Binary_${external.distribution.jar.name}_PC.zip" />
         <tar destfile="Binary_${external.distribution.jar.name}_Unix.tar.gz" compression="gzip">
-            <tarfileset dir="external" filemode="755">
+            <tarfileset dir="external" filemode="755" prefix="${path.in.zip.for.jar}" >
                 <include name="*" />
                 <exclude name="*.bat" />
+                <exclude name="*.properties" />
+            </tarfileset>
+            <tarfileset dir="external" >
+                <include name="*.properties" />
             </tarfileset>
             <tarfileset dir="${buildtools.path}">
                 <include name="README_UNIX" />
             </tarfileset>
+            <tarfileset dir="external">
+                <include name="${scripts.dir}/**" />
+                <include name="${trans.map.path}/**" />
+            </tarfileset>
         </tar> 
-        <zip destfile="Binary_${external.distribution.jar.name}_PC.zip" compress="true">
-            <zipfileset dir="external" >
+        <zip destfile="Binary_${external.distribution.jar.name}_PC.zip" compress="true" whenempty="create">
+            <zipfileset dir="external"  prefix="${path.in.zip.for.jar}" >
                 <include name="*.bat" />
                 <include name="*.jar" />
+            </zipfileset>
+            <zipfileset dir="external" >
+                <include name="*.properties" />
             </zipfileset>
             <zipfileset dir="${buildtools.path}" >
                  <include name="README_PC.txt" />
             </zipfileset>
+            <zipfileset dir="external">
+                <include name="${scripts.dir}/**" />
+                <include name="${trans.map.path}/**" />
+            </zipfileset>
         </zip> 
-        <delete dir="tmpexternal" />
-        <delete dir="external" />
+        <delete dir="tmpexternal" /> 
+        <delete dir="external" /> 
     </target>
         
     <target name="package" description="Create both prebuilt binary distributions and a source distribution" >
@@ -836,11 +895,12 @@
         <antcall target="package-prebuilt" inheritAll="false">
             <param name="example.configuration" value="GenericBlacklight" />
             <param name="accept.default.for.input" value="true" />
-        </antcall>
+        </antcall> 
         <antcall target="package-prebuilt" inheritAll="false">
             <param name="example.configuration" value="GenericVuFind" />
             <param name="accept.default.for.input" value="true" />
-        </antcall>
+            <param name="path.in.zip.for.jar" value="bin" />
+        </antcall> 
     </target>
         
     <target name="usage" description="Prints usage instructions">
@@ -982,7 +1042,7 @@
             <main jar="${buildtools.path}/doesntexist.jar" />
             <fileset dir="${build.dir}/tmp_map_dir" includes="*.properties" />
             <fileset dir="${site.dir}" includes="${custom.config.file.prefix}*.properties" excludes="build.properties" />
-            <fileset dir="${site.dir}" includes="extra_data/**" />
+            <fileset dir="${site.dir}/extra_data" includes="**" />
             <fileset dir="${site.test.build.dir}" includes="**/*.class" />
         </one-jar>
         

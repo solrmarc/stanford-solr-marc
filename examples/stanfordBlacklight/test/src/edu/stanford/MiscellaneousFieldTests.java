@@ -176,7 +176,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordBlacklightTest {
 	{
 		createIxInitVars("fieldOrdering.mrc");
 		int solrDocNum = getSingleDocNum(docIDfname, "1");
-		DocumentProxy doc = getSearcherProxy().getDocumentBySolrDocNum(solrDocNum);
+		DocumentProxy doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
 		String marc21 = doc.getValuesForField("marc21")[0];
 		int ix650 = marc21.indexOf("650first");
 		int ix600 = marc21.indexOf("600second");

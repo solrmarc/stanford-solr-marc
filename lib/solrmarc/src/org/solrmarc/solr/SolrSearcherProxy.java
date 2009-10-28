@@ -1,15 +1,9 @@
 package org.solrmarc.solr;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.util.concurrent.Future;
 
-//import org.apache.solr.schema.IndexSchema;
-import org.apache.solr.search.*;
-import org.apache.lucene.document.*;
-import org.apache.lucene.search.*;
-import org.apache.lucene.index.Term;
 
 public class SolrSearcherProxy
 {
@@ -110,7 +104,7 @@ public class SolrSearcherProxy
     }
     
     /**
-     * get the Solr doc numbers for the DocSet returned when the a term query 
+     * get the Solr doc numbers for the DocSet returned when the implied term query 
      *  search is performed
      * @param field - the name of the field for the term query
      * @param value - the value of the field for the term query
@@ -153,12 +147,25 @@ public class SolrSearcherProxy
 	 * @param sortfld - name of the field by which results should be sorted
 	 * @return an array of int containing the sorted document ids
      */
-    public int[] getAscSortDocNums(String field, String value, String sortfld) throws IOException
+    public int[] getAscSortDocNums(String field, String value, String sortfld) throws IOException, ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
-// TODO: do this w java reflection instead    	
-    	Sort sort = new Sort(sortfld);
-        DocList docList = getSortedSolrDocList(field, value, sort);
-        return getIdsFromDocList(docList);
+        try
+        {
+            Class sortClass = Class.forName("org.apache.lucene.search.Sort");
+            Object sort = sortClass.getConstructor(String.class).newInstance(sortfld);
+            Object docListObj = getSortedSolrDocList(field, value, sort);
+            return getIdsFromDocList(docListObj);
+        }
+        catch (Exception e)
+        {
+            if (e instanceof InvocationTargetException)
+            {
+                Throwable cause = e.getCause();
+                if (cause instanceof IOException) throw (IOException)cause;                
+            }
+            e.printStackTrace();
+        }
+        return(null);    
     }
     
     /**
@@ -170,65 +177,15 @@ public class SolrSearcherProxy
 	 * @param sortfld - name of the field by which results should be sorted
 	 * @return an array of int containing the sorted document ids
      */
-    public int[] getDescSortDocNums(String field, String value, String sortfld) throws IOException
-    {
-// TODO: do this w java reflection instead    	
-		Sort sort = new Sort(sortfld, true); // reverse sort!
-		DocList docList = getSortedSolrDocList(field, value, sort);
-        return getIdsFromDocList(docList);
-    }
-    
-    /**
-	 * Given an index field name and value, and a Sort object, return 
-	 * a DocList matching the implied term query and lucene sort (lucene is
-	 * doing the sort, not this method)
-	 * @param fld - the name of the field to be searched in the lucene index
-	 * @param value - the string to be searched in the given field
-	 * @param sort - org.apache.lucene.search.Sort object
-	 * @return DocList of the matching sorted documents
-     */
-    private DocList getSortedSolrDocList(String field, String value, Sort sort) 
-    	throws IOException
-	{
-// TODO: do this w java reflection instead    	
-		SolrIndexSearcher sis = (SolrIndexSearcher) solrSearcher;
-		TermQuery termQuery = new TermQuery(new Term(field, value));
-		DocSet ds = sis.getDocSet(termQuery);
-		return sis.getDocList(termQuery, ds, sort, 0, ds.size());
-	}
-	
-    /**
-     * Given an (ordered) Solr docList, return the document ids as an array of
-     * int, preserving order
-     */
-    private int[] getIdsFromDocList(DocList docList)
-    	throws IOException
-    {
-        int[] resultSet = new int[docList.size()];
-
-        DocIterator docIterator = docList.iterator();
-        int i = 0;
-        while (docIterator.hasNext())
-        {
-            resultSet[i++] = docIterator.nextDoc();
-        }
-
-        return resultSet;    
-    }
-    
-    /**
-	 * Given an index field name and value, return the number of documents that
-	 *  match the implied term query
-	 * @param field - the name of the field to be searched in the lucene index
-	 * @param value - the string to be searched in the given field
-     */
-    public int getNumberOfHits(String field, String value) throws IOException
+    public int[] getDescSortDocNums(String field, String value, String sortfld) throws IOException, ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         try
         {
-            Object docSet = getSolrDocSet(field, value);
-            if (docSet != null) 
-            	return (Integer)docSet.getClass().getMethod("size").invoke(docSet);
+            Class sortClass = Class.forName("org.apache.lucene.search.Sort");
+            // reverse sort -->  new Sort(sortfld, true)
+            Object sort = sortClass.getConstructor(String.class, boolean.class).newInstance(sortfld, true);
+            Object docListObj = getSortedSolrDocList(field, value, sort);
+            return getIdsFromDocList(docListObj);
         }
         catch (Exception e)
         {
@@ -239,16 +196,71 @@ public class SolrSearcherProxy
             }
             e.printStackTrace();
         }
-        return(-1);
+        return(null);    
     }
+    
+    /**
+     * Given an index field name and value, and a Sort object, return a DocList Object
+     * matching the implied term query and lucene sort (lucene is doing the
+     * sort, not this method)
+     * 
+     * @param fld - the name of the field to be searched in the lucene index
+     * @param value - the string to be searched in the given field
+     * @param sort - org.apache.lucene.search.Sort object
+     * @return DocList of the matching sorted documents
+     */
+    private Object getSortedSolrDocList(String field, String value, Object sortObj) throws IOException, IllegalAccessException, InstantiationException, InvocationTargetException, ClassNotFoundException, NoSuchMethodException
+	{
+        Class termClass = Class.forName("org.apache.lucene.index.Term");
+        Object termObj = termClass.getConstructor(String.class, String.class).newInstance(field, value);
+        Class termQueryClass = Class.forName("org.apache.lucene.search.TermQuery");
+        Object termQueryObj = termQueryClass.getConstructor(termClass).newInstance(termObj);
+        
+		Class solrIndexSearcherClass = Class.forName("org.apache.solr.search.SolrIndexSearcher");
+        Object solrIndexSearchObj = solrIndexSearcherClass.cast(solrSearcher);
+        Class queryClass = Class.forName("org.apache.lucene.search.Query");
+        Object queryObj = queryClass.cast(termQueryObj);
+		Object docSetObj = solrIndexSearcherClass.getMethod("getDocSet", queryClass).invoke(solrIndexSearchObj, queryObj);
+		
+        Class docSetClass = Class.forName("org.apache.solr.search.DocSet");
+        Class sortClass = Class.forName("org.apache.lucene.search.Sort");
+        int docSetSize = (Integer) docSetClass.getMethod("size").invoke(docSetObj);
+        Object docListObj = solrIndexSearcherClass.getMethod("getDocList", queryClass, docSetClass, sortClass, int.class, int.class).
+                                        invoke(solrIndexSearchObj, queryObj, docSetObj, sortObj, 0, docSetSize);
+		return docListObj;
+	}
 
+    
+    /**
+     * Given an (ordered) Solr docList Object, return the document ids as an array
+     * of int, preserving order
+     */
+    private int[] getIdsFromDocList(Object docListObj)
+        throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException
+    {
+        int docSetSize = (Integer) docListObj.getClass().getMethod("size").invoke(docListObj);
+        int[] resultSet = new int[docSetSize];
+
+        Class docIterClass = Class.forName("org.apache.solr.search.DocIterator");
+        Object docIterObj = docListObj.getClass().getMethod("iterator").invoke(docListObj);
+
+        int i = 0;
+        while ((Boolean) docIterClass.getMethod("hasNext").invoke(docIterObj))
+        {
+            resultSet[i++] = (Integer) docIterClass.getMethod("nextDoc").invoke(docIterObj);
+        }
+
+        return resultSet;    
+    }
+    
+
+	
+    /** needs comment */
     public Object getDocSetIterator(String field, String term) throws IOException
     {
         try
         {
             Object docSet = getSolrDocSet(field, term);
-//            int totalSize = (Integer)docSet.getClass().getMethod("size").invoke(docSet);
-            //System. out.println("Searching for :" + field +" : "+ term+ "    Num found = " + totalSize);
             Object docIterator = docSet.getClass().getMethod("iterator").invoke(docSet);
             return(docIterator);
         }
@@ -263,9 +275,37 @@ public class SolrSearcherProxy
         }
         return(null);
     }
+
+
+    /**
+	 * Given an index field name and value, return the number of documents that
+	 *  match the implied term query
+	 * @param field - the name of the field to be searched in the lucene index
+	 * @param value - the string to be searched in the given field
+     */
+    public int getNumberOfHits(String field, String value) throws IOException
+    {
+        try
+        {
+            Object docSetObj = getSolrDocSet(field, value);
+            if (docSetObj != null)
+                return (Integer)docSetObj.getClass().getMethod("size").invoke(docSetObj);
+        }
+        catch (Exception e)
+        {
+            if (e instanceof InvocationTargetException)
+            {
+                Throwable cause = e.getCause();
+                if (cause instanceof IOException) throw (IOException)cause;                
+            }
+            e.printStackTrace();
+        }
+        return(-1);
+    }
+
     
-    private Object getSolrDocSet(String field, String value) 
-    	throws IllegalArgumentException, SecurityException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException, InstantiationException 
+    /** needs comment */
+    private Object getSolrDocSet(String field, String value) throws IllegalArgumentException, SecurityException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException 
     {
         Object schema = solrSearcher.getClass().getMethod("getSchema").invoke(solrSearcher);
         Class queryClass = Class.forName("org.apache.lucene.search.Query");
@@ -276,47 +316,7 @@ public class SolrSearcherProxy
         return solrSearcher.getClass().getMethod("getDocSet", queryClass).invoke(solrSearcher, query);
     }
     
-    private Object getSortedSolrDocList(String field, String value, String sortfld) 
-    	throws IllegalArgumentException, SecurityException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException, InstantiationException
-    {
-/* from Bob
-        Object schema = solrSearcher.getClass().getMethod("getSchema").invoke(solrSearcher);
-        Class sortClass = Class.forName("org.apache.lucene.search.Sort");
-        Object sort = sortClass.getConstructor(String.class).newInstance(sortfld);
-        Class parser = Class.forName("org.apache.solr.search.QueryParsing");
-        Object query = parser.getMethod("parseQuery", String.class, String.class, schema.getClass())
-                             .invoke(null, term, field, schema);
-        Class queryClass = Class.forName("org.apache.lucene.search.Query");
-        Object docSet = solrSearcher.getClass().getMethod("getDocSet", queryClass).invoke(solrSearcher, query);
-        int size = (Integer)docSet.getClass().getMethod("size").invoke(docSet);
-        Object docList = solrSearcher.getClass().getMethod("getDocList", queryClass, queryClass, sortClass, Integer.class, Integer.class).
-                                      invoke(query, null, sort, 0, size);
-*/    
-    
-    
-    
-        Class termClass = Class.forName("org.apache.lucene.index.Term");
-        Object searchTerm = termClass.getConstructor(String.class, String.class).newInstance(field, value);
-        Object nullSearchTerm = termClass.getConstructor(String.class).newInstance(field);
-        Class termQueryClass = Class.forName("org.apache.lucene.search.TermQuery");
-        Object termQuery = termQueryClass.getConstructor(termClass).newInstance(searchTerm);
-        Object nullTermQuery = termQueryClass.getConstructor(termClass).newInstance(nullSearchTerm);
-
-        Class sortClass = Class.forName("org.apache.lucene.search.Sort");
-        Object sort = sortClass.getConstructor(String.class).newInstance(sortfld);
-
-        Class queryClass = Class.forName("org.apache.lucene.search.Query");
-        
-        Class docSetClass = Class.forName("org.apache.solr.search.DocSet");
-        Object docSet = solrSearcher.getClass().getMethod("getDocSet", queryClass).invoke(solrSearcher, termQuery);
-        int size = ((Integer) docSet.getClass().getMethod("size").invoke(docSet)).intValue();
-        
-        Object docList = solrSearcher.getClass().getMethod("getDocList", queryClass, queryClass, sortClass, int.class, int.class).
-        								invoke(queryClass.cast(termQuery), queryClass.cast(nullTermQuery), sort, 0, size);
-//										invoke(termQuery, nullTermQuery, sort, 0, size);
-        return(docList);
-    }
-    
+    /** needs comment */
     public boolean iteratorHasNext(Object docSetIterator)
     {
         boolean result = false;
@@ -332,6 +332,7 @@ public class SolrSearcherProxy
         return(result);
     }
     
+    /** needs comment */
     public int iteratorGetNextSolrId(Object docSetIterator) throws IOException
     {
         int docNo = -1;
@@ -351,6 +352,7 @@ public class SolrSearcherProxy
         return(docNo);
     }
     
+    /** needs comment */
     public DocumentProxy iteratorGetNextDoc(Object docSetIterator) throws IOException
     {
         Object docProxyObj = null;
@@ -371,6 +373,7 @@ public class SolrSearcherProxy
         return(new DocumentProxy(docProxyObj));
     }
     
+    
     /**
      * given a Solr document number, return the id of the Solr document, as 
      *  stored in the docIdField
@@ -384,18 +387,13 @@ public class SolrSearcherProxy
         String id = null;
         try
         {
-// TODO: do this w java reflection        	
-    		SolrIndexSearcher sis = (SolrIndexSearcher) solrSearcher;
-    		Document doc = sis.doc(docNo);
-			Field f = doc.getField(docIdField);
-			if (f != null) 
-				id = f.stringValue();
-/*			
-            Object document = solrSearcher.getClass().getMethod("doc", int.class).invoke(solrSearcher, docNo);
-            Object field = document.getClass().getMethod("getField", String.class).invoke(document, docIdField);
-            if (field != null)
-              id = field.getClass().getMethod("stringValue").invoke(field).toString();
-*/
+            Class solrIndexSearcherClass = Class.forName("org.apache.solr.search.SolrIndexSearcher");
+            Object solrIndexSearchObj = solrIndexSearcherClass.cast(solrSearcher);
+
+            Object docObj = solrSearcher.getClass().getMethod("doc", int.class).invoke(solrSearcher, docNo);
+            Object fieldObj = docObj.getClass().getMethod("getField", String.class).invoke(docObj, docIdField);
+			if (fieldObj != null) 
+                id = fieldObj.getClass().getMethod("stringValue").invoke(fieldObj).toString();
         }
         catch (Exception e)
         {
@@ -408,8 +406,14 @@ public class SolrSearcherProxy
         }
         return(id);
     }
-    
-    public DocumentProxy getDocumentBySolrDocNum(int docNo) throws IOException
+  
+  
+    /**
+     * given a document number, get return the Solr document as a DocumentProxy 
+     * Object
+     * @param docNo - the Solr (internal) document number
+     */
+    public DocumentProxy getDocumentProxyBySolrDocNum(int docNo) throws IOException
     {
         Object docProxyObj = null;
         try
@@ -426,15 +430,6 @@ public class SolrSearcherProxy
             e.printStackTrace();
         }
         return(new DocumentProxy(docProxyObj));
-    }
-    
-
-// TODO: do this with reflection (see getDocumentBySolrDocNum() )    
-    public Document getDocBySolrDocNum(int docNo)
-    	throws IOException
-    {
-    	SolrIndexSearcher sis = (SolrIndexSearcher) solrSearcher;
-    	return sis.doc(docNo);
     }
     
 }

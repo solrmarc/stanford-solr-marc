@@ -22,6 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.regex.PatternSyntaxException;
@@ -29,8 +30,9 @@ import java.util.regex.PatternSyntaxException;
 import org.apache.log4j.*;
 import org.marc4j.ErrorHandler;
 import org.marc4j.marc.Record;
-import org.solrmarc.solr.SolrCoreProxy;
 import org.solrmarc.solr.SolrCoreLoader;
+import org.solrmarc.solr.SolrProxy;
+import org.solrmarc.solr.SolrRemoteProxy;
 import org.solrmarc.solr.SolrRuntimeException;
 import org.solrmarc.tools.SolrUpdate;
 import org.solrmarc.tools.Utils;
@@ -38,13 +40,14 @@ import org.solrmarc.tools.Utils;
 
 /**
  * @author Wayne Graham (wsgrah@wm.edu)
- * @version $Id: MarcImporter.java 728 2009-06-18 14:58:45Z rh9ec@virginia.edu $
+ * @version $Id: MarcImporter.java 948 2009-10-28 17:13:10Z rh9ec@virginia.edu $
  *
  */
 public class MarcImporter extends MarcHandler 
 {	
 	/** needs to be visible to StanfordItemMarcImporter ... */
-    protected SolrCoreProxy solrCoreProxy;
+    protected SolrProxy solrProxy;
+    protected boolean solrProxyIsRemote;
 
     protected String solrCoreDir;
     protected String solrDataDir;
@@ -75,7 +78,7 @@ public class MarcImporter extends MarcHandler
     	
     	loadLocalProperties(configProps);
         // Set up Solr core
-        solrCoreProxy = getSolrCoreProxy();
+        solrProxy = getSolrProxy();
 	}
     	
     /**
@@ -193,7 +196,7 @@ public class MarcImporter extends MarcHandler
                 }                
                 String id = line;
                 idsToDeleteCounter++;
-                solrCoreProxy.delete(id, fromCommitted, fromPending);
+                solrProxy.delete(id, fromCommitted, fromPending);
                 recsDeletedCounter++;
             }            
         }
@@ -256,26 +259,26 @@ public class MarcImporter extends MarcHandler
                 {
                     cause = ((InvocationTargetException)cause).getTargetException();
                 }
-                if (cause instanceof Exception && solrCoreProxy.isSolrException((Exception)cause) &&
+                if (cause instanceof Exception && solrProxy.isSolrException((Exception)cause) &&
                         cause.getMessage().contains("missing required fields"))
                 {
                    // this is caused by a bad record - one missing required fields (duh)
                    logger.error(cause.getMessage() +  " at record count = " + recsReadCounter);
                    logger.error("Control Number " + record.getControlNumber());
                 }
-                else if (cause instanceof Exception && solrCoreProxy.isSolrException((Exception)cause) &&
+                else if (cause instanceof Exception && solrProxy.isSolrException((Exception)cause) &&
                         cause.getMessage().contains("multiple values encountered for non multiValued field"))
                 {
                    logger.error(cause.getMessage() +  " at record count = " + recsReadCounter);
                    logger.error("Control Number " + record.getControlNumber());
                 }
-                else if (cause instanceof Exception && solrCoreProxy.isSolrException((Exception)cause) &&
+                else if (cause instanceof Exception && solrProxy.isSolrException((Exception)cause) &&
                         cause.getMessage().contains("unknown field"))
                 {
                    logger.error(cause.getMessage() +  " at record count = " + recsReadCounter);
                    logger.error("Control Number " + record.getControlNumber());
                 }
-                else if (cause instanceof Exception && solrCoreProxy.isSolrException((Exception)cause) )
+                else if (cause instanceof Exception && solrProxy.isSolrException((Exception)cause) )
                 {
                     logger.error("Error indexing record: " + record.getControlNumber() + " -- " + cause.getMessage());
                     if (e instanceof SolrRuntimeException) throw (new SolrRuntimeException(cause.getMessage(), (Exception)cause));
@@ -309,7 +312,7 @@ public class MarcImporter extends MarcHandler
             String id = record.getControlNumber();
             if (id != null)
             {
-                solrCoreProxy.delete(id, true, true);
+                solrProxy.delete(id, true, true);
             }
             return false;
         }
@@ -348,7 +351,7 @@ public class MarcImporter extends MarcHandler
         }
 
         // NOTE: exceptions are dealt with by calling class
-        return solrCoreProxy.addDoc(fieldsMap, verbose, !justIndexDontAdd);
+        return solrProxy.addDoc(fieldsMap, verbose, !justIndexDontAdd);
     }
             
     private void addErrorsToMap(Map<String, Object> map, ErrorHandler errors2)
@@ -364,7 +367,7 @@ public class MarcImporter extends MarcHandler
         try {
             //System.out.println("Calling commit");
             logger.info("Calling commit");
-            solrCoreProxy.commit(shuttingDown ? false : optimizeAtEnd);
+            solrProxy.commit(shuttingDown ? false : optimizeAtEnd);
         } 
         catch (IOException ioe) {
             //System.err.println("Final commit and optmization failed");
@@ -375,8 +378,8 @@ public class MarcImporter extends MarcHandler
         
         //System.out.println("Done with commit, closing Solr");
         logger.info("Done with the commit, closing Solr");
-        solrCoreProxy.close();
-        solrCoreProxy = null;
+        solrProxy.close();
+        solrProxy = null;
         logger.info("Setting Solr closed flag");
         isShutDown = true;
     }
@@ -396,8 +399,14 @@ public class MarcImporter extends MarcHandler
     protected void signalServer()
     {
         if (shuttingDown) return;
+        // if solrCoreDir == null  and  SolrHostURL != null  then we are talking to a remote 
+        // solr server during the main program, so there is no need to separately contact
+        // server to tell it to commit,  therefore merely return.
+        if ((solrCoreDir == null || solrCoreDir.length() == 0 || solrCoreDir.equalsIgnoreCase("REMOTE")) && SolrHostURL != null) 
+            return;
         if (SolrHostURL == null || SolrHostURL.length() == 0) return;
         try {
+            logger.info("Connecting to solr server at URL: " + SolrHostURL);
             SolrUpdate.signalServer(SolrHostURL);
         }
         catch (MalformedURLException me)
@@ -507,34 +516,80 @@ public class MarcImporter extends MarcHandler
         return(shuttingDown ? 1 : 0);
     }
 
-    public SolrCoreProxy getSolrCoreProxy()
+    public SolrProxy getSolrProxy()
     {
-        if (solrCoreProxy == null)
+        if (solrProxy == null)
         {
-            if (solrCoreDir.equals("@SOLR_PATH@") )
+            solrProxyIsRemote = false;
+            if (SolrHostURL != null && SolrHostURL.length() > 0)
             {
-                System.err.println("Error: Solr home directory not initialized, please run setsolrhome") ;
-                logger.error("Error: Solr home directory not initialized, please run setsolrhome") ;
-                System.exit(1);               
+                if ((solrCoreDir == null || solrCoreDir.length() == 0 || solrCoreDir.equalsIgnoreCase("REMOTE")))
+                {
+                    solrProxyIsRemote = true;
+                }
+                else 
+                {
+                    URL solrhostURL;
+                    try
+                    {
+                        solrhostURL = new URL(SolrHostURL);
+                        java.net.InetAddress address = java.net.InetAddress.getByName(solrhostURL.getHost());
+                        
+                        String urlCanonicalHostName = address.getCanonicalHostName();
+                        String localCanonicalHostName = java.net.InetAddress.getLocalHost().getCanonicalHostName();
+                        if (!(address.isLoopbackAddress() || urlCanonicalHostName.equals(localCanonicalHostName))) 
+                        {
+                            solrProxyIsRemote = true;
+                        }
+                    }
+                    catch (MalformedURLException e)
+                    {
+                        // URL seems invalid, assume that we want local access to the solr index and proceed
+                        solrProxyIsRemote = false;
+                    }
+                    catch (UnknownHostException e)
+                    {
+                        // hostname in URL seems invalid, assume that we want local access to the solr index and proceed
+                        solrProxyIsRemote = false;
+                    }
+                }
             }
-            File solrcoretest = new File(solrCoreDir);
-            if (!solrcoretest.exists() || !solrcoretest.isDirectory() )
+            if (solrProxyIsRemote)
             {
-                System.err.println("Error: Supplied Solr home directory does not exist: "+ solrCoreDir) ;
-                logger.error("Error: Supplied Solr home directory does not exist: "+ solrCoreDir) ;
-                System.exit(1);               
+                logger.info(" Connecting to remote Solr server at URL " + SolrHostURL);
+                solrProxy = new SolrRemoteProxy(SolrHostURL); 
             }
-            File solrcoretest1 = new File(solrCoreDir, "solr.xml");
-            File solrcoretest2 = new File(solrCoreDir, "conf");
-            if (!solrcoretest1.exists() &&  !solrcoretest2.exists() )
+            else 
             {
-                System.err.println("Error: Supplied Solr home directory does not contain proper solr configuration: "+ solrCoreDir) ;
-                logger.error("Error: Supplied Solr home directory does not contain proper solr configuration: "+ solrCoreDir) ;
-                System.exit(1);               
+                if (solrCoreDir.equals("@SOLR_PATH@") )
+                {
+                    System.err.println("Error: Solr home directory not initialized, please run setsolrhome") ;
+                    logger.error("Error: Solr home directory not initialized, please run setsolrhome") ;
+                    System.exit(1);               
+                }
+                File solrcoretest = new File(solrCoreDir);
+                if (!solrcoretest.exists() || !solrcoretest.isDirectory() )
+                {
+                    System.err.println("Error: Supplied Solr home directory does not exist: "+ solrCoreDir) ;
+                    logger.error("Error: Supplied Solr home directory does not exist: "+ solrCoreDir) ;
+                    System.exit(1);               
+                }
+                File solrcoretest1 = new File(solrCoreDir, "solr.xml");
+                File solrcoretest2 = new File(solrCoreDir, "conf");
+                if (!solrcoretest1.exists() &&  !solrcoretest2.exists() )
+                {
+                    System.err.println("Error: Supplied Solr home directory does not contain proper solr configuration: "+ solrCoreDir) ;
+                    logger.error("Error: Supplied Solr home directory does not contain proper solr configuration: "+ solrCoreDir) ;
+                    System.exit(1);               
+                }
+                logger.info(" Updating to Solr index at " + solrCoreDir);
+                logger.info("     Using Solr data dir " + solrDataDir);
+                if (solrCoreName != null && solrCoreName.length() != 0)
+                    logger.info("     Using Solr core " + solrCoreName);
+                solrProxy = SolrCoreLoader.loadCore(solrCoreDir, solrDataDir, solrCoreName, logger);
             }
-            solrCoreProxy = SolrCoreLoader.loadCore(solrCoreDir, solrDataDir, solrCoreName, logger);
         }
-        return(solrCoreProxy);
+        return(solrProxy);
     }
     
     /**
