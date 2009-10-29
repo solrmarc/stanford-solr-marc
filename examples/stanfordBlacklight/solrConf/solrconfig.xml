@@ -806,7 +806,7 @@
     <lst name="defaults">
       <str name="echoParams">explicit</str>
       <str name="fl">id</str>
-      <str name="q">{!field f=barcode_search}</str> 
+      <str name="q">{!field f=barcode_search v=$n}</str> 
     </lst>
   </requestHandler>
   
