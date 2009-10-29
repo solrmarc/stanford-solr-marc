@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+    <record>
+        <leader>01139cam a2200229 i 4500</leader>
+        <controlfield tag="001">a1</controlfield>
+        <controlfield tag="008">790220||||||||||||           ||| | eng  </controlfield>
+        <datafield tag="245" ind1="1" ind2="2">
+            <subfield code="a">two copies no others</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">PR3724.T2</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105003934432</subfield>
+            <subfield code="d">1/24/2006</subfield>
+            <subfield code="e">1/20/2006</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL</subfield>
+            <subfield code="p">$40.00</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">1/14/1977</subfield>
+            <subfield code="z">DIGI-SENT</subfield>
+            <subfield code="o">.TECHSTAFF. tf:MEYER 03/99 batch</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">PR3724.T2</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">2</subfield>
+            <subfield code="i">36105003934424</subfield>
+            <subfield code="d">1/24/2006</subfield>
+            <subfield code="e">1/20/2006</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL</subfield>
+            <subfield code="n">4</subfield>
+            <subfield code="p">$40.00</subfield>
+            <subfield code="q">1</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">1/14/1977</subfield>
+            <subfield code="z">DIGI-SENT</subfield>
+            <subfield code="o">.TECHSTAFF. tf:MEYER 03/99 batch</subfield>
+        </datafield>        
+    </record>
+    <record>
+        <leader>01139cam a2200229 i 4500</leader>
+        <controlfield tag="001">a2</controlfield>
+        <controlfield tag="008">790220||||||||||||           ||| | eng  </controlfield>
+        <datafield tag="245" ind1="1" ind2="2">
+            <subfield code="a">two copies plus one other</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">PR3724.T3</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105003934666</subfield>
+            <subfield code="d">1/24/2006</subfield>
+            <subfield code="e">1/20/2006</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL</subfield>
+            <subfield code="p">$40.00</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">1/14/1977</subfield>
+            <subfield code="z">DIGI-SENT</subfield>
+            <subfield code="o">.TECHSTAFF. tf:MEYER 03/99 batch</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">PR3724.T3</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">2</subfield>
+            <subfield code="i">36105003934667</subfield>
+            <subfield code="d">1/24/2006</subfield>
+            <subfield code="e">1/20/2006</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL</subfield>
+            <subfield code="n">4</subfield>
+            <subfield code="p">$40.00</subfield>
+            <subfield code="q">1</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">1/14/1977</subfield>
+            <subfield code="z">DIGI-SENT</subfield>
+            <subfield code="o">.TECHSTAFF. tf:MEYER 03/99 batch</subfield>
+        </datafield>        
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">PR3724.T3</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105003934668</subfield>
+            <subfield code="d">1/24/2006</subfield>
+            <subfield code="e">1/20/2006</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="p">$40.00</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">1/14/1977</subfield>
+            <subfield code="z">DIGI-SENT</subfield>
+            <subfield code="o">.TECHSTAFF. tf:MEYER 03/99 batch</subfield>
+        </datafield>
+    </record>
+    
+</collection>
+    
