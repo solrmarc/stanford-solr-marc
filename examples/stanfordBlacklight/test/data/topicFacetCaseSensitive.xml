@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+    <record>
+        <leader>00880cam a2200217 i 4500</leader>
+        <controlfield tag="001">a1</controlfield>
+        <controlfield tag="008">770207r19771901gw       b    001 0 ger d</controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">650 lower case</subfield>
+        </datafield>
+        <datafield tag="650" ind1="1" ind2=" ">
+            <subfield code="a">what case am i?</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00880cam a2200217 i 4500</leader>
+        <controlfield tag="001">a2</controlfield>
+        <controlfield tag="008">770207r19771901gw       b    001 0 ger d</controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">650 upper case</subfield>
+        </datafield>
+        <datafield tag="650" ind1="1" ind2=" ">
+            <subfield code="a">WHAT CASE AM I?</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00880cam a2200217 i 4500</leader>
+        <controlfield tag="001">a3</controlfield>
+        <controlfield tag="008">770207r19771901gw       b    001 0 ger d</controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">650 mixed case</subfield>
+        </datafield>
+        <datafield tag="650" ind1="1" ind2=" ">
+            <subfield code="a">What case am I?</subfield>
+        </datafield>
+    </record>
+</collection>
