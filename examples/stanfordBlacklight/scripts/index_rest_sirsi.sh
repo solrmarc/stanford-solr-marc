@@ -1,6 +1,6 @@
 #! /bin/bash
-# build_bibix.sh
-# Import all marc files into a Solr index  (Stanford Blacklight flavor)
+# index_rest_sirsi.sh
+# Script to finish importing if full indexing script didn't finish.
 #  Naomi Dushay 2008-10-12
 
 BLACKLIGHT_HOMEDIR=/home/blacklight

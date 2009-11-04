@@ -1,6 +1,6 @@
 #! /bin/bash
-# getUnicornDump.sh
-# Pull over the latest full dump from Unicorn
+# getSirsiFullDump.sh
+# Pull over the latest full dump from Sirsi
 #  Naomi Dushay 2008-10-12
 
 COUNTS_FNAME=files_counts
