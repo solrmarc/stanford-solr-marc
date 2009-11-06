@@ -1056,6 +1056,7 @@
 
         <path id="test.run.classpath.jars">
             <path refid="test.classpath.jars" />
+            <fileset dir="${test.solr.dir}" includes="*.jar" />
             <fileset file="${site.test.build.dir}/${site.test.jar}" />
         </path>
 
