@@ -130,7 +130,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordBlacklightTest {
 
 
 	/**
-	 * open search field should be stored, not indexed
+	 * open search field should be stored and indexed
 	 */
 @Test
 	public final void testOpenSearch() 
@@ -138,7 +138,9 @@ public class MiscellaneousFieldTests extends AbstractStanfordBlacklightTest {
 	{
 		createIxInitVars("allfieldsTests.mrc");
 	    String fldName = "open_search";
-	    assertDisplayFieldProperties(fldName);
+	    assertStringFieldProperties(fldName);
+	    assertFieldIndexed(fldName);
+	    assertFieldStored(fldName);
 	}
 
 	/**

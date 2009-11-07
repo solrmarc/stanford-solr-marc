@@ -545,14 +545,15 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	}
 
 	/**
-	 * callnum_sort should contain shelfkey versions of "lopped" call
+	 * shelfkey should contain shelving key versions of "lopped" call
 	 *  numbers (call numbers without volume info)
 	 */
 @Test
-	public final void testCallnumSort() 
+	public final void testShelfkey() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		String fldName = "callnum_sort";
+		String fldName = "shelfkey";
+		assertFieldNotStored(fldName);
 
 		// LC: no volume info
 		String callnum = "HG6046 .V28 1986";
@@ -624,14 +625,17 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 
 
 	/**
-	 * callnum_reverse_sort should contain reverse shelfkey versions of 
-	 *  "lopped" call numbers (call numbers without volume info)
+	 * reverse_shelfkey should contain reverse shelfkey versions of 
+	 *  "lopped" call numbers (call numbers without volume info). Used for
+	 *  sorting backwards.
 	 */
 @Test
-	public final void testCallnumReverseSort() 
+	public final void testReverseShelfkeySort() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		String fldName = "callnum_reverse_sort";
+		String fldName = "reverse_shelfkey";
+		assertFieldNotStored(fldName);
+
 		// LC: no volume info
 		String callnum = "HG6046 .V28 1986";
 		String shelfkey = CallNumUtils.getLCShelfkey(callnum, "999LC2");
@@ -718,7 +722,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	}
 
 	/**
-	 * unit test for edu.stanford.Utils.getVolumeSortCallnum() 
+	 * sort keys for call numbers including any volume information
 	 */
 @Test
 	public final void testVolumeSortCallnum() 
