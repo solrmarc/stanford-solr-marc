@@ -213,6 +213,25 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 	}
 
 	/**
+	 * Test that title sort field has the correct properties
+	 */
+@Test
+	public final void testTitleSortFieldProperties() 
+		throws ParserConfigurationException, IOException, SAXException
+	{
+		String fldName = "title_sort";
+		createIxInitVars("titleTests.mrc");
+		
+		// field is not string; rather tokenized with single term
+		assertTextFieldProperties(fldName);
+		assertFieldOmitsNorms(fldName);
+		assertFieldIndexed(fldName);
+	    // stored because it's used for sorting in nearby-on-shelf
+		assertFieldStored(fldName);
+		assertFieldNotMultiValued(fldName);
+	}
+
+	/**
 	 * Test that title sort field uses the correct fields in the correct order
 	 */
 @Test
@@ -221,7 +240,6 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 	{
 		String fldName = "title_sort";
 		createIxInitVars("titleTests.mrc");
-        assertSortFldProps(fldName);
 		
 		// 130 (with non-filing)
 		assertSingleResult("130", fldName, "\"Snimm 130 4 nonfiling\""); 
@@ -251,14 +269,6 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 	{
 		String fldName = "title_sort";
 		createIxInitVars("titleTests.mrc");
-        assertSortFldProps(fldName);
-		
-		// field is not string; rather tokenized with single term
-		assertTextFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldIndexed(fldName);
-		assertFieldNotStored(fldName);
-		assertFieldNotMultiValued(fldName);
 		
 		// sort field is indexed (but not tokenized) - search for documents		
 		assertSingleResult("115472", fldName, "\"India and the European Economic Community\"");
@@ -319,7 +329,6 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 	{
 		String fldName = "title_sort";
 		createIxInitVars("titleTests.mrc");
-        assertSortFldProps(fldName);
 
 		assertSingleResult("2458", fldName, "\"245 has sub 8\"");
 		assertZeroResults(fldName, "\"1.5\\a 245 has sub 8\"");	
@@ -346,7 +355,6 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 	{
 		String fldName = "title_sort";
 		createIxInitVars("titleTests.mrc");
-        assertSortFldProps(fldName);
 	
 		assertSingleResult("111", fldName, "\"ind 0 leading quotes\"");
 		assertZeroResults(fldName, "\"\"ind 0 leading quotes\"\"");

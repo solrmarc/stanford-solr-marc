@@ -134,7 +134,7 @@
     <field name="spell_author" type="textSpell" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <field name="spell_subject" type="textSpell" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <!-- for OpenSearch string completion; requires a stored field -->
-    <field name="open_search" type="string" indexed="false" stored="true" multiValued="true"/>
+    <field name="open_search" type="string" indexed="true" stored="true" multiValued="true"/>
 
     <!-- Format Field: facet and display -->
     <field name="format" type="string" indexed="true" stored="true" multiValued="true" />
@@ -189,7 +189,7 @@
     <field name="title_uniform_display" type="string" indexed="false" stored="true" />
     <field name="vern_title_uniform_display" type="string" indexed="false" stored="true" />
 
-    <field name="title_sort" type="alphaSort" indexed="true" stored="false" />
+    <field name="title_sort" type="alphaSort" indexed="true" stored="true" />
 
     <!-- Author Search Fields -->
     <field name="author_1xx_search" type="text" indexed="true" stored="false" />
@@ -292,14 +292,14 @@
 
     <field name="callnum_search" type="text_wslc" indexed="true" stored="false" multiValued="true"/>
     
-    <!-- for nearby on shelf:  term lookup -->
-    <field name="callnum_sort" type="alphaSort" indexed="true" stored="true" multiValued="true"/>
-    <field name="callnum_reverse_sort" type="alphaSort" indexed="true" stored="true" multiValued="true"/>
+    <!-- for nearby on shelf:  term lookups to get next X alpha sorted terms -->
+    <field name="shelfkey" type="alphaSort" indexed="true" stored="false" multiValued="true"/>
+    <field name="reverse_shelfkey" type="alphaSort" indexed="true" stored="false" multiValued="true"/>
     
     <field name="barcode_search" type="text_wslc" indexed="true" stored="false" multiValued="true" />
     <field name="access_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <field name="building_facet" type="string" indexed="true" stored="false" multiValued="true" />
-    <!-- barcode -|- lib -|- location -|- lopped_callnum -|- callnum_sort -|- callnum_reverse_sort -|- full_callnum -|- callnum_show_sort  -->
+    <!-- barcode -|- lib -|- location -|- lopped_callnum -|- shelfkey -|- reverse_shelfkey -|- full_callnum -|- callnum_show_sort  -->
     <field name="item_display" type="string" indexed="false" stored="true" multiValued="true" />
     
   </fields>

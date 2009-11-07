@@ -179,8 +179,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	 *  item_display contains:  (separator is " -|- ")
 	 *    barcode -|- library(short version) -|- location -|- 
 	 *     lopped call number (no volume/part info) -|- 
-	 *     callnum_sort (from lopped call num) -|- 
-	 *     callnum_reverse_sort (from lopped call num) -|- 
+	 *     shelfkey (from lopped call num) -|- 
+	 *     reverse_shelfkey (from lopped call num) -|- 
 	 *     full callnum -|- callnum sortable for show view
 	 */
  @Test
@@ -524,8 +524,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	 *  item_display contains:  (separator is " -|- ")
 	 *    barcode -|- library(short version) -|- location -|- 
 	 *     lopped call number (no volume/part info) -|- 
-	 *     callnum_sort (from lopped call num) -|- 
-	 *     callnum_reverse_sort (from lopped call num) -|- 
+	 *     shelfkey (from lopped call num) -|- 
+	 *     reverse_shelfkey (from lopped call num) -|- 
 	 *     full callnum -|- callnum sortable for show view
 	 */
  @Test
@@ -871,8 +871,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	 *  item_display contains:  (separator is " -|- ")
 	 *    barcode -|- library(short version) -|- location -|- 
 	 *     lopped call number (no volume/part info) -|- 
-	 *     callnum_sort (from lopped call num) -|- 
-	 *     callnum_reverse_sort (from lopped call num) -|- 
+	 *     shelfkey (from lopped call num) -|- 
+	 *     reverse_shelfkey (from lopped call num) -|- 
 	 *     full callnum -|- callnum sortable for show view
 	 */
  @Test
@@ -1013,8 +1013,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	 *  item_display contains:  (separator is " -|- ")
 	 *    barcode -|- library(short version) -|- location -|- 
 	 *     lopped call number (no volume/part info) -|- 
-	 *     callnum_sort (from lopped call num) -|- 
-	 *     callnum_reverse_sort (from lopped call num) -|- 
+	 *     shelfkey (from lopped call num) -|- 
+	 *     reverse_shelfkey (from lopped call num) -|- 
 	 *     full callnum -|- callnum sortable for show view
 	 */
 @Test
@@ -1039,8 +1039,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	 *  item_display contains:  (separator is " -|- ")
 	 *    barcode -|- library(short version) -|- location -|- 
 	 *     lopped call number (no volume/part info) -|- 
-	 *     callnum_sort (from lopped call num) -|- 
-	 *     callnum_reverse_sort (from lopped call num) -|- 
+	 *     shelfkey (from lopped call num) -|- 
+	 *     reverse_shelfkey (from lopped call num) -|- 
 	 *     full callnum -|- callnum sortable for show view
 	 */
 @Test
@@ -1065,8 +1065,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	 *  item_display contains:  (separator is " -|- ")
 	 *    barcode -|- library(short version) -|- location -|- 
 	 *     lopped call number (no volume/part info) -|- 
-	 *     callnum_sort (from lopped call num) -|- 
-	 *     callnum_reverse_sort (from lopped call num) -|- 
+	 *     shelfkey (from lopped call num) -|- 
+	 *     reverse_shelfkey (from lopped call num) -|- 
 	 *     full callnum -|- callnum sortable for show view
 	 */
 @Test
@@ -1091,8 +1091,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	 *  item_display contains:  (separator is " -|- ")
 	 *    barcode -|- library(short version) -|- location -|- 
 	 *     lopped call number (no volume/part info) -|- 
-	 *     callnum_sort (from lopped call num) -|- 
-	 *     callnum_reverse_sort (from lopped call num) -|- 
+	 *     shelfkey (from lopped call num) -|- 
+	 *     reverse_shelfkey (from lopped call num) -|- 
 	 *     full callnum -|- callnum sortable for show view
 	 */
 @Test

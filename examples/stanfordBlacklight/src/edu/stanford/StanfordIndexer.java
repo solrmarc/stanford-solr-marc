@@ -1377,7 +1377,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 *  volume info)
 	 */
 	@SuppressWarnings("unchecked")
-	public final Set<String> getCallNumsSort(final Record record) {
+	public final Set<String> getShelfkey(final Record record) {
         Set<String> result = new HashSet<String>();
 		
 		List<VariableField> list999 = record.getVariableFields("999");
@@ -1419,10 +1419,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * Get reverse shelfkey versions of "lopped" call numbers (call numbers 
 	 * without volume info)
 	 */
-	public final Set<String> getCallNumsReverseSort(final Record record) {
+	public final Set<String> getReverseShelfkey(final Record record) {
         Set<String> result = new HashSet<String>();
 		
-        Set<String> shelfkeys = getCallNumsSort(record);
+        Set<String> shelfkeys = getShelfkey(record);
         for (String shelfkey: shelfkeys) {
         	String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey);
 	       	if (reversekey != null)
