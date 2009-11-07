@@ -251,79 +251,7 @@
     <httpCaching lastModifiedFrom="openTime" etagSeed="Solr" />
   </requestDispatcher>
 
-  <!-- "standard" is not currently used by Blacklight 2009-04-27 -->
-  <requestHandler name="standard" class="solr.SearchHandler" >
-     <lst name="defaults">
-       <str name="defType">lucene</str>
-       <str name="echoParams">explicit</str>
-       <str name="rows">20</str> 
-       <str name="df">all_search</str> 
-       <str name="q.op">AND</str> 
-       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
-       <str name="facet">true</str>
-       <str name="facet.mincount">1</str>
-       <str name="facet.limit">30</str> 
-       <str name="facet.field">access_facet</str>
-       <str name="facet.field">author_person_facet</str>
-       <str name="facet.field">author_other_facet</str>
-       <str name="facet.field">building_facet</str>
-       <str name="facet.field">callnum_top_facet</str>
-       <str name="facet.field">lc_alpha_facet</str>
-       <str name="facet.field">lc_b4cutter_facet</str>
-       <str name="facet.field">dewey_1digit_facet</str>
-       <str name="facet.field">dewey_2digit_facet</str>
-       <str name="facet.field">dewey_b4cutter_facet</str>
-       <str name="facet.field">gov_doc_type_facet</str>
-       <str name="facet.field">era_facet</str>
-       <str name="facet.field">format</str>
-       <str name="facet.field">geographic_facet</str>
-       <str name="facet.field">language</str>
-       <str name="facet.field">pub_date_group_facet</str>
-       <str name="facet.field">topic_facet</str>
        
-       <str name="fl">
-         score,
-         id,
-         author_corp_display,
-         author_meeting_display,
-         author_person_display,
-         author_person_full_display,
-         format,
-         isbn_display,
-         item_display,
-         lccn,
-         oclc,
-         physical,
-         pub_date,
-         title_245a_display,
-         title_display,
-         title_full_display,
-         title_uniform_display,
-         url_fulltext,
-         url_suppl,
-         url_sfx,
-         vern_author_corp_display,
-         vern_author_meeting_display,
-         vern_author_person_display,
-         vern_author_person_full_display,
-         vern_physical,
-         vern_title_245a_display,
-         vern_title_display,
-         vern_title_uniform_display
-       </str>
-       
-       <str name="spellcheck">true</str>
-       <str name="spellcheck.dictionary">default</str>
-       <str name="spellcheck.onlyMorePopular">true</str>
-       <str name="spellcheck.extendedResults">true</str>
-       <str name="spellcheck.collate">true</str>
-       <str name="spellcheck.count">5</str>
-     </lst>
-    <arr name="last-components">
-      <str>spellcheck</str>
-    </arr>
-  </requestHandler>
-
   <!-- everywhere/unfielded search request handler -->
   <requestHandler name="search" class="solr.SearchHandler" default="true">
     <lst name="defaults">
@@ -801,6 +729,292 @@
     </lst>
   </requestHandler>
 
+  <!-- advanced search requests; use q=_query_:"{!dismax qf=$qf1 pf=$pf1 mm=$mm ps=$ps tie=$tie}[transformed-q1] AND query_:"{!dismax qf=$qf2 pf=$pf2}[transformed-q2] -->
+  <requestHandler name="advanced" class="solr.SearchHandler" >
+    <lst name="defaults">
+      <str name="defType">lucene</str>
+      <str name="echoParams">explicit</str>
+      <str name="rows">20</str> 
+      <str name="df">all_search</str> 
+      <str name="q.op">AND</str> 
+      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
+
+      <!-- used for dismax query parser -->
+      <str name="mm">1</str> 
+      <str name="ps">3</str> 
+      <float name="tie">0.01</float>
+      <!-- for user query terms in author text box -->
+      <str name="qf_author">
+        author_1xx_unstem_search^200
+        author_7xx_unstem_search^50
+        author_8xx_unstem_search^10
+        author_1xx_search^20       vern_author_1xx_search^20
+        author_7xx_search^5        vern_author_7xx_search^5
+        author_8xx_search          vern_author_8xx_search
+      </str>
+      <str name="pf_author">
+        author_1xx_unstem_search^5000
+        author_7xx_unstem_search^3000
+        author_1xx_search^500        vern_author_1xx_search^500
+        author_7xx_search^300        vern_author_7xx_search^300
+        author_8xx_unstem_search^250
+        author_8xx_search^200        vern_author_8xx_search^200
+      </str>
+      
+      <!-- for user query terms in title text box -->
+      <str name="qf_title">
+        title_245a_unstem_search^50000
+        title_245_unstem_search^25000
+        title_uniform_unstem_search^10000
+        title_245a_search^5000      vern_title_245a_search^5000
+        title_245_search^1000       vern_title_245_search^1000
+        title_uniform_search^250    vern_title_uniform_search^250
+        title_variant_unstem_search^150
+        title_variant_search^50     vern_title_variant_search^50
+        title_related_unstem_search^45
+        title_related_search^5      vern_title_related_search^5
+        title_series_unstem_search^4
+        title_series_search         vern_title_series_search
+      </str>
+      <str name="pf_title">
+        title_245a_unstem_search^200000
+        title_245_unstem_search^75000
+        title_uniform_unstem_search^60000
+        title_245a_search^75000       vern_title_245a_search^75000
+        title_245_search^7500         vern_title_245_search^7500
+        title_uniform_search^6000     vern_title_uniform_search^6000
+        title_variant_unstem_search^3000
+        title_variant_search^200      vern_title_variant_search^200
+        title_related_unstem_search^175
+        title_related_search^150      vern_title_related_search^150
+        title_series_unstem_search^100
+        title_series_search^75        vern_title_series_search^75
+      </str>
+
+      <!-- for user query terms in subject text box -->
+      <str name="qf_subject">
+        topic_unstem_search^500
+        geographic_unstem_search^500
+        topic_search^100               vern_topic_search^100
+        geographic_search^100          vern_geographic_search^100
+        subject_other_unstem_search^75
+        subject_other_search^50        vern_subject_other_search^50
+      
+        topic_subx_unstem_search^10
+        geographic_subz_unstem_search^10
+        subject_other_subvy_unstem_search^10
+        topic_subx_search              vern_topic_subx_search
+        geographic_subz_search         vern_geographic_subz_search
+        subject_other_subvy_search     vern_subject_other_subvy_search
+      </str>
+      <str name="pf_subject">
+        topic_unstem_search^5000
+        geographic_unstem_search^5000
+        topic_search^1000              vern_topic_search^1000
+        geographic_search^1000         vern_geographic_search^1000
+        subject_other_unstem_search^750
+        subject_other_search^500       vern_subject_other_search^500
+        
+        topic_subx_unstem_search^25
+        geographic_subz_unstem_search^25
+        subject_other_subvy_unstem_search^25
+        topic_subx_search^20           vern_topic_subx_search^20
+        geographic_subz_search^20      vern_geographic_subz_search^20
+        subject_other_subvy_search^20  vern_subject_other_subvy_search^20
+      </str>
+
+      <!-- for user query terms in publisher text box -->
+      <str name="qf_pub_info">
+        pub_search
+        vern_pub_search
+        pub_country
+        pub_date_search
+      </str>
+      <str name="pf_pub_info">
+        pub_search^10
+        vern_pub_search^10
+        pub_country^10
+        pub_date_search^10
+      </str>
+      
+      <!-- for user query terms in number text box -->
+      <str name="qf_number">
+        id
+        isbn_search
+        issn_search
+        oclc
+        callnum_search
+      </str>
+      <str name="pf_number">
+        callnum_search^10
+      </str>
+      
+      <!-- for user query terms in summary text box -->
+      <str name="qf_summary">
+        toc_unstem_search^10
+        toc_search
+        vern_toc_search
+        context_unstem_search^10
+        context_search
+        vern_context_search
+        summary_unstem_search^10
+        summary_search
+        vern_summary_search
+      </str>
+      <str name="pf_summary">
+        toc_unstem_search^100
+        toc_search^20
+        vern_toc_search^20
+        context_unstem_search^100
+        context_search^20
+        vern_context_search^20
+        summary_unstem_search^100
+        summary_search^20
+        vern_summary_search^20
+      </str>
+      
+      <!-- for user query terms in description text box -->
+      <str name="qf_description">all_search</str>
+      <str name="pf_description">all_search^10</str>
+
+      <str name="facet">true</str>
+      <str name="facet.mincount">1</str>
+      <str name="facet.limit">30</str> 
+      <str name="facet.field">access_facet</str>
+      <str name="facet.field">author_person_facet</str>
+      <str name="facet.field">author_other_facet</str>
+      <str name="facet.field">building_facet</str>
+      <str name="facet.field">callnum_top_facet</str>
+      <str name="facet.field">lc_alpha_facet</str>
+      <str name="facet.field">lc_b4cutter_facet</str>
+      <str name="facet.field">dewey_1digit_facet</str>
+      <str name="facet.field">dewey_2digit_facet</str>
+      <str name="facet.field">dewey_b4cutter_facet</str>
+      <str name="facet.field">gov_doc_type_facet</str>
+      <str name="facet.field">era_facet</str>
+      <str name="facet.field">format</str>
+      <str name="facet.field">geographic_facet</str>
+      <str name="facet.field">language</str>
+      <str name="facet.field">pub_date_group_facet</str>
+      <str name="facet.field">topic_facet</str>
+      
+      <str name="fl">
+        score,
+        id,
+        author_corp_display,
+        author_meeting_display,
+        author_person_display,
+        author_person_full_display,
+        format,
+        isbn_display,
+        item_display,
+        lccn,
+        oclc,
+        physical,
+        pub_date,
+        title_245a_display,
+        title_display,
+        title_full_display,
+        title_uniform_display,
+        url_fulltext,
+        url_suppl,
+        url_sfx,
+        vern_author_corp_display,
+        vern_author_meeting_display,
+        vern_author_person_display,
+        vern_author_person_full_display,
+        vern_physical,
+        vern_title_245a_display,
+        vern_title_display,
+        vern_title_uniform_display
+      </str>
+      
+      <str name="spellcheck">true</str>
+      <str name="spellcheck.dictionary">default</str>
+      <str name="spellcheck.onlyMorePopular">true</str>
+      <str name="spellcheck.extendedResults">true</str>
+      <str name="spellcheck.collate">true</str>
+      <str name="spellcheck.count">5</str>
+    </lst>
+    <arr name="last-components">
+      <str>spellcheck</str>
+    </arr>
+  </requestHandler>
+  
+  <!-- standard request handler used for nearby-on-shelf ... 
+    looking for set of documents matching a set of values for a field -->
+  <requestHandler name="standard" class="solr.SearchHandler" >
+    <lst name="defaults">
+      <str name="defType">lucene</str>
+      <str name="echoParams">explicit</str>
+      <str name="rows">20</str> 
+      <str name="df">all_search</str> 
+      <str name="q.op">AND</str> 
+      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
+      <str name="facet">true</str>
+      <str name="facet.mincount">1</str>
+      <str name="facet.limit">30</str> 
+      <str name="facet.field">access_facet</str>
+      <str name="facet.field">author_person_facet</str>
+      <str name="facet.field">author_other_facet</str>
+      <str name="facet.field">building_facet</str>
+      <str name="facet.field">callnum_top_facet</str>
+      <str name="facet.field">lc_alpha_facet</str>
+      <str name="facet.field">lc_b4cutter_facet</str>
+      <str name="facet.field">dewey_1digit_facet</str>
+      <str name="facet.field">dewey_2digit_facet</str>
+      <str name="facet.field">dewey_b4cutter_facet</str>
+      <str name="facet.field">gov_doc_type_facet</str>
+      <str name="facet.field">era_facet</str>
+      <str name="facet.field">format</str>
+      <str name="facet.field">geographic_facet</str>
+      <str name="facet.field">language</str>
+      <str name="facet.field">pub_date_group_facet</str>
+      <str name="facet.field">topic_facet</str>
+      
+      <str name="fl">
+        score,
+        id,
+        author_corp_display,
+        author_meeting_display,
+        author_person_display,
+        author_person_full_display,
+        format,
+        isbn_display,
+        item_display,
+        lccn,
+        oclc,
+        physical,
+        pub_date,
+        title_245a_display,
+        title_display,
+        title_full_display,
+        title_uniform_display,
+        url_fulltext,
+        url_suppl,
+        url_sfx,
+        vern_author_corp_display,
+        vern_author_meeting_display,
+        vern_author_person_display,
+        vern_author_person_full_display,
+        vern_physical,
+        vern_title_245a_display,
+        vern_title_display,
+        vern_title_uniform_display
+      </str>
+      
+      <str name="spellcheck">true</str>
+      <str name="spellcheck.dictionary">default</str>
+      <str name="spellcheck.onlyMorePopular">true</str>
+      <str name="spellcheck.extendedResults">true</str>
+      <str name="spellcheck.collate">true</str>
+      <str name="spellcheck.count">5</str>
+    </lst>
+    <arr name="last-components">
+      <str>spellcheck</str>
+    </arr>
+  </requestHandler>
+  
   <!-- barcode requests; use /barcode?q=1234567890 -->
   <requestHandler name="/barcode" class="solr.SearchHandler" >
     <lst name="defaults">
