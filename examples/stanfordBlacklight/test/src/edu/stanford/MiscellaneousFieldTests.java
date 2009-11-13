@@ -172,7 +172,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * test preservation of field ordering from marc21 input to marc21 stored in record
 	 */
-//@Test
+@Test
 	public final void testFieldOrdering() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
