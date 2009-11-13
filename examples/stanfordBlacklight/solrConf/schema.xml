@@ -69,7 +69,7 @@
         <filter class="schema.UnicodeNormalizationFilterFactory" version="icu4j" composed="false" remove_diacritics="true" remove_modifiers="true" fold="true" />
         <filter class="solr.LowerCaseFilterFactory" />
         <filter class="solr.TrimFilterFactory" />
-<!--        
+<!-- 
         <filter class="solr.PatternReplaceFilterFactory" pattern="([&quot;,\.])" replacement="" replace="all" />
 -->
       </analyzer>
@@ -98,20 +98,20 @@
     <!-- simple analysis for spell checking -->
     <fieldType name="textSpell" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
-                <tokenizer class="solr.StandardTokenizerFactory" />
-                <filter class="schema.UnicodeNormalizationFilterFactory" version="icu4j" composed="false" remove_diacritics="true" remove_modifiers="true" fold="true" />
-                <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
-                <filter class="solr.StandardFilterFactory"/>
-                <filter class="solr.LowerCaseFilterFactory" />
-                <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
+        <tokenizer class="solr.StandardTokenizerFactory" />
+        <filter class="schema.UnicodeNormalizationFilterFactory" version="icu4j" composed="false" remove_diacritics="true" remove_modifiers="true" fold="true" />
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
+        <filter class="solr.StandardFilterFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+        <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
       </analyzer>
     </fieldType>
 
 <!--
     <fieldtype name="phonetic" stored="false" indexed="true" class="solr.TextField" >
       <analyzer>
-         <tokenizer class="solr.StandardTokenizerFactory"/>
-         <filter class="solr.DoubleMetaphoneFilterFactory" inject="false"/>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.DoubleMetaphoneFilterFactory" inject="false"/>
       </analyzer>
     </fieldtype> 
 -->

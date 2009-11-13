@@ -1204,8 +1204,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		    					building + sep + 
 		    					location + sep + 
 		    					loppedCallnum + sep + 
-		    					shelfkey + sep + 
-		    					reversekey + sep + 
+		    					shelfkey.toLowerCase() + sep + 
+		    					reversekey.toLowerCase() + sep + 
 		    					fullCallnum + sep + 
 		    					volSort );
 			}
