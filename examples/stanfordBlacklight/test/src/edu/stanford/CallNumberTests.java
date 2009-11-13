@@ -558,23 +558,25 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// LC: no volume info
 		String callnum = "HG6046 .V28 1986";
 		String shelfkey = CallNumUtils.getLCShelfkey(callnum, "999LC2");
+		assertSingleResult("999LC2", fldName, "\"" + shelfkey + "\"");
+		// it should be downcased
 		assertSingleResult("999LC2", fldName, "\"" + shelfkey.toLowerCase() + "\"");
 
 		// LC: volume info to lop off
 		callnum = "CB3 .A6 SUPPL. V.31";
 		shelfkey = CallNumUtils.getLCShelfkey("CB3 .A6 SUPPL.", "999LC22");
-		assertSingleResult("999LC22", fldName, "\"" + shelfkey.toLowerCase() + "\"");
+		assertSingleResult("999LC22", fldName, "\"" + shelfkey + "\"");
 		
 		// LCPER
 		callnum = "E184.S75 R47A V.1 1980";
 		shelfkey = CallNumUtils.getLCShelfkey("E184.S75 R47A", "460947");
-		assertSingleResult("460947", fldName, "\"" + shelfkey.toLowerCase() + "\"");
+		assertSingleResult("460947", fldName, "\"" + shelfkey + "\"");
 
 		// this is a bad LC value, but not a bad call number, so it is included
 		// (it's actually sudoc)
 		callnum = "X578 .S64 1851";
 		shelfkey = CallNumUtils.getLCShelfkey(callnum, "7233951");
-		assertSingleResult("7233951", fldName, "\"" + shelfkey.toLowerCase() + "\"");
+		assertSingleResult("7233951", fldName, "\"" + shelfkey + "\"");
 		
 		//  bad LC values
 		// LC 999 "NO CALL NUMBER" and 852 to ignore
@@ -584,23 +586,23 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// Dewey: no vol info
 		callnum = "999.85 .P84";
 		shelfkey = CallNumUtils.getDeweyShelfKey(callnum);
-		assertSingleResult("31", fldName, "\"" + shelfkey.toLowerCase() + "\""); 
+		assertSingleResult("31", fldName, "\"" + shelfkey + "\""); 
 		
 		// Dewey: vol info to lop off
 		callnum = "666 .F67 VOL. 5";
 		shelfkey = CallNumUtils.getDeweyShelfKey("666 .F67");
-		assertSingleResult("DeweyVol", fldName, "\"" + shelfkey.toLowerCase() + "\""); 
+		assertSingleResult("DeweyVol", fldName, "\"" + shelfkey + "\""); 
 		
 // TODO: implement SUDOC volume lopping and shelving key processing		
 
 		// SUDOC 999  -  uses raw callno
 		callnum = "Y 4.AG 8/1:108-16";
 		shelfkey = CallNumUtils.normalizeSuffix(callnum);
-		assertSingleResult("5511738", fldName, "\"" + shelfkey.toLowerCase() + "\""); 
+		assertSingleResult("5511738", fldName, "\"" + shelfkey + "\""); 
 		
 		callnum = "GA 1.13:RCED-85-88";
 		shelfkey = CallNumUtils.normalizeSuffix(callnum);
-		assertSingleResult("2678655", fldName, "\"" + shelfkey.toLowerCase() + "\""); 
+		assertSingleResult("2678655", fldName, "\"" + shelfkey + "\""); 
 
 		assertZeroResults(fldName, "\"" + govDocStr + "\""); 
 	
@@ -609,15 +611,15 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// ALPHANUM 999 - uses raw callno
 		callnum = "SUSEL-69048";
 		shelfkey = CallNumUtils.normalizeSuffix(callnum);
-		assertSingleResult("4578538", fldName, "\"" + shelfkey.toLowerCase() + "\""); 
+		assertSingleResult("4578538", fldName, "\"" + shelfkey + "\""); 
 		
 		callnum = "MFILM N.S. 1350 REEL 230 NO. 3741";
 		shelfkey = CallNumUtils.normalizeSuffix(callnum);
-		assertSingleResult("1261173", fldName, "\"" + shelfkey.toLowerCase() + "\""); 
+		assertSingleResult("1261173", fldName, "\"" + shelfkey + "\""); 
 
 		callnum = "MCD Brendel Plays Beethoven's Eroica variations";
 		shelfkey = CallNumUtils.normalizeSuffix(callnum);
-		assertSingleResult("1234673", fldName, "\"" + shelfkey.toLowerCase() + "\""); 
+		assertSingleResult("1234673", fldName, "\"" + shelfkey + "\""); 
 		
 		// ASIS 999 "INTERNET RESOURCE": No call number, but access Online
 		assertZeroResults(fldName, "\"INTERNET RESOURCE\""); 
@@ -630,7 +632,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 *  sorting backwards.
 	 */
 @Test
-	public final void testReverseShelfkeySort() 
+	public final void testReverseShelfkey() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "reverse_shelfkey";
@@ -640,6 +642,8 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		String callnum = "HG6046 .V28 1986";
 		String shelfkey = CallNumUtils.getLCShelfkey(callnum, "999LC2");
 		String reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
+		assertSingleResult("999LC2", fldName, "\"" + reverseShelfkey + "\"");
+		// it should be downcased
 		assertSingleResult("999LC2", fldName, "\"" + reverseShelfkey.toLowerCase() + "\"");
 
 		// LC: volume info to lop off
@@ -648,21 +652,21 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		String lopped = "CB3 .A6 SUPPL.";
 		shelfkey = CallNumUtils.getLCShelfkey(lopped, "999LC22");
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("999LC22", fldName, "\"" + reverseShelfkey.toLowerCase() + "\"");
+		assertSingleResult("999LC22", fldName, "\"" + reverseShelfkey + "\"");
 		
 		// LCPER
 		callnum = "E184.S75 R47A V.1 1980";
 		lopped = "E184.S75 R47A";
 		shelfkey = CallNumUtils.getLCShelfkey(lopped, "460947");
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("460947", fldName, "\"" + reverseShelfkey.toLowerCase() + "\"");
+		assertSingleResult("460947", fldName, "\"" + reverseShelfkey + "\"");
 
 		// this is a bad LC value, but not a bad call number, so it is included
 		// (it's actually sudoc)
 		callnum = "X578 .S64 1851";
 		shelfkey = CallNumUtils.getLCShelfkey(callnum, "7233951");
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("7233951", fldName, "\"" + reverseShelfkey.toLowerCase() + "\"");
+		assertSingleResult("7233951", fldName, "\"" + reverseShelfkey + "\"");
 		
 		//  bad LC values
 		// LC 999 "NO CALL NUMBER" and 852 to ignore
@@ -673,14 +677,14 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		callnum = "999.85 .P84";
 		shelfkey = CallNumUtils.getDeweyShelfKey(callnum);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("31", fldName, "\"" + reverseShelfkey.toLowerCase() + "\""); 
+		assertSingleResult("31", fldName, "\"" + reverseShelfkey + "\""); 
 		
 		// Dewey: vol info to lop off
 		callnum = "352.042 .C594 ED.2";
 		lopped = "352.042 .C594 ED.2";
 		shelfkey = CallNumUtils.getDeweyShelfKey(lopped);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("1849258", fldName, "\"" + reverseShelfkey.toLowerCase() + "\""); 
+		assertSingleResult("1849258", fldName, "\"" + reverseShelfkey + "\""); 
 		
 // TODO: implement SUDO volume lopping and shelving key processing	
 		
@@ -688,16 +692,16 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		callnum = "Y 4.AG 8/1:108-16";
 		shelfkey = CallNumUtils.normalizeSuffix(callnum);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("5511738", fldName, "\"" + reverseShelfkey.toLowerCase() + "\""); 
+		assertSingleResult("5511738", fldName, "\"" + reverseShelfkey + "\""); 
 		
 		callnum = "GA 1.13:RCED-85-88";
 		shelfkey = CallNumUtils.normalizeSuffix(callnum);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("2678655", fldName, "\"" + reverseShelfkey.toLowerCase() + "\""); 
+		assertSingleResult("2678655", fldName, "\"" + reverseShelfkey + "\""); 
 
 		shelfkey = CallNumUtils.normalizeSuffix(govDocStr);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertZeroResults(fldName, "\"" + reverseShelfkey.toLowerCase() + "\""); 
+		assertZeroResults(fldName, "\"" + reverseShelfkey + "\""); 
 	
 // TODO: implement ALPHANUM volume lopping and shelving key processing		
 
@@ -705,17 +709,17 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		callnum = "SUSEL-69048";
 		shelfkey = CallNumUtils.normalizeSuffix(callnum);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("4578538", fldName, "\"" + reverseShelfkey.toLowerCase() + "\""); 
+		assertSingleResult("4578538", fldName, "\"" + reverseShelfkey + "\""); 
 		
 		callnum = "MFILM N.S. 1350 REEL 230 NO. 3741";
 		shelfkey = CallNumUtils.normalizeSuffix(callnum);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("1261173", fldName, "\"" + reverseShelfkey.toLowerCase() + "\""); 
+		assertSingleResult("1261173", fldName, "\"" + reverseShelfkey + "\""); 
 
 		callnum = "MCD Brendel Plays Beethoven's Eroica variations";
 		shelfkey = CallNumUtils.normalizeSuffix(callnum);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("1234673", fldName, "\"" + reverseShelfkey.toLowerCase() + "\""); 
+		assertSingleResult("1234673", fldName, "\"" + reverseShelfkey + "\""); 
 		
 		// ASIS 999 "INTERNET RESOURCE": No call number, but access Online
 		assertZeroResults(fldName, "\"INTERNET RESOURCE\""); 
