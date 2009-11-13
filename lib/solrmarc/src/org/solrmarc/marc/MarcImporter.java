@@ -251,41 +251,53 @@ public class MarcImporter extends MarcHandler
             catch (Exception e)
             {
                 Throwable cause = null;
+                String recCntlNum = null;
                 if (e instanceof SolrRuntimeException) 
                 {
                     cause = e.getCause();
+                    try {
+                    	recCntlNum = record.getControlNumber();
+                    }
+                    catch (NullPointerException npe) { /* ignore */ }
                 }
-                if (cause != null && cause instanceof InvocationTargetException)
+                if (cause != null) 
                 {
-                    cause = ((InvocationTargetException)cause).getTargetException();
-                }
-                if (cause instanceof Exception && solrProxy.isSolrException((Exception)cause) &&
-                        cause.getMessage().contains("missing required fields"))
-                {
-                   // this is caused by a bad record - one missing required fields (duh)
-                   logger.error(cause.getMessage() +  " at record count = " + recsReadCounter);
-                   logger.error("Control Number " + record.getControlNumber());
-                }
-                else if (cause instanceof Exception && solrProxy.isSolrException((Exception)cause) &&
-                        cause.getMessage().contains("multiple values encountered for non multiValued field"))
-                {
-                   logger.error(cause.getMessage() +  " at record count = " + recsReadCounter);
-                   logger.error("Control Number " + record.getControlNumber());
-                }
-                else if (cause instanceof Exception && solrProxy.isSolrException((Exception)cause) &&
-                        cause.getMessage().contains("unknown field"))
-                {
-                   logger.error(cause.getMessage() +  " at record count = " + recsReadCounter);
-                   logger.error("Control Number " + record.getControlNumber());
-                }
-                else if (cause instanceof Exception && solrProxy.isSolrException((Exception)cause) )
-                {
-                    logger.error("Error indexing record: " + record.getControlNumber() + " -- " + cause.getMessage());
-                    if (e instanceof SolrRuntimeException) throw (new SolrRuntimeException(cause.getMessage(), (Exception)cause));
+                    if (cause instanceof InvocationTargetException)
+                    {
+                        cause = ((InvocationTargetException)cause).getTargetException();
+                    }
+                    if (cause instanceof Exception && solrProxy.isSolrException((Exception)cause) &&
+                            cause.getMessage().contains("missing required fields"))
+                    {
+                       // this is caused by a bad record - one missing required fields (duh)
+                       logger.error(cause.getMessage() +  " at record count = " + recsReadCounter);
+                       if (recCntlNum != null)
+                    	   logger.error("Control Number " + record.getControlNumber());
+                    }
+                    else if (cause instanceof Exception && solrProxy.isSolrException((Exception)cause) &&
+                            cause.getMessage().contains("multiple values encountered for non multiValued field"))
+                    {
+                       logger.error(cause.getMessage() +  " at record count = " + recsReadCounter);
+                       if (recCntlNum != null)
+                    	   logger.error("Control Number " + record.getControlNumber());
+                    }
+                    else if (cause instanceof Exception && solrProxy.isSolrException((Exception)cause) &&
+                            cause.getMessage().contains("unknown field"))
+                    {
+                       logger.error(cause.getMessage() +  " at record count = " + recsReadCounter);
+                       if (recCntlNum != null)
+                    	   logger.error("Control Number " + record.getControlNumber());
+                    }
+                    else if (cause instanceof Exception && solrProxy.isSolrException((Exception)cause) )
+                    {
+                        if (recCntlNum != null)
+                        logger.error("Error indexing record: " + record.getControlNumber() + " -- " + cause.getMessage());
+                        if (e instanceof SolrRuntimeException) throw (new SolrRuntimeException(cause.getMessage(), (Exception)cause));
+                    }
                 }
                 else
                 {
-            	    logger.error("Error indexing record: " + record.getControlNumber() + " -- " + e.getMessage(), e);
+            	    logger.error("Error indexing record: " + (recCntlNum != null ? record.getControlNumber() : "") + " -- " + e.getMessage(), e);
             	    // this error should (might?) only be thrown if we can't write to the index
             	    //   therefore, continuing to index would be pointless.
             	    if (e instanceof SolrRuntimeException) throw ((SolrRuntimeException)e);
