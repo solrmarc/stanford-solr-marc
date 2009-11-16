@@ -134,7 +134,7 @@ public final class CallNumUtils {
     
     /** this character will sort first */
     public static char SORT_FIRST_CHAR = Character.MIN_VALUE;
-	public static StringBuffer reverseDefault = new StringBuffer(75);
+	public static StringBuilder reverseDefault = new StringBuilder(75);
 	static {
 		for (int i = 0; i < 75; i++) 
 // N.B.:  this char is tough to deal with in a variety of contexts.  
@@ -628,14 +628,14 @@ public final class CallNumUtils {
      *  of the call number
      */
     public static String getLCShelfkey(String rawLCcallnum, String recid) {
-    	StringBuffer resultBuf = new StringBuffer();
+    	StringBuilder resultBuf = new StringBuilder();
     	String upcaseLCcallnum = rawLCcallnum.toUpperCase();
     	
 // TODO: don't repeat same parsing -- some of these methods could take the
 //   portion of the callnumber before the cutter as the input string.    	
     	
     	// pad initial letters with trailing blanks to be 4 chars long
-    	StringBuffer initLetBuf = new StringBuffer("    ");
+    	StringBuilder initLetBuf = new StringBuilder("    ");
     	String lets = getLCstartLetters(upcaseLCcallnum);
     	initLetBuf.replace(0, lets.length(), lets);
    		resultBuf.append(initLetBuf);
@@ -677,7 +677,7 @@ public final class CallNumUtils {
    		} catch (NumberFormatException e) {
    			System.err.println("Problem creating shelfkey for record " + recid + "; call number: " + rawLCcallnum);
    			//e.printStackTrace();
-   			resultBuf = new StringBuffer();
+   			resultBuf = new StringBuilder();
    		}
     	
     	if (resultBuf.length() == 0)
@@ -720,7 +720,7 @@ public final class CallNumUtils {
 	 */
 	public static String normalizeSuffix(String suffix) {
 		if (suffix != null && suffix.length() > 0) {
-			StringBuffer resultBuf = new StringBuffer(suffix.length());
+			StringBuilder resultBuf = new StringBuilder(suffix.length());
 			// get digit substrings
 			String[] digitStrs = suffix.split("[\\D]+");
 			int len = digitStrs.length;
@@ -756,7 +756,7 @@ public final class CallNumUtils {
 	 * reverse order (for getting "previous" call numbers in a list)
 	 */
 	public static String getReverseShelfKey(String shelfkey) {
-		StringBuffer resultBuf = new StringBuffer(reverseDefault);
+		StringBuilder resultBuf = new StringBuilder(reverseDefault);
 		if (shelfkey != null)
 			resultBuf.replace(0, shelfkey.length(), reverseAlphanum(shelfkey));
 		return resultBuf.toString();
@@ -849,7 +849,7 @@ public final class CallNumUtils {
      *  version of the call number
      */
     public static String getDeweyShelfKey(String rawDeweyCallnum) {
-    	StringBuffer resultBuf = new StringBuffer();
+    	StringBuilder resultBuf = new StringBuilder();
 
     	// class 
     	// float number, normalized to have 3 leading zeros
@@ -1010,7 +1010,7 @@ public final class CallNumUtils {
 	 *   encountered as is; don't pad with zeroes -- up to 12 characters.
 	 */
 	private static String getFormatString(int numDigits) {
-		StringBuffer b4 = new StringBuffer();
+		StringBuilder b4 = new StringBuilder();
 		if (numDigits < 0)
 			b4.append("############");
 		else if (numDigits > 0) {

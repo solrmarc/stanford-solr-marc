@@ -713,7 +713,7 @@ public final class Utils {
     {
         Iterator<String> iter = set.iterator();
         //String result = "";
-        StringBuffer result = new StringBuffer("");
+        StringBuilder result = new StringBuilder("");
        
         while(iter.hasNext())
         {
@@ -890,7 +890,7 @@ public final class Utils {
         List<VariableField> varFlds = record.getVariableFields(tags);
         for (VariableField vf : varFlds) {
             
-            StringBuffer buffer = new StringBuffer(500);
+            StringBuilder buffer = new StringBuilder(500);
 
             DataField df = (DataField) vf;
             if (df != null) {
