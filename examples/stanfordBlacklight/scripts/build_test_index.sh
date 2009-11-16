@@ -12,7 +12,7 @@ RAW_DATA_DIR=$SITE_BASEDIR/test/data
 #RAW_DATA_DIR=$BLACKLIGHT_HOMEDIR/data/unicorn/latest
 #SOLR_DATA_DIR=$BLACKLIGHT_HOMEDIR/data/solr/dataBuild
 SOLR_DATA_DIR=$SITE_BASEDIR/test/data/solr/data
-SOLRMARC_JAR=$DIST_DIR/swSolrmarc.jar
+SOLRMARC_JAR=$DIST_DIR/swSolrMarc.jar
 
 JAVA_HOME=/usr/lib/jvm/java
 
