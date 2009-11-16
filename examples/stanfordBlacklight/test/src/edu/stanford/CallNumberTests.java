@@ -681,7 +681,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		
 		// Dewey: vol info to lop off
 		callnum = "352.042 .C594 ED.2";
-		lopped = "352.042 .C594 ED.2";
+		lopped = "352.042 .C594";
 		shelfkey = CallNumUtils.getDeweyShelfKey(lopped);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
 		assertSingleResult("1849258", fldName, "\"" + reverseShelfkey + "\""); 
