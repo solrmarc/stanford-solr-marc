@@ -1196,7 +1196,7 @@ public class SolrIndexer
     @SuppressWarnings("unchecked")
     public String getSortableAuthor(final Record record)
     {
-        StringBuffer resultBuf = new StringBuffer();
+        StringBuilder resultBuf = new StringBuilder();
 
         DataField df = (DataField) record.getVariableField("100");
         // main entry personal name
@@ -1427,7 +1427,7 @@ public class SolrIndexer
                 if (subfldsStr.length() > 1 || separator != null)
                 {
                     // concatenate subfields using specified separator or space
-                    StringBuffer buffer = new StringBuffer("");
+                    StringBuilder buffer = new StringBuilder("");
                     List<Subfield> subFlds = dfield.getSubfields();
                     for (Subfield sf : subFlds)
                     {
@@ -1493,7 +1493,7 @@ public class SolrIndexer
                 if (subfield.length() > 1)
                 {
                     // automatic concatenation of grouped subfields
-                    StringBuffer buffer = new StringBuffer("");
+                    StringBuilder buffer = new StringBuilder("");
                     List<Subfield> subFlds = dfield.getSubfields();
                     for (Subfield sf : subFlds)
                     {
@@ -1641,7 +1641,7 @@ public class SolrIndexer
                 for (VariableField vf : marcFieldList)
                 {
                     DataField marcField = (DataField) vf;
-                    StringBuffer buffer = new StringBuffer("");
+                    StringBuilder buffer = new StringBuilder("");
                     List<Subfield> subfields = marcField.getSubfields();
                     for (Subfield subfield : subfields)
                     {
@@ -1699,7 +1699,7 @@ public class SolrIndexer
             for (VariableField vf : varFlds)
             {
 
-                StringBuffer buffer = new StringBuffer(500);
+                StringBuilder buffer = new StringBuilder(500);
 
                 DataField df = (DataField) vf;
                 if (df != null)
@@ -1759,7 +1759,7 @@ public class SolrIndexer
         }
         else if (multOccurs.equals("join"))
         {
-            StringBuffer resultBuf = new StringBuffer();
+            StringBuilder resultBuf = new StringBuilder();
             for (String r : result)
             {
                 if (resultBuf.length() > 0)
@@ -1810,7 +1810,7 @@ public class SolrIndexer
             for (VariableField vf : varFlds)
             {
 
-                StringBuffer buffer = new StringBuffer(500);
+                StringBuilder buffer = new StringBuilder(500);
                 DataField df = (DataField) vf;
                 if (df != null)
                 {
@@ -1931,7 +1931,7 @@ public class SolrIndexer
             if (link != null && link.getData().startsWith(tag))
             {
                 List<Subfield> subList = dfield.getSubfields();
-                StringBuffer buf = new StringBuffer("");
+                StringBuilder buf = new StringBuilder("");
                 for (Subfield subF : subList)
                 {
                     boolean addIt = false;
@@ -2020,7 +2020,7 @@ public class SolrIndexer
      */
     public String getAllSearchableFields(final Record record, String lowerBoundStr, String upperBoundStr)
     {
-        StringBuffer buffer = new StringBuffer("");
+        StringBuilder buffer = new StringBuilder("");
         int lowerBound = localParseInt(lowerBoundStr, 100);
         int upperBound = localParseInt(upperBoundStr, 900);
 
@@ -2132,13 +2132,13 @@ public class SolrIndexer
      * removes ascii punctuation
      * @param DataField with ind2 containing # non-filing chars, or has value ' '
      * @param skipSubFldc true if subfield c contents should be skipped
-     * @return StringBuffer of the contents of the subfields - with a trailing
+     * @return StringBuilder of the contents of the subfields - with a trailing
      *         space
      */
     @SuppressWarnings("unchecked")
-	protected StringBuffer getAlphaSubfldsAsSortStr(DataField df, boolean skipSubFldc)
+	protected StringBuilder getAlphaSubfldsAsSortStr(DataField df, boolean skipSubFldc)
     {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         int nonFilingInt = getInd2AsInt(df);
         boolean firstSubfld = true;
 

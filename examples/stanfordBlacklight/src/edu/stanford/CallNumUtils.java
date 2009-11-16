@@ -363,7 +363,7 @@ public final class CallNumUtils {
                  Arrays.sort(valueArr, new StringNaturalCompare());
 
                  // make a string of all of the "volume" parts
-                 StringBuffer sb = new StringBuffer(commonPrefix);
+                 StringBuilder sb = new StringBuilder(commonPrefix);
                  String sep = " ";
                  for (int i = 0; i < valueArr.length; i++)
                  {

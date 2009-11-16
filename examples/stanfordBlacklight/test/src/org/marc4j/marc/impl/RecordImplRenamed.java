@@ -2,7 +2,7 @@ package org.marc4j.marc.impl;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
+//import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,7 +13,7 @@ import org.marc4j.marc.Record;
 import org.marc4j.marc.VariableField;
 
 /**
- * Represents a MARC record.
+ * Represents a MARC record - but without the sorting of the marc fields.
  * 
  * @author Bas Peters
  * @version $Revision: 1.4 $
@@ -203,7 +203,7 @@ public class RecordImplRenamed implements Record {
      * @return String - a string representation of this record
      */
     public String toString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("LEADER ");
         sb.append(getLeader().toString());
         sb.append('\n');

@@ -540,7 +540,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	@SuppressWarnings("unchecked")
 	public String getSortTitle(final Record record) 
     {
-		StringBuffer resultBuf = new StringBuffer();
+		StringBuilder resultBuf = new StringBuilder();
 
 		// uniform title
 		DataField df = (DataField) record.getVariableField("130");
@@ -730,7 +730,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		{
 			DataField df260 = (DataField) vf260;
 			List<Subfield> subFlds = df260.getSubfields();
-			StringBuffer buffer = new StringBuffer("");
+			StringBuilder buffer = new StringBuilder("");
 			for (Subfield sf : subFlds) 
 			{
 				char sfcode = sf.getCode();
@@ -1083,7 +1083,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	@SuppressWarnings("unchecked")
 	public String getAllFields(final Record record) 
 	{
-		StringBuffer result = new StringBuffer(5000);
+		StringBuilder result = new StringBuilder(5000);
 // TODO: do we really want ALL the subfields of ALL the DataFields in the allFields value ... 
 // but it's much easier to include everything than cherry pick
 		List<DataField> dataFieldList = record.getDataFields();
@@ -1478,7 +1478,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/**
 	 * Get shelfkey versions of "lopped" call numbers (call numbers without
-	 * volume info)
+	 * volume info).  Can access shelfkeys in lexigraphical order for browsing
 	 */
 	public Set<String> getShelfkeys(final Record record) {
 		return shelfkeys;
@@ -1531,7 +1531,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/**
 	 * Get reverse shelfkey versions of "lopped" call numbers (call numbers
-	 * without volume info)
+	 * without volume info). Can access in lexigraphical order for browsing
+	 * (used to get previous callnums ...)
 	 */
 	public Set<String> getReverseShelfkeys(final Record record) 
 	{
@@ -2167,7 +2168,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				return first;
 			}
 		} else if (multOccurs.equals("join")) {
-			StringBuffer resultBuf = new StringBuffer();
+			StringBuilder resultBuf = new StringBuilder();
 			for (String r : result) {
 				if (resultBuf.length() > 0)
 					resultBuf.append(' ');
@@ -2216,7 +2217,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 			for (VariableField vf : vernFlds) 
 			{
-				StringBuffer buffer = new StringBuffer(500);
+				StringBuilder buffer = new StringBuilder(500);
 				DataField df = (DataField) vf;
 				if (df != null) 
 				{
@@ -2291,7 +2292,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		if (subfldsStr.length() > 1) {
 			// concatenate desired subfields with space separator
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			List<Subfield> subFlds = df.getSubfields();
 			for (Subfield sf : subFlds) {
 				if (subfldsStr.contains(String.valueOf(sf.getCode()))) {
@@ -2336,7 +2337,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		Set<String> resultSet = new LinkedHashSet<String>();
 		if (subfldsStr.length() > 1) {
 			// concatenate desired subfields with space separator
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			List<Subfield> subFlds = df.getSubfields();
 			for (Subfield sf : subFlds) {
 				if (subfldsStr.contains(String.valueOf(sf.getCode()))) {
