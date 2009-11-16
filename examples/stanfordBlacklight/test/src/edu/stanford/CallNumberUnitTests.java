@@ -243,6 +243,12 @@ public class CallNumberUnitTests {
 // NOTE:  good enough
 //		assertEquals("ECE/TRANS/185", removeVolSuffix(callnum));
 		assertEquals("ECE/TRANS/185(", removeVolSuffix(callnum));
+		callnum = "D 208.2:IT 1 R";
+//		assertEquals("D 208.2:IT 1", removeVolSuffix(callnum));
+		assertEquals("D 208.2:I", removeVolSuffix(callnum));
+		callnum = "D 208.2:IT 1 CA";
+//		assertEquals("D 208.2:IT 1", removeVolSuffix(callnum));
+		assertEquals("D 208.2:I", removeVolSuffix(callnum));
 	}
 
 	/**
