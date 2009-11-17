@@ -1531,22 +1531,16 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
-	 * Assign type of government doc based on location in 999.
+	 * Assign type of government doc based on:
+	 *   callnumber scheme of SUDOC
+	 *   location in 999
+	 *   presence of 086 field (use all 99s that aren't to be skipped)
 	 */
 	private void setGovDocCats(final Record record) 
 	{
 		govDocCats = new HashSet<String>();
 
-		// is it a gov doc?
-		// 999 SUDOC
-		// 999 with correct location ...
-		// 086 - yes - use all 999s that aren't to be skipped
-
-		// presence of 086 implies it's a government document
-		boolean has086 = false;
-		if (!record.getVariableFields("086").isEmpty())
-			// use all items
-			has086 = true;
+		boolean has086 = !record.getVariableFields("086").isEmpty();
 
 		for (DataField df999 : list999df) {
 			if (!skipItem(df999) && !ignoreCallNumPerLocation(df999)
