@@ -9,7 +9,6 @@ import org.xml.sax.SAXException;
 
 import org.junit.*;
 
-import edu.stanford.StanfordIndexer.Format;
 import static org.junit.Assert.*;
 
 
