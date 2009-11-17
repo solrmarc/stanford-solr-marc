@@ -1086,7 +1086,7 @@ public class SolrIndexer
      * @return single string containing all values of the indicated marc
      *         field(s)/subfield(s) concatenated with separator string
      */
-    public String getFieldVals(Record record, String tagStr, String separator)
+    public static String getFieldVals(Record record, String tagStr, String separator)
     {
         Set<String> result = getFieldList(record, tagStr);
         return org.solrmarc.tools.Utils.join(result, separator);
@@ -1239,7 +1239,7 @@ public class SolrIndexer
      * @param record - the marc record object
      * @return 260c, "cleaned" per org.solrmarc.tools.Utils.cleanDate()
      */
-    public String getDate(Record record)
+    public static String getDate(Record record)
     {
         String date = getFieldVals(record, "260c", ", ");
         if (date == null || date.length() == 0)
@@ -1857,7 +1857,7 @@ public class SolrIndexer
      * @return set of Strings containing the values of the designated 880
      *         field(s)/subfield(s)
      */
-    public Set<String> getLinkedField(final Record record, String fieldSpec)
+    public static Set<String> getLinkedField(final Record record, String fieldSpec)
     {
         Set<String> set = getFieldList(record, "8806");
 
@@ -1972,7 +1972,7 @@ public class SolrIndexer
      * @return set of Strings containing the values of the indicated field(s)/
      *         subfields(s) plus linked 880 field(s)/subfield(s)
      */
-    public Set<String> getLinkedFieldCombined(final Record record, String fieldSpec)
+    public static Set<String> getLinkedFieldCombined(final Record record, String fieldSpec)
     {
         Set<String> result1 = getLinkedField(record, fieldSpec);
         Set<String> result2 = getFieldList(record, fieldSpec);
@@ -2136,7 +2136,7 @@ public class SolrIndexer
      *         space
      */
     @SuppressWarnings("unchecked")
-	protected StringBuilder getAlphaSubfldsAsSortStr(DataField df, boolean skipSubFldc)
+	protected static StringBuilder getAlphaSubfldsAsSortStr(DataField df, boolean skipSubFldc)
     {
         StringBuilder result = new StringBuilder();
         int nonFilingInt = getInd2AsInt(df);
@@ -2167,7 +2167,7 @@ public class SolrIndexer
      *            a DataField
      * @return the integer (0-9, 0 if blank or other) in the 2nd indicator
      */
-    protected int getInd2AsInt(DataField df)
+    protected static int getInd2AsInt(DataField df)
     {
         char ind2char = df.getIndicator2();
         int result = 0;

@@ -1,7 +1,10 @@
 package edu.stanford;
 
-/** access facet values */
-public enum Access {
+/** 
+ * access facet values for Stanford University
+ * @author - Naomi Dushay
+ */
+public enum AccessValues {
 	ONLINE,
 	AT_LIBRARY;
 

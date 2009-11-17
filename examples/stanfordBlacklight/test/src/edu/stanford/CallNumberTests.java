@@ -523,7 +523,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String afld = "access_facet";
-		String fldVal = Access.ONLINE.toString();
+		String fldVal = AccessValues.ONLINE.toString();
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("6280316");
 		docIds.add("7117119");

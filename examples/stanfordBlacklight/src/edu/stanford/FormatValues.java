@@ -1,7 +1,10 @@
 package edu.stanford;
 
-/** format facet values */
-public enum Format {
+/** 
+ * format facet values for Stanford University
+ * @author - Naomi Dushay
+ */
+public enum FormatValues {
 	BOOK,
 	COMPUTER_FILE,
 	CONFERENCE_PROCEEDINGS,

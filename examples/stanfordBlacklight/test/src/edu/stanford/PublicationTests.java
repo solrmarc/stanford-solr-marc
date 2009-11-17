@@ -14,7 +14,7 @@ import org.xml.sax.SAXException;
 import org.junit.*;
 
 import org.solrmarc.solr.DocumentProxy;
-import edu.stanford.StanfordIndexer.PubDateGroup;
+import edu.stanford.PubDateGroupValues;
 
 /**
  * junit4 tests for Stanford University publication fields for blacklight index
@@ -438,10 +438,10 @@ public class PublicationTests extends AbstractStanfordBlacklightTest
 		docIds.add("pubDate2010");
 		docIds.add("z2009");
 		docIds.add("b2008");
-		assertSearchResults(fldName, "\"" + PubDateGroup.THIS_YEAR.toString() + "\"", docIds);
+		assertSearchResults(fldName, "\"" + PubDateGroupValues.THIS_YEAR.toString() + "\"", docIds);
 		docIds.add("v2007");
 		docIds.add("z2006");
-		assertSearchResults(fldName, "\"" + PubDateGroup.LAST_3_YEARS.toString() + "\"", docIds);
+		assertSearchResults(fldName, "\"" + PubDateGroupValues.LAST_3_YEARS.toString() + "\"", docIds);
 		docIds.add("j2005");
 		docIds.add("q2001");
 		docIds.add("f2000");
@@ -452,7 +452,7 @@ public class PublicationTests extends AbstractStanfordBlacklightTest
 		docIds.add("o20uu");
 		docIds.add("pubDate0059");  // 2005
 		docIds.add("pubDate0204");  // 2004
-		assertSearchResults(fldName, "\"" + PubDateGroup.LAST_10_YEARS.toString() + "\"", docIds);
+		assertSearchResults(fldName, "\"" + PubDateGroupValues.LAST_10_YEARS.toString() + "\"", docIds);
 		docIds.add("c1998");
 		docIds.add("e1997");
 		docIds.add("m1991");
@@ -466,7 +466,7 @@ public class PublicationTests extends AbstractStanfordBlacklightTest
 		docIds.add("p19uu");
 		docIds.add("pubDate0197-1");
 		docIds.add("pubDate0197-2");
-		assertSearchResults(fldName, "\"" + PubDateGroup.LAST_50_YEARS.toString() + "\"", docIds);
+		assertSearchResults(fldName, "\"" + PubDateGroupValues.LAST_50_YEARS.toString() + "\"", docIds);
 
 		docIds.clear();
 		docIds.add("pubDate00uu");   // "1st century"
@@ -494,7 +494,7 @@ public class PublicationTests extends AbstractStanfordBlacklightTest
 		docIds.add("pubDate0965"); // should be 1965
 		docIds.add("pubDate0980"); // should be 1980
 		docIds.add("pubDate0999"); // should be 1999
-		assertSearchResults(fldName, "\"" + PubDateGroup.MORE_THAN_50_YEARS_AGO.toString() + "\"", docIds);
+		assertSearchResults(fldName, "\"" + PubDateGroupValues.MORE_THAN_50_YEARS_AGO.toString() + "\"", docIds);
 	}
 
 
