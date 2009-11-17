@@ -31,8 +31,8 @@ public class AccessTests extends AbstractStanfordBlacklightTest {
 	{
 		assertFacetFieldProperties(fldName);
 		assertFieldMultiValued(fldName);
-		assertEquals("accessMethod string incorrect: ", "Online", Access.ONLINE.toString());
-		assertEquals("accessMethod string incorrect: ", "At the Library", Access.AT_LIBRARY.toString());
+		assertEquals("accessMethod string incorrect: ", "Online", AccessValues.ONLINE.toString());
+		assertEquals("accessMethod string incorrect: ", "At the Library", AccessValues.AT_LIBRARY.toString());
 	}
 
 // NOTE: can have multiple access types 
@@ -44,7 +44,7 @@ public class AccessTests extends AbstractStanfordBlacklightTest {
 	public final void testAccessFromFulltextURL() 
 			throws IOException, ParserConfigurationException, SAXException 
 	{
-	    String fldVal =  Access.ONLINE.toString();
+	    String fldVal =  AccessValues.ONLINE.toString();
 		
 		Set<String> docIds = new HashSet<String>();
 		// 
@@ -72,7 +72,7 @@ public class AccessTests extends AbstractStanfordBlacklightTest {
 	{
         createIxInitVars("formatTests.mrc");
 	
-    	String fldVal =  Access.ONLINE.toString();
+    	String fldVal =  AccessValues.ONLINE.toString();
 
 		// has SFX url in 956
 		assertSingleResult("7117119", fldName, fldVal);
@@ -87,7 +87,7 @@ public class AccessTests extends AbstractStanfordBlacklightTest {
 	public final void testGSBRequestUrl() 
 			throws IOException, ParserConfigurationException, SAXException 
 	{
-		String fldVal =  "\"" + Access.AT_LIBRARY.toString() + "\"";
+		String fldVal =  "\"" + AccessValues.AT_LIBRARY.toString() + "\"";
 	
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("123http"); 
@@ -115,14 +115,14 @@ public class AccessTests extends AbstractStanfordBlacklightTest {
 
 	 	// "Online"
 		// has SFX url in 956
-	 	assertSingleResult("7117119", fldName, Access.ONLINE.toString());
+	 	assertSingleResult("7117119", fldName, AccessValues.ONLINE.toString());
 
 	 	// "At the Library"
-	 	String fldVal = "\"" + Access.AT_LIBRARY.toString() + "\"";
+	 	String fldVal = "\"" + AccessValues.AT_LIBRARY.toString() + "\"";
 	 	// don't want to check *all* of them ...
 //	 	List<DocumentProxy> docList = getAllMatchingDocs(fldName, fldVal);
 	 	String[] docList = getDocIDList(fldName, fldVal);
-	 	String msg = fldName + " " + Access.AT_LIBRARY.toString() + ": ";
+	 	String msg = fldName + " " + AccessValues.AT_LIBRARY.toString() + ": ";
 	 	// formerly "On campus"
 	 	assertDocInList(docList, "115472", msg); 
 	 	assertDocInList(docList, "2442876", msg); 

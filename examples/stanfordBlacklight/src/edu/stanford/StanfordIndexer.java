@@ -159,50 +159,50 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		switch (leaderChar06) {
 		case 'a':
 			if (leaderChar07 == 'a' || leaderChar07 == 'm')
-				formats.add(Format.BOOK.toString());
+				formats.add(FormatValues.BOOK.toString());
 			break;
 		case 'b':
 		case 'p':
-			formats.add(Format.MANUSCRIPT_ARCHIVE.toString());
+			formats.add(FormatValues.MANUSCRIPT_ARCHIVE.toString());
 			break;
 		case 'c':
 		case 'd':
-			formats.add(Format.MUSIC_SCORE.toString());
+			formats.add(FormatValues.MUSIC_SCORE.toString());
 			break;
 		case 'e':
 		case 'f':
-			formats.add(Format.MAP_GLOBE.toString());
+			formats.add(FormatValues.MAP_GLOBE.toString());
 			break;
 		case 'g':
 			// look for m or v in 008 field, char 33 (count starts at 0)
 			if (cf008 != null && cf008.find("^.{33}[mv]"))
-				formats.add(Format.VIDEO.toString());
+				formats.add(FormatValues.VIDEO.toString());
 			break;
 		case 'i':
-			formats.add(Format.SOUND_RECORDING.toString());
+			formats.add(FormatValues.SOUND_RECORDING.toString());
 			break;
 		case 'j':
-			formats.add(Format.MUSIC_RECORDING.toString());
+			formats.add(FormatValues.MUSIC_RECORDING.toString());
 			break;
 		case 'k':
     		// look for i, k, p, s or t in 008 field, char 33 (count starts at 0)
 			if (cf008 != null && cf008.find("^.{33}[ikpst]"))
-				formats.add(Format.IMAGE.toString());
+				formats.add(FormatValues.IMAGE.toString());
 			break;
 		case 'm':
 			// look for a in 008 field, char 26 (count starts at 0)
 			if (cf008 != null && cf008.find("^.*{26}a"))
-				formats.add(Format.COMPUTER_FILE.toString());
+				formats.add(FormatValues.COMPUTER_FILE.toString());
 			break;
 		case 'o': // instructional kit
-			formats.add(Format.OTHER.toString());
+			formats.add(FormatValues.OTHER.toString());
 			break;
 		case 'r': // object
-			formats.add(Format.OTHER.toString());
+			formats.add(FormatValues.OTHER.toString());
 			break;
 		case 't':
 			if (leaderChar07 == 'a' || leaderChar07 == 'm')
-				formats.add(Format.BOOK.toString());
+				formats.add(FormatValues.BOOK.toString());
 			break;
 		} // end switch
 
@@ -217,13 +217,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					case 'l': // updating looseleaf (ignore)
 						break;
 					case 'm': // monographic series
-						formats.add(Format.BOOK.toString());
+						formats.add(FormatValues.BOOK.toString());
 						break;
 					case 'n':
-						formats.add(Format.NEWSPAPER.toString());
+						formats.add(FormatValues.NEWSPAPER.toString());
 						break;
 					case 'p':
-						formats.add(Format.JOURNAL_PERIODICAL.toString());
+						formats.add(FormatValues.JOURNAL_PERIODICAL.toString());
 						break;
 					case 'w': // web site
 						break;
@@ -243,18 +243,18 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				case 'l': // updating looseleaf (ignore)
 					break;
 				case 'm': // monographic series
-					formats.add(Format.BOOK.toString());
+					formats.add(FormatValues.BOOK.toString());
 					break;
 				case 'n':
-					formats.add(Format.NEWSPAPER.toString());
+					formats.add(FormatValues.NEWSPAPER.toString());
 					break;
 				case 'p':
-					formats.add(Format.JOURNAL_PERIODICAL.toString());
+					formats.add(FormatValues.JOURNAL_PERIODICAL.toString());
 					break;
 				case 'w': // web site
 					break;
 				case ' ':
-					formats.add(Format.JOURNAL_PERIODICAL.toString());
+					formats.add(FormatValues.JOURNAL_PERIODICAL.toString());
 				}
 			}
 			// if still nothing, see if 007/00s serial publication by default
@@ -271,7 +271,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 						case 'w':
 							break;
 						case ' ':
-							formats.add(Format.JOURNAL_PERIODICAL.toString());
+							formats.add(FormatValues.JOURNAL_PERIODICAL.toString());
 					}
 				}
 			}
@@ -285,8 +285,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				subList.addAll(Utils.getSubfieldStrings(df, 'v'));
 				for (String s : subList) {
 					if (s.toLowerCase().contains("congresses")) {
-						formats.remove(Format.JOURNAL_PERIODICAL.toString());
-						formats.add(Format.CONFERENCE_PROCEEDINGS.toString());
+						formats.remove(FormatValues.JOURNAL_PERIODICAL.toString());
+						formats.add(FormatValues.CONFERENCE_PROCEEDINGS.toString());
 					}
 				}
 			}
@@ -296,32 +296,32 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		Set<String> dissNote = new LinkedHashSet<String>();
 		dissNote.addAll(getSubfieldDataAsSet(record, "502", "a", " "));
 		if (!dissNote.isEmpty() || dissNote.size() != 0)
-			formats.add(Format.THESIS.toString());
+			formats.add(FormatValues.THESIS.toString());
 
 		// microfilm is determined by 245 subfield h containing "microform"
 		Set<String> titleH = new LinkedHashSet<String>();
 		titleH.addAll(getSubfieldDataAsSet(record, "245", "h", " "));
 		// check the h subfield of the 245 field
 		if (Utils.setItemContains(titleH, "microform"))
-			formats.add(Format.MICROFORMAT.toString());
+			formats.add(FormatValues.MICROFORMAT.toString());
 
 		// check for format information from 999 ALPHANUM call numbers
 		for (DataField df999 : list999df) {
 			String scheme = getCallNumberSchemeFrom999(df999);
 			if (scheme != null && scheme.equalsIgnoreCase("ALPHANUM")) {
-				String suba = getSubfieldTrimmed(df999, 'a');
+				String suba = GenericUtils.getSubfieldTrimmed(df999, 'a');
 				if (suba != null) {
 					if (suba.startsWith("MFILM"))
-						formats.add(Format.MICROFORMAT.toString());
+						formats.add(FormatValues.MICROFORMAT.toString());
 					else if (suba.startsWith("MCD"))
-						formats.add(Format.MUSIC_RECORDING.toString());
+						formats.add(FormatValues.MUSIC_RECORDING.toString());
 				}
 			}
 		}
 
 		// if we still don't have a format, it's an "other"
 		if (formats.isEmpty() || formats.size() == 0)
-			formats.add(Format.OTHER.toString());
+			formats.add(FormatValues.OTHER.toString());
 	}
 
 // Format Methods  --------------- Begin ------------------------ Format Methods
@@ -554,17 +554,17 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		for (DataField df999 : list999df) {
 			if (!skipItem(df999)) {
 				if (onlineItemPerLocation(df999))
-					resultSet.add(Access.ONLINE.toString());
+					resultSet.add(AccessValues.ONLINE.toString());
 				else
-					resultSet.add(Access.AT_LIBRARY.toString());
+					resultSet.add(AccessValues.AT_LIBRARY.toString());
 			}
 		}
 
 		if (fullTextUrls.size() > 0)
-			resultSet.add(Access.ONLINE.toString());
+			resultSet.add(AccessValues.ONLINE.toString());
 
 		if (sfxUrls.size() > 0)
-			resultSet.add(Access.ONLINE.toString());
+			resultSet.add(AccessValues.ONLINE.toString());
 
 		return resultSet;
 	}
@@ -679,6 +679,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		return resultSet;
 	}
 
+	private int currYearAsInt = PubDateUtils.getCurrentYearAsInt();
+	private String currYearAsStr = Integer.toString(currYearAsInt);
+
 	/**
 	 * returns the publication date from a record, if it is present and not
      *  beyond the current year + 1 (and not earlier than 0500 if it is a 
@@ -692,25 +695,25 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	{
 		if (date008 != null) {
 			String errmsg = "Bad Publication Date in record " + id + " from 008/07-10: " + date008;
-			if (isdddd(date008)) {
-				String result = getValidPubDate(date008, cYearInt + 1, 500,
+			if (PubDateUtils.isdddd(date008)) {
+				String result = PubDateUtils.getValidPubDate(date008, currYearAsInt + 1, 500,
 						record);
 				if (result != null)
 					return result;
 				else
 					logger.error(errmsg);
-			} else if (isdddu(date008)) {
+			} else if (PubDateUtils.isdddu(date008)) {
 				int myFirst3 = Integer.parseInt(date008.substring(0, 3));
-				int currFirst3 = Integer.parseInt(cYearStr.substring(0, 3));
+				int currFirst3 = Integer.parseInt(currYearAsStr.substring(0, 3));
 				if (myFirst3 <= currFirst3)
 					return date008.substring(0, 3) + "0s";
 				else
 					logger.error(errmsg);
-			} else if (isdduu(date008)) {
+			} else if (PubDateUtils.isdduu(date008)) {
 				int myFirst2 = Integer.parseInt(date008.substring(0, 2));
-				int currFirst2 = Integer.parseInt(cYearStr.substring(0, 2));
+				int currFirst2 = Integer.parseInt(currYearAsStr.substring(0, 2));
 				if (myFirst2 <= currFirst2)
-					return getCenturyString(date008.substring(0, 2));
+					return PubDateUtils.getCenturyString(date008.substring(0, 2));
 				else
 					logger.error(errmsg);
 			}
@@ -732,16 +735,16 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (date008 != null) {
 			// hyphens sort before 0, so the lexical sorting will be correct. I
 			// think.
-			if (isdddd(date008))
-				return getValidPubDate(date008, cYearInt + 1, 500, record);
-			else if (isdddu(date008)) {
+			if (PubDateUtils.isdddd(date008))
+				return PubDateUtils.getValidPubDate(date008, currYearAsInt + 1, 500, record);
+			else if (PubDateUtils.isdddu(date008)) {
 				int myFirst3 = Integer.parseInt(date008.substring(0, 3));
-				int currFirst3 = Integer.parseInt(cYearStr.substring(0, 3));
+				int currFirst3 = Integer.parseInt(currYearAsStr.substring(0, 3));
 				if (myFirst3 <= currFirst3)
 					return date008.substring(0, 3) + "-";
-			} else if (isdduu(date008)) {
+			} else if (PubDateUtils.isdduu(date008)) {
 				int myFirst2 = Integer.parseInt(date008.substring(0, 2));
-				int currFirst2 = Integer.parseInt(cYearStr.substring(0, 2));
+				int currFirst2 = Integer.parseInt(currYearAsStr.substring(0, 2));
 				if (myFirst2 <= currFirst2)
 					return date008.substring(0, 2) + "--";
 			}
@@ -749,70 +752,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		return null;
 	}
-
-	/**
-     * check if a 4 digit year for a pub date is within the range.  If not, 
-     *  check for a 4 digit date in the 260c that is in range
-	 * @param dateToCheck - String containing 4 digit date to check
-	 * @param upperLimit - highest valid year (inclusive)
-	 * @param lowerLimit - lowest valid year (inclusive)
-	 * @param record - the marc record
-	 * @return String containing a 4 digit valid publication date, or null
-	 */
-    private String getValidPubDate(String dateToCheck, int upperLimit, int lowerLimit, Record record) {
-		int dateInt = Integer.parseInt(dateToCheck);
-		if (dateInt <= upperLimit) {
-			if (dateInt >= lowerLimit)
-				return dateToCheck;
-			else {
-				// try to correct year < lowerLimit
-				String date260c = getDate(record);
-				if (date260c != null) {
-					int date260int = Integer.parseInt(date260c);
-    				if (date260int != 0 &&
-    					date260int <= upperLimit && date260int >= lowerLimit)
-						return date260c;
-				}
-			}
-		}
-		return null;
-	}
-
-	/** access facet values */
-	public static enum PubDateGroup {
-		THIS_YEAR,
-		LAST_3_YEARS,
-		LAST_10_YEARS,
-		LAST_50_YEARS,
-		MORE_THAN_50_YEARS_AGO,
-		;
-
-		/**
-		 * need to override for text of multiple words
-		 */
-		@Override
-		public String toString() {
-			switch (this) {
-			case THIS_YEAR:
-				return "This year";
-			case LAST_3_YEARS:
-				return "Last 3 years";
-			case LAST_10_YEARS:
-				return "Last 10 years";
-			case LAST_50_YEARS:
-				return "Last 50 years";
-			case MORE_THAN_50_YEARS_AGO:
-				return "More than 50 years ago";
-			}
-			String lc = super.toString().toLowerCase();
-			String firstchar = lc.substring(0, 1).toUpperCase();
-			return lc.replaceFirst(".{1}", firstchar);
-		}
-
-	}
-
-	private int cYearInt = Calendar.getInstance().get(Calendar.YEAR);
-	private String cYearStr = Integer.toString(cYearInt);
 
 	/**
 	 * returns the publication date groupings from a record, if pub date is
@@ -830,79 +769,79 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		// get the pub date, with decimals assigned for inclusion in ranges
 		if (date008 != null) {
-			if (isdddd(date008)) // exact year
+			if (PubDateUtils.isdddd(date008)) // exact year
 			{
-				String myDate = getValidPubDate(date008, cYearInt + 1, 500, record);
+				String myDate = PubDateUtils.getValidPubDate(date008, currYearAsInt + 1, 500, record);
 				if (myDate != null) {
 					int year = Integer.parseInt(myDate);
 					// "this year" and "last three years" are for 4 digits only
-					if (year >= (cYearInt - 1))
-						resultSet.add(PubDateGroup.THIS_YEAR.toString());
-					if (year >= (cYearInt - 3))
-						resultSet.add(PubDateGroup.LAST_3_YEARS.toString());
-					resultSet.addAll(getPubDateGroupsForYear(year));
+					if (year >= (currYearAsInt - 1))
+						resultSet.add(PubDateGroupValues.THIS_YEAR.toString());
+					if (year >= (currYearAsInt - 3))
+						resultSet.add(PubDateGroupValues.LAST_3_YEARS.toString());
+					resultSet.addAll(PubDateUtils.getPubDateGroupsForYear(year));
 				}
 			} 
-			else if (isdddu(date008)) // decade
+			else if (PubDateUtils.isdddu(date008)) // decade
 			{
 				String first3Str = date008.substring(0, 3);
 				int first3int = Integer.parseInt(first3Str);
-				int currFirst3 = Integer.parseInt(cYearStr.substring(0, 3));
+				int currFirst3 = Integer.parseInt(currYearAsStr.substring(0, 3));
 				if (first3int <= currFirst3) {
-					if (first3Str.equals(cYearStr.substring(0, 3))) // this decade?
+					if (first3Str.equals(currYearAsStr.substring(0, 3))) // this decade?
 					{
-						resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
-						resultSet.add(PubDateGroup.LAST_10_YEARS.toString());
-						if (cYearInt % 10 <= 3)
-							resultSet.add(PubDateGroup.LAST_3_YEARS.toString());
+						resultSet.add(PubDateGroupValues.LAST_50_YEARS.toString());
+						resultSet.add(PubDateGroupValues.LAST_10_YEARS.toString());
+						if (currYearAsInt % 10 <= 3)
+							resultSet.add(PubDateGroupValues.LAST_3_YEARS.toString());
 					} 
 					else 
 					{ // not current decade
-						if (cYearInt % 10 <= 4) // which half of decade?
+						if (currYearAsInt % 10 <= 4) // which half of decade?
 						{
 							// first half of decade - current year ends in 0-4
-							if (first3int == (cYearInt / 10) - 1)
-								resultSet.add(PubDateGroup.LAST_10_YEARS.toString());
+							if (first3int == (currYearAsInt / 10) - 1)
+								resultSet.add(PubDateGroupValues.LAST_10_YEARS.toString());
 
-							if (first3int >= (cYearInt / 10) - 6)
-								resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
+							if (first3int >= (currYearAsInt / 10) - 6)
+								resultSet.add(PubDateGroupValues.LAST_50_YEARS.toString());
 							else
-								resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
+								resultSet.add(PubDateGroupValues.MORE_THAN_50_YEARS_AGO.toString());
 						} 
 						else {
 							// second half of decade - current year ends in 5-9
-							if (first3int > (cYearInt / 10) - 5)
-								resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
+							if (first3int > (currYearAsInt / 10) - 5)
+								resultSet.add(PubDateGroupValues.LAST_50_YEARS.toString());
 							else
-								resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
+								resultSet.add(PubDateGroupValues.MORE_THAN_50_YEARS_AGO.toString());
 						}
 					}
 
 				}
 			} 
-			else if (isdduu(date008)) { // century
+			else if (PubDateUtils.isdduu(date008)) { // century
 				String first2Str = date008.substring(0, 2);
 				int first2int = Integer.parseInt(first2Str);
-				int currFirst2 = Integer.parseInt(cYearStr.substring(0, 2));
+				int currFirst2 = Integer.parseInt(currYearAsStr.substring(0, 2));
 				if (first2int <= currFirst2) {
-					if (first2Str.equals(cYearStr.substring(0, 2))) {
+					if (first2Str.equals(currYearAsStr.substring(0, 2))) {
 						// current century
-						resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
+						resultSet.add(PubDateGroupValues.LAST_50_YEARS.toString());
 
-						if (cYearInt % 100 <= 19)
-							resultSet.add(PubDateGroup.LAST_10_YEARS.toString());
+						if (currYearAsInt % 100 <= 19)
+							resultSet.add(PubDateGroupValues.LAST_10_YEARS.toString());
 					} 
 					else {
-						if (first2int == (cYearInt / 100) - 1) 
+						if (first2int == (currYearAsInt / 100) - 1) 
 						{
 							// previous century
-							if (cYearInt % 100 <= 25)
-								resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
+							if (currYearAsInt % 100 <= 25)
+								resultSet.add(PubDateGroupValues.LAST_50_YEARS.toString());
 							else
-								resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
+								resultSet.add(PubDateGroupValues.MORE_THAN_50_YEARS_AGO.toString());
 						} 
 						else
-							resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
+							resultSet.add(PubDateGroupValues.MORE_THAN_50_YEARS_AGO.toString());
 					}
 				}
 			}
@@ -910,80 +849,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		}
 
 		return resultSet;
-	}
-
-	private Set<String> getPubDateGroupsForYear(int year) 
-	{
-		Set<String> resultSet = new HashSet<String>();
-
-		if (year >= (cYearInt - 10))
-			resultSet.add(PubDateGroup.LAST_10_YEARS.toString());
-		if (year >= (cYearInt - 50))
-			resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
-		if (year < (cYearInt - 50) && (year > -1.0))
-			resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
-		return resultSet;
-	}
-
-	/**
-     * given a string containing two digits representing the year, return
-     *  the century in a sting, including "century":
-     *    00 --> 1st century   11 --> 12th century   etc.
-	 */
-	private String getCenturyString(String yearDigits) {
-		int centuryYearInt = Integer.parseInt(yearDigits) + 1;
-		String centuryYearStr = String.valueOf(centuryYearInt);
-		return centuryYearStr + getNumberSuffix(centuryYearStr) + " century";
-	}
-
-	/**
-	 * given a positive number, return the correct adjective suffix for that number
-	 *   e.g.:  1 -->  "st"  3 --> "rd"  11 --> "th" 22 --> "nd"
-	 */
-	private String getNumberSuffix(String numberStr) {
-		int len = numberStr.length();
-		// teens are a special case
-		if (len == 2 && numberStr.charAt(0) == '1')
-			return ("th");
-
-		switch (numberStr.charAt(len - 1)) {
-		case '1':
-			return ("st");
-		case '2':
-			return ("nd");
-		case '3':
-			return ("rd");
-		default:
-			return ("th");
-		}
-	}
-
-	private boolean isdddd(String str) {
-		Pattern p = Pattern.compile("^\\d{4}$");
-		if (p.matcher(str).matches())
-			return true;
-		return false;
-	}
-
-	private boolean isdddu(String str) {
-		Pattern p = Pattern.compile("^\\d{3}u$");
-		if (p.matcher(str).matches())
-			return true;
-		return false;
-	}
-
-	private boolean isdduu(String str) {
-		Pattern p = Pattern.compile("^\\d{2}uu$");
-		if (p.matcher(str).matches())
-			return true;
-		return false;
-	}
-
-	private boolean isduuu(String str) {
-		Pattern p = Pattern.compile("^\\duuu$");
-		if (p.matcher(str).matches())
-			return true;
-		return false;
 	}
 
 // Pub Date Methods  --------------  End  --------------------- Pub Date Methods    
@@ -1066,7 +931,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	{
 		if (skipItem(f999))
 			return null;
-		return getSubfieldTrimmed(f999, 'm');
+		return GenericUtils.getSubfieldTrimmed(f999, 'm');
 	}
 
 	/**
@@ -1081,7 +946,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		// is it a serial?
 		boolean isSerial = false;
-		if (formats.contains(Format.JOURNAL_PERIODICAL.toString()))
+		if (formats.contains(FormatValues.JOURNAL_PERIODICAL.toString()))
 			isSerial = true;
 
 		for (DataField df999 : list999df) {
@@ -1194,7 +1059,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (skipItem(f999))
 			return null;
 
-		return getSubfieldTrimmed(f999, 'i');
+		return GenericUtils.getSubfieldTrimmed(f999, 'i');
 	}
 
 	Set<String> currentLocsToIgnore = new HashSet<String>(10);
@@ -1233,7 +1098,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (skipItem(f999))
 			return null;
 
-		return getSubfieldTrimmed(f999, 'l');
+		return GenericUtils.getSubfieldTrimmed(f999, 'l');
 	}
 
 	/**
@@ -1245,7 +1110,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (skipItem(f999))
 			return null;
 
-		String subk = getSubfieldTrimmed(f999, 'k');
+		String subk = GenericUtils.getSubfieldTrimmed(f999, 'k');
 		if (subk != null && !currentLocsToIgnore.contains(subk))
 			return subk;
 		return null;
@@ -1333,7 +1198,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					|| onlineItemPerLocation(df999))
 				continue;
 
-			String callnum = getSubfieldTrimmed(df999, 'a');
+			String callnum = GenericUtils.getSubfieldTrimmed(df999, 'a');
 			if (callnum == null)
 				continue;
 			String callnumScheme = getCallNumberSchemeFrom999(df999);
@@ -1374,7 +1239,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			String homeLoc = getHomeLocationFrom999(df999);
 			String callnumScheme = getCallNumberSchemeFrom999(df999);
 
-			String callnum = getSubfieldTrimmed(df999, 'a');
+			String callnum = GenericUtils.getSubfieldTrimmed(df999, 'a');
 			if (callnum == null)
 				continue;
 
@@ -1419,7 +1284,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					|| onlineItemPerLocation(df999))
 				continue;
 
-			String callnum = getSubfieldTrimmed(df999, 'a');
+			String callnum = GenericUtils.getSubfieldTrimmed(df999, 'a');
 			if (callnum == null)
 				continue;
 
@@ -1727,7 +1592,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	private String getCallNumberSchemeFrom999(DataField f999) 
 	{
-		return getSubfieldTrimmed(f999, 'w');
+		return GenericUtils.getSubfieldTrimmed(f999, 'w');
 	}
 
 	/**
@@ -1756,7 +1621,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (skipItem(f999))
 			return null;
 
-		String suba = getSubfieldTrimmed(f999, 'a');
+		String suba = GenericUtils.getSubfieldTrimmed(f999, 'a');
 		if (suba != null && !skipCallNums.contains(suba))
 			return suba;
 
@@ -1773,7 +1638,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (skipItem(f999) || onlineItemPerLocation(f999) || ignoreCallNumPerLocation(f999))
 			return null;
 
-		String suba = getSubfieldTrimmed(f999, 'a');
+		String suba = GenericUtils.getSubfieldTrimmed(f999, 'a');
 		String scheme = getCallNumberSchemeFrom999(f999);
 		if (suba != null && scheme != null) {
 			if ((scheme.equalsIgnoreCase("LC") || scheme.equalsIgnoreCase("LCPER"))
@@ -1793,7 +1658,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (skipItem(f999) || onlineItemPerLocation(f999) || ignoreCallNumPerLocation(f999))
 			return null;
 
-		String suba = getSubfieldTrimmed(f999, 'a');
+		String suba = GenericUtils.getSubfieldTrimmed(f999, 'a');
 		if (suba != null) {
 			String scheme = getCallNumberSchemeFrom999(f999);
 			if (scheme != null) {
@@ -1855,13 +1720,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * return true if call number should be ignored per the location code
 	 */
 	protected boolean ignoreCallNumPerLocation(DataField f999) {
-		String sub = getSubfieldTrimmed(f999, 'l');
+		String sub = GenericUtils.getSubfieldTrimmed(f999, 'l');
 		if (sub != null && ignoreCallNumLocs.contains(sub.toUpperCase()))
 			return true;
 
 		// subfield k is the "current location" which is only present if it is
 		// different from the "home location" in subfield l (letter L).
-		sub = getSubfieldTrimmed(f999, 'k');
+		sub = GenericUtils.getSubfieldTrimmed(f999, 'k');
 		if (sub != null && ignoreCallNumLocs.contains(sub.toUpperCase()))
 			return true;
 		return false;
@@ -1888,13 +1753,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * return true if 999 field has a location code indicating it is online
 	 */
 	private boolean onlineItemPerLocation(DataField f999) {
-		String sub = getSubfieldTrimmed(f999, 'l');
+		String sub = GenericUtils.getSubfieldTrimmed(f999, 'l');
 		if (sub != null && onlineLocs.contains(sub.toUpperCase()))
 			return true;
 
 		// subfield k is the "current location" which is only present if it is
 		// different from the "home location" in subfield l (letter L).
-		sub = getSubfieldTrimmed(f999, 'k');
+		sub = GenericUtils.getSubfieldTrimmed(f999, 'k');
 		if (sub != null && onlineLocs.contains(sub.toUpperCase()))
 			return true;
 
@@ -1961,13 +1826,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * skipped.
 	 */
 	protected boolean skipItem(DataField f999) {
-		String sub = getSubfieldTrimmed(f999, 'l');
+		String sub = GenericUtils.getSubfieldTrimmed(f999, 'l');
 		if (sub != null && skippedLocs.contains(sub.toUpperCase()))
 			return true;
 
 		// subfield k is the "current location" which is only present if it is
 		// different from the "home location" in subfield l (letter L).
-		sub = getSubfieldTrimmed(f999, 'k');
+		sub = GenericUtils.getSubfieldTrimmed(f999, 'k');
 		if (sub != null && skippedLocs.contains(sub.toUpperCase()))
 			return true;
 
@@ -1975,90 +1840,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 
-// Utility Methods ---------------- Begin ---------------------- Utility Methods    
-    
-	/**
-	 * Removes trailing periods or commas at the ends of the value strings
-	 * indicated by the fieldSpec argument
-	 * @param record
-     * @param fieldSpec - which marc fields / subfields to use as values
-     * @return Set of strings containing values without trailing commas or periods
-	 */
-    public Set<String> removeTrailingPunct(final Record record, final String fieldSpec) 
-    {
-		Set<String> resultSet = new HashSet<String>();
-		for (String val : getFieldList(record, fieldSpec)) {
-    		if (val.endsWith(",") || val.endsWith(".") || val.endsWith("/")&& val.length() > 1)
-				resultSet.add(val.substring(0, val.length() - 1).trim());
-			else
-				resultSet.add(val.trim());
-		}
-
-		return resultSet;
-	}
-
-	/**
-	 * Removes trailing characters indicated in regular expression, PLUS
-	 * trailing period if it is preceded by its regular expression.
-	 * 
-	 * @param record
-     * @param fieldSpec - which marc fields / subfields to use as values
-     * @param trailingCharsRegEx a regular expression of trailing chars to be
-     *   replaced (see java Pattern class).  Note that the regular expression
-     *   should NOT have '$' at the end.
-     *   (e.g. " *[,/;:]" replaces any commas, slashes, semicolons or colons
-     *     at the end of the string, and these chars may optionally be preceded
-     *     by a space)
-     * @param charsB4periodRegEx a regular expression that must immediately 
-     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED. 
-     *  Note that the regular expression will NOT have the period or '$' at 
-     *  the end. 
-     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately 
-     *   precede the period for it to be removed.) 
-	 * 
-	 * @return Set of strings containing values without trailing characters
-	 */
-    public Set<String> removeTrailingPunct(final Record record, final String fieldSpec, String charsToReplaceRegEx, String charsB4periodRegEx) 
-    {
-		Set<String> resultSet = new HashSet<String>();
-		for (String val : getFieldList(record, fieldSpec)) {
-    		String result = Utils.removeAllTrailingCharAndPeriod(val, "(" + charsToReplaceRegEx + ")+", charsB4periodRegEx);
-			resultSet.add(result);
-		}
-
-		return resultSet;
-	}
-
 // Vernacular Methods --------------- Begin ----------------- Vernacular Methods    
-
-	/**
-	 * Get the vernacular (880) fields which corresponds to the marc field
-	 *  in the 880 subfield 6 linkage 
-     * @param marcField - which field to be matched by 880 fields 
-	 */
-	@SuppressWarnings("unchecked")
-	protected final Set<VariableField> getVernacularFields(final Record record, String marcField) 
-	{
-		if (marcField.length() != 3)
-            System.err.println("marc field tag must be three characters: " + marcField);
-
-		Set<VariableField> resultSet = new LinkedHashSet<VariableField>();
-
-		List<VariableField> list880s = record.getVariableFields("880");
-		if (list880s == null || list880s.size() == 0)
-			return resultSet;
-
-		// we know which 880s we're looking for by matching the marc field and
-		// subfield 6 (linkage info) in the 880
-		for (VariableField vf : list880s) {
-			DataField df880 = (DataField) vf;
-			String sub6 = getSubfieldTrimmed(df880, '6');
-			int dashIx = sub6.indexOf('-');
-			if ((dashIx == 3) && marcField.equals(sub6.substring(0, 3)))
-				resultSet.add(df880);
-		}
-		return (resultSet);
-	}
 
 	/**
 	 * Get the vernacular (880) field based which corresponds to the fieldSpec
@@ -2126,7 +1908,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 			String tabooSubfldTags = fldTags[i].substring(3);
 
-			Set<VariableField> vernFlds = getVernacularFields(record, fldTag);
+			Set<VariableField> vernFlds = GenericUtils.getVernacularFields(record, fldTag);
 
 			for (VariableField vf : vernFlds) 
 			{
@@ -2187,111 +1969,41 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 // Vernacular Methods ---------------  End  ----------------- Vernacular Methods    
-
-	/**
-     * Get the specified subfields from the MARC data field, returned as
-     *  a string
-     * @param df - DataField from which to get the subfields
-     * @param subfldsStr - the string containing the desired subfields
-     * @param RTL - true if this is a right to left language.  In this case, 
-     *  each subfield is prepended due to LTR and MARC end-of-subfield punctuation
-     *  is moved from the last character to the first.
-     * @returns a set of strings of desired subfields concatenated with space separator
-	 */
-	@SuppressWarnings("unchecked")
-	protected static Set<String> getSubfieldsAsSet(DataField df, String subfldsStr, boolean RTL) 
-    {
-		Set<String> resultSet = new LinkedHashSet<String>();
-
-		if (subfldsStr.length() > 1) {
-			// concatenate desired subfields with space separator
-			StringBuilder buffer = new StringBuilder();
-			List<Subfield> subFlds = df.getSubfields();
-			for (Subfield sf : subFlds) {
-				if (subfldsStr.contains(String.valueOf(sf.getCode()))) {
-// TODO:  clean this up, if this works, or find a way to test it            		
-//            		if (RTL) { // right to left language, but this is LTR field+
-//	                    if (buffer.length() > 0)
-//	                        buffer.insert(0, ' ');
-//	                    buffer.insert(0, sf.getData().trim());
-//            		} else { // left to right language
-					if (buffer.length() > 0)
-						buffer.append(' ');
-					buffer.append(sf.getData().trim());
-//            		}
-				}
-			}
-			resultSet.add(buffer.toString());
-		} else {
-        	// for single subfield, each occurrence is separate field in lucene doc
-			List<Subfield> subFlds = df.getSubfields(subfldsStr.charAt(0));
-			for (Subfield sf : subFlds) {
-				resultSet.add(sf.getData().trim());
-			}
-		}
-		return resultSet;
-	}
-
-	/**
-     * Get the specified subfields from the MARC data field, returned as
-     *  a string
-     * @param df - DataField from which to get the subfields
-     * @param subfldsStr - the string containing the desired subfields
-     * @param beginIx - the beginning index of the substring of the subfield value
-     * @param endIx - the endind index of the substring of the subfield value
-     * @param RTL - true if this is a right to left language.  In this case, 
-     *  each subfield is prepended due to LTR and MARC end-of-subfield punctuation
-     *  is moved from the last character to the first.
-     * @returns a set of strings of desired subfields concatenated with space separator
-	 */
-	@SuppressWarnings("unchecked")
-	protected static Set<String> getSubfieldsAsSet(DataField df, String subfldsStr, int beginIx, int endIx, boolean RTL) 
-    {
-		Set<String> resultSet = new LinkedHashSet<String>();
-		if (subfldsStr.length() > 1) {
-			// concatenate desired subfields with space separator
-			StringBuilder buffer = new StringBuilder();
-			List<Subfield> subFlds = df.getSubfields();
-			for (Subfield sf : subFlds) {
-				if (subfldsStr.contains(String.valueOf(sf.getCode()))) {
-					if (sf.getData().length() >= endIx) {
-// TODO:  clean this up, if this works, or find a way to test it            		
-						// if (RTL) { // right to left language
-						// if (buffer.length() > 0)
-						// buffer.insert(0, ' ');
-//                            buffer.insert(0, sf.getData().trim().substring(beginIx, endIx));
-						// } else { // left to right language
-						if (buffer.length() > 0)
-							buffer.append(' ');
-                            buffer.append(sf.getData().trim().substring(beginIx, endIx));
-						// }
-					}
-				}
-			}
-			resultSet.add(buffer.toString());
-		} else {
-        	// for single subfield, each occurrence is separate field in lucene doc
-			List<Subfield> subFlds = df.getSubfields(subfldsStr.charAt(0));
-			for (Subfield sf : subFlds) {
-				if (sf.getData().length() >= endIx)
-            		resultSet.add(sf.getData().trim().substring(beginIx, endIx));
-			}
-		}
-		return resultSet;
-	}
-
-	/**
-	 * return the value of a subfield, trimmed, or null if there is no subfield.
-	 */
-	private String getSubfieldTrimmed(DataField df, char subcode) {
-		String result = Utils.getSubfieldData(df, subcode);
-		if (result != null)
-			return result.trim();
-		else
-			return null;
-	}
-
-// Utility Methods ----------------- End ----------------------- Utility Methods    
     
+// Generic Methods ---------------- Begin ---------------------- Generic Methods    
+    
+	/**
+	 * Removes trailing characters indicated in regular expression, PLUS
+	 * trailing period if it is preceded by its regular expression.
+	 * 
+	 * @param record
+     * @param fieldSpec - which marc fields / subfields to use as values
+     * @param trailingCharsRegEx a regular expression of trailing chars to be
+     *   replaced (see java Pattern class).  Note that the regular expression
+     *   should NOT have '$' at the end.
+     *   (e.g. " *[,/;:]" replaces any commas, slashes, semicolons or colons
+     *     at the end of the string, and these chars may optionally be preceded
+     *     by a space)
+     * @param charsB4periodRegEx a regular expression that must immediately 
+     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED. 
+     *  Note that the regular expression will NOT have the period or '$' at 
+     *  the end. 
+     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately 
+     *   precede the period for it to be removed.) 
+	 * 
+	 * @return Set of strings containing values without trailing characters
+	 */
+    public Set<String> removeTrailingPunct(final Record record, final String fieldSpec, String charsToReplaceRegEx, String charsB4periodRegEx) 
+    {
+		Set<String> resultSet = new HashSet<String>();
+		for (String val : getFieldList(record, fieldSpec)) {
+    		String result = Utils.removeAllTrailingCharAndPeriod(val, "(" + charsToReplaceRegEx + ")+", charsB4periodRegEx);
+			resultSet.add(result);
+		}
+
+		return resultSet;
+	}
+
+// Generic Methods ------------------ End ---------------------- Generic Methods    
 
 }
