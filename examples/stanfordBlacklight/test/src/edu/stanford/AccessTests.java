@@ -9,8 +9,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.*;
 import org.xml.sax.SAXException;
 
-import edu.stanford.StanfordIndexer.Access;
-
 /**
  * junit4 tests for Stanford University access_facet field
  * @author Naomi Dushay

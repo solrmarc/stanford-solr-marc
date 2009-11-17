@@ -15,75 +15,6 @@ import org.solrmarc.tools.Utils;
  */
 public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 {
-	/** access facet values */
-	public static enum Access {
-		ONLINE,
-		AT_LIBRARY;
-
-		/**
-		 * need to override for text of multiple words
-		 */
-		@Override
-		public String toString() {
-			switch (this) {
-			case AT_LIBRARY:
-				return "At the Library";
-			case ONLINE:
-				return "Online";
-			}
-			String lc = super.toString().toLowerCase();
-			String firstchar = lc.substring(0, 1).toUpperCase();
-			return lc.replaceFirst(".{1}", firstchar);
-		}
-	}
-
-	/** format facet values */
-	public static enum Format {
-		BOOK,
-		COMPUTER_FILE,
-		CONFERENCE_PROCEEDINGS,
-		IMAGE,
-		JOURNAL_PERIODICAL,
-		MANUSCRIPT_ARCHIVE,
-		MAP_GLOBE,
-		MICROFORMAT,
-		MUSIC_RECORDING,
-		MUSIC_SCORE,
-		NEWSPAPER,
-		SOUND_RECORDING,
-		THESIS,
-		VIDEO,
-		OTHER;
-
-		/**
-		 * need to override for text of multiple words
-		 */
-		@Override
-		public String toString() {
-			switch (this) {
-			case COMPUTER_FILE:
-				return "Computer File";
-			case CONFERENCE_PROCEEDINGS:
-				return "Conference Proceedings";
-			case JOURNAL_PERIODICAL:
-				return "Journal/Periodical";
-			case MANUSCRIPT_ARCHIVE:
-				return "Manuscript/Archive";
-			case MAP_GLOBE:
-				return "Map/Globe";
-			case MUSIC_RECORDING:
-				return "Music - Recording";
-			case MUSIC_SCORE:
-				return "Music - Score";
-			case SOUND_RECORDING:
-				return "Sound Recording";
-			}
-			String lc = super.toString().toLowerCase();
-			String firstchar = lc.substring(0, 1).toUpperCase();
-			return lc.replaceFirst(".{1}", firstchar);
-		}
-	}
-
 	/** call number facet values */
 	public static final String DEWEY_TOP_FACET_VAL = "Dewey Classification";
 	public static final String GOV_DOC_TOP_FACET_VAL = "Government Document";
@@ -143,6 +74,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * especially custom methods. The default version does nothing.
 	 * @param record - The MARC record that is being indexed.
 	 */
+	@SuppressWarnings("unchecked")
 	protected void perRecordInit(Record record) {
 		cf008 = (ControlField) record.getVariableField("008");
 		if (cf008 != null)
@@ -155,41 +87,40 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		f956subu = getFieldList(record, "956u");
 		list999df = (List<DataField>) record.getVariableFields("999");
 
-		id = getIdFromRecord(record);
-		formats = getFormatsFromRecord(record);
-		sfxUrls = getSFXUrlsFromRecord();
-		fullTextUrls = getFullTextUrlsFromRecord(record);
-		buildings = getBuildingsFromRecord(record);
-		// shelfkeys = getShelfkeysFromRecord(record);
-		shelfkeys = getShelfkeysOrig(record);
-		govDocCats = getGovDocCatsFromRecord(record);
+		setId(record);
+		setFormats(record);
+		setSFXUrls(); // doesn't need record b/c they come from 999
+		setFullTextUrls(record);
+		setBuildings(record);
+		// setShelfkeys(record);
+		setShelfkeysOrig(record);
+		setGovDocCats(record);
 	}
 
 // Id Methods  -------------------- Begin --------------------------- Id Methods
 
 	/**
-	 * Get local ids for the Marc record.
+	 * Get local id for the Marc record.
 	 */
 	public String getId(final Record record) {
 		return id;
 	}
 
 	/**
-	 * We have our ckeys in 001 subfield a. Marc4j is unhappy with subfields in
-	 * a control field so this is a kludge work around.
+	 * Assign id of record to be the ckey. Our ckeys are in 001 subfield a. 
+	 * Marc4j is unhappy with subfields in a control field so this is a kludge 
+	 * work around.
 	 */
-	private String getIdFromRecord(final Record record) 
+	private void setId(final Record record) 
 	{
+		id = null;
 		ControlField fld = (ControlField) record.getVariableField("001");
 		if (fld != null && fld.getData() != null) 
 		{
-			String id = fld.getData();
-			if (id.startsWith("a"))
-				return id.substring(1);
-			else
-				return null;
+			String rawVal = fld.getData();
+			if (rawVal.startsWith("a"))
+				id = rawVal.substring(1);
 		}
-		return null;
 	}
 
 // Id Methods  -------------------- Begin --------------------------- Id Methods
@@ -198,7 +129,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 // Format Methods  --------------- Begin ------------------------ Format Methods
 
 	/**
-	 * Returns the formats of the resource as described by a marc bib record
 	 * @return Set of strings containing format values for the resource
 	 */
 	public Set<String> getFormats(final Record record) 
@@ -207,12 +137,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
-	 * Returns the formats of the resource as described by a marc bib record
-	 * @return Set of strings containing format values for the resource
+	 * Assign formats per algorithm and marc bib record
 	 */
-	private Set<String> getFormatsFromRecord(final Record record) 
+	@SuppressWarnings("unchecked")
+	private void setFormats(final Record record) 
 	{
-		Set<String> resultSet = new HashSet<String>();
+		formats = new HashSet<String>();
 
 		// As of July 28, 2008, algorithms for formats are currently in email
 		// message from Vitus Tang to Naomi Dushay, cc Phil Schreur, Margaret
@@ -229,54 +159,54 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		switch (leaderChar06) {
 		case 'a':
 			if (leaderChar07 == 'a' || leaderChar07 == 'm')
-				resultSet.add(Format.BOOK.toString());
+				formats.add(Format.BOOK.toString());
 			break;
 		case 'b':
 		case 'p':
-			resultSet.add(Format.MANUSCRIPT_ARCHIVE.toString());
+			formats.add(Format.MANUSCRIPT_ARCHIVE.toString());
 			break;
 		case 'c':
 		case 'd':
-			resultSet.add(Format.MUSIC_SCORE.toString());
+			formats.add(Format.MUSIC_SCORE.toString());
 			break;
 		case 'e':
 		case 'f':
-			resultSet.add(Format.MAP_GLOBE.toString());
+			formats.add(Format.MAP_GLOBE.toString());
 			break;
 		case 'g':
 			// look for m or v in 008 field, char 33 (count starts at 0)
 			if (cf008 != null && cf008.find("^.{33}[mv]"))
-				resultSet.add(Format.VIDEO.toString());
+				formats.add(Format.VIDEO.toString());
 			break;
 		case 'i':
-			resultSet.add(Format.SOUND_RECORDING.toString());
+			formats.add(Format.SOUND_RECORDING.toString());
 			break;
 		case 'j':
-			resultSet.add(Format.MUSIC_RECORDING.toString());
+			formats.add(Format.MUSIC_RECORDING.toString());
 			break;
 		case 'k':
     		// look for i, k, p, s or t in 008 field, char 33 (count starts at 0)
 			if (cf008 != null && cf008.find("^.{33}[ikpst]"))
-				resultSet.add(Format.IMAGE.toString());
+				formats.add(Format.IMAGE.toString());
 			break;
 		case 'm':
 			// look for a in 008 field, char 26 (count starts at 0)
 			if (cf008 != null && cf008.find("^.*{26}a"))
-				resultSet.add(Format.COMPUTER_FILE.toString());
+				formats.add(Format.COMPUTER_FILE.toString());
 			break;
 		case 'o': // instructional kit
-			resultSet.add(Format.OTHER.toString());
+			formats.add(Format.OTHER.toString());
 			break;
 		case 'r': // object
-			resultSet.add(Format.OTHER.toString());
+			formats.add(Format.OTHER.toString());
 			break;
 		case 't':
 			if (leaderChar07 == 'a' || leaderChar07 == 'm')
-				resultSet.add(Format.BOOK.toString());
+				formats.add(Format.BOOK.toString());
 			break;
 		} // end switch
 
-		if (resultSet.isEmpty() || resultSet.size() == 0) {
+		if (formats.isEmpty() || formats.size() == 0) {
 			// look for serial publications - leader/07 s
 			if (leaderChar07 == 's') {
 				if (cf008 != null) {
@@ -287,13 +217,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					case 'l': // updating looseleaf (ignore)
 						break;
 					case 'm': // monographic series
-						resultSet.add(Format.BOOK.toString());
+						formats.add(Format.BOOK.toString());
 						break;
 					case 'n':
-						resultSet.add(Format.NEWSPAPER.toString());
+						formats.add(Format.NEWSPAPER.toString());
 						break;
 					case 'p':
-						resultSet.add(Format.JOURNAL_PERIODICAL.toString());
+						formats.add(Format.JOURNAL_PERIODICAL.toString());
 						break;
 					case 'w': // web site
 						break;
@@ -303,7 +233,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		}
 
 		// look for serial publications 006/00 s
-		if (resultSet.isEmpty() || resultSet.size() == 0) {
+		if (formats.isEmpty() || formats.size() == 0) {
 			VariableField f006 = record.getVariableField("006");
 			if (f006 != null && f006.find("^[s]")) {
 				char c04 = ((ControlField) f006).getData().charAt(4);
@@ -313,22 +243,22 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				case 'l': // updating looseleaf (ignore)
 					break;
 				case 'm': // monographic series
-					resultSet.add(Format.BOOK.toString());
+					formats.add(Format.BOOK.toString());
 					break;
 				case 'n':
-					resultSet.add(Format.NEWSPAPER.toString());
+					formats.add(Format.NEWSPAPER.toString());
 					break;
 				case 'p':
-					resultSet.add(Format.JOURNAL_PERIODICAL.toString());
+					formats.add(Format.JOURNAL_PERIODICAL.toString());
 					break;
 				case 'w': // web site
 					break;
 				case ' ':
-					resultSet.add(Format.JOURNAL_PERIODICAL.toString());
+					formats.add(Format.JOURNAL_PERIODICAL.toString());
 				}
 			}
 			// if still nothing, see if 007/00s serial publication by default
-			else if ((resultSet.isEmpty() || resultSet.size() == 0) && leaderChar07 == 's') {
+			else if ((formats.isEmpty() || formats.size() == 0) && leaderChar07 == 's') {
 				if (cf008 != null) 
 				{
 					char c21 = ((ControlField) cf008).getData().charAt(21);
@@ -341,22 +271,22 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 						case 'w':
 							break;
 						case ' ':
-							resultSet.add(Format.JOURNAL_PERIODICAL.toString());
+							formats.add(Format.JOURNAL_PERIODICAL.toString());
 					}
 				}
 			}
 		}
 
 		// look for conference proceedings in 6xx
-		List<DataField> dfList = record.getDataFields();
+		List<DataField> dfList = (List<DataField>) record.getDataFields();
 		for (DataField df : dfList) {
 			if (df.getTag().startsWith("6")) {
 				List<String> subList = Utils.getSubfieldStrings(df, 'x');
 				subList.addAll(Utils.getSubfieldStrings(df, 'v'));
 				for (String s : subList) {
 					if (s.toLowerCase().contains("congresses")) {
-						resultSet.remove(Format.JOURNAL_PERIODICAL.toString());
-						resultSet.add(Format.CONFERENCE_PROCEEDINGS.toString());
+						formats.remove(Format.JOURNAL_PERIODICAL.toString());
+						formats.add(Format.CONFERENCE_PROCEEDINGS.toString());
 					}
 				}
 			}
@@ -366,14 +296,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		Set<String> dissNote = new LinkedHashSet<String>();
 		dissNote.addAll(getSubfieldDataAsSet(record, "502", "a", " "));
 		if (!dissNote.isEmpty() || dissNote.size() != 0)
-			resultSet.add(Format.THESIS.toString());
+			formats.add(Format.THESIS.toString());
 
 		// microfilm is determined by 245 subfield h containing "microform"
 		Set<String> titleH = new LinkedHashSet<String>();
 		titleH.addAll(getSubfieldDataAsSet(record, "245", "h", " "));
 		// check the h subfield of the 245 field
 		if (Utils.setItemContains(titleH, "microform"))
-			resultSet.add(Format.MICROFORMAT.toString());
+			formats.add(Format.MICROFORMAT.toString());
 
 		// check for format information from 999 ALPHANUM call numbers
 		for (DataField df999 : list999df) {
@@ -382,18 +312,16 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				String suba = getSubfieldTrimmed(df999, 'a');
 				if (suba != null) {
 					if (suba.startsWith("MFILM"))
-						resultSet.add(Format.MICROFORMAT.toString());
+						formats.add(Format.MICROFORMAT.toString());
 					else if (suba.startsWith("MCD"))
-						resultSet.add(Format.MUSIC_RECORDING.toString());
+						formats.add(Format.MUSIC_RECORDING.toString());
 				}
 			}
 		}
 
 		// if we still don't have a format, it's an "other"
-		if (resultSet.isEmpty() || resultSet.size() == 0)
-			resultSet.add(Format.OTHER.toString());
-
-		return resultSet;
+		if (formats.isEmpty() || formats.size() == 0)
+			formats.add(Format.OTHER.toString());
 	}
 
 // Format Methods  --------------- Begin ------------------------ Format Methods
@@ -647,8 +575,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
     /**
      * returns a set of strings containing the sfx urls in a record.  Returns
-     *   empty set if none
-     * @param record
+     *   empty set if none.
      */
     public Set<String> getSFXUrls(final Record record)
     {
@@ -656,18 +583,16 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
-	 * returns a set of strings containing the sfx urls in a record. Returns
-	 * empty set if none
+	 * assign sfxUrls to be strings containing the sfx urls in a record.
 	 */
-	private Set<String> getSFXUrlsFromRecord() 
+	private void setSFXUrls() 
 	{
-		Set<String> resultSet = new HashSet<String>();
+		sfxUrls = new HashSet<String>();
 		// all 956 subfield u contain fulltext urls that aren't SFX
 		for (String url : f956subu) {
 			if (isSFXUrl(url))
-				resultSet.add(url);
+				sfxUrls.add(url);
 		}
-		return resultSet;
 	}
 
 	/**
@@ -679,26 +604,26 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
-	 * returns the URLs for the full text of a resource described by the 856u
+	 * assign fullTextUrls to be the URLs for the full text of a resource as
+	 *  described by the 856u
 	 */
-	private Set<String> getFullTextUrlsFromRecord(final Record record) {
-		Set<String> resultSet = new HashSet<String>();
+	private void setFullTextUrls(final Record record) {
+		fullTextUrls = new HashSet<String>();
 
 		// get full text urls from 856, then check for gsb forms
-		resultSet = super.getFullTextUrls(record);
-		for (String possUrl : resultSet) {
+		fullTextUrls = super.getFullTextUrls(record);
+		for (String possUrl : fullTextUrls) {
        		if (possUrl.startsWith("http://www.gsb.stanford.edu/jacksonlibrary/services/") ||
           		     possUrl.startsWith("https://www.gsb.stanford.edu/jacksonlibrary/services/"))
-				resultSet.remove(possUrl);
+				fullTextUrls.remove(possUrl);
 		}
-		resultSet.addAll(resultSet);
+		fullTextUrls.addAll(fullTextUrls);
 
 		// get all 956 subfield u containing fulltext urls that aren't SFX
 		for (String url : f956subu) {
 			if (!isSFXUrl(url))
-				resultSet.add(url);
+				fullTextUrls.add(url);
 		}
-		return resultSet;
 	}
 
 	private boolean isSFXUrl(String urlStr) {
@@ -721,7 +646,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      * @param fieldSpec - which marc fields / subfields to use as values
 	 * @return Set of strings containing values without Lane 655a or 650a nomesh
 	 */
-    public Set<String> getPublication(final Record record) 
+    @SuppressWarnings("unchecked")
+	public Set<String> getPublication(final Record record) 
     { 
 		Set<String> resultSet = new LinkedHashSet<String>();
 		// 260ab but ignore s.l in 260a and s.n. in 260b
@@ -1114,24 +1040,23 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	// m - library code
 
 	/**
-	 * get buildings from the 999 subfield m
+	 * get buildings holding a copy of this resource
 	 */
 	public Set<String> getBuildings(final Record record) {
 		return buildings;
 	}
 
 	/**
-	 * get buildings from the 999 subfield m
+	 * set buildings from the 999 subfield m
 	 */
-	private Set<String> getBuildingsFromRecord(final Record record) 
+	private void setBuildings(final Record record) 
 	{
-		Set<String> result = new HashSet<String>();
+		buildings = new HashSet<String>();
 		for (DataField df999 : list999df) {
 			String buildingStr = getBuildingFrom999(df999);
 			if (buildingStr != null)
-				result.add(buildingStr);
+				buildings.add(buildingStr);
 		}
-		return result;
 	}
 
 	/**
@@ -1394,14 +1319,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
-	 * Get values for second level call number facet:  
-	 *   for LC, the alpha characters + description
-	 *   for Dewey, the hundreds digit + description
-	 *   for Gov Doc, the type based on location (e.g. british, calif, federal)
+	 * Assign shelfkeys to sortable versions of "lopped" call numbers (call 
+	 * numbers without volume info)
 	 */
-	public final Set<String> getShelfkeysOrig(final Record record) 
+	public void setShelfkeysOrig(final Record record) 
 	{
-		Set<String> result = new HashSet<String>();
+		shelfkeys = new HashSet<String>();
 
 		for (DataField df999 : list999df) 
 		{
@@ -1432,18 +1355,15 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				shelfkey = org.solrmarc.tools.CallNumUtils.normalizeSuffix(callnum);
 
 			if (shelfkey != null)
-				result.add(shelfkey);
+				shelfkeys.add(shelfkey);
 		}
-
-		return result;
 	}
 
 	/**
 	 * @param record
 	 * @return
 	 */
-	private Map<String, Set<String>> getLibLocScheme2Callnums(
-			final Record record) {
+	private Map<String, Set<String>> getLibLocScheme2Callnums(final Record record) {
 		Map<String, Set<String>> libLocScheme2Callnums = new HashMap();
 		for (DataField df999 : list999df) {
 			// make sure it's not
@@ -1485,11 +1405,11 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
-	 * Get shelfkey versions of "lopped" call numbers (call numbers without
-	 * volume info)
+	 * Assign shelfkeys to sortable versions of "lopped" call numbers (call 
+	 * numbers without volume info)
 	 */
-	private Set<String> getShelfkeysFromRecord(final Record record) {
-		Set<String> result = new HashSet<String>();
+	private Set<String> setShelfkeys(final Record record) {
+		shelfkeys = new HashSet<String>();
 
 		Map<String, String[]> libLoc2callnums = new HashMap();
 
@@ -1523,10 +1443,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				shelfkey = org.solrmarc.tools.CallNumUtils.normalizeSuffix(callnum);
 
 			if (shelfkey != null)
-				result.add(shelfkey);
+				shelfkeys.add(shelfkey);
 		}
 
-		return result;
+		return shelfkeys;
 	}
 
 	/**
@@ -1604,18 +1524,18 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
-	 * Determine what type of government doc based on location in 999.
+	 * Get type(s) of government doc based on location.
 	 */
 	public Set<String> getGovDocCats(final Record record) {
 		return govDocCats;
 	}
 
 	/**
-	 * Determine what type of government doc based on location in 999.
+	 * Assign type of government doc based on location in 999.
 	 */
-	private Set<String> getGovDocCatsFromRecord(final Record record) 
+	private void setGovDocCats(final Record record) 
 	{
-		Set<String> result = new HashSet<String>();
+		govDocCats = new HashSet<String>();
 
 		// is it a gov doc?
 		// 999 SUDOC
@@ -1633,16 +1553,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					&& !onlineItemPerLocation(df999)) {
 				String rawLoc = getLocationFrom999(df999);
 				if (govDocLocs.contains(rawLoc) || has086)
-					result.add(getGovDocTypeFromLocCode(rawLoc));
+					govDocCats.add(getGovDocTypeFromLocCode(rawLoc));
 				else { // is it SUDOC call number?
 					String scheme = getCallNumberSchemeFrom999(df999);
 					if (scheme != null && scheme.equalsIgnoreCase("SUDOC"))
-						result.add(getGovDocTypeFromLocCode(rawLoc));
+						govDocCats.add(getGovDocTypeFromLocCode(rawLoc));
 				}
 			}
 		}
-
-		return result;
 	}
 
 // TODO: these values should be read in from a config file
@@ -2197,6 +2115,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      * @return a set of strings, where each string is the concatenated values
      *  of all the alphabetic subfields in the 880s except those specified.
 	 */
+	@SuppressWarnings("unchecked")
 	public final Set<String> getVernAllAlphaExcept(final Record record, String fieldSpec)
 	{
 		Set<String> resultSet = new LinkedHashSet<String>();
