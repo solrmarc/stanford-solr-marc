@@ -1004,6 +1004,40 @@ public final class CallNumUtils {
 	
 	
 	/**
+	 * adds leading zeros to a dewey call number, when they're missing.
+	 * @param deweyCallNum
+	 * @return the dewey call number with leading zeros
+	 */
+	public static String addLeadingZeros(String deweyCallNum) 
+	{
+		String result = deweyCallNum;
+		String b4Cutter = org.solrmarc.tools.CallNumUtils.getPortionBeforeCutter(deweyCallNum);
+
+		// TODO: could call Utils.normalizeFloat(b4Cutter.trim(), 3, -1);
+		// but still need to add back part after cutter
+
+		String b4dec = null;
+		int decIx = b4Cutter.indexOf(".");
+		if (decIx >= 0)
+			b4dec = deweyCallNum.substring(0, decIx).trim();
+		else
+			b4dec = b4Cutter.trim();
+
+		if (b4dec != null) {
+			switch (b4dec.length()) 
+			{
+				case 1:
+					result = "00" + deweyCallNum;
+					break;
+				case 2:
+					result = "0" + deweyCallNum;
+			}
+		}
+
+		return result;
+	}
+
+	/**
 	 * return a format string corresponding to the number of digits specified
 	 * @param numDigits - the number of characters the result should have (to be padded
 	 *  with zeroes as necessary). A negative number means leave whatever digits
@@ -1020,5 +1054,5 @@ public final class CallNumUtils {
 		}
 		return b4.toString();	
 	}
-			    
+			
 }

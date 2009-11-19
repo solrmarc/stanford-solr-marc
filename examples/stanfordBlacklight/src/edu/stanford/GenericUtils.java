@@ -9,11 +9,16 @@ import org.solrmarc.tools.Utils;
 /**
  * Utility functions for StanfordIndexer in SolrMarc project
  * 
- * @author Naomi Dushay, Stanford University
+ * @author Naomi Dushay
  */
 public class GenericUtils {
 	
-// Not used?  2009-11-16
+	/**
+	 * Default Constructor: private, so it can't be instantiated by other objects
+	 */	
+	private GenericUtils(){ }
+
+	// Not used?  2009-11-16
 	/**
 	 * Removes trailing periods or commas at the ends of the value strings
 	 * indicated by the fieldSpec argument
@@ -76,7 +81,7 @@ public class GenericUtils {
      * @returns a set of strings of desired subfields concatenated with space separator
 	 */
 	@SuppressWarnings("unchecked")
-	protected static Set<String> getSubfieldsAsSet(DataField df, String subfldsStr, boolean RTL) 
+	static Set<String> getSubfieldsAsSet(DataField df, String subfldsStr, boolean RTL) 
     {
 		Set<String> resultSet = new LinkedHashSet<String>();
 
@@ -122,7 +127,7 @@ public class GenericUtils {
      * @returns a set of strings of desired subfields concatenated with space separator
 	 */
 	@SuppressWarnings("unchecked")
-	protected static Set<String> getSubfieldsAsSet(DataField df, String subfldsStr, int beginIx, int endIx, boolean RTL) 
+	static Set<String> getSubfieldsAsSet(DataField df, String subfldsStr, int beginIx, int endIx, boolean RTL) 
     {
 		Set<String> resultSet = new LinkedHashSet<String>();
 		if (subfldsStr.length() > 1) {
@@ -160,7 +165,7 @@ public class GenericUtils {
 	/**
 	 * return the value of a subfield, trimmed, or null if there is no subfield.
 	 */
-	public static String getSubfieldTrimmed(DataField df, char subcode) {
+	static String getSubfieldTrimmed(DataField df, char subcode) {
 		String result = Utils.getSubfieldData(df, subcode);
 		if (result != null)
 			return result.trim();

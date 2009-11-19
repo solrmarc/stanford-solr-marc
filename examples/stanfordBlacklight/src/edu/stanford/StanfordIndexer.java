@@ -9,21 +9,14 @@ import org.marc4j.marc.*;
 //could import static, but this seems clearer
 import org.solrmarc.tools.Utils;
 
+import edu.stanford.enumValues.*;
+
 /**
- * Stanford custom methods
+ * Stanford custom methods for SolrMarc
  * @author Naomi Dushay
  */
 public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 {
-	/** call number facet values */
-	public static final String DEWEY_TOP_FACET_VAL = "Dewey Classification";
-	public static final String GOV_DOC_TOP_FACET_VAL = "Government Document";
-	public static final String GOV_DOC_BRIT_FACET_VAL = "British";
-	public static final String GOV_DOC_CALIF_FACET_VAL = "California";
-	public static final String GOV_DOC_FED_FACET_VAL = "Federal";
-	public static final String GOV_DOC_INTL_FACET_VAL = "International";
-	public static final String GOV_DOC_UNKNOWN_FACET_VAL = "Other";
-
 	/**
 	 * Default constructor
      * @param indexingPropsFile the name of xxx_index.properties file mapping 
@@ -159,50 +152,50 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		switch (leaderChar06) {
 		case 'a':
 			if (leaderChar07 == 'a' || leaderChar07 == 'm')
-				formats.add(FormatValues.BOOK.toString());
+				formats.add(Format.BOOK.toString());
 			break;
 		case 'b':
 		case 'p':
-			formats.add(FormatValues.MANUSCRIPT_ARCHIVE.toString());
+			formats.add(Format.MANUSCRIPT_ARCHIVE.toString());
 			break;
 		case 'c':
 		case 'd':
-			formats.add(FormatValues.MUSIC_SCORE.toString());
+			formats.add(Format.MUSIC_SCORE.toString());
 			break;
 		case 'e':
 		case 'f':
-			formats.add(FormatValues.MAP_GLOBE.toString());
+			formats.add(Format.MAP_GLOBE.toString());
 			break;
 		case 'g':
 			// look for m or v in 008 field, char 33 (count starts at 0)
 			if (cf008 != null && cf008.find("^.{33}[mv]"))
-				formats.add(FormatValues.VIDEO.toString());
+				formats.add(Format.VIDEO.toString());
 			break;
 		case 'i':
-			formats.add(FormatValues.SOUND_RECORDING.toString());
+			formats.add(Format.SOUND_RECORDING.toString());
 			break;
 		case 'j':
-			formats.add(FormatValues.MUSIC_RECORDING.toString());
+			formats.add(Format.MUSIC_RECORDING.toString());
 			break;
 		case 'k':
     		// look for i, k, p, s or t in 008 field, char 33 (count starts at 0)
 			if (cf008 != null && cf008.find("^.{33}[ikpst]"))
-				formats.add(FormatValues.IMAGE.toString());
+				formats.add(Format.IMAGE.toString());
 			break;
 		case 'm':
 			// look for a in 008 field, char 26 (count starts at 0)
 			if (cf008 != null && cf008.find("^.*{26}a"))
-				formats.add(FormatValues.COMPUTER_FILE.toString());
+				formats.add(Format.COMPUTER_FILE.toString());
 			break;
 		case 'o': // instructional kit
-			formats.add(FormatValues.OTHER.toString());
+			formats.add(Format.OTHER.toString());
 			break;
 		case 'r': // object
-			formats.add(FormatValues.OTHER.toString());
+			formats.add(Format.OTHER.toString());
 			break;
 		case 't':
 			if (leaderChar07 == 'a' || leaderChar07 == 'm')
-				formats.add(FormatValues.BOOK.toString());
+				formats.add(Format.BOOK.toString());
 			break;
 		} // end switch
 
@@ -217,13 +210,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					case 'l': // updating looseleaf (ignore)
 						break;
 					case 'm': // monographic series
-						formats.add(FormatValues.BOOK.toString());
+						formats.add(Format.BOOK.toString());
 						break;
 					case 'n':
-						formats.add(FormatValues.NEWSPAPER.toString());
+						formats.add(Format.NEWSPAPER.toString());
 						break;
 					case 'p':
-						formats.add(FormatValues.JOURNAL_PERIODICAL.toString());
+						formats.add(Format.JOURNAL_PERIODICAL.toString());
 						break;
 					case 'w': // web site
 						break;
@@ -243,18 +236,18 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				case 'l': // updating looseleaf (ignore)
 					break;
 				case 'm': // monographic series
-					formats.add(FormatValues.BOOK.toString());
+					formats.add(Format.BOOK.toString());
 					break;
 				case 'n':
-					formats.add(FormatValues.NEWSPAPER.toString());
+					formats.add(Format.NEWSPAPER.toString());
 					break;
 				case 'p':
-					formats.add(FormatValues.JOURNAL_PERIODICAL.toString());
+					formats.add(Format.JOURNAL_PERIODICAL.toString());
 					break;
 				case 'w': // web site
 					break;
 				case ' ':
-					formats.add(FormatValues.JOURNAL_PERIODICAL.toString());
+					formats.add(Format.JOURNAL_PERIODICAL.toString());
 				}
 			}
 			// if still nothing, see if 007/00s serial publication by default
@@ -271,7 +264,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 						case 'w':
 							break;
 						case ' ':
-							formats.add(FormatValues.JOURNAL_PERIODICAL.toString());
+							formats.add(Format.JOURNAL_PERIODICAL.toString());
 					}
 				}
 			}
@@ -285,8 +278,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				subList.addAll(Utils.getSubfieldStrings(df, 'v'));
 				for (String s : subList) {
 					if (s.toLowerCase().contains("congresses")) {
-						formats.remove(FormatValues.JOURNAL_PERIODICAL.toString());
-						formats.add(FormatValues.CONFERENCE_PROCEEDINGS.toString());
+						formats.remove(Format.JOURNAL_PERIODICAL.toString());
+						formats.add(Format.CONFERENCE_PROCEEDINGS.toString());
 					}
 				}
 			}
@@ -296,32 +289,32 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		Set<String> dissNote = new LinkedHashSet<String>();
 		dissNote.addAll(getSubfieldDataAsSet(record, "502", "a", " "));
 		if (!dissNote.isEmpty() || dissNote.size() != 0)
-			formats.add(FormatValues.THESIS.toString());
+			formats.add(Format.THESIS.toString());
 
 		// microfilm is determined by 245 subfield h containing "microform"
 		Set<String> titleH = new LinkedHashSet<String>();
 		titleH.addAll(getSubfieldDataAsSet(record, "245", "h", " "));
 		// check the h subfield of the 245 field
 		if (Utils.setItemContains(titleH, "microform"))
-			formats.add(FormatValues.MICROFORMAT.toString());
+			formats.add(Format.MICROFORMAT.toString());
 
 		// check for format information from 999 ALPHANUM call numbers
 		for (DataField df999 : list999df) {
-			String scheme = getCallNumberSchemeFrom999(df999);
+			String scheme = Item999Utils.getCallNumberScheme(df999);
 			if (scheme != null && scheme.equalsIgnoreCase("ALPHANUM")) {
 				String suba = GenericUtils.getSubfieldTrimmed(df999, 'a');
 				if (suba != null) {
 					if (suba.startsWith("MFILM"))
-						formats.add(FormatValues.MICROFORMAT.toString());
+						formats.add(Format.MICROFORMAT.toString());
 					else if (suba.startsWith("MCD"))
-						formats.add(FormatValues.MUSIC_RECORDING.toString());
+						formats.add(Format.MUSIC_RECORDING.toString());
 				}
 			}
 		}
 
 		// if we still don't have a format, it's an "other"
 		if (formats.isEmpty() || formats.size() == 0)
-			formats.add(FormatValues.OTHER.toString());
+			formats.add(Format.OTHER.toString());
 	}
 
 // Format Methods  --------------- Begin ------------------------ Format Methods
@@ -552,19 +545,19 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		Set<String> resultSet = new HashSet<String>();
 
 		for (DataField df999 : list999df) {
-			if (!skipItem(df999)) {
-				if (onlineItemPerLocation(df999))
-					resultSet.add(AccessValues.ONLINE.toString());
+			if (!Item999Utils.hasSkippedLoc(df999)) {
+				if (Item999Utils.hasOnlineLoc(df999))
+					resultSet.add(Access.ONLINE.toString());
 				else
-					resultSet.add(AccessValues.AT_LIBRARY.toString());
+					resultSet.add(Access.AT_LIBRARY.toString());
 			}
 		}
 
 		if (fullTextUrls.size() > 0)
-			resultSet.add(AccessValues.ONLINE.toString());
+			resultSet.add(Access.ONLINE.toString());
 
 		if (sfxUrls.size() > 0)
-			resultSet.add(AccessValues.ONLINE.toString());
+			resultSet.add(Access.ONLINE.toString());
 
 		return resultSet;
 	}
@@ -776,9 +769,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					int year = Integer.parseInt(myDate);
 					// "this year" and "last three years" are for 4 digits only
 					if (year >= (currYearAsInt - 1))
-						resultSet.add(PubDateGroupValues.THIS_YEAR.toString());
+						resultSet.add(PubDateGroup.THIS_YEAR.toString());
 					if (year >= (currYearAsInt - 3))
-						resultSet.add(PubDateGroupValues.LAST_3_YEARS.toString());
+						resultSet.add(PubDateGroup.LAST_3_YEARS.toString());
 					resultSet.addAll(PubDateUtils.getPubDateGroupsForYear(year));
 				}
 			} 
@@ -790,10 +783,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				if (first3int <= currFirst3) {
 					if (first3Str.equals(currYearAsStr.substring(0, 3))) // this decade?
 					{
-						resultSet.add(PubDateGroupValues.LAST_50_YEARS.toString());
-						resultSet.add(PubDateGroupValues.LAST_10_YEARS.toString());
+						resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
+						resultSet.add(PubDateGroup.LAST_10_YEARS.toString());
 						if (currYearAsInt % 10 <= 3)
-							resultSet.add(PubDateGroupValues.LAST_3_YEARS.toString());
+							resultSet.add(PubDateGroup.LAST_3_YEARS.toString());
 					} 
 					else 
 					{ // not current decade
@@ -801,19 +794,19 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 						{
 							// first half of decade - current year ends in 0-4
 							if (first3int == (currYearAsInt / 10) - 1)
-								resultSet.add(PubDateGroupValues.LAST_10_YEARS.toString());
+								resultSet.add(PubDateGroup.LAST_10_YEARS.toString());
 
 							if (first3int >= (currYearAsInt / 10) - 6)
-								resultSet.add(PubDateGroupValues.LAST_50_YEARS.toString());
+								resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
 							else
-								resultSet.add(PubDateGroupValues.MORE_THAN_50_YEARS_AGO.toString());
+								resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
 						} 
 						else {
 							// second half of decade - current year ends in 5-9
 							if (first3int > (currYearAsInt / 10) - 5)
-								resultSet.add(PubDateGroupValues.LAST_50_YEARS.toString());
+								resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
 							else
-								resultSet.add(PubDateGroupValues.MORE_THAN_50_YEARS_AGO.toString());
+								resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
 						}
 					}
 
@@ -826,22 +819,22 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				if (first2int <= currFirst2) {
 					if (first2Str.equals(currYearAsStr.substring(0, 2))) {
 						// current century
-						resultSet.add(PubDateGroupValues.LAST_50_YEARS.toString());
+						resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
 
 						if (currYearAsInt % 100 <= 19)
-							resultSet.add(PubDateGroupValues.LAST_10_YEARS.toString());
+							resultSet.add(PubDateGroup.LAST_10_YEARS.toString());
 					} 
 					else {
 						if (first2int == (currYearAsInt / 100) - 1) 
 						{
 							// previous century
 							if (currYearAsInt % 100 <= 25)
-								resultSet.add(PubDateGroupValues.LAST_50_YEARS.toString());
+								resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
 							else
-								resultSet.add(PubDateGroupValues.MORE_THAN_50_YEARS_AGO.toString());
+								resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
 						} 
 						else
-							resultSet.add(PubDateGroupValues.MORE_THAN_50_YEARS_AGO.toString());
+							resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
 					}
 				}
 			}
@@ -869,14 +862,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/**
 	 * Returns all subfield contents of all the data fields (non control fields)
+	 *  between 100 and 899 inclusive, as a single string 
+	 *  plus the "keeper" fields
 	 * @param record Marc record to extract data from
 	 */
 	@SuppressWarnings("unchecked")
 	public String getAllFields(final Record record) 
 	{
 		StringBuilder result = new StringBuilder(5000);
-// TODO: do we really want ALL the subfields of ALL the DataFields in the allFields value ... 
-// but it's much easier to include everything than cherry pick
 		List<DataField> dataFieldList = record.getDataFields();
 		for (DataField df : dataFieldList) {
 			String tag = df.getTag();
@@ -896,14 +889,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 // Item Related Methods ------------- Begin --------------- Item Related Methods    
 	
-	
-	// 999 scheme:
-	// a - call num
-	// w - call num scheme
-	// k - current location
-	// l - home location
-	// m - library code
-
 	/**
 	 * get buildings holding a copy of this resource
 	 */
@@ -918,20 +903,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	{
 		buildings = new HashSet<String>();
 		for (DataField df999 : list999df) {
-			String buildingStr = getBuildingFrom999(df999);
+			String buildingStr = Item999Utils.getBuilding(df999);
 			if (buildingStr != null)
 				buildings.add(buildingStr);
 		}
-	}
-
-	/**
-	 * return the building from the 999m for item (that isn't skipped)
-	 */
-	private String getBuildingFrom999(DataField f999) 
-	{
-		if (skipItem(f999))
-			return null;
-		return GenericUtils.getSubfieldTrimmed(f999, 'm');
 	}
 
 	/**
@@ -946,24 +921,24 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		// is it a serial?
 		boolean isSerial = false;
-		if (formats.contains(FormatValues.JOURNAL_PERIODICAL.toString()))
+		if (formats.contains(Format.JOURNAL_PERIODICAL.toString()))
 			isSerial = true;
 
 		for (DataField df999 : list999df) {
-			if (!skipItem(df999)) {
-				String barcode = getBarcodeFrom999(df999);
+			if (!Item999Utils.hasSkippedLoc(df999)) {
+				String barcode = Item999Utils.getBarcode(df999);
 
 				String building = null;
 				String location = null;
-				String rawLoc = getLocationFrom999(df999);
+				String rawLoc = Item999Utils.getLocationFrom999(df999);
 
-				if (onlineItemPerLocation(df999)) {
+				if (Item999Utils.hasOnlineLoc(df999)) {
 					building = "Online";
 					location = "Online";
 				} 
 				else {
 					// building --> short name from mapping
-					String origBldg = getBuildingFrom999(df999);
+					String origBldg = Item999Utils.getBuilding(df999);
 					if (origBldg != null && origBldg.length() > 0)
 						building = Utils.remap(origBldg, findMap(bldgMapName), true);
 					if (building == null)
@@ -974,8 +949,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				}
 
 				// full call number & lopped call number
-				String callnumScheme = getCallNumberSchemeFrom999(df999);
-				String fullCallnum = getRawCallNumEvenOnline(df999);
+				String callnumScheme = Item999Utils.getCallNumberScheme(df999);
+				String fullCallnum = Item999Utils.getNonSkippedCallNum(df999);
 				String loppedCallnum = null;
 				if (fullCallnum != null) {
 					if (callnumScheme != null && callnumScheme.startsWith("LC"))
@@ -1051,74 +1026,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		return result;
 	}
 
-	/**
-	 * return the barcode from the 999i for item (that isn't skipped)
-	 */
-	private String getBarcodeFrom999(DataField f999) 
-	{
-		if (skipItem(f999))
-			return null;
-
-		return GenericUtils.getSubfieldTrimmed(f999, 'i');
-	}
-
-	Set<String> currentLocsToIgnore = new HashSet<String>(10);
-	{
-		currentLocsToIgnore.add("BILLED-OD");
-		currentLocsToIgnore.add("CHECKEDOUT");
-		currentLocsToIgnore.add("CHECKSHELF");
-		currentLocsToIgnore.add("INTRANSIT");
-		currentLocsToIgnore.add("SOUTH-MEZZ");
-	}
-
-	/**
-	 * return the location from the 999k ("current" location), or if there is
-	 * none, from the 999l (that's L) for item (that isn't skipped)
-	 */
-	private String getLocationFrom999(DataField f999) 
-	{
-		if (skipItem(f999))
-			return null;
-
-		// subfield k is the "current location" which is only present if it is
-		// different from the "home location" in subfield l (letter L).
-		String currLoc = getCurrentLocationFrom999(f999);
-		if (currLoc != null && !currentLocsToIgnore.contains(currLoc))
-			return currLoc;
-
-		return getHomeLocationFrom999(f999);
-	}
-
-	/**
-	 * return the home location from the 999l (that's L) for item (that isn't
-	 * skipped)
-	 */
-	private String getHomeLocationFrom999(DataField f999) 
-	{
-		if (skipItem(f999))
-			return null;
-
-		return GenericUtils.getSubfieldTrimmed(f999, 'l');
-	}
-
-	/**
-	 * if the item isn't skipped, return the current location from the 999k or
-	 * null if there isn't one, from the 999l (that's L)
-	 */
-	private String getCurrentLocationFrom999(DataField f999) 
-	{
-		if (skipItem(f999))
-			return null;
-
-		String subk = GenericUtils.getSubfieldTrimmed(f999, 'k');
-		if (subk != null && !currentLocsToIgnore.contains(subk))
-			return subk;
-		return null;
-	}
-
+//FIXME: these should be loaded once (static); the map loading method should be changed	
 	// load translation maps for building and location
-	private String bldgMapName = "";
-	private String locationMapName = "";
+	private static String bldgMapName = "";
+	private static String locationMapName = "";
 	{
         try
         {
@@ -1130,8 +1041,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			e.printStackTrace();
 		}
 	}
-
-
 
 // Item Related Methods -------------  End  --------------- Item Related Methods    
 
@@ -1147,8 +1056,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		Set<String> result = new HashSet<String>();
 
 		for (DataField df999 : list999df) {
-			if (!ignoreCallNumPerLocation(df999)) {
-				String callnum = getRawCallNumberFrom999(df999);
+			if (!Item999Utils.isIgnoredCallNumLoc(df999)) {
+				String callnum = Item999Utils.getNonSkippedCallNum(df999);
 				if (callnum != null)
 					result.add(callnum);
 			}
@@ -1166,19 +1075,18 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	public Set<String> getCallNumsLevel1(final Record record) 
 	{
 		// LC
-		Set<String> result = getLCCallNumBroadCats(record);
+		Set<String> result = Item999Utils.getLCCallNumBroadCats(list999df);
 
-		// check for Dewey or Government docs
-		for (DataField df999 : list999df) {
-			if (!ignoreCallNumPerLocation(df999)) {
-				if (getDeweyCallNumberFrom999(df999) != null)
-					result.add(DEWEY_TOP_FACET_VAL);
-			}
-		}
 		// TODO: need to REMOVE LC callnum if it's a gov doc location? not sure.
-
 		if (govDocCats.size() != 0)
-			result.add(GOV_DOC_TOP_FACET_VAL);
+			result.add(Item999Utils.GOV_DOC_TOP_FACET_VAL);
+
+		// check for Dewey 
+		for (DataField df999 : list999df) {
+			if (!Item999Utils.isIgnoredCallNumLoc(df999)
+					&& Item999Utils.getDeweyCallNumber(df999) != null)
+				result.add(Item999Utils.DEWEY_TOP_FACET_VAL);
+		}
 
 		return result;
 	}
@@ -1194,14 +1102,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		for (DataField df999 : list999df) 
 		{
 			// make sure it's not ignored
-			if (skipItem(df999) || ignoreCallNumPerLocation(df999)
-					|| onlineItemPerLocation(df999))
+			if (Item999Utils.hasSkippedLoc(df999) || Item999Utils.isIgnoredCallNumLoc(df999)
+					|| Item999Utils.hasOnlineLoc(df999))
 				continue;
 
 			String callnum = GenericUtils.getSubfieldTrimmed(df999, 'a');
 			if (callnum == null)
 				continue;
-			String callnumScheme = getCallNumberSchemeFrom999(df999);
+			String callnumScheme = Item999Utils.getCallNumberScheme(df999);
 
 			String shelfkey = null;
 			if (callnumScheme != null && callnumScheme.startsWith("LC")) 
@@ -1225,43 +1133,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
-	 * @param record
-	 * @return
-	 */
-	private Map<String, Set<String>> getLibLocScheme2Callnums(final Record record) {
-		Map<String, Set<String>> libLocScheme2Callnums = new HashMap();
-		for (DataField df999 : list999df) {
-			// make sure it's not
-			if (skipItem(df999) || onlineItemPerLocation(df999))
-				continue;
-
-			String library = getBuildingFrom999(df999);
-			String homeLoc = getHomeLocationFrom999(df999);
-			String callnumScheme = getCallNumberSchemeFrom999(df999);
-
-			String callnum = GenericUtils.getSubfieldTrimmed(df999, 'a');
-			if (callnum == null)
-				continue;
-
-			String key = library + ":" + homeLoc;
-			if (callnumScheme == null) {
-			} else if (callnumScheme.startsWith("LC"))
-				key = key + ":LC";
-			else if (callnumScheme.startsWith("DEWEY"))
-				key = key + ":LC";
-			else
-				key = key + ":" + callnumScheme;
-
-			Set<String> currVal = libLocScheme2Callnums.get(key);
-			if (currVal == null)
-				currVal = new HashSet<String>();
-			currVal.add(callnum);
-			libLocScheme2Callnums.put(key, currVal);
-		}
-		return libLocScheme2Callnums;
-	}
-
-	/**
 	 * Get shelfkey versions of "lopped" call numbers (call numbers without
 	 * volume info).  Can access shelfkeys in lexigraphical order for browsing
 	 */
@@ -1280,19 +1151,19 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		for (DataField df999 : list999df) {
 			// make sure it's not ignored
-			if (skipItem(df999) || ignoreCallNumPerLocation(df999)
-					|| onlineItemPerLocation(df999))
+			if (Item999Utils.hasSkippedLoc(df999) || Item999Utils.isIgnoredCallNumLoc(df999)
+					|| Item999Utils.hasOnlineLoc(df999))
 				continue;
 
 			String callnum = GenericUtils.getSubfieldTrimmed(df999, 'a');
 			if (callnum == null)
 				continue;
 
-			String library = getBuildingFrom999(df999);
-			String homeLoc = getHomeLocationFrom999(df999);
+			String library = Item999Utils.getBuilding(df999);
+			String homeLoc = Item999Utils.getHomeLocation(df999);
 
 			// do we care about callnum scheme?
-			String callnumScheme = getCallNumberSchemeFrom999(df999);
+			String callnumScheme = Item999Utils.getCallNumberScheme(df999);
 
 			String shelfkey = null;
 			if (callnumScheme != null && callnumScheme.startsWith("LC")) {
@@ -1334,33 +1205,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/**
 	 * This is a facet field to enable discovery by subject, as designated by
-	 * call number. It looks at our local values in the 999 and returns the
-	 * broad category strings (for LC, the first letter; for government docs,
-	 * the constant String in GOV_DOC_FACET_VAL)
-	 */
-	@SuppressWarnings("unchecked")
-	private Set<String> getLCCallNumBroadCats(final Record record) {
-		Set<String> result = new HashSet<String>();
-
-		Set<String> lcSet = getLCforClassification(record);
-		for (String lc : lcSet) {
-			if (lc != null)
-				result.add(lc.substring(0, 1).toUpperCase());
-		}
-
-		return result;
-	}
-
-	/**
-	 * This is a facet field to enable discovery by subject, as designated by
 	 * call number. It looks at our local values in the 999, and returns the
-	 * broad category strings (for Dewey, "x00s";
+	 * broad category strings ("x00s");
 	 */
 	@SuppressWarnings("unchecked")
 	public Set<String> getDeweyCallNumBroadCats(final Record record) {
 		Set<String> result = new HashSet<String>();
 
-		Set<String> deweySet = getDeweyforClassification(record);
+		Set<String> deweySet = Item999Utils.getDeweyforClassification(list999df);
 		for (String dewey : deweySet) {
 			if (dewey != null && dewey.length() > 2)
 				result.add(dewey.substring(0, 1) + "00s");
@@ -1378,7 +1230,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	public Set<String> getLCCallNumCats(final Record record) {
 		Set<String> result = new HashSet<String>();
 
-		Set<String> lcSet = getLCforClassification(record);
+		Set<String> lcSet = Item999Utils.getLCforClassification(list999df);
 		for (String lc : lcSet) {
 			String letters = org.solrmarc.tools.CallNumUtils.getLCstartLetters(lc);
 			if (letters != null)
@@ -1408,61 +1260,18 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		boolean has086 = !record.getVariableFields("086").isEmpty();
 
 		for (DataField df999 : list999df) {
-			if (!skipItem(df999) && !ignoreCallNumPerLocation(df999)
-					&& !onlineItemPerLocation(df999)) {
-				String rawLoc = getLocationFrom999(df999);
-				if (govDocLocs.contains(rawLoc) || has086)
-					govDocCats.add(getGovDocTypeFromLocCode(rawLoc));
+			if (!Item999Utils.hasSkippedLoc(df999) && !Item999Utils.isIgnoredCallNumLoc(df999)
+					&& !Item999Utils.hasOnlineLoc(df999)) {
+				String rawLoc = Item999Utils.getLocationFrom999(df999);
+				if (Item999Utils.isGovDocLoc(rawLoc) || has086)
+					govDocCats.add(Item999Utils.getGovDocTypeFromLocCode(rawLoc));
 				else { // is it SUDOC call number?
-					String scheme = getCallNumberSchemeFrom999(df999);
+					String scheme = Item999Utils.getCallNumberScheme(df999);
 					if (scheme != null && scheme.equalsIgnoreCase("SUDOC"))
-						govDocCats.add(getGovDocTypeFromLocCode(rawLoc));
+						govDocCats.add(Item999Utils.getGovDocTypeFromLocCode(rawLoc));
 				}
 			}
 		}
-	}
-
-// TODO: these values should be read in from a config file
-	/**
-	 * gov doc location codes that may appear in the 999
-	 */
-	Set<String> govDocLocs = new HashSet<String>();
-	{
-		govDocLocs.add("BRIT-DOCS");
-		govDocLocs.add("CALIF-DOCS");
-		govDocLocs.add("FED-DOCS");
-		govDocLocs.add("INTL-DOCS");
-		govDocLocs.add("SSRC-DOCS");
-		govDocLocs.add("SSRC-FICHE");
-		govDocLocs.add("SSRC-NWDOC");
-	}
-
-	/**
-	 * get the type of government document given a location code for a
-	 * government document.  
-	 * This method should only be called when the location code is known to
-	 *  belong to a government document item.
-	 * @param govDocLocCode - government document location code
-	 * @return user friendly string of the type of gov doc.
-	 */
-	private String getGovDocTypeFromLocCode(String govDocLocCode) {
-		if (govDocLocCode.equals("BRIT-DOCS"))
-			return GOV_DOC_BRIT_FACET_VAL;
-		if (govDocLocCode.equals("CALIF-DOCS"))
-			return GOV_DOC_CALIF_FACET_VAL;
-		if (govDocLocCode.equals("FED-DOCS"))
-			return GOV_DOC_FED_FACET_VAL;
-		if (govDocLocCode.equals("INTL-DOCS"))
-			return GOV_DOC_INTL_FACET_VAL;
-
-// TODO: should all the SSRC ones be federal?
-		if (govDocLocCode.equals("SSRC-DOCS")
-				|| govDocLocCode.equals("SSRC-FICHE")
-				|| govDocLocCode.equals("SSRC-NWDOC"))
-			return GOV_DOC_FED_FACET_VAL;
-
-		else
-			return GOV_DOC_UNKNOWN_FACET_VAL;
 	}
 
 	/**
@@ -1473,7 +1282,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	public Set<String> getDeweyCallNumCats(final Record record) {
 		Set<String> result = new HashSet<String>();
 
-		Set<String> deweySet = getDeweyforClassification(record);
+		Set<String> deweySet = Item999Utils.getDeweyforClassification(list999df);
 		for (String dewey : deweySet) {
 			if (dewey != null && dewey.length() > 2)
 				result.add(dewey.substring(0, 2) + "0s");
@@ -1490,7 +1299,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	public Set<String> getLCCallNumsB4Cutter(final Record record) {
 		Set<String> result = new HashSet<String>();
 
-		Set<String> lcSet = getLCforClassification(record);
+		Set<String> lcSet = Item999Utils.getLCforClassification(list999df);
 		for (String lc : lcSet) {
 			result.add(org.solrmarc.tools.CallNumUtils.getPortionBeforeCutter(lc));
 		}
@@ -1506,338 +1315,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	public Set<String> getDeweyCallNumsB4Cutter(final Record record) {
 		Set<String> result = new HashSet<String>();
 
-		Set<String> deweySet = getDeweyforClassification(record);
+		Set<String> deweySet = Item999Utils.getDeweyforClassification(list999df);
 		for (String dewey : deweySet) {
-			result.add(org.solrmarc.tools.CallNumUtils.getPortionBeforeCutter(addLeadingZeros(dewey)));
+			result.add(org.solrmarc.tools.CallNumUtils.getPortionBeforeCutter(org.solrmarc.tools.CallNumUtils.addLeadingZeros(dewey)));
 		}
 		return result;
-	}
-
-	// 999 scheme:
-	// a - call num
-	// w - call num scheme
-	// k - current location
-	// l - home location
-	// m - library code
-
-	/**
-	 * get LC call number (portion)s from the bib record: 999
-	 * (not currently 050, 051, 090, 099)
-	 *  for deriving classifications
-	 */
-	private Set<String> getLCforClassification(Record record) 
-	{
-
-		Set<String> result = new HashSet<String>();
-
-		for (DataField df999 : list999df) {
-			if (!ignoreCallNumPerLocation(df999)) {
-				String callnumStr = getLCCallNumberFrom999(df999);
-				if (callnumStr != null)
-					result.add(callnumStr);
-			}
-		}
-
-/*
-		// look in other LC tags 
-		String [] tagsLC = {"050", "051", "090", "099"};
-		List<VariableField> listLCfields = record.getVariableFields(tagsLC);
-        for (VariableField vf : listLCfields) {
-        	String suba = getSubfieldData((DataField) vf, 'a');
-        	if (suba != null) {
-        		suba = suba.trim();
-               	if (isValidLC(suba))
-            		result.add(suba);
-        	}
-        }
-*/
-		return result;
-	}
-
-	/**
-	 * get Dewey call number (portion)s from the bib record: 999
-	 *  (not currently 082, 092, 099)
-	 *  for deriving classifications
-	 */
-	private Set<String> getDeweyforClassification(Record record) 
-	{
-
-		Set<String> result = new HashSet<String>();
-
-		for (DataField df999 : list999df) {
-			if (!ignoreCallNumPerLocation(df999)) {
-				String callnumStr = getDeweyCallNumberFrom999(df999);
-				if (callnumStr != null)
-					result.add(callnumStr);
-			}
-		}
-/*
-		// look in other Dewey 
-        String [] tagsDewey = {"082", "092", "099"};
-		List<VariableField> listDeweyfields = record.getVariableFields(tagsDewey);
-        for (VariableField vf : listDeweyfields) {
-        	String suba = getSubfieldData((DataField) vf, 'a');
-        	if (suba != null) {
-        		suba = suba.trim();
-	           	if (isValidDewey(suba)) 
-	        		result.add(addLeadingZeros(suba));
-        	}
-        }
-*/
-		return result;
-	}
-
-	/**
-	 * return the call number type from the 999 (subfield w).
-	 */
-	private String getCallNumberSchemeFrom999(DataField f999) 
-	{
-		return GenericUtils.getSubfieldTrimmed(f999, 'w');
-	}
-
-	/**
-	 * return the call number from the 999 if it is not to be skipped, or for an
-	 * online item. Otherwise, return null.
-	 */
-	private String getRawCallNumberFrom999(DataField f999) 
-	{
-		if (onlineItemPerLocation(f999))
-			return null;
-		return getRawCallNumEvenOnline(f999);
-	}
-
-
-	Set<String> skipCallNums = new HashSet<String>(5);
-	{
-		skipCallNums.add("INTERNET RESOURCE");
-		skipCallNums.add("NO CALL NUMBER");
-	}
-
-	/**
-	 * return the call number from the 999 if it is not to be skipped.
-	 * Otherwise, return null.
-	 */
-	private String getRawCallNumEvenOnline(DataField f999) {
-		if (skipItem(f999))
-			return null;
-
-		String suba = GenericUtils.getSubfieldTrimmed(f999, 'a');
-		if (suba != null && !skipCallNums.contains(suba))
-			return suba;
-
-		return null;
-	}
-
-	/**
-	 * if there is an LC call number in the 999, return it. If Otherwise, return
-	 *  null.
-	 * N.B.  Government docs are currently lumped in with LC.
-	 */
-	private String getLCCallNumberFrom999(DataField f999) 
-	{
-		if (skipItem(f999) || onlineItemPerLocation(f999) || ignoreCallNumPerLocation(f999))
-			return null;
-
-		String suba = GenericUtils.getSubfieldTrimmed(f999, 'a');
-		String scheme = getCallNumberSchemeFrom999(f999);
-		if (suba != null && scheme != null) {
-			if ((scheme.equalsIgnoreCase("LC") || scheme.equalsIgnoreCase("LCPER"))
-					&& org.solrmarc.tools.CallNumUtils.isValidLC(suba.trim()))
-				return suba;
-		}
-
-		return null;
-	}
-
-	/**
-	 * if there is a Dewey call number in the 999, return it.
-	 *  Otherwise, return null
-	 */
-	private String getDeweyCallNumberFrom999(DataField f999)
-	{
-		if (skipItem(f999) || onlineItemPerLocation(f999) || ignoreCallNumPerLocation(f999))
-			return null;
-
-		String suba = GenericUtils.getSubfieldTrimmed(f999, 'a');
-		if (suba != null) {
-			String scheme = getCallNumberSchemeFrom999(f999);
-			if (scheme != null) {
-				if ((scheme.equalsIgnoreCase("DEWEY") || scheme.equalsIgnoreCase("DEWEYPER"))
-						&& org.solrmarc.tools.CallNumUtils.isValidDewey(suba))
-					return addLeadingZeros(suba);
-			}
-		}
-
-		return null;
-	}
-
-	/**
-	 * adds leading zeros to a dewey call number, when they're missing.
-	 * @param deweyCallNum
-	 * @return the dewey call number with leading zeros
-	 */
-	private String addLeadingZeros(String deweyCallNum) 
-	{
-		String result = deweyCallNum;
-		String b4Cutter = org.solrmarc.tools.CallNumUtils.getPortionBeforeCutter(deweyCallNum);
-
-		// TODO: could call Utils.normalizeFloat(b4Cutter.trim(), 3, -1);
-		// but still need to add back part after cutter
-
-		String b4dec = null;
-		int decIx = b4Cutter.indexOf(".");
-		if (decIx >= 0)
-			b4dec = deweyCallNum.substring(0, decIx).trim();
-		else
-			b4dec = b4Cutter.trim();
-
-		if (b4dec != null) {
-			switch (b4dec.length()) 
-			{
-				case 1:
-					result = "00" + deweyCallNum;
-					break;
-				case 2:
-					result = "0" + deweyCallNum;
-			}
-		}
-
-		return result;
-	}
-
-	// TODO: this should be read in from a config file
-	/**
-	 * location codes implying call numbers should be ignored
-	 */
-	Set<String> ignoreCallNumLocs = new HashSet<String>();
-	{
-		ignoreCallNumLocs.add("SHELBYTITL");
-		ignoreCallNumLocs.add("SHELBYSER");
-		ignoreCallNumLocs.add("STORBYTITL");
-	}
-
-	/**
-	 * return true if call number should be ignored per the location code
-	 */
-	protected boolean ignoreCallNumPerLocation(DataField f999) {
-		String sub = GenericUtils.getSubfieldTrimmed(f999, 'l');
-		if (sub != null && ignoreCallNumLocs.contains(sub.toUpperCase()))
-			return true;
-
-		// subfield k is the "current location" which is only present if it is
-		// different from the "home location" in subfield l (letter L).
-		sub = GenericUtils.getSubfieldTrimmed(f999, 'k');
-		if (sub != null && ignoreCallNumLocs.contains(sub.toUpperCase()))
-			return true;
-		return false;
 	}
 
 // Call Number Methods -------------- End ---------------- Call Number Methods
-
-	// TODO: this should be read in from a config file
-	/**
-	 * online location codes that may appear in the 999
-	 */
-	private Set<String> onlineLocs = new HashSet<String>();
-	{
-		onlineLocs.add("ELECTR-LOC"); // Electronic (!show link only)
-		onlineLocs.add("E-RECVD"); // INTERNET (!show link only)
-		onlineLocs.add("E-RESV"); // Electronic Reserves (!show link only)
-		onlineLocs.add("INTERNET"); // (!show link only)
-		onlineLocs.add("KIOSK"); // (!show link only)
-		onlineLocs.add("ONLINE-TXT"); // Online (!show link only)
-		onlineLocs.add("WORKSTATN"); // Online (!show link only)
-	}
-
-	/**
-	 * return true if 999 field has a location code indicating it is online
-	 */
-	private boolean onlineItemPerLocation(DataField f999) {
-		String sub = GenericUtils.getSubfieldTrimmed(f999, 'l');
-		if (sub != null && onlineLocs.contains(sub.toUpperCase()))
-			return true;
-
-		// subfield k is the "current location" which is only present if it is
-		// different from the "home location" in subfield l (letter L).
-		sub = GenericUtils.getSubfieldTrimmed(f999, 'k');
-		if (sub != null && onlineLocs.contains(sub.toUpperCase()))
-			return true;
-
-		return false;
-	}
-
-	// TODO: this should be read in from a config file
-	/**
-	 * a list of locations indicating a 999 field should be skipped, for the
-	 * purpose of discoverability.
-	 */
-	Set<String> skippedLocs = new HashSet<String>();
-	{
-		skippedLocs.add("3FL-REF-S"); // meyer 3rd floor reference shadowed
-		skippedLocs.add("ASSMD-LOST"); // Assumed Lost (!skip 999)
-		skippedLocs.add("BASECALNUM"); // Serials (!skip 999)
-		skippedLocs.add("BENDER-S"); //temporary shadowed location for the Bender Reading Room
-		skippedLocs.add("CDPSHADOW"); // All items in CDP which are shadowed
-		skippedLocs.add("DISCARD"); // discard shadowed
-		skippedLocs.add("DISCARD-NS"); // obsolete location
-		skippedLocs.add("EAL-TEMP-S"); // East Asia Library Temporary Shadowed
-		skippedLocs.add("EDI"); // In Process (!skip 999)
-		skippedLocs.add("E-INPROC-S"); // In Process - shadow (!skip 999)
-		skippedLocs.add("E-ORDER-S"); // On Order - shadow (!skip 999)
-		skippedLocs.add("E-REQST-S"); // In Process shadow (!skip 999)
-		skippedLocs.add("FED-DOCS-S"); //Shadowed location for loading Marcive SLS records
-		skippedLocs.add("INSHIPPING"); // (!skip 999)
-		skippedLocs.add("INSTRUCTOR"); // Instructor's Copy (!skip 999)
-		skippedLocs.add("LOCKSS"); // Locks shadowed copy
-		skippedLocs.add("LOST"); // LOST shadowed
-		skippedLocs.add("LOST-ASSUM"); // Lost (!skip 999)
-		skippedLocs.add("LOST-CLAIM"); // Lost (!skip 999)
-		skippedLocs.add("LOST-PAID"); // Lost (!skip 999)
-		skippedLocs.add("MANNING"); // Manning Collection: Non-circulating (!skip 999)
-		skippedLocs.add("MAPCASES-S"); //Shadowed location for loading Marcive SLS records
-		skippedLocs.add("MAPFILE-S"); //Shadowed location for loading Marcive SLS records
-		skippedLocs.add("MEDIA-MTXO"); // Media Microtext (Obsolete Loc Code) (!skip 999)
-		skippedLocs.add("MISSING"); // Missing (!skip 999)
-		skippedLocs.add("MISS-INPRO"); // Missing in-process (!skip 999)
-		skippedLocs.add("NEG-PURCH"); // Negative Purchase Decision (!skip 999)
-		skippedLocs.add("RESV-URL"); // Internet Reserves (!skip 999)
-		skippedLocs.add("SEL-NOTIFY");
-		skippedLocs.add("SHADOW"); //Use for all items which are to be shadowed
-		skippedLocs.add("SPECA-S"); // Special Collections-- Shadowed Archives
-		skippedLocs.add("SPECAX-S"); //Special Collections-- Shadowed Archives, Restricted Access
-		skippedLocs.add("SPECB-S"); // Special Collections-- Shadowed Books
-		skippedLocs.add("SPECBX-S"); //Special Collections-- Shadowed Books Restricted Access
-		skippedLocs.add("SPECM-S"); //Special Collections-- Shadowed Manuscripts
-		skippedLocs.add("SPECMED-S"); // Special Collections-- Shadowed Media
-		skippedLocs.add("SPECMEDX-S"); //Special Collections-- Shadowed Media, Restricted Access
-		skippedLocs.add("SPECMX-S"); //Special Collections-- Shadowed Manuscripts, Restricted Acces
-		skippedLocs.add("SSRC-FIC-S"); //Shadowed location for loading Marcive SLS records
-		skippedLocs.add("SSRC-SLS"); //Shadowed location for loading Marcive SLS records
-		skippedLocs.add("STAFSHADOW"); // All staff items which are shadowed
-		skippedLocs.add("SUPERSEDED");
-		skippedLocs.add("TECHSHADOW"); // Technical Services Shadowed
-		skippedLocs.add("TECH-UNIQ"); // For orderlins with auto callnum (!skip 999)
-		skippedLocs.add("WEST-7B"); // Transfer from REF to STK (Obsolete Location Code) (!skip 999)
-		skippedLocs.add("WITHDRAWN");
-	}
-
-	/**
-	 * return true if 999 field has a location code indicating it should be
-	 * skipped.
-	 */
-	protected boolean skipItem(DataField f999) {
-		String sub = GenericUtils.getSubfieldTrimmed(f999, 'l');
-		if (sub != null && skippedLocs.contains(sub.toUpperCase()))
-			return true;
-
-		// subfield k is the "current location" which is only present if it is
-		// different from the "home location" in subfield l (letter L).
-		sub = GenericUtils.getSubfieldTrimmed(f999, 'k');
-		if (sub != null && skippedLocs.contains(sub.toUpperCase()))
-			return true;
-
-		return false;
-	}
 
 
 // Vernacular Methods --------------- Begin ----------------- Vernacular Methods    

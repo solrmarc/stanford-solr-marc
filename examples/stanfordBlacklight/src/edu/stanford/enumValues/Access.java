@@ -1,10 +1,10 @@
-package edu.stanford;
+package edu.stanford.enumValues;
 
 /** 
  * access facet values for Stanford University
  * @author - Naomi Dushay
  */
-public enum AccessValues {
+public enum Access {
 	ONLINE,
 	AT_LIBRARY;
 

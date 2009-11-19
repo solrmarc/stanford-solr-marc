@@ -9,10 +9,10 @@ import org.solrmarc.tools.StringNaturalCompare;
 /**
  * Call number utility functions for Stanford solrmarc
  * 
- * @author Naomi Dushay, Stanford University
+ * @author Naomi Dushay
  */
 
-public final class CallNumUtils {
+public class CallNumUtils {
 	
 
 // TODO:  should have LCcallnum and DeweyCallnum classes, with the call number
@@ -48,7 +48,7 @@ public final class CallNumUtils {
 	 * @return call number without the volume information, or full call number
 	 *   if no volume information is present.
 	 */
-	public static String removeLCVolSuffix(String rawLCcallnum)
+	static String removeLCVolSuffix(String rawLCcallnum)
 	{
 		// get suffix to last occurring cutter, if there is one
 		String cut2suffix = org.solrmarc.tools.CallNumUtils.getSecondLCcutterSuffix(rawLCcallnum);
@@ -106,7 +106,7 @@ public final class CallNumUtils {
 	 * @return call number without the volume information, or full call number
 	 *   if no volume information is present.
 	 */
-	public static String removeLCSerialVolSuffix(String rawLCcallnum)
+	static String removeLCSerialVolSuffix(String rawLCcallnum)
 	{
 		String try1 = removeLCVolSuffix(rawLCcallnum);
 		if (!try1.equals(rawLCcallnum))
@@ -122,7 +122,7 @@ public final class CallNumUtils {
 	 * @return call number without the year suffix, or full call number if no 
 	 *  year suffix is present.
 	 */
-	public static String removeYearSuffix(String rawCallnum)
+	static String removeYearSuffix(String rawCallnum)
 	{
 		Matcher matcher = fourDigitYearPattern.matcher(rawCallnum);
 		if (matcher.find(0)) {
@@ -143,7 +143,7 @@ public final class CallNumUtils {
 	 * @return call number without the volume information, or full call number
 	 *   if no volume information was present.
 	 */
-	public static String removeDeweyVolSuffix(String rawDeweyCallnum)
+	static String removeDeweyVolSuffix(String rawDeweyCallnum)
 	{
 		String cutSuffix = org.solrmarc.tools.CallNumUtils.getDeweyCutterSuffix(rawDeweyCallnum);
 		if (cutSuffix == null)
@@ -177,7 +177,7 @@ public final class CallNumUtils {
 	 * @return call number without the volume information, or full call number
 	 *   if no volume information is present.
 	 */
-	public static String removeDeweySerialVolSuffix(String rawDeweyCallnum)
+	static String removeDeweySerialVolSuffix(String rawDeweyCallnum)
 	{
 		String try1 = removeDeweyVolSuffix(rawDeweyCallnum);
 		if (!try1.equals(rawDeweyCallnum))
@@ -195,7 +195,7 @@ public final class CallNumUtils {
 	 * @return call number without the volume information, or full call number
 	 *   if no volume information is present.
 	 */
-	public static String removeVolSuffix(String rawCallnum) 
+	static String removeVolSuffix(String rawCallnum) 
 	{
 		String lopped = removeLCVolSuffix(rawCallnum);
 		if (lopped.equals(rawCallnum))
@@ -232,7 +232,7 @@ public final class CallNumUtils {
 	 * @return call number without the volume information, or full call number
 	 *   if no volume information is present.
 	 */
-	public static String removeSerialVolSuffix(String rawCallnum)
+	static String removeSerialVolSuffix(String rawCallnum)
 	{
 		String try1 = removeVolSuffix(rawCallnum);
 		if (!try1.equals(rawCallnum))
@@ -249,7 +249,7 @@ public final class CallNumUtils {
 	 * @return call number without the volume information, or full call number
 	 *   if no volume information is present.
 	 */
-	public static String removeMoreVolSuffix(String rawCallnum) 
+	static String removeMoreVolSuffix(String rawCallnum) 
 	{
 		Matcher matcher = moreVolPattern.matcher(rawCallnum);
 		if (matcher.find()) {
@@ -265,7 +265,7 @@ public final class CallNumUtils {
 	/**
 	 * given a list of Strings, return the longest common prefix
 	 */
-	public static String getLongestCommonPrefix(String[] callnums) 
+	static String getLongestCommonPrefix(String[] callnums) 
 	{
 	   	 String result = "";
 		 //   where that item contains the common prefix followed by the volume information
@@ -316,7 +316,7 @@ public final class CallNumUtils {
      * 	 summarized volume information
      * @param TreeMap of LC normalized call numbers (map guaranteed to be in ascending key order)
      */
-     public String getConflatedLCcallnum(Map<String, Set<String>> lcNormalizedCallnumTree)
+     String getConflatedLCcallnum(Map<String, Set<String>> lcNormalizedCallnumTree)
      {
     	 String result = null;
     	 //   where that item contains the common prefix followed by the volume information
@@ -372,7 +372,7 @@ public final class CallNumUtils {
       * reduce multiple whitespace to single, remove spaces before or after 
       *   periods, remove spaces between letters and class digits
       */
-     public static String normalizeLCcallnum(String rawLCcallnum) 
+     static String normalizeLCcallnum(String rawLCcallnum) 
      {
        	// change all multiple whitespace chars to a single space
          String normalizedCallnum = rawLCcallnum.trim().replaceAll("\\s\\s+", " ");
@@ -457,7 +457,7 @@ public final class CallNumUtils {
      * @return tree map of call numbers, keyed on the first 5 chars of the callnum
      *   (a map guaranteed to be in ascending key order)
      */
-    public static Map<String, Set<String>> getLCNormalizedCallnumTree(Set<String> rawLCcallnums)
+    static Map<String, Set<String>> getLCNormalizedCallnumTree(Set<String> rawLCcallnums)
     {
         Map<String, Set<String>> resultTreeMap = new TreeMap<String, Set<String>>();
         if (rawLCcallnums == null || rawLCcallnums.size() == 0)
@@ -502,7 +502,7 @@ public final class CallNumUtils {
 	 * returns true if the entire call number is a volume suffix
 	 * @param rawCallnum
 	 */
-	public static boolean callNumIsVolSuffix(String rawCallnum) {
+	static boolean callNumIsVolSuffix(String rawCallnum) {
 		if (rawCallnum != null) {
 			Matcher matcher = volPattern.matcher(rawCallnum);
 			if (!matcher.find()) {
@@ -524,7 +524,7 @@ public final class CallNumUtils {
 	 * return a sortable shelving key for the call number
 	 * @param rawCallnum - the call number for which a shelfkey is desired
 	 */
-	public static String getShelfKey(String rawCallnum) {
+	static String getShelfKey(String rawCallnum) {
 		if (rawCallnum == null)
 			return null;
 		return getShelfKey(rawCallnum, null);
@@ -535,7 +535,7 @@ public final class CallNumUtils {
 	 * @param rawCallnum - the call number for which a shelfkey is desired
 	 * @param recId - record id, for error messages
 	 */
-	public static String getShelfKey(String rawCallnum, String recId) {
+	static String getShelfKey(String rawCallnum, String recId) {
 		String result = null;
 		try {
 			if (org.solrmarc.tools.CallNumUtils.isValidLC(rawCallnum))
@@ -558,7 +558,7 @@ public final class CallNumUtils {
 	 * @param callnumTypeGuess - what kind of call number is it likely to be?
 	 * @param recId - record id, for error messages
 	 */
-	public static String getShelfKey(String rawCallnum, String callnumTypeGuess, String recId) {
+	static String getShelfKey(String rawCallnum, String callnumTypeGuess, String recId) {
 		if (rawCallnum == null)
 			return null;
 		String result = null;
@@ -588,7 +588,7 @@ public final class CallNumUtils {
 	 * @param isSerial - true if the call number is for a serial 
 	 * @return
 	 */
-	public static String getVolumeSortCallnum(String rawCallnum, String loppedCallnum, boolean isSerial) 
+	static String getVolumeSortCallnum(String rawCallnum, String loppedCallnum, boolean isSerial) 
 	{
 		return getVolumeSortCallnum(rawCallnum, loppedCallnum, isSerial, null);
 	}
@@ -605,7 +605,7 @@ public final class CallNumUtils {
 	 * @param recId - record id, for error messages
 	 * @return
 	 */
-	public static String getVolumeSortCallnum(String rawCallnum, String loppedCallnum, boolean isSerial, String recId) 
+	static String getVolumeSortCallnum(String rawCallnum, String loppedCallnum, boolean isSerial, String recId) 
 	{
 		if (rawCallnum == null)
 			return null;
