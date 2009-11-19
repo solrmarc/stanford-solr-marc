@@ -163,14 +163,15 @@ public class GenericUtils {
 	}
 
 	/**
-	 * return the value of a subfield, trimmed, or null if there is no subfield.
+	 * return the value of a subfield, trimmed, or empty string if there is no 
+	 *  subfield value.
 	 */
 	static String getSubfieldTrimmed(DataField df, char subcode) {
 		String result = Utils.getSubfieldData(df, subcode);
 		if (result != null)
 			return result.trim();
 		else
-			return null;
+			return "";
 	}
 	
 }

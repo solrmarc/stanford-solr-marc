@@ -61,6 +61,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/** all 999 fields as a List of DataField objects */
 	List<DataField> list999df = null;
 
+	// translation maps for building and location
+	private static String bldgMapName = "";
+	private static String locationMapName = "";
+
 	/**
 	 * Method from superclass allowing processing that can be done once per
 	 * record, rather than repeatedly for several indexing specifications,
@@ -88,6 +92,18 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		// setShelfkeys(record);
 		setShelfkeysOrig(record);
 		setGovDocCats(record);
+		
+//FIXME: these should be loaded once (static); the map loading method should be changed	
+        try
+        {
+            bldgMapName = loadTranslationMap(null, "library_short_map.properties");
+            locationMapName = loadTranslationMap(null, "location_map.properties");
+        }
+        catch (IllegalArgumentException e)
+        {
+			e.printStackTrace();
+		}
+
 	}
 
 // Id Methods  -------------------- Begin --------------------------- Id Methods
@@ -301,14 +317,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		// check for format information from 999 ALPHANUM call numbers
 		for (DataField df999 : list999df) {
 			String scheme = Item999Utils.getCallNumberScheme(df999);
-			if (scheme != null && scheme.equalsIgnoreCase("ALPHANUM")) {
-				String suba = GenericUtils.getSubfieldTrimmed(df999, 'a');
-				if (suba != null) {
-					if (suba.startsWith("MFILM"))
-						formats.add(Format.MICROFORMAT.toString());
-					else if (suba.startsWith("MCD"))
-						formats.add(Format.MUSIC_RECORDING.toString());
-				}
+			if (scheme.equalsIgnoreCase("ALPHANUM")) {
+				String callnum = Item999Utils.getCallNum(df999);
+				if (callnum.startsWith("MFILM"))
+					formats.add(Format.MICROFORMAT.toString());
+				else if (callnum.startsWith("MCD"))
+					formats.add(Format.MUSIC_RECORDING.toString());
+				else if (callnum.startsWith("ZDVD") || callnum.startsWith("ADVD"))
+					formats.add(Format.VIDEO.toString());
 			}
 		}
 
@@ -904,7 +920,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		buildings = new HashSet<String>();
 		for (DataField df999 : list999df) {
 			String buildingStr = Item999Utils.getBuilding(df999);
-			if (buildingStr != null)
+			if (buildingStr.length() != 0)
 				buildings.add(buildingStr);
 		}
 	}
@@ -926,11 +942,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		for (DataField df999 : list999df) {
 			if (!Item999Utils.hasSkippedLoc(df999)) {
-				String barcode = Item999Utils.getBarcode(df999);
-
-				String building = null;
-				String location = null;
-				String rawLoc = Item999Utils.getLocationFrom999(df999);
+				String building = "";
+				String location = "";
+				String rawLoc = Item999Utils.getLocationFrom999(df999);				
 
 				if (Item999Utils.hasOnlineLoc(df999)) {
 					building = "Online";
@@ -939,12 +953,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				else {
 					// building --> short name from mapping
 					String origBldg = Item999Utils.getBuilding(df999);
-					if (origBldg != null && origBldg.length() > 0)
+					if (origBldg.length() > 0)
 						building = Utils.remap(origBldg, findMap(bldgMapName), true);
-					if (building == null)
+					if (building == null || building.length() == 0)
 						building = origBldg;
 					// location --> mapped
-					if (rawLoc != null && rawLoc.length() > 0)
+					if (rawLoc.length() > 0)
 						location = Utils.remap(rawLoc, findMap(locationMapName), true);
 				}
 
@@ -952,13 +966,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				String callnumScheme = Item999Utils.getCallNumberScheme(df999);
 				String fullCallnum = Item999Utils.getNonSkippedCallNum(df999);
 				String loppedCallnum = null;
-				if (fullCallnum != null) {
-					if (callnumScheme != null && callnumScheme.startsWith("LC"))
+				if (fullCallnum.length() > 0) {
+					if (callnumScheme.startsWith("LC"))
 						if (isSerial)
 							loppedCallnum = CallNumUtils.removeLCSerialVolSuffix(fullCallnum);
 						else
 							loppedCallnum = CallNumUtils.removeLCVolSuffix(fullCallnum);
-					else if (callnumScheme != null && callnumScheme.startsWith("DEWEY"))
+					else if (callnumScheme.startsWith("DEWEY"))
 						if (isSerial)
 							loppedCallnum = CallNumUtils.removeDeweySerialVolSuffix(fullCallnum);
 						else
@@ -972,11 +986,11 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 				// deal with shelved by title locations
 				String volSuffix = null;
-				if (loppedCallnum != null)
+				if (loppedCallnum != null && loppedCallnum.length() > 0)
 					volSuffix = fullCallnum.substring(loppedCallnum.length()).trim();
 				if ((volSuffix == null || volSuffix.length() == 0) && CallNumUtils.callNumIsVolSuffix(fullCallnum))
 					volSuffix = fullCallnum;
-				if (rawLoc != null) {
+				if (rawLoc.length() > 0) {
 					if (rawLoc.equals("SHELBYTITL")) {
 						isSerial = true;
 						location = "Serials";
@@ -999,7 +1013,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 				// shelfkey for lopped callnumber
 				String shelfkey = null;
-				if (callnumScheme != null)
+				if (callnumScheme.length() > 0)
 					shelfkey = edu.stanford.CallNumUtils.getShelfKey(loppedCallnum, callnumScheme, id);
 				else
 					shelfkey = edu.stanford.CallNumUtils.getShelfKey(loppedCallnum, id);
@@ -1009,6 +1023,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 				// sortable call number for show view
 				String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(fullCallnum, loppedCallnum,isSerial, id);
+
+				String barcode = Item999Utils.getBarcode(df999);
 
 				// create field
 				if (loppedCallnum != null)
@@ -1024,22 +1040,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		} // end loop through 999s
 
 		return result;
-	}
-
-//FIXME: these should be loaded once (static); the map loading method should be changed	
-	// load translation maps for building and location
-	private static String bldgMapName = "";
-	private static String locationMapName = "";
-	{
-        try
-        {
-            bldgMapName = loadTranslationMap(null, "library_short_map.properties");
-            locationMapName = loadTranslationMap(null, "location_map.properties");
-        }
-        catch (IllegalArgumentException e)
-        {
-			e.printStackTrace();
-		}
 	}
 
 // Item Related Methods -------------  End  --------------- Item Related Methods    
@@ -1107,17 +1107,17 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				continue;
 
 			String callnum = GenericUtils.getSubfieldTrimmed(df999, 'a');
-			if (callnum == null)
+			if (callnum.length() == 0)
 				continue;
 			String callnumScheme = Item999Utils.getCallNumberScheme(df999);
 
 			String shelfkey = null;
-			if (callnumScheme != null && callnumScheme.startsWith("LC")) 
+			if (callnumScheme.startsWith("LC")) 
 			{
 				String lopped = CallNumUtils.removeLCVolSuffix(callnum);
 				shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, "LC", id);
 			} 
-			else if (callnumScheme != null && callnumScheme.startsWith("DEWEY")) 
+			else if (callnumScheme.startsWith("DEWEY")) 
 			{
 				String lopped = CallNumUtils.removeDeweyVolSuffix(callnum);
 				shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, "DEWEY", id);
@@ -1127,7 +1127,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			else
 				shelfkey = org.solrmarc.tools.CallNumUtils.normalizeSuffix(callnum);
 
-			if (shelfkey != null)
+			if (shelfkey.length() > 0)
 				shelfkeys.add(shelfkey);
 		}
 	}
@@ -1155,22 +1155,20 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					|| Item999Utils.hasOnlineLoc(df999))
 				continue;
 
-			String callnum = GenericUtils.getSubfieldTrimmed(df999, 'a');
-			if (callnum == null)
+			String callnum = Item999Utils.getCallNum(df999);
+			if (callnum.length() == 0)
 				continue;
 
 			String library = Item999Utils.getBuilding(df999);
 			String homeLoc = Item999Utils.getHomeLocation(df999);
-
-			// do we care about callnum scheme?
 			String callnumScheme = Item999Utils.getCallNumberScheme(df999);
 
-			String shelfkey = null;
-			if (callnumScheme != null && callnumScheme.startsWith("LC")) {
+			String shelfkey = "";
+			if (callnumScheme.startsWith("LC")) {
 				String lopped = CallNumUtils.removeLCVolSuffix(callnum);
 				shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, "LC", id);
 			} 
-			else if (callnumScheme != null && callnumScheme.startsWith("DEWEY")) {
+			else if (callnumScheme.startsWith("DEWEY")) {
 				String lopped = CallNumUtils.removeDeweyVolSuffix(callnum);
 				shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, "DEWEY", id);
 				if (shelfkey.equals(callnum.toUpperCase()))
@@ -1178,7 +1176,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			} else
 				shelfkey = org.solrmarc.tools.CallNumUtils.normalizeSuffix(callnum);
 
-			if (shelfkey != null)
+			if (shelfkey.length() > 0)
 				shelfkeys.add(shelfkey);
 		}
 
@@ -1267,7 +1265,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					govDocCats.add(Item999Utils.getGovDocTypeFromLocCode(rawLoc));
 				else { // is it SUDOC call number?
 					String scheme = Item999Utils.getCallNumberScheme(df999);
-					if (scheme != null && scheme.equalsIgnoreCase("SUDOC"))
+					if (scheme.equalsIgnoreCase("SUDOC"))
 						govDocCats.add(Item999Utils.getGovDocTypeFromLocCode(rawLoc));
 				}
 			}

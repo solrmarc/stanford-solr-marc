@@ -5,7 +5,7 @@ import java.util.*;
 import org.marc4j.marc.*;
 
 /**
- * Utility functions item information in 999 fields for Stanford SolrNarc
+ * Utility functions item information in 999 fields for Stanford SolrMarc
  * 
  * <ul> 999 subfields:
  *   <li>a - call num</li>
@@ -155,51 +155,43 @@ public class Item999Utils {
 	 * return true if item has a location code indicating it should be skipped.
 	 */
 	static boolean hasSkippedLoc(DataField f999) {
-		String homeLoc = getHomeLocation(f999);
-		if (homeLoc != null && skippedLocs.contains(homeLoc))
+		if (skippedLocs.contains(getHomeLocation(f999))
+				|| skippedLocs.contains(getCurrentLocation(f999)) )
 			return true;
-		String currLoc = getCurrentLocation(f999);
-		if (currLoc != null && skippedLocs.contains(currLoc))
-			return true;
-
-		return false;
+		else
+			return false;
 	}
 	
 	/**
 	 * return true if item has a location code indicating it is online
 	 */
 	static boolean hasOnlineLoc(DataField f999) {
-		String homeLoc = getHomeLocation(f999);
-		if (homeLoc != null && onlineLocs.contains(homeLoc))
+		if (onlineLocs.contains(getHomeLocation(f999)) 
+				|| onlineLocs.contains(getCurrentLocation(f999)) )
 			return true;
-		String currLoc = getCurrentLocation(f999);
-		if (currLoc != null && onlineLocs.contains(currLoc))
-			return true;
-
-		return false;
+		else
+			return false;
 	}
 
 	/**
 	 * return true if call number should be ignored per the location code
 	 */
 	static boolean isIgnoredCallNumLoc(DataField f999) {
-		String homeLoc = getHomeLocation(f999);
-		if (homeLoc != null && ignoreCallNumLocs.contains(homeLoc))
+		if (ignoreCallNumLocs.contains(getHomeLocation(f999)) 
+				|| ignoreCallNumLocs.contains(getCurrentLocation(f999)) )
 			return true;
-		String currLoc = GenericUtils.getSubfieldTrimmed(f999, 'k');
-		if (currLoc != null && ignoreCallNumLocs.contains(currLoc))
-			return true;
-
-		return false;
+		else
+			return false;
 	}
 
 	/**
-	 * return the building from the 999m for item if it doesn't have a skipped location
+	 * return the building from the 999m for item if it doesn't have a skipped location,
+	 * otherwise return empty string.
 	 */
 	static String getBuilding(DataField f999) 
 	{
 		if (hasSkippedLoc(f999))
-			return null;
+			return "";
 		return GenericUtils.getSubfieldTrimmed(f999, 'm');
 	}
 
@@ -216,7 +208,7 @@ public class Item999Utils {
 		// subfield k is the "current location" which is only present if it is
 		// different from the "home location" in subfield l (letter L).
 		String currLoc = getCurrentLocation(f999);
-		if (currLoc != null && !isCurrLocToIgnore(currLoc))
+		if (currLoc.length() > 0 && !isCurrLocToIgnore(currLoc))
 			return currLoc;
 
 		return getHomeLocation(f999);
@@ -291,15 +283,14 @@ public class Item999Utils {
 			String callnumScheme = getCallNumberScheme(df999);
 
 			String callnum = getCallNum(df999);
-			if (callnum == null)
+			if (callnum.length() == 0)
 				continue;
 
 			String key = library + ":" + homeLoc;
-			if (callnumScheme == null) {
-			} else if (callnumScheme.startsWith("LC"))
+			if (callnumScheme.startsWith("LC"))
 				key = key + ":LC";
 			else if (callnumScheme.startsWith("DEWEY"))
-				key = key + ":LC";
+				key = key + ":DEWEY";
 			else
 				key = key + ":" + callnumScheme;
 
@@ -422,28 +413,29 @@ public class Item999Utils {
 
 	/**
 	 * return the call number unless item has a skipped location or is an
-	 * online item. Otherwise, return null.
+	 * online item. Otherwise, return empty string.
 	 */
 	static String getCallNumExcludingOnline(DataField f999) 
 	{
 		if (hasOnlineLoc(f999))
-			return null;
+			return "";
 		return getNonSkippedCallNum(f999);
 	}
 
 
 	/**
-	 * return the call number if it is not to be skipped. Otherwise, return null.
+	 * return the call number if it is not to be skipped. Otherwise, return 
+	 * empty string.
 	 */
 	static String getNonSkippedCallNum(DataField f999) {
 		if (hasSkippedLoc(f999))
-			return null;
+			return "";
 
 		String callnum = getCallNum(f999);
-		if (callnum != null && !skipCallNums.contains(callnum))
+		if (!skipCallNums.contains(callnum))
 			return callnum;
-
-		return null;
+		else
+			return "";
 	}
 		
 	/**
@@ -465,9 +457,8 @@ public class Item999Utils {
 
 		String callnum = getCallNum(f999);
 		String scheme = getCallNumberScheme(f999);
-		if (callnum != null && scheme != null 
-				&& scheme.startsWith("LC")
-				&& org.solrmarc.tools.CallNumUtils.isValidLC(callnum.trim()) )
+		if (scheme.startsWith("LC")
+				&& org.solrmarc.tools.CallNumUtils.isValidLC(callnum) )
 			return callnum;
 		
 		return null;
@@ -484,8 +475,7 @@ public class Item999Utils {
 
 		String callnum = getCallNum(f999);
 		String scheme = getCallNumberScheme(f999);
-		if (callnum != null && scheme != null
-				&& scheme.startsWith("DEWEY")
+		if (scheme.startsWith("DEWEY")
 				&& org.solrmarc.tools.CallNumUtils.isValidDewey(callnum))
 			return org.solrmarc.tools.CallNumUtils.addLeadingZeros(callnum);
 
