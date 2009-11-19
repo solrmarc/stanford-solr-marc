@@ -916,7 +916,7 @@
 
     <!-- Site Testing Targets -->
 
-    <target name="testClean" depends="clean,init" description="clean generated test directories">
+    <target name="testClean" depends="init" description="clean generated test directories">
         <delete dir="${site.test.dir}/${build.dir}" />
     </target>
 
