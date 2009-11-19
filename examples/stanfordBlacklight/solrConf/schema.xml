@@ -134,7 +134,7 @@
     <field name="spell_author" type="textSpell" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <field name="spell_subject" type="textSpell" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <!-- for OpenSearch string completion; requires a stored field -->
-    <field name="open_search" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="open_search" type="text" indexed="true" stored="true" multiValued="true"/>
 
     <!-- Format Field: facet and display -->
     <field name="format" type="string" indexed="true" stored="true" multiValued="true" />
