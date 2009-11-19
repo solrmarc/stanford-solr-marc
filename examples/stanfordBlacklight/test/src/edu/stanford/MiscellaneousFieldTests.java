@@ -137,9 +137,11 @@ public class MiscellaneousFieldTests extends AbstractStanfordBlacklightTest {
 	{
 		createIxInitVars("allfieldsTests.mrc");
 	    String fldName = "open_search";
-	    assertStringFieldProperties(fldName);
+	    assertTextFieldProperties(fldName);
 	    assertFieldIndexed(fldName);
 	    assertFieldStored(fldName);
+	    // ensure stemming, single word in multiple word sub field matches ...
+	    assertSingleResult("allfields1", fldName, "skip");
 	}
 
 	/**
