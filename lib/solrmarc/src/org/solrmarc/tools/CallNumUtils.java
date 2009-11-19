@@ -196,7 +196,7 @@ public final class CallNumUtils {
 		String result = null;
 	    
 	    String cutter = getFirstLCcutter(callnum);
-	    if (cutter != null) {
+	    if (cutter != null && cutter.length() > 0) {
 	    	// lc class can start with same chars as first cutter: (G384 G3)
 	    	int ix = callnum.indexOf(cutter);
 	    	String lets = getLCstartLetters(callnum);
@@ -223,7 +223,7 @@ public final class CallNumUtils {
 	 */
 	public static String getLCstartLetters(String rawLCcallnum) {
 		String result = null;
-		if (rawLCcallnum != null) {
+		if (rawLCcallnum != null && rawLCcallnum.length() > 0) {
 		    String [] lcClass = rawLCcallnum.split("[^A-Z]+");
 		    if (lcClass.length > 0)
 		    	result = lcClass[0];
@@ -241,7 +241,7 @@ public final class CallNumUtils {
 		String result = null;
 	
 		String rawClass = getLCB4FirstCutter(rawLCcallnum);
-		if (rawClass != null) {
+		if (rawClass != null && rawClass.length() > 0) {
 		    String [] pieces = rawClass.split("[A-Z ]+");
 		    if (pieces.length > 1)
 		    	result = pieces[1].trim();
@@ -258,12 +258,12 @@ public final class CallNumUtils {
 		String result = null;
 		
 		String b4cutter = getLCB4FirstCutter(rawLCcallnum);
-		if (b4cutter == null)
+		if (b4cutter == null || b4cutter.length() == 0)
 			return null;
 		
 	    String classDigits = getLCClassDigits(rawLCcallnum);
 	    
-	    if (classDigits != null) {
+	    if (classDigits != null && classDigits.length() > 0) {
 	        int reqClassLen = b4cutter.indexOf(classDigits) + classDigits.length();
 	
 	        if (b4cutter.length() > reqClassLen)
@@ -367,7 +367,7 @@ public final class CallNumUtils {
 		String result = null;
 		
 		String firstCutSuffix = getFirstLCcutterSuffix(rawLCcallnum);
-		if (firstCutSuffix == null) {
+		if (firstCutSuffix == null || firstCutSuffix.length() == 0) {
 	    	// look for second cutter 
 	       	String regex = LC_CLASS_N_CUTTER + " *\\.?(" + CUTTER_REGEX + ")";  
 			Pattern pattern = Pattern.compile(regex);
@@ -410,7 +410,7 @@ public final class CallNumUtils {
 		String result = null;
 		
 		String secondCutter = getSecondLCcutter(rawLCcallnum);
-		if (secondCutter != null) {
+		if (secondCutter != null && secondCutter.length() > 0) {
 			// get the call number after the 2nd cutter
 			int ix = rawLCcallnum.indexOf(secondCutter) + secondCutter.length();
 			if (ix < rawLCcallnum.length())
@@ -692,7 +692,7 @@ public final class CallNumUtils {
 	 */
 	private static String normalizeCutter(String cutter, int numDigits) {
 		String result = null;
-		if (cutter != null) {
+		if (cutter != null && cutter.length() > 0) {
 			String cutLets = getLCstartLetters(cutter);
 			String cutDigs = cutter.substring(cutLets.length());
 			String norm = null;
@@ -757,7 +757,7 @@ public final class CallNumUtils {
 	 */
 	public static String getReverseShelfKey(String shelfkey) {
 		StringBuilder resultBuf = new StringBuilder(reverseDefault);
-		if (shelfkey != null)
+		if (shelfkey != null && shelfkey.length() > 0)
 			resultBuf.replace(0, shelfkey.length(), reverseAlphanum(shelfkey));
 		return resultBuf.toString();
 	}
@@ -931,7 +931,7 @@ public final class CallNumUtils {
 		// get suffix to last occurring cutter, if there is one
 		String cut2suffix = getSecondLCcutterSuffix(rawLCcallnum);
 		String lastSuffix = cut2suffix;
-		if (lastSuffix == null) {
+		if (lastSuffix == null || lastSuffix.length() == 0) {
 			String cut1suffix = getFirstLCcutterSuffix(rawLCcallnum);
 			if (cut1suffix != null) {
 				// first cutter suffix may contain second cutter
@@ -949,7 +949,7 @@ public final class CallNumUtils {
 		}
 
 		// could put last ditch effort with tightest pattern, but don't want to take out too much		
-		if (lastSuffix != null) {
+		if (lastSuffix != null && lastSuffix.length() > 0) {
 			Matcher matcher = volPattern.matcher(lastSuffix);
 			if (!matcher.find()) {
 				matcher = volPatternLoose.matcher(lastSuffix);
@@ -981,7 +981,7 @@ public final class CallNumUtils {
 	{
 		String cutSuffix = getDeweyCutterSuffix(rawDeweyCallnum);
 
-		if (cutSuffix == null)
+		if (cutSuffix == null || cutSuffix.length() == 0)
 			return rawDeweyCallnum;
 		
 		Matcher matcher = volPattern.matcher(cutSuffix);

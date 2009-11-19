@@ -503,7 +503,7 @@ public class CallNumUtils {
 	 * @param rawCallnum
 	 */
 	static boolean callNumIsVolSuffix(String rawCallnum) {
-		if (rawCallnum != null) {
+		if (rawCallnum != null && rawCallnum.length() > 0) {
 			Matcher matcher = volPattern.matcher(rawCallnum);
 			if (!matcher.find()) {
 				matcher = volPatternLoose.matcher(rawCallnum);
@@ -525,8 +525,8 @@ public class CallNumUtils {
 	 * @param rawCallnum - the call number for which a shelfkey is desired
 	 */
 	static String getShelfKey(String rawCallnum) {
-		if (rawCallnum == null)
-			return null;
+		if (rawCallnum == null || rawCallnum.length() == 0)
+			return "";
 		return getShelfKey(rawCallnum, null);
 	}
 
@@ -536,18 +536,18 @@ public class CallNumUtils {
 	 * @param recId - record id, for error messages
 	 */
 	static String getShelfKey(String rawCallnum, String recId) {
-		String result = null;
+		String result = "";
 		try {
 			if (org.solrmarc.tools.CallNumUtils.isValidLC(rawCallnum))
 				result = org.solrmarc.tools.CallNumUtils.getLCShelfkey(rawCallnum, recId);
-			if ( (result == null || result.equals(rawCallnum)) 
+			if ( (result == null || result.length() == 0 || result.equals(rawCallnum)) 
 					&& org.solrmarc.tools.CallNumUtils.isValidDewey(rawCallnum) )
 				result = org.solrmarc.tools.CallNumUtils.getDeweyShelfKey(rawCallnum);
 		}
 		catch (Exception e) {
 		}
 	
-		if (result == null || result.equals(rawCallnum)) 
+		if (result == null || result.length() == 0 || result.equals(rawCallnum)) 
 			result = org.solrmarc.tools.CallNumUtils.normalizeSuffix(rawCallnum);
 		return result;
 	}
@@ -559,19 +559,19 @@ public class CallNumUtils {
 	 * @param recId - record id, for error messages
 	 */
 	static String getShelfKey(String rawCallnum, String callnumTypeGuess, String recId) {
-		if (rawCallnum == null)
-			return null;
-		String result = null;
+		if (rawCallnum == "")
+			return "";
+		String result = "";
 		try {
-			if (callnumTypeGuess.equals("LC") || callnumTypeGuess.equals("LCPER"))
+			if (callnumTypeGuess.startsWith("LC"))
 				result = org.solrmarc.tools.CallNumUtils.getLCShelfkey(rawCallnum, recId);
-			else if (callnumTypeGuess.equals("DEWEY") || callnumTypeGuess.equals("DEWEYPER"))
+			else if (callnumTypeGuess.startsWith("DEWEY"))
 				result = org.solrmarc.tools.CallNumUtils.getDeweyShelfKey(rawCallnum);
 		}
 		catch (Exception e) {
 		}
 		
-		if (result == null) 
+		if (result == null || result == "") 
 			return getShelfKey(rawCallnum, recId);
 
 		return result;
@@ -586,7 +586,7 @@ public class CallNumUtils {
 	 * @param rawCallnum
 	 * @param loppedCallnum - the call number with volume/part information lopped off
 	 * @param isSerial - true if the call number is for a serial 
-	 * @return
+	 * @return empty string if given empty string or null, o.w. the goods
 	 */
 	static String getVolumeSortCallnum(String rawCallnum, String loppedCallnum, boolean isSerial) 
 	{
@@ -603,12 +603,12 @@ public class CallNumUtils {
 	 * @param loppedCallnum - the call number with volume/part information lopped off
 	 * @param isSerial - true if the call number is for a serial 
 	 * @param recId - record id, for error messages
-	 * @return
+	 * @return empty string if given empty string or null, o.w. the goods
 	 */
 	static String getVolumeSortCallnum(String rawCallnum, String loppedCallnum, boolean isSerial, String recId) 
 	{
-		if (rawCallnum == null)
-			return null;
+		if (rawCallnum == null || rawCallnum.length() == 0)
+			return "";
 
 		if (isSerial && !rawCallnum.equals(loppedCallnum)) 
 		{  
