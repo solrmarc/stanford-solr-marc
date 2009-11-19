@@ -1026,6 +1026,7 @@
   
   <searchComponent name="termsComp" class="solr.TermsComponent"/>
   
+  <!-- used to get consecutive terms for browsing -->
   <requestHandler name="/alphaTerms" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="echoParams">explicit</str>
@@ -1036,6 +1037,35 @@
       <str>termsComp</str>
     </arr>
   </requestHandler>
+  
+  <!-- OpenSearch request handler: as user types chars in UI, queries are sent to this -->  
+  <requestHandler name="open_search" class="solr.SearchHandler" >
+    <lst name="defaults">
+      <str name="defType">dismax</str>
+      <str name="echoParams">explicit</str>
+      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
+      <str name="q.alt">*:*</str>
+      <str name="mm">4&lt;-1 4&lt;90%</str>
+      <str name="qf">open_search</str>
+      <str name="pf">open_search^10</str>
+      <int name="ps">3</int>
+      <float name="tie">0.01</float>
+      <str name="fl">
+        score,
+        id,
+        open_search,
+        author_corp_display,
+        author_meeting_display,
+        author_person_display,
+        author_person_full_display,
+        title_245a_display,
+        title_245c_display
+        title_display,
+        title_full_display,
+        title_uniform_display
+      </str>
+    </lst>
+  </requestHandler>    
   
   
   <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
@@ -1106,7 +1136,7 @@
   </searchComponent>
   <queryConverter name="queryConverter" class="solr.SpellingQueryConverter"/>
 
-  <!-- there are other request handlers not included here -->
+  <!-- there are other possible request handlers not included here -->
 
   <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" startup="lazy"/>
   <requestHandler name="/update/javabin" class="solr.BinaryUpdateRequestHandler" startup="lazy"/>
