@@ -12,6 +12,8 @@ import org.junit.*;
 import org.solrmarc.tools.CallNumUtils;
 import org.xml.sax.SAXException;
 
+import edu.stanford.enumValues.Access;
+
 /**
  * junit4 tests for Stanford University call number fields for blacklight index
  * @author Naomi Dushay
@@ -265,7 +267,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		docIds.add("3");
 		docIds.add("31");
 		docIds.add("DeweyVol");
-		assertSearchResults(fldName, "\"" + StanfordIndexer.DEWEY_TOP_FACET_VAL + "\"", docIds);
+		assertSearchResults(fldName, "\"" + Item999Utils.DEWEY_TOP_FACET_VAL + "\"", docIds);
 		assertSearchResults(fldName, "\"Dewey Classification\"", docIds);
 	}
 	
@@ -449,7 +451,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		docIds.add("2557826");
 		docIds.add("5511738");
 		docIds.add("2678655");
-		assertSearchResults(fldName, "\"" + StanfordIndexer.GOV_DOC_TOP_FACET_VAL + "\"", docIds);
+		assertSearchResults(fldName, "\"" + Item999Utils.GOV_DOC_TOP_FACET_VAL + "\"", docIds);
 		assertSearchResults(fldName, "\"" + govDocStr + "\"", docIds);
 	}
 
@@ -474,7 +476,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		docIds.add("ssrcfiche");  // dewey
 		docIds.add("ssrcnwdoc");
 		docIds.add("sudoc");   // not a gov doc location, but sudoc call number
-		assertSearchResults(fldName, "\"" + StanfordIndexer.GOV_DOC_TOP_FACET_VAL + "\"", docIds);
+		assertSearchResults(fldName, "\"" + Item999Utils.GOV_DOC_TOP_FACET_VAL + "\"", docIds);
 		
 		assertZeroResults(fldName, "\"300s - Social Sciences\"");
 
@@ -498,18 +500,18 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		createIxInitVars("callNumberGovDocTests.mrc");
 		String fldName = "gov_doc_type_facet";
 
-		assertSingleResult("brit", fldName, "\"" + StanfordIndexer.GOV_DOC_BRIT_FACET_VAL + "\"");
-		assertSingleResult("calif", fldName, "\"" + StanfordIndexer.GOV_DOC_CALIF_FACET_VAL + "\"");
-		assertSingleResult("intl", fldName, "\"" + StanfordIndexer.GOV_DOC_INTL_FACET_VAL + "\"");
+		assertSingleResult("brit", fldName, "\"" + Item999Utils.GOV_DOC_BRIT_FACET_VAL + "\"");
+		assertSingleResult("calif", fldName, "\"" + Item999Utils.GOV_DOC_CALIF_FACET_VAL + "\"");
+		assertSingleResult("intl", fldName, "\"" + Item999Utils.GOV_DOC_INTL_FACET_VAL + "\"");
 		
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("fed");
 		docIds.add("ssrcdocs");
 		docIds.add("ssrcfiche");
 		docIds.add("ssrcnwdoc");
-		assertSearchResults(fldName, "\"" + StanfordIndexer.GOV_DOC_FED_FACET_VAL + "\"", docIds);
+		assertSearchResults(fldName, "\"" + Item999Utils.GOV_DOC_FED_FACET_VAL + "\"", docIds);
 
-		assertSingleResult("sudoc", fldName, "\"" + StanfordIndexer.GOV_DOC_UNKNOWN_FACET_VAL + "\"");
+		assertSingleResult("sudoc", fldName, "\"" + Item999Utils.GOV_DOC_UNKNOWN_FACET_VAL + "\"");
 		
 		assertZeroResults(fldName, "\"" + govDocStr + "\"");
 	}
@@ -523,7 +525,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String afld = "access_facet";
-		String fldVal = AccessValues.ONLINE.toString();
+		String fldVal = Access.ONLINE.toString();
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("6280316");
 		docIds.add("7117119");

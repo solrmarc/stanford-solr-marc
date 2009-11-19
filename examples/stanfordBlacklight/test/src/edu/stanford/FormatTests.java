@@ -9,6 +9,8 @@ import org.xml.sax.SAXException;
 
 import org.junit.*;
 
+import edu.stanford.enumValues.Format;
+
 import static org.junit.Assert.*;
 
 
@@ -33,21 +35,21 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 		assertFieldMultiValued(facetFldName);
 		
 		// are values as expected?
-		assertEquals("format string incorrect: ", "Book", FormatValues.BOOK.toString());
-		assertEquals("format string incorrect: ", "Computer File", FormatValues.COMPUTER_FILE.toString());
-		assertEquals("format string incorrect: ", "Conference Proceedings", FormatValues.CONFERENCE_PROCEEDINGS.toString());
-	    assertEquals("format string incorrect: ", "Image", FormatValues.IMAGE.toString());
-		assertEquals("format string incorrect: ", "Journal/Periodical", FormatValues.JOURNAL_PERIODICAL.toString());
-		assertEquals("format string incorrect: ", "Manuscript/Archive", FormatValues.MANUSCRIPT_ARCHIVE.toString());
-	    assertEquals("format string incorrect: ", "Microformat", FormatValues.MICROFORMAT.toString());
-		assertEquals("format string incorrect: ", "Map/Globe", FormatValues.MAP_GLOBE.toString());
-		assertEquals("format string incorrect: ", "Music - Recording", FormatValues.MUSIC_RECORDING.toString());
-		assertEquals("format string incorrect: ", "Music - Score", FormatValues.MUSIC_SCORE.toString());
-	    assertEquals("format string incorrect: ", "Newspaper", FormatValues.NEWSPAPER.toString());
-		assertEquals("format string incorrect: ", "Other", FormatValues.OTHER.toString());
-		assertEquals("format string incorrect: ", "Sound Recording", FormatValues.SOUND_RECORDING.toString());
-	    assertEquals("format string incorrect: ", "Thesis", FormatValues.THESIS.toString());
-	    assertEquals("format string incorrect: ", "Video", FormatValues.VIDEO.toString());
+		assertEquals("format string incorrect: ", "Book", Format.BOOK.toString());
+		assertEquals("format string incorrect: ", "Computer File", Format.COMPUTER_FILE.toString());
+		assertEquals("format string incorrect: ", "Conference Proceedings", Format.CONFERENCE_PROCEEDINGS.toString());
+	    assertEquals("format string incorrect: ", "Image", Format.IMAGE.toString());
+		assertEquals("format string incorrect: ", "Journal/Periodical", Format.JOURNAL_PERIODICAL.toString());
+		assertEquals("format string incorrect: ", "Manuscript/Archive", Format.MANUSCRIPT_ARCHIVE.toString());
+	    assertEquals("format string incorrect: ", "Microformat", Format.MICROFORMAT.toString());
+		assertEquals("format string incorrect: ", "Map/Globe", Format.MAP_GLOBE.toString());
+		assertEquals("format string incorrect: ", "Music - Recording", Format.MUSIC_RECORDING.toString());
+		assertEquals("format string incorrect: ", "Music - Score", Format.MUSIC_SCORE.toString());
+	    assertEquals("format string incorrect: ", "Newspaper", Format.NEWSPAPER.toString());
+		assertEquals("format string incorrect: ", "Other", Format.OTHER.toString());
+		assertEquals("format string incorrect: ", "Sound Recording", Format.SOUND_RECORDING.toString());
+	    assertEquals("format string incorrect: ", "Thesis", Format.THESIS.toString());
+	    assertEquals("format string incorrect: ", "Video", Format.VIDEO.toString());
 	}
 
 	/**
@@ -59,7 +61,7 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 			throws IOException, ParserConfigurationException, SAXException 
 	{
         createIxInitVars(testDataFname);
-		String fldVal = FormatValues.BOOK.toString();
+		String fldVal = Format.BOOK.toString();
 		
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("leader06a07m");
@@ -175,7 +177,7 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 			throws IOException, ParserConfigurationException, SAXException 
 	{
         createIxInitVars(testDataFname);
-        String fldVal = FormatValues.NEWSPAPER.toString();
+        String fldVal = Format.NEWSPAPER.toString();
 		
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("newspaper");
@@ -201,7 +203,7 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 			throws ParserConfigurationException, SAXException, IOException
 	{
         createIxInitVars(testDataFname);
-        String fldVal = FormatValues.CONFERENCE_PROCEEDINGS.toString();
+        String fldVal = Format.CONFERENCE_PROCEEDINGS.toString();
 		
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("5666387");
@@ -221,7 +223,7 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 			throws IOException, ParserConfigurationException, SAXException 
 	{
         createIxInitVars(testDataFname);
-        String fldVal = FormatValues.OTHER.toString();
+        String fldVal = Format.OTHER.toString();
 
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("leader06t07b");
@@ -258,7 +260,7 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
         createIxInitVars(testDataFname);
         // map/globe
 		assertDocHasFieldValue("leader06e", displayFldName, "Map/Globe"); 
-		assertDocHasFieldValue("leader06f", displayFldName, FormatValues.MAP_GLOBE.toString()); 
+		assertDocHasFieldValue("leader06f", displayFldName, Format.MAP_GLOBE.toString()); 
 		// image
 		String imgVal = "Image";
 		assertDocHasFieldValue("leader06k00833i", displayFldName, imgVal); 
@@ -268,18 +270,18 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 		assertDocHasFieldValue("leader06k00833t", displayFldName, imgVal); 
 		// video
 		assertDocHasFieldValue("leader06g00833m", displayFldName, "Video"); 
-		assertDocHasFieldValue("leader06g00833v", displayFldName, FormatValues.VIDEO.toString()); 
+		assertDocHasFieldValue("leader06g00833v", displayFldName, Format.VIDEO.toString()); 
 		// audio - non-music
 		assertDocHasFieldValue("leader06i", displayFldName, "Sound Recording"); 
 		// music - audio
 		assertDocHasFieldValue("leader06j", displayFldName, "Music - Recording"); 
 		// music - score
 		assertDocHasFieldValue("leader06c", displayFldName, "Music - Score"); 
-		assertDocHasFieldValue("leader06d", displayFldName, FormatValues.MUSIC_SCORE.toString()); 
-		assertDocHasFieldValue("245hmicroform", displayFldName, FormatValues.MUSIC_SCORE.toString()); 
+		assertDocHasFieldValue("leader06d", displayFldName, Format.MUSIC_SCORE.toString()); 
+		assertDocHasFieldValue("245hmicroform", displayFldName, Format.MUSIC_SCORE.toString()); 
 		// manuscript/archive
 		assertDocHasFieldValue("leader06b", displayFldName, "Manuscript/Archive"); 
-		assertDocHasFieldValue("leader06p", displayFldName, FormatValues.MANUSCRIPT_ARCHIVE.toString()); 
+		assertDocHasFieldValue("leader06p", displayFldName, Format.MANUSCRIPT_ARCHIVE.toString()); 
 		// thesis
 		assertDocHasFieldValue("502", displayFldName, "Thesis"); 
 		// computer file
@@ -307,9 +309,9 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 		createIxInitVars("callNumberTests.mrc");
 		
 		// 999 ALPHANUM starting with MFLIM
-		assertDocHasFieldValue("1261173", displayFldName, FormatValues.MICROFORMAT.toString()); 
+		assertDocHasFieldValue("1261173", displayFldName, Format.MICROFORMAT.toString()); 
 		// 999 ALPHANUM starting with MCD
-		assertDocHasFieldValue("1234673", displayFldName, FormatValues.MUSIC_RECORDING.toString()); 
+		assertDocHasFieldValue("1234673", displayFldName, Format.MUSIC_RECORDING.toString()); 
 	}
 
 }
