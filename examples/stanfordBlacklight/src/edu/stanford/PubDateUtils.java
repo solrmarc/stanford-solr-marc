@@ -6,12 +6,19 @@ import java.util.regex.Pattern;
 import org.solrmarc.index.SolrIndexer;
 import org.marc4j.marc.Record;
 
+import edu.stanford.enumValues.PubDateGroup;
+
 /**
  * Publication Date Utility functions for StanfordIndexer in SolrMarc project
  * 
  * @author Naomi Dushay
  */
 public class PubDateUtils {
+
+	/**
+	 * Default Constructor: private, so it can't be instantiated by other objects
+	 */	
+	private PubDateUtils(){ }
 
 	/**
      * check if a 4 digit year for a pub date is within the range.  If not, 
@@ -53,11 +60,11 @@ public class PubDateUtils {
 		Set<String> resultSet = new HashSet<String>();
 
 		if (year >= (currYearAsInt - 10))
-			resultSet.add(PubDateGroupValues.LAST_10_YEARS.toString());
+			resultSet.add(PubDateGroup.LAST_10_YEARS.toString());
 		if (year >= (currYearAsInt - 50))
-			resultSet.add(PubDateGroupValues.LAST_50_YEARS.toString());
+			resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
 		if (year < (currYearAsInt - 50) && (year > -1.0))
-			resultSet.add(PubDateGroupValues.MORE_THAN_50_YEARS_AGO.toString());
+			resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
 		return resultSet;
 	}
 

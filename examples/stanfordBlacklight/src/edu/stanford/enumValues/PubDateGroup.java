@@ -1,10 +1,10 @@
-package edu.stanford;
+package edu.stanford.enumValues;
 
 /** 
  * pub date grouping facet values for Stanford University 
  * @author - Naomi Dushay
  */
-public enum PubDateGroupValues {
+public enum PubDateGroup {
 	THIS_YEAR,
 	LAST_3_YEARS,
 	LAST_10_YEARS,
