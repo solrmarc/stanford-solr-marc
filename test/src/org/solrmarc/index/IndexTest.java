@@ -1,6 +1,7 @@
 package org.solrmarc.index;
 
 import static org.junit.Assert.*;
+
 import org.junit.After;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -65,11 +66,65 @@ public abstract class IndexTest {
         
         int numImported = importer.importRecords();       
         importer.finish();
-        
+ 
         solrCoreProxy = (SolrCoreProxy)importer.getSolrProxy();
         solrCoreProxy.commit(false);
-        searcherProxy = new SolrSearcherProxy(solrCoreProxy);
+		searcherProxy = new SolrSearcherProxy(solrCoreProxy);
 	}
+
+    /**
+     * Given the paths to a marc file to be indexed, the solr directory, and
+     *  the path for the solr index, create the index from the marc file.
+     * @param confPropFilename - name of config.properties file
+     * @param testDataParentPath
+     * @param testDataFname
+     * @param solrPath - the directory holding the solr instance (think conf files)
+     * @param solrDataDir - the data directory to hold the index
+     */
+	public void freshDeleteFromExistingIxInitVars(String configPropFilename, String solrPath, String solrDataDir, 
+	                             String testDataParentPath, String testDataFname, String deletedIdsFilename) 
+			                     throws ParserConfigurationException, IOException, SAXException 
+	{
+        //System.err.println("test.solr.verbose = " + System.getProperty("test.solr.verbose"));
+        if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
+        {
+            java.util.logging.Logger.getLogger("org.apache.solr").setLevel(java.util.logging.Level.SEVERE);
+            Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
+        }
+        if (solrPath != null)  
+        {
+            System.setProperty("solr.path", solrPath);
+            if (solrDataDir == null)
+            {
+                solrDataDir = solrPath + File.separator + "data";
+            }
+            System.setProperty("solr.data.dir", solrDataDir);
+        }
+        deleteDirContents(solrDataDir);
+        if (configPropFilename != null)
+        {
+            importer = new MarcImporter(new String[]{configPropFilename, testDataParentPath + File.separator + testDataFname});
+        }
+        else 
+        {
+            importer = new MarcImporter(new String[]{testDataParentPath + File.separator + testDataFname});
+        }
+      //  importer.getSolrCoreProxy().deleteAllDocs();
+        
+        
+        if (deletedIdsFilename != null)
+        {
+        	System.setProperty("marc.ids_to_delete", deletedIdsFilename);
+        }
+        
+        int numImported = importer.deleteRecords();       
+        importer.finish();
+ 
+        solrCoreProxy = (SolrCoreProxy) importer.getSolrProxy();
+        solrCoreProxy.commit(false);
+		searcherProxy = new SolrSearcherProxy(solrCoreProxy);
+	}
+	
 	
 //	private void deleteAllRecordsFromSolrIndex(String configPropFilename) throws IOException
 //    {
@@ -85,7 +140,8 @@ public abstract class IndexTest {
 //        importer = null;
 //    }
 //
-    protected SolrSearcherProxy getSearcherProxy()
+	
+	protected SolrSearcherProxy getSearcherProxy()
 	{
 	    while (searcherProxy == null)
 	    {
@@ -97,12 +153,12 @@ public abstract class IndexTest {
 	/**
 	 * ensure IndexSearcher and SolrCore are reset for next test
 	 */
-	@After
+@After
 	public void tearDown()
 	{
 	    // avoid "already closed" exception
 	    logger.info("Calling teardown to close importer");
-        if (searcherProxy != null) 
+	    if (searcherProxy != null) 
         {
             logger.info("Closing searcher");
             searcherProxy.close();
@@ -141,7 +197,7 @@ public abstract class IndexTest {
 //		System.setProperty("marc.default_encoding", "MARC8");
 ////		System.setProperty("marc.permissive", "true");
 //	}
-	
+
 	
 	/**
 	 * delete the directory indicated by the argument.
@@ -184,7 +240,6 @@ public abstract class IndexTest {
         int solrDocNum = getSingleDocNum(fldName, fldVal);
         String recordID = getSearcherProxy().getDocIdFromSolrDocNum(solrDocNum, docIDfname);
         assertTrue("doc \"" + docId + "\" does not have " + fldName + " of " + fldVal, recordID.equals(docId));
-    
     }
 
     public final void assertZeroResults(String fldName, String fldVal) 
@@ -470,8 +525,7 @@ public abstract class IndexTest {
 	    }
 	    return docList;
 	}
-
-
+	
 	/**
 	 * return the number of docs that match the implied term query
 	 * @param fld - the name of the field to be searched in the lucene index
@@ -516,7 +570,8 @@ public abstract class IndexTest {
         int solrDocNums[] = getSearcherProxy().getDescSortDocNums(fld, value, sortfld);
         return getDocProxiesFromDocNums(solrDocNums);
 	}
-		
+	
+	
 	/**
 	 * Given an index field name and value, return a list of Lucene Documents
 	 *  numbers that match the term query sent to the index, sorted in ascending
@@ -558,7 +613,7 @@ public abstract class IndexTest {
 	 * maintained.
 	 */
 	private List<DocumentProxy> getDocProxiesFromDocNums(int[] solrDocNums) 
-		throws IOException 
+			throws IOException 
 	{
         List<DocumentProxy> docProxyList = new ArrayList<DocumentProxy>();
         for (int solrDocNum : solrDocNums)
@@ -608,7 +663,7 @@ public abstract class IndexTest {
   //      assertFieldStored(fldName);
         assertFieldHasNoTermVectors(fldName);
     }
-
+    
     /**
      * search fields are tokenized, indexed, not stored, and have norms
      */
