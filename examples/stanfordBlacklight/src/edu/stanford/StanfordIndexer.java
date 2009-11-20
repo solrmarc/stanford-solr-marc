@@ -59,40 +59,53 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         GOV_DOC_LOCS = GenericUtils.loadPropertiesList(propertyDirs, "gov_doc_location_list.properties");
         SHELBY_LOCS = GenericUtils.loadPropertiesList(propertyDirs, "locations_shelby_list.properties");
         SKIPPED_CALLNUMS = GenericUtils.loadPropertiesList(propertyDirs, "callnums_skipped_list.properties");
+        // try to reuse HashSet, etc. objects instead of creating fresh each time
+        formats = new HashSet<String>();
+    	sfxUrls = new HashSet<String>();
+    	fullTextUrls = new HashSet<String>();
+    	buildings = new HashSet<String>();
+    	shelfkeys = new HashSet<String>();
+    	govDocCats = new HashSet<String>();
+    	itemList = new ArrayList<Item>();
 	}
 
 	// variables used in more than one method
 	/** the id of the record - used for error messages in addition to id field */
 	String id = null;
 	/** the formats of the record - used for item_display in addition to format field */
-	Set<String> formats = new HashSet<String>();
+	Set<String> formats;
 	/** sfxUrls are used for access_method in addition to sfxUrl field */
-	Set<String> sfxUrls = new HashSet<String>();
+	Set<String> sfxUrls;
 	/** fullTextUrls are used for access_method in addition to fullTextUrl field */
-	Set<String> fullTextUrls = new HashSet<String>();
+	Set<String> fullTextUrls;
 	/** buildings are used for topics due to weird law 655s */
-	Set<String> buildings = new HashSet<String>();
+	Set<String> buildings;
 	/** shelfkeys are used for reverse_shelfkeys */
-	Set<String> shelfkeys = new HashSet<String>();
+	Set<String> shelfkeys;
 	/** govDocCats are used for top level call number facet */
-	Set<String> govDocCats = new HashSet<String>();
+	Set<String> govDocCats;
 
 	/** 008 field */
 	ControlField cf008 = null;
 	/** date008 is bytes 7-10 (0 based index) in 008 field */
 	String date008 = null;
 	/** Set of 020 subfield a */
-	Set<String> f020suba = new HashSet<String>();
+	Set<String> f020suba;
 	/** Set of 020 subfield z */
-	Set<String> f020subz = new HashSet<String>();
+	Set<String> f020subz;
 	/** Set of 655 subfield a */
-	Set<String> f655suba = new HashSet<String>();
+	Set<String> f655suba;
 	/** Set of 956 subfield u */
-	Set<String> f956subu = new HashSet<String>();
+	Set<String> f956subu;
 
 	/** all 999 fields as a List of DataField objects */
-	List<DataField> list999df = null;
+	List<DataField> list999df;
 
+	/** all 999 fields as a List of Item objects */
+	List<Item> itemList;
+	
+	/** true if the record has items, false otherwise.  Used to detect on-order records */
+	boolean haveItems = false;
     
 	/**
 	 * Method from superclass allowing processing that can be done once per
@@ -111,7 +124,16 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		f020subz = getFieldList(record, "020z");
 		f655suba = getFieldList(record, "655a");
 		f956subu = getFieldList(record, "956u");
+		
 		list999df = (List<DataField>) record.getVariableFields("999");
+		haveItems = !list999df.isEmpty();
+
+		itemList.clear();
+		for (DataField df999 : list999df) {
+			Item item = new Item(df999);
+			if (!item.hasSkipLocation())
+				itemList.add(new Item(df999));
+		}
 
 		setId(record);
 		setFormats(record);
@@ -168,7 +190,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	@SuppressWarnings("unchecked")
 	private void setFormats(final Record record) 
 	{
-		formats = new HashSet<String>();
+		formats.clear();
 
 		// As of July 28, 2008, algorithms for formats are currently in email
 		// message from Vitus Tang to Naomi Dushay, cc Phil Schreur, Margaret
@@ -332,10 +354,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			formats.add(Format.MICROFORMAT.toString());
 
 		// check for format information from 999 ALPHANUM call numbers
-		for (DataField df999 : list999df) {
-			String scheme = Item999Utils.getCallNumberScheme(df999);
+		for (Item item : itemList) {
+			String scheme = item.getCallnumScheme();
 			if (scheme.equalsIgnoreCase("ALPHANUM")) {
-				String callnum = Item999Utils.getCallNum(df999);
+				String callnum = item.getRawCallnum();
 				if (callnum.startsWith("MFILM"))
 					formats.add(Format.MICROFORMAT.toString());
 				else if (callnum.startsWith("MCD"))
@@ -577,18 +599,15 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	{
 		Set<String> resultSet = new HashSet<String>();
 
-		for (DataField df999 : list999df) {
-			if (!Item999Utils.hasSkippedLoc(df999)) {
-				if (Item999Utils.hasOnlineLoc(df999))
-					resultSet.add(Access.ONLINE.toString());
-				else
-					resultSet.add(Access.AT_LIBRARY.toString());
-			}
+		for (Item item : itemList) {
+			if (item.isOnline())
+				resultSet.add(Access.ONLINE.toString());
+			else
+				resultSet.add(Access.AT_LIBRARY.toString());
 		}
 
 		if (fullTextUrls.size() > 0)
 			resultSet.add(Access.ONLINE.toString());
-
 		if (sfxUrls.size() > 0)
 			resultSet.add(Access.ONLINE.toString());
 
@@ -613,7 +632,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	private void setSFXUrls() 
 	{
-		sfxUrls = new HashSet<String>();
+		sfxUrls.clear();
 		// all 956 subfield u contain fulltext urls that aren't SFX
 		for (String url : f956subu) {
 			if (isSFXUrl(url))
@@ -634,7 +653,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 *  described by the 856u
 	 */
 	private void setFullTextUrls(final Record record) {
-		fullTextUrls = new HashSet<String>();
+		fullTextUrls.clear();
 
 		// get full text urls from 856, then check for gsb forms
 		fullTextUrls = super.getFullTextUrls(record);
@@ -934,10 +953,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	private void setBuildings(final Record record) 
 	{
-		buildings = new HashSet<String>();
-		for (DataField df999 : list999df) {
-			String buildingStr = Item999Utils.getBuilding(df999);
-			if (buildingStr.length() != 0)
+		buildings.clear();
+		for (Item item : itemList) {
+			String buildingStr = item.getLibrary();
+			if (buildingStr.length() > 0)
 				buildings.add(buildingStr);
 		}
 	}
@@ -1071,15 +1090,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	public Set<String> getLocalCallNums(final Record record) 
 	{
 		Set<String> result = new HashSet<String>();
-
-		for (DataField df999 : list999df) {
-			if (!Item999Utils.isIgnoredCallNumLoc(df999)) {
-				String callnum = Item999Utils.getNonSkippedCallNum(df999);
-				if (callnum != null)
+		for (Item item : itemList) {
+			if (!item.hasShelbyLoc() && !item.hasIgnoredCallnum()) {
+				String callnum = item.getRawCallnum();
+				if (callnum.length() > 0)
 					result.add(callnum);
 			}
 		}
-
 		return result;
 	}
 
@@ -1114,21 +1131,19 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public void setShelfkeysOrig(final Record record) 
 	{
-		shelfkeys = new HashSet<String>();
+		shelfkeys.clear();
 
-		for (DataField df999 : list999df) 
+		for (Item item : itemList) 
 		{
-			// make sure it's not ignored
-			if (Item999Utils.hasSkippedLoc(df999) || Item999Utils.isIgnoredCallNumLoc(df999)
-					|| Item999Utils.hasOnlineLoc(df999))
+			if (item.hasIgnoredCallnum() || item.isOnline())
 				continue;
 
-			String callnum = GenericUtils.getSubfieldTrimmed(df999, 'a');
+			String callnum = item.getRawCallnum();
 			if (callnum.length() == 0)
 				continue;
-			String callnumScheme = Item999Utils.getCallNumberScheme(df999);
 
 			String shelfkey = null;
+			String callnumScheme = item.getCallnumScheme();
 			if (callnumScheme.startsWith("LC")) 
 			{
 				String lopped = CallNumUtils.removeLCVolSuffix(callnum);
@@ -1162,25 +1177,22 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * numbers without volume info)
 	 */
 	private Set<String> setShelfkeys(final Record record) {
-		shelfkeys = new HashSet<String>();
+		shelfkeys.clear();
 
 		Map<String, String[]> libLoc2callnums = new HashMap();
 
-		for (DataField df999 : list999df) {
-			// make sure it's not ignored
-			if (Item999Utils.hasSkippedLoc(df999) || Item999Utils.isIgnoredCallNumLoc(df999)
-					|| Item999Utils.hasOnlineLoc(df999))
+		for (Item item : itemList) {
+			if (item.hasIgnoredCallnum() || item.isOnline())
 				continue;
 
-			String callnum = Item999Utils.getCallNum(df999);
+			String callnum = item.getRawCallnum();
 			if (callnum.length() == 0)
 				continue;
 
-			String library = Item999Utils.getBuilding(df999);
-			String homeLoc = Item999Utils.getHomeLocation(df999);
-			String callnumScheme = Item999Utils.getCallNumberScheme(df999);
-
 			String shelfkey = "";
+			String library = item.getLibrary();
+			String homeLoc = item.getHomeLoc();
+			String callnumScheme = item.getCallnumScheme();
 			if (callnumScheme.startsWith("LC")) {
 				String lopped = CallNumUtils.removeLCVolSuffix(callnum);
 				shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, "LC", id);
@@ -1270,7 +1282,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	private void setGovDocCats(final Record record) 
 	{
-		govDocCats = new HashSet<String>();
+		govDocCats.clear();
 
 		boolean has086 = !record.getVariableFields("086").isEmpty();
 
