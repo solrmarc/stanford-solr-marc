@@ -17,6 +17,14 @@ import edu.stanford.enumValues.*;
  */
 public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 {
+	/** name of the translation map used to get from raw library value to
+	 * short display value */
+	private String LIBRARY_SHORT_MAP_NAME = null;
+	/** name of the translation map to get from raw location codes to display
+	 * value */
+	@Deprecated
+	private String LOCATION_MAP_NAME = null;
+
 	/**
 	 * Default constructor
      * @param indexingPropsFile the name of xxx_index.properties file mapping 
@@ -27,6 +35,15 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     		throws FileNotFoundException, IOException, ParseException 
     {
 		super(indexingPropsFile, propertyDirs);
+        try
+        {
+        	LIBRARY_SHORT_MAP_NAME = loadTranslationMap(null, "library_short_map.properties");
+        	LOCATION_MAP_NAME = loadTranslationMap(null, "location_map.properties");
+        }
+        catch (IllegalArgumentException e)
+        {
+			e.printStackTrace();
+		}
 	}
 
 	// variables used in more than one method
@@ -61,10 +78,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/** all 999 fields as a List of DataField objects */
 	List<DataField> list999df = null;
 
-	// translation maps for building and location
-	private static String bldgMapName = "";
-	private static String locationMapName = "";
-
+    
 	/**
 	 * Method from superclass allowing processing that can be done once per
 	 * record, rather than repeatedly for several indexing specifications,
@@ -91,19 +105,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		setBuildings(record);
 		// setShelfkeys(record);
 		setShelfkeysOrig(record);
-		setGovDocCats(record);
-		
-//FIXME: these should be loaded once (static); the map loading method should be changed	
-        try
-        {
-            bldgMapName = loadTranslationMap(null, "library_short_map.properties");
-            locationMapName = loadTranslationMap(null, "location_map.properties");
-        }
-        catch (IllegalArgumentException e)
-        {
-			e.printStackTrace();
-		}
-
+		setGovDocCats(record);		
 	}
 
 // Id Methods  -------------------- Begin --------------------------- Id Methods
@@ -954,12 +956,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					// building --> short name from mapping
 					String origBldg = Item999Utils.getBuilding(df999);
 					if (origBldg.length() > 0)
-						building = Utils.remap(origBldg, findMap(bldgMapName), true);
+						building = Utils.remap(origBldg, findMap(LIBRARY_SHORT_MAP_NAME), true);
 					if (building == null || building.length() == 0)
 						building = origBldg;
 					// location --> mapped
 					if (rawLoc.length() > 0)
-						location = Utils.remap(rawLoc, findMap(locationMapName), true);
+						location = Utils.remap(rawLoc, findMap(LOCATION_MAP_NAME), true);
 				}
 
 				// full call number & lopped call number
