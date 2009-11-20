@@ -17,13 +17,22 @@ import edu.stanford.enumValues.*;
  */
 public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 {
-	/** name of the translation map used to get from raw library value to
-	 * short display value */
+	/** name of map used to translate raw library code to short display value */
 	private String LIBRARY_SHORT_MAP_NAME = null;
-	/** name of the translation map to get from raw location codes to display
-	 * value */
+	/** name of map used to translate raw location code to display value */
 	@Deprecated
 	private String LOCATION_MAP_NAME = null;
+	
+	/** locations indicating item should not be displayed */
+	static List<String> SKIPPED_LOCS = null;
+	/** locations indicating item is online */
+	static List<String> ONLINE_LOCS = null;
+	/** locations indicating item is a government document */
+	static List<String> GOV_DOC_LOCS = null;
+	/** locations indicating item is not shelved by callnum */
+	static List<String> SHELBY_LOCS = null;
+	/** call numbers that should not be displayed */
+	static List<String> SKIPPED_CALLNUMS = null;
 
 	/**
 	 * Default constructor
@@ -44,6 +53,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         {
 			e.printStackTrace();
 		}
+        
+        SKIPPED_LOCS = GenericUtils.loadPropertiesList(propertyDirs, "locations_skipped_list.properties");
+        ONLINE_LOCS = GenericUtils.loadPropertiesList(propertyDirs, "locations_online_list.properties");
+        GOV_DOC_LOCS = GenericUtils.loadPropertiesList(propertyDirs, "gov_doc_location_list.properties");
+        SHELBY_LOCS = GenericUtils.loadPropertiesList(propertyDirs, "locations_shelby_list.properties");
+        SKIPPED_CALLNUMS = GenericUtils.loadPropertiesList(propertyDirs, "callnums_skipped_list.properties");
 	}
 
 	// variables used in more than one method
@@ -1489,6 +1504,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		return resultSet;
 	}
 
-// Generic Methods ------------------ End ---------------------- Generic Methods    
+// Generic Methods ------------------ End ---------------------- Generic Methods
 
 }

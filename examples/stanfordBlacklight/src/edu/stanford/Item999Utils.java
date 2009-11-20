@@ -40,7 +40,7 @@ public class Item999Utils {
 	
 // Location Methods ----------------- Begin ------------------- Location Methods    
 
-// FIXME: lists should populated from a config file
+	@Deprecated
 	private static Set<String> currentLocsToIgnore = new HashSet<String>(10);
 	static {
 		currentLocsToIgnore.add("BILLED-OD");
@@ -50,101 +50,9 @@ public class Item999Utils {
 		currentLocsToIgnore.add("SOUTH-MEZZ");
 	}
 
-	/**
-	 * a list of locations indicating a 999 field should be skipped, for the
-	 * purpose of discoverability.
-	 */
-	static Set<String> skippedLocs = new HashSet<String>();
-	static {
-		skippedLocs.add("3FL-REF-S"); // meyer 3rd floor reference shadowed
-		skippedLocs.add("ASSMD-LOST"); // Assumed Lost (!skip 999)
-		skippedLocs.add("BASECALNUM"); // Serials (!skip 999)
-		skippedLocs.add("BENDER-S"); //temporary shadowed location for the Bender Reading Room
-		skippedLocs.add("CDPSHADOW"); // All items in CDP which are shadowed
-		skippedLocs.add("DISCARD"); // discard shadowed
-		skippedLocs.add("DISCARD-NS"); // obsolete location
-		skippedLocs.add("EAL-TEMP-S"); // East Asia Library Temporary Shadowed
-		skippedLocs.add("EDI"); // In Process (!skip 999)
-		skippedLocs.add("E-INPROC-S"); // In Process - shadow (!skip 999)
-		skippedLocs.add("E-ORDER-S"); // On Order - shadow (!skip 999)
-		skippedLocs.add("E-REQST-S"); // In Process shadow (!skip 999)
-		skippedLocs.add("FED-DOCS-S"); //Shadowed location for loading Marcive SLS records
-		skippedLocs.add("INSHIPPING"); // (!skip 999)
-		skippedLocs.add("INSTRUCTOR"); // Instructor's Copy (!skip 999)
-		skippedLocs.add("LOCKSS"); // Locks shadowed copy
-		skippedLocs.add("LOST"); // LOST shadowed
-		skippedLocs.add("LOST-ASSUM"); // Lost (!skip 999)
-		skippedLocs.add("LOST-CLAIM"); // Lost (!skip 999)
-		skippedLocs.add("LOST-PAID"); // Lost (!skip 999)
-		skippedLocs.add("MANNING"); // Manning Collection: Non-circulating (!skip 999)
-		skippedLocs.add("MAPCASES-S"); //Shadowed location for loading Marcive SLS records
-		skippedLocs.add("MAPFILE-S"); //Shadowed location for loading Marcive SLS records
-		skippedLocs.add("MEDIA-MTXO"); // Media Microtext (Obsolete Loc Code) (!skip 999)
-		skippedLocs.add("MISSING"); // Missing (!skip 999)
-		skippedLocs.add("MISS-INPRO"); // Missing in-process (!skip 999)
-		skippedLocs.add("NEG-PURCH"); // Negative Purchase Decision (!skip 999)
-		skippedLocs.add("RESV-URL"); // Internet Reserves (!skip 999)
-		skippedLocs.add("SEL-NOTIFY");
-		skippedLocs.add("SHADOW"); //Use for all items which are to be shadowed
-		skippedLocs.add("SPECA-S"); // Special Collections-- Shadowed Archives
-		skippedLocs.add("SPECAX-S"); //Special Collections-- Shadowed Archives, Restricted Access
-		skippedLocs.add("SPECB-S"); // Special Collections-- Shadowed Books
-		skippedLocs.add("SPECBX-S"); //Special Collections-- Shadowed Books Restricted Access
-		skippedLocs.add("SPECM-S"); //Special Collections-- Shadowed Manuscripts
-		skippedLocs.add("SPECMED-S"); // Special Collections-- Shadowed Media
-		skippedLocs.add("SPECMEDX-S"); //Special Collections-- Shadowed Media, Restricted Access
-		skippedLocs.add("SPECMX-S"); //Special Collections-- Shadowed Manuscripts, Restricted Acces
-		skippedLocs.add("SSRC-FIC-S"); //Shadowed location for loading Marcive SLS records
-		skippedLocs.add("SSRC-SLS"); //Shadowed location for loading Marcive SLS records
-		skippedLocs.add("STAFSHADOW"); // All staff items which are shadowed
-		skippedLocs.add("SUPERSEDED");
-		skippedLocs.add("TECHSHADOW"); // Technical Services Shadowed
-		skippedLocs.add("TECH-UNIQ"); // For orderlins with auto callnum (!skip 999)
-		skippedLocs.add("WEST-7B"); // Transfer from REF to STK (Obsolete Location Code) (!skip 999)
-		skippedLocs.add("WITHDRAWN");
-	}
-
-	/**
-	 * online location codes that may appear in the 999
-	 */
-	private static Set<String> onlineLocs = new HashSet<String>();
-	static {
-		onlineLocs.add("ELECTR-LOC"); // Electronic (!show link only)
-		onlineLocs.add("E-RECVD"); // INTERNET (!show link only)
-		onlineLocs.add("E-RESV"); // Electronic Reserves (!show link only)
-		onlineLocs.add("INTERNET"); // (!show link only)
-		onlineLocs.add("KIOSK"); // (!show link only)
-		onlineLocs.add("ONLINE-TXT"); // Online (!show link only)
-		onlineLocs.add("WORKSTATN"); // Online (!show link only)
-	}
-
-	/**
-	 * gov doc location codes that may appear in the 999
-	 */
-	private static Set<String> govDocLocs = new HashSet<String>();
-	static {
-		govDocLocs.add("BRIT-DOCS");
-		govDocLocs.add("CALIF-DOCS");
-		govDocLocs.add("FED-DOCS");
-		govDocLocs.add("INTL-DOCS");
-		govDocLocs.add("SSRC-DOCS");
-		govDocLocs.add("SSRC-FICHE");
-		govDocLocs.add("SSRC-NWDOC");
-	}
-
-	/**
-	 * location codes implying call numbers should be ignored
-	 */
-	private static Set<String> ignoreCallNumLocs = new HashSet<String>();
-	static {
-		ignoreCallNumLocs.add("SHELBYTITL");
-		ignoreCallNumLocs.add("SHELBYSER");
-		ignoreCallNumLocs.add("STORBYTITL");
-	}
-
 
 	static boolean isGovDocLoc(String loc) {
-		return govDocLocs.contains(loc);
+		return StanfordIndexer.GOV_DOC_LOCS.contains(loc);
 	}
 	
 	static boolean isCurrLocToIgnore(String loc) {
@@ -155,8 +63,8 @@ public class Item999Utils {
 	 * return true if item has a location code indicating it should be skipped.
 	 */
 	static boolean hasSkippedLoc(DataField f999) {
-		if (skippedLocs.contains(getHomeLocation(f999))
-				|| skippedLocs.contains(getCurrentLocation(f999)) )
+		if (StanfordIndexer.SKIPPED_LOCS.contains(getHomeLocation(f999))
+				|| StanfordIndexer.SKIPPED_LOCS.contains(getCurrentLocation(f999)))
 			return true;
 		else
 			return false;
@@ -166,8 +74,8 @@ public class Item999Utils {
 	 * return true if item has a location code indicating it is online
 	 */
 	static boolean hasOnlineLoc(DataField f999) {
-		if (onlineLocs.contains(getHomeLocation(f999)) 
-				|| onlineLocs.contains(getCurrentLocation(f999)) )
+		if (StanfordIndexer.ONLINE_LOCS.contains(getHomeLocation(f999)) 
+				|| StanfordIndexer.ONLINE_LOCS.contains(getCurrentLocation(f999)) )
 			return true;
 		else
 			return false;
@@ -177,8 +85,8 @@ public class Item999Utils {
 	 * return true if call number should be ignored per the location code
 	 */
 	static boolean isIgnoredCallNumLoc(DataField f999) {
-		if (ignoreCallNumLocs.contains(getHomeLocation(f999)) 
-				|| ignoreCallNumLocs.contains(getCurrentLocation(f999)) )
+		if (StanfordIndexer.SHELBY_LOCS.contains(getHomeLocation(f999)) 
+				|| StanfordIndexer.SHELBY_LOCS.contains(getCurrentLocation(f999)) )
 			return true;
 		else
 			return false;
@@ -228,10 +136,6 @@ public class Item999Utils {
 	 */
 	private static String getCurrentLocation(DataField f999) 
 	{
-//		String subk = GenericUtils.getSubfieldTrimmed(f999, 'k');
-//		if (subk != null && !isCurrLocToIgnore(subk))
-//			return subk;
-//		return null;
 		return GenericUtils.getSubfieldTrimmed(f999, 'k');
 	}
 
@@ -249,16 +153,6 @@ public class Item999Utils {
 	protected static final String GOV_DOC_INTL_FACET_VAL = "International";
 	protected static final String GOV_DOC_UNKNOWN_FACET_VAL = "Other";
 	
-// FIXME: lists should populated from a config file
-	/**
-	 * call numbers to be skipped
-	 */
-	private static Set<String> skipCallNums = new HashSet<String>(5);
-	static {
-		skipCallNums.add("INTERNET RESOURCE");
-		skipCallNums.add("NO CALL NUMBER");
-	}
-
 	/**
 	 * return the call number type from the 999 (subfield w).
 	 */
@@ -432,7 +326,7 @@ public class Item999Utils {
 			return "";
 
 		String callnum = getCallNum(f999);
-		if (!skipCallNums.contains(callnum))
+		if (!StanfordIndexer.SKIPPED_CALLNUMS.contains(callnum))
 			return callnum;
 		else
 			return "";

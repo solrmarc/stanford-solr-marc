@@ -731,8 +731,13 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		assertDocHasFieldValue("460947", fldName, "36105007402873 -|- Online -|- Online -|- " +
 				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort);
 		
-		// RESV-URL is skipped
-		assertDocHasNoField("690002", fldName);
+		// RESV-URL is no longer skipped
+		callnum = "159.32 .W211";
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum).toLowerCase();
+		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, !isSerial);
+		assertDocHasFieldValue("690002", fldName, "36105046693508 -|- Online -|- Online -|- " +
+				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort);
 	}
 
 	
