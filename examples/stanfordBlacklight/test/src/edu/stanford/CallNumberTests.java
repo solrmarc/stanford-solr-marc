@@ -67,13 +67,15 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// LCPER
 		assertSingleResult("460947", fldName, "\"E - History of the Americas (General)\"");
 		
-		// bad LC values should not be found
+		// skipped values should not be found
 		// bad start chars for LC
-		assertZeroResults(fldName, "I*"); // IN PROCESS and illegal LC
-		assertZeroResults(fldName, "X*"); // illegal LC
-		assertZeroResults(fldName, "W*"); // illegal LC
+		assertZeroResults(fldName, "I*"); // IN PROCESS 
+		assertZeroResults(fldName, "W*"); // WITHDRAWN
 		// only N call number in test data is "NO CALL NUMBER"
 		assertZeroResults(fldName, "N*");
+
+		// single X is illegal LC, but is not skipped  (XX is skipped)
+		assertSingleResult("7233951", fldName, "X*");
 	}
 
 	/**
@@ -116,11 +118,14 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		docIds.add("999LC3DecSpace");
 		assertSearchResults(fldName, "\"KJH - Law of Andorra\"", docIds);
 		
-		// bad values should not be found
-		assertZeroResults(fldName, "NO*");  // NO CALL NUMBER
-		assertZeroResults(fldName, "I*");  // illegal LC char, "IN PROCESS"
-		assertZeroResults(fldName, "X*");  // illegal LC char
-		assertZeroResults(fldName, "W*");  // illegal LC char, "WITHDRAWN"
+		// skipped values should not be found
+		assertZeroResults(fldName, "NO*");  // "NO CALL NUMBER"
+		assertZeroResults(fldName, "IN*");  // "IN PROCESS"
+		assertZeroResults(fldName, "XX*"); // XX call nums
+		assertZeroResults(fldName, "WI*");  // "WITHDRAWN"
+
+		// X is not a skipped callnum, it's just bad LC
+		assertSingleResult("7233951", fldName, "X*");
 		
 		// LCPER
 		assertSingleResult("460947", fldName, "\"E - History of the Americas (General)\"");
@@ -138,15 +143,16 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		assertFacetFieldProperties(fldName);
 		assertFieldMultiValued(fldName);
 	
-		// bad values should not be found
+		// skipped values should not be found
 		assertZeroResults(fldName, "NO CALL NUMBER");
 		assertZeroResults(fldName, "IN PROCESS");
-		assertZeroResults(fldName, "I*");
-		assertZeroResults(fldName, "X*");
+		assertZeroResults(fldName, "XX*");
 		assertZeroResults(fldName, "WITHDRAWN");
-		assertZeroResults(fldName, "W*");
 		assertZeroResults(fldName, "110978984448763");
-			
+
+		// X is not a skipped value ... it's just bad LC
+		assertSingleResult("7233951", fldName, "X*");
+		
 		// search for LC values
 		assertZeroResults(fldName, "Z");
 		assertSingleResult("6661112", fldName, "Z3871");

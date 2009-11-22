@@ -74,8 +74,8 @@ public class Item {
 		else
 			hasShelbyLoc = false;
 
-		if (StanfordIndexer.SKIPPED_CALLNUMS.contains(rawCallnum) )
-//				|| rawCallnum.startsWith("XX"))
+		if (StanfordIndexer.SKIPPED_CALLNUMS.contains(rawCallnum)
+				|| rawCallnum.startsWith("XX"))
 			hasIgnoredCallnum = true;
 		else
 			hasIgnoredCallnum = false;
