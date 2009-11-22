@@ -709,6 +709,7 @@ public class CallNumberUnitTests
         assertEquals("A778", getDeweyCutter(callnum));
     }
 
+
     /**
      * unit test for getting the cutter for Dewey call numbers
      */
@@ -741,6 +742,59 @@ public class CallNumberUnitTests
         callnum = "323 .A778 ED.2"; // suffix ed
         assertEquals("ED.2", getDeweyCutterSuffix(callnum));
     }
+
+
+	/**
+	 * test Dewey call number normalization (spaces, periods ...)
+	 */
+@Test
+	public void testDeweyNormalization()
+	{
+		// extra whitespace
+		String callnum = "  66.6.C1C";
+		assertEquals("66.6.C1C", normalizeCallnum(callnum));
+		callnum = "66.6 .C1C";
+		assertEquals("66.6 .C1C", normalizeCallnum(callnum));
+		callnum = "66.6  .C1C";
+		assertEquals("66.6 .C1C", normalizeCallnum(callnum));
+		callnum = "66.6 . C1C";
+		assertEquals("66.6 .C1C", normalizeCallnum(callnum));
+		callnum = "66.6 .   C1C";
+		assertEquals("66.6 .C1C", normalizeCallnum(callnum));
+		callnum = "66.6 .C1C   ";
+		assertEquals("66.6 .C1C", normalizeCallnum(callnum));
+
+		// complex suffixes
+		callnum = "324.54 .I39   F";
+		assertEquals("324.54 .I39 F", normalizeCallnum(callnum));
+	    callnum = "553.05 .C212 V. 46 NO. 2 FEB 2009";
+		assertEquals("553.05 .C212 V.46 NO.2 FEB 2009", normalizeCallnum(callnum));
+
+		// orphaned periods
+	    callnum = " 210.08 G342 . 4";
+		assertEquals("210.08 G342 .4", normalizeCallnum(callnum));
+		callnum = "842.5 . V935 G35 2002";
+		assertEquals("842.5 .V935 G35 2002", normalizeCallnum(callnum));
+	    callnum = "506 . A183 SER.9 V.1 FASC.6";
+		assertEquals("506 .A183 SER.9 V.1 FASC.6", normalizeCallnum(callnum));
+		callnum = "540 . M537 ED.12  V.1   ";
+		assertEquals("540 .M537 ED.12 V.1", normalizeCallnum(callnum));
+
+		// extra period
+		callnum = "66.6. .C1C";
+		assertEquals("66.6 .C1C", normalizeCallnum(callnum));
+		callnum = "1. .C1C";
+		assertEquals("1 .C1C", normalizeCallnum(callnum));
+	    callnum = "553.0974 .O3 .";
+		assertEquals("553.0974 .O3", normalizeCallnum(callnum));
+	
+		// no period before cutter
+	    callnum = "111.123 I39"; // space 
+		assertEquals(callnum, normalizeCallnum(callnum));
+	    callnum = "111.134Q39"; // no space before cutter
+		assertEquals(callnum, normalizeCallnum(callnum));
+	}
+
 
     /**
      * unit test for getting Dewey shelf key

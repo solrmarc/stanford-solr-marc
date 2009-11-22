@@ -621,6 +621,46 @@ public final class CallNumUtils {
         	return result;
     }
 
+    
+    /**
+     * Used to improve call num sorting and volume lopping.
+     * Remove leading and trailing whitespace, ensure whitespace is always a 
+     *  single space, remove spaces after periods, remove trailing periods
+     *   
+     * @param rawCallnum - a non-null String containing a Dewey call number
+     * @return normalized form of Dewey call number
+     */
+    public static String normalizeCallnum(String rawCallnum) {
+
+      	// reduce multiple whitespace chars to a single space
+        String normalizedCallnum = rawCallnum.trim().replaceAll("\\s\\s+", " ");
+        // reduce double periods to a single period
+        normalizedCallnum = normalizedCallnum.replaceAll("\\. \\.", " .");
+        // remove space after a period if period is after digits and before letters
+        normalizedCallnum = normalizedCallnum.replaceAll("(\\d+\\.) ([A-Z])", "$1$2");
+        // remove trailing period and any spaces before it
+        if (normalizedCallnum.endsWith("."))
+        	normalizedCallnum = normalizedCallnum.substring(0, normalizedCallnum.length() - 1).trim();
+
+        // cutter could be missing preceding period, but we are leaving that as is
+
+        // there should be a single space before the cutter - the above should
+        //  ensure this in nearly all cases
+    	return normalizedCallnum;
+    }
+
+    /**
+     * reduce multiple whitespace to single, remove spaces before or after 
+     *   periods, remove spaces between letters and class digits
+     */
+    static String normalizeLCcallnum(String rawLCcallnum) 
+    {
+    	String normCallnum = normalizeCallnum(rawLCcallnum);
+        // remove space between class letters and digits
+        return normCallnum.replaceAll("^([A-Z][A-Z]?[A-Z]?) ([0-9])", "$1$2");
+    }
+
+
 // TODO:  method to normalize year and immediate following chars (no space)?   <-- stupid?
     
     /**

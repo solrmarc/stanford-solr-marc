@@ -50,11 +50,6 @@ public class Item999Utils {
 		currentLocsToIgnore.add("SOUTH-MEZZ");
 	}
 
-
-	static boolean isGovDocLoc(String loc) {
-		return StanfordIndexer.GOV_DOC_LOCS.contains(loc);
-	}
-	
 	static boolean isCurrLocToIgnore(String loc) {
 		return currentLocsToIgnore.contains(loc);
 	}
@@ -162,21 +157,19 @@ public class Item999Utils {
 	}
 
 	/**
-	 * @param record
+	 * @param itemList - list of Item objects that does NOT include any items
+	 *  to be skipped
 	 * @return
 	 */
-	private static Map<String, Set<String>> getLibLocScheme2Callnums(List<DataField> list999df) {
+	private static Map<String, Set<String>> getLibLocScheme2Callnums(List<Item> itemList) {
 		Map<String, Set<String>> libLocScheme2Callnums = new HashMap();
-		for (DataField df999 : list999df) {
-			// make sure it's not
-			if (hasSkippedLoc(df999) || hasOnlineLoc(df999))
-				continue;
+		for (Item item : itemList) {
 
-			String library = getBuilding(df999);
-			String homeLoc = getHomeLocation(df999);
-			String callnumScheme = getCallNumberScheme(df999);
+			String library = item.getLibrary();
+			String homeLoc = item.getHomeLoc();
+			String callnumScheme = item.getCallnumScheme();
 
-			String callnum = getCallNum(df999);
+			String callnum = item.getCallnum();
 			if (callnum.length() == 0)
 				continue;
 
@@ -274,49 +267,24 @@ public class Item999Utils {
 
 	
 	/**
-	 * get Dewey call number (portion)s from the bib record: 999
-	 *  (not currently 082, 092, 099)
-	 *  for deriving classifications
+	 * returns a list of any Dewey call numbers present in the items, normalized
+	 *  with leading zeroes as necessary.
+	 * @param itemList - a List of item objects
 	 */
-	static Set<String> getDeweyforClassification(List<DataField> list999df) 
+	static Set<String> getNormalizedDeweyCallnum(List<Item> itemList) 
 	{
 		Set<String> result = new HashSet<String>();
 
-		for (DataField df999 : list999df) {
-			if (!isIgnoredCallNumLoc(df999)) {
-				String callnum = getDeweyCallNumber(df999);
-				if (callnum != null)
+		for (Item item : itemList) {
+			if (!item.hasShelbyLoc()) {
+				String callnum = getNormalizedDeweyCallNumber(item);
+				if (callnum.length() > 0)
 					result.add(callnum);
 			}
 		}
-/*
-		// look in other Dewey 
-        String [] tagsDewey = {"082", "092", "099"};
-		List<VariableField> listDeweyfields = record.getVariableFields(tagsDewey);
-        for (VariableField vf : listDeweyfields) {
-        	String suba = getSubfieldData((DataField) vf, 'a');
-        	if (suba != null) {
-        		suba = suba.trim();
-	           	if (isValidDewey(suba)) 
-	        		result.add(addLeadingZeros(suba));
-        	}
-        }
-*/
 		return result;
 	}
-
-	/**
-	 * return the call number unless item has a skipped location or is an
-	 * online item. Otherwise, return empty string.
-	 */
-	static String getCallNumExcludingOnline(DataField f999) 
-	{
-		if (hasOnlineLoc(f999))
-			return "";
-		return getNonSkippedCallNum(f999);
-	}
-
-
+	
 	/**
 	 * return the call number if it is not to be skipped. Otherwise, return 
 	 * empty string.
@@ -374,6 +342,18 @@ public class Item999Utils {
 			return org.solrmarc.tools.CallNumUtils.addLeadingZeros(callnum);
 
 		return null;
+	}
+	
+	/**
+	 * if the item has a Dewey call number, add leading zeroes to normalized it,
+	 *  if necessary and return it. Otherwise, return empty string
+	 */
+	static String getNormalizedDeweyCallNumber(Item item)
+	{
+		if (item.getCallnumScheme().startsWith("DEWEY"))
+			return org.solrmarc.tools.CallNumUtils.addLeadingZeros(item.getCallnum());
+		else
+			return "";
 	}
 
 // Call Number Methods -------------- End ---------------- Call Number Methods

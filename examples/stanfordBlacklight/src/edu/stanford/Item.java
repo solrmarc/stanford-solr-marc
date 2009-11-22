@@ -8,12 +8,12 @@ import org.marc4j.marc.DataField;
  */
 public class Item {
 
-	/* these instance variables are immutable - they are the raw values */
+	/* immutable instance variables */
 	private final String barcode;
 	private final String library;
 	private final String homeLoc;
 	private final String currLoc;
-	private final String rawCallnum;
+	private final String normCallnum;
 	/** callnumScheme is LC, LCPER, DEWEY, DEWEYPER, SUDOC, ALPHANUM, ASIS ... */
 	private final String callnumScheme;
 	private final boolean hasSkippedLoc;
@@ -36,14 +36,19 @@ public class Item {
 	 *   <li>w - call num scheme</li>
 	 *  </ul>
 	 */
-	public Item(DataField f999) {
+	public Item(DataField f999, String recId) {
 		// set all the immutable variables
-		rawCallnum = GenericUtils.getSubfieldTrimmed(f999, 'a');
 		barcode = GenericUtils.getSubfieldTrimmed(f999, 'i');
 		currLoc = GenericUtils.getSubfieldTrimmed(f999, 'k');
 		homeLoc = GenericUtils.getSubfieldTrimmed(f999, 'l');
 		library = GenericUtils.getSubfieldTrimmed(f999, 'm');
 		callnumScheme = GenericUtils.getSubfieldTrimmed(f999, 'w');
+		String rawCallnum = GenericUtils.getSubfieldTrimmed(f999, 'a');
+		if (callnumScheme.startsWith("LC") || callnumScheme.startsWith("DEWEY"))
+			normCallnum = org.solrmarc.tools.CallNumUtils.normalizeCallnum(rawCallnum);
+		else
+			normCallnum = rawCallnum;
+		printMsgIfInvalidCallnum(recId);
 
 		if (StanfordIndexer.SKIPPED_LOCS.contains(currLoc)
 					|| StanfordIndexer.SKIPPED_LOCS.contains(homeLoc))
@@ -92,27 +97,17 @@ public class Item {
 		return currLoc;
 	}
 
-	public String getRawCallnum() {
-		return rawCallnum;
+	public String getCallnum() {
+		return normCallnum;
 	}
 
 	public String getCallnumScheme() {
 		return callnumScheme;
 	}
 
-// TODO:  implement me	
-	public String getShelfkey() {
-		return "";
-	}
-
-// TODO implement me	
-	public String getReverseShelfkey() {
-		return "";
-	}
-
 	/**
 	 * @return true if this item has a current or home location indicating it 
-	 * should be skipped
+	 * should be skipped (e.g. "WITHDRAWN" or a shadowed location)
 	 */
 	public boolean hasSkipLocation() {
 		return hasSkippedLoc;
@@ -143,8 +138,66 @@ public class Item {
 	 * @return true if call number is to be ignored (e.g. "NO CALL NUMBER"
 	 *  or XX(blah)")
 	 */
-	boolean hasIgnoredCallnum() {
+	public boolean hasIgnoredCallnum() {
 		return hasIgnoredCallnum;
 	}
 
+	
+//--  what's below must be computed with some record context ----	
+	
+	// these should be null to show when they haven't yet been assigned
+	private String shelfkey = null;
+	private String reverseShelfkey = null;
+	private String callnumLopped = null;
+	private String callnumVolSort = null;
+
+
+	public String getCallnumLopped() {
+		return callnumLopped;
+	}
+
+	public void setCallnumLopped(String callnumLopped) {
+		this.callnumLopped = callnumLopped;
+	}
+
+	public String getCallnumVolSort() {
+		return callnumVolSort;
+	}
+
+	public void setCallnumVolSort(String callnumVolSort) {
+		this.callnumVolSort = callnumVolSort;
+	}
+
+	public String getShelfkey() {
+		return shelfkey;
+	}
+
+	public void setShelfkey(String shelfkey) {
+		this.shelfkey = shelfkey;
+	}
+
+	public String getReverseShelfkey() {
+		return reverseShelfkey;
+	}
+
+	public void setReverseShelfkey(String reverseShelfkey) {
+		this.reverseShelfkey = reverseShelfkey;
+	}
+	
+	/**
+	 * output an error message if the call number is supposed to be LC or DEWEY
+	 *  but is invalid
+	 * @param recId the id of the record, used in error message
+	 */
+	private void printMsgIfInvalidCallnum(String recId) {
+		if (callnumScheme.startsWith("LC")) {
+			if (!org.solrmarc.tools.CallNumUtils.isValidLC(normCallnum))
+				System.err.println("record " + recId + " has invalid LC callnumber: " + normCallnum);
+		}
+		else if (callnumScheme.startsWith("DEWEY")) {
+			if (!org.solrmarc.tools.CallNumUtils.isValidDewey(normCallnum))
+				System.err.println("record " + recId + " has invalid dewey callnumber: " + normCallnum);
+			
+		}
+	}
 }
