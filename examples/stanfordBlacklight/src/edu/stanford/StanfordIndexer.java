@@ -101,12 +101,16 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/** all 999 fields as a List of DataField objects */
 	List<DataField> list999df;
 
-	/** all 999 fields as a List of Item objects */
+	/** all 999 fields without skipped locations (shadowed, withdrawn) as a List
+	 *  of Item objects */
 	List<Item> itemList;
 	
 	/** true if the record has items, false otherwise.  Used to detect on-order records */
 	boolean haveItems = false;
-    
+
+	/** all Dewey call numbers from the items without skipped locations */
+	Set<String> deweyCallnums;
+
 	/**
 	 * Method from superclass allowing processing that can be done once per
 	 * record, rather than repeatedly for several indexing specifications,
@@ -130,9 +134,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		itemList.clear();
 		for (DataField df999 : list999df) {
-			Item item = new Item(df999);
+			Item item = new Item(df999, id);
 			if (!item.hasSkipLocation())
-				itemList.add(new Item(df999));
+				itemList.add(item);
 		}
 
 		setId(record);
@@ -142,7 +146,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		setBuildings(record);
 		// setShelfkeys(record);
 		setShelfkeysOrig(record);
-		setGovDocCats(record);		
+		setGovDocCats(record);
+		
+		deweyCallnums = Item999Utils.getNormalizedDeweyCallnum(itemList);
 	}
 
 // Id Methods  -------------------- Begin --------------------------- Id Methods
@@ -357,7 +363,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		for (Item item : itemList) {
 			String scheme = item.getCallnumScheme();
 			if (scheme.equalsIgnoreCase("ALPHANUM")) {
-				String callnum = item.getRawCallnum();
+				String callnum = item.getCallnum();
 				if (callnum.startsWith("MFILM"))
 					formats.add(Format.MICROFORMAT.toString());
 				else if (callnum.startsWith("MCD"))
@@ -1092,7 +1098,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemList) {
 			if (!item.hasShelbyLoc() && !item.hasIgnoredCallnum()) {
-				String callnum = item.getRawCallnum();
+				String callnum = item.getCallnum();
 				if (callnum.length() > 0)
 					result.add(callnum);
 			}
@@ -1126,6 +1132,114 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
+	 * This is for a facet field to enable discovery by subject, as designated
+	 * by call number. It looks at our local values in the 999 and returns the
+	 * secondary level category strings (for LC, the 1-3 letters at the
+	 * beginning)
+	 */
+	public Set<String> getLCCallNumCats(final Record record) {
+		Set<String> result = new HashSet<String>();
+
+		Set<String> lcSet = Item999Utils.getLCforClassification(list999df);
+		for (String lc : lcSet) {
+			String letters = org.solrmarc.tools.CallNumUtils.getLCstartLetters(lc);
+			if (letters != null)
+				result.add(letters);
+		}
+
+		return result;
+	}
+
+	/**
+	 * This is for a facet field to enable discovery by subject, as designated
+	 * by call number. It looks at our local LC values in the 999 and returns
+	 * the Strings before the Cutters in the call numbers (LC only)
+	 */
+	public Set<String> getLCCallNumsB4Cutter(final Record record) {
+		Set<String> result = new HashSet<String>();
+
+		Set<String> lcSet = Item999Utils.getLCforClassification(list999df);
+		for (String lc : lcSet) {
+			result.add(org.solrmarc.tools.CallNumUtils.getPortionBeforeCutter(lc));
+		}
+
+		return result;
+	}
+
+	/**
+	 * This is a facet field to enable discovery by subject, as designated by
+	 * call number. It looks at our local values in the 999, and returns the
+	 * broad category strings ("x00s");
+	 */
+	@SuppressWarnings("unchecked")
+	public Set<String> getDeweyCallNumBroadCats(final Record record) {
+		Set<String> result = new HashSet<String>();
+		for (String callnum : deweyCallnums) {
+				result.add(callnum.substring(0, 1) + "00s");
+		}
+
+		return result;
+	}
+
+	/**
+	 * This is for a facet field to enable discovery by subject, as designated
+	 * by call number. It looks at our local values in the 999, and returns the
+	 * secondary level category strings (for Dewey, "xx0s")
+	 */
+	public Set<String> getDeweyCallNumCats(final Record record) {
+		Set<String> result = new HashSet<String>();
+		for (String callnum : deweyCallnums) {
+				result.add(callnum.substring(0, 2) + "0s");
+		}
+
+		return result;
+	}
+
+	/**
+	 * This is for a facet field to enable discovery by subject, as designated
+	 * by call number. It looks at our local Dewey values in the 999 and returns
+	 * the Strings before the Cutters in the call numbers (Dewey only)
+	 */
+	public Set<String> getDeweyCallNumsB4Cutter(final Record record) {
+		Set<String> result = new HashSet<String>();
+		for (String callnum : deweyCallnums) {
+			result.add(org.solrmarc.tools.CallNumUtils.getPortionBeforeCutter(org.solrmarc.tools.CallNumUtils.addLeadingZeros(callnum)));
+		}
+		return result;
+	}
+
+	
+	/**
+	 * Get type(s) of government doc based on location.
+	 */
+	public Set<String> getGovDocCats(final Record record) {
+		return govDocCats;
+	}
+
+	/**
+	 * Assign type of government doc based on:
+	 *   callnumber scheme of SUDOC
+	 *   location in 999
+	 *   presence of 086 field (use all 99s that aren't to be skipped)
+	 */
+	private void setGovDocCats(final Record record) 
+	{
+		govDocCats.clear();
+
+		boolean has086 = !record.getVariableFields("086").isEmpty();
+
+		for (Item item : itemList) {
+			if (!item.hasIgnoredCallnum() && !item.isOnline()) {
+				String rawLoc = item.getHomeLoc(); 
+				if (item.hasGovDocLoc() || has086 
+						|| item.getCallnumScheme().equalsIgnoreCase("SUDOC"))
+					govDocCats.add(Item999Utils.getGovDocTypeFromLocCode(rawLoc));
+			}
+		}
+	}
+
+
+	/**
 	 * Assign shelfkeys to sortable versions of "lopped" call numbers (call 
 	 * numbers without volume info)
 	 */
@@ -1138,7 +1252,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			if (item.hasIgnoredCallnum() || item.isOnline())
 				continue;
 
-			String callnum = item.getRawCallnum();
+			String callnum = item.getCallnum();
 			if (callnum.length() == 0)
 				continue;
 
@@ -1185,7 +1299,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			if (item.hasIgnoredCallnum() || item.isOnline())
 				continue;
 
-			String callnum = item.getRawCallnum();
+			String callnum = item.getCallnum();
 			if (callnum.length() == 0)
 				continue;
 
@@ -1230,125 +1344,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		return result;
 	}
 
-	/**
-	 * This is a facet field to enable discovery by subject, as designated by
-	 * call number. It looks at our local values in the 999, and returns the
-	 * broad category strings ("x00s");
-	 */
-	@SuppressWarnings("unchecked")
-	public Set<String> getDeweyCallNumBroadCats(final Record record) {
-		Set<String> result = new HashSet<String>();
 
-		Set<String> deweySet = Item999Utils.getDeweyforClassification(list999df);
-		for (String dewey : deweySet) {
-			if (dewey != null && dewey.length() > 2)
-				result.add(dewey.substring(0, 1) + "00s");
-		}
-
-		return result;
-	}
-
-	/**
-	 * This is for a facet field to enable discovery by subject, as designated
-	 * by call number. It looks at our local values in the 999 and returns the
-	 * secondary level category strings (for LC, the 1-3 letters at the
-	 * beginning)
-	 */
-	public Set<String> getLCCallNumCats(final Record record) {
-		Set<String> result = new HashSet<String>();
-
-		Set<String> lcSet = Item999Utils.getLCforClassification(list999df);
-		for (String lc : lcSet) {
-			String letters = org.solrmarc.tools.CallNumUtils.getLCstartLetters(lc);
-			if (letters != null)
-				result.add(letters);
-		}
-
-		return result;
-	}
-
-	/**
-	 * Get type(s) of government doc based on location.
-	 */
-	public Set<String> getGovDocCats(final Record record) {
-		return govDocCats;
-	}
-
-	/**
-	 * Assign type of government doc based on:
-	 *   callnumber scheme of SUDOC
-	 *   location in 999
-	 *   presence of 086 field (use all 99s that aren't to be skipped)
-	 */
-	private void setGovDocCats(final Record record) 
-	{
-		govDocCats.clear();
-
-		boolean has086 = !record.getVariableFields("086").isEmpty();
-
-		for (DataField df999 : list999df) {
-			if (!Item999Utils.hasSkippedLoc(df999) && !Item999Utils.isIgnoredCallNumLoc(df999)
-					&& !Item999Utils.hasOnlineLoc(df999)) {
-				String rawLoc = Item999Utils.getLocationFrom999(df999);
-				if (Item999Utils.isGovDocLoc(rawLoc) || has086)
-					govDocCats.add(Item999Utils.getGovDocTypeFromLocCode(rawLoc));
-				else { // is it SUDOC call number?
-					String scheme = Item999Utils.getCallNumberScheme(df999);
-					if (scheme.equalsIgnoreCase("SUDOC"))
-						govDocCats.add(Item999Utils.getGovDocTypeFromLocCode(rawLoc));
-				}
-			}
-		}
-	}
-
-	/**
-	 * This is for a facet field to enable discovery by subject, as designated
-	 * by call number. It looks at our local values in the 999, and returns the
-	 * secondary level category strings (for Dewey, "xx0s")
-	 */
-	public Set<String> getDeweyCallNumCats(final Record record) {
-		Set<String> result = new HashSet<String>();
-
-		Set<String> deweySet = Item999Utils.getDeweyforClassification(list999df);
-		for (String dewey : deweySet) {
-			if (dewey != null && dewey.length() > 2)
-				result.add(dewey.substring(0, 2) + "0s");
-		}
-
-		return result;
-	}
-
-	/**
-	 * This is for a facet field to enable discovery by subject, as designated
-	 * by call number. It looks at our local LC values in the 999 and returns
-	 * the Strings before the Cutters in the call numbers (LC only)
-	 */
-	public Set<String> getLCCallNumsB4Cutter(final Record record) {
-		Set<String> result = new HashSet<String>();
-
-		Set<String> lcSet = Item999Utils.getLCforClassification(list999df);
-		for (String lc : lcSet) {
-			result.add(org.solrmarc.tools.CallNumUtils.getPortionBeforeCutter(lc));
-		}
-
-		return result;
-	}
-
-	/**
-	 * This is for a facet field to enable discovery by subject, as designated
-	 * by call number. It looks at our local Dewey values in the 999 and returns
-	 * the Strings before the Cutters in the call numbers (Dewey only)
-	 */
-	public Set<String> getDeweyCallNumsB4Cutter(final Record record) {
-		Set<String> result = new HashSet<String>();
-
-		Set<String> deweySet = Item999Utils.getDeweyforClassification(list999df);
-		for (String dewey : deweySet) {
-			result.add(org.solrmarc.tools.CallNumUtils.getPortionBeforeCutter(org.solrmarc.tools.CallNumUtils.addLeadingZeros(dewey)));
-		}
-		return result;
-	}
-
+	
 // Call Number Methods -------------- End ---------------- Call Number Methods
 
 
