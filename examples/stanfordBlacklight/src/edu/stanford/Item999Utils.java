@@ -191,51 +191,24 @@ public class Item999Utils {
 	}
 
 	/**
-	 * Use as part of broadest call number facet field. If it is an LC call
-	 *  number, then the first letter is returned, otherwise null.
+	 * returns a list of any LC call numbers present in the items, normalized
+	 * @param itemList - a List of item objects
 	 */
-	static Set<String> getLCCallNumBroadCats(List<DataField> list999df) {
-		Set<String> result = new HashSet<String>();
-
-		Set<String> lcSet = getLCforClassification(list999df);
-		for (String lc : lcSet) {
-			if (lc != null)
-				result.add(lc.substring(0, 1).toUpperCase());
-		}
-		return result;
-	}
-
-	/**
-	 * get LC call number (portion)s from the bib record: 999
-	 * (not currently 050, 051, 090, 099)
-	 *  for deriving classifications
-	 */
-	protected static Set<String> getLCforClassification(List<DataField> list999df) 
+	protected static Set<String> getLCcallnums(List<Item> itemList) 
 	{
 		Set<String> result = new HashSet<String>();
-
-		for (DataField df999 : list999df) {
-			if (!isIgnoredCallNumLoc(df999)) {
-				String callnum = getLCCallNumber(df999);
-				if (callnum != null)
+		for (Item item : itemList) {
+// FIXME:  shelby locations should checked in calling routine??
+			if (item.getCallnumScheme().startsWith("LC")
+					&& !item.hasIgnoredCallnum() && !item.hasShelbyLoc()) {
+				String callnum = edu.stanford.CallNumUtils.normalizeLCcallnum(item.getCallnum());
+				if (callnum.length() > 0)
 					result.add(callnum);
 			}
 		}
-/*
-		// look in other LC tags 
-		String [] tagsLC = {"050", "051", "090", "099"};
-		List<VariableField> listLCfields = record.getVariableFields(tagsLC);
-        for (VariableField vf : listLCfields) {
-        	String suba = getSubfieldData((DataField) vf, 'a');
-        	if (suba != null) {
-        		suba = suba.trim();
-               	if (isValidLC(suba))
-            		result.add(suba);
-        	}
-        }
-*/
 		return result;
 	}
+	
 
 	/**
 	 * get the type of government document given a location code for a
@@ -271,12 +244,13 @@ public class Item999Utils {
 	 *  with leading zeroes as necessary.
 	 * @param itemList - a List of item objects
 	 */
-	static Set<String> getNormalizedDeweyCallnum(List<Item> itemList) 
+	static Set<String> getDeweyNormCallnums(List<Item> itemList) 
 	{
 		Set<String> result = new HashSet<String>();
-
 		for (Item item : itemList) {
-			if (!item.hasShelbyLoc()) {
+// FIXME:  shelby locations should checked in calling routine??
+			if (item.getCallnumScheme().startsWith("DEWEY")
+					&& !item.hasIgnoredCallnum() && !item.hasShelbyLoc()) {
 				String callnum = getNormalizedDeweyCallNumber(item);
 				if (callnum.length() > 0)
 					result.add(callnum);
@@ -308,45 +282,8 @@ public class Item999Utils {
 	}
 
 	/**
-	 * if there is an LC call number in the 999, return it. If Otherwise, return
-	 *  null.
-	 * N.B.  Government docs are currently lumped in with LC.
-	 */
-	private static String getLCCallNumber(DataField f999) 
-	{
-		if (hasSkippedLoc(f999) || hasOnlineLoc(f999) || isIgnoredCallNumLoc(f999))
-			return null;
-
-		String callnum = getCallNum(f999);
-		String scheme = getCallNumberScheme(f999);
-		if (scheme.startsWith("LC")
-				&& org.solrmarc.tools.CallNumUtils.isValidLC(callnum) )
-			return callnum;
-		
-		return null;
-	}
-
-	/**
-	 * if there is a Dewey call number in the 999, return it.
-	 *  Otherwise, return null
-	 */
-	static String getDeweyCallNumber(DataField f999)
-	{
-		if (hasSkippedLoc(f999) || hasOnlineLoc(f999) || isIgnoredCallNumLoc(f999))
-			return null;
-
-		String callnum = getCallNum(f999);
-		String scheme = getCallNumberScheme(f999);
-		if (scheme.startsWith("DEWEY")
-				&& org.solrmarc.tools.CallNumUtils.isValidDewey(callnum))
-			return org.solrmarc.tools.CallNumUtils.addLeadingZeros(callnum);
-
-		return null;
-	}
-	
-	/**
 	 * if the item has a Dewey call number, add leading zeroes to normalized it,
-	 *  if necessary and return it. Otherwise, return empty string
+	 *  if necessary, and return it. Otherwise, return empty string
 	 */
 	static String getNormalizedDeweyCallNumber(Item item)
 	{

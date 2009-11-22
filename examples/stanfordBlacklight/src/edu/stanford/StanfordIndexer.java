@@ -108,6 +108,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/** true if the record has items, false otherwise.  Used to detect on-order records */
 	boolean haveItems = false;
 
+	/** all LC call numbers from the items without skipped locations */
+	Set<String> lcCallnums;
 	/** all Dewey call numbers from the items without skipped locations */
 	Set<String> deweyCallnums;
 
@@ -148,7 +150,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		setShelfkeysOrig(record);
 		setGovDocCats(record);
 		
-		deweyCallnums = Item999Utils.getNormalizedDeweyCallnum(itemList);
+		lcCallnums = Item999Utils.getLCcallnums(itemList);
+		deweyCallnums = Item999Utils.getDeweyNormCallnums(itemList);
 	}
 
 // Id Methods  -------------------- Begin --------------------------- Id Methods
@@ -1114,19 +1117,16 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getCallNumsLevel1(final Record record) 
 	{
-		// LC
-		Set<String> result = Item999Utils.getLCCallNumBroadCats(list999df);
+		Set<String> result = new HashSet<String>();
+		for (String callnum : lcCallnums)
+			result.add(callnum.substring(0, 1).toUpperCase());
 
-		// TODO: need to REMOVE LC callnum if it's a gov doc location? not sure.
-		if (govDocCats.size() != 0)
+		// TODO: ?need to REMOVE LC callnum if it's a gov doc location? not sure.
+		if (govDocCats.size() > 0)
 			result.add(Item999Utils.GOV_DOC_TOP_FACET_VAL);
 
-		// check for Dewey 
-		for (DataField df999 : list999df) {
-			if (!Item999Utils.isIgnoredCallNumLoc(df999)
-					&& Item999Utils.getDeweyCallNumber(df999) != null)
-				result.add(Item999Utils.DEWEY_TOP_FACET_VAL);
-		}
+		if (deweyCallnums.size() > 0)
+			result.add(Item999Utils.DEWEY_TOP_FACET_VAL);
 
 		return result;
 	}
@@ -1139,10 +1139,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getLCCallNumCats(final Record record) {
 		Set<String> result = new HashSet<String>();
-
-		Set<String> lcSet = Item999Utils.getLCforClassification(list999df);
-		for (String lc : lcSet) {
-			String letters = org.solrmarc.tools.CallNumUtils.getLCstartLetters(lc);
+		for (String callnum : lcCallnums) {
+			String letters = org.solrmarc.tools.CallNumUtils.getLCstartLetters(callnum);
 			if (letters != null)
 				result.add(letters);
 		}
@@ -1157,12 +1155,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getLCCallNumsB4Cutter(final Record record) {
 		Set<String> result = new HashSet<String>();
-
-		Set<String> lcSet = Item999Utils.getLCforClassification(list999df);
-		for (String lc : lcSet) {
-			result.add(org.solrmarc.tools.CallNumUtils.getPortionBeforeCutter(lc));
+		for (String callnum : lcCallnums) {
+			result.add(org.solrmarc.tools.CallNumUtils.getPortionBeforeCutter(callnum));
 		}
-
 		return result;
 	}
 
