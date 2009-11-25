@@ -1,0 +1,1288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<!-- call num top facet is "3" -->
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>01357ctm a2200349La 4500</leader>
+        <controlfield tag="001">a8373645</controlfield>
+        <controlfield tag="008">091022s2009    caua    r     000 0 eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">four digits space four digits labelled LC</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">3781 2009 T</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">LL289799</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MEDICAL</subfield>
+            <subfield code="u">10/24/2009</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">2345 5861 V.3</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105127618713</subfield>
+            <subfield code="l">CHINESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">1/25/2007</subfield>
+        </datafield>    
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">2061 4246 NO.5-6 1936-1937</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105124514436</subfield>
+            <subfield code="l">EALSAL-CHN</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-PERI</subfield>
+            <subfield code="u">6/2/2006</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+            <subfield code="o">.TECHSTAFF. .COMMENT.Backstage Library Works recon 05/31/06</subfield>
+        </datafield>    
+    </record>
+    <record>
+        <leader>03271cas a2200589 a 4500</leader>
+        <controlfield tag="001">a5319829</controlfield>
+        <controlfield tag="008">021217c19839999cc br p   g   0   e0chi d</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">more weird call num scheme</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">4861.1 /3700</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">5319829-3001</subfield>
+            <subfield code="l">CHINESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-PERI</subfield>
+            <subfield code="u">3/29/2007</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+        </datafield>
+     </record>
+    <record>
+        <leader>03916cas a2200565   4500</leader>
+        <controlfield tag="001">a4208298</controlfield>
+        <controlfield tag="008">870204c19609999ch ar        f0   e0chird</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">weird east asia</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">4488.301 0300 1999</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105125083373</subfield>
+            <subfield code="l">EALSAL-CHN</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-PERI</subfield>
+            <subfield code="u">10/21/2009</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">4030.1 2013 NO.1-9 1958:JAN.-SEPT.</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105094428732</subfield>
+            <subfield code="l">EALSAL-CHN</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-PERI</subfield>
+            <subfield code="u">8/4/2006</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+            <subfield code="o">.TECHSTAFF. COMMENT.Backstage Library Works recon 07/31/06</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">4030.1 2012</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">6542165-2001</subfield>
+            <subfield code="l">CHINESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-PERI</subfield>
+            <subfield code="u">7/31/2007</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+        </datafield>     
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">9698.3 4275.25 F V.4</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105119175219</subfield>
+            <subfield code="l">LOCKED-STK</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-PERI</subfield>
+            <subfield code="u">7/28/2005</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">9701 6587.30 NO.3-6 1959:MAR.-JUNE</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105094457897</subfield>
+            <subfield code="l">EALSAL-CHN</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-PERI</subfield>
+            <subfield code="u">12/8/2006</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+            <subfield code="o">
+                .TECHSTAFF. .COMMENT.Backstage Library Works recon 11/30/2006
+            </subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">9701 6587.30</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">6711474-2001</subfield>
+            <subfield code="l">CHINESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-PERI</subfield>
+            <subfield code="u">5/1/2009</subfield>
+        </datafield>    
+    </record>
+ <!-- callnum_top_facet is 0 -->
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>01193nam a22003258a 4500</leader>
+        <controlfield tag="001">a3315407</controlfield>
+        <controlfield tag='008'>960517s1996    cau           000 1 eng  </controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">in process "LC" callnums start 00</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">001AQJ5818</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">2</subfield>
+            <subfield code="i">002AQJ5818</subfield>
+            <subfield code="d">10/30/1998</subfield>
+            <subfield code="k">INPROCESS</subfield>
+            <subfield code="l">RARE-BOOKS</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="p">$40.00</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS</subfield>
+            <subfield code="u">6/4/1996</subfield>
+            <subfield code="o">.TECHSTAFF. SPEC 4/21/97/R:ADN</subfield>
+        </datafield>
+    </record>
+<!-- "1" -->
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>02496cam a2200337 a 4500</leader>
+        <controlfield tag="001">a4759923</controlfield>
+        <controlfield tag="008">010112s2000    nyu      bt   000 0 eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">cs tech reports ...  callnum_top_facet should not be "1"</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">134776</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105111124884</subfield>
+            <subfield code="d">6/4/2002</subfield>
+            <subfield code="e">6/4/2002</subfield>
+            <subfield code="l">TECH-RPTS</subfield>
+            <subfield code="m">MATH-CS</subfield>
+            <subfield code="n">1</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS</subfield>
+            <subfield code="u">4/16/2002</subfield>
+            <subfield code="o">.TECHSTAFF. c:liy</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">262198</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">3</subfield>
+            <subfield code="i">36105018875349</subfield>
+            <subfield code="l">TECH-RPTS</subfield>
+            <subfield code="m">MATH-CS</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS</subfield>
+            <subfield code="u">10/23/2002</subfield>
+        </datafield>        
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">4759923-3001</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">SUL</subfield>
+            <subfield code="u">6/10/2002</subfield>
+            <subfield code="o">.TECHSTAFF. i:jy 6/10/2002</subfield>
+        </datafield>
+    </record>
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>27095cam a22021011a 4500</leader>
+        <controlfield tag="001">a6276339</controlfield>
+        <controlfield tag="008">050221m19301937ja a          000 0 jpn d</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">dewey labelled as LC. Not give "1" in any case ...</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">180.8 D25 V.2</subfield>
+            <subfield code="w">DEWEY</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105124340923</subfield>
+            <subfield code="l">SCBS</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NONCIRC</subfield>
+            <subfield code="u">1/19/2006</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+            <subfield code="o">.TECHSTAFF. .COMMENT.Backstage Library Works recon 12/09/05</subfield>
+        </datafield>
+        <!-- it has LC scheme shown, but it's clearly dewey ... -->
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">180.8 D25 V.1</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105124348330</subfield>
+            <subfield code="l">SCBS</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NONCIRC</subfield>
+            <subfield code="u">3/21/2007</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">219.7 KA193L V.5</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105211664474</subfield>
+            <subfield code="l">JAPANESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">6/18/2009</subfield>
+        </datafield>
+    </record>    
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>00841cas a22002292i 4500</leader>
+        <controlfield tag="001">a7575731</controlfield>
+        <controlfield tag="008">970820u19uu9999mauar             a0eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">lc should be alphanum</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">1ST AMERICAN BANCORP, INC.</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">JL28537S</subfield>
+            <subfield code="l">ASK@GSB</subfield>
+            <subfield code="m">JACKSON</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">BUSINESS</subfield>
+            <subfield code="u">5/17/2008</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">2 B SYSTEM INC.</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">JL41551S</subfield>
+            <subfield code="l">ASK@GSB</subfield>
+            <subfield code="m">JACKSON</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">BUSINESS</subfield>
+            <subfield code="u">5/17/2008</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">202 DATA SYSTEMS, INC.</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">JL11613S</subfield>
+            <subfield code="l">ASK@GSB</subfield>
+            <subfield code="m">JACKSON</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">BUSINESS</subfield>
+            <subfield code="u">5/17/2008</subfield>
+        </datafield>    
+    </record>
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>01021cas a22002771a 4500</leader>
+        <controlfield tag="001">a6773122</controlfield>
+        <controlfield tag="008">050520d19341941cc ux p       0   e0chi d</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">not lc - gov doc?  alphanum?  chinese one?</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">1975.1 3772.1</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">6773122-1001</subfield>
+            <subfield code="l">CHINESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-PERI</subfield>
+            <subfield code="u">3/22/2007</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">1975.1 3772.1 NO.29 2008</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105210463209</subfield>
+            <subfield code="l">CHINESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-PERI</subfield>
+            <subfield code="u">1/20/2009</subfield>
+        </datafield>
+    </record>
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>01097ckm a2200289Li 4500</leader>
+        <controlfield tag="001">a7278184</controlfield>
+        <controlfield tag="003">SIRSI</controlfield>
+        <controlfield tag="008">050708s1952    it nnn            k|||| d</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">weird lane</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">1.1</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">LL219799</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MEDICAL</subfield>
+            <subfield code="u">3/30/2008</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">20.44</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">LL220408</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MEDICAL</subfield>
+            <subfield code="u">11/14/2009</subfield>
+        </datafield>
+    </record>
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>01154ctm a2200277 a 4500</leader>
+        <controlfield tag="001">a4779032</controlfield>
+        <controlfield tag="008">010523s2000    xx       bm   000 0 eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">not sure what this is???</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">158613F868 .C45 N37 2000</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105111605296</subfield>
+            <subfield code="d">10/2/2008</subfield>
+            <subfield code="e">7/24/2008</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="n">19</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">6/18/2002</subfield>
+            <subfield code="o">.TECHSTAFF. r:sp 06/18/2002/.,c:rsp,6/18/02</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">5115126059 A17 2004</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105115143799</subfield>
+            <subfield code="d">12/5/2004</subfield>
+            <subfield code="e">11/4/2004</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="n">1</subfield>
+            <subfield code="p">$16.00</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">11/2/2004</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+        </datafield>    
+    </record>
+    <record>
+        <leader>06687cas a22007693  4500</leader>
+        <controlfield tag="001">a404891</controlfield>
+        <controlfield tag="008">790220c19639999cauuu         0   a0eng d</controlfield>    
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">shelbytitle weirdness</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a"> 1976</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105010008972</subfield>
+            <subfield code="d">11/17/2006</subfield>
+            <subfield code="l">SHELBYTITL</subfield>
+            <subfield code="m">HOPKINS</subfield>
+            <subfield code="p">$40.00</subfield>
+            <subfield code="q">6</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">PERI</subfield>
+            <subfield code="u">2/20/1979</subfield>
+            <subfield code="o">.TECHSTAFF. #33 901130</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01767nam a22003614a 4500</leader>
+        <controlfield tag="001">a8366720</controlfield>
+        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">EDI weird</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">427331959</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">8366720-1001</subfield>
+            <subfield code="l">EDI</subfield>
+            <subfield code="m">SUL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">EDI-REMOVE</subfield>
+            <subfield code="u">10/15/2009</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01097nem a22002657a 4500</leader>
+        <controlfield tag="001">a8215917</controlfield>
+        <controlfield tag="008">090804s1965    caug      a     1   eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">weird map callnum</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">4362 .S12P2 1965 .C3</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105131173267</subfield>
+            <subfield code="l">MAP-CASES</subfield>
+            <subfield code="m">EARTH-SCI</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">EASTK-DOC</subfield>
+            <subfield code="u">8/4/2009</subfield>
+            <subfield code="o">.TECHSTAFF. c:te</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01357ckm a2200313Li 4500</leader>
+        <controlfield tag="001">a7672538</controlfield>
+        <controlfield tag="008">050831s1940    gw nnn            k|ger d</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">lane LL barcodes</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">4.15[C]</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">LL220624</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MEDICAL</subfield>
+            <subfield code="u">8/9/2008</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">6.4C-CZ[BC]</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">LL238400</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MEDICAL</subfield>
+            <subfield code="u">3/30/2008</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">8.99</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">LL229390</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MEDICAL</subfield>
+            <subfield code="u">3/30/2008</subfield>
+        </datafield>
+    </record>    
+    <record>
+        <leader>00539nam a2200169ZZ 4500</leader>
+        <controlfield tag="001">a229099</controlfield>
+        <controlfield tag="008">890418s1911    rur|||||||||||||||||rus||</controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">two digits then a space</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">70 03126</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105019767628</subfield>
+            <subfield code="d">6/22/1998</subfield>
+            <subfield code="l">UNCAT</subfield>
+            <subfield code="m">SAL</subfield>
+            <subfield code="p">$40.00</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">4/18/1989</subfield>
+            <subfield code="o">.TECHSTAFF. cat:  meoo 901130</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">70 35156</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105111497041</subfield>
+            <subfield code="d">8/6/1996</subfield>
+            <subfield code="l">INPROCESS</subfield>
+            <subfield code="m">SAL3</subfield>
+            <subfield code="p">$40.00</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">7/29/1991</subfield>
+            <subfield code="o">.TECHSTAFF. built</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">70 45997</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">4340815-1001</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">4/19/2000</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">71 15446 V.1</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105116233839</subfield>
+            <subfield code="d">3/8/2005</subfield>
+            <subfield code="l">RBC-30</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="p">$40.00</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NONCIRC</subfield>
+            <subfield code="u">7/21/1992</subfield>
+            <subfield code="o">.TECHSTAFF. i:sbm</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">95 05041</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105017047916</subfield>
+            <subfield code="d">6/11/2001</subfield>
+            <subfield code="e">11/17/1997</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="n">2</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">11/14/1997</subfield>
+            <subfield code="o">.TECHSTAFF. tf:GREEN 9/97 batch</subfield>
+            <subfield code="o">.TECHSTAFF. i:mis/i:emk</subfield>
+            <subfield code="o">.TECHSTAFF. PUB 6/12/96/pb</subfield>
+        </datafield>
+    </record>    
+    <record>
+        <leader>01559cam a2200397Ma 4500</leader>
+        <controlfield tag="001">a7926635</controlfield>
+        <controlfield tag="008">051206s2001    ja            010 0 jpn d</controlfield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">japanese in process</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">7926635</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105211925107</subfield>
+            <subfield code="k">INPROCESS</subfield>
+            <subfield code="l">JAPANESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">9/11/2009</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">7885324-1001-2</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">7885324-2001</subfield>
+            <subfield code="k">INPROCESS</subfield>
+            <subfield code="l">JAPANESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">5/19/2009</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">7890569-1001</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">7890569-1001</subfield>
+            <subfield code="k">INPROCESS</subfield>
+            <subfield code="l">JAPANESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">4/1/2009</subfield>
+        </datafield>
+    </record>    
+    <record>
+        <leader>00619cam a2200181 i 4500</leader>
+        <controlfield tag="001">a3495032</controlfield>
+        <controlfield tag="008">780809s1976    nyu           000 0 eng  </controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">rare books in process</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">741.5 F</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">3495032-1001</subfield>
+            <subfield code="d">10/13/1997</subfield>
+            <subfield code="k">INPROCESS</subfield>
+            <subfield code="l">RARE-BOOKS</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS</subfield>
+            <subfield code="u">10/6/1997</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+            <subfield code="o">.TECHSTAFF. SPEC/i:mab/10/6/97</subfield>
+        </datafield>
+    </record>
+    
+    <record>
+        <leader>06724cas a2200601   4500</leader>
+        <controlfield tag="001">a485907</controlfield>
+        <controlfield tag="008">790219c19639999at uu     b  s0    0eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">four digit fun alphanum</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">8291.209 .A963 V.7 1975/1976</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105010410483</subfield>
+            <subfield code="d">12/12/1998</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL3</subfield>
+            <subfield code="p">$40.00</subfield>
+            <subfield code="q">2</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-PERI</subfield>
+            <subfield code="u">12/12/1998</subfield>
+            <subfield code="o">.TECHSTAFF. tf:SAL 09/28/04 batch</subfield>
+        </datafield>
+    </record>
+<!-- double quote call num ? -->    
+    <record>
+        <leader>00650cas a2200205ui 4500</leader>
+        <controlfield tag="001">aquote</controlfield>
+        <controlfield tag="008">960703d19uu1959xxuar              0eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">double quote call num</subfield>
+        </datafield>    
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">"LA CONSOLIDADA", S.A.</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">JL20264S</subfield>
+            <subfield code="l">ASK@GSB</subfield>
+            <subfield code="m">JACKSON</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">BUSINESS</subfield>
+            <subfield code="u">5/17/2008</subfield>
+        </datafield> 
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">"NEW BEGINNING" INVESTMENT RESERVE FUND,</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">JL36924S</subfield>
+            <subfield code="l">ASK@GSB</subfield>
+            <subfield code="m">JACKSON</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">BUSINESS</subfield>
+            <subfield code="u">5/17/2008</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">"21" BRANDS, INCORPORATED</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">JL41534S</subfield>
+            <subfield code="l">ASK@GSB</subfield>
+            <subfield code="m">JACKSON</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">BUSINESS</subfield>
+            <subfield code="u">5/17/2008</subfield>
+        </datafield>
+    </record>
+<!-- parens call numbers -->    
+    <record>
+        <leader>00847cam a22002775a 4500</leader>
+        <controlfield tag="001">aparen</controlfield>
+        <controlfield tag="008">060323s2005    tu            000 0 tur  </controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">call number in parens</subfield>
+        </datafield>   
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">(OCOLC)65536925</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105122802908</subfield>
+            <subfield code="d">6/29/2007</subfield>
+            <subfield code="e">6/29/2007</subfield>
+            <subfield code="k">B&amp;F-HOLD</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="n">1</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">6/26/2007</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">(V) JN6695 .I28 1999 COPY 2</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">2</subfield>
+            <subfield code="i">36105073321643</subfield>
+            <subfield code="l">VAULT</subfield>
+            <subfield code="m">HOOVER</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">VAULT</subfield>
+            <subfield code="u">7/20/2001</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">(ADL4044.1)XX</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">698085-2001</subfield>
+            <subfield code="d">2/26/1999</subfield>
+            <subfield code="k">INPROCESS</subfield>
+            <subfield code="l">RARE-BOOKS</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="p">$65.00</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS</subfield>
+            <subfield code="u">2/25/1999</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+            <subfield code="o">.TECHSTAFF. iaf/spec 2-25-99</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">(XX.4300523)</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">4300523-1001</subfield>
+            <subfield code="k">INPROCESS</subfield>
+            <subfield code="l">RARE-BOOKS</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="p">$35.00</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS</subfield>
+            <subfield code="u">4/5/2000</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+            <subfield code="o">.TECHSTAFF. r:dp  04/11/2000 DIST</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">(THE) NWNL COMPANIES, INC.</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">JL8237S</subfield>
+            <subfield code="l">ASK@GSB</subfield>
+            <subfield code="m">JACKSON</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">BUSINESS</subfield>
+            <subfield code="u">5/17/2008</subfield>
+        </datafield>
+    </record>
+<!-- callnum starts hyphen -->
+    <record>
+        <leader>00806cam a2200217Ia 4500</leader>
+        <controlfield tag="001">ahyphen</controlfield>
+        <controlfield tag="008">840216s1952    tu ab         000 0 tur d</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">callnum starts hyphen</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">---</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105122770394</subfield>
+            <subfield code="d">8/9/2007</subfield>
+            <subfield code="e">8/9/2007</subfield>
+            <subfield code="k">B&amp;F-HOLD</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="n">2</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">7/3/2007</subfield>
+        </datafield>
+    </record>
+<!-- period callnum -->    
+    <record>
+        <leader>01501cam a2200421La 4500</leader>
+        <controlfield tag="001">aperiod</controlfield>
+        <controlfield tag="008">970103s1996    inua    v     001 0 eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">period call number</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">.W42 1996</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">LL90670</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MEDICAL</subfield>
+            <subfield code="u">3/30/2008</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">.M1620 .N7 N53 1985 V.1:PT.1</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105127618770</subfield>
+            <subfield code="d">2/8/2008</subfield>
+            <subfield code="e">1/31/2008</subfield>
+            <subfield code="l">CHINESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">9/26/1999</subfield>
+            <subfield code="z">DIGI-SENT</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">.G59</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">LL89612</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MEDICAL</subfield>
+            <subfield code="u">3/30/2008</subfield>
+        </datafield>
+    </record>    
+<!-- question mark call number -->   
+    <record>
+        <leader>01820cam a2200457La 4500</leader>
+        <controlfield tag="001">a7603175</controlfield>
+        <controlfield tag="008">010111s1997    mdu          o00| 0 eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">question mark call number</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">???</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">LL205659</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MEDICAL</subfield>
+            <subfield code="u">5/31/2008</subfield>
+        </datafield>
+    </record>
+<!-- back tick call number -->    
+    <record>
+        <leader>01126cam a22002774a 4500</leader>
+        <controlfield tag="001">a7859555</controlfield>
+        <controlfield tag="008">090305s1840    enk           000 0 heb d</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">back tick call number</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">̀PE1130 .H5 H64 1840 HELEK 1</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">7859555-1001</subfield>
+            <subfield code="l">RARE-BOOKS</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS</subfield>
+            <subfield code="u">3/2/2009</subfield>
+        </datafield>
+    </record>
+    
+<!-- starting illegally with I -->    
+    <record>
+        <leader>02132cam a2200397Ia 4500</leader>
+        <controlfield tag="001">aletterI</controlfield>
+        <controlfield tag="008">090306s2009    dcuad   sb    000 0 eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">call number starting with I</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE KF3400 .S36 2009</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">7864015-2001</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">LAW</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">ONLINE</subfield>
+            <subfield code="u">3/6/2009</subfield>
+        </datafield> 
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ISHII</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">JJ182093</subfield>
+            <subfield code="l">ASK@GSB</subfield>
+            <subfield code="m">JACKSON</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">BUSINESS</subfield>
+            <subfield code="u">4/5/2009</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE GALE EZPROXY</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">7157752-2001</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">LAW</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">ONLINE</subfield>
+            <subfield code="u">2/6/2008</subfield>
+            <subfield code="o">.TECHSTAFF. lc:bp -- do not upload record to OCLC.</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ICAO DOC 4444/15 ED</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105133579198</subfield>
+            <subfield code="d">7/17/2008</subfield>
+            <subfield code="e">6/25/2008</subfield>
+            <subfield code="l">INTL-DOCS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="n">1</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">GOVSTKS</subfield>
+            <subfield code="u">6/19/2008</subfield>
+            <subfield code="x">RECYCLE</subfield>
+        </datafield>
+    </record>
+<!-- letter O -->    
+    <record>
+        <leader>00449cam a22001695i 4500</leader>
+        <controlfield tag="001">aletterO</controlfield>
+        <controlfield tag="008">090917 2009    xx                  eng  </controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">call number starting with letter O</subfield>
+        </datafield>        
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">OYER</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">JJ183012</subfield>
+            <subfield code="l">ASK@GSB</subfield>
+            <subfield code="m">JACKSON</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">BUSINESS</subfield>
+            <subfield code="u">9/26/2009</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">O'REILLY</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">JJ175237</subfield>
+            <subfield code="l">ASK@GSB</subfield>
+            <subfield code="m">JACKSON</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">BUSINESS</subfield>
+            <subfield code="u">4/6/2008</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ONLINE RESOURCE</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">JJ183188</subfield>
+            <subfield code="l">ASK@GSB</subfield>
+            <subfield code="m">JACKSON</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">BUSINESS</subfield>
+            <subfield code="u">11/7/2009</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ORNL-6371</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105114013282</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">EARTH-SCI</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">EASTK-DOC</subfield>
+            <subfield code="u">2/8/2005</subfield>
+            <subfield code="o">.TECHSTAFF. c:liy</subfield>
+        </datafield>
+    </record>
+<!-- W -->
+    <record>
+        <leader>00457cam a22001695i 4500</leader>
+        <controlfield tag="001">aletterW</controlfield>
+        <controlfield tag="008">090330 2009    xx                  eng  </controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">letter W</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">WILLIAMS</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">JJ182091</subfield>
+            <subfield code="l">ASK@GSB</subfield>
+            <subfield code="m">JACKSON</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">BUSINESS</subfield>
+            <subfield code="u">4/5/2009</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">WHEELER/HARTMANN/NARAYANAN</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">JJ175811</subfield>
+            <subfield code="l">ASK@GSB</subfield>
+            <subfield code="m">JACKSON</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">BUSINESS</subfield>
+            <subfield code="u">4/6/2008</subfield>
+        </datafield>
+    </record>
+<!-- X -->
+    <record>
+        <leader>01018cam a22003017a 4500</leader>
+        <controlfield tag="001">aletterX</controlfield>
+        <controlfield tag="008">070130s2006    ja |||||||||||||| ||jpn d</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">X call numbers</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">X X</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">6788077-1001</subfield>
+            <subfield code="l">JAPANESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">4/17/2007</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">X XXCIN=MXI; OID=MXI</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105095767443</subfield>
+            <subfield code="l">JAPANESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">11/14/2006</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">XV 852</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105062129460</subfield>
+            <subfield code="d">5/5/2009</subfield>
+            <subfield code="e">5/5/2009</subfield>
+            <subfield code="k">CHECKEDOUT</subfield>
+            <subfield code="l">OPEN-RES</subfield>
+            <subfield code="m">LAW</subfield>
+            <subfield code="n">9</subfield>
+            <subfield code="r">M</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NH-PERMRES</subfield>
+            <subfield code="u">3/1/2006</subfield>
+            <subfield code="o">.TECHSTAFF. lc:kmw</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">X(4775659.1)</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105111585654</subfield>
+            <subfield code="d">10/30/2006</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">5/17/2002</subfield>
+            <subfield code="o">.TECHSTAFF. r :nnt 5/17/02 CLASS</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">X897 .C87 Z55 2001</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105025784799</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="p">$78.58</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">4/2/2002</subfield>
+            <subfield code="x">RECYCLE</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+            <subfield code="o">.TECHSTAFF. r:dus 04/02/2002 i:ejz</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">XM98-1 NO.3</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105023263143</subfield>
+            <subfield code="d">10/22/1998</subfield>
+            <subfield code="l">MAP-CASES</subfield>
+            <subfield code="m">EARTH-SCI</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">EASTK-DOC</subfield>
+            <subfield code="u">10/22/1998</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">X</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">6743881-1001</subfield>
+            <subfield code="l">CHINESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">1/31/2007</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+        </datafield>
+    </record>
+<!-- Y -->
+    <record>
+        <leader>00455cam a22001695i 4500</leader>
+        <controlfield tag="001">aletterY</controlfield>
+        <controlfield tag="008">090106 2009    xx                  eng  </controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">Y call numbers</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">YILMAZ</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">JJ181738</subfield>
+            <subfield code="l">ASK@GSB</subfield>
+            <subfield code="m">JACKSON</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">BUSINESS</subfield>
+            <subfield code="u">1/11/2009</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">YBP1834690</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">4761801-4001</subfield>
+            <subfield code="k">INPROCESS</subfield>
+            <subfield code="l">RARE-BOOKS</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS</subfield>
+            <subfield code="u">10/9/2002</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+            <subfield code="o">.TECHSTAFF. r:dus 10/09/2002 SPEC</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">Y210 .A3F6 1973</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">LL41857</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MEDICAL</subfield>
+            <subfield code="u">3/30/2008</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">YUGOSLAV SERIAL 1973 NO.1-6</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105071356997</subfield>
+            <subfield code="d">3/15/2004</subfield>
+            <subfield code="e">3/12/2004</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">HOOVER</subfield>
+            <subfield code="n">4</subfield>
+            <subfield code="p">$40.00</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">PERIBND</subfield>
+            <subfield code="u">7/27/1998</subfield>
+        </datafield>
+    </record>
+</collection>
