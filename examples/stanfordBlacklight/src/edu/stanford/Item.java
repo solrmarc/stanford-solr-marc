@@ -1,5 +1,7 @@
 package edu.stanford;
 
+import java.util.regex.Pattern;
+
 import org.marc4j.marc.DataField;
 
 /**
@@ -15,7 +17,7 @@ public class Item {
 	private final String currLoc;
 	private final String normCallnum;
 	/** callnumScheme is LC, LCPER, DEWEY, DEWEYPER, SUDOC, ALPHANUM, ASIS ... */
-	private final String callnumScheme;
+	private String callnumScheme;
 	private final boolean hasSkippedLoc;
 	private final boolean hasGovDocLoc;
 	private final boolean isOnline;
@@ -39,19 +41,23 @@ public class Item {
 	public Item(DataField f999, String recId) {
 		// set all the immutable variables
 		barcode = GenericUtils.getSubfieldTrimmed(f999, 'i');
+// TODO:  if callnum is XX and no locations, then it is ON-ORDER
 		currLoc = GenericUtils.getSubfieldTrimmed(f999, 'k');
 		homeLoc = GenericUtils.getSubfieldTrimmed(f999, 'l');
 		library = GenericUtils.getSubfieldTrimmed(f999, 'm');
 		callnumScheme = GenericUtils.getSubfieldTrimmed(f999, 'w');
 		String rawCallnum = GenericUtils.getSubfieldTrimmed(f999, 'a');
-		if (callnumScheme.startsWith("LC") || callnumScheme.startsWith("DEWEY"))
-			normCallnum = org.solrmarc.tools.CallNumUtils.normalizeCallnum(rawCallnum);
-		else
-			normCallnum = rawCallnum;
-		printMsgIfInvalidCallnum(recId);
-
+		
+// SUL loc  INTERNET call num
+//   online item
+//   not call number facet
+//   not shelf key
+		
+// other online items:
+//   if decent call number, yes, call number facet, yes shelf key
+		
 		if (StanfordIndexer.SKIPPED_LOCS.contains(currLoc)
-					|| StanfordIndexer.SKIPPED_LOCS.contains(homeLoc))
+					|| StanfordIndexer.SKIPPED_LOCS.contains(homeLoc) )
 			hasSkippedLoc = true;
 		else 
 			hasSkippedLoc = false;
@@ -63,7 +69,8 @@ public class Item {
 			hasGovDocLoc = false;
 		
 		if (StanfordIndexer.ONLINE_LOCS.contains(currLoc) 
-				|| StanfordIndexer.ONLINE_LOCS.contains(homeLoc) )
+				|| StanfordIndexer.ONLINE_LOCS.contains(homeLoc) 
+				|| (library.equals("SUL") && homeLoc.equals("INTERNET")) )
 			isOnline = true;
 		else
 			isOnline = false;
@@ -79,6 +86,18 @@ public class Item {
 			hasIgnoredCallnum = true;
 		else
 			hasIgnoredCallnum = false;
+
+		if (!hasIgnoredCallnum) {
+			if (callnumScheme.startsWith("LC") || callnumScheme.startsWith("DEWEY"))
+				normCallnum = org.solrmarc.tools.CallNumUtils.normalizeCallnum(rawCallnum);
+			else
+				normCallnum = rawCallnum.trim();
+			printMsgIfInvalidCallnum(recId);
+		}
+		else
+			normCallnum = rawCallnum.trim();
+//System.err.println("  rec " + recId + " normCallnum is " + normCallnum);
+		printMsgIfXXCallnumHasBadLocation(recId);
 	}
 
 	public String getBarcode() {
@@ -104,6 +123,25 @@ public class Item {
 	public String getCallnumScheme() {
 		return callnumScheme;
 	}
+	
+	/**
+	 * LC is default call number scheme assigned;  change it if assigned
+	 *   incorrectly to a Dewey or ALPHANUM call number.  Called after  
+	 *   printMsgIfInvalidCallnum has already found invalid LC call number
+	 */
+	public void adjustLCCallnumScheme(String id) {
+// TODO:  need a test
+		if (callnumScheme.startsWith("LC")) {
+			if (org.solrmarc.tools.CallNumUtils.isValidDewey(normCallnum))
+				callnumScheme = "DEWEY";
+			else
+// FIXME:  practice is ASIS if all letters or all numbers, otherwise ALPHNUM
+//  http://www-sul.stanford.edu/depts/ts/tsdepts/cat/docs/unicorn/callno.html
+				
+// FIXME:  what's the deal with Law call numbers?  See above.				
+				callnumScheme = "INCORRECTLC";		
+		}
+	}
 
 	/**
 	 * @return true if this item has a current or home location indicating it 
@@ -124,7 +162,11 @@ public class Item {
 	 * return true if item has a location code indicating it is online
 	 */
 	public boolean isOnline() {
-		return isOnline;
+// FIXME:  need test
+		if (normCallnum.startsWith("INTERNET"))
+			return true;
+		else
+			return isOnline;
 	}
 
 	/**
@@ -184,20 +226,36 @@ public class Item {
 		this.reverseShelfkey = reverseShelfkey;
 	}
 	
+	/** call numbers must start with a letter or digit */
+    private static final Pattern STRANGE_CALLNUM_START_CHARS = Pattern.compile("^\\p{Alnum}");
 	/**
 	 * output an error message if the call number is supposed to be LC or DEWEY
 	 *  but is invalid
 	 * @param recId the id of the record, used in error message
 	 */
 	private void printMsgIfInvalidCallnum(String recId) {
-		if (callnumScheme.startsWith("LC")) {
-			if (!org.solrmarc.tools.CallNumUtils.isValidLC(normCallnum))
-				System.err.println("record " + recId + " has invalid LC callnumber: " + normCallnum);
+		if (callnumScheme.startsWith("LC") 
+				&& !org.solrmarc.tools.CallNumUtils.isValidLC(normCallnum)) {
+			System.err.println("record " + recId + " has invalid LC callnumber: " + normCallnum);
+			adjustLCCallnumScheme(recId);
 		}
-		else if (callnumScheme.startsWith("DEWEY")) {
-			if (!org.solrmarc.tools.CallNumUtils.isValidDewey(normCallnum))
-				System.err.println("record " + recId + " has invalid dewey callnumber: " + normCallnum);
-			
+		if (callnumScheme.startsWith("DEWEY")
+				&& !org.solrmarc.tools.CallNumUtils.isValidDewey(normCallnum)) {
+			System.err.println("record " + recId + " has invalid DEWEY callnumber: " + normCallnum);
+			callnumScheme = "INCORRECTDEWEY";
 		}
+		else if (STRANGE_CALLNUM_START_CHARS.matcher(normCallnum).matches())
+// TODO:  need a test
+			System.err.println("record " + recId + " has strange callnumber: " + normCallnum);
+	}
+	
+	/**
+	 * output an error message if the call number starts XX, and there is
+	 *  a location (home or current) and the current location is not 
+	 *  "ON-ORDER" or "INPROCESS"  (or shadowed)
+	 * @param recId
+	 */
+	private void printMsgIfXXCallnumHasBadLocation(String recId) {
+// TODO: implement me		
 	}
 }

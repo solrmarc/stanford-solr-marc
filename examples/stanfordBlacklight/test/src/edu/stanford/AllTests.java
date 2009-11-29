@@ -10,6 +10,7 @@ import org.junit.runners.Suite;
         CallNumberLoppingTests.class,
         CallNumberTests.class,
         CallNumberUnitTests.class,
+        CallNumTopFacetTests.class,
         DiacriticTests.class,
         FormatTests.class,
         ItemInfoTests.class,
