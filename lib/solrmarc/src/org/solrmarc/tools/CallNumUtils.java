@@ -41,18 +41,15 @@ public final class CallNumUtils {
 	 */	
 	private CallNumUtils(){ }
 	
-    public static final Pattern DEWEY_PATTERN = Pattern.compile("^\\d{1,3}(\\.\\d+)?.*");
-	/** LC call numbers can't begin with I, O, W, X, or Y */
-    public static final Pattern LC_PATTERN = Pattern.compile("^[A-Za-z&&[^IOWXYiowxy]]{1}[A-Za-z]{0,2} *\\d+(\\.\\d+)?.*");
-
 	/**
 	 * regular expression string for the required portion of the LC classification
 	 *  LC classification is 
 	 *    1-3 capital letters followed by  float number (may be an integer)
 	 *    optionally followed by a space and then a year or other number, 
 	 *      e.g. "1987" "15th"
+	 * LC call numbers can't begin with I, O, W, X, or Y 
 	 */
-	public static final String LC_CLASS_REQ_REGEX = "[A-Z]{1,3}\\d+(\\.\\d+)?";
+	public static final String LC_CLASS_REQ_REGEX = "[A-Z&&[^IOWXY]]{1}[A-Z]{0,2} *\\d+(\\.\\d+)?";
 
 	/**
 	 * non-cutter text that can appear before or after cutters
@@ -60,9 +57,9 @@ public final class CallNumUtils {
 	public static final String NOT_CUTTER = "([\\da-z]\\w*)|([A-Z]\\D+[\\w]*)";
 	
 	/**
-	 * the full LC classification string
+	 * the full LC classification string (can have an optional suffix after LC class)
 	 */
-	public static final String LC_CLASS = "(" + LC_CLASS_REQ_REGEX + "( +" + NOT_CUTTER + ")?)";
+	public static final String LC_CLASS_W_SUFFIX = "(" + LC_CLASS_REQ_REGEX + "( +" + NOT_CUTTER + ")?)";
 	
 	/**
 	 * regular expression string for the cutter, without preceding characters 
@@ -74,7 +71,8 @@ public final class CallNumUtils {
 	/**
 	 * the full LC classification string, followed by the first cutter
 	 */
-	public static final String LC_CLASS_N_CUTTER = LC_CLASS + " *\\.?" + CUTTER_REGEX;
+	public static final String LC_CLASS_N_CUTTER = LC_CLASS_W_SUFFIX + " *\\.?" + CUTTER_REGEX;
+    public static final Pattern LC_CLASS_N_CUTTER_PATTERN = Pattern.compile(LC_CLASS_N_CUTTER + ".*");
 		
 	/**
 	 * regular expression for Dewey classification.
@@ -82,15 +80,24 @@ public final class CallNumUtils {
 	 *   zeros) with an optional fraction portion.
 	 */
 	public static final String DEWEY_CLASS_REGEX = "\\d{1,3}(\\.\\d+)?";
-	
-	/**
-	 * Dewey cutters can have following letters, preceded by space or not
-	 */
-	public static final String DEWEY_CUTTER_REGEX = CUTTER_REGEX + " *[A-Z]*+";
-	public static final String DEWEY_CUTTER_NO_TRAILING_LETTERS_REGEX = CUTTER_REGEX;
-	public static final String DEWEY_CUTTER_TRAILING_LETTERS_REGEX = CUTTER_REGEX + "[A-Z]+";
-	public static final String DEWEY_CUTTER_SPACE_TRAILING_LETTERS_REGEX = CUTTER_REGEX + " +[A-Z]+";
 
+	/**
+	 * Dewey cutters start with a letter, followed by a one to three digit 
+	 * number. The number may be followed immediately (i.e. without space) by 
+	 * letters, or followed first by a space and then letters. 
+	 */
+	public static final String DEWEY_MIN_CUTTER_REGEX = "[A-Z]\\d{1,3}";
+	public static final String DEWEY_CUTTER_TRAILING_LETTERS_REGEX = DEWEY_MIN_CUTTER_REGEX + "[A-Z]+";
+	public static final String DEWEY_CUTTER_SPACE_TRAILING_LETTERS_REGEX = DEWEY_MIN_CUTTER_REGEX + " +[A-Z]+";
+	public static final String DEWEY_FULL_CUTTER_REGEX = DEWEY_MIN_CUTTER_REGEX + " *[A-Z]*+";
+
+	/**
+	 * the full Dewey classification string, followed by the first cutter
+	 */
+	public static final String DEWEY_CLASS_N_CUTTER_REGEX = DEWEY_CLASS_REGEX + " *\\.?" + DEWEY_FULL_CUTTER_REGEX;
+    public static final Pattern DEWEY_CLASS_N_CUTTER_PATTERN = Pattern.compile(DEWEY_CLASS_N_CUTTER_REGEX + ".*");
+	
+	
 	private static Map<Character, Character> alphanumReverseMap = new HashMap<Character, Character>();
 	static {
 		alphanumReverseMap.put('0', 'Z');
@@ -151,7 +158,7 @@ public final class CallNumUtils {
 	 */
 	public static final boolean isValidLC(String possLCval)
 	{
-		if (possLCval != null && LC_PATTERN.matcher(possLCval.trim()).matches())
+		if (possLCval != null && LC_CLASS_N_CUTTER_PATTERN.matcher(possLCval.trim()).matches())
 	    	return true;
 		return false;
 	}
@@ -162,7 +169,7 @@ public final class CallNumUtils {
 	 */
 	public static final boolean isValidDewey(String possDeweyVal)
 	{
-	    if (possDeweyVal != null && DEWEY_PATTERN.matcher(possDeweyVal.trim()).matches())
+	    if (possDeweyVal != null && DEWEY_CLASS_N_CUTTER_PATTERN.matcher(possDeweyVal.trim()).matches())
 	    	return true;
 		return false;
 	}
@@ -282,7 +289,7 @@ public final class CallNumUtils {
 	public static String getFirstLCcutter(String rawCallnum) {
 		String result = null;
 	
-		String regex = LC_CLASS + " *\\.?(" + CUTTER_REGEX + ")";
+		String regex = LC_CLASS_W_SUFFIX + " *\\.?(" + CUTTER_REGEX + ")";
 	    Pattern pattern = Pattern.compile(regex);
 	    Matcher matcher = pattern.matcher(rawCallnum);
 	
@@ -486,10 +493,10 @@ public final class CallNumUtils {
 
     	// dewey cutters can have trailing letters, preceded by a space or not
 		String regex1 = DEWEY_CLASS_REGEX +  " *\\.?(" + DEWEY_CUTTER_TRAILING_LETTERS_REGEX + ")( +" + NOT_CUTTER + ".*)";
-		String regex2 = DEWEY_CLASS_REGEX +  " *\\.?(" + DEWEY_CUTTER_NO_TRAILING_LETTERS_REGEX + ")( +" + NOT_CUTTER + ".*)";
+		String regex2 = DEWEY_CLASS_REGEX +  " *\\.?(" + DEWEY_MIN_CUTTER_REGEX + ")( +" + NOT_CUTTER + ".*)";
 		String regex3 = DEWEY_CLASS_REGEX +  " *\\.?(" + DEWEY_CUTTER_SPACE_TRAILING_LETTERS_REGEX + ")( +" + NOT_CUTTER + ".*)";
 		String regex4 = DEWEY_CLASS_REGEX +  " *\\.?(" + DEWEY_CUTTER_TRAILING_LETTERS_REGEX + ")(.*)";
-		String regex5 = DEWEY_CLASS_REGEX +  " *\\.?(" + DEWEY_CUTTER_NO_TRAILING_LETTERS_REGEX + ")(.*)";
+		String regex5 = DEWEY_CLASS_REGEX +  " *\\.?(" + DEWEY_MIN_CUTTER_REGEX + ")(.*)";
 		String regex6 = DEWEY_CLASS_REGEX +  " *\\.?(" + DEWEY_CUTTER_SPACE_TRAILING_LETTERS_REGEX + ")(.*)";
         Pattern pat1 = Pattern.compile(regex1);
 		Pattern pat2 = Pattern.compile(regex2);
@@ -566,10 +573,10 @@ public final class CallNumUtils {
     	{
 	    	// dewey cutters can have trailing letters, preceded by a space or not
 			String regex1 = DEWEY_CLASS_REGEX +  " *\\.?(" + DEWEY_CUTTER_TRAILING_LETTERS_REGEX + ")( +" + NOT_CUTTER + ".*)";
-			String regex2 = DEWEY_CLASS_REGEX +  " *\\.?(" + DEWEY_CUTTER_NO_TRAILING_LETTERS_REGEX + ")( +" + NOT_CUTTER + ".*)";
+			String regex2 = DEWEY_CLASS_REGEX +  " *\\.?(" + DEWEY_MIN_CUTTER_REGEX + ")( +" + NOT_CUTTER + ".*)";
 			String regex3 = DEWEY_CLASS_REGEX +  " *\\.?(" + DEWEY_CUTTER_SPACE_TRAILING_LETTERS_REGEX + ")( +" + NOT_CUTTER + ".*)";
 			String regex4 = DEWEY_CLASS_REGEX +  " *\\.?(" + DEWEY_CUTTER_TRAILING_LETTERS_REGEX + ")(.*)";
-			String regex5 = DEWEY_CLASS_REGEX +  " *\\.?(" + DEWEY_CUTTER_NO_TRAILING_LETTERS_REGEX + ")(.*)";
+			String regex5 = DEWEY_CLASS_REGEX +  " *\\.?(" + DEWEY_MIN_CUTTER_REGEX + ")(.*)";
 			String regex6 = DEWEY_CLASS_REGEX +  " *\\.?(" + DEWEY_CUTTER_SPACE_TRAILING_LETTERS_REGEX + ")(.*)";
 	        Pattern pat1 = Pattern.compile(regex1);
 			Pattern pat2 = Pattern.compile(regex2);
@@ -628,7 +635,7 @@ public final class CallNumUtils {
      *  single space, remove spaces after periods, remove trailing periods
      *   
      * @param rawCallnum - a non-null String containing a Dewey call number
-     * @return normalized form of Dewey call number
+     * @return normalized form of a call number
      */
     public static String normalizeCallnum(String rawCallnum) {
 

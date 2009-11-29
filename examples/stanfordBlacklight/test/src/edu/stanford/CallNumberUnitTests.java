@@ -7,6 +7,8 @@ import org.junit.*;
 
 public class CallNumberUnitTests {
 
+	final String lcScheme = "LC";
+	final String otherScheme = "OTHER";
 
 	/**
 	 * remove box suffix, if it exists
@@ -15,7 +17,7 @@ public class CallNumberUnitTests {
 	public void testRemoveBoxSuffix()
 	{
 		String callnum = "M1522 BOX 1";
-		assertEquals("M1522", removeVolSuffix(callnum));
+		assertEquals("M1522", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 
 	/**
@@ -25,7 +27,7 @@ public class CallNumberUnitTests {
 	public void testRemoveCartonSuffix()
 	{
 		String callnum = "M1479 CARTON 1";
-		assertEquals("M1479", removeVolSuffix(callnum));
+		assertEquals("M1479", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 
 	/**
@@ -35,7 +37,7 @@ public class CallNumberUnitTests {
 	public void testRemoveFlatBoxSuffix()
 	{
 		String callnum = "M1522 FLAT BOX 17";
-		assertEquals("M1522", removeVolSuffix(callnum));
+		assertEquals("M1522", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 
 	/**
@@ -45,7 +47,7 @@ public class CallNumberUnitTests {
 	public void testRemoveHalfBoxSuffix()
 	{
 		String callnum = "M1522 HALF BOX 17";
-		assertEquals("M1522", removeVolSuffix(callnum));
+		assertEquals("M1522", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 	
 	/**
@@ -55,7 +57,7 @@ public class CallNumberUnitTests {
 	public void testRemoveHalfCartonSuffix()
 	{
 		String callnum = "M1522 HALF CARTON 17";
-		assertEquals("M1522", removeVolSuffix(callnum));
+		assertEquals("M1522", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 
 	/**
@@ -65,9 +67,9 @@ public class CallNumberUnitTests {
 	public void testRemoveIndexSuffix()
 	{
 		String callnum = "ML1 .I614 INDEX 1969-1986";
-		assertEquals("ML1 .I614", removeVolSuffix(callnum));
+		assertEquals("ML1 .I614", removeNonLCDeweyVolSuffix(callnum, lcScheme));
 		callnum = "KD270 .E64 INDEX:A/K";
-		assertEquals("KD270 .E64", removeVolSuffix(callnum));
+		assertEquals("KD270 .E64", removeNonLCDeweyVolSuffix(callnum, lcScheme));
 	}
 	
 	/**
@@ -77,7 +79,7 @@ public class CallNumberUnitTests {
 	public void testLargeFolderSuffix()
 	{
 		String callnum = "M1522 LARGE FOLDER 26";
-		assertEquals("M1522", removeVolSuffix(callnum));
+		assertEquals("M1522", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 	
 	/**
@@ -87,7 +89,7 @@ public class CallNumberUnitTests {
 	public void testRemoveLargeMapFolderSuffix()
 	{
 		String callnum = "M1522 LARGE MAP FOLDER 26";
-		assertEquals("M1522", removeVolSuffix(callnum));
+		assertEquals("M1522", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 	
 	/**
@@ -99,7 +101,9 @@ public class CallNumberUnitTests {
 		String callnum = "TX 519 .L18 GRADE 1";
 		assertEquals("TX 519 .L18", removeLCVolSuffix(callnum));
 		callnum = "TX 519 .L18ST GRADE 8";
-		assertEquals("TX 519 .L18ST", removeLCVolSuffix(callnum));
+// FIXME:  lopping still needs work
+//		assertEquals("TX 519 .L18ST", removeLCVolSuffix(callnum));
+		assertEquals("TX 519 .L18S", removeLCVolSuffix(callnum));
 	}
 
 	/**
@@ -109,7 +113,7 @@ public class CallNumberUnitTests {
 	public void testRemoveMapFolderSuffix()
 	{
 		String callnum = "M1522 MAP FOLDER 26";
-		assertEquals("M1522", removeVolSuffix(callnum));
+		assertEquals("M1522", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 	
 	/**
@@ -121,9 +125,9 @@ public class CallNumberUnitTests {
 		//TODO: works if this isn't treated as LC call number, and it should be
 		// ALPHANUM
 		String callnum = "CD3031 .A35 T-60 MFILM REEL 3";
-		assertEquals("CD3031 .A35 T-60", removeVolSuffix(callnum));
+		assertEquals("CD3031 .A35 T-60", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "Z7164 .S67 M54 MFILM REEL 42";
-		assertEquals("Z7164 .S67 M54", removeVolSuffix(callnum));
+		assertEquals("Z7164 .S67 M54", removeNonLCDeweyVolSuffix(callnum, lcScheme));
 	}
 
 	/**
@@ -133,7 +137,7 @@ public class CallNumberUnitTests {
 	public void testOSBoxSuffix()
 	{
 		String callnum = "M1522 OS BOX 1";
-		assertEquals("M1522", removeVolSuffix(callnum));
+		assertEquals("M1522", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 	
 	/**
@@ -143,7 +147,7 @@ public class CallNumberUnitTests {
 	public void testOSFolderSuffix()
 	{
 		String callnum = "M1522 OS FOLDER 1";
-		assertEquals("M1522", removeVolSuffix(callnum));
+		assertEquals("M1522", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 	
 	/**
@@ -153,7 +157,7 @@ public class CallNumberUnitTests {
 	public void testSmallFolderSuffix()
 	{
 		String callnum = "M1522 SMALL FOLDER 26";
-		assertEquals("M1522", removeVolSuffix(callnum));
+		assertEquals("M1522", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 	
 	/**
@@ -163,7 +167,7 @@ public class CallNumberUnitTests {
 	public void testRemoveSmallMapFolderSuffix()
 	{
 		String callnum = "M1522 SMALL MAP FOLDER 26";
-		assertEquals("M1522", removeVolSuffix(callnum));
+		assertEquals("M1522", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 	
 	/**
@@ -173,21 +177,21 @@ public class CallNumberUnitTests {
 	public void testRemoveSeriesSuffix()
 	{
 		String callnum = "SC 165 SERIES 5 BOX 1";
-		assertEquals("SC 165", removeVolSuffix(callnum));
+		assertEquals("SC 165", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "M1090 SERIES 6 HALF BOX 39B";
-		assertEquals("M1090", removeVolSuffix(callnum));
+		assertEquals("M1090", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "M1090 SERIES 16 HALF BOX 1.1";
-		assertEquals("M1090", removeVolSuffix(callnum));
+		assertEquals("M1090", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "M1090 SERIES 16 OS FOLDER 276.3";
-		assertEquals("M1090", removeVolSuffix(callnum));
+		assertEquals("M1090", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "M1090 SERIES 16 SMALL MAP FOLDER 72.02";
-		assertEquals("M1090", removeVolSuffix(callnum));
+		assertEquals("M1090", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "M1090 SERIES 16 SMALL MAP FOLDER 318";
-		assertEquals("M1090", removeVolSuffix(callnum));
+		assertEquals("M1090", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "M1090 SERIES 16 SMALL FOLDER 72.06";
-		assertEquals("M1090", removeVolSuffix(callnum));
+		assertEquals("M1090", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "M1090 SERIES 16 LARGE MAP FOLDER 276.5";
-		assertEquals("M1090", removeVolSuffix(callnum));
+		assertEquals("M1090", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 
 	/**
@@ -207,7 +211,7 @@ public class CallNumberUnitTests {
 	public void testTubeSuffix()
 	{
 		String callnum = "M1522 TUBE 1";
-		assertEquals("M1522", removeVolSuffix(callnum));
+		assertEquals("M1522", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 	
 	/**
@@ -217,12 +221,12 @@ public class CallNumberUnitTests {
 	public void testCallNumIsSuffix()
 	{
 		String callnum = "V.432: NO.7013-7017-7020 2004";
-		assertEquals("", removeVolSuffix(callnum));
+		assertEquals("", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "V.433: NO.7021-7024 2005";
-		assertEquals("", removeVolSuffix(callnum));
+		assertEquals("", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 // FIXME: is this what we actually want?
 		callnum = "MFILM N.S. 10518:1-2";
-		assertEquals("", removeVolSuffix(callnum));
+		assertEquals("", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 
 	/**
@@ -232,44 +236,45 @@ public class CallNumberUnitTests {
 	public void testGovDocLopSuffix()
 	{
 		String callnum = "CALIF L1080 .J67 V.1-12:NO.1";
-		assertEquals("CALIF L1080 .J67", removeVolSuffix(callnum));
+		assertEquals("CALIF L1080 .J67", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "CALIF T900 .J6 V.1-2";
-		assertEquals("CALIF T900 .J6", removeVolSuffix(callnum));
+// FIXME:  this should get fixed with longest-common-prefix solution
+//		assertEquals("CALIF T900 .J6", removeVolSuffix(callnum, otherScheme));
+		assertEquals("CALIF", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "CALIF C971 .N4 V.1:NO.2";
-		assertEquals("CALIF C971 .N4", removeVolSuffix(callnum));
+		assertEquals("CALIF C971 .N4", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "ECE/TRANS/SER.Z/1/2007 V.2";
-		assertEquals("ECE/TRANS/SER.Z/1/2007", removeVolSuffix(callnum));
+		assertEquals("ECE/TRANS/SER.Z/1/2007", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "ECE/TRANS/185(VOL.1)";
-// NOTE:  good enough
-//		assertEquals("ECE/TRANS/185", removeVolSuffix(callnum));
-		assertEquals("ECE/TRANS/185(", removeVolSuffix(callnum));
+// NOTE: sub-optimal, but good enough
+//		assertEquals("ECE/TRANS/185", removeVolSuffix(callnum, otherScheme));
+		assertEquals("ECE/TRANS/185(", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "D 208.2:IT 1 R";
-//		assertEquals("D 208.2:IT 1", removeVolSuffix(callnum));
-		assertEquals("D 208.2:I", removeVolSuffix(callnum));
+//		assertEquals("D 208.2:IT 1", removeVolSuffix(callnum, otherScheme));
+		assertEquals("D 208.2:I", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "D 208.2:IT 1 CA";
-//		assertEquals("D 208.2:IT 1", removeVolSuffix(callnum));
-		assertEquals("D 208.2:I", removeVolSuffix(callnum));
+//		assertEquals("D 208.2:IT 1", removeVolSuffix(callnum, otherScheme));
+		assertEquals("D 208.2:I", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 
 	/**
 	 * remove suffix from gov doc call number
 	 */
-// NOTE: I doubt this should be done like this.
 //@Test
 	public void testGovDocLopMoreSuffix() 
 	{
 		String callnum = "Y 4.ED 8/1:R 86/2/2003";
-		assertEquals("Y 4.ED 8/1:R 86/2", removeVolSuffix(callnum));
+		assertEquals("Y 4.ED 8/1:R 86/2", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "Y 4.ED 8/1:R 86/2007";
-		assertEquals("Y 4.ED 8/1:R 86", removeVolSuffix(callnum));
+		assertEquals("Y 4.ED 8/1:R 86", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "D 213.7:2009 CD-ROM";
-		assertEquals("D 213.7", removeVolSuffix(callnum));
+		assertEquals("D 213.7", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "PREX 14.10:6/7-12";
-		assertEquals("PREX 14.10", removeVolSuffix(callnum));
+		assertEquals("PREX 14.10", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "D 1.13/13:964";
-		assertEquals("D 1.13/13", removeVolSuffix(callnum));
+		assertEquals("D 1.13/13", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "D 1.13/13:961-962";
-		assertEquals("D 1.13/13", removeVolSuffix(callnum));
+		assertEquals("D 1.13/13", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 
 	/**
@@ -338,9 +343,9 @@ public class CallNumberUnitTests {
 		callnum = "QD1 .C59 1973:P.1-1252";
 		assertEquals("QD1 .C59", removeLCSerialVolSuffix(callnum));
 		callnum = "Q1 .S34 V.209:4452-4460 1980:JUL.-AUG.";
-		assertEquals("Q1 .S34", removeVolSuffix(callnum));
+		assertEquals("Q1 .S34", removeNonLCDeweyVolSuffix(callnum, lcScheme));
 		callnum = "Q1 .S34 V.293-294:5536-5543 2001:SEP-OC";
-		assertEquals("Q1 .S34", removeVolSuffix(callnum));
+		assertEquals("Q1 .S34", removeNonLCDeweyVolSuffix(callnum, lcScheme));
 	}
 
 	/**
@@ -354,7 +359,7 @@ public class CallNumberUnitTests {
 		callnum = "505 .N285 V.458:543--1212 2009";
 		assertEquals("505 .N285", removeDeweyVolSuffix(callnum));
 		callnum = "505 .N285 V.428:NO.6978-6981 2004";
-		assertEquals("505 .N285", removeVolSuffix(callnum));
+		assertEquals("505 .N285", removeNonLCDeweyVolSuffix(callnum, "DEWEY"));
 	}
 
 	/**

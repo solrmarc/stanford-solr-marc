@@ -191,16 +191,19 @@ public class CallNumUtils {
 	 * try to remove volume suffix from call number of unknown type.  It first
 	 *  tries it as an LC call number, then as a Dewey call number, then
 	 *  just goes for it
+	 *   this is called for non-Dewey, non-LC call numbers.
 	 * @param rawCallnum
+	 * @param callnumScheme - the scheme of this call number, such as SUDOC, ALPHANUM
 	 * @return call number without the volume information, or full call number
 	 *   if no volume information is present.
 	 */
-	static String removeVolSuffix(String rawCallnum) 
+	static String removeNonLCDeweyVolSuffix(String rawCallnum, String callnumScheme) 
 	{
-		String lopped = removeLCVolSuffix(rawCallnum);
-		if (lopped.equals(rawCallnum))
-			lopped = removeDeweyVolSuffix(rawCallnum);
-		// might be non-LC, non-Dewey
+		String lopped = rawCallnum;
+		if (!callnumScheme.equals("SUDOC"))
+			// look for archive type stuff (flat box, etc.)
+			lopped = removeMoreVolSuffix(rawCallnum);
+		
 		if (lopped.equals(rawCallnum)) 
 		{
 			Matcher matcher = volPattern.matcher(rawCallnum);
@@ -215,11 +218,12 @@ public class CallNumUtils {
 				// return orig call number with matcher part lopped off.
 				int ix = matcher.start();
 				if (ix != -1 && ix < rawCallnum.length()) {
-					lopped= rawCallnum.substring(0, ix).trim();
+					lopped = rawCallnum.substring(0, ix).trim();
 				}
 			}
-			else
-				lopped = removeMoreVolSuffix(rawCallnum);
+			// last ditch attempt for SUDOC, which wasn't tried above
+//			else if (callnumScheme.equals("SUDOC"))
+//				lopped = removeMoreVolSuffix(rawCallnum);
 		}
 		return lopped;
 	}
@@ -228,13 +232,15 @@ public class CallNumUtils {
 	/**
 	 * remove volume suffix from call number if it is present.  Call number is
 	 *  for a serial, so if the suffix starts with a year, it can be removed.
+	 *   this is called for non-Dewey, non-LC call numbers.
 	 * @param rawCallnum
+	 * @param callnumScheme - the scheme of this call number, such as SUDOC, ALPHANUM
 	 * @return call number without the volume information, or full call number
 	 *   if no volume information is present.
 	 */
-	static String removeSerialVolSuffix(String rawCallnum)
+	static String removeNonLCDeweySerialVolSuffix(String rawCallnum, String callnumScheme)
 	{
-		String try1 = removeVolSuffix(rawCallnum);
+		String try1 = removeNonLCDeweyVolSuffix(rawCallnum, callnumScheme);
 		if (!try1.equals(rawCallnum))
 			return try1;
 		else
@@ -521,59 +527,40 @@ public class CallNumUtils {
 	}
 	
 	/**
-	 * return a sortable shelving key for the call number
+	 * return a sortable shelving key for the call number (which is 
+	 *  neither an LC nor a Dewey callnum)
 	 * @param rawCallnum - the call number for which a shelfkey is desired
+	 * @param recId - record id, for error messages
 	 */
-	static String getShelfKey(String rawCallnum) {
-		if (rawCallnum == null || rawCallnum.length() == 0)
-			return "";
-		return getShelfKey(rawCallnum, null);
+	static String getNonLCDeweyShelfKey(String rawCallnum, String recId) {
+		return org.solrmarc.tools.CallNumUtils.normalizeSuffix(rawCallnum);
 	}
 
 	/**
 	 * return a sortable shelving key for the call number
 	 * @param rawCallnum - the call number for which a shelfkey is desired
+	 * @param scheme - what kind of call number it is
 	 * @param recId - record id, for error messages
 	 */
-	static String getShelfKey(String rawCallnum, String recId) {
+	static String getShelfKey(String rawCallnum, String scheme, String recId) {
 		String result = "";
+		if (rawCallnum.equals(""))
+			return result;
 		try {
-			if (org.solrmarc.tools.CallNumUtils.isValidLC(rawCallnum))
+			if (scheme.startsWith("LC"))
 				result = org.solrmarc.tools.CallNumUtils.getLCShelfkey(rawCallnum, recId);
-			if ( (result == null || result.length() == 0 || result.equals(rawCallnum)) 
-					&& org.solrmarc.tools.CallNumUtils.isValidDewey(rawCallnum) )
+			else if (scheme.startsWith("DEWEY"))
 				result = org.solrmarc.tools.CallNumUtils.getDeweyShelfKey(rawCallnum);
 		}
 		catch (Exception e) {
 		}
-	
-		if (result == null || result.length() == 0 || result.equals(rawCallnum)) 
-			result = org.solrmarc.tools.CallNumUtils.normalizeSuffix(rawCallnum);
-		return result;
-	}
-
-	/**
-	 * return a sortable shelving key for the call number
-	 * @param rawCallnum - the call number for which a shelfkey is desired
-	 * @param callnumTypeGuess - what kind of call number is it likely to be?
-	 * @param recId - record id, for error messages
-	 */
-	static String getShelfKey(String rawCallnum, String callnumTypeGuess, String recId) {
-		if (rawCallnum == "")
-			return "";
-		String result = "";
-		try {
-			if (callnumTypeGuess.startsWith("LC"))
-				result = org.solrmarc.tools.CallNumUtils.getLCShelfkey(rawCallnum, recId);
-			else if (callnumTypeGuess.startsWith("DEWEY"))
-				result = org.solrmarc.tools.CallNumUtils.getDeweyShelfKey(rawCallnum);
-		}
-		catch (Exception e) {
-		}
+		if (result == null || result.equals("") 
+				|| result.equals(rawCallnum))
+			result = getNonLCDeweyShelfKey(rawCallnum, recId);
+			
+		if (result == null || result.equals(""))
+			result = rawCallnum;
 		
-		if (result == null || result == "") 
-			return getShelfKey(rawCallnum, recId);
-
 		return result;
 	}
 
@@ -585,27 +572,12 @@ public class CallNumUtils {
 	 *  
 	 * @param rawCallnum
 	 * @param loppedCallnum - the call number with volume/part information lopped off
-	 * @param isSerial - true if the call number is for a serial 
-	 * @return empty string if given empty string or null, o.w. the goods
-	 */
-	static String getVolumeSortCallnum(String rawCallnum, String loppedCallnum, boolean isSerial) 
-	{
-		return getVolumeSortCallnum(rawCallnum, loppedCallnum, isSerial, null);
-	}
-
-	/**
-	 * returns a sortable call number.  If it is the call number for a serial,
-	 *  the lexical sort will be in ascending order, but will have the most 
-	 *  recent volumes first.  If it's not the call number for a serial, the
-	 *  sort will be strictly in ascending order.
-	 *  
-	 * @param rawCallnum
-	 * @param loppedCallnum - the call number with volume/part information lopped off
+	 * @param scheme - the call number scheme (e.g. LC, DEWEY, SUDOC ...)
 	 * @param isSerial - true if the call number is for a serial 
 	 * @param recId - record id, for error messages
 	 * @return empty string if given empty string or null, o.w. the goods
 	 */
-	static String getVolumeSortCallnum(String rawCallnum, String loppedCallnum, boolean isSerial, String recId) 
+	static String getVolumeSortCallnum(String rawCallnum, String loppedCallnum, String scheme, boolean isSerial, String recId) 
 	{
 		if (rawCallnum == null || rawCallnum.length() == 0)
 			return "";
@@ -614,14 +586,14 @@ public class CallNumUtils {
 		{  
 			// it's a serial and call number has a part/volume suffix
 			//   basic call num sorts as shelfkey, volume suffix sorts as reverse key
-			String loppedShelfkey = getShelfKey(loppedCallnum, recId);
+			String loppedShelfkey = getShelfKey(loppedCallnum, scheme, recId);
 			String volSuffix = rawCallnum.substring(loppedCallnum.length()).trim();
 			String volSortString = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(org.solrmarc.tools.CallNumUtils.normalizeSuffix(volSuffix));
 			return loppedShelfkey + " " + volSortString;
 		}
 		else
 			// regular shelfkey is correct for sort
-			return getShelfKey(rawCallnum);
+			return getShelfKey(rawCallnum, scheme, recId);
 	}
 
 }

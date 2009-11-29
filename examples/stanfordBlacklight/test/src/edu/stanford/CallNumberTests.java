@@ -21,6 +21,9 @@ import edu.stanford.enumValues.Access;
 public class CallNumberTests extends AbstractStanfordBlacklightTest {
 
 	private final String govDocStr = "Government Document";
+	private final String lcScheme = "LC";
+	private final boolean isSerial = true;
+	private final String ignoredId = "ignored";
 
 @Before
 	public final void setup() 
@@ -73,9 +76,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		assertZeroResults(fldName, "W*"); // WITHDRAWN
 		// only N call number in test data is "NO CALL NUMBER"
 		assertZeroResults(fldName, "N*");
-
-		// single X is illegal LC, but is not skipped  (XX is skipped)
-		assertSingleResult("7233951", fldName, "X*");
+		assertZeroResults(fldName, "X*");
 	}
 
 	/**
@@ -84,7 +85,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 *  indicated by the letters. 
 	 */
 @Test
-	public final void testLevel2FacetLC() 
+	public final void testLCAlphaFacet() 
 		throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "lc_alpha_facet";
@@ -121,11 +122,8 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// skipped values should not be found
 		assertZeroResults(fldName, "NO*");  // "NO CALL NUMBER"
 		assertZeroResults(fldName, "IN*");  // "IN PROCESS"
-		assertZeroResults(fldName, "XX*"); // XX call nums
+		assertZeroResults(fldName, "X*");   // X call nums (including XX)
 		assertZeroResults(fldName, "WI*");  // "WITHDRAWN"
-
-		// X is not a skipped callnum, it's just bad LC
-		assertSingleResult("7233951", fldName, "X*");
 		
 		// LCPER
 		assertSingleResult("460947", fldName, "\"E - History of the Americas (General)\"");
@@ -136,7 +134,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 *  before the Cutter.
 	 */
 @Test
-	public final void testLevel3FacetLC() 
+	public final void testLCB4Cutter() 
 			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "lc_b4cutter_facet";
@@ -146,12 +144,9 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// skipped values should not be found
 		assertZeroResults(fldName, "NO CALL NUMBER");
 		assertZeroResults(fldName, "IN PROCESS");
-		assertZeroResults(fldName, "XX*");
+		assertZeroResults(fldName, "X*"); // X call nums (including XX)
 		assertZeroResults(fldName, "WITHDRAWN");
 		assertZeroResults(fldName, "110978984448763");
-
-		// X is not a skipped value ... it's just bad LC
-		assertSingleResult("7233951", fldName, "X*");
 		
 		// search for LC values
 		assertZeroResults(fldName, "Z");
@@ -273,7 +268,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		docIds.add("3");
 		docIds.add("31");
 		docIds.add("DeweyVol");
-		assertSearchResults(fldName, "\"" + Item999Utils.DEWEY_TOP_FACET_VAL + "\"", docIds);
+		assertSearchResults(fldName, "\"" + ItemUtils.DEWEY_TOP_FACET_VAL + "\"", docIds);
 		assertSearchResults(fldName, "\"Dewey Classification\"", docIds);
 	}
 	
@@ -457,7 +452,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		docIds.add("2557826");
 		docIds.add("5511738");
 		docIds.add("2678655");
-		assertSearchResults(fldName, "\"" + Item999Utils.GOV_DOC_TOP_FACET_VAL + "\"", docIds);
+		assertSearchResults(fldName, "\"" + ItemUtils.GOV_DOC_TOP_FACET_VAL + "\"", docIds);
 		assertSearchResults(fldName, "\"" + govDocStr + "\"", docIds);
 	}
 
@@ -482,7 +477,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		docIds.add("ssrcfiche");  // dewey
 		docIds.add("ssrcnwdoc");
 		docIds.add("sudoc");   // not a gov doc location, but sudoc call number
-		assertSearchResults(fldName, "\"" + Item999Utils.GOV_DOC_TOP_FACET_VAL + "\"", docIds);
+		assertSearchResults(fldName, "\"" + ItemUtils.GOV_DOC_TOP_FACET_VAL + "\"", docIds);
 		
 		assertZeroResults(fldName, "\"300s - Social Sciences\"");
 
@@ -506,18 +501,18 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		createIxInitVars("callNumberGovDocTests.mrc");
 		String fldName = "gov_doc_type_facet";
 
-		assertSingleResult("brit", fldName, "\"" + Item999Utils.GOV_DOC_BRIT_FACET_VAL + "\"");
-		assertSingleResult("calif", fldName, "\"" + Item999Utils.GOV_DOC_CALIF_FACET_VAL + "\"");
-		assertSingleResult("intl", fldName, "\"" + Item999Utils.GOV_DOC_INTL_FACET_VAL + "\"");
+		assertSingleResult("brit", fldName, "\"" + ItemUtils.GOV_DOC_BRIT_FACET_VAL + "\"");
+		assertSingleResult("calif", fldName, "\"" + ItemUtils.GOV_DOC_CALIF_FACET_VAL + "\"");
+		assertSingleResult("intl", fldName, "\"" + ItemUtils.GOV_DOC_INTL_FACET_VAL + "\"");
 		
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("fed");
 		docIds.add("ssrcdocs");
 		docIds.add("ssrcfiche");
 		docIds.add("ssrcnwdoc");
-		assertSearchResults(fldName, "\"" + Item999Utils.GOV_DOC_FED_FACET_VAL + "\"", docIds);
+		assertSearchResults(fldName, "\"" + ItemUtils.GOV_DOC_FED_FACET_VAL + "\"", docIds);
 
-		assertSingleResult("sudoc", fldName, "\"" + Item999Utils.GOV_DOC_UNKNOWN_FACET_VAL + "\"");
+		assertSingleResult("sudoc", fldName, "\"" + ItemUtils.GOV_DOC_UNKNOWN_FACET_VAL + "\"");
 		
 		assertZeroResults(fldName, "\"" + govDocStr + "\"");
 	}
@@ -580,15 +575,9 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		shelfkey = CallNumUtils.getLCShelfkey("E184.S75 R47A", "460947");
 		assertSingleResult("460947", fldName, "\"" + shelfkey + "\"");
 
-		// this is a bad LC value, but not a bad call number, so it is included
-		// (it's actually sudoc)
-		callnum = "X578 .S64 1851";
-		shelfkey = CallNumUtils.getLCShelfkey(callnum, "7233951");
-		assertSingleResult("7233951", fldName, "\"" + shelfkey + "\"");
-		
 		//  bad LC values
-		// LC 999 "NO CALL NUMBER" and 852 to ignore
 		assertZeroResults(fldName, "\"NO CALL NUMBER\"");
+		// 852 to ignore
 		assertZeroResults(fldName, "\"IN PROCESS\"");
 
 		// Dewey: no vol info
@@ -601,7 +590,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		shelfkey = CallNumUtils.getDeweyShelfKey("666 .F67");
 		assertSingleResult("DeweyVol", fldName, "\"" + shelfkey + "\""); 
 		
-// TODO: implement SUDOC volume lopping and shelving key processing		
+// TODO: implement longest common prefix vol lopping for non-LC, non-Dewey	
 
 		// SUDOC 999  -  uses raw callno
 		callnum = "Y 4.AG 8/1:108-16";
@@ -613,8 +602,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("2678655", fldName, "\"" + shelfkey + "\""); 
 
 		assertZeroResults(fldName, "\"" + govDocStr + "\""); 
-	
-// TODO: implement ALPHANUM volume lopping and shelving key processing		
 
 		// ALPHANUM 999 - uses raw callno
 		callnum = "SUSEL-69048";
@@ -628,6 +615,13 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		callnum = "MCD Brendel Plays Beethoven's Eroica variations";
 		shelfkey = CallNumUtils.normalizeSuffix(callnum);
 		assertSingleResult("1234673", fldName, "\"" + shelfkey + "\""); 
+		
+		// this is labelled as LC, but is recognized as invalid LC and processed as other
+		callnum = "X578 .S64 1851";
+		shelfkey = CallNumUtils.getLCShelfkey(callnum, "7233951");
+		assertZeroResults(fldName, "\"" + shelfkey + "\"");
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, "OTHER", "7233951");
+		assertSingleResult("7233951", fldName, "\"" + shelfkey + "\"");
 		
 		// ASIS 999 "INTERNET RESOURCE": No call number, but access Online
 		assertZeroResults(fldName, "\"INTERNET RESOURCE\""); 
@@ -669,13 +663,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
 		assertSingleResult("460947", fldName, "\"" + reverseShelfkey + "\"");
 
-		// this is a bad LC value, but not a bad call number, so it is included
-		// (it's actually sudoc)
-		callnum = "X578 .S64 1851";
-		shelfkey = CallNumUtils.getLCShelfkey(callnum, "7233951");
-		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("7233951", fldName, "\"" + reverseShelfkey + "\"");
-		
 		//  bad LC values
 		// LC 999 "NO CALL NUMBER" and 852 to ignore
 		assertZeroResults(fldName, "\"NO CALL NUMBER\"");
@@ -694,7 +681,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
 		assertSingleResult("1849258", fldName, "\"" + reverseShelfkey + "\""); 
 		
-// TODO: implement SUDO volume lopping and shelving key processing	
+// TODO: implement longest common prefix vol lopping for non-LC, non-Dewey	
 		
 		// SUDOC 999 
 		callnum = "Y 4.AG 8/1:108-16";
@@ -711,8 +698,15 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
 		assertZeroResults(fldName, "\"" + reverseShelfkey + "\""); 
 	
-// TODO: implement ALPHANUM volume lopping and shelving key processing		
-
+		// this is labelled as LC, but is recognized as invalid LC and processed as other
+		callnum = "X578 .S64 1851";
+		shelfkey = CallNumUtils.getLCShelfkey(callnum, "7233951");
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
+		assertZeroResults(fldName, "\"" + reverseShelfkey + "\"");
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, "OTHER", "7233951");
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
+		assertSingleResult("7233951", fldName, "\"" + reverseShelfkey + "\"");
+		
 		// ALPHANUM 999 - uses raw callno
 		callnum = "SUSEL-69048";
 		shelfkey = CallNumUtils.normalizeSuffix(callnum);
@@ -748,36 +742,38 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// LC
 		String callnum = "M453 .Z29 Q1 L V.2"; 
 		String lopped = "M453 .Z29 Q1 L"; 
-		assertEquals("M   0453.000000 Z0.290000 Q0.100000 L V.000002", getVolumeSortCallnum(callnum, lopped, !isSerial));
+		assertEquals("M   0453.000000 Z0.290000 Q0.100000 L V.000002", getVolumeSortCallnum(callnum, lopped, lcScheme, !isSerial, ignoredId));
 		String reversePrefix = "M   0453.000000 Z0.290000 Q0.100000 L 4" + reversePeriodStr + "ZZZZZX";
-		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, isSerial).startsWith(reversePrefix));
+		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, lcScheme, isSerial, ignoredId).startsWith(reversePrefix));
 		
 		callnum = "M453 .Z29 Q1 L SER.2"; 
-		assertEquals("M   0453.000000 Z0.290000 Q0.100000 L SER.000002", getVolumeSortCallnum(callnum, "M453 .Z29 Q1 L", !isSerial));
+		assertEquals("M   0453.000000 Z0.290000 Q0.100000 L SER.000002", getVolumeSortCallnum(callnum, "M453 .Z29 Q1 L", lcScheme, !isSerial, ignoredId));
 		reversePrefix = "M   0453.000000 Z0.290000 Q0.100000 L 7L8" + reversePeriodStr + "ZZZZZX";
-		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, isSerial).startsWith(reversePrefix));
+		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, lcScheme, isSerial, ignoredId).startsWith(reversePrefix));
+		
+		String deweyScheme = "DEWEY";
 		
 		// dewey 
 		// suffix year
 		callnum = "322.45 .R513 1957";     
-		assertEquals("322.45000000 R513 001957",  getVolumeSortCallnum(callnum, callnum, !isSerial));
-		assertEquals("322.45000000 R513 001957",  getVolumeSortCallnum(callnum, callnum, isSerial));
+		assertEquals("322.45000000 R513 001957",  getVolumeSortCallnum(callnum, callnum, deweyScheme, !isSerial, ignoredId));
+		assertEquals("322.45000000 R513 001957",  getVolumeSortCallnum(callnum, callnum, deweyScheme, isSerial, ignoredId));
        // suffix volume		
 		callnum = "323.09 .K43 V.1";
 		lopped = "323.09 .K43";
-		assertEquals("323.09000000 K43 V.000001", getVolumeSortCallnum(callnum, lopped, !isSerial));
+		assertEquals("323.09000000 K43 V.000001", getVolumeSortCallnum(callnum, lopped, deweyScheme, !isSerial, ignoredId));
 		reversePrefix = "323.09000000 K43 4" + reversePeriodStr + "ZZZZZY";
-		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, isSerial).startsWith(reversePrefix));
+		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, deweyScheme, isSerial, ignoredId).startsWith(reversePrefix));
 		// suffix - volume and year
 		callnum = "322.44 .F816 V.1 1974";  
 		lopped = "322.44 .F816"; 
-		assertEquals("322.44000000 F816 V.000001 001974", getVolumeSortCallnum(callnum, lopped, !isSerial));
+		assertEquals("322.44000000 F816 V.000001 001974", getVolumeSortCallnum(callnum, lopped, deweyScheme, !isSerial, ignoredId));
 		reversePrefix = "322.44000000 F816 4" + reversePeriodStr + "ZZZZZY" + reverseSpaceStr + "ZZYQSV";
-		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, isSerial).startsWith(reversePrefix));
+		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, deweyScheme, isSerial, ignoredId).startsWith(reversePrefix));
 		// suffix no.
 		callnum = "323 .A512RE NO.23-28";   
 		lopped = "323 .A512RE";  
-		assertEquals("323.00000000 A512RE NO.000023-000028", getVolumeSortCallnum(callnum, lopped, !isSerial));
+		assertEquals("323.00000000 A512RE NO.000023-000028", getVolumeSortCallnum(callnum, lopped, deweyScheme, !isSerial, ignoredId));
 		reversePrefix = "323.00000000 A512RE CB" + reversePeriodStr + "ZZZZXW" + reverseHyphenStr + "ZZZZXR";
 // TODO: problem with dewey call numbers with multiple letters at end of cutter
 //		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, isSerial).startsWith(reversePrefix));
@@ -831,7 +827,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		serialSortedLCVolCallnumList.add("B8.14 L3 V.1 Suppl");
 		serialSortedLCVolCallnumList.add("B8.14 L3 V.1");
 	}
-	boolean isSerial = true;
+	
 	String lopped = "B8.14 L3";
 
 	/**
@@ -843,7 +839,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// compute list: non-serial volume sorting
 		Map<String,String> volSortString2callnum = new HashMap<String,String>(75);
 		for (String callnum : lcVolumeUnsortedCallnumList) {
-			volSortString2callnum.put(getVolumeSortCallnum(callnum, lopped, !isSerial), callnum);
+			volSortString2callnum.put(getVolumeSortCallnum(callnum, lopped, lcScheme, !isSerial, ignoredId), callnum);
 		}
 		List<String> ordered = new ArrayList<String>(volSortString2callnum.keySet());		
 		Collections.sort(ordered);
@@ -863,7 +859,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// compute list: non-serial volume sorting
 		Map<String,String> volSortString2callnum = new HashMap<String,String>(75);
 		for (String callnum : lcVolumeUnsortedCallnumList) {
-			volSortString2callnum.put(getVolumeSortCallnum(callnum, lopped, isSerial), callnum);
+			volSortString2callnum.put(getVolumeSortCallnum(callnum, lopped, lcScheme, isSerial, ignoredId), callnum);
 		}
 		List<String> ordered = new ArrayList<String>(volSortString2callnum.keySet());		
 		Collections.sort(ordered);

@@ -98,9 +98,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/** Set of 956 subfield u */
 	Set<String> f956subu;
 
-	/** all 999 fields as a List of DataField objects */
-	List<DataField> list999df;
-
 	/** all 999 fields without skipped locations (shadowed, withdrawn) as a List
 	 *  of Item objects */
 	List<Item> itemList;
@@ -131,9 +128,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		f655suba = getFieldList(record, "655a");
 		f956subu = getFieldList(record, "956u");
 		
-		list999df = (List<DataField>) record.getVariableFields("999");
+		List<DataField> list999df = (List<DataField>) record.getVariableFields("999");
 		haveItems = !list999df.isEmpty();
 
+		setId(record);
 		itemList.clear();
 		for (DataField df999 : list999df) {
 			Item item = new Item(df999, id);
@@ -141,7 +139,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				itemList.add(item);
 		}
 
-		setId(record);
 		setFormats(record);
 		setSFXUrls(); // doesn't need record b/c they come from 999
 		setFullTextUrls(record);
@@ -150,8 +147,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		setShelfkeysOrig(record);
 		setGovDocCats(record);
 		
-		lcCallnums = Item999Utils.getLCcallnums(itemList);
-		deweyCallnums = Item999Utils.getDeweyNormCallnums(itemList);
+		lcCallnums = ItemUtils.getLCcallnums(itemList);
+		deweyCallnums = ItemUtils.getDeweyNormCallnums(itemList);
 	}
 
 // Id Methods  -------------------- Begin --------------------------- Id Methods
@@ -985,34 +982,42 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (formats.contains(Format.JOURNAL_PERIODICAL.toString()))
 			isSerial = true;
 
-		for (DataField df999 : list999df) {
-			if (!Item999Utils.hasSkippedLoc(df999)) {
+		// itemList is a list of non-skipped items
+		for (Item item : itemList) {
+			if (!item.isOnline()) {
 				String building = "";
-				String location = "";
-				String rawLoc = Item999Utils.getLocationFrom999(df999);				
+				String translatedLoc = "";
+				String homeLoc = item.getHomeLoc();				
 
-				if (Item999Utils.hasOnlineLoc(df999)) {
+				if (item.isOnline()) {
 					building = "Online";
-					location = "Online";
+					translatedLoc = "Online";
 				} 
 				else {
-					// building --> short name from mapping
-					String origBldg = Item999Utils.getBuilding(df999);
+					// map building to short name
+					String origBldg = item.getLibrary();
 					if (origBldg.length() > 0)
 						building = Utils.remap(origBldg, findMap(LIBRARY_SHORT_MAP_NAME), true);
 					if (building == null || building.length() == 0)
 						building = origBldg;
 					// location --> mapped
-					if (rawLoc.length() > 0)
-						location = Utils.remap(rawLoc, findMap(LOCATION_MAP_NAME), true);
+// TODO:  stop mapping location (it will be done in UI)					
+					if (homeLoc.length() > 0)
+						translatedLoc = Utils.remap(homeLoc, findMap(LOCATION_MAP_NAME), true);
 				}
 
 				// full call number & lopped call number
-				String callnumScheme = Item999Utils.getCallNumberScheme(df999);
-				String fullCallnum = Item999Utils.getNonSkippedCallNum(df999);
+				String callnumScheme = item.getCallnumScheme();
+				String fullCallnum = item.getCallnum();
 				String loppedCallnum = null;
 				if (fullCallnum.length() > 0) {
-					if (callnumScheme.startsWith("LC"))
+// TODO:  not sure what item_display should contain for online items ...
+					if (item.isOnline()) {
+						// The only non-skipped online items that make it here are SUL-INTERNET??
+						fullCallnum = "";
+						loppedCallnum = "";
+					}
+					else if (callnumScheme.startsWith("LC"))
 						if (isSerial)
 							loppedCallnum = CallNumUtils.removeLCSerialVolSuffix(fullCallnum);
 						else
@@ -1023,66 +1028,75 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 						else
 							loppedCallnum = CallNumUtils.removeDeweyVolSuffix(fullCallnum);
 					else 
+// TODO: needs to be longest common prefix
 						if (isSerial)
-							loppedCallnum = CallNumUtils.removeSerialVolSuffix(fullCallnum);
+							loppedCallnum = CallNumUtils.removeNonLCDeweySerialVolSuffix(fullCallnum, callnumScheme);
 						else
-							loppedCallnum = CallNumUtils.removeVolSuffix(fullCallnum);
+							loppedCallnum = CallNumUtils.removeNonLCDeweyVolSuffix(fullCallnum, callnumScheme);
 				}
 
-				// deal with shelved by title locations
 				String volSuffix = null;
 				if (loppedCallnum != null && loppedCallnum.length() > 0)
 					volSuffix = fullCallnum.substring(loppedCallnum.length()).trim();
-				if ((volSuffix == null || volSuffix.length() == 0) && CallNumUtils.callNumIsVolSuffix(fullCallnum))
+				if ((volSuffix == null || volSuffix.length() == 0) 
+						&& CallNumUtils.callNumIsVolSuffix(fullCallnum))
 					volSuffix = fullCallnum;
-				if (rawLoc.length() > 0) {
-					if (rawLoc.equals("SHELBYTITL")) {
+
+				// shelfkey for lopped callnumber
+				String shelfkey = "";
+				if (!item.isOnline())
+					shelfkey = edu.stanford.CallNumUtils.getShelfKey(loppedCallnum, callnumScheme, id);
+				
+				
+				// if not online, not in process or on order
+				// then deal with shelved by title locations
+				String currLoc = item.getCurrLoc();
+				if (!currLoc.equals("INPROCESS") && !currLoc.equals("ON-ORDER")
+						&& !item.isOnline()) {
+					if (homeLoc.equals("SHELBYTITL")) {
 						isSerial = true;
-						location = "Serials";
+						translatedLoc = "Serials";
 						loppedCallnum = "Shelved by title";
 						fullCallnum = loppedCallnum + " " + volSuffix;
+						shelfkey = loppedCallnum.toLowerCase();
 					}
-					if (rawLoc.equals("SHELBYSER")) {
+					if (homeLoc.equals("SHELBYSER")) {
 						isSerial = true;
-						location = "Serials";
+						translatedLoc = "Serials";
 						loppedCallnum = "Shelved by Series title";
 						fullCallnum = loppedCallnum + " " + volSuffix;
+						shelfkey = loppedCallnum.toLowerCase();
 					} 
-					else if (rawLoc.equals("STORBYTITL")) {
+					else if (homeLoc.equals("STORBYTITL")) {
 						isSerial = true;
-						location = "Storage area";
+						translatedLoc = "Storage area";
 						loppedCallnum = "Shelved by title";
 						fullCallnum = loppedCallnum + " " + volSuffix;
+						shelfkey = loppedCallnum.toLowerCase();
 					}
 				}
 
-				// shelfkey for lopped callnumber
-				String shelfkey = null;
-				if (callnumScheme.length() > 0)
-					shelfkey = edu.stanford.CallNumUtils.getShelfKey(loppedCallnum, callnumScheme, id);
-				else
-					shelfkey = edu.stanford.CallNumUtils.getShelfKey(loppedCallnum, id);
-
 				// reversekey for lopped callnumber
-				String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey);
+				String reversekey = "";
+				if (!item.isOnline())
+					reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey);
 
 				// sortable call number for show view
-				String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(fullCallnum, loppedCallnum,isSerial, id);
-
-				String barcode = Item999Utils.getBarcode(df999);
+				String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(fullCallnum, loppedCallnum, callnumScheme, isSerial, id);
 
 				// create field
 				if (loppedCallnum != null)
-	    			result.add( barcode + sep + 
+	    			result.add( item.getBarcode() + sep + 
 		    					building + sep + 
-		    					location + sep + 
+		    					translatedLoc + sep + 
+// TODO:  add current location
 		    					loppedCallnum + sep + 
 		    					shelfkey.toLowerCase() + sep + 
 		    					reversekey.toLowerCase() + sep + 
 		    					fullCallnum + sep + 
 		    					volSort );
 			}
-		} // end loop through 999s
+		} // end loop through items
 
 		return result;
 	}
@@ -1118,15 +1132,17 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	public Set<String> getCallNumsLevel1(final Record record) 
 	{
 		Set<String> result = new HashSet<String>();
-		for (String callnum : lcCallnums)
-			result.add(callnum.substring(0, 1).toUpperCase());
+		for (String callnum : lcCallnums) {
+			if (org.solrmarc.tools.CallNumUtils.isValidLC(callnum))
+				result.add(callnum.substring(0, 1).toUpperCase());
+		}
 
 		// TODO: ?need to REMOVE LC callnum if it's a gov doc location? not sure.
 		if (govDocCats.size() > 0)
-			result.add(Item999Utils.GOV_DOC_TOP_FACET_VAL);
+			result.add(ItemUtils.GOV_DOC_TOP_FACET_VAL);
 
 		if (deweyCallnums.size() > 0)
-			result.add(Item999Utils.DEWEY_TOP_FACET_VAL);
+			result.add(ItemUtils.DEWEY_TOP_FACET_VAL);
 
 		return result;
 	}
@@ -1228,7 +1244,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				String rawLoc = item.getHomeLoc(); 
 				if (item.hasGovDocLoc() || has086 
 						|| item.getCallnumScheme().equalsIgnoreCase("SUDOC"))
-					govDocCats.add(Item999Utils.getGovDocTypeFromLocCode(rawLoc));
+					govDocCats.add(ItemUtils.getGovDocTypeFromLocCode(rawLoc));
 			}
 		}
 	}
