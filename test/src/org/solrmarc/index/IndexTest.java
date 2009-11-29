@@ -413,8 +413,8 @@ public abstract class IndexTest {
 		//  TODO: check for single occurrence of field value, even for repeatable field
 		int solrDocNum = getSingleDocNum(docIDfname, doc_id);
 		DocumentProxy doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
-		if (doc.hasFieldWithValue(fldName, fldVal)) return;
-		fail("Field " + fldName + " did not contain value \"" + fldVal + "\" in doc " + doc_id);
+		if (!doc.hasFieldWithValue(fldName, fldVal)) 
+			fail("Field " + fldName + " did not contain value \"" + fldVal + "\" in doc " + doc_id);
 	}
 
 	public final void assertDocHasNoFieldValue(String doc_id, String fldName, String fldVal)
