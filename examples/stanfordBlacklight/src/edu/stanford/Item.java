@@ -3,6 +3,7 @@ package edu.stanford;
 import java.util.regex.Pattern;
 
 import org.marc4j.marc.DataField;
+import org.solrmarc.tools.CallNumUtils;
 
 /**
  * Item object for Stanford SolrMarc
@@ -219,11 +220,14 @@ public class Item {
 	}
 
 	public String getReverseShelfkey() {
+		if (reverseShelfkey == null)
+			setReverseShelfkey();
 		return reverseShelfkey;
 	}
 
-	public void setReverseShelfkey(String reverseShelfkey) {
-		this.reverseShelfkey = reverseShelfkey;
+	public void setReverseShelfkey() {
+		if (shelfkey != null)
+			reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
 	}
 	
 	/** call numbers must start with a letter or digit */
