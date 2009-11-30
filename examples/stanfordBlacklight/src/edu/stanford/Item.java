@@ -203,6 +203,7 @@ public class Item {
 		this.callnumLopped = callnumLopped;
 	}
 
+// TODO:  should vol sort be here?  or does it make sense to compute in StanfordIndexer?	
 	public String getCallnumVolSort() {
 		return callnumVolSort;
 	}
