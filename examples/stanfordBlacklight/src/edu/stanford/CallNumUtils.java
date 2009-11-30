@@ -564,6 +564,8 @@ public class CallNumUtils {
 		return result;
 	}
 
+	
+// FIXME:  this should just get the item object passed!	
 	/**
 	 * returns a sortable call number.  If it is the call number for a serial,
 	 *  the lexical sort will be in ascending order, but will have the most 
@@ -572,28 +574,29 @@ public class CallNumUtils {
 	 *  
 	 * @param rawCallnum
 	 * @param loppedCallnum - the call number with volume/part information lopped off
+	 * @param loppedShelfkey - shelfkey for the lopped callnum
 	 * @param scheme - the call number scheme (e.g. LC, DEWEY, SUDOC ...)
 	 * @param isSerial - true if the call number is for a serial 
 	 * @param recId - record id, for error messages
 	 * @return empty string if given empty string or null, o.w. the goods
 	 */
-	static String getVolumeSortCallnum(String rawCallnum, String loppedCallnum, String scheme, boolean isSerial, String recId) 
+	static String getVolumeSortCallnum(String rawCallnum, String loppedCallnum, String loppedShelfkey, String scheme, boolean isSerial, String recId) 
 	{
 		if (rawCallnum == null || rawCallnum.length() == 0)
 			return "";
 
-		if (isSerial && !rawCallnum.equals(loppedCallnum)) 
+		if (rawCallnum.equals(loppedCallnum))
+			return loppedShelfkey.toLowerCase();
+
+		if (isSerial) 
 		{  
-			// it's a serial and call number has a part/volume suffix
 			//   basic call num sorts as shelfkey, volume suffix sorts as reverse key
-			String loppedShelfkey = getShelfKey(loppedCallnum, scheme, recId);
 			String volSuffix = rawCallnum.substring(loppedCallnum.length()).trim();
 			String volSortString = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(org.solrmarc.tools.CallNumUtils.normalizeSuffix(volSuffix));
-			return loppedShelfkey + " " + volSortString;
+			return loppedShelfkey.toLowerCase() + " " + volSortString.toLowerCase();
 		}
 		else
 			// regular shelfkey is correct for sort
-			return getShelfKey(rawCallnum, scheme, recId);
+			return getShelfKey(rawCallnum, scheme, recId).toLowerCase();
 	}
-
 }

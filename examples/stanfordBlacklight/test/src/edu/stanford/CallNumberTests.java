@@ -742,39 +742,44 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// LC
 		String callnum = "M453 .Z29 Q1 L V.2"; 
 		String lopped = "M453 .Z29 Q1 L"; 
-		assertEquals("M   0453.000000 Z0.290000 Q0.100000 L V.000002", getVolumeSortCallnum(callnum, lopped, lcScheme, !isSerial, ignoredId));
-		String reversePrefix = "M   0453.000000 Z0.290000 Q0.100000 L 4" + reversePeriodStr + "ZZZZZX";
-		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, lcScheme, isSerial, ignoredId).startsWith(reversePrefix));
+		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, "fake").toLowerCase();
+		assertEquals("m   0453.000000 z0.290000 q0.100000 l v.000002", getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, !isSerial, ignoredId));
+		String reversePrefix = "m   0453.000000 z0.290000 q0.100000 l 4" + reversePeriodStr + "zzzzzx";
+		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, ignoredId).startsWith(reversePrefix));
 		
 		callnum = "M453 .Z29 Q1 L SER.2"; 
-		assertEquals("M   0453.000000 Z0.290000 Q0.100000 L SER.000002", getVolumeSortCallnum(callnum, "M453 .Z29 Q1 L", lcScheme, !isSerial, ignoredId));
-		reversePrefix = "M   0453.000000 Z0.290000 Q0.100000 L 7L8" + reversePeriodStr + "ZZZZZX";
-		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, lcScheme, isSerial, ignoredId).startsWith(reversePrefix));
+		assertEquals("m   0453.000000 z0.290000 q0.100000 l ser.000002", getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, !isSerial, ignoredId));
+		reversePrefix = "m   0453.000000 z0.290000 q0.100000 l 7l8" + reversePeriodStr + "zzzzzx";
+		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, ignoredId).startsWith(reversePrefix));
 		
 		String deweyScheme = "DEWEY";
 		
 		// dewey 
 		// suffix year
 		callnum = "322.45 .R513 1957";     
-		assertEquals("322.45000000 R513 001957",  getVolumeSortCallnum(callnum, callnum, deweyScheme, !isSerial, ignoredId));
-		assertEquals("322.45000000 R513 001957",  getVolumeSortCallnum(callnum, callnum, deweyScheme, isSerial, ignoredId));
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, deweyScheme, "fake").toLowerCase();
+		assertEquals("322.45000000 r513 001957",  getVolumeSortCallnum(callnum, callnum, shelfkey, deweyScheme, !isSerial, ignoredId));
+		assertEquals("322.45000000 r513 001957",  getVolumeSortCallnum(callnum, callnum, shelfkey, deweyScheme, isSerial, ignoredId));
        // suffix volume		
 		callnum = "323.09 .K43 V.1";
 		lopped = "323.09 .K43";
-		assertEquals("323.09000000 K43 V.000001", getVolumeSortCallnum(callnum, lopped, deweyScheme, !isSerial, ignoredId));
-		reversePrefix = "323.09000000 K43 4" + reversePeriodStr + "ZZZZZY";
-		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, deweyScheme, isSerial, ignoredId).startsWith(reversePrefix));
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, deweyScheme, "fake").toLowerCase();
+		assertEquals("323.09000000 k43 v.000001", getVolumeSortCallnum(callnum, lopped, shelfkey, deweyScheme, !isSerial, ignoredId));
+		reversePrefix = "323.09000000 k43 4" + reversePeriodStr + "zzzzzy";
+		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, shelfkey, deweyScheme, isSerial, ignoredId).startsWith(reversePrefix));
 		// suffix - volume and year
 		callnum = "322.44 .F816 V.1 1974";  
 		lopped = "322.44 .F816"; 
-		assertEquals("322.44000000 F816 V.000001 001974", getVolumeSortCallnum(callnum, lopped, deweyScheme, !isSerial, ignoredId));
-		reversePrefix = "322.44000000 F816 4" + reversePeriodStr + "ZZZZZY" + reverseSpaceStr + "ZZYQSV";
-		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, deweyScheme, isSerial, ignoredId).startsWith(reversePrefix));
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, deweyScheme, "fake").toLowerCase();
+		assertEquals("322.44000000 f816 v.000001 001974", getVolumeSortCallnum(callnum, lopped, shelfkey, deweyScheme, !isSerial, ignoredId));
+		reversePrefix = "322.44000000 f816 4" + reversePeriodStr + "zzzzzy" + reverseSpaceStr + "zzyqsv";
+		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, shelfkey, deweyScheme, isSerial, ignoredId).startsWith(reversePrefix));
 		// suffix no.
 		callnum = "323 .A512RE NO.23-28";   
 		lopped = "323 .A512RE";  
-		assertEquals("323.00000000 A512RE NO.000023-000028", getVolumeSortCallnum(callnum, lopped, deweyScheme, !isSerial, ignoredId));
-		reversePrefix = "323.00000000 A512RE CB" + reversePeriodStr + "ZZZZXW" + reverseHyphenStr + "ZZZZXR";
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, deweyScheme, "fake").toLowerCase();
+		assertEquals("323.00000000 a512re no.000023-000028", getVolumeSortCallnum(callnum, lopped, shelfkey, deweyScheme, !isSerial, ignoredId));
+		reversePrefix = "323.00000000 a512re cb" + reversePeriodStr + "zzzzxw" + reverseHyphenStr + "zzzzxr";
 // TODO: problem with dewey call numbers with multiple letters at end of cutter
 //		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, isSerial).startsWith(reversePrefix));
 	}
@@ -828,7 +833,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		serialSortedLCVolCallnumList.add("B8.14 L3 V.1");
 	}
 	
-	String lopped = "B8.14 L3";
 
 	/**
 	 * test the sort of call numbers (for non-serials) with volume portion
@@ -836,10 +840,12 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 @Test
 	public void testLCVolumeSorting() 
 	{
+		String lopped = "B8.14 L3";
+		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, "fake").toLowerCase();
 		// compute list: non-serial volume sorting
 		Map<String,String> volSortString2callnum = new HashMap<String,String>(75);
 		for (String callnum : lcVolumeUnsortedCallnumList) {
-			volSortString2callnum.put(getVolumeSortCallnum(callnum, lopped, lcScheme, !isSerial, ignoredId), callnum);
+			volSortString2callnum.put(getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, !isSerial, ignoredId), callnum);
 		}
 		List<String> ordered = new ArrayList<String>(volSortString2callnum.keySet());		
 		Collections.sort(ordered);
@@ -856,10 +862,12 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	public void testLCSerialVolumeSorting() 
 		throws IOException, ParserConfigurationException, SAXException 
 	{
+		String lopped = "B8.14 L3";
+		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, "fake").toLowerCase();
 		// compute list: non-serial volume sorting
 		Map<String,String> volSortString2callnum = new HashMap<String,String>(75);
 		for (String callnum : lcVolumeUnsortedCallnumList) {
-			volSortString2callnum.put(getVolumeSortCallnum(callnum, lopped, lcScheme, isSerial, ignoredId), callnum);
+			volSortString2callnum.put(getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, ignoredId), callnum);
 		}
 		List<String> ordered = new ArrayList<String>(volSortString2callnum.keySet());		
 		Collections.sort(ordered);

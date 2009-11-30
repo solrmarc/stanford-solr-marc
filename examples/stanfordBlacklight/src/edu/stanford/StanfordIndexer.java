@@ -1082,7 +1082,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey);
 
 				// sortable call number for show view
-				String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(fullCallnum, loppedCallnum, callnumScheme, isSerial, id);
+				String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(fullCallnum, loppedCallnum, shelfkey, callnumScheme, isSerial, id);
 
 				// create field
 				if (loppedCallnum != null)
