@@ -182,8 +182,8 @@ public class GenericUtils {
 	 * @param possiblePaths array of paths in which to seek the list file
 	 * @return a List of the values read from the file
 	 */
-	static List<String> loadPropertiesList(String[] possiblePaths, String listFilename)   {
-		List<String> result = new ArrayList<String>();
+	static Set<String> loadPropertiesSet(String[] possiblePaths, String listFilename)   {
+		Set<String> result = new HashSet<String>();
         InputStream propFileIS = Utils.getPropertyFileInputStream(possiblePaths, listFilename);
         BufferedReader propFileBR = new BufferedReader(new InputStreamReader(propFileIS));
         String line;
