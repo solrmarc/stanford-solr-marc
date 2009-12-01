@@ -235,40 +235,39 @@ public class FormatUtils {
 	 * @param Set of Strings containing Format enum values per the given data
 	 */
 	@SuppressWarnings("unchecked")
-	static String getSerialFormat(char leaderChar07, ControlField cf008) 
+	static String getSerialFormat(char leaderChar07, ControlField cf008, VariableField f006) 
 	{
 		String result = null;
-		if (leaderChar07 == 's' && cf008 != null) {
-			char c21 = ((ControlField) cf008).getData().charAt(21);
+		char c21 = '\u0000';
+		if (cf008 != null)
+			c21 = ((ControlField) cf008).getData().charAt(21);
+		
+		if (leaderChar07 == 's')
 			result = getSerialFormatFromChar(c21);
-		}
-		if (result == null) {
-			
-		}
+		if (result != null)
+			return result;
+
+		// look for serial publications in 006/00
+		result = FormatUtils.getSerialFormat006(f006);
+		if (result != null)
+			return result;
+
+		// see if 007/00s serial publication by default
+		if (leaderChar07 == 's' && cf008 != null) 
+			switch (c21) {
+//				case 'd':
+//				case 'l':
+//				case 'm':
+//				case 'n':
+//				case 'p':
+//				case 'w':
+//					break;
+				case ' ':
+					return Format.JOURNAL_PERIODICAL.toString();
+			}
 		
 		return null;
-
 	}
-	
-	/**
-	 * Assign format if leader/07 s indicates a Serial format and the 
-	 *  008 21st char has a desirable value.
-	 * 
-	 * @param leaderStr - the leader field, as a String
-	 * @param cf008 - the 008 field as a ControlField object
-	 * @return String containing Format enum value per the given data, or null
-	 */
-	@SuppressWarnings("unchecked")
-	static String getSerialFormatLdr07s(char leaderChar07, ControlField cf008) 
-	{
-		if (leaderChar07 == 's' && cf008 != null) {
-			char c21 = ((ControlField) cf008).getData().charAt(21);
-			return getSerialFormatFromChar(c21);
-		}
-		return null;
-	}
-	
-	// look for serial publications 006/00 s
 	
 	/**
 	 * Assign format if 006 starts with 's' (?) and 4th char has a desirable
@@ -299,20 +298,21 @@ public class FormatUtils {
 	 *  return null if no format is determined.
 	 */
 	private static String getSerialFormatFromChar(char ch) {
-		switch (ch) {
-//			case 'd': // updating database (ignore)
-//				break;
-//			case 'l': // updating looseleaf (ignore)
-//				break;
-			case 'm': // monographic series
-				return Format.BOOK.toString();
-			case 'n':
-				return Format.NEWSPAPER.toString();
-			case 'p':
-				return Format.JOURNAL_PERIODICAL.toString();
-//			case 'w': // web site
-//				break;
-		}
+		if (ch != '\u0000') 
+			switch (ch) {
+//				case 'd': // updating database (ignore)
+//					break;
+//				case 'l': // updating looseleaf (ignore)
+//					break;
+				case 'm': // monographic series
+					return Format.BOOK.toString();
+				case 'n':
+					return Format.NEWSPAPER.toString();
+				case 'p':
+					return Format.JOURNAL_PERIODICAL.toString();
+//				case 'w': // web site
+//					break;
+			}
 		return null;		
 	}
 	
