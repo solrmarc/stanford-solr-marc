@@ -213,109 +213,22 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		// assign formats based on leader chars 06, 07 and chars in 008
 		String leaderStr = record.getLeader().toString();
+		formats.addAll(FormatUtils.getFormatsPerLdrAnd008(leaderStr, cf008));
+		
 		char leaderChar07 = leaderStr.charAt(7);
-		char leaderChar06 = leaderStr.charAt(6);
-		switch (leaderChar06) {
-		case 'a':
-			if (leaderChar07 == 'a' || leaderChar07 == 'm')
-				formats.add(Format.BOOK.toString());
-			break;
-		case 'b':
-		case 'p':
-			formats.add(Format.MANUSCRIPT_ARCHIVE.toString());
-			break;
-		case 'c':
-		case 'd':
-			formats.add(Format.MUSIC_SCORE.toString());
-			break;
-		case 'e':
-		case 'f':
-			formats.add(Format.MAP_GLOBE.toString());
-			break;
-		case 'g':
-			// look for m or v in 008 field, char 33 (count starts at 0)
-			if (cf008 != null && cf008.find("^.{33}[mv]"))
-				formats.add(Format.VIDEO.toString());
-			break;
-		case 'i':
-			formats.add(Format.SOUND_RECORDING.toString());
-			break;
-		case 'j':
-			formats.add(Format.MUSIC_RECORDING.toString());
-			break;
-		case 'k':
-    		// look for i, k, p, s or t in 008 field, char 33 (count starts at 0)
-			if (cf008 != null && cf008.find("^.{33}[ikpst]"))
-				formats.add(Format.IMAGE.toString());
-			break;
-		case 'm':
-			// look for a in 008 field, char 26 (count starts at 0)
-			if (cf008 != null && cf008.find("^.*{26}a"))
-				formats.add(Format.COMPUTER_FILE.toString());
-			break;
-		case 'o': // instructional kit
-			formats.add(Format.OTHER.toString());
-			break;
-		case 'r': // object
-			formats.add(Format.OTHER.toString());
-			break;
-		case 't':
-			if (leaderChar07 == 'a' || leaderChar07 == 'm')
-				formats.add(Format.BOOK.toString());
-			break;
-		} // end switch
-
-		if (formats.isEmpty() || formats.size() == 0) {
-			// look for serial publications - leader/07 s
-			if (leaderChar07 == 's') {
-				if (cf008 != null) {
-					char c21 = ((ControlField) cf008).getData().charAt(21);
-					switch (c21) {
-					case 'd': // updating database (ignore)
-						break;
-					case 'l': // updating looseleaf (ignore)
-						break;
-					case 'm': // monographic series
-						formats.add(Format.BOOK.toString());
-						break;
-					case 'n':
-						formats.add(Format.NEWSPAPER.toString());
-						break;
-					case 'p':
-						formats.add(Format.JOURNAL_PERIODICAL.toString());
-						break;
-					case 'w': // web site
-						break;
-					}
-				}
-			}
+		if (formats.isEmpty()) {
+			String fmt = FormatUtils.getSerialFormatLdr07s(leaderChar07, cf008);
+			if (fmt != null)
+				formats.add(fmt);
 		}
 
-		// look for serial publications 006/00 s
-		if (formats.isEmpty() || formats.size() == 0) {
+		if (formats.isEmpty()) {
+			// look for serial publications 006/00 s
 			VariableField f006 = record.getVariableField("006");
-			if (f006 != null && f006.find("^[s]")) {
-				char c04 = ((ControlField) f006).getData().charAt(4);
-				switch (c04) {
-				case 'd': // updating database (ignore)
-					break;
-				case 'l': // updating looseleaf (ignore)
-					break;
-				case 'm': // monographic series
-					formats.add(Format.BOOK.toString());
-					break;
-				case 'n':
-					formats.add(Format.NEWSPAPER.toString());
-					break;
-				case 'p':
-					formats.add(Format.JOURNAL_PERIODICAL.toString());
-					break;
-				case 'w': // web site
-					break;
-				case ' ':
-					formats.add(Format.JOURNAL_PERIODICAL.toString());
-				}
-			}
+			String fmt = FormatUtils.getSerialFormat006(f006);
+			if (fmt != null)
+				formats.add(fmt);
+
 			// if still nothing, see if 007/00s serial publication by default
 			else if ((formats.isEmpty() || formats.size() == 0) && leaderChar07 == 's') {
 				if (cf008 != null) 
