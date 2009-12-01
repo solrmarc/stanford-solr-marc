@@ -197,58 +197,28 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/**
 	 * Assign formats per algorithm and marc bib record
+	 *  As of July 28, 2008, algorithms for formats are currently in email
+	 *  message from Vitus Tang to Naomi Dushay, cc Phil Schreur, Margaret
+	 *  Hughes, and Jennifer Vine dated July 23, 2008.
 	 */
 	@SuppressWarnings("unchecked")
 	private void setFormats(final Record record) 
 	{
 		formats.clear();
 
-		// As of July 28, 2008, algorithms for formats are currently in email
-		// message from Vitus Tang to Naomi Dushay, cc Phil Schreur, Margaret
-		// Hughes, and Jennifer Vine dated July 23, 2008.
-
-		// Note: MARC21 documentation refers to char numbers that are 0 based,
-		// just like java string indexes, so char "06" is at index 6, and is
-		// the seventh character of the field
-
 		// assign formats based on leader chars 06, 07 and chars in 008
 		String leaderStr = record.getLeader().toString();
 		formats.addAll(FormatUtils.getFormatsPerLdrAnd008(leaderStr, cf008));
 		
-		char leaderChar07 = leaderStr.charAt(7);
 		if (formats.isEmpty()) {
-			String fmt = FormatUtils.getSerialFormatLdr07s(leaderChar07, cf008);
-			if (fmt != null)
-				formats.add(fmt);
-		}
-
-		if (formats.isEmpty()) {
-			// look for serial publications 006/00 s
+			// see if it's a serial for format assignment
+			char leaderChar07 = leaderStr.charAt(7);
 			VariableField f006 = record.getVariableField("006");
-			String fmt = FormatUtils.getSerialFormat006(f006);
-			if (fmt != null)
-				formats.add(fmt);
-
-			// if still nothing, see if 007/00s serial publication by default
-			else if ((formats.isEmpty() || formats.size() == 0) && leaderChar07 == 's') {
-				if (cf008 != null) 
-				{
-					char c21 = ((ControlField) cf008).getData().charAt(21);
-					switch (c21) {
-						case 'd':
-						case 'l':
-						case 'm':
-						case 'n':
-						case 'p':
-						case 'w':
-							break;
-						case ' ':
-							formats.add(Format.JOURNAL_PERIODICAL.toString());
-					}
-				}
-			}
+			String serialFormat = FormatUtils.getSerialFormat(leaderChar07, cf008, f006);
+			if (serialFormat != null)
+				formats.add(serialFormat);
 		}
-
+		
 		// look for conference proceedings in 6xx
 		List<DataField> dfList = (List<DataField>) record.getDataFields();
 		for (DataField df : dfList) {
