@@ -183,7 +183,7 @@ public class GenericUtils {
 	 * @return a List of the values read from the file
 	 */
 	static Set<String> loadPropertiesSet(String[] possiblePaths, String listFilename)   {
-		Set<String> result = new HashSet<String>();
+		Set<String> result = new LinkedHashSet<String>();
         InputStream propFileIS = Utils.getPropertyFileInputStream(possiblePaths, listFilename);
         BufferedReader propFileBR = new BufferedReader(new InputStreamReader(propFileIS));
         String line;
