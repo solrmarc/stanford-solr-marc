@@ -7,7 +7,7 @@ import java.util.regex.*;
 import org.solrmarc.tools.StringNaturalCompare;
 
 /**
- * Call number utility functions for Stanford solrmarc
+ * Call number utility methods for Stanford solrmarc
  * 
  * @author Naomi Dushay
  */

@@ -1403,7 +1403,7 @@ public class SolrIndexer
      *          fldTag
      */
     @SuppressWarnings("unchecked")
-    protected static Set<String> getSubfieldDataAsSet(Record record, String fldTag, String subfldsStr, String separator)
+    public static Set<String> getSubfieldDataAsSet(Record record, String fldTag, String subfldsStr, String separator)
     {
         Set<String> resultSet = new LinkedHashSet<String>();
 

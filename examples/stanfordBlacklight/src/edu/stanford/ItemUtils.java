@@ -2,13 +2,8 @@ package edu.stanford;
 
 import java.util.*;
 
-import org.marc4j.marc.Record;
-import org.solrmarc.tools.Utils;
-
-import edu.stanford.enumValues.Format;
-
 /**
- * Utility functions for item information Stanford SolrMarc
+ * Utility methods for item information Stanford SolrMarc
  *  
  * @author Naomi Dushay
  */

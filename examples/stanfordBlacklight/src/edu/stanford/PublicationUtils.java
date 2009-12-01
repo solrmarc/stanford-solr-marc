@@ -10,7 +10,7 @@ import org.marc4j.marc.*;
 import edu.stanford.enumValues.PubDateGroup;
 
 /**
- * Publication Data Utility functions for StanfordIndexer in SolrMarc project
+ * Publication Data Utility methods for StanfordIndexer in SolrMarc project
  * 
  * @author Naomi Dushay
  */

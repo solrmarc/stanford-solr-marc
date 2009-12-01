@@ -71,7 +71,7 @@ public class SolrFieldMappingTest
             {
                 if (fldVal.equals(expectedFldVal))
                     foundIt = true;
-                // System.out.println("DEBUG: value is [" + fldVal + "]");
+//System.out.println("DEBUG: value is [" + fldVal + "]");
             }
             assertTrue("Solr field " + expectedFldName + " did not have any value matching " + expectedFldVal, foundIt);
         }

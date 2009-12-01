@@ -8,7 +8,7 @@ import org.marc4j.marc.*;
 import org.solrmarc.tools.Utils;
 
 /**
- * Utility functions for StanfordIndexer in SolrMarc project
+ * Utility methods for StanfordIndexer in SolrMarc project
  * 
  * @author Naomi Dushay
  */
