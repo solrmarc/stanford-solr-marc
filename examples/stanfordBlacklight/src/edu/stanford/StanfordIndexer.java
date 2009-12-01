@@ -351,19 +351,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			}
 		}
 
-		// thesis is determined by the presence of a 502 field.
-		Set<String> dissNote = new LinkedHashSet<String>();
-		dissNote.addAll(getSubfieldDataAsSet(record, "502", "a", " "));
-		if (!dissNote.isEmpty() || dissNote.size() != 0)
-			formats.add(Format.THESIS.toString());
-
-		// microfilm is determined by 245 subfield h containing "microform"
-		Set<String> titleH = new LinkedHashSet<String>();
-		titleH.addAll(getSubfieldDataAsSet(record, "245", "h", " "));
-		// check the h subfield of the 245 field
-		if (Utils.setItemContains(titleH, "microform"))
-			formats.add(Format.MICROFORMAT.toString());
-
 		// check for format information from 999 ALPHANUM call numbers
 		for (Item item : itemSet) {
 			String scheme = item.getCallnumScheme();
@@ -378,9 +365,16 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			}
 		}
 
+		if (FormatUtils.isMicroformat(record))
+			formats.add(Format.MICROFORMAT.toString());
+			
+		if (FormatUtils.isThesis(record))
+			formats.add(Format.THESIS.toString());
+			
 		// if we still don't have a format, it's an "other"
 		if (formats.isEmpty() || formats.size() == 0)
 			formats.add(Format.OTHER.toString());
+		
 	}
 
 // Format Methods  --------------- Begin ------------------------ Format Methods
@@ -937,6 +931,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				// create field
 				if (loppedCallnum != null)
 	    			result.add( item.getBarcode() + sep + 
+//item.getLibrary() + sep + 
+//homeLoc + sep +
+//item.getCurrLoc() + sep +
 		    					building + sep + 
 		    					translatedLoc + sep + 
 // TODO:  add current location
