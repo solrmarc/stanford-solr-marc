@@ -21,7 +21,6 @@ import edu.stanford.enumValues.Access;
 public class CallNumberTests extends AbstractStanfordBlacklightTest {
 
 	private final String govDocStr = "Government Document";
-	private final String lcScheme = "LC";
 	private final boolean isSerial = true;
 	private final String ignoredId = "ignored";
 
@@ -547,6 +546,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		assertZeroResults(fldName, "PQ9661");
 	}
 
+// FIXME:  move to ItemUtils check??
 	/**
 	 * shelfkey should contain shelving key versions of "lopped" call
 	 *  numbers (call numbers without volume info)

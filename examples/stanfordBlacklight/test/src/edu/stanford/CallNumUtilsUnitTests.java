@@ -5,7 +5,11 @@ import static org.junit.Assert.*;
 
 import org.junit.*;
 
-public class CallNumberUnitTests {
+/**
+ * unit tests for edu.stanford.CallNumUtils methods
+ * @author Naomi Dushay
+ */
+public class CallNumUtilsUnitTests {
 
 	final String lcScheme = "LC";
 	final String otherScheme = "OTHER";
@@ -101,9 +105,7 @@ public class CallNumberUnitTests {
 		String callnum = "TX 519 .L18 GRADE 1";
 		assertEquals("TX 519 .L18", removeLCVolSuffix(callnum));
 		callnum = "TX 519 .L18ST GRADE 8";
-// FIXME:  lopping still needs work
-//		assertEquals("TX 519 .L18ST", removeLCVolSuffix(callnum));
-		assertEquals("TX 519 .L18S", removeLCVolSuffix(callnum));
+		assertEquals("TX 519 .L18ST", removeLCVolSuffix(callnum));
 	}
 
 	/**
@@ -215,18 +217,16 @@ public class CallNumberUnitTests {
 	}
 	
 	/**
-	 * when the whole call number is a suffix
+	 * when the whole call number is a suffix, keep it all (?) -- these should
+	 *  be shelved-by-title ...
 	 */
 	@Test
 	public void testCallNumIsSuffix()
 	{
 		String callnum = "V.432: NO.7013-7017-7020 2004";
-		assertEquals("", removeNonLCDeweyVolSuffix(callnum, otherScheme));
+		assertEquals(callnum, removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "V.433: NO.7021-7024 2005";
-		assertEquals("", removeNonLCDeweyVolSuffix(callnum, otherScheme));
-// FIXME: is this what we actually want?
-		callnum = "MFILM N.S. 10518:1-2";
-		assertEquals("", removeNonLCDeweyVolSuffix(callnum, otherScheme));
+		assertEquals(callnum, removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 
 	/**
@@ -246,15 +246,11 @@ public class CallNumberUnitTests {
 		callnum = "ECE/TRANS/SER.Z/1/2007 V.2";
 		assertEquals("ECE/TRANS/SER.Z/1/2007", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "ECE/TRANS/185(VOL.1)";
-// NOTE: sub-optimal, but good enough
-//		assertEquals("ECE/TRANS/185", removeVolSuffix(callnum, otherScheme));
-		assertEquals("ECE/TRANS/185(", removeNonLCDeweyVolSuffix(callnum, otherScheme));
+		assertEquals("ECE/TRANS/185", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "D 208.2:IT 1 R";
-//		assertEquals("D 208.2:IT 1", removeVolSuffix(callnum, otherScheme));
-		assertEquals("D 208.2:I", removeNonLCDeweyVolSuffix(callnum, otherScheme));
+		assertEquals("D 208.2:IT 1 R", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 		callnum = "D 208.2:IT 1 CA";
-//		assertEquals("D 208.2:IT 1", removeVolSuffix(callnum, otherScheme));
-		assertEquals("D 208.2:I", removeNonLCDeweyVolSuffix(callnum, otherScheme));
+		assertEquals("D 208.2:IT 1 CA", removeNonLCDeweyVolSuffix(callnum, otherScheme));
 	}
 
 	/**
@@ -387,7 +383,7 @@ public class CallNumberUnitTests {
 	 * remove year suffix, if it exists, as part of LC call number
 	 */
 @Test
-	public void testRemoveLCYearSuffix()
+	public void testRemoveLCSerialYearSuffix()
 	{
 		String callnum = "F1386 .A2 A2 1891 ";
 		assertEquals("F1386 .A2 A2", removeLCSerialVolSuffix(callnum));

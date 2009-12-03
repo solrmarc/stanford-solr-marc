@@ -15,6 +15,15 @@ import org.solrmarc.index.SolrFieldMappingTest;
  * @author Naomi Dushay
  */
 public abstract class AbstractStanfordBlacklightTest extends IndexTest {
+	
+	static final String lcScheme = "LC";
+	static final String lcperScheme = "LCPER";
+	static final String deweyScheme = "DEWEY";
+	static final String deweyperScheme = "DEWEYPER";
+	static final String sudocScheme = "SUDOC";
+	static final String alphanumScheme = "ALPHANUM";
+	static final String asisScheme = "ASIS";
+	static final String otherScheme = "UNKNOWN_SCHEME";
 
 	/** testDataParentPath is used for mapping tests - full path is needed */
     String testDataParentPath = null;

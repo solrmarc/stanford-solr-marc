@@ -12,17 +12,12 @@ import org.xml.sax.SAXException;
  * junit4 tests for Stanford University call number fields for blacklight index
  * @author Naomi Dushay
  */
-public class CallNumberLoppingTests extends AbstractStanfordBlacklightTest {
+public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTest {
 
 	private final String fldName = "item_display";
 	private final boolean isSerial = true;
 	private final String sep = " -|- ";
 	private final String shelByTitl = "Shelved by title";
-	private final String lcScheme = "LC";
-	private final String lcperScheme = "LCPER";
-	private final String deweyScheme = "DEWEY";
-	private final String alphanumScheme = "ALPHANUM";
-	private final String otherScheme = "OTHER";
 	private String testFilePath = testDataParentPath + File.separator + "callNumVolLopTests.mrc";
 
 
@@ -625,9 +620,7 @@ public class CallNumberLoppingTests extends AbstractStanfordBlacklightTest {
 
 		// serial
 		callnum = "TX519 .D26S 1954 V.2";
-// TODO: currently look for other suffixes before we resort to year ...
-//		lopped = "TX519 .D26S";
-		lopped = "TX519 .D26S 1954";
+		lopped = "TX519 .D26S";
 		recId = "cutterEndsLetLCSerial";
 		shelfkey = CallNumUtils.getShelfKey(lopped, lcScheme, recId).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -638,9 +631,7 @@ public class CallNumberLoppingTests extends AbstractStanfordBlacklightTest {
 		
 		// grade
 		callnum = "TX519 .L18ST GRADE 1";
-// FIXME: the T goes away!  not good!
-//		lopped = "TX519 .L18ST";
-		lopped = "TX519 .L18S";
+		lopped = "TX519 .L18ST";
 		recId = "cutterEndsLetLCGrade";
 		shelfkey = CallNumUtils.getShelfKey(lopped, lcScheme, recId).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -758,8 +749,7 @@ public class CallNumberLoppingTests extends AbstractStanfordBlacklightTest {
 		String callnum = " V.432: NO.7013-7017-7020 2004";
 		String volSuffix = callnum.trim();
 		String recId = "volOnly";
-// FIXME:  shelfkey for shelbytitle should be WHAT?
-//		String shelfkey = CallNumUtils.getShelfKey(shelByTitl, lcperScheme, recId).toLowerCase();
+// FIXME:  shelfkey for shelbytitle should be call number from bib record, if there is one ...
 		String shelfkey = shelByTitl.toLowerCase();
 
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -778,9 +768,7 @@ public class CallNumberLoppingTests extends AbstractStanfordBlacklightTest {
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 
 		callnum = "V.421/426 2003 INDEX";
-// TODO:  it matches index first ... perhaps in these cases it shouldn't ...
-//		volSuffix = callnum;
-		volSuffix = "INDEX";
+		volSuffix = callnum;
 		fullItemCallnum = shelByTitl + " " + volSuffix;
 		volSort = CallNumUtils.getVolumeSortCallnum(fullItemCallnum, shelByTitl, shelfkey, otherScheme, isSerial, recId);
 		fldVal = "36105028435308 -|- Hopkins -|- Serials -|- " +

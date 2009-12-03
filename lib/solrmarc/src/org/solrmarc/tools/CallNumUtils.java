@@ -962,9 +962,9 @@ public final class CallNumUtils {
 	private static String VOL_NUMBERS_LOOSER = "\\d+.*";
 	private static String VOL_NUM_AS_LETTERS = "[A-Z]([\\/-]\\[A-Z]+)?.*";
 	
-	private static Pattern volPattern = Pattern.compile(PUNCT_PREFIX + NS_PREFIX + VOL_LETTERS + "\\.? ?" + VOL_NUMBERS, Pattern.CASE_INSENSITIVE);
-	private static Pattern volPatternLoose = Pattern.compile(PUNCT_PREFIX + NS_PREFIX + VOL_LETTERS + "\\.? ?" + VOL_NUMBERS_LOOSER, Pattern.CASE_INSENSITIVE);
-	private static Pattern volPatLetters = Pattern.compile(PUNCT_PREFIX + NS_PREFIX + VOL_LETTERS + "[\\/\\. ]" + VOL_NUM_AS_LETTERS , Pattern.CASE_INSENSITIVE);
+	private static Pattern VOL_PATTERN = Pattern.compile(PUNCT_PREFIX + NS_PREFIX + VOL_LETTERS + "\\.? ?" + VOL_NUMBERS, Pattern.CASE_INSENSITIVE);
+	private static Pattern VOL_PATTERN_LOOSER = Pattern.compile(PUNCT_PREFIX + NS_PREFIX + VOL_LETTERS + "\\.? ?" + VOL_NUMBERS_LOOSER, Pattern.CASE_INSENSITIVE);
+	private static Pattern VOL_PATTERN_LETTERS = Pattern.compile(PUNCT_PREFIX + NS_PREFIX + VOL_LETTERS + "[\\/\\. ]" + VOL_NUM_AS_LETTERS , Pattern.CASE_INSENSITIVE);
 
 	/**
 	 * remove volume information from LC call number if it is present as a 
@@ -977,8 +977,8 @@ public final class CallNumUtils {
 	{
 		// get suffix to last occurring cutter, if there is one
 		String cut2suffix = getSecondLCcutterSuffix(rawLCcallnum);
-		String lastSuffix = cut2suffix;
-		if (lastSuffix == null || lastSuffix.length() == 0) {
+		String suffix = cut2suffix;
+		if (suffix == null || suffix.length() == 0) {
 			String cut1suffix = getFirstLCcutterSuffix(rawLCcallnum);
 			if (cut1suffix != null) {
 				// first cutter suffix may contain second cutter
@@ -986,28 +986,28 @@ public final class CallNumUtils {
 				if (cut2 != null) {
 					int ix = cut1suffix.indexOf(cut2);
 					if (ix != -1)
-						lastSuffix = cut1suffix.substring(0, ix);
+						suffix = cut1suffix.substring(0, ix);
 					else
-						lastSuffix = cut1suffix;
+						suffix = cut1suffix;
 				}
 				else
-					lastSuffix = cut1suffix;
+					suffix = cut1suffix;
 			}
 		}
 
 		// could put last ditch effort with tightest pattern, but don't want to take out too much		
-		if (lastSuffix != null && lastSuffix.length() > 0) {
-			Matcher matcher = volPattern.matcher(lastSuffix);
+		if (suffix != null && suffix.length() > 0) {
+			Matcher matcher = VOL_PATTERN.matcher(suffix);
 			if (!matcher.find()) {
-				matcher = volPatternLoose.matcher(lastSuffix);
+				matcher = VOL_PATTERN_LOOSER.matcher(suffix);
 				if (!matcher.find()) {
-					matcher = volPatLetters.matcher(lastSuffix);
+					matcher = VOL_PATTERN_LETTERS.matcher(suffix);
 				}
 			}
 // look for first / last match, not any match (subroutine?)?
 			if (matcher.find(0)) {
 				// return orig call number with matcher part lopped off.
-				int ix = rawLCcallnum.indexOf(lastSuffix) + matcher.start();
+				int ix = rawLCcallnum.indexOf(suffix) + matcher.start();
 				if (ix != -1 && ix < rawLCcallnum.length()) {
 					return rawLCcallnum.substring(0, ix).trim();
 				}
@@ -1031,11 +1031,11 @@ public final class CallNumUtils {
 		if (cutSuffix == null || cutSuffix.length() == 0)
 			return rawDeweyCallnum;
 		
-		Matcher matcher = volPattern.matcher(cutSuffix);
+		Matcher matcher = VOL_PATTERN.matcher(cutSuffix);
 		if (!matcher.find()) {
-			matcher = volPatternLoose.matcher(cutSuffix);
+			matcher = VOL_PATTERN_LOOSER.matcher(cutSuffix);
 			if (!matcher.find()) {
-				matcher = volPatLetters.matcher(cutSuffix);
+				matcher = VOL_PATTERN_LETTERS.matcher(cutSuffix);
 			}
 		}
 		

@@ -24,23 +24,25 @@ public class CallNumUtils {
 	 */	
 	private CallNumUtils(){ }
 		
-    private static final String PUNCT_PREFIX = "([\\.:\\/])?";
+    private static final String PUNCT_PREFIX = "([\\.:\\/\\(])?";
 	private static final String NS_PREFIX = "(n\\.s\\.?\\,? ?)?";
-	private static final String MONTHS = "jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec";
-	private static final String VOL_LETTERS = "[\\:\\/]?(bd|ed|jahrg|new ser|no|pts?|ser|t|v|vols?|vyp" + "|" + MONTHS + ")";
+	private static final String MONTHS = "jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec";
+	private static final String VOL_LETTERS = "[\\:\\/]?(bd|ed|jahrg|new ser|no|pts?|ser|[^a-z]t|v|vols?|vyp" + "|" + MONTHS + ")";
 	private static final String VOL_NUMBERS = "\\d+([\\/-]\\d+)?( \\d{4}([\\/-]\\d{4})?)?( ?suppl\\.?)?";
 	private static final String VOL_NUMBERS_LOOSER = "\\d+.*";
 	private static final String VOL_NUM_AS_LETTERS = "[A-Z]([\\/-]\\[A-Z]+)?.*";
 	
-	private static final Pattern volPattern = Pattern.compile(PUNCT_PREFIX + NS_PREFIX + VOL_LETTERS + "\\.? ?" + VOL_NUMBERS, Pattern.CASE_INSENSITIVE);
-	private static final Pattern volPatternLoose = Pattern.compile(PUNCT_PREFIX + NS_PREFIX + VOL_LETTERS + "\\.? ?" + VOL_NUMBERS_LOOSER, Pattern.CASE_INSENSITIVE);
-	private static final Pattern volPatLetters = Pattern.compile(PUNCT_PREFIX + NS_PREFIX + VOL_LETTERS + "[\\/\\. ]" + VOL_NUM_AS_LETTERS , Pattern.CASE_INSENSITIVE);
+	private static final Pattern VOL_PATTERN = Pattern.compile(PUNCT_PREFIX + NS_PREFIX + VOL_LETTERS + "\\.? ?" + VOL_NUMBERS, Pattern.CASE_INSENSITIVE);
+	private static final Pattern VOL_LOOSE_PATTERN = Pattern.compile(PUNCT_PREFIX + NS_PREFIX + VOL_LETTERS + "\\.? ?" + VOL_NUMBERS_LOOSER, Pattern.CASE_INSENSITIVE);
+	private static final Pattern VOL_LETTERS_PATTERN = Pattern.compile(PUNCT_PREFIX + NS_PREFIX + VOL_LETTERS + "[\\/\\. ]" + VOL_NUM_AS_LETTERS , Pattern.CASE_INSENSITIVE);
 
-	private static final String MORE_VOL = "[\\:\\/]?(box|carton|flat box|grade|half box|half carton|index|large folder|large map folder|map folder|mfilm|reel|os box|os folder|small folder|small map folder|suppl|tube|series)";
-	private static final Pattern moreVolPattern = Pattern.compile(MORE_VOL + ".*", Pattern.CASE_INSENSITIVE);
+	private static final String ADDL_VOL_REGEX = "[\\:\\/]?(box|carton|flat box|grade|half box|half carton|index|large folder|large map folder|map folder|mfilm|reel|os box|os folder|small folder|small map folder|suppl|tube|series)";
+	private static final Pattern ADDL_VOL_PATTERN = Pattern.compile(ADDL_VOL_REGEX + ".*", Pattern.CASE_INSENSITIVE);
 
-	private static final String FOUR_DIGIT_YEAR = " \\d{4}\\D";
-	private static final Pattern fourDigitYearPattern = Pattern.compile(FOUR_DIGIT_YEAR + ".*", Pattern.CASE_INSENSITIVE);
+	private static final String FOUR_DIGIT_YEAR_REGEX = "(20|19|18|17|16|15|14)\\d{2}";
+	private static final Pattern FOUR_DIGIT_YEAR_PATTERN = Pattern.compile(PUNCT_PREFIX + " *" + FOUR_DIGIT_YEAR_REGEX + "\\D.*", Pattern.CASE_INSENSITIVE);
+	private static final Pattern FOUR_DIGIT_YEAR_END_PATTERN = Pattern.compile(PUNCT_PREFIX + " *" + FOUR_DIGIT_YEAR_REGEX + "$", Pattern.CASE_INSENSITIVE);
+	private static final Pattern LOOSER_MONTHS_PATTERN = Pattern.compile(PUNCT_PREFIX + " *" + MONTHS, Pattern.CASE_INSENSITIVE);
 
 	/**
 	 * remove volume suffix from LC call number if it is present 
@@ -50,10 +52,12 @@ public class CallNumUtils {
 	 */
 	static String removeLCVolSuffix(String rawLCcallnum)
 	{
+		String lopped = rawLCcallnum;
+		
 		// get suffix to last occurring cutter, if there is one
 		String cut2suffix = org.solrmarc.tools.CallNumUtils.getSecondLCcutterSuffix(rawLCcallnum);
-		String lastSuffix = cut2suffix;
-		if (lastSuffix == null) {
+		String suffix = cut2suffix;
+		if (suffix == null) {
 			String cut1suffix = org.solrmarc.tools.CallNumUtils.getFirstLCcutterSuffix(rawLCcallnum);
 			if (cut1suffix != null) {
 				// first cutter suffix may contain second cutter
@@ -61,42 +65,45 @@ public class CallNumUtils {
 				if (cut2 != null) {
 					int ix = cut1suffix.indexOf(cut2);
 					if (ix != -1)
-						lastSuffix = cut1suffix.substring(0, ix);
+						suffix = cut1suffix.substring(0, ix);
 					else
-						lastSuffix = cut1suffix;
+						suffix = cut1suffix;
 				}
 				else
-					lastSuffix = cut1suffix;
+					suffix = cut1suffix;
 			}
 		}
 
 		// could put last ditch effort with tightest pattern, but don't want to take out too much		
 
-		if (lastSuffix != null) {
-			Matcher matcher = volPattern.matcher(lastSuffix);
+		if (suffix != null) {
+			Matcher matcher = VOL_PATTERN.matcher(suffix);
 			if (!matcher.find()) {
-				matcher = volPatternLoose.matcher(lastSuffix);
+				matcher = VOL_LOOSE_PATTERN.matcher(suffix);
 				if (!matcher.find()) {
-					matcher = volPatLetters.matcher(lastSuffix);
+					matcher = VOL_LETTERS_PATTERN.matcher(suffix);
 					if (!matcher.find()) {
-						matcher = moreVolPattern.matcher(lastSuffix);
+						matcher = ADDL_VOL_PATTERN.matcher(suffix);
 					}
 				}
 			}
 // look for first / last match, not any match (subroutine?)?
 			if (matcher.find(0)) {
 				// return orig call number with matcher part lopped off.
-				int ix = rawLCcallnum.indexOf(lastSuffix) + matcher.start();
+				int ix = rawLCcallnum.indexOf(suffix) + matcher.start();
 				if (ix != -1 && ix < rawLCcallnum.length()) {
-					return rawLCcallnum.substring(0, ix).trim();
+					lopped = rawLCcallnum.substring(0, ix).trim();
 				}
-			}				
+			}
+			lopped = removeLooseMonthSuffix(lopped);
 		}
-		else {
-			return removeMoreVolSuffix(rawLCcallnum);
-		}
+		else 
+			lopped = removeAddlVolSuffix(rawLCcallnum);
 
-		return rawLCcallnum;
+		if (lopped.endsWith(":") || lopped.endsWith("("))
+			return lopped.substring(0, lopped.length() -1);
+		else
+			return lopped;
 	}
 
 	/**
@@ -108,34 +115,72 @@ public class CallNumUtils {
 	 */
 	static String removeLCSerialVolSuffix(String rawLCcallnum)
 	{
-		String try1 = removeLCVolSuffix(rawLCcallnum);
-		if (!try1.equals(rawLCcallnum))
-			return try1;
-		else
-			return removeYearSuffix(rawLCcallnum);
+		return removeAddlSerialSuffix(removeLCVolSuffix(rawLCcallnum));
 	}
 	
 	/**
-	 * remove suffix that begins with a space followed by four digits followed
-	 *  by a non-digit.  (4 digits usually mean a year)
-	 * @param rawCallnum
+	 * remove additional suffixes for serials, like year, or looser month 
+	 *   matching
+	 */
+	static String removeAddlSerialSuffix(String callnum)
+	{
+		String monthB4Year = removeLooseMonthSuffix(callnum);
+		String yearB4Month = removeYearSuffix(callnum);
+		if (monthB4Year.length() > yearB4Month.length())
+			return yearB4Month;
+		else
+			return monthB4Year;
+	}
+	
+	/**
+	 * remove suffix that begins with year
+	 * @param callnum
 	 * @return call number without the year suffix, or full call number if no 
 	 *  year suffix is present.
 	 */
-	static String removeYearSuffix(String rawCallnum)
+	static String removeYearSuffix(String callnum)
 	{
-		Matcher matcher = fourDigitYearPattern.matcher(rawCallnum);
+		Matcher matcher = FOUR_DIGIT_YEAR_PATTERN.matcher(callnum);
 		if (matcher.find(0)) {
 			// return orig call number with matcher part lopped off.
 			int ix = matcher.start();
-			if (ix != -1 && ix < rawCallnum.length()) {
-				return rawCallnum.substring(0, ix).trim();
+			if (ix != -1 && ix < callnum.length()) {
+				return callnum.substring(0, ix).trim();
+			}
+		}
+		// is year is last 4 characters?
+		matcher = FOUR_DIGIT_YEAR_END_PATTERN.matcher(callnum);
+		if (matcher.find(0)) {
+			// return orig call number with matcher part lopped off.
+			int ix = matcher.start();
+			if (ix != -1 && ix < callnum.length()) {
+				return callnum.substring(0, ix).trim();
 			}
 		}				
 
-		return rawCallnum;
+		return callnum;
 	}
 
+	/**
+	 * remove suffix for looser month matching, for call numbers like:
+	 * 
+	 * @param callnum
+	 * @return call number without the month suffix, or full call number if no 
+	 *  month suffix is present.
+	 */
+	static String removeLooseMonthSuffix(String callnum) 
+	{
+		Matcher matcher = LOOSER_MONTHS_PATTERN.matcher(callnum);
+		if (matcher.find(0)) {
+			// return orig call number with matcher part lopped off.
+			int ix = matcher.start();
+			if (ix != -1 && ix < callnum.length()) {
+				return callnum.substring(0, ix).trim();
+			}
+		}				
+
+		return callnum;
+	}
 	
 	/**
 	 * remove volume suffix from Dewey call number if it is present
@@ -145,17 +190,19 @@ public class CallNumUtils {
 	 */
 	static String removeDeweyVolSuffix(String rawDeweyCallnum)
 	{
+		String lopped = rawDeweyCallnum;
+		
 		String cutSuffix = org.solrmarc.tools.CallNumUtils.getDeweyCutterSuffix(rawDeweyCallnum);
 		if (cutSuffix == null)
 			return rawDeweyCallnum;
 		
-		Matcher matcher = volPattern.matcher(cutSuffix);
+		Matcher matcher = VOL_PATTERN.matcher(cutSuffix);
 		if (!matcher.find()) {
-			matcher = volPatternLoose.matcher(cutSuffix);
+			matcher = VOL_LOOSE_PATTERN.matcher(cutSuffix);
 			if (!matcher.find()) {
-				matcher = volPatLetters.matcher(cutSuffix);
+				matcher = VOL_LETTERS_PATTERN.matcher(cutSuffix);
 				if (!matcher.find()) {
-					matcher = moreVolPattern.matcher(cutSuffix);
+					matcher = ADDL_VOL_PATTERN.matcher(cutSuffix);
 				}
 			}
 		}
@@ -164,10 +211,19 @@ public class CallNumUtils {
 			// return orig call number with matcher part lopped off.
 			int ix = rawDeweyCallnum.indexOf(cutSuffix) + matcher.start();
 			if (ix != -1 && ix < rawDeweyCallnum.length()) {
-				return rawDeweyCallnum.substring(0, ix).trim();
+				lopped = rawDeweyCallnum.substring(0, ix).trim();
 			}
 		}
-		return removeMoreVolSuffix(rawDeweyCallnum);
+
+		lopped = removeLooseMonthSuffix(lopped);
+
+		if (lopped.equals(rawDeweyCallnum))
+			lopped = removeAddlVolSuffix(rawDeweyCallnum);
+
+		if (lopped.endsWith(":") || lopped.endsWith("("))
+			return lopped.substring(0, lopped.length() -1);
+		else
+			return lopped;
 	}
 
 	/**
@@ -179,13 +235,27 @@ public class CallNumUtils {
 	 */
 	static String removeDeweySerialVolSuffix(String rawDeweyCallnum)
 	{
-		String try1 = removeDeweyVolSuffix(rawDeweyCallnum);
-		if (!try1.equals(rawDeweyCallnum))
-			return try1;
-		else
-			return removeYearSuffix(rawDeweyCallnum);
+		return removeAddlSerialSuffix(removeDeweyVolSuffix(rawDeweyCallnum));
 	}
 	
+	/** regular expression for beginning of call numbers that shouldn't be lopped */
+	private static final String DO_NOT_LOP_START_REGEX = "^([A-Z]DVD \\d|[A-Z]CD \\d|MFILM|V\\.)";
+	private static final Pattern DO_NOT_LOP_START_PATTERN = Pattern.compile(DO_NOT_LOP_START_REGEX);
+	
+	/**
+	 * loppable call numbers do not start with the forbidden strings, such as
+	 *   "MCD" or "ZDVD" or "V."
+	 * this avoids lopping too much off those types of call numbers, which 
+	 *  usually don't have suffixes
+	 */
+	private static boolean isLoppableCallnum(String callnum)
+	{
+		Matcher matcher = DO_NOT_LOP_START_PATTERN.matcher(callnum);
+		if (matcher.find())
+			return false;
+		else
+			return true;
+	}
 	
 	/**
 	 * try to remove volume suffix from call number of unknown type.  It first
@@ -199,21 +269,24 @@ public class CallNumUtils {
 	 */
 	static String removeNonLCDeweyVolSuffix(String rawCallnum, String callnumScheme) 
 	{
+		if (!isLoppableCallnum(rawCallnum))
+			return rawCallnum;
+
 		String lopped = rawCallnum;
 		if (!callnumScheme.equals("SUDOC"))
 			// look for archive type stuff (flat box, etc.)
-			lopped = removeMoreVolSuffix(rawCallnum);
+			lopped = removeAddlVolSuffix(rawCallnum);
 		
 		if (lopped.equals(rawCallnum)) 
 		{
-			Matcher matcher = volPattern.matcher(rawCallnum);
+			Matcher matcher = VOL_PATTERN.matcher(rawCallnum);
 			if (!matcher.find()) {
-				matcher = volPatternLoose.matcher(rawCallnum);
+				matcher = VOL_LOOSE_PATTERN.matcher(rawCallnum);
 				if (!matcher.find()) {
-					matcher = volPatLetters.matcher(rawCallnum);
+					matcher = VOL_LETTERS_PATTERN.matcher(rawCallnum);
 				}
 			}
-	// look for first / last match, not any match (subroutine?)?
+// look for first / last match, not any match (subroutine?)?
 			if (matcher.find(0)) {
 				// return orig call number with matcher part lopped off.
 				int ix = matcher.start();
@@ -225,6 +298,9 @@ public class CallNumUtils {
 //			else if (callnumScheme.equals("SUDOC"))
 //				lopped = removeMoreVolSuffix(rawCallnum);
 		}
+		
+		if (lopped.length() < 5)
+			return rawCallnum;
 		return lopped;
 	}
 	
@@ -240,11 +316,18 @@ public class CallNumUtils {
 	 */
 	static String removeNonLCDeweySerialVolSuffix(String rawCallnum, String callnumScheme)
 	{
-		String try1 = removeNonLCDeweyVolSuffix(rawCallnum, callnumScheme);
-		if (!try1.equals(rawCallnum))
-			return try1;
-		else
-			return removeYearSuffix(rawCallnum);
+		if (!isLoppableCallnum(rawCallnum))
+			return rawCallnum;
+
+		String lopped = removeNonLCDeweyVolSuffix(rawCallnum, callnumScheme);
+		if (lopped.length() > 10) {
+			String loppedMore = removeAddlSerialSuffix(lopped);
+			if (loppedMore.length() >= 5)
+				lopped = loppedMore;
+		}
+		if (lopped.length() < 5)
+			return rawCallnum;
+		return lopped;
 	}
 
 	
@@ -255,9 +338,9 @@ public class CallNumUtils {
 	 * @return call number without the volume information, or full call number
 	 *   if no volume information is present.
 	 */
-	static String removeMoreVolSuffix(String rawCallnum) 
+	static String removeAddlVolSuffix(String rawCallnum) 
 	{
-		Matcher matcher = moreVolPattern.matcher(rawCallnum);
+		Matcher matcher = ADDL_VOL_PATTERN.matcher(rawCallnum);
 		if (matcher.find()) {
 			// return orig call number with matcher part lopped off.
 			int ix = matcher.start();
@@ -322,57 +405,57 @@ public class CallNumUtils {
      * 	 summarized volume information
      * @param TreeMap of LC normalized call numbers (map guaranteed to be in ascending key order)
      */
-     String getConflatedLCcallnum(Map<String, Set<String>> lcNormalizedCallnumTree)
-     {
-    	 String result = null;
-    	 //   where that item contains the common prefix followed by the volume information
-         if (lcNormalizedCallnumTree == null || lcNormalizedCallnumTree.size() == 0) 
-        	 return null;
-         Set<String> keys = lcNormalizedCallnumTree.keySet();
-         for (String key : keys)
-         {
-             Set<String> values = lcNormalizedCallnumTree.get(key);
-             String valueArr[] = values.toArray(new String[0]);
-             if (valueArr.length == 1)
-                 result = valueArr[0];
-             else
-             {
-            	 // find prefix common to all the callnums
-                 String commonPrefix = valueArr[0];
-                 for (int i = 1; i < valueArr.length; i++)
-                 {
-                     commonPrefix = getCommonPrefix(commonPrefix, valueArr[i], compareNoPeriodsOrSpaces);
-                 }
-                 commonPrefix.trim();
-
-                 // we now have the common prefix;  use the array values for the "volume" part of the callnums
-                 for (int i = 0; i < valueArr.length; i++)
-                 {
-                     valueArr[i] = valueArr[i].substring(commonPrefix.length());
-                 }
-                 Arrays.sort(valueArr, new StringNaturalCompare());
-
-                 // make a string of all of the "volume" parts
-                 StringBuilder sb = new StringBuilder(commonPrefix);
-                 String sep = " ";
-                 for (int i = 0; i < valueArr.length; i++)
-                 {
-                     if (valueArr[i].length() > 0) 
-                     {
-                         sb.append(sep + valueArr[i]);
-                         sep = ",";
-                     }
-                 }
-                 
-                 if (sb.length() > 100 || valueArr.length > 10)
-// FIXME:  they're not always volumes ...                    	 
-                     result = commonPrefix + " (" + valueArr.length + " volumes)";
-                 else
-                     result = sb.toString();
-             }
-         }
-         return result;
-     }
+//     String getConflatedLCcallnum(Map<String, Set<String>> lcNormalizedCallnumTree)
+//     {
+//    	 String result = null;
+//    	 //   where that item contains the common prefix followed by the volume information
+//         if (lcNormalizedCallnumTree == null || lcNormalizedCallnumTree.size() == 0) 
+//        	 return null;
+//         Set<String> keys = lcNormalizedCallnumTree.keySet();
+//         for (String key : keys)
+//         {
+//             Set<String> values = lcNormalizedCallnumTree.get(key);
+//             String valueArr[] = values.toArray(new String[0]);
+//             if (valueArr.length == 1)
+//                 result = valueArr[0];
+//             else
+//             {
+//            	 // find prefix common to all the callnums
+//                 String commonPrefix = valueArr[0];
+//                 for (int i = 1; i < valueArr.length; i++)
+//                 {
+//                     commonPrefix = getCommonPrefix(commonPrefix, valueArr[i], compareNoPeriodsOrSpaces);
+//                 }
+//                 commonPrefix.trim();
+//
+//                 // we now have the common prefix;  use the array values for the "volume" part of the callnums
+//                 for (int i = 0; i < valueArr.length; i++)
+//                 {
+//                     valueArr[i] = valueArr[i].substring(commonPrefix.length());
+//                 }
+//                 Arrays.sort(valueArr, new StringNaturalCompare());
+//
+//                 // make a string of all of the "volume" parts
+//                 StringBuilder sb = new StringBuilder(commonPrefix);
+//                 String sep = " ";
+//                 for (int i = 0; i < valueArr.length; i++)
+//                 {
+//                     if (valueArr[i].length() > 0) 
+//                     {
+//                         sb.append(sep + valueArr[i]);
+//                         sep = ",";
+//                     }
+//                 }
+//                 
+//                 if (sb.length() > 100 || valueArr.length > 10)
+//// FIXME:  they're not always volumes ...                    	 
+//                     result = commonPrefix + " (" + valueArr.length + " volumes)";
+//                 else
+//                     result = sb.toString();
+//             }
+//         }
+//         return result;
+//     }
      
      /**
       * reduce multiple whitespace to single, remove spaces before or after 
@@ -390,25 +473,25 @@ public class CallNumUtils {
      }
 	
 	
-    private static String getBestSingleCallNumber(Map<String, Set<String>> lcCallnumTreeMap)
-    {
-        if (lcCallnumTreeMap == null || lcCallnumTreeMap.size() == 0)
-            return(null);
-
-        String[] bestSet = getLargestCallNumberSubset(lcCallnumTreeMap);
-        if (bestSet.length == 0) 
-        	return(null);
-        
-        String result = bestSet[0];
-        // replace any character that is not a letter, digit, or period with a space
-        result = result.trim().replaceAll("[^A-Za-z0-9.]", " ");
-    	// change all multiple whitespace chars to a single space
-        result = result.replaceAll("\\s\\s+", " ");
-        // remove a space before or after a period
-        result = result.replaceAll("\\s?\\.\\s?", ".");
-        
-        return(result);
-    }
+//    private static String getBestSingleCallNumber(Map<String, Set<String>> lcCallnumTreeMap)
+//    {
+//        if (lcCallnumTreeMap == null || lcCallnumTreeMap.size() == 0)
+//            return(null);
+//
+//        String[] bestSet = getLargestCallNumberSubset(lcCallnumTreeMap);
+//        if (bestSet.length == 0) 
+//        	return(null);
+//        
+//        String result = bestSet[0];
+//        // replace any character that is not a letter, digit, or period with a space
+//        result = result.trim().replaceAll("[^A-Za-z0-9.]", " ");
+//    	// change all multiple whitespace chars to a single space
+//        result = result.replaceAll("\\s\\s+", " ");
+//        // remove a space before or after a period
+//        result = result.replaceAll("\\s?\\.\\s?", ".");
+//        
+//        return(result);
+//    }
     
 
     /**
@@ -510,13 +593,13 @@ public class CallNumUtils {
 	 */
 	static boolean callNumIsVolSuffix(String rawCallnum) {
 		if (rawCallnum != null && rawCallnum.length() > 0) {
-			Matcher matcher = volPattern.matcher(rawCallnum);
+			Matcher matcher = VOL_PATTERN.matcher(rawCallnum);
 			if (!matcher.find()) {
-				matcher = volPatternLoose.matcher(rawCallnum);
+				matcher = VOL_LOOSE_PATTERN.matcher(rawCallnum);
 				if (!matcher.find()) {
-					matcher = volPatLetters.matcher(rawCallnum);
+					matcher = VOL_LETTERS_PATTERN.matcher(rawCallnum);
 					if (!matcher.find()) {
-						matcher = moreVolPattern.matcher(rawCallnum);
+						matcher = ADDL_VOL_PATTERN.matcher(rawCallnum);
 					}
 				}
 			}
