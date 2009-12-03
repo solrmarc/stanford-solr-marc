@@ -19,10 +19,6 @@ import org.xml.sax.SAXException;
  */
 public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	
-	private static final String lcScheme = "LC";
-	private static final String deweyScheme = "DEWEY";
-	private static final String otherScheme = "ANYTHING_ELSE";
-	
 @Before
 	public final void setup() 
 			throws ParserConfigurationException, IOException, SAXException 
@@ -714,12 +710,11 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	    
 		id = "4114632";
 		callnum = "ITC 1.15/3:";
-		lopped = CallNumUtils.removeLCVolSuffix(callnum);
-		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, otherScheme, id).toLowerCase();
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, otherScheme, !isSerial, id);
 		fldVal = "4114632-1001 -|- Green -|- US Federal Documents -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// one withdrawn location, one valid 
@@ -1137,15 +1132,14 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		fldVal = "36105046377987 -|- SAL3 -|- Stacks -|- " +
 				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		// ALPHANUM - MFILM
+		// ALPHANUM - MFILM ... which is no longer lopped 12-03-09
 		id = "1261173";
 		callnum = "MFILM N.S. 1350 REEL 230 NO. 3741";
-		lopped = CallNumUtils.removeLCVolSuffix(callnum);
-		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, otherScheme, id).toLowerCase();
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, otherScheme, !isSerial, id);
 		fldVal = "001AFX2969 -|- Green -|- Media-Microtext (Lower Level) -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		// ALPHANUM - MCD
 		id = "1234673";
@@ -1326,6 +1320,41 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		String fldVal = "36105007402873 -|- Falconer -|- Stacks -|- " +
 				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
+	}
+
+
+	/**
+	 * test if shelfkey field data (for searching) matches shelfkey in 
+	 * item_display field
+	 */
+@Test
+	public void testShelfkeyMatchesItemDisp()
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+	    String testFilePath = testDataParentPath + File.separator + "shelfkeyMatchItemDispTests.mrc";
+		
+		// shelfkey should be same in item_display and in shelfkey fields
+		String id = "2544737";
+		String callnum = "D 208.2:IT 1 CA";
+		String lopped = CallNumUtils.removeNonLCDeweyVolSuffix(callnum, "SUDOC");
+		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, otherScheme, id).toLowerCase();
+		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, !isSerial, id);
+		String fldVal = "001AMQ2688 -|- Green -|- US Federal Documents -|- " +
+				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "item_display", fldVal);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "shelfkey", shelfkey);
+
+		id = "2542949";
+		callnum = "D 208.2:IT 1 R";
+		lopped = CallNumUtils.removeNonLCDeweyVolSuffix(callnum, "SUDOC");		
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, otherScheme, id).toLowerCase();
+		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, !isSerial, id);
+		fldVal = "001AMQ0878 -|- Green -|- US Federal Documents -|- " +
+				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "item_display", fldVal);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "shelfkey", shelfkey);
 	}
 
 

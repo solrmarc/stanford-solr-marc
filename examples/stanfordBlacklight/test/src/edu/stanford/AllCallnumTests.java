@@ -5,10 +5,12 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        CallNumberUnitTests.class,
+        CallNumUtilsUnitTests.class,
         CallNumberTests.class,
-        CallNumberLoppingTests.class,
+        CallNumLoppingUnitTests.class,
+        ItemDisplayCallnumLoppingTests.class,
         ItemInfoTests.class,
+        ItemUtilsUnitTests.class,
         org.solrmarc.index.CallNumberUnitTests.class
         })
 

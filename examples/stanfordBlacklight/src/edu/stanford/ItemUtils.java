@@ -142,6 +142,36 @@ public class ItemUtils {
 
 	
 	/**
+	 * return the call number with the volume part (if it exists) lopped off the
+	 *   end of it.
+	 * @param fullCallnum
+	 * @param scheme - the call number scheme (e.g. LC, DEWEY, SUDOC)
+	 * @param isSerial - true if the call number is for a serial, false o.w.
+	 * @return the lopped call number
+	 */
+	static String getLoppedCallnum(String fullCallnum, String scheme, boolean isSerial) {
+		String loppedCallnum = fullCallnum;
+		if (scheme.startsWith("LC"))
+			if (isSerial)
+				loppedCallnum = CallNumUtils.removeLCSerialVolSuffix(fullCallnum);
+			else
+				loppedCallnum = CallNumUtils.removeLCVolSuffix(fullCallnum);
+		else if (scheme.startsWith("DEWEY"))
+			if (isSerial)
+				loppedCallnum = CallNumUtils.removeDeweySerialVolSuffix(fullCallnum);
+			else
+				loppedCallnum = CallNumUtils.removeDeweyVolSuffix(fullCallnum);
+		else 
+//TODO: needs to be longest common prefix
+			if (isSerial)
+				loppedCallnum = CallNumUtils.removeNonLCDeweySerialVolSuffix(fullCallnum, scheme);
+			else
+				loppedCallnum = CallNumUtils.removeNonLCDeweyVolSuffix(fullCallnum, scheme);
+
+		return loppedCallnum;
+	}
+	
+	/**
 	 * @param itemSet - set of Item objects
 	 * @param id - record id, used for error messages
 	 * @return a set of shelfkeys for the lopped call numbers in the items
@@ -176,7 +206,7 @@ public class ItemUtils {
 				shelfkey = org.solrmarc.tools.CallNumUtils.normalizeSuffix(callnum);
 
 			if (shelfkey.length() > 0)
-				result.add(shelfkey);
+				result.add(shelfkey.toLowerCase());
 		}
 		return result;
 	}
@@ -193,7 +223,7 @@ public class ItemUtils {
 		for (String shelfkey : shelfkeys) {
 			String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey);
 			if (reversekey != null)
-				result.add(reversekey);
+				result.add(reversekey.toLowerCase());
 		}
 
 		return result;
