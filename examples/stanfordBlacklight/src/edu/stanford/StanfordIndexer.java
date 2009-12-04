@@ -700,11 +700,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getItemDisplay(final Record record) 
 	{
-		// is it a serial?
-//		boolean isSerial = false;
-//		if (formats.contains(Format.JOURNAL_PERIODICAL.toString()))
-//			isSerial = true;
-
 //		return ItemUtils.getItemDisplay(itemSet, isSerial, id);
 
 		Set<String> result = new HashSet<String>();
@@ -739,32 +734,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				// full call number & lopped call number
 				String callnumScheme = item.getCallnumScheme();
 				String fullCallnum = item.getCallnum();
-				String loppedCallnum = ItemUtils.getLoppedCallnum(fullCallnum, callnumScheme, isSerial);
-//				String loppedCallnum = null;
-//				if (fullCallnum.length() > 0) {
-//// TODO:  not sure what item_display should contain for online items ...
-//					if (item.isOnline()) {
-//						// The only non-skipped online items that make it here are SUL-INTERNET??
-//						fullCallnum = "";
-//						loppedCallnum = "";
-//					}
-//					else if (callnumScheme.startsWith("LC"))
-//						if (isSerial)
-//							loppedCallnum = CallNumUtils.removeLCSerialVolSuffix(fullCallnum);
-//						else
-//							loppedCallnum = CallNumUtils.removeLCVolSuffix(fullCallnum);
-//					else if (callnumScheme.startsWith("DEWEY"))
-//						if (isSerial)
-//							loppedCallnum = CallNumUtils.removeDeweySerialVolSuffix(fullCallnum);
-//						else
-//							loppedCallnum = CallNumUtils.removeDeweyVolSuffix(fullCallnum);
-//					else 
-//// TODO: needs to be longest common prefix
-//						if (isSerial)
-//							loppedCallnum = CallNumUtils.removeNonLCDeweySerialVolSuffix(fullCallnum, callnumScheme);
-//						else
-//							loppedCallnum = CallNumUtils.removeNonLCDeweyVolSuffix(fullCallnum, callnumScheme);
-//				}
+				String loppedCallnum = item.getLoppedCallnum(isSerial);
 
 				String volSuffix = null;
 				if (loppedCallnum != null && loppedCallnum.length() > 0)
@@ -773,47 +743,39 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 						&& CallNumUtils.callNumIsVolSuffix(fullCallnum))
 					volSuffix = fullCallnum;
 
-				// shelfkey for lopped callnumber
+				// get sortable call numbers
 				String shelfkey = "";
-				if (!item.isOnline())
-					shelfkey = edu.stanford.CallNumUtils.getShelfKey(loppedCallnum, callnumScheme, id);
-				
+				String reversekey = "";
+				String volSort = "";
+				if (!item.isOnline()) {				
+					shelfkey = item.getShelfkey(isSerial);
+					reversekey = item.getReverseShelfkey(isSerial);
+					volSort = item.getCallnumVolSort(isSerial);
+				}
 				
 				// if not online, not in process or on order
 				// then deal with shelved by title locations
 				String currLoc = item.getCurrLoc();
 				if (!currLoc.equals("INPROCESS") && !currLoc.equals("ON-ORDER")
-						&& !item.isOnline()) {
+						&& !item.isOnline() && ItemUtils.isShelbyLocation(homeLoc)) {
 					if (homeLoc.equals("SHELBYTITL")) {
-						isSerial = true;
 						translatedLoc = "Serials";
 						loppedCallnum = "Shelved by title";
-						fullCallnum = loppedCallnum + " " + volSuffix;
-						shelfkey = loppedCallnum.toLowerCase();
 					}
 					if (homeLoc.equals("SHELBYSER")) {
-						isSerial = true;
 						translatedLoc = "Serials";
 						loppedCallnum = "Shelved by Series title";
-						fullCallnum = loppedCallnum + " " + volSuffix;
-						shelfkey = loppedCallnum.toLowerCase();
 					} 
 					else if (homeLoc.equals("STORBYTITL")) {
-						isSerial = true;
 						translatedLoc = "Storage area";
 						loppedCallnum = "Shelved by title";
-						fullCallnum = loppedCallnum + " " + volSuffix;
-						shelfkey = loppedCallnum.toLowerCase();
 					}
-				}
-
-				// reversekey for lopped callnumber
-				String reversekey = "";
-				if (!item.isOnline())
+					fullCallnum = loppedCallnum + " " + volSuffix;
+					shelfkey = loppedCallnum.toLowerCase();
 					reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey);
-
-				// sortable call number for show view
-				String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(fullCallnum, loppedCallnum, shelfkey, callnumScheme, isSerial, id);
+					isSerial = true;
+					volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(fullCallnum, loppedCallnum, shelfkey, callnumScheme, isSerial, id);
+				}
 
 				// create field
 				if (loppedCallnum != null)
@@ -821,9 +783,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 //item.getLibrary() + sep + 
 //homeLoc + sep +
 //item.getCurrLoc() + sep +
+// TODO:  add item type (subfield t)
 		    					building + sep + 
 		    					translatedLoc + sep + 
-// TODO:  add current location
 		    					loppedCallnum + sep + 
 		    					shelfkey.toLowerCase() + sep + 
 		    					reversekey.toLowerCase() + sep + 
