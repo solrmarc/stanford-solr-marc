@@ -12,174 +12,23 @@ import org.solrmarc.tools.CallNumUtils;
 public class Item {
 
 	/* immutable instance variables */
-	private final String recId_immut;
-	private final String barcode_immut;
-	private final String library_immut;
-	private final String homeLoc_immut;
-	private final String currLoc_immut;
-	private final String normCallnum_immut;
+	private final String recId;
+	private final String barcode;
+	private final String library;
+	private final String normCallnum;
 	/** scheme is LC, LCPER, DEWEY, DEWEYPER, SUDOC, ALPHANUM, ASIS ... */
-	private String scheme_immut;
-	private final boolean hasSkippedLoc_immut;
-	private final boolean hasGovDocLoc_immut;
-	private final boolean isOnline_immut;
-	private final boolean hasShelbyLoc_immut;
-	private final boolean hasIgnoredCallnum_immut;
-	
+	private String scheme;
+	private final boolean hasSkippedLoc;
+	private final boolean hasGovDocLoct;
+	private final boolean isOnline;
+	private final boolean hasShelbyLoc;
+	private final boolean hasIgnoredCallnum;
 
-	/**
-	 * initialize object from 999 DataField, which has the following subfields
-	 * <ul>
-	 *   <li>a - call num</li>
-	 *   <li>i - barcode</li>
-	 *   <li>k - current location</li>
-	 *   <li>l - home location</li>
-	 *   <li>m - library code</li>
-	 *   <li>o - public note</li>
-	 *   <li>t - item type</li>
-	 *   <li>w - call num scheme</li>
-	 *  </ul>
-	 */
-	public Item(DataField f999, String recId) {
-		// set all the immutable variables
-		this.recId_immut = recId;
-		barcode_immut = GenericUtils.getSubfieldTrimmed(f999, 'i');
-// TODO:  if callnum is XX and no locations, then it is ON-ORDER
-		currLoc_immut = GenericUtils.getSubfieldTrimmed(f999, 'k');
-		homeLoc_immut = GenericUtils.getSubfieldTrimmed(f999, 'l');
-		library_immut = GenericUtils.getSubfieldTrimmed(f999, 'm');
-		scheme_immut = GenericUtils.getSubfieldTrimmed(f999, 'w');
-		String rawCallnum = GenericUtils.getSubfieldTrimmed(f999, 'a');
-				
-		if (StanfordIndexer.SKIPPED_LOCS.contains(currLoc_immut)
-					|| StanfordIndexer.SKIPPED_LOCS.contains(homeLoc_immut) )
-			hasSkippedLoc_immut = true;
-		else 
-			hasSkippedLoc_immut = false;
-		
-		if (StanfordIndexer.GOV_DOC_LOCS.contains(currLoc_immut) 
-				|| StanfordIndexer.GOV_DOC_LOCS.contains(homeLoc_immut) )
-			hasGovDocLoc_immut = true;
-		else
-			hasGovDocLoc_immut = false;
-		
-		if (StanfordIndexer.ONLINE_LOCS.contains(currLoc_immut) 
-				|| StanfordIndexer.ONLINE_LOCS.contains(homeLoc_immut) 
-				|| (library_immut.equals("SUL") && homeLoc_immut.equals("INTERNET")) )
-			isOnline_immut = true;
-		else
-			isOnline_immut = false;
-
-		if (StanfordIndexer.SHELBY_LOCS.contains(currLoc_immut) 
-				|| StanfordIndexer.SHELBY_LOCS.contains(homeLoc_immut) )
-			hasShelbyLoc_immut = true;
-		else
-			hasShelbyLoc_immut = false;
-
-		if (StanfordIndexer.SKIPPED_CALLNUMS.contains(rawCallnum)
-				|| rawCallnum.startsWith("XX"))
-			hasIgnoredCallnum_immut = true;
-		else
-			hasIgnoredCallnum_immut = false;
-
-		if (!hasIgnoredCallnum_immut) {
-			if (scheme_immut.startsWith("LC") || scheme_immut.startsWith("DEWEY"))
-				normCallnum_immut = org.solrmarc.tools.CallNumUtils.normalizeCallnum(rawCallnum);
-			else
-				normCallnum_immut = rawCallnum.trim();
-			validateCallnum(recId);
-		}
-		else
-			normCallnum_immut = rawCallnum.trim();
-//System.err.println("  rec " + recId + " normCallnum is " + normCallnum);
-		printMsgIfXXCallnumHasBadLocation(recId);
-	}
-
-	public String getBarcode() {
-		return barcode_immut;
-	}
-
-	public String getLibrary() {
-		return library_immut;
-	}
-
-	public String getHomeLoc() {
-		return homeLoc_immut;
-	}
-
-	public String getCurrLoc() {
-		return currLoc_immut;
-	}
-
-	public String getCallnum() {
-		return normCallnum_immut;
-	}
-
-	public String getCallnumScheme() {
-		return scheme_immut;
-	}
-	
-	/**
-	 * LC is default call number scheme assigned;  change it if assigned
-	 *   incorrectly to a Dewey or ALPHANUM call number.  Called after  
-	 *   printMsgIfInvalidCallnum has already found invalid LC call number
-	 */
-	public void adjustLCCallnumScheme(String id) {
-// TODO:  need a test
-		if (scheme_immut.startsWith("LC")) {
-			if (org.solrmarc.tools.CallNumUtils.isValidDewey(normCallnum_immut))
-				scheme_immut = "DEWEY";
-			else
-// FIXME:  practice is ASIS if all letters or all numbers, otherwise ALPHNUM
-//  http://www-sul.stanford.edu/depts/ts/tsdepts/cat/docs/unicorn/callno.html
-				
-// FIXME:  what's the deal with Law call numbers?  See above.				
-				scheme_immut = "INCORRECTLC";		
-		}
-	}
-
-	/**
-	 * @return true if this item has a current or home location indicating it 
-	 * should be skipped (e.g. "WITHDRAWN" or a shadowed location)
-	 */
-	public boolean hasSkipLocation() {
-		return hasSkippedLoc_immut;
-	}
-	
-	/**
-	 * @return true if item has a government doc location
-	 */
-	public boolean hasGovDocLoc() {
-		return hasGovDocLoc_immut;
-	}
-	
-	/**
-	 * return true if item has a location code indicating it is online
-	 */
-	public boolean isOnline() {
-// FIXME:  need test
-		if (normCallnum_immut.startsWith("INTERNET"))
-			return true;
-		else
-			return isOnline_immut;
-	}
-
-	/**
-	 * return true if item has a shelby location (current or home)
-	 */
-	public boolean hasShelbyLoc() {
-		return hasShelbyLoc_immut;
-	}
-
-	/**
-	 * @return true if call number is to be ignored (e.g. "NO CALL NUMBER"
-	 *  or XX(blah)")
-	 */
-	public boolean hasIgnoredCallnum() {
-		return hasIgnoredCallnum_immut;
-	}
-
-	
+	/* normal instance variables */
+	private String homeLoc;
+	private String currLoc;
+	private boolean isOnOrder = false;
+	private boolean isInProcess = false;
 	/** call number with volume suffix lopped off the end.  Used to remove
 	 * noise in search results and in browsing */
 	private String loppedCallnum = null;
@@ -195,6 +44,176 @@ public class Item {
 	 * in descending order.  Non-serial volumes will sort in ascending order. */
 	private String callnumVolSort = null;
 
+
+	
+	/**
+	 * initialize object from 999 DataField, which has the following subfields
+	 * <ul>
+	 *   <li>a - call num</li>
+	 *   <li>i - barcode</li>
+	 *   <li>k - current location</li>
+	 *   <li>l - home location</li>
+	 *   <li>m - library code</li>
+	 *   <li>o - public note</li>
+	 *   <li>t - item type</li>
+	 *   <li>w - call num scheme</li>
+	 *  </ul>
+	 */
+	public Item(DataField f999, String recId) {
+		// set all the immutable variables
+		this.recId = recId;
+		barcode = GenericUtils.getSubfieldTrimmed(f999, 'i');
+// TODO:  if callnum is XX and no locations, then it is ON-ORDER
+		currLoc = GenericUtils.getSubfieldTrimmed(f999, 'k');
+		homeLoc = GenericUtils.getSubfieldTrimmed(f999, 'l');
+		library = GenericUtils.getSubfieldTrimmed(f999, 'm');
+		scheme = GenericUtils.getSubfieldTrimmed(f999, 'w');
+		String rawCallnum = GenericUtils.getSubfieldTrimmed(f999, 'a');
+				
+		if (StanfordIndexer.SKIPPED_LOCS.contains(currLoc)
+					|| StanfordIndexer.SKIPPED_LOCS.contains(homeLoc) )
+			hasSkippedLoc = true;
+		else 
+			hasSkippedLoc = false;
+		
+		if (StanfordIndexer.GOV_DOC_LOCS.contains(currLoc) 
+				|| StanfordIndexer.GOV_DOC_LOCS.contains(homeLoc) )
+			hasGovDocLoct = true;
+		else
+			hasGovDocLoct = false;
+		
+		if (StanfordIndexer.ONLINE_LOCS.contains(currLoc) 
+				|| StanfordIndexer.ONLINE_LOCS.contains(homeLoc) 
+				|| (library.equals("SUL") && homeLoc.equals("INTERNET")) )
+			isOnline = true;
+		else
+			isOnline = false;
+
+		if (StanfordIndexer.SHELBY_LOCS.contains(currLoc) 
+				|| StanfordIndexer.SHELBY_LOCS.contains(homeLoc) )
+			hasShelbyLoc = true;
+		else
+			hasShelbyLoc = false;
+
+		if (StanfordIndexer.SKIPPED_CALLNUMS.contains(rawCallnum)
+				|| rawCallnum.startsWith("XX"))
+			hasIgnoredCallnum = true;
+		else
+			hasIgnoredCallnum = false;
+
+		if (!hasIgnoredCallnum) {
+			if (scheme.startsWith("LC") || scheme.startsWith("DEWEY"))
+				normCallnum = CallNumUtils.normalizeCallnum(rawCallnum);
+			else
+				normCallnum = rawCallnum.trim();
+			validateCallnum(recId);
+		}
+		else
+			normCallnum = rawCallnum.trim();
+
+		dealWithXXCallnums(recId);
+	}
+
+	public String getBarcode() {
+		return barcode;
+	}
+
+	public String getLibrary() {
+		return library;
+	}
+
+	public String getHomeLoc() {
+		return homeLoc;
+	}
+
+	public String getCurrLoc() {
+		return currLoc;
+	}
+
+	public String getCallnum() {
+		return normCallnum;
+	}
+
+	public String getCallnumScheme() {
+		return scheme;
+	}
+	
+	/**
+	 * LC is default call number scheme assigned;  change it if assigned
+	 *   incorrectly to a Dewey or ALPHANUM call number.  Called after  
+	 *   printMsgIfInvalidCallnum has already found invalid LC call number
+	 */
+	public void adjustLCCallnumScheme(String id) {
+// TODO:  need a test
+		if (scheme.startsWith("LC")) {
+			if (CallNumUtils.isValidDewey(normCallnum))
+				scheme = "DEWEY";
+			else
+// FIXME:  practice is ASIS if all letters or all numbers, otherwise ALPHNUM
+//  http://www-sul.stanford.edu/depts/ts/tsdepts/cat/docs/unicorn/callno.html
+				
+// FIXME:  what's the deal with Law call numbers?  See above.				
+				scheme = "INCORRECTLC";		
+		}
+	}
+
+	/**
+	 * @return true if this item has a current or home location indicating it 
+	 * should be skipped (e.g. "WITHDRAWN" or a shadowed location)
+	 */
+	public boolean hasSkipLocation() {
+		return hasSkippedLoc;
+	}
+	
+	/**
+	 * @return true if item has a government doc location
+	 */
+	public boolean hasGovDocLoc() {
+		return hasGovDocLoct;
+	}
+	
+	/**
+	 * return true if item has a location code indicating it is online
+	 */
+	public boolean isOnline() {
+// FIXME:  need test
+		if (normCallnum.startsWith("INTERNET"))
+			return true;
+		else
+			return isOnline;
+	}
+
+	/**
+	 * @return true if item is on order
+	 */
+	public boolean isOnOrder() {
+		return isOnline;
+	}
+	
+	/**
+	 * @return true if item is in process
+	 */
+	public boolean isInProcess() {
+		return isInProcess;
+	}
+	
+	/**
+	 * return true if item has a shelby location (current or home)
+	 */
+	public boolean hasShelbyLoc() {
+		return hasShelbyLoc;
+	}
+
+	/**
+	 * @return true if call number is to be ignored (e.g. "NO CALL NUMBER"
+	 *  or XX(blah)")
+	 */
+	public boolean hasIgnoredCallnum() {
+		return hasIgnoredCallnum;
+	}
+
+	
+	
 	
 	/**
 	 * get the lopped call number (any volume suffix is lopped off the end.) 
@@ -215,7 +234,7 @@ public class Item {
 	 *   year suffix should be lopped in addition to regular volume lopping.
 	 */
 	private void setLoppedCallnum(boolean isSerial) {
-		loppedCallnum = ItemUtils.getLoppedCallnum(normCallnum_immut, scheme_immut, isSerial);
+		loppedCallnum = ItemUtils.getLoppedCallnum(normCallnum, scheme, isSerial);
 	}
 
 	
@@ -238,7 +257,7 @@ public class Item {
 	private void setShelfkey(boolean isSerial) {
 		if (loppedCallnum == null)
 			setLoppedCallnum(isSerial);
-		loppedShelfkey = edu.stanford.CallNumUtils.getShelfKey(loppedCallnum, scheme_immut, recId_immut);
+		loppedShelfkey = edu.stanford.CallNumUtils.getShelfKey(loppedCallnum, scheme, recId);
 	}
 
 	
@@ -287,9 +306,9 @@ public class Item {
 	private void setCallnumVolSort(boolean isSerial) {
 		if (loppedShelfkey == null)
 			// note:  setting loppedShelfkey will also set loppedCallnum
-			loppedShelfkey = edu.stanford.CallNumUtils.getShelfKey(normCallnum_immut, scheme_immut, recId_immut);
+			loppedShelfkey = edu.stanford.CallNumUtils.getShelfKey(normCallnum, scheme, recId);
 		callnumVolSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(
-					normCallnum_immut, loppedCallnum, loppedShelfkey, scheme_immut, isSerial, recId_immut);
+					normCallnum, loppedCallnum, loppedShelfkey, scheme, isSerial, recId);
 	}
 
 	
@@ -302,28 +321,55 @@ public class Item {
 	 * @param recId the id of the record, used in error message
 	 */
 	private void validateCallnum(String recId) {
-		if (scheme_immut.startsWith("LC") 
-				&& !org.solrmarc.tools.CallNumUtils.isValidLC(normCallnum_immut)) {
-			System.err.println("record " + recId + " has invalid LC callnumber: " + normCallnum_immut);
+		if (scheme.startsWith("LC") 
+				&& !CallNumUtils.isValidLC(normCallnum)) {
+			System.err.println("record " + recId + " has invalid LC callnumber: " + normCallnum);
 			adjustLCCallnumScheme(recId);
 		}
-		if (scheme_immut.startsWith("DEWEY")
-				&& !org.solrmarc.tools.CallNumUtils.isValidDewey(normCallnum_immut)) {
-			System.err.println("record " + recId + " has invalid DEWEY callnumber: " + normCallnum_immut);
-			scheme_immut = "INCORRECTDEWEY";
+		if (scheme.startsWith("DEWEY")
+				&& !CallNumUtils.isValidDewey(normCallnum)) {
+			System.err.println("record " + recId + " has invalid DEWEY callnumber: " + normCallnum);
+			scheme = "INCORRECTDEWEY";
 		}
-		else if (STRANGE_CALLNUM_START_CHARS.matcher(normCallnum_immut).matches())
+		else if (STRANGE_CALLNUM_START_CHARS.matcher(normCallnum).matches())
 // TODO:  need a test
-			System.err.println("record " + recId + " has strange callnumber: " + normCallnum_immut);
+			System.err.println("record " + recId + " has strange callnumber: " + normCallnum);
 	}
 	
 	/**
-	 * output an error message if the call number starts XX, and there is
-	 *  a location (home or current) and the current location is not 
-	 *  "ON-ORDER" or "INPROCESS"  (or shadowed)
-	 * @param recId
+	 * if item has XX call number
+	 *   if home location or current location is INPROCESS or ON-ORDER, do
+	 *     the obvious thing
+	 *   if no home or current location, item is on order.
+	 *   o.w. if the current location isn't shadowed, it is an error;
+	 *     print an error message and fake "ON-ORDER"
+	 * @param recId - for error message
 	 */
-	private void printMsgIfXXCallnumHasBadLocation(String recId) {
-// TODO: implement me		
+	private void dealWithXXCallnums(String recId) {
+		if (normCallnum.startsWith("XX"))
+		{
+			if (currLoc.equals("ON-ORDER"))
+				isOnOrder = true;
+			else if (currLoc.equals("INPROCESS"))
+				isInProcess = true;
+			else if (hasSkippedLoc)
+				; // we're okay
+			else if (currLoc.length() > 0) {
+				System.err.println("record " + recId + " has XX callnumber but current location is not ON-ORDER or INPROCESS or shadowy");
+				if (homeLoc.equals("ON-ORDER") || homeLoc.equals("INPROCESS")) {
+					currLoc = homeLoc;
+					homeLoc = "";
+					if (currLoc.equals("ON-ORDER"))
+						isOnOrder = true;
+					else
+						isInProcess = true;
+				}
+				else {
+					currLoc = "ON-ORDER";
+					isOnOrder = true;
+				}
+			}
+		}
 	}
+
 }

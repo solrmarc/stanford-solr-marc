@@ -950,25 +950,13 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		// SHELBYSER - but IN PROCESS
 		
 		id = "2211";
-// if not in process:
-//		callnum = "Shelved by Series title";
-//		shelfkey = callnum.toLowerCase();
-//		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
-//		show_view_callnum = callnum + " VOL 1 1946";
-//		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(show_view_callnum, callnum, otherScheme, isSerial, id);
-//		String fldVal = "36105129694374 -|- Swain -|- Serials -|- " +
-//				callnum + sep + shelfkey + sep + reversekey + sep + show_view_callnum + sep + volSort);
-//	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-
-// in process
-		String lopped = "PQ9661 .P31 C6 1946";
-		callnum = "PQ9661 .P31 C6 1946 VOL 1 1946";
-		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();
+		callnum = "Shelved by Series title";
+		shelfkey = callnum.toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
-		// NOTE:  record doesn't have format serial ...
-		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105129694374 -|- Swain -|- In process -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort; 	
+		show_view_callnum = callnum + " VOL 1 1946";
+		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(show_view_callnum, callnum, shelfkey, otherScheme, isSerial, id);
+		fldVal = "36105129694374 -|- Swain -|- Serials -|- " +
+				callnum + sep + shelfkey + sep + reversekey + sep + show_view_callnum + sep + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
  	}
  	

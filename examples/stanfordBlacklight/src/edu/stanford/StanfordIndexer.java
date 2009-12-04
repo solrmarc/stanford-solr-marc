@@ -753,11 +753,11 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					volSort = item.getCallnumVolSort(isSerial);
 				}
 				
-				// if not online, not in process or on order
-				// then deal with shelved by title locations
-				String currLoc = item.getCurrLoc();
-				if (!currLoc.equals("INPROCESS") && !currLoc.equals("ON-ORDER")
-						&& !item.isOnline() && ItemUtils.isShelbyLocation(homeLoc)) {
+				// deal with shelved by title locations
+				//   if not online, not in process or on order
+				if (item.hasShelbyLoc() && 
+						!item.isInProcess() && !item.isOnOrder() && 
+						!item.isOnline()) {
 					if (homeLoc.equals("SHELBYTITL")) {
 						translatedLoc = "Serials";
 						loppedCallnum = "Shelved by title";
@@ -972,7 +972,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getReverseShelfkeys(final Record record) 
 	{
-		return ItemUtils.getReverseShelfkeys(shelfkeys);
+		return ItemUtils.getReverseShelfkeys(itemSet, isSerial);
 	}
 
 
