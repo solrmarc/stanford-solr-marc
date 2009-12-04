@@ -85,6 +85,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	Set<String> shelfkeys;
 	/** govDocCats are used for top level call number facet */
 	Set<String> govDocCats;
+	/** isSerial is used for shelfkeys and item_display */
+	boolean isSerial;
 
 	/** 008 field */
 	ControlField cf008 = null;
@@ -145,6 +147,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		}
 
 		setFormats(record);
+		isSerial = formats.contains(Format.JOURNAL_PERIODICAL.toString());
 		setSFXUrls(); // doesn't need record b/c they come from 999
 		setFullTextUrls(record);
 		setBuildings(record);
@@ -698,9 +701,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	public Set<String> getItemDisplay(final Record record) 
 	{
 		// is it a serial?
-		boolean isSerial = false;
-		if (formats.contains(Format.JOURNAL_PERIODICAL.toString()))
-			isSerial = true;
+//		boolean isSerial = false;
+//		if (formats.contains(Format.JOURNAL_PERIODICAL.toString()))
+//			isSerial = true;
 
 //		return ItemUtils.getItemDisplay(itemSet, isSerial, id);
 
@@ -736,31 +739,32 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				// full call number & lopped call number
 				String callnumScheme = item.getCallnumScheme();
 				String fullCallnum = item.getCallnum();
-				String loppedCallnum = null;
-				if (fullCallnum.length() > 0) {
-// TODO:  not sure what item_display should contain for online items ...
-					if (item.isOnline()) {
-						// The only non-skipped online items that make it here are SUL-INTERNET??
-						fullCallnum = "";
-						loppedCallnum = "";
-					}
-					else if (callnumScheme.startsWith("LC"))
-						if (isSerial)
-							loppedCallnum = CallNumUtils.removeLCSerialVolSuffix(fullCallnum);
-						else
-							loppedCallnum = CallNumUtils.removeLCVolSuffix(fullCallnum);
-					else if (callnumScheme.startsWith("DEWEY"))
-						if (isSerial)
-							loppedCallnum = CallNumUtils.removeDeweySerialVolSuffix(fullCallnum);
-						else
-							loppedCallnum = CallNumUtils.removeDeweyVolSuffix(fullCallnum);
-					else 
-// TODO: needs to be longest common prefix
-						if (isSerial)
-							loppedCallnum = CallNumUtils.removeNonLCDeweySerialVolSuffix(fullCallnum, callnumScheme);
-						else
-							loppedCallnum = CallNumUtils.removeNonLCDeweyVolSuffix(fullCallnum, callnumScheme);
-				}
+				String loppedCallnum = ItemUtils.getLoppedCallnum(fullCallnum, callnumScheme, isSerial);
+//				String loppedCallnum = null;
+//				if (fullCallnum.length() > 0) {
+//// TODO:  not sure what item_display should contain for online items ...
+//					if (item.isOnline()) {
+//						// The only non-skipped online items that make it here are SUL-INTERNET??
+//						fullCallnum = "";
+//						loppedCallnum = "";
+//					}
+//					else if (callnumScheme.startsWith("LC"))
+//						if (isSerial)
+//							loppedCallnum = CallNumUtils.removeLCSerialVolSuffix(fullCallnum);
+//						else
+//							loppedCallnum = CallNumUtils.removeLCVolSuffix(fullCallnum);
+//					else if (callnumScheme.startsWith("DEWEY"))
+//						if (isSerial)
+//							loppedCallnum = CallNumUtils.removeDeweySerialVolSuffix(fullCallnum);
+//						else
+//							loppedCallnum = CallNumUtils.removeDeweyVolSuffix(fullCallnum);
+//					else 
+//// TODO: needs to be longest common prefix
+//						if (isSerial)
+//							loppedCallnum = CallNumUtils.removeNonLCDeweySerialVolSuffix(fullCallnum, callnumScheme);
+//						else
+//							loppedCallnum = CallNumUtils.removeNonLCDeweyVolSuffix(fullCallnum, callnumScheme);
+//				}
 
 				String volSuffix = null;
 				if (loppedCallnum != null && loppedCallnum.length() > 0)
@@ -996,7 +1000,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	private void setShelfkeys(final Record record) 
 	{
 		shelfkeys.clear();
-		shelfkeys.addAll(ItemUtils.getShelfkeys(itemSet, id));
+		shelfkeys.addAll(ItemUtils.getShelfkeys(itemSet, id, isSerial));
 	}
 
 	/**

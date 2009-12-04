@@ -171,12 +171,14 @@ public class ItemUtils {
 		return loppedCallnum;
 	}
 	
+
 	/**
 	 * @param itemSet - set of Item objects
 	 * @param id - record id, used for error messages
+	 * @param isSerial - true if document is a serial, false otherwise
 	 * @return a set of shelfkeys for the lopped call numbers in the items
 	 */
-	static Set<String> getShelfkeys(Set<Item> itemSet, String id)
+	static Set<String> getShelfkeys(Set<Item> itemSet, String id, boolean isSerial)
 	{
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) 
@@ -187,30 +189,17 @@ public class ItemUtils {
 			String callnum = item.getCallnum();
 			if (callnum.length() == 0)
 				continue;
+			String scheme = item.getCallnumScheme();
 
-			String shelfkey = null;
-			String callnumScheme = item.getCallnumScheme();
-			if (callnumScheme.startsWith("LC")) 
-			{
-				String lopped = CallNumUtils.removeLCVolSuffix(callnum);
-				shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, "LC", id);
-			} 
-			else if (callnumScheme.startsWith("DEWEY")) 
-			{
-				String lopped = CallNumUtils.removeDeweyVolSuffix(callnum);
-				shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, "DEWEY", id);
-				if (shelfkey.equals(callnum.toUpperCase()))
-					System.err.println("Problem creating shelfkey for record " + id + ": " + callnum);
-			} 
-			else
-				shelfkey = org.solrmarc.tools.CallNumUtils.normalizeSuffix(callnum);
+			String lopped = ItemUtils.getLoppedCallnum(callnum, scheme, isSerial);
+			String shelfkey = CallNumUtils.getShelfKey(lopped, scheme, id);
 
 			if (shelfkey.length() > 0)
 				result.add(shelfkey.toLowerCase());
 		}
 		return result;
 	}
-	
+
 	
 	/**
 	 * @param shelfkeys - Set of shelfkey strings
