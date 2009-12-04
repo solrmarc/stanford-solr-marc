@@ -91,18 +91,6 @@ public class ItemUtils {
 	}
 
 	/**
-	 * @return true if the location code is on of the "shelve by" locations
-	 */
-	static boolean isShelbyLocation(String locCode) {
-		if (locCode.equals("SHELBYTITL") || 
-				locCode.equals("SHELBYSER") ||
-				locCode.equals("STORBYTITL")) 
-			return true;
-		else
-			return false;
-	}
-	
-	/**
 	 * returns a list of any LC call numbers present in the items, normalized
 	 * @param itemSet - a Set of Item objects
 	 */
@@ -145,7 +133,7 @@ public class ItemUtils {
 	 * if the item has a Dewey call number, add leading zeroes to normalized it,
 	 *  if necessary, and return it. Otherwise, return empty string
 	 */
-	static String getNormalizedDeweyCallNumber(Item item)
+	private static String getNormalizedDeweyCallNumber(Item item)
 	{
 		if (item.getCallnumScheme().startsWith("DEWEY"))
 			return org.solrmarc.tools.CallNumUtils.addLeadingZeros(item.getCallnum());
@@ -162,25 +150,24 @@ public class ItemUtils {
 	 * @param isSerial - true if the call number is for a serial, false o.w.
 	 * @return the lopped call number
 	 */
-// this is only called by Item object ... should it be here?
-	static String getLoppedCallnum(String fullCallnum, String scheme, boolean isSerial) {
+	public static String getLoppedCallnum(String fullCallnum, String scheme, boolean isSerial) {
 		String loppedCallnum = fullCallnum;
 		if (scheme.startsWith("LC"))
 			if (isSerial)
-				loppedCallnum = CallNumUtils.removeLCSerialVolSuffix(fullCallnum);
+				loppedCallnum = edu.stanford.CallNumUtils.removeLCSerialVolSuffix(fullCallnum);
 			else
-				loppedCallnum = CallNumUtils.removeLCVolSuffix(fullCallnum);
+				loppedCallnum = edu.stanford.CallNumUtils.removeLCVolSuffix(fullCallnum);
 		else if (scheme.startsWith("DEWEY"))
 			if (isSerial)
-				loppedCallnum = CallNumUtils.removeDeweySerialVolSuffix(fullCallnum);
+				loppedCallnum = edu.stanford.CallNumUtils.removeDeweySerialVolSuffix(fullCallnum);
 			else
-				loppedCallnum = CallNumUtils.removeDeweyVolSuffix(fullCallnum);
+				loppedCallnum = edu.stanford.CallNumUtils.removeDeweyVolSuffix(fullCallnum);
 		else 
 //TODO: needs to be longest common prefix
 			if (isSerial)
-				loppedCallnum = CallNumUtils.removeNonLCDeweySerialVolSuffix(fullCallnum, scheme);
+				loppedCallnum = edu.stanford.CallNumUtils.removeNonLCDeweySerialVolSuffix(fullCallnum, scheme);
 			else
-				loppedCallnum = CallNumUtils.removeNonLCDeweyVolSuffix(fullCallnum, scheme);
+				loppedCallnum = edu.stanford.CallNumUtils.removeNonLCDeweyVolSuffix(fullCallnum, scheme);
 
 		return loppedCallnum;
 	}
@@ -211,23 +198,31 @@ public class ItemUtils {
 		return result;
 	}
 
-	
 	/**
-	 * @param shelfkeys - Set of shelfkey strings
-	 * @return a set of reverse shelfkeys corresponding to the shelfkeys passed in
+	 * @param itemSet - set of Item objects
+	 * @param id - record id, used for error messages
+	 * @param isSerial - true if document is a serial, false otherwise
+	 * @return a set of shelfkeys for the lopped call numbers in the items
 	 */
-	static Set<String> getReverseShelfkeys(Set<String> shelfkeys)
+	static Set<String> getReverseShelfkeys(Set<Item> itemSet, boolean isSerial)
 	{
 		Set<String> result = new HashSet<String>();
+		for (Item item : itemSet) 
+		{
+			if (item.hasIgnoredCallnum() || item.isOnline())
+				continue;
 
-		for (String shelfkey : shelfkeys) {
-			String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey);
-			if (reversekey != null)
-				result.add(reversekey.toLowerCase());
+			if (item.getCallnum().length() == 0)
+				continue;
+
+			String reverseShelfkey = item.getReverseShelfkey(isSerial);
+			
+			if (reverseShelfkey.length() > 0)
+				result.add(reverseShelfkey.toLowerCase());
 		}
-
 		return result;
 	}
+
 	
 	/**
 	 * 
@@ -247,97 +242,7 @@ public class ItemUtils {
 	static Set<String> getItemDisplay(Set<Item> itemSet, boolean isSerial, String id) 
 	{
 		Set<String> result = new HashSet<String>();
-		
-		// FIXME: sep should be globally avail constant (for tests also?)
-		String sep = " -|- ";
-
-		// itemList is a list of non-skipped items
-		for (Item item : itemSet) {
-			if (!item.isOnline()) {
-				String building = "";
-				String translatedLoc = "";
-				String homeLoc = item.getHomeLoc();				
-
-				if (item.isOnline()) {
-					building = "Online";
-					translatedLoc = "Online";
-				} 
-				else {
-					// map building to short name
-					String origBldg = item.getLibrary();
-//					if (origBldg.length() > 0)
-//						building = Utils.remap(origBldg, findMap(LIBRARY_SHORT_MAP_NAME), true);
-					if (building == null || building.length() == 0)
-						building = origBldg;
-					// location --> mapped
-// TODO:  stop mapping location (it will be done in UI)					
-//					if (homeLoc.length() > 0)
-//						translatedLoc = Utils.remap(homeLoc, findMap(LOCATION_MAP_NAME), true);
-				}
-
-				// full call number & lopped call number
-				String callnumScheme = item.getCallnumScheme();
-				String fullCallnum = item.getCallnum();
-				String loppedCallnum = item.getLoppedCallnum(isSerial);
-
-				String volSuffix = null;
-				if (loppedCallnum != null && loppedCallnum.length() > 0)
-					volSuffix = fullCallnum.substring(loppedCallnum.length()).trim();
-				if ((volSuffix == null || volSuffix.length() == 0) 
-						&& CallNumUtils.callNumIsVolSuffix(fullCallnum))
-					volSuffix = fullCallnum;
-
-				// get sortable keys
-				String shelfkey = "";
-				String reversekey = "";
-				String volSort = "";
-				if (!item.isOnline()) {				
-					shelfkey = item.getShelfkey(isSerial);
-					reversekey = item.getReverseShelfkey(isSerial);
-					volSort = item.getCallnumVolSort(isSerial);
-				}
-				
-				// if not online, not in process or on order
-				// then deal with shelved by title locations
-				String currLoc = item.getCurrLoc();
-				if (!currLoc.equals("INPROCESS") && !currLoc.equals("ON-ORDER")
-						&& !item.isOnline() && ItemUtils.isShelbyLocation(homeLoc)) {
-					if (homeLoc.equals("SHELBYTITL")) {
-						translatedLoc = "Serials";
-						loppedCallnum = "Shelved by title";
-					}
-					if (homeLoc.equals("SHELBYSER")) {
-						translatedLoc = "Serials";
-						loppedCallnum = "Shelved by Series title";
-					} 
-					else if (homeLoc.equals("STORBYTITL")) {
-						translatedLoc = "Storage area";
-						loppedCallnum = "Shelved by title";
-					}
-					fullCallnum = loppedCallnum + " " + volSuffix;
-					shelfkey = loppedCallnum.toLowerCase();
-					reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey);
-					isSerial = true;
-					volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(fullCallnum, loppedCallnum, shelfkey, callnumScheme, isSerial, id);
-				}
-
-				// create field
-				if (loppedCallnum != null)
-	    			result.add( item.getBarcode() + sep + 
-//item.getLibrary() + sep + 
-//homeLoc + sep +
-//item.getCurrLoc() + sep +
-// TODO:  add item type (subfield t)
-		    					building + sep + 
-		    					translatedLoc + sep + 
-		    					loppedCallnum + sep + 
-		    					shelfkey.toLowerCase() + sep + 
-		    					reversekey.toLowerCase() + sep + 
-		    					fullCallnum + sep + 
-		    					volSort );
-			}
-		} // end loop through items
-
+// TODO: can't implement here until using raw building/location codes		
 		return result;
 	}
 
