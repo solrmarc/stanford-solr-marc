@@ -12,18 +12,19 @@ import org.solrmarc.tools.CallNumUtils;
 public class Item {
 
 	/* immutable instance variables */
-	private final String barcode;
-	private final String library;
-	private final String homeLoc;
-	private final String currLoc;
-	private final String normCallnum;
-	/** callnumScheme is LC, LCPER, DEWEY, DEWEYPER, SUDOC, ALPHANUM, ASIS ... */
-	private String callnumScheme;
-	private final boolean hasSkippedLoc;
-	private final boolean hasGovDocLoc;
-	private final boolean isOnline;
-	private final boolean hasShelbyLoc;
-	private final boolean hasIgnoredCallnum;
+	private final String recId_immut;
+	private final String barcode_immut;
+	private final String library_immut;
+	private final String homeLoc_immut;
+	private final String currLoc_immut;
+	private final String normCallnum_immut;
+	/** scheme is LC, LCPER, DEWEY, DEWEYPER, SUDOC, ALPHANUM, ASIS ... */
+	private String scheme_immut;
+	private final boolean hasSkippedLoc_immut;
+	private final boolean hasGovDocLoc_immut;
+	private final boolean isOnline_immut;
+	private final boolean hasShelbyLoc_immut;
+	private final boolean hasIgnoredCallnum_immut;
 	
 
 	/**
@@ -41,88 +42,81 @@ public class Item {
 	 */
 	public Item(DataField f999, String recId) {
 		// set all the immutable variables
-		barcode = GenericUtils.getSubfieldTrimmed(f999, 'i');
+		this.recId_immut = recId;
+		barcode_immut = GenericUtils.getSubfieldTrimmed(f999, 'i');
 // TODO:  if callnum is XX and no locations, then it is ON-ORDER
-		currLoc = GenericUtils.getSubfieldTrimmed(f999, 'k');
-		homeLoc = GenericUtils.getSubfieldTrimmed(f999, 'l');
-		library = GenericUtils.getSubfieldTrimmed(f999, 'm');
-		callnumScheme = GenericUtils.getSubfieldTrimmed(f999, 'w');
+		currLoc_immut = GenericUtils.getSubfieldTrimmed(f999, 'k');
+		homeLoc_immut = GenericUtils.getSubfieldTrimmed(f999, 'l');
+		library_immut = GenericUtils.getSubfieldTrimmed(f999, 'm');
+		scheme_immut = GenericUtils.getSubfieldTrimmed(f999, 'w');
 		String rawCallnum = GenericUtils.getSubfieldTrimmed(f999, 'a');
-		
-// SUL loc  INTERNET call num
-//   online item
-//   not call number facet
-//   not shelf key
-		
-// other online items:
-//   if decent call number, yes, call number facet, yes shelf key
-		
-		if (StanfordIndexer.SKIPPED_LOCS.contains(currLoc)
-					|| StanfordIndexer.SKIPPED_LOCS.contains(homeLoc) )
-			hasSkippedLoc = true;
+				
+		if (StanfordIndexer.SKIPPED_LOCS.contains(currLoc_immut)
+					|| StanfordIndexer.SKIPPED_LOCS.contains(homeLoc_immut) )
+			hasSkippedLoc_immut = true;
 		else 
-			hasSkippedLoc = false;
+			hasSkippedLoc_immut = false;
 		
-		if (StanfordIndexer.GOV_DOC_LOCS.contains(currLoc) 
-				|| StanfordIndexer.GOV_DOC_LOCS.contains(homeLoc) )
-			hasGovDocLoc = true;
+		if (StanfordIndexer.GOV_DOC_LOCS.contains(currLoc_immut) 
+				|| StanfordIndexer.GOV_DOC_LOCS.contains(homeLoc_immut) )
+			hasGovDocLoc_immut = true;
 		else
-			hasGovDocLoc = false;
+			hasGovDocLoc_immut = false;
 		
-		if (StanfordIndexer.ONLINE_LOCS.contains(currLoc) 
-				|| StanfordIndexer.ONLINE_LOCS.contains(homeLoc) 
-				|| (library.equals("SUL") && homeLoc.equals("INTERNET")) )
-			isOnline = true;
+		if (StanfordIndexer.ONLINE_LOCS.contains(currLoc_immut) 
+				|| StanfordIndexer.ONLINE_LOCS.contains(homeLoc_immut) 
+				|| (library_immut.equals("SUL") && homeLoc_immut.equals("INTERNET")) )
+			isOnline_immut = true;
 		else
-			isOnline = false;
+			isOnline_immut = false;
 
-		if (StanfordIndexer.SHELBY_LOCS.contains(currLoc) 
-				|| StanfordIndexer.SHELBY_LOCS.contains(homeLoc) )
-			hasShelbyLoc = true;
+		if (StanfordIndexer.SHELBY_LOCS.contains(currLoc_immut) 
+				|| StanfordIndexer.SHELBY_LOCS.contains(homeLoc_immut) )
+			hasShelbyLoc_immut = true;
 		else
-			hasShelbyLoc = false;
+			hasShelbyLoc_immut = false;
 
 		if (StanfordIndexer.SKIPPED_CALLNUMS.contains(rawCallnum)
 				|| rawCallnum.startsWith("XX"))
-			hasIgnoredCallnum = true;
+			hasIgnoredCallnum_immut = true;
 		else
-			hasIgnoredCallnum = false;
+			hasIgnoredCallnum_immut = false;
 
-		if (!hasIgnoredCallnum) {
-			if (callnumScheme.startsWith("LC") || callnumScheme.startsWith("DEWEY"))
-				normCallnum = org.solrmarc.tools.CallNumUtils.normalizeCallnum(rawCallnum);
+		if (!hasIgnoredCallnum_immut) {
+			if (scheme_immut.startsWith("LC") || scheme_immut.startsWith("DEWEY"))
+				normCallnum_immut = org.solrmarc.tools.CallNumUtils.normalizeCallnum(rawCallnum);
 			else
-				normCallnum = rawCallnum.trim();
-			printMsgIfInvalidCallnum(recId);
+				normCallnum_immut = rawCallnum.trim();
+			validateCallnum(recId);
 		}
 		else
-			normCallnum = rawCallnum.trim();
+			normCallnum_immut = rawCallnum.trim();
 //System.err.println("  rec " + recId + " normCallnum is " + normCallnum);
 		printMsgIfXXCallnumHasBadLocation(recId);
 	}
 
 	public String getBarcode() {
-		return barcode;
+		return barcode_immut;
 	}
 
 	public String getLibrary() {
-		return library;
+		return library_immut;
 	}
 
 	public String getHomeLoc() {
-		return homeLoc;
+		return homeLoc_immut;
 	}
 
 	public String getCurrLoc() {
-		return currLoc;
+		return currLoc_immut;
 	}
 
 	public String getCallnum() {
-		return normCallnum;
+		return normCallnum_immut;
 	}
 
 	public String getCallnumScheme() {
-		return callnumScheme;
+		return scheme_immut;
 	}
 	
 	/**
@@ -132,15 +126,15 @@ public class Item {
 	 */
 	public void adjustLCCallnumScheme(String id) {
 // TODO:  need a test
-		if (callnumScheme.startsWith("LC")) {
-			if (org.solrmarc.tools.CallNumUtils.isValidDewey(normCallnum))
-				callnumScheme = "DEWEY";
+		if (scheme_immut.startsWith("LC")) {
+			if (org.solrmarc.tools.CallNumUtils.isValidDewey(normCallnum_immut))
+				scheme_immut = "DEWEY";
 			else
 // FIXME:  practice is ASIS if all letters or all numbers, otherwise ALPHNUM
 //  http://www-sul.stanford.edu/depts/ts/tsdepts/cat/docs/unicorn/callno.html
 				
 // FIXME:  what's the deal with Law call numbers?  See above.				
-				callnumScheme = "INCORRECTLC";		
+				scheme_immut = "INCORRECTLC";		
 		}
 	}
 
@@ -149,14 +143,14 @@ public class Item {
 	 * should be skipped (e.g. "WITHDRAWN" or a shadowed location)
 	 */
 	public boolean hasSkipLocation() {
-		return hasSkippedLoc;
+		return hasSkippedLoc_immut;
 	}
 	
 	/**
 	 * @return true if item has a government doc location
 	 */
 	public boolean hasGovDocLoc() {
-		return hasGovDocLoc;
+		return hasGovDocLoc_immut;
 	}
 	
 	/**
@@ -164,17 +158,17 @@ public class Item {
 	 */
 	public boolean isOnline() {
 // FIXME:  need test
-		if (normCallnum.startsWith("INTERNET"))
+		if (normCallnum_immut.startsWith("INTERNET"))
 			return true;
 		else
-			return isOnline;
+			return isOnline_immut;
 	}
 
 	/**
 	 * return true if item has a shelby location (current or home)
 	 */
 	public boolean hasShelbyLoc() {
-		return hasShelbyLoc;
+		return hasShelbyLoc_immut;
 	}
 
 	/**
@@ -182,54 +176,123 @@ public class Item {
 	 *  or XX(blah)")
 	 */
 	public boolean hasIgnoredCallnum() {
-		return hasIgnoredCallnum;
+		return hasIgnoredCallnum_immut;
 	}
 
 	
-//--  what's below must be computed with some record context ----	
-	
-	// these should be null to show when they haven't yet been assigned
-	private String shelfkey = null;
-	private String reverseShelfkey = null;
-	private String callnumLopped = null;
+	/** call number with volume suffix lopped off the end.  Used to remove
+	 * noise in search results and in browsing */
+	private String loppedCallnum = null;
+
+	/** sortable version of lopped call number */
+	private String loppedShelfkey = null;
+
+	/** reverse sorted version of loppedShelfkey - the last call number shall
+	 * be first, etc. */
+	private String reverseLoppedShelfkey = null;
+
+	/** sortable full call number, where, for serials, any volume suffix will sort 
+	 * in descending order.  Non-serial volumes will sort in ascending order. */
 	private String callnumVolSort = null;
 
-
-	public String getCallnumLopped() {
-		return callnumLopped;
+	
+	/**
+	 * get the lopped call number (any volume suffix is lopped off the end.) 
+	 * This will remove noise in search results and in browsing.
+	 * @param isSerial - true if item is for a serial.  Used to determine if 
+	 *   year suffix should be lopped in addition to regular volume lopping.
+	 */
+	public String getLoppedCallnum(boolean isSerial) {
+		if (loppedCallnum == null)
+			setLoppedCallnum(isSerial);
+		return loppedCallnum;
+	}
+	
+	/**
+	 * sets the private field loppedCallnum to contain the call number without
+	 *  any volume suffix information.  
+	 * @param isSerial - true if item is for a serial.  Used to determine if 
+	 *   year suffix should be lopped in addition to regular volume lopping.
+	 */
+	private void setLoppedCallnum(boolean isSerial) {
+		loppedCallnum = ItemUtils.getLoppedCallnum(normCallnum_immut, scheme_immut, isSerial);
 	}
 
-	public void setCallnumLopped(String callnumLopped) {
-		this.callnumLopped = callnumLopped;
+	
+	/**
+	 * get the sortable version of the lopped call number.
+	 * @param isSerial - true if item is for a serial.
+	 */
+	public String getShelfkey(boolean isSerial) {
+		if (loppedShelfkey == null)
+			setShelfkey(isSerial);
+		return loppedShelfkey;
 	}
 
-// TODO:  should vol sort be here?  or does it make sense to compute in StanfordIndexer?	
-	public String getCallnumVolSort() {
+	/**
+	 * sets the private field loppedShelfkey (and loppedCallnum if it's not
+	 *  already set).  loppedShelfkey will contain the sortable version of the 
+	 *  lopped call number
+	 * @param isSerial - true if item is for a serial.
+	 */
+	private void setShelfkey(boolean isSerial) {
+		if (loppedCallnum == null)
+			setLoppedCallnum(isSerial);
+		loppedShelfkey = edu.stanford.CallNumUtils.getShelfKey(loppedCallnum, scheme_immut, recId_immut);
+	}
+
+	
+	/**
+	 * get the reverse sortable version of the lopped call number.
+	 * @param isSerial - true if item is for a serial.
+	 */
+	public String getReverseShelfkey(boolean isSerial) {
+		if (reverseLoppedShelfkey == null)
+			setReverseShelfkey(isSerial);
+		return reverseLoppedShelfkey;
+	}
+
+	/**
+	 * sets the private field reverseLoppedShelfkey (and loppedShelfkey and 
+	 *  loppedCallnum if they're not already set).  reverseLoppedShelfkey will 
+	 *  contain the reverse sortable version of the lopped call number.
+	 * @param isSerial - true if item is for a serial.
+	 */
+	private void setReverseShelfkey(boolean isSerial) {
+		if (loppedShelfkey == null)
+			setShelfkey(isSerial);
+		reverseLoppedShelfkey = CallNumUtils.getReverseShelfKey(loppedShelfkey);
+	}
+
+	
+	/**
+	 * get the sortable full call number, where, for serials, any volume suffix 
+	 * will sort in descending order.  Non-serial volumes will sort in ascending 
+	 * order.
+	 * @param isSerial - true if item is for a serial.
+	 */
+	public String getCallnumVolSort(boolean isSerial) {
+		if (callnumVolSort == null)
+			setCallnumVolSort(isSerial);
 		return callnumVolSort;
 	}
 
-	public void setCallnumVolSort(String callnumVolSort) {
-		this.callnumVolSort = callnumVolSort;
+	/**
+	 * sets the private field callnumVolSort (and loppedShelfkey and 
+	 * loppedCallnum if they're not already set.)  callnumVolSort will contain 
+	 * the sortable full call number, where, for serials, any volume suffix 
+	 * will sort in descending order.  
+	 * @param isSerial - true if item is for a serial.
+	 */
+	private void setCallnumVolSort(boolean isSerial) {
+		if (loppedShelfkey == null)
+			// note:  setting loppedShelfkey will also set loppedCallnum
+			loppedShelfkey = edu.stanford.CallNumUtils.getShelfKey(normCallnum_immut, scheme_immut, recId_immut);
+		callnumVolSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(
+					normCallnum_immut, loppedCallnum, loppedShelfkey, scheme_immut, isSerial, recId_immut);
 	}
 
-	public String getShelfkey() {
-		return shelfkey;
-	}
-
-	public void setShelfkey(String shelfkey) {
-		this.shelfkey = shelfkey;
-	}
-
-	public String getReverseShelfkey() {
-		if (reverseShelfkey == null)
-			setReverseShelfkey();
-		return reverseShelfkey;
-	}
-
-	public void setReverseShelfkey() {
-		if (shelfkey != null)
-			reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-	}
+	
 	
 	/** call numbers must start with a letter or digit */
     private static final Pattern STRANGE_CALLNUM_START_CHARS = Pattern.compile("^\\p{Alnum}");
@@ -238,20 +301,20 @@ public class Item {
 	 *  but is invalid
 	 * @param recId the id of the record, used in error message
 	 */
-	private void printMsgIfInvalidCallnum(String recId) {
-		if (callnumScheme.startsWith("LC") 
-				&& !org.solrmarc.tools.CallNumUtils.isValidLC(normCallnum)) {
-			System.err.println("record " + recId + " has invalid LC callnumber: " + normCallnum);
+	private void validateCallnum(String recId) {
+		if (scheme_immut.startsWith("LC") 
+				&& !org.solrmarc.tools.CallNumUtils.isValidLC(normCallnum_immut)) {
+			System.err.println("record " + recId + " has invalid LC callnumber: " + normCallnum_immut);
 			adjustLCCallnumScheme(recId);
 		}
-		if (callnumScheme.startsWith("DEWEY")
-				&& !org.solrmarc.tools.CallNumUtils.isValidDewey(normCallnum)) {
-			System.err.println("record " + recId + " has invalid DEWEY callnumber: " + normCallnum);
-			callnumScheme = "INCORRECTDEWEY";
+		if (scheme_immut.startsWith("DEWEY")
+				&& !org.solrmarc.tools.CallNumUtils.isValidDewey(normCallnum_immut)) {
+			System.err.println("record " + recId + " has invalid DEWEY callnumber: " + normCallnum_immut);
+			scheme_immut = "INCORRECTDEWEY";
 		}
-		else if (STRANGE_CALLNUM_START_CHARS.matcher(normCallnum).matches())
+		else if (STRANGE_CALLNUM_START_CHARS.matcher(normCallnum_immut).matches())
 // TODO:  need a test
-			System.err.println("record " + recId + " has strange callnumber: " + normCallnum);
+			System.err.println("record " + recId + " has strange callnumber: " + normCallnum_immut);
 	}
 	
 	/**

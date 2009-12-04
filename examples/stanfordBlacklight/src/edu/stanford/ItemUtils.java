@@ -2,6 +2,8 @@ package edu.stanford;
 
 import java.util.*;
 
+import org.solrmarc.tools.Utils;
+
 /**
  * Utility methods for item information Stanford SolrMarc
  *  
@@ -31,34 +33,34 @@ public class ItemUtils {
 	 *  to be skipped
 	 * @return
 	 */
-	private static Map<String, Set<String>> getLibLocScheme2Callnums(Set<Item> itemSet) {
-		Map<String, Set<String>> libLocScheme2Callnums = new HashMap();
-		for (Item item : itemSet) {
-
-			String library = item.getLibrary();
-			String homeLoc = item.getHomeLoc();
-			String callnumScheme = item.getCallnumScheme();
-
-			String callnum = item.getCallnum();
-			if (callnum.length() == 0)
-				continue;
-
-			String key = library + ":" + homeLoc;
-			if (callnumScheme.startsWith("LC"))
-				key = key + ":LC";
-			else if (callnumScheme.startsWith("DEWEY"))
-				key = key + ":DEWEY";
-			else
-				key = key + ":" + callnumScheme;
-
-			Set<String> currVal = libLocScheme2Callnums.get(key);
-			if (currVal == null)
-				currVal = new HashSet<String>();
-			currVal.add(callnum);
-			libLocScheme2Callnums.put(key, currVal);
-		}
-		return libLocScheme2Callnums;
-	}
+//	private static Map<String, Set<String>> getLibLocScheme2Callnums(Set<Item> itemSet) {
+//		Map<String, Set<String>> libLocScheme2Callnums = new HashMap();
+//		for (Item item : itemSet) {
+//
+//			String library = item.getLibrary();
+//			String homeLoc = item.getHomeLoc();
+//			String callnumScheme = item.getCallnumScheme();
+//
+//			String callnum = item.getCallnum();
+//			if (callnum.length() == 0)
+//				continue;
+//
+//			String key = library + ":" + homeLoc;
+//			if (callnumScheme.startsWith("LC"))
+//				key = key + ":LC";
+//			else if (callnumScheme.startsWith("DEWEY"))
+//				key = key + ":DEWEY";
+//			else
+//				key = key + ":" + callnumScheme;
+//
+//			Set<String> currVal = libLocScheme2Callnums.get(key);
+//			if (currVal == null)
+//				currVal = new HashSet<String>();
+//			currVal.add(callnum);
+//			libLocScheme2Callnums.put(key, currVal);
+//		}
+//		return libLocScheme2Callnums;
+//	}
 
 	/**
 	 * get the type of government document given a location code for a
@@ -88,6 +90,17 @@ public class ItemUtils {
 			return GOV_DOC_UNKNOWN_FACET_VAL;
 	}
 
+	/**
+	 * @return true if the location code is on of the "shelve by" locations
+	 */
+	static boolean isShelbyLocation(String locCode) {
+		if (locCode.equals("SHELBYTITL") || 
+				locCode.equals("SHELBYSER") ||
+				locCode.equals("STORBYTITL")) 
+			return true;
+		else
+			return false;
+	}
 	
 	/**
 	 * returns a list of any LC call numbers present in the items, normalized
@@ -97,7 +110,7 @@ public class ItemUtils {
 	{
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) {
-// FIXME:  shelby locations should checked in calling routine??
+// FIXME:  shelby locations should be checked in calling routine??
 			if (item.getCallnumScheme().startsWith("LC")
 					&& !item.hasIgnoredCallnum() && !item.hasShelbyLoc()) {
 				String callnum = edu.stanford.CallNumUtils.normalizeLCcallnum(item.getCallnum());
@@ -117,7 +130,7 @@ public class ItemUtils {
 	{
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) {
-// FIXME:  shelby locations should checked in calling routine??
+// FIXME:  shelby locations should be checked in calling routine??
 			if (item.getCallnumScheme().startsWith("DEWEY")
 					&& !item.hasIgnoredCallnum() && !item.hasShelbyLoc()) {
 				String callnum = getNormalizedDeweyCallNumber(item);
@@ -149,6 +162,7 @@ public class ItemUtils {
 	 * @param isSerial - true if the call number is for a serial, false o.w.
 	 * @return the lopped call number
 	 */
+// this is only called by Item object ... should it be here?
 	static String getLoppedCallnum(String fullCallnum, String scheme, boolean isSerial) {
 		String loppedCallnum = fullCallnum;
 		if (scheme.startsWith("LC"))
@@ -186,14 +200,11 @@ public class ItemUtils {
 			if (item.hasIgnoredCallnum() || item.isOnline())
 				continue;
 
-			String callnum = item.getCallnum();
-			if (callnum.length() == 0)
+			if (item.getCallnum().length() == 0)
 				continue;
-			String scheme = item.getCallnumScheme();
 
-			String lopped = ItemUtils.getLoppedCallnum(callnum, scheme, isSerial);
-			String shelfkey = CallNumUtils.getShelfKey(lopped, scheme, id);
-
+			String shelfkey = item.getShelfkey(isSerial);
+			
 			if (shelfkey.length() > 0)
 				result.add(shelfkey.toLowerCase());
 		}
@@ -236,6 +247,7 @@ public class ItemUtils {
 	static Set<String> getItemDisplay(Set<Item> itemSet, boolean isSerial, String id) 
 	{
 		Set<String> result = new HashSet<String>();
+		
 		// FIXME: sep should be globally avail constant (for tests also?)
 		String sep = " -|- ";
 
@@ -243,22 +255,22 @@ public class ItemUtils {
 		for (Item item : itemSet) {
 			if (!item.isOnline()) {
 				String building = "";
-//				String translatedLoc = "";
+				String translatedLoc = "";
 				String homeLoc = item.getHomeLoc();				
 
 				if (item.isOnline()) {
 					building = "Online";
-					homeLoc = "Online";
+					translatedLoc = "Online";
 				} 
 				else {
-					building = item.getLibrary();
 					// map building to short name
-//					String origBldg = item.getLibrary();
+					String origBldg = item.getLibrary();
 //					if (origBldg.length() > 0)
 //						building = Utils.remap(origBldg, findMap(LIBRARY_SHORT_MAP_NAME), true);
-//					if (building == null || building.length() == 0)
-//						building = origBldg;
-//					// location --> mapped
+					if (building == null || building.length() == 0)
+						building = origBldg;
+					// location --> mapped
+// TODO:  stop mapping location (it will be done in UI)					
 //					if (homeLoc.length() > 0)
 //						translatedLoc = Utils.remap(homeLoc, findMap(LOCATION_MAP_NAME), true);
 				}
@@ -266,31 +278,7 @@ public class ItemUtils {
 				// full call number & lopped call number
 				String callnumScheme = item.getCallnumScheme();
 				String fullCallnum = item.getCallnum();
-				String loppedCallnum = null;
-				if (fullCallnum.length() > 0) {
-// TODO:  not sure what item_display should contain for online items ...
-					if (item.isOnline()) {
-						// The only non-skipped online items that make it here are SUL-INTERNET??
-						fullCallnum = "";
-						loppedCallnum = "";
-					}
-					else if (callnumScheme.startsWith("LC"))
-						if (isSerial)
-							loppedCallnum = CallNumUtils.removeLCSerialVolSuffix(fullCallnum);
-						else
-							loppedCallnum = CallNumUtils.removeLCVolSuffix(fullCallnum);
-					else if (callnumScheme.startsWith("DEWEY"))
-						if (isSerial)
-							loppedCallnum = CallNumUtils.removeDeweySerialVolSuffix(fullCallnum);
-						else
-							loppedCallnum = CallNumUtils.removeDeweyVolSuffix(fullCallnum);
-					else 
-// TODO: needs to be longest common prefix
-						if (isSerial)
-							loppedCallnum = CallNumUtils.removeNonLCDeweySerialVolSuffix(fullCallnum, callnumScheme);
-						else
-							loppedCallnum = CallNumUtils.removeNonLCDeweyVolSuffix(fullCallnum, callnumScheme);
-				}
+				String loppedCallnum = item.getLoppedCallnum(isSerial);
 
 				String volSuffix = null;
 				if (loppedCallnum != null && loppedCallnum.length() > 0)
@@ -299,57 +287,49 @@ public class ItemUtils {
 						&& CallNumUtils.callNumIsVolSuffix(fullCallnum))
 					volSuffix = fullCallnum;
 
-				// shelfkey for lopped callnumber
+				// get sortable keys
 				String shelfkey = "";
-				if (!item.isOnline())
-					shelfkey = edu.stanford.CallNumUtils.getShelfKey(loppedCallnum, callnumScheme, id);
-				
+				String reversekey = "";
+				String volSort = "";
+				if (!item.isOnline()) {				
+					shelfkey = item.getShelfkey(isSerial);
+					reversekey = item.getReverseShelfkey(isSerial);
+					volSort = item.getCallnumVolSort(isSerial);
+				}
 				
 				// if not online, not in process or on order
 				// then deal with shelved by title locations
 				String currLoc = item.getCurrLoc();
 				if (!currLoc.equals("INPROCESS") && !currLoc.equals("ON-ORDER")
-						&& !item.isOnline()) {
+						&& !item.isOnline() && ItemUtils.isShelbyLocation(homeLoc)) {
 					if (homeLoc.equals("SHELBYTITL")) {
-						isSerial = true;
-//						translatedLoc = "Serials";
-						homeLoc = "Serials";
+						translatedLoc = "Serials";
 						loppedCallnum = "Shelved by title";
-						fullCallnum = loppedCallnum + " " + volSuffix;
-						shelfkey = loppedCallnum.toLowerCase();
 					}
 					if (homeLoc.equals("SHELBYSER")) {
-						isSerial = true;
-//						translatedLoc = "Serials";
-						homeLoc = "Serials";
+						translatedLoc = "Serials";
 						loppedCallnum = "Shelved by Series title";
-						fullCallnum = loppedCallnum + " " + volSuffix;
-						shelfkey = loppedCallnum.toLowerCase();
 					} 
 					else if (homeLoc.equals("STORBYTITL")) {
-						isSerial = true;
-//						translatedLoc = "Storage area";
-						homeLoc = "Storage area";
+						translatedLoc = "Storage area";
 						loppedCallnum = "Shelved by title";
-						fullCallnum = loppedCallnum + " " + volSuffix;
-						shelfkey = loppedCallnum.toLowerCase();
 					}
-				}
-
-				// reversekey for lopped callnumber
-				String reversekey = "";
-				if (!item.isOnline())
+					fullCallnum = loppedCallnum + " " + volSuffix;
+					shelfkey = loppedCallnum.toLowerCase();
 					reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey);
-
-				// sortable call number for show view
-				String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(fullCallnum, loppedCallnum, shelfkey, callnumScheme, isSerial, id);
+					isSerial = true;
+					volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(fullCallnum, loppedCallnum, shelfkey, callnumScheme, isSerial, id);
+				}
 
 				// create field
 				if (loppedCallnum != null)
 	    			result.add( item.getBarcode() + sep + 
-building + sep + 
-//translatedLoc + sep + 
-homeLoc + sep + 
+//item.getLibrary() + sep + 
+//homeLoc + sep +
+//item.getCurrLoc() + sep +
+// TODO:  add item type (subfield t)
+		    					building + sep + 
+		    					translatedLoc + sep + 
 		    					loppedCallnum + sep + 
 		    					shelfkey.toLowerCase() + sep + 
 		    					reversekey.toLowerCase() + sep + 
