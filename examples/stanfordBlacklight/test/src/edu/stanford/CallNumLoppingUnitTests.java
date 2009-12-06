@@ -5,6 +5,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+/**
+ * unit tests for edu.stanford.CallNumberUtils lopping methods
+ * @author Naomi Dushay
+ */
 public class CallNumLoppingUnitTests extends AbstractStanfordBlacklightTest {
 
 	private static final String sudocScheme = AbstractStanfordBlacklightTest.sudocScheme;

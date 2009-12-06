@@ -20,30 +20,6 @@ public class ItemUtilsUnitTests {
 	private static final String otherScheme = "ANYTHING_ELSE";	
 	private static final boolean isSerial = true;
 
-// TODO:  for matching shelfkey field value with item_display shelfkey value for nearby-on-shelf
-//
-//  note that ItemUtils lopping and shelfkey methods take info on 
-//    callnum scheme and whether record is for serial, 	and calls appropriate
-//    CallNumUtil method.   Basically, have single place to keep that logic.
-	
-// 1.  get ItemUtils working like (ItemDisplay) 
-//  1a.  lopping 
-//  2a.  shelfkeys
-//
-// 2.  understand differences between shelfkey field value and shelfkey value in item_display
-//
-// 3.  change ItemUtils lopping to work as desired
-//  3a.  lopping  (scheme, serial sensitive)
-//  3b.  shelfkey  (scheme sensitive)
-//
-// 4. use ItemUtils methods
-//  4a. for item_display
-//  4b. for shelfkeys
-//
-// 5. only lop once per item, then create shelfkey, reverse_shelfkey and vol sort in Item object 
-//  5a.  should lopping happen in context of Item (Item needs to know if it's a serial for lopping),
-//        and then set all the other values?
-	
 	/**
 	 * test lopping of LC call numbers.  Serial and non-Serial flavor
 	 */
@@ -201,9 +177,9 @@ public class ItemUtilsUnitTests {
 		assertEquals("CALIF G255 .R4 NO.I-1B 1978", ItemUtils.getLoppedCallnum(callnum, alphanumScheme, !isSerial));
 	}
 	
-// TODO: this test belongs elsewhere?
+// TODO: does this test belong elsewhere?
 	/**
-	 * test that lopping shelve-by-title call numbers
+	 * test that lopping shelve-by-title call numbers is correct
 	 */
 @Test
 	public void testLoppingShelbyTitleCallnum()

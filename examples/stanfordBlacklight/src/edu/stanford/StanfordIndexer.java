@@ -142,7 +142,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		itemSet.clear();
 		for (DataField df999 : list999df) {
 			Item item = new Item(df999, id);
-			if (!item.hasSkipLocation())
+			if (!item.shouldBeSkipped())
 				itemSet.add(item);
 		}
 
@@ -791,7 +791,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		    					reversekey.toLowerCase() + sep + 
 		    					fullCallnum + sep + 
 		    					volSort );
-			}
+			} // if !item.isOnline
 		} // end loop through items
 
 		return result;
