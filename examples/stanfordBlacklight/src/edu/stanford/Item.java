@@ -15,11 +15,11 @@ public class Item {
 	private final String recId;
 	private final String barcode;
 	private final String library;
-	private final String normCallnum;
+	private final String type;
 	/** scheme is LC, LCPER, DEWEY, DEWEYPER, SUDOC, ALPHANUM, ASIS ... */
 	private String scheme;
-	private final boolean hasSkippedLoc;
-	private final boolean hasGovDocLoct;
+	private final boolean shouldBeSkipped;
+	private final boolean hasGovDocLoc;
 	private final boolean isOnline;
 	private final boolean hasShelbyLoc;
 	private final boolean hasIgnoredCallnum;
@@ -27,6 +27,7 @@ public class Item {
 	/* normal instance variables */
 	private String homeLoc;
 	private String currLoc;
+	private String normCallnum;
 	private boolean isOnOrder = false;
 	private boolean isInProcess = false;
 	/** call number with volume suffix lopped off the end.  Used to remove
@@ -63,32 +64,26 @@ public class Item {
 		// set all the immutable variables
 		this.recId = recId;
 		barcode = GenericUtils.getSubfieldTrimmed(f999, 'i');
-// TODO:  if callnum is XX and no locations, then it is ON-ORDER
 		currLoc = GenericUtils.getSubfieldTrimmed(f999, 'k');
 		homeLoc = GenericUtils.getSubfieldTrimmed(f999, 'l');
 		library = GenericUtils.getSubfieldTrimmed(f999, 'm');
+		type = GenericUtils.getSubfieldTrimmed(f999, 't');
 		scheme = GenericUtils.getSubfieldTrimmed(f999, 'w');
 		String rawCallnum = GenericUtils.getSubfieldTrimmed(f999, 'a');
 				
 		if (StanfordIndexer.SKIPPED_LOCS.contains(currLoc)
-					|| StanfordIndexer.SKIPPED_LOCS.contains(homeLoc) )
-			hasSkippedLoc = true;
+					|| StanfordIndexer.SKIPPED_LOCS.contains(homeLoc) 
+					|| type.equals("EDI-REMOVE"))
+			shouldBeSkipped = true;
 		else 
-			hasSkippedLoc = false;
+			shouldBeSkipped = false;
 		
 		if (StanfordIndexer.GOV_DOC_LOCS.contains(currLoc) 
 				|| StanfordIndexer.GOV_DOC_LOCS.contains(homeLoc) )
-			hasGovDocLoct = true;
+			hasGovDocLoc = true;
 		else
-			hasGovDocLoct = false;
+			hasGovDocLoc = false;
 		
-		if (StanfordIndexer.ONLINE_LOCS.contains(currLoc) 
-				|| StanfordIndexer.ONLINE_LOCS.contains(homeLoc) 
-				|| (library.equals("SUL") && homeLoc.equals("INTERNET")) )
-			isOnline = true;
-		else
-			isOnline = false;
-
 		if (StanfordIndexer.SHELBY_LOCS.contains(currLoc) 
 				|| StanfordIndexer.SHELBY_LOCS.contains(homeLoc) )
 			hasShelbyLoc = true;
@@ -100,7 +95,7 @@ public class Item {
 			hasIgnoredCallnum = true;
 		else
 			hasIgnoredCallnum = false;
-
+		
 		if (!hasIgnoredCallnum) {
 			if (scheme.startsWith("LC") || scheme.startsWith("DEWEY"))
 				normCallnum = CallNumUtils.normalizeCallnum(rawCallnum);
@@ -111,9 +106,21 @@ public class Item {
 		else
 			normCallnum = rawCallnum.trim();
 
+		// isOnline is immutable so must be set here
+		if (StanfordIndexer.ONLINE_LOCS.contains(currLoc) 
+				|| StanfordIndexer.ONLINE_LOCS.contains(homeLoc) ) {
+//				|| normCallnum.equals("INTERNET RESOURCE") ) {
+			isOnline = true;
+			homeLoc = "INTERNET";
+			currLoc = homeLoc;
+			normCallnum = "INTERNET RESOURCE";
+		}	
+		else
+			isOnline = false;
+
 		dealWithXXCallnums(recId);
 	}
-
+	
 	public String getBarcode() {
 		return barcode;
 	}
@@ -139,44 +146,25 @@ public class Item {
 	}
 	
 	/**
-	 * LC is default call number scheme assigned;  change it if assigned
-	 *   incorrectly to a Dewey or ALPHANUM call number.  Called after  
-	 *   printMsgIfInvalidCallnum has already found invalid LC call number
-	 */
-	public void adjustLCCallnumScheme(String id) {
-// TODO:  need a test
-		if (scheme.startsWith("LC")) {
-			if (CallNumUtils.isValidDewey(normCallnum))
-				scheme = "DEWEY";
-			else
-// FIXME:  practice is ASIS if all letters or all numbers, otherwise ALPHNUM
-//  http://www-sul.stanford.edu/depts/ts/tsdepts/cat/docs/unicorn/callno.html
-				
-// FIXME:  what's the deal with Law call numbers?  See above.				
-				scheme = "INCORRECTLC";		
-		}
-	}
-
-	/**
 	 * @return true if this item has a current or home location indicating it 
-	 * should be skipped (e.g. "WITHDRAWN" or a shadowed location)
+	 * should be skipped (e.g. "WITHDRAWN" or a shadowed location) or has
+	 * a type of "EDI-REMOVE")
 	 */
-	public boolean hasSkipLocation() {
-		return hasSkippedLoc;
+	public boolean shouldBeSkipped() {
+		return shouldBeSkipped;
 	}
 	
 	/**
 	 * @return true if item has a government doc location
 	 */
 	public boolean hasGovDocLoc() {
-		return hasGovDocLoct;
+		return hasGovDocLoc;
 	}
 	
 	/**
 	 * return true if item has a location code indicating it is online
 	 */
 	public boolean isOnline() {
-// FIXME:  need test
 		if (normCallnum.startsWith("INTERNET"))
 			return true;
 		else
@@ -187,7 +175,7 @@ public class Item {
 	 * @return true if item is on order
 	 */
 	public boolean isOnOrder() {
-		return isOnline;
+		return isOnOrder;
 	}
 	
 	/**
@@ -212,8 +200,6 @@ public class Item {
 		return hasIgnoredCallnum;
 	}
 
-	
-	
 	
 	/**
 	 * get the lopped call number (any volume suffix is lopped off the end.) 
@@ -332,10 +318,24 @@ public class Item {
 			scheme = "INCORRECTDEWEY";
 		}
 		else if (STRANGE_CALLNUM_START_CHARS.matcher(normCallnum).matches())
-// TODO:  need a test
 			System.err.println("record " + recId + " has strange callnumber: " + normCallnum);
 	}
 	
+	/**
+	 * LC is default call number scheme assigned;  change it if assigned
+	 *   incorrectly to a Dewey or ALPHANUM call number.  Called after  
+	 *   printMsgIfInvalidCallnum has already found invalid LC call number
+	 */
+	private void adjustLCCallnumScheme(String id) {
+		if (scheme.startsWith("LC")) {
+			if (CallNumUtils.isValidDewey(normCallnum))
+				scheme = "DEWEY";
+			else
+// FIXME:  what's the deal with weird Law call numbers?
+				scheme = "INCORRECTLC";		
+		}
+	}
+
 	/**
 	 * if item has XX call number
 	 *   if home location or current location is INPROCESS or ON-ORDER, do
@@ -352,7 +352,7 @@ public class Item {
 				isOnOrder = true;
 			else if (currLoc.equals("INPROCESS"))
 				isInProcess = true;
-			else if (hasSkippedLoc)
+			else if (shouldBeSkipped)
 				; // we're okay
 			else if (currLoc.length() > 0) {
 				System.err.println("record " + recId + " has XX callnumber but current location is not ON-ORDER or INPROCESS or shadowy");
@@ -372,4 +372,5 @@ public class Item {
 		}
 	}
 
+	
 }
