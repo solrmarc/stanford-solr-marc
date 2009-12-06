@@ -12,7 +12,7 @@ import org.junit.runners.Suite;
         ItemDisplayCallnumLoppingTests.class,
         ItemInfoTests.class,
         ItemObjectTests.class,
-        ItemUtilsUnitTests.class,
+        ItemUtilsUnitTests.class
 //        org.solrmarc.index.CallNumberUnitTests.class
         })
 
