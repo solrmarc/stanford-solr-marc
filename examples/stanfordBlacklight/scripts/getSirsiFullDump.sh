@@ -29,11 +29,11 @@ fi
 # if different, it is new
 
 # rm old data from "previous"
-rm $PREVIOUS_DATA_DIR/*
+#rm $PREVIOUS_DATA_DIR/*
 
 #  mv "latest" data to "previous"
 mv $LATEST_DATA_DIR/logs/* $PREVIOUS_DATA_DIR/logs
-mv $LATEST_DATA_DIR/* $PREVIOUS_DATA_DIR
+#mv $LATEST_DATA_DIR/* $PREVIOUS_DATA_DIR
 
 # temporary! - take an argument for the date of the directory
 #EXPECTED_ARGS = 1;
