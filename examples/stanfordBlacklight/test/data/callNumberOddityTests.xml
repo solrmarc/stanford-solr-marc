@@ -468,7 +468,9 @@
             <subfield code="m">SUL</subfield>
             <subfield code="r">Y</subfield>
             <subfield code="s">Y</subfield>
+<!--
             <subfield code="t">EDI-REMOVE</subfield>
+-->
             <subfield code="u">10/15/2009</subfield>
             <subfield code="z">TAX=8.25</subfield>
         </datafield>
