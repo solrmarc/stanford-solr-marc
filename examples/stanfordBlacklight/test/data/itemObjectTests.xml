@@ -117,7 +117,7 @@
         <controlfield tag="001">aediremove</controlfield>
         <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
         <datafield tag="245" ind1=" " ind2=" ">
-            <subfield code="a">EDI weird</subfield>
+            <subfield code="a">EDI-REMOVE type in one 999</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">427331959</subfield>
@@ -131,6 +131,14 @@
             <subfield code="t">EDI-REMOVE</subfield>
             <subfield code="u">10/15/2009</subfield>
             <subfield code="z">TAX=8.25</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">111.11 .A5</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">111</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
         </datafield>
     </record>
 </collection>
