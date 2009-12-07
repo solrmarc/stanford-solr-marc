@@ -57,7 +57,9 @@ public class SolrFieldMappingTest
             String expectedFldName, String expectedFldVal)
     {
         Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(solrDocId, mrcFileName);
-
+        if (solrFldName2ValMap == null)
+        	fail("there is no document with id " + solrDocId);
+        
         Object solrFldValObj = solrFldName2ValMap.get(expectedFldName);
         if (solrFldValObj == null)
             fail("No value assigned for Solr field " + expectedFldName + " in Solr document " + solrDocId);
@@ -97,7 +99,9 @@ public class SolrFieldMappingTest
     public void assertSolrFldHasNoValue(String mrcFileName, String solrDocId,
             String expectedFldName, String expectedFldVal)
     {
-        Map<String, Object> solrFldName2ValMap = marcMappingTest .getIndexMapForRecord(solrDocId, mrcFileName);
+        Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(solrDocId, mrcFileName);
+        if (solrFldName2ValMap == null)
+        	fail("there is no document with id " + solrDocId);
 
         Object solrFldValObj = solrFldName2ValMap.get(expectedFldName);
         if (solrFldValObj instanceof String)
@@ -113,4 +117,31 @@ public class SolrFieldMappingTest
             }
         }
     }
+    
+    /**
+     * assert that when the file of marc records is processed, the Solr document
+     * with the given id will not have the named field
+     * 
+     * @param mrcFileName -
+     *            absolute path of file of marc records (name must end in .mrc
+     *            or .marc or .xml)
+     * @param solrDocId -
+     *            value of Solr unique key field for the Solr document to
+     *            checked
+     * @param fldName -
+     *            the name of the Solr field to be checked
+     */
+    public void assertNoSolrFld(String mrcFileName, String solrDocId,
+            String fldName)
+    {
+        Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(solrDocId, mrcFileName);
+        if (solrFldName2ValMap == null)
+        	fail("there is no document with id " + solrDocId);
+        
+        Object solrFldValObj = solrFldName2ValMap.get(fldName);
+        if (solrFldValObj != null)
+            fail("There is a value assigned for Solr field " + fldName + " in Solr document " + solrDocId);
+    }
+
+
 }

@@ -199,15 +199,4 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	}
 
-	/**
-	 * Cubberley has call numbers that start with TX, but they are Dewey 
-	 *   call numbers with a TX(space) prefix.  (TX = textbook)
-	 */
-	public void testTXDeweyCallnum() 
-	{
-//TODO: implement this test and then the code		
-	}
-
-
-
 }
