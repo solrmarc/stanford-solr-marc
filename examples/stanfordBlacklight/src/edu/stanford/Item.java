@@ -137,6 +137,10 @@ public class Item {
 		return currLoc;
 	}
 
+	public String getType() {
+		return type;
+	}
+
 	public String getCallnum() {
 		return normCallnum;
 	}

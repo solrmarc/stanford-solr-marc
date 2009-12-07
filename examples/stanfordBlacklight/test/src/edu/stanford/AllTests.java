@@ -16,6 +16,7 @@ import org.junit.runners.Suite;
         ItemDisplayCallnumLoppingTests.class,
         ItemInfoTests.class,
         ItemObjectTests.class,
+        ItemSkippedTests.class,
         ItemUtilsUnitTests.class,
         LanguageTests.class,
         MiscellaneousFieldTests.class,

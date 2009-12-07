@@ -172,8 +172,9 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		// single barcode in the record
 		assertSingleResult("115472", fldName, "36105033811451");
 		// multiple barcodes in the record
-		assertSingleResult("1033119", fldName, "36105037439663");
-		assertSingleResult("1033119", fldName, "36105001623284");
+// these are shadowed locations, so they are skipped 2009-12-06
+//		assertSingleResult("1033119", fldName, "36105037439663");
+//		assertSingleResult("1033119", fldName, "36105001623284");
 	}
 
 
@@ -972,22 +973,16 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		String fldName = "item_display";
 		createIxInitVars("locationTests.mrc");
 
-// TODO:  the record should not be INDEXED if all items are skipped		
-		
 		// DISCARD-NS
-		assertDocHasNoField("345228", fldName);
-
+		assertZeroResults("id", "345228");
 		// WITHDRAWN
-		assertDocHasNoField("575946", fldName);
-		
+		assertZeroResults("id", "575946");
 		// FED-DOCS-S  (shadow)
-		assertDocHasNoField("804724", fldName);
-		
+		assertZeroResults("id", "804724");
 		// CDPSHADOW and TECHSHADOW
-		assertDocHasNoField("1033119", fldName);
-		
+		assertZeroResults("id", "1033119");
 		// LOST
-		assertDocHasNoField("1505065", fldName);
+		assertZeroResults("id", "1505065");
 		
 		// INPROCESS - keep it
 	    String testFilePath = testDataParentPath + File.separator + "locationTests.mrc";

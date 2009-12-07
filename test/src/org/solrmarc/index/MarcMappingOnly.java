@@ -82,7 +82,7 @@ public class MarcMappingOnly extends MarcHandler
                 if (desiredRecId == null || idFldName == null) return(solrFldName2ValMap);
                 
                 Object thisRecId = solrFldName2ValMap.get(idFldName);
-                if (thisRecId.equals(desiredRecId))
+                if (thisRecId != null && thisRecId.equals(desiredRecId))
                     return solrFldName2ValMap;
             }
             catch (MarcException me)
