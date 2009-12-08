@@ -1048,7 +1048,7 @@
         
         <delete_merged_maps />
     </target>
-
+    
     <target name="test" depends="testJar" description="run junit tests for bib index">
         <echo message="using solr version: ${solr.version}" />
         <echo message="solr.path: ${solr.path}" />
@@ -1094,4 +1094,102 @@
             </else>
         </if>  
     </target>
+    
+<!-- Emma Code Coverage -->    
+    <property name="emma.coverage.dir" value="${build.dir}/coverage" />
+    <property name="emma.dir" value="/home/hudson/hudson/plugins/emma" />
+<!--
+    <property name="emma.dir" value="/Users/naomi/Downloads/emma-2.0.5312/lib/" />
+-->
+    <property name="emma.instr.dir" value="instr"/>
+    <!-- Set emma.lib to refer to the list of EMMA jar files -->
+    <path id="emma.lib">
+        <fileset dir="${emma.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+       
+    <!-- Load <emma> and <emmajava> custom tasks -->
+    <taskdef resource="emma_ant.properties" classpathref="emma.lib" />
+    
+    <!-- Enable Emma -->
+    <target name="emma" description="turns on EMMA's instrumentation/reporting" >
+
+        <property name="emma.enabled" value="true" />
+
+        <!-- EMMA instr class output directory (it is important to create this property only when EMMA is enabled) -->
+        <mkdir dir="${emma.instr.dir}" />
+        
+        <!-- this property, if overriden via -Demma.filter=<list of filter specs>
+         on ANT's command line, will set the coverage filter; by default,
+         all classes found in 'emma.coverage.classes' pathref will be instrumented:
+        -->
+        <property name="emma.filter" value="" />
+    </target>
+    
+    <target name="emma-instrument" depends="emma,clean,compile" description="instrument classes for emma">
+        <delete dir="${emma.instr.dir}" />
+        <mkdir dir="${emma.instr.dir}" />
+        <mkdir dir="${emma.coverage.dir}"/>
+        
+        <!-- Define which classes will be reported in the coverage reports -->
+        <path id="emma.coverage.classes" >
+            <pathelement location="${site.build.dir}" />
+            <fileset dir="${lib.dir}/solrmarc/${solrmarc.core.build.dir}" includes="**/*.class" />
+        </path>
+        
+        <!-- Instrument the classes for emma -->
+        <emma enabled="${emma.enabled}" >
+            <instr destdir="${emma.instr.dir}"
+                    metadatafile="${emma.coverage.dir}/metadata.emma" merge="true">
+                <instrpath>
+                    <pathelement location="${site.build.dir}" />
+                    <fileset dir="${lib.dir}/solrmarc/${solrmarc.core.build.dir}" includes="**/*.class" />
+                </instrpath>
+                <filter excludes="**/*Test*"/>
+                <filter value="${emma.filter}" />
+            </instr>
+        </emma>
+    </target>
+    
+    <target name="emma-test" depends="clean,testJar,emma-instrument" description="run tests with Coberature code coverage">
+        <path id="emma.test.classpath.jars">
+            <pathelement location="${emma.instr.dir}" />
+            <fileset dir="${site.lib.dir}" includes="*.jar" />
+            <fileset dir="${lib.dir}" includes="*.jar" />
+            <fileset dir="${lib.dir}/solrmarc/${solrmarc.core.build.dir}" includes="*.jar" />
+            <fileset dir="${test.solr.dir}" includes="*.jar" />
+            <fileset file="${site.test.build.dir}/${site.test.jar}" />
+            <path refid="emma.lib" />
+        </path>
+
+        <junit showoutput="yes" printsummary="yes" fork="yes">
+            <formatter type="xml" />
+
+            <classpath>
+                <path refid="emma.test.classpath.jars" />
+            </classpath>
+            
+            <jvmarg value="-Demma.coverage.out.file=${emma.coverage.dir}/coverage.emma" />
+            <jvmarg value="-Demma.coverage.out.merge=true" />
+            
+            <sysproperty key="test.data.path" path="${test.data.dir}" />
+            <sysproperty key="test.data.file" value="${test.data.file}" />
+            <sysproperty key="solr.path" path="${site.test.solr.dir}" />
+            <sysproperty key="solr.data.dir" path="${site.test.solr.dir}/data" />
+            <sysproperty key="test.solr.verbose" value="${test.solr.verbose}" />
+            <test name="${test.class}" />
+        </junit>
+
+        <emma enabled="${emma.enabled}" >
+             <report sourcepath="${src.dir}" >
+                 <fileset dir="${emma.coverage.dir}" >
+                     <include name="*.emma" />
+                 </fileset>
+
+                 <xml outfile="${emma.coverage.dir}/coverage.xml" depth="method" columns="name,class,method,block,line"/>
+             </report>
+         </emma>
+    </target>
+        
 </project>
