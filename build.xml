@@ -1188,8 +1188,9 @@
                  </fileset>
 
                  <xml outfile="${emma.coverage.dir}/coverage.xml" depth="method" columns="name,class,method,block,line"/>
+                 <html outfile="${emma.coverage.dir}/coverage.html" depth="method" columns="name,class,method,block,line"/>
              </report>
          </emma>
     </target>
-        
+    
 </project>
