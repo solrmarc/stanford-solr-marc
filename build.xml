@@ -1182,7 +1182,7 @@
         </junit>
 
         <emma enabled="${emma.enabled}" >
-             <report sourcepath="${src.dir}" >
+             <report sourcepath="${site.src.dir}" >
                  <fileset dir="${emma.coverage.dir}" >
                      <include name="*.emma" />
                  </fileset>
