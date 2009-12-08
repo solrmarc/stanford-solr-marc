@@ -1130,7 +1130,6 @@
     <target name="emma-instrument" depends="emma,clean,compile" description="instrument classes for emma">
         <delete dir="${emma.instr.dir}" />
         <mkdir dir="${emma.instr.dir}" />
-        <mkdir dir="${emma.coverage.dir}"/>
         
         <!-- Define which classes will be reported in the coverage reports -->
         <path id="emma.coverage.classes" >
@@ -1153,6 +1152,7 @@
     </target>
     
     <target name="emma-test" depends="clean,testJar,emma-instrument" description="run tests with emma code coverage">
+        <mkdir dir="${emma.coverage.dir}"/>
         <path id="emma.test.classpath">
             <pathelement location="${emma.instr.dir}" />
             <fileset dir="${site.lib.dir}" includes="*.jar" />
@@ -1228,6 +1228,7 @@
     </target>
     
     <target name="cobertura-test" depends="clean,testJar,cobertura-instrument" description="run tests with Coberature code coverage">
+        <mkdir dir="${cobertura.coverage.dir}"/>
         <path id="cobertura.test.classpath">
             <pathelement location="${cobertura.instr.dir}" />
             <fileset dir="${site.lib.dir}" includes="*.jar" />
@@ -1243,11 +1244,10 @@
 
             <classpath refid="cobertura.test.classpath" />
             
-            <!-- name of the coverage data file to use.
-              The value specified below is the default.
-            -->
+            <!-- name of the coverage data file to use.  It must be the same
+            as the coverage data file generated during instrumentation. -->
             <sysproperty key="net.sourceforge.cobertura.datafile"
-                file="${site.build.dir}/cobertura.ser" />
+                file="cobertura.ser" />
             
             <sysproperty key="test.data.path" path="${test.data.dir}" />
             <sysproperty key="test.data.file" value="${test.data.file}" />
