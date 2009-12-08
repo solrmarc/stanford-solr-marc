@@ -1097,7 +1097,7 @@
     
 <!-- Emma Code Coverage -->    
     <property name="emma.coverage.dir" value="${build.dir}/coverage" />
-    <property name="emma.dir" value="/home/hudson/hudson/plugins/emma" />
+    <property name="emma.dir" value="/home/hudson/hudson/plugins/emma/lib" />
 <!--
     <property name="emma.dir" value="/Users/naomi/Downloads/emma-2.0.5312/lib/" />
 -->
