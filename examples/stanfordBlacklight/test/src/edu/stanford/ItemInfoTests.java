@@ -84,7 +84,7 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	    docIds.add("2328381");
 	    docIds.add("3941911");
 	    docIds.add("7651581");
-	    // education - withdrawn;  SAL3 stacks
+	    // education - withdrawn;  SAL3 STACKS
 	    docIds.add("2214009");
 	    assertSearchResults(fldName, "\"SAL3 (Off-campus)\"", docIds);
 	
@@ -108,33 +108,27 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		
 		// APPLIEDPHY (Applied Physics Department is no longer a valid building)
 //	    assertSingleResult("115472", fldName, "\"Applied Physics Department\"");  
-	    assertZeroResults(fldName, "\"Applied Physics Department\"");
 	    assertZeroResults(fldName, "\"APPLIEDPHY\"");
 
 	    // CPM not a valid building
-//	    assertSingleResult("1391080", fldName, "\"Green - Current Periodicals & Microtext\""); 
-	    assertZeroResults(fldName, "\"Green - Current Periodicals & Microtext\"");
+//	    assertSingleResult("1391080", fldName, "\"GREEN - Current Periodicals & Microtext\""); 
 	    assertZeroResults(fldName, "\"CPM\"");
 
-	    // GRN-REF Green - Reference - Obsolete
-//	    assertSingleResult("2442876", fldName, "\"Green - Reference\""); 
-	    assertZeroResults(fldName, "\"Green - Reference\"");
+	    // GRN-REF GREEN - Reference - Obsolete
+//	    assertSingleResult("2442876", fldName, "\"GREEN - Reference\""); 
 	    assertZeroResults(fldName, "\"GRN-REF\"");
 
 	    // ILB Inter-Library Borrowing - Obsolete
 //	    assertSingleResult("1111", fldName, "\"Inter-Library Borrowing\""); 
-	    assertZeroResults(fldName, "\"Inter-Library Borrowing\"");
 	    assertZeroResults(fldName, "\"ILB\"");
 	    
-	    // SPEC-DESK   Green (Humanities & Social Sciences)   not a valid building
-//	    assertSingleResult("2222", fldName, "Green (Humanities & Social Sciences)");
-	    assertZeroResults(fldName, "Green (Humanities & Social Sciences)");
+	    // SPEC-DESK   GREEN (Humanities & Social Sciences)   not a valid building
+//	    assertSingleResult("2222", fldName, "GREEN (Humanities & Social Sciences)");
 	    assertZeroResults(fldName, "SPEC-DESK");
 
 	    // SUL  Stanford University Libraries   not a valid building
 //	    assertSingleResult("6493823", fldName, "Stanford University Libraries");
 //	    assertSingleResult("7117119", fldName, "Stanford University Libraries");
-	    assertZeroResults(fldName, "\"Stanford University Libraries\"");
 	    assertZeroResults(fldName, "\"SUL\"");
 	}
 
@@ -178,7 +172,7 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	}
 
 
-	String sep = " -|- ";
+	String SEP= " -|- ";
 	boolean isSerial = true;
 
 	
@@ -204,8 +198,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		String fldVal = "36105033811451 -|- APPLIEDPHY -|- Stacks -|- " + 
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		String fldVal = "36105033811451 -|- APPLIEDPHY -|- STACKS" + SEP + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// ARS
@@ -214,8 +208,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105034181003 -|- ARS -|- Stacks -|- " + 
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105034181003 -|- ARS -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 	    // ART
@@ -224,8 +218,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105043140537 -|- Art -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105043140537 -|- ART -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		
 		// BIOLOGY 
@@ -235,8 +229,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, id);
-		fldVal = "36105007402873 -|- Falconer -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105007402873 -|- BIOLOGY -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		
 		// CHEMCHMENG 
@@ -245,8 +239,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105036688153 -|- Swain -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105036688153 -|- CHEMCHMENG -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// CLASSICS
@@ -255,8 +249,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105037871261 -|- Classics -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105037871261 -|- CLASSICS -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// CPM 
@@ -266,8 +260,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105038701285 -|- CPM -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105038701285 -|- CPM -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// EARTH-SCI
@@ -276,8 +270,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105039395095 -|- Branner -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105039395095 -|- EARTH-SCI -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// EAST-ASIA
@@ -286,8 +280,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105095758004 -|- East Asia -|- Japanese Collection -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105095758004 -|- EAST-ASIA -|- JAPANESE -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// EDUCATION
@@ -296,8 +290,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105040261765 -|- Cubberley -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105040261765 -|- EDUCATION -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// ENG
@@ -307,8 +301,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, deweyScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, deweyScheme, !isSerial, id);
-		fldVal = "36105047516096 -|- Engineering -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105047516096 -|- ENG -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// GOV-DOCS
@@ -317,8 +311,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105041442281 -|- Government Docs -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105041442281 -|- GOV-DOCS -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// GREEN 
@@ -328,8 +322,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, otherScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, otherScheme, !isSerial, id);
-		fldVal = "001AFX2969 -|- Green -|- Media-Microtext (Lower Level) -|- " +
-					lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "001AFX2969 -|- GREEN -|- MEDIA-MTXT -|- " + SEP + "NH-MICR" + SEP +
+					lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// GRN-REF
@@ -338,8 +332,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105043436257 -|- GRN-REF -|- Stacks -|- " +
-					callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105043436257 -|- GRN-REF -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+					callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// HOOVER
@@ -348,8 +342,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "3743949-1001 -|- Hoover Library -|- Stacks -|- " +
-					callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "3743949-1001 -|- HOOVER -|- STACKS -|- " + SEP + "STKS" + SEP +
+					callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// HOPKINS
@@ -358,8 +352,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105016935392 -|- Hopkins -|- Stacks -|- " +
-					callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105016935392 -|- HOPKINS -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+					callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// HV-ARCHIVE
@@ -368,8 +362,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105020376997 -|- Hoover Archives -|- Stacks -|- " +
-					callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105020376997 -|- HV-ARCHIVE -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+					callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// ILB
@@ -378,8 +372,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105129694373 -|- ILB -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105129694373 -|- ILB -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// JACKSON
@@ -388,8 +382,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, otherScheme, !isSerial, id);
-		fldVal = "001ANE5736 -|- Jackson -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "001ANE5736 -|- JACKSON -|- STACKS -|- " + SEP + "GOVSTKS" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// LANE-MED
@@ -398,8 +392,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, otherScheme, !isSerial, id);
-		fldVal = "LL124341 -|- Lane -|- Check Lane catalog for status -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "LL124341 -|- LANE-MED -|- ASK@LANE -|- " + SEP + "MEDICAL" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// LAW
@@ -408,8 +402,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, otherScheme, !isSerial, id);
-		fldVal = "36105063104488 -|- Crown -|- Basement -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105063104488 -|- LAW -|- BASEMENT -|- " + SEP + "LAW-STKS" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// MATH-CS
@@ -418,8 +412,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105033142303 -|- Math/CS -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105033142303 -|- MATH-CS -|- STACKS -|- " + SEP + "STKS" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// MEYER
@@ -428,8 +422,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105004381195 -|- Meyer -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105004381195 -|- MEYER -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// MUSIC
@@ -438,8 +432,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105114964369 -|- Music -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105114964369 -|- MUSIC -|- STACKS -|- " + SEP + "STKS" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// PHYSICS
@@ -448,8 +442,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105017175519 -|- Physics -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105017175519 -|- PHYSICS -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// SAL
@@ -458,8 +452,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105082973251 -|- SAL -|- Paged from SAL to GREEN -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105082973251 -|- SAL -|- SAL-PAGE -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// SAL3
@@ -468,8 +462,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, deweyScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, deweyScheme, !isSerial, id);
-		fldVal = "36105046693508 -|- SAL3 -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105046693508 -|- SAL3 -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// SAL-NEWARK
@@ -478,8 +472,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105035887392 -|- SAL Newark -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105035887392 -|- SAL-NEWARK -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// SPEC-COLL
@@ -488,8 +482,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, otherScheme, !isSerial, id);
-		fldVal = "4258089-1001 -|- Special Collections -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "4258089-1001 -|- SPEC-COLL -|- STACKS -|- " + SEP + "GOVSTKS" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// SPEC-DESK
@@ -498,8 +492,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105129694373 -|- SPEC-DESK -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105129694373 -|- SPEC-DESK -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// TANNER
@@ -508,8 +502,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105021909747 -|- Tanner -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105021909747 -|- TANNER -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// SUL
@@ -518,8 +512,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105122224160 -|- SUL -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105122224160 -|- SUL -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// multiple items in single record, diff buildings
@@ -528,16 +522,16 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105037439663 -|- Green -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105037439663 -|- GREEN -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		callnum = "BX4659 .E85 W44 1982";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105001623284 -|- SAL -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105001623284 -|- SAL -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		
 		//   same build, same loc, same callnum, one in another building
@@ -546,19 +540,19 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105003934432 -|- SAL -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105003934432 -|- SAL -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		fldVal = "36105003934424 -|- SAL -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105003934424 -|- SAL -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		callnum = "827.5 .S97TG";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, deweyScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, deweyScheme, !isSerial, id);
-		fldVal = "36105048104132 -|- SAL3 -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105048104132 -|- SAL3 -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 
@@ -571,8 +565,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();;
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105082101390 -|- Lane -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105082101390 -|- LANE-MED -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		
 		// mult items same build, diff loc
@@ -581,24 +575,24 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105003934432 -|- Green -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105003934432 -|- GREEN -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		callnum = "PR3724.T3 A2";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105003934424 -|- Green -|- At bindery -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105003934424 -|- GREEN -|- BINDERY -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		callnum = "827.5 .S97TG";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, deweyScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, deweyScheme, !isSerial, id);
-		fldVal = "36105048104132 -|- GRN-REF -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105048104132 -|- GRN-REF -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
 
@@ -619,14 +613,14 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		String fldName = "item_display";
 		String testFilePath = testDataParentPath + File.separator + "buildingTests.mrc";
 		
-		// stacks
+		// STACKS
 		String id = "229800";
 		String callnum = "HG6046 .V28 1986";
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		String fldVal = "36105034181003 -|- ARS -|- Stacks -|- " + 
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		String fldVal = "36105034181003 -|- ARS -|- STACKS" + SEP + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 	    id = "3941911";
@@ -634,11 +628,11 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105019748495 -|- SAL3 -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105019748495 -|- SAL3 -|- STACKS" + SEP + SEP + "STKS-MONO" +  SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-	    fldVal = "36105025373064 -|- Green -|- Bender Room (Non-circulating) -|- " + 
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+	    fldVal = "36105025373064 -|- GREEN -|- BENDER" + SEP + SEP + "NONCIRC" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		
 		id = "6676531";
@@ -646,8 +640,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105095758004 -|- East Asia -|- Japanese Collection -|- " + 
-			callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105095758004 -|- EAST-ASIA -|- JAPANESE -|- " +  SEP + "STKS-MONO" + SEP +
+			callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		id = "1261173";
@@ -656,8 +650,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, otherScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, otherScheme, !isSerial, id);
-		fldVal = "001AFX2969 -|- Green -|- Media-Microtext (Lower Level) -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "001AFX2969 -|- GREEN -|- MEDIA-MTXT -|- " + SEP + "NH-MICR" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// inquire
@@ -666,8 +660,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, "7233951").toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, otherScheme, !isSerial, id);
-		fldVal = "LL124341 -|- Lane -|- Check Lane catalog for status -|- " +
-			callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "LL124341 -|- LANE-MED -|- ASK@LANE -|- " + SEP + "MEDICAL" + SEP +
+			callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// in transit
@@ -676,8 +670,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105082101390 -|- SAL -|- Paged from SAL to GREEN -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105082101390 -|- SAL -|- SAL-PAGE -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	    
 		id = "2913114";
@@ -685,8 +679,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105082973251 -|- SAL -|- Paged from SAL to GREEN -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105082973251 -|- SAL -|- SAL-PAGE -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// in process
@@ -695,8 +689,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105129694373 -|- SAL3 -|- In process -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105129694373 -|- SAL3 -|- INPROCESS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		
 		// gov docs
@@ -705,8 +699,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, otherScheme, !isSerial, id);
-		fldVal = "001AMR5851 -|- Green -|- US Federal Documents -|- " + 
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "001AMR5851 -|- GREEN -|- FED-DOCS -|- " + SEP + "GOVSTKS" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	    
 		id = "4114632";
@@ -714,8 +708,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, otherScheme, !isSerial, id);
-		fldVal = "4114632-1001 -|- Green -|- US Federal Documents -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "4114632-1001 -|- GREEN -|- FED-DOCS -|- " + SEP + "GOVSTKS" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// one withdrawn location, one valid 
@@ -724,18 +718,18 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, deweyScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, deweyScheme, !isSerial, id);
-		fldVal = "36105033336798 -|- Cubberley -|- Withdrawn -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105033336798 -|- EDUCATION -|- WITHDRAWN -|- " + SEP + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-	    fldVal = "36105033336780 -|- SAL3 -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+	    fldVal = "36105033336780 -|- SAL3 -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// online locations:  ELECTR-LOC  INTERNET  ONLINE-TXT RESV-URL
 //		assertDocHasNoField("7117119", fldName);  
 // TODO:  will have item_display field for online items when callnum is included in facets, nearby-on-shelf
-		fldVal = "7117119-1001 -|- Online -|- Online -|- " + 
-				"" + sep + "" + sep + "" + sep + "" + sep + "";
+		fldVal = "7117119-1001 -|- Online -|- Online -|- " + SEP + SEP +
+				"" + SEP + "" + SEP + "" + SEP + "" + SEP + "";
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 		
 
@@ -748,8 +742,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, id);
-		fldVal = "36105007402873 -|- Green -|- On order -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105007402873 -|- GREEN -|- ON-ORDER -|- " + SEP + "STKS-MONO" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		// reserve locations
 		id = "690002";
@@ -757,8 +751,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, deweyScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, deweyScheme, !isSerial, id);
-		fldVal = "36105046693508 -|- Branner -|- On Reserve at BRANNER Library -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105046693508 -|- EARTH-SCI -|- BRAN-RESV -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		
 		
@@ -768,22 +762,22 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105003934432 -|- Green -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105003934432 -|- GREEN -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		callnum = "PR3724.T3 A2";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105003934424 -|- Green -|- At bindery -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105003934424 -|- GREEN -|- BINDERY -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		callnum = "827.5 .S97TG";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, deweyScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, deweyScheme, !isSerial, id);
-		fldVal = "36105048104132 -|- GRN-REF -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105048104132 -|- GRN-REF -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		
@@ -793,24 +787,24 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105003934432 -|- Green -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105003934432 -|- GREEN -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		callnum = "PR3724.T3 A2 V.1";
 		lopped = CallNumUtils.removeLCVolSuffix(callnum);
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105003934424 -|- Green -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105003934424 -|- GREEN -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		callnum = "PR3724.T3 A2 V.2";
 		lopped = CallNumUtils.removeLCVolSuffix(callnum);
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105048104132 -|- Green -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105048104132 -|- GREEN -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
 
@@ -836,10 +830,9 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		String fldVal = "36105033811451 -|- Online -|- Online -|- " + 
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		String fldVal = "36105033811451 -|- ELECTR-LOC" + SEP + SEP + SEP + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-		
 		
 		// INTERNET
 		id = "229800";
@@ -847,8 +840,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105034181003 -|- Online -|- Online -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105034181003 -|- INTERNET" + SEP + SEP + SEP + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 		
 		// ONLINE-TXT
@@ -858,8 +851,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, id);
-		fldVal = "36105007402873 -|- Online -|- Online -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105007402873 -|- ONLINE-TXT" + SEP + SEP + SEP + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 		
 		// RESV-URL is no longer skipped
@@ -868,8 +861,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, deweyScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, deweyScheme, !isSerial, id);
-		fldVal = "36105046693508 -|- Online -|- Online -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105046693508 -|- RESV-URL" + SEP + SEP + SEP + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 		
 		// SUL library  INTERNET callnum
@@ -879,8 +872,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = "";
 		reversekey = "";
 		volSort = "";
-		fldVal = "7117119-1001 -|- Online -|- Online -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "7117119-1001 -|- INTERNET" + SEP + SEP + SEP + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	}
 
@@ -901,15 +894,15 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		//   should be ignored in favor of "home" locations.  The status of the
 		//   item (e.g. checked out) will be displayed elsewhere.
 
-		// CHECKEDOUT as current location, Stacks as home location
+		// CHECKEDOUT as current location, STACKS as home location
 		String id = "575946";
 		String callnum = "CB3 .A6 SUPPL. V.31";
 		String lopped = CallNumUtils.removeLCVolSuffix(callnum);
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, !isSerial, id);
-		String fldVal = "36105035087092 -|- Green -|- Stacks -|- " + 
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		String fldVal = "36105035087092 -|- GREEN -|- STACKS -|- CHECKEDOUT -|- STKS-MONO -|- " +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		
 		// WITHDRAWN as current location implies item is skipped
@@ -939,25 +932,24 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String show_view_callnum = callnum + " VOL 1 1946";
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(show_view_callnum, callnum, shelfkey, lcScheme, isSerial, id);
-		String fldVal = "36105129694373 -|- Swain -|- Serials -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + show_view_callnum + sep + volSort;
+		String fldVal = "36105129694373 -|- CHEMCHMENG -|- SHELBYTITL" + SEP + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + show_view_callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		
 		// STORBYTITL
-	    fldVal = "36105129694375 -|- Swain -|- Storage area -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + show_view_callnum + sep + volSort;
+	    fldVal = "36105129694375 -|- CHEMCHMENG -|- STORBYTITL" + SEP + SEP + "STKS-MONO" + SEP + 
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + show_view_callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "3311", fldName, fldVal);
 
-		// SHELBYSER - but IN PROCESS
-		
+		// SHELBYSER
 		id = "2211";
 		callnum = "Shelved by Series title";
 		shelfkey = callnum.toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		show_view_callnum = callnum + " VOL 1 1946";
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(show_view_callnum, callnum, shelfkey, otherScheme, isSerial, id);
-		fldVal = "36105129694374 -|- Swain -|- Serials -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + show_view_callnum + sep + volSort;
+		fldVal = "36105129694374 -|- CHEMCHMENG -|- SHELBYSER" + SEP + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + show_view_callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
  	}
  	
@@ -991,8 +983,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		String fldVal = "36105129694373 -|- SAL3 -|- In process -|- " + 
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		String fldVal = "36105129694373 -|- SAL3 -|- INPROCESS" + SEP + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
  	}
 
@@ -1014,14 +1006,14 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		String fldVal = "36105130436541 -|- Branner -|- Permanent Reserve -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		String fldVal = "36105130436541 -|- EARTH-SCI -|- PERM-RES -|- " + SEP + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		fldVal = "36105130436848 -|- Branner -|- Reference (Non-circulating) -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105130436848 -|- EARTH-SCI -|- REFERENCE -|- " + SEP + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		fldVal = "36105130437192 -|- Branner -|- Media -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105130437192 -|- EARTH-SCI -|- MEDIA -|- " + SEP + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
 
@@ -1049,8 +1041,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, id);
-		String fldVal = "36105007402873 -|- Falconer -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		String fldVal = "36105007402873 -|- BIOLOGY -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		id = "575946";
@@ -1060,8 +1052,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105035087092 -|- Green -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105035087092 -|- GREEN -|- STACKS -|- CHECKEDOUT" + SEP + "STKS-MONO" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// DEWEY (no vol)
@@ -1070,8 +1062,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, deweyScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, deweyScheme, !isSerial, id);
-		fldVal = "36105046693508 -|- SAL3 -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105046693508 -|- SAL3 -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		
 		// SUDOC (no vol)
@@ -1080,8 +1072,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, otherScheme, !isSerial, id);
-		fldVal = "001AMR5851 -|- Green -|- US Federal Documents -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "001AMR5851 -|- GREEN -|- FED-DOCS -|- " + SEP + "GOVSTKS" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 					
 
@@ -1094,8 +1086,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, id);
-		fldVal = "36105007402873 -|- Green -|- On order -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105007402873 -|- GREEN -|- ON-ORDER -|- " + SEP + "STKS-MONO" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		// DEWEYPER (no vol)
 		id = "446688";
@@ -1103,8 +1095,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, deweyScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, deweyScheme, !isSerial, id);
-		fldVal = "36105007402873 -|- Green -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105007402873 -|- GREEN -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		// ALPHANUM-SUSEL (no vol)
 		id = "4578538";
@@ -1112,8 +1104,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, otherScheme, !isSerial, id);
-		fldVal = "36105046377987 -|- SAL3 -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105046377987 -|- SAL3 -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		// ALPHANUM - MFILM ... which is no longer lopped 12-03-09
 		id = "1261173";
@@ -1121,8 +1113,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, otherScheme, !isSerial, id);
-		fldVal = "001AFX2969 -|- Green -|- Media-Microtext (Lower Level) -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "001AFX2969 -|- GREEN -|- MEDIA-MTXT -|- " + SEP + "NH-MICR" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		// ALPHANUM - MCD
 		id = "1234673";
@@ -1130,8 +1122,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, otherScheme, !isSerial, id);
-		fldVal = "001AFX2969 -|- Green -|- Media-Microtext (Lower Level) -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "001AFX2969 -|- GREEN -|- MEDIA-MTXT -|- " + SEP + "NH-MICR" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		
 		// multiple items with same call number
@@ -1140,11 +1132,11 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105025373064 -|- Green -|- Bender Room (Non-circulating) -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105025373064 -|- GREEN -|- BENDER -|- " + SEP + "NONCIRC" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		fldVal = "36105019748495 -|- Green -|- Bender Room (Non-circulating) -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105019748495 -|- GREEN -|- BENDER -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// multiple items with same call number due to vol lopping
@@ -1154,18 +1146,18 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105003934432 -|- Green -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105003934432 -|- GREEN -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		callnum = "PR3724.T3 A2 V.1";
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105003934424 -|- Green -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105003934424 -|- GREEN -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		callnum = "PR3724.T3 A2 V.2";
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105048104132 -|- Green -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105048104132 -|- GREEN -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		
 		// multiple items with same call number due to mult buildings
@@ -1174,11 +1166,11 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "36105003934432 -|- Green -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105003934432 -|- GREEN -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		fldVal = "36105003934424 -|- SAL -|- Stacks -|- " +
-				callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105003934424 -|- SAL -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// invalid LC call number
@@ -1188,8 +1180,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, otherScheme, "4823592").toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, otherScheme, !isSerial, id);
-		fldVal = "36105063104488 -|- Crown -|- Basement -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105063104488 -|- LAW -|- BASEMENT -|- " + SEP + "LAW-STKS" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
  
@@ -1216,8 +1208,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, id);
-		String fldVal = "36105007402873 -|- Falconer -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		String fldVal = "36105007402873 -|- BIOLOGY -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
 
@@ -1244,8 +1236,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, id);
-		String fldVal = "36105007402873 -|- Falconer -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		String fldVal = "36105007402873 -|- BIOLOGY -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
 
@@ -1272,8 +1264,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, id);
-		String fldVal = "36105007402873 -|- Falconer -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		String fldVal = "36105007402873 -|- BIOLOGY -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
 
@@ -1300,8 +1292,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, id);
-		String fldVal = "36105007402873 -|- Falconer -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		String fldVal = "36105007402873 -|- BIOLOGY -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
 
@@ -1323,8 +1315,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	    String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, alphanumScheme, id).toLowerCase();
 	    String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 	    String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, id);
-	    String fldVal = "36105122888543 -|- Green -|- California State Documents -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+	    String fldVal = "36105122888543 -|- GREEN -|- CALIF-DOCS" + SEP + SEP + "GOVSTKS" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "item_display", fldVal);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "shelfkey", shelfkey);
 	    
@@ -1334,8 +1326,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, alphanumScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, id);
-		fldVal = "36105127370745 -|- Green -|- California State Documents -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105127370745 -|- GREEN -|- CALIF-DOCS" + SEP + SEP + "GOVSTKS" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "item_display", fldVal);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "shelfkey", shelfkey);
 		callnum = "CALIF A125 .B9 V.7-15 1966-1977:NO.1";
@@ -1343,8 +1335,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, alphanumScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, id);
-		fldVal = "36105127370737 -|- Green -|- California State Documents -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105127370737 -|- GREEN -|- CALIF-DOCS -|- " + SEP + "GOVSTKS" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "item_display", fldVal);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "shelfkey", shelfkey);
 
@@ -1354,8 +1346,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, deweyperScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, id);
-		fldVal = "36105027549075 -|- SAL3 -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105027549075 -|- SAL3 -|- STACKS -|- " + SEP + "STKS-PERI" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "item_display", fldVal);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "shelfkey", shelfkey);
 	    
@@ -1365,11 +1357,10 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, deweyperScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, id);
-		fldVal = "36105027313985 -|- SAL3 -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		fldVal = "36105027313985 -|- SAL3 -|- STACKS -|- " + SEP + "STKS-PERI" + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "item_display", fldVal);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "shelfkey", shelfkey);
-	    
 	}
 
 
@@ -1383,7 +1374,11 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		// single test to make sure this field is created properly
 		createIxInitVars("itemPreferredTests.mrc");
 		String fldName = "preferred_barcode";
-		assertSingleResult("multLC", fldName, "12");
+		assertStringFieldProperties(fldName);
+		assertFieldStored(fldName);
+		assertFieldNotIndexed(fldName);
+		assertFieldNotMultiValued(fldName);
+		assertDocHasFieldValue("multLC", fldName, "12");
 	}
 
 
@@ -1406,8 +1401,8 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcScheme, isSerial, id);
-		String rest = " -|- SAL3 -|- Stacks -|- " +
-				lopped + sep + shelfkey + sep + reversekey + sep + callnum + sep + volSort;
+		String rest = " -|- SAL3 -|- STACKS -|- " + SEP + SEP +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    String item1 = "36105003934432" + rest;
 	    String item2 = "36105003934424" + rest;
 
