@@ -1374,6 +1374,20 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 
 
 	/**
+	 * test preferred_barcode field is created correctly in index
+	 */
+@Test
+	public void testPreferredBarcodeInIx() 
+			throws ParserConfigurationException, IOException, SAXException
+	{
+		// single test to make sure this field is created properly
+		createIxInitVars("itemPreferredTests.mrc");
+		String fldName = "preferred_barcode";
+		assertSingleResult("multLC", fldName, "12");
+	}
+
+
+	/**
 	 * Assert that multiple copies of an item each have a separate field
 	 */
 //@Test

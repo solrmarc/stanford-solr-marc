@@ -2,15 +2,23 @@ package edu.stanford;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import edu.stanford.AbstractStanfordBlacklightTest;
 
 import org.junit.*;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.impl.DataFieldImpl;
+import org.xml.sax.SAXException;
 
 /**
  * unit tests for edu.stanford.ItemUtils methods
  * @author Naomi Dushay
  */
-public class ItemUtilsUnitTests {
+public class ItemUtilsUnitTests extends AbstractStanfordBlacklightTest {
 
 	private static final String lcScheme = AbstractStanfordBlacklightTest.lcScheme;
 	private static final String lcperScheme = AbstractStanfordBlacklightTest.lcperScheme;
@@ -195,6 +203,39 @@ public class ItemUtilsUnitTests {
 		assertEquals("QA276 .J86", ItemUtils.getLoppedCallnum(callnum, lcperScheme, isSerial));
 		
 // TODO: Dewey shelve-by-title tests
+	}
+
+	/**
+	 * test choice of preferred item is correct.  It should be
+	 *   1.  the barcode for the item with the longest LC call number.
+	 *   2.  if no LC call numbers, the item with the longest Dewey call number.
+	 *   3.  if no LC and no Dewey, the item with the longest Sudoc call number.
+	 *   4.  otherwise, the longest call number.
+	 */
+@Test
+	public void testPreferredItemBarcode()
+	{
+		mappingTestInit();
+		String fldName = "preferred_barcode";
+	    String testFilePath = testDataParentPath + File.separator + "itemPreferredTests.mrc";
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "oneLC", fldName, "11");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "oneDewey", fldName, "22");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "oneSudoc", fldName, "33");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "oneOther", fldName, "44");
+	    solrFldMapTest.assertNoSolrFld(testFilePath, "noItems", fldName);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "badLC", fldName, "55");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "badDewey", fldName, "66");
+	    solrFldMapTest.assertNoSolrFld(testFilePath, "onlineItem", fldName);
+	    solrFldMapTest.assertNoSolrFld(testFilePath, "ignoredCallnum", fldName);
+	    solrFldMapTest.assertNoSolrFld(testFilePath, "shelbyLoc", fldName);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "oneEach", fldName, "11");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "noLC", fldName, "22");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "noLCnoDewey", fldName, "33");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "multLC", fldName, "12");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "multLC2", fldName, "11");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "multDewey", fldName, "24");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "multSudoc", fldName, "34");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "multOther", fldName, "45");
 	}
 
 }
