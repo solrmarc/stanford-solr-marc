@@ -723,14 +723,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		// if there are no 999s, then it's on order
 		if (!has999s) {
-// FIXME:  coordinate with Jessie -- what does he need?
 			result.add( "" + sep +	// barcode
 						"" + sep + 	// library
-						"On order" + sep +	// home loc
-// for new style index ...
-//						"ON-ORDER" + sep +	// home loc
-//						"ON-ORDER" + sep +	// current loc
-//						"" + sep +	// item type
+						"ON-ORDER" + sep +	// home loc
+						"ON-ORDER" + sep +	// current loc
+						"" + sep +	// item type
+// for old style index ...
+//						"On order" + sep +	// home loc
 						"" + sep + 	// lopped Callnum
 						"" + sep + 	// shelfkey
 						"" + sep + 	// reverse shelfkey
@@ -815,13 +814,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			// create field
 			if (loppedCallnum != null)
     			result.add( item.getBarcode() + sep + 
-//item.getLibrary() + sep + 
-//homeLoc + sep +
-//item.getCurrLoc() + sep +
-//item.getType() + sep +
-// TODO:  add item type (subfield t)
-	    					building + sep + 
-	    					translatedLoc + sep + 
+    						item.getLibrary() + sep + 
+    						homeLoc + sep +
+    						item.getCurrLoc() + sep +
+    						item.getType() + sep +
+// building + sep + 
+// translatedLoc + sep + 
 	    					loppedCallnum + sep + 
 	    					shelfkey.toLowerCase() + sep + 
 	    					reversekey.toLowerCase() + sep + 

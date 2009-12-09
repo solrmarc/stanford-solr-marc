@@ -41,16 +41,14 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		String fldVal = "111 -|- Green -|- Stacks" + SEP + callnum + SEP +
-//		String fldVal = "111 -|- GREEN -|- STACKS" + SEP + SEP + callnum + SEP +
+		String fldVal = "111 -|- GREEN -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    //  it is Dewey
 	    shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, deweyScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, deweyScheme, !isSerial, id);
-		fldVal = "111 -|- Green -|- Stacks" + SEP + callnum + SEP +
-//		fldVal = "111 -|- GREEN -|- STACKS" + SEP + SEP + callnum + SEP +
+		fldVal = "111 -|- GREEN -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
@@ -61,16 +59,14 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, lcScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, lcScheme, !isSerial, id);
-		fldVal = "222 -|- Green -|- Stacks" + SEP + callnum + SEP +
-//		fldVal = "222 -|- GREEN -|- STACKS" + SEP + SEP + callnum + SEP +
+		fldVal = "222 -|- GREEN -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    //  it is other
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, otherScheme, !isSerial, id);
-		fldVal = "222 -|- Green -|- Stacks" + SEP + callnum + SEP +
-//		fldVal = "222 -|- GREEN -|- STACKS" + SEP + SEP + callnum + SEP +
+		fldVal = "222 -|- GREEN -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
@@ -88,16 +84,14 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, deweyScheme, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, deweyScheme, !isSerial, id);
-		String fldVal = "333 -|- Green -|- Stacks" + SEP + callnum + SEP +
-//		String fldVal = "333 -|- GREEN -|- STACKS" + SEP + SEP + callnum + SEP +
+		String fldVal = "333 -|- GREEN -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    //  it is Dewey
 	    shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, otherScheme, !isSerial, id);
-		fldVal = "333 -|- Green -|- Stacks" + SEP + callnum + SEP +
-//		fldVal = "333 -|- GREEN -|- STACKS" + SEP + SEP + callnum + SEP +
+		fldVal = "333 -|- GREEN -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
@@ -120,13 +114,11 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 		String reversekey = "";
 		String volSort = "";
 		//  it's not left alone
-		String fldVal = "444 -|- Green" + SEP + INET_LOC + SEP + callnum + SEP +
-//		String fldVal = "444 -|- GREEN" + SEP + INET_LOC + SEP + SEP + callnum + SEP +
+		String fldVal = "444 -|- GREEN" + SEP + INET_LOC + SEP + SEP + SEP + callnum + SEP +
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    //  curr loc added, callnum changed
-		fldVal = "444 -|- Online -|- Online" + SEP + INET_CALLNUM + SEP +
-//		fldVal = "444 -|- GREEN" + SEP + INET_LOC + SEP + INET_LOC + SEP + INET_CALLNUM + SEP +
+		fldVal = "444 -|- GREEN" + SEP + INET_LOC + SEP + INET_LOC + SEP + SEP + INET_CALLNUM + SEP +
 				shelfkey + SEP + reversekey + SEP + INET_CALLNUM + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
@@ -135,8 +127,7 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * when currLoc is INTERNET, item is online
 	 */
-// FIXME:  uncomment when we start having item_display for online resources
-//@Test
+@Test
 	public void testCurrLocInternet() 
 	{
 		String id = "currLocInternet";
@@ -145,13 +136,11 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 		String reversekey = "";
 		String volSort = "";
 		//  it's not left alone
-		String fldVal = "555 -|- Online -|- Online" + SEP + callnum + SEP +
-//		String fldVal = "555 -|- GREEN" + SEP + INET_LOC + SEP + INET_LOC + SEP + callnum + SEP +
+		String fldVal = "555 -|- GREEN" + SEP + INET_LOC + SEP + INET_LOC + SEP + SEP + callnum + SEP +
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    //  callnum changed
-		fldVal = "555 -|- Online -|- Online" + SEP + INET_CALLNUM + SEP +
-//		fldVal = "555 -|- GREEN" + SEP + INET_LOC + SEP + INET_LOC + SEP + INET_CALLNUM + SEP +
+		fldVal = "555 -|- GREEN" + SEP + INET_LOC + SEP + INET_LOC + SEP + "SUL" + SEP + INET_CALLNUM + SEP +
 				shelfkey + SEP + reversekey + SEP + INET_CALLNUM + SEP + volSort;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
@@ -159,7 +148,6 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * when callnum is 'INTERNET RESOURCE', item is online
 	 */
-// FIXME:  uncomment when we start having item_display for online resources
 //@Test
 	public void testCallnumInternet() 
 	{
@@ -170,13 +158,11 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 		String reversekey = "";
 		String volSort = "";
 		//  it's not left alone
-		String fldVal = "666 -|- Green -|- Stacks" + SEP + callnum + SEP +
-//		String fldVal = "666 -|- GREEN -|- STACKS" + SEP + SEP + callnum + SEP +
+		String fldVal = "666 -|- GREEN -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    //  home loc changed, curr loc changed
-		fldVal = "666 -|- Online -|- Online" + SEP + callnum + SEP +
-//		fldVal = "666 -|- GREEN" + SEP + INET_LOC + SEP + INET_LOC + SEP + callnum + SEP +
+		fldVal = "666 -|- GREEN" + SEP + INET_LOC + SEP + INET_LOC + SEP + SEP + callnum + SEP +
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
@@ -193,8 +179,7 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, otherScheme, !isSerial, id);
-		String fldVal = "777 -|- SUL -|- In process" + SEP + callnum + SEP +
-//		String fldVal = "777 -|- SUL -|- In process" + SEP + SEP + callnum + SEP +
+		String fldVal = "777 -|- SUL -|- INPROCESS" + SEP + SEP + SEP + callnum + SEP +
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	}

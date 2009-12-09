@@ -59,8 +59,7 @@ public class ItemSkippedTests extends AbstractStanfordBlacklightTest {
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, otherScheme, !isSerial, id);
-		String fldVal = "KEEP -|- Green -|- Stacks" + SEP + callnum + SEP +
-//		String fldVal = "KEEP -|- GREEN -|- STACKS" + SEP + SEP + callnum + SEP +
+		String fldVal = "KEEP -|- GREEN -|- STACKS" + SEP + SEP + "STKS" + SEP + callnum + SEP +
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	    
@@ -71,8 +70,7 @@ public class ItemSkippedTests extends AbstractStanfordBlacklightTest {
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, otherScheme, !isSerial, id);
-		fldVal = "SKIP -|- Green -|- Stacks" + SEP + callnum + SEP +
-//		fldVal = "SKIP -|- GREEN -|- STACKS" + SEP + SEP + callnum + SEP +
+		fldVal = "SKIP -|- GREEN -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 
@@ -95,8 +93,7 @@ public class ItemSkippedTests extends AbstractStanfordBlacklightTest {
 		String shelfkey = "";
 		String reversekey = "";
 		String volSort = "";
-		String fldVal = barcode + SEP + library + SEP + "On order" + SEP + callnum + SEP +
-//		String fldVal = barcode + SEP + library + SEP + "ON-ORDER" + SEP + "ON-ORDER" + SEP + callnum + SEP +
+		String fldVal = barcode + SEP + library + SEP + "ON-ORDER" + SEP + "ON-ORDER" + SEP + SEP + callnum + SEP +
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}

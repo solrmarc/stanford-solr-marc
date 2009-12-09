@@ -2,8 +2,6 @@ package edu.stanford;
 
 import java.util.*;
 
-import org.solrmarc.tools.Utils;
-
 /**
  * Utility methods for item information Stanford SolrMarc
  *  
