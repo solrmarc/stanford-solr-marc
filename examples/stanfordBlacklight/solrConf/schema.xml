@@ -297,6 +297,7 @@
     <field name="reverse_shelfkey" type="alphaSort" indexed="true" stored="false" multiValued="true"/>
     
     <field name="barcode_search" type="text_wslc" indexed="true" stored="false" multiValued="true" />
+    <field name="preferred_barcode" type="string" stored="true" />
     <field name="access_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <field name="building_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <!-- barcode -|- lib -|- location -|- lopped_callnum -|- shelfkey -|- reverse_shelfkey -|- full_callnum -|- callnum_show_sort  -->

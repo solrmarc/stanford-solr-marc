@@ -98,7 +98,7 @@ public class ItemUtils {
 	{
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) {
-// FIXME:  shelby locations should be checked in calling routine??
+// FIXME:  shelby locations should be checked for by calling routine??
 			if (item.getCallnumScheme().startsWith("LC")
 					&& !item.hasIgnoredCallnum() && !item.hasShelbyLoc()) {
 				String callnum = edu.stanford.CallNumUtils.normalizeLCcallnum(item.getCallnum());
@@ -118,7 +118,7 @@ public class ItemUtils {
 	{
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) {
-// FIXME:  shelby locations should be checked in calling routine??
+// FIXME:  shelby locations should be checked for by calling routine??
 			if (item.getCallnumScheme().startsWith("DEWEY")
 					&& !item.hasIgnoredCallnum() && !item.hasShelbyLoc()) {
 				String callnum = getNormalizedDeweyCallNumber(item);
@@ -223,6 +223,65 @@ public class ItemUtils {
 		return result;
 	}
 
+	
+	/**
+	 * Return the barcode of the item with the preferred callnumber.  The 
+	 *  algorithm is:
+	 *   1.  if there is only one item, choose it.
+	 *   2.  Select the item with the longest LC call number.
+	 *   3.  if no LC call numbers, select the item with the longest Dewey call number.
+	 *   4.  if no LC or Dewey call numbers, select the item with the longest
+	 *     SUDOC call number.
+	 *   5.  otherwise, select the item with the longest call number.
+	 * 
+	 * @param itemSet - the set of items from which selection will be made
+	 * @return the barcode of the item with the preferred callnumber
+	 */
+	static String getPreferredItemBarcode(Set<Item> itemSet) {
+		int longestLCLen = 0;
+		String bestLCBarcode = "";
+		int longestDeweyLen = 0;
+		String bestDeweyBarcode = "";
+		int longestSudocLen = 0;
+		String bestSudocBarcode = "";
+		int longestOtherLen = 0;
+		String bestOtherBarcode = "";
+		for (Item item : itemSet) {
+			if (!item.hasIgnoredCallnum() && !item.isOnline() && 
+					!item.hasShelbyLoc()) {
+				int callnumLen = item.getCallnum().length();
+				String barcode = item.getBarcode();
+				if (item.getCallnumScheme().startsWith("LC")
+						&& callnumLen > longestLCLen) {
+					longestLCLen = callnumLen;
+					bestLCBarcode = barcode;
+				}
+				else if (item.getCallnumScheme().startsWith("DEWEY")
+						&& callnumLen > longestDeweyLen) {
+					longestDeweyLen = callnumLen;
+					bestDeweyBarcode = barcode;
+				}
+				else if (item.getCallnumScheme().equals("SUDOC")
+						&& callnumLen > longestSudocLen) {
+					longestSudocLen = callnumLen;
+					bestSudocBarcode = barcode;
+				}
+				else if (callnumLen > longestOtherLen) {
+					longestOtherLen = callnumLen;
+					bestOtherBarcode = barcode;
+				}
+			}
+		}
+		if (bestLCBarcode.length() > 0)
+			return bestLCBarcode;
+		else if (bestDeweyBarcode.length() > 0)
+			return bestDeweyBarcode;
+		else if (bestSudocBarcode.length() > 0)
+			return bestSudocBarcode;
+		else
+			return bestOtherBarcode;
+	}
+	
 	
 	/**
 	 * 
