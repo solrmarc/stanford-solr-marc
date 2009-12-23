@@ -393,7 +393,7 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, otherScheme, !isSerial, id);
 		fldVal = "LL124341 -|- LANE-MED -|- ASK@LANE -|- " + SEP + "MEDICAL" + SEP +
-				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+				callnum + SEP + SEP + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// LAW
@@ -661,7 +661,7 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, callnum, shelfkey, otherScheme, !isSerial, id);
 		fldVal = "LL124341 -|- LANE-MED -|- ASK@LANE -|- " + SEP + "MEDICAL" + SEP +
-			callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+			callnum + SEP + SEP + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// in transit
