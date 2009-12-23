@@ -22,7 +22,6 @@ public class Item {
 	private final boolean hasGovDocLoc;
 	private final boolean isOnline;
 	private final boolean hasShelbyLoc;
-	private final boolean hasIgnoredCallnum;
 
 	/* normal instance variables */
 	private String homeLoc;
@@ -30,6 +29,7 @@ public class Item {
 	private String normCallnum;
 	private boolean isOnOrder = false;
 	private boolean isInProcess = false;
+	private boolean hasIgnoredCallnum;
 	/** call number with volume suffix lopped off the end.  Used to remove
 	 * noise in search results and in browsing */
 	private String loppedCallnum = null;
@@ -198,7 +198,7 @@ public class Item {
 
 	/**
 	 * @return true if call number is to be ignored (e.g. "NO CALL NUMBER"
-	 *  or XX(blah)")
+	 *  or "XX(blah)" or Lane/Jackson invalid LC)
 	 */
 	public boolean hasIgnoredCallnum() {
 		return hasIgnoredCallnum;
@@ -313,7 +313,8 @@ public class Item {
 	private void validateCallnum(String recId) {
 		if (scheme.startsWith("LC") 
 				&& !CallNumUtils.isValidLC(normCallnum)) {
-			System.err.println("record " + recId + " has invalid LC callnumber: " + normCallnum);
+			if (!library.equals("LANE-MED") && !library.equals("JACKSON"))
+				System.err.println("record " + recId + " has invalid LC callnumber: " + normCallnum);
 			adjustLCCallnumScheme(recId);
 		}
 		if (scheme.startsWith("DEWEY")
@@ -335,8 +336,12 @@ public class Item {
 			if (CallNumUtils.isValidDewey(normCallnum))
 				scheme = "DEWEY";
 			else
+			{
 // FIXME:  what's the deal with weird Law call numbers?
-				scheme = "INCORRECTLC";		
+				scheme = "INCORRECTLC";
+				if (library.equals("LANE-MED") || library.equals("JACKSON"))
+					hasIgnoredCallnum = true;
+			}
 		}
 	}
 
