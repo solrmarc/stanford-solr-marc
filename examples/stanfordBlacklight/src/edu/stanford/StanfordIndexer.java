@@ -772,9 +772,11 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			String shelfkey = "";
 			String reversekey = "";
 			String volSort = "";
-			if (!item.isOnline()) {				
-				shelfkey = item.getShelfkey(isSerial);
-				reversekey = item.getReverseShelfkey(isSerial);
+			if (!item.isOnline()) {
+				if (!item.hasIgnoredCallnum()) {
+					shelfkey = item.getShelfkey(isSerial);
+					reversekey = item.getReverseShelfkey(isSerial);
+				}
 				volSort = item.getCallnumVolSort(isSerial);
 			}
 			
