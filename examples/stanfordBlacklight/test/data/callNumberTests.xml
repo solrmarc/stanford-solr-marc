@@ -304,6 +304,25 @@
             <subfield code="u">3/30/2008</subfield>
         </datafield>
     </record>
+    <record>
+        <leader>01102cam a2200289Li 4500</leader>
+        <controlfield tag="001">agreenX</controlfield>
+        <controlfield tag="008">980209s1851    ohu     s     00| 0 eng u</controlfield>
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">green X callnum</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">X666 .S666 1666</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">94025</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="u">3/30/2008</subfield>
+        </datafield>
+    </record>
 <!-- 999 ASIS withdrawn and 050 bad LC "IN PROCESS" and  -->
     <record>
         <leader>00679nam a22001935a 4500</leader>

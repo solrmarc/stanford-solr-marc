@@ -3,6 +3,7 @@ package edu.stanford;
 import static org.junit.Assert.*;
 import static edu.stanford.CallNumUtils.getVolumeSortCallnum;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -23,52 +24,31 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	private final String govDocStr = "Government Document";
 	private final boolean isSerial = true;
 	private final String ignoredId = "ignored";
+	private String fileName = "callNumberTests.mrc";
+    private String testFilePath = testDataParentPath + File.separator + fileName;
 
 @Before
 	public final void setup() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("callNumberTests.mrc");
+		mappingTestInit();
 	}	
 
 
 	/**
-	 * callnum_top_facet, for LC, contains the first letter of an LC call number
-	 *  along with a user friendly description of the broad topic indicated by
-	 *  the letter. Dewey and GovDoc values are tested in separate methods.
+	 * callnum_top_facet, for dewey, should be DEWEY_TOP_FACET_VAL
 	 */
 @Test
-	public final void testTopFacetLC() 
+	public final void testFacetsInIx() 
 			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "callnum_top_facet";
+		createIxInitVars(fileName);
 		assertFacetFieldProperties(fldName);
 		assertFieldMultiValued(fldName);
-		
-		// LC values
-		// single char LC classification
-		assertSingleResult("6661112", fldName, "\"Z - Bibliography, Library Science, Information Resources\"");
-		// two char LC classification
-		assertSingleResult("999LC22", fldName, "\"C - Historical Sciences (Archaeology, Genealogy)\"");
-		assertSingleResult("1033119", fldName, "\"B - Philosophy, Psychology, Religion\"");
-		// mixed one char and two char classification values
-		String val = "\"D - World History\"";
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("999LC1dec");
-		docIds.add("2913114");
-		docIds.add("3400092");
-		assertSearchResults(fldName, val, docIds);
-		// mixed 2 and 3 three char LC classification
-		val = "\"K - Law\"";
-		docIds.clear();
-		docIds.add("999LC3NoDec");
-		docIds.add("999LC3Dec");
-		docIds.add("999LC3DecSpace");
-		assertSearchResults(fldName, val, docIds);
 						
-		// LCPER
-		assertSingleResult("460947", fldName, "\"E - History of the Americas (General)\"");
-		
+		assertSingleResult("1033119", fldName, "\"B - Philosophy, Psychology, Religion\"");
+
 		// skipped values should not be found
 		// bad start chars for LC
 		assertZeroResults(fldName, "I*"); // IN PROCESS 
@@ -76,185 +56,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// only N call number in test data is "NO CALL NUMBER"
 		assertZeroResults(fldName, "N*");
 		assertZeroResults(fldName, "X*");
-	}
 
-	/**
-	 * lc_alpha_facet contains the first alpha portion of the local LC
-	 *  call number along with a user friendly description of the topic  
-	 *  indicated by the letters. 
-	 */
-@Test
-	public final void testLCAlphaFacet() 
-		throws IOException, ParserConfigurationException, SAXException 
-	{
-		String fldName = "lc_alpha_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
-		
-		// single char LC classification
-		assertSingleResult("6661112", fldName, "\"Z - Bibliography, Library Science, Information Resources\"");
-		// LC 999 one letter, space before Cutter
-		assertSingleResult("7772223", fldName, "\"F - History of the Americas (Local)\"");
-		assertSingleResult("999LC1dec", fldName, "\"D - World History\"");
-
-		// two char LC classification
-		assertZeroResults(fldName, "\"B - Philosophy, Psychology, Religion\"");
-		assertSingleResult("1033119", fldName, "\"BX - Christian Denominations\"");
-		// LC 999 two letters, space before Cutter
-		assertSingleResult("999LC2", fldName, "\"HG - Finance\"");
-		assertZeroResults(fldName, "\"C - Auxiliary Sciences of History (General)\"");
-		assertSingleResult("999LC22", fldName, "\"CB - History of Civilization\"");		
-		assertSingleResult("2913114", fldName, "\"DH - Low Countries (History)\"");
-		assertSingleResult("1732616", fldName, "\"QA - Mathematics\""); 
-		assertSingleResult("115472", fldName, "\"HC - Economic History & Conditions\""); 
-		// mult values for a single doc
-		assertSingleResult("3400092", fldName, "\"DC - France (History)\"");
-
-		// three char LC classification
-		assertZeroResults(fldName, "\"K - Law\"");
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("999LC3NoDec");
-		docIds.add("999LC3Dec");
-		docIds.add("999LC3DecSpace");
-		assertSearchResults(fldName, "\"KJH - Law of Andorra\"", docIds);
-		
-		// skipped values should not be found
-		assertZeroResults(fldName, "NO*");  // "NO CALL NUMBER"
-		assertZeroResults(fldName, "IN*");  // "IN PROCESS"
-		assertZeroResults(fldName, "X*");   // X call nums (including XX)
-		assertZeroResults(fldName, "WI*");  // "WITHDRAWN"
-		
-		// LCPER
-		assertSingleResult("460947", fldName, "\"E - History of the Americas (General)\"");
-	}
-
-	/**
-	 * lc_b4cutter_facet contains the portion of local LC call numbers
-	 *  before the Cutter.
-	 */
-@Test
-	public final void testLCB4Cutter() 
-			throws IOException, ParserConfigurationException, SAXException 
-	{
-		String fldName = "lc_b4cutter_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
-	
-		// skipped values should not be found
-		assertZeroResults(fldName, "NO CALL NUMBER");
-		assertZeroResults(fldName, "IN PROCESS");
-		assertZeroResults(fldName, "X*"); // X call nums (including XX)
-		assertZeroResults(fldName, "WITHDRAWN");
-		assertZeroResults(fldName, "110978984448763");
-		
-		// search for LC values
-		assertZeroResults(fldName, "Z");
-		assertSingleResult("6661112", fldName, "Z3871");
-		assertSingleResult("999LC1dec", fldName, "D764.7");
-		assertZeroResults(fldName, "C");
-		assertZeroResults(fldName, "CB");
-		assertSingleResult("999LC22", fldName, "CB3");		
-		assertZeroResults(fldName, "D810");
-		assertSingleResult("2913114", fldName, "DH135");
-		assertZeroResults(fldName, "K");
-		assertZeroResults(fldName, "KJ");
-		assertZeroResults(fldName, "KJH");
-		assertSingleResult("999LC3NoDec", fldName, "KJH2678");
-		assertSingleResult("999LC3DecSpace", fldName, "KJH66.6");
-		assertSingleResult("1033119", fldName, "BX4659");
-		// tricky cutter
-		assertZeroResults(fldName, "HC241");
-		assertSingleResult("115472", fldName, "HC241.25");
-		assertSingleResult("3400092", fldName, "DC34.5");
-				
-		// LCPER
-		assertSingleResult("460947", fldName, "E184");
-	}
-
-
-	/**
-	 * callnum_search contains all local call numbers, except those that are 
-	 *  ignored, such as "NO CALL NUMBER"  It includes "bad" LC call numbers, 
-	 *  such as those beginning with X;  it includes MFILM and MCD call numbers
-	 *  and so on.  Testing Dewey call number search is in a separate method.
-	 */
-@Test
-	public final void testSearchLC() 
-			throws IOException, ParserConfigurationException, SAXException 
-	{
-		String fldName = "callnum_search";
-		assertFieldMultiValued(fldName);
-		assertTextFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldIndexed(fldName); 
-		assertFieldNotStored(fldName); 
-	
-		// LC 999 one letter
-		assertSingleResult("6661112", fldName, "Z3871.Z8");
-		// LC 999 one letter, space before Cutter
-		assertSingleResult("7772223", fldName, "\"F1356 .M464 2005\"");
-		// LC 999 one letter, decimal digits and space before Cutter
-		assertSingleResult("999LC1dec", fldName, "\"D764.7 .K72 1990\"");
-		// LC 999 two letters, space before Cutter
-		assertSingleResult("999LC2", fldName, "\"HG6046 .V28 1986\"");
-		assertSingleResult("999LC22", fldName, "\"CB3 .A6 SUPPL. V.31\"");
-		// LC 999 two letters, no space before Cutter
-		assertSingleResult("999LC2NoDec", fldName, "\"PQ2678.I26 P54 1992\"");
-		// LC 999 three letters, no space before Cutter
-		assertSingleResult("999LC3NoDec", fldName, "\"KJH2678.I26 P54 1992\"");
-		// LC 999 three letters, decimal digit, no space before Cutter
-		assertSingleResult("999LC3Dec", fldName, "\"KJH666.4.I26 P54 1992\"");
-		// LC 999 three letters, decimal digit, space before Cutter
-		assertSingleResult("999LC3DecSpace", fldName, "\"KJH66.6 .I26 P54 1992\"");
-		// LC 999, LC 050, multiple LC facet values, 082 Dewey
-		assertSingleResult("2913114", fldName, "\"DH135 .P6 I65\"");
-		// LC 999, LC 050, multiple LC facet values, 082 Dewey
-		assertSingleResult("3400092", fldName, "\"DC34.5 .A78 L4 1996\"");
-	
-		// LC 999, LC 050, tough cutter
-		assertSingleResult("115472", fldName, "\"HC241.25 .I4 D47\"");
-		assertSingleResult("1033119", fldName, "\"BX4659.E85 W44\"");
-		assertSingleResult("1033119", fldName, "\"BX4659 .E85 W44 1982\"");
-		// 082 Dewey, LC 999, 050 (same value)
-		assertSingleResult("1732616", fldName, "\"QA273 .C83 1962\""); 
-	
-		//  bad LC values
-		// LC 999 "NO CALL NUMBER" and 852 to ignore
-		assertZeroResults(fldName, "\"NO CALL NUMBER\"");
-		assertZeroResults(fldName, "\"IN PROCESS\"");
-
-		//   this is a bad LC value, but not a bad call number, so it is included
-		assertSingleResult("7233951", fldName, "\"X578 .S64 1851\"");
-	
-		// LCPER 999
-		assertSingleResult("460947", fldName, "\"E184.S75 R47A V.1 1980\""); 
-		
-		// SUDOC 999 
-		assertSingleResult("5511738", fldName, "\"Y 4.AG 8/1:108-16\"");
-		assertSingleResult("2678655", fldName, "\"GA 1.13:RCED-85-88\"");
-		assertZeroResults(fldName, "\"" + govDocStr + "\""); 
-	
-		// ALPHANUM 999 
-		assertSingleResult("4578538", fldName, "\"SUSEL-69048\""); 
-		assertSingleResult("1261173", fldName, "\"MFILM N.S. 1350 REEL 230 NO. 3741\""); 
-		assertSingleResult("1261173", fldName, "MFILM"); 
-		assertSingleResult("1234673", fldName, "MCD"); 
-		
-		// ASIS 999 "INTERNET RESOURCE": No call number, but access Online
-		assertZeroResults(fldName, "\"INTERNET RESOURCE\""); 
-	}
-
-	/**
-	 * callnum_top_facet, for dewey, should be DEWEY_TOP_FACET_VAL
-	 */
-@Test
-	public final void testTopFacetDewey() 
-			throws IOException, ParserConfigurationException, SAXException 
-	{
-		String fldName = "callnum_top_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
-		
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("690002");
 		docIds.add("2328381");
@@ -269,6 +71,237 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		docIds.add("DeweyVol");
 		assertSearchResults(fldName, "\"" + ItemUtils.DEWEY_TOP_FACET_VAL + "\"", docIds);
 		assertSearchResults(fldName, "\"Dewey Classification\"", docIds);
+		
+		fldName = "lc_alpha_facet";
+		assertFacetFieldProperties(fldName);
+		assertFieldMultiValued(fldName);
+		assertZeroResults(fldName, "NO*");  // "NO CALL NUMBER"
+		assertZeroResults(fldName, "IN*");  // "IN PROCESS"
+		assertZeroResults(fldName, "X*");   // X call nums (including XX)
+		assertZeroResults(fldName, "WI*");  // "WITHDRAWN"
+
+		fldName = "lc_b4cutter_facet";
+		assertFacetFieldProperties(fldName);
+		assertFieldMultiValued(fldName);
+		assertZeroResults(fldName, "NO CALL NUMBER");
+		assertZeroResults(fldName, "IN PROCESS");
+		assertZeroResults(fldName, "X*"); // X call nums (including XX)
+		assertZeroResults(fldName, "WITHDRAWN");
+		assertZeroResults(fldName, "110978984448763");
+				
+		fldName = "dewey_1digit_facet";
+		assertFacetFieldProperties(fldName);
+		assertFieldMultiValued(fldName);
+		docIds.clear();
+		docIds.add("2214009");
+		docIds.add("1849258");
+		assertSearchResults(fldName, "\"300s - Social Sciences\"", docIds);
+		fldName = "dewey_2digit_facet";
+		assertFacetFieldProperties(fldName);
+		assertFieldMultiValued(fldName);
+		fldName = "dewey_b4cutter_facet";
+		assertFacetFieldProperties(fldName);
+		assertFieldMultiValued(fldName);
+		assertZeroResults(fldName, "WITHDRAWN");
+		
+		
+		fldName = "callnum_search";
+		assertFieldMultiValued(fldName);
+		assertTextFieldProperties(fldName);
+		assertFieldOmitsNorms(fldName);
+		assertFieldIndexed(fldName); 
+		assertFieldNotStored(fldName); 
+		assertSingleResult("690002", fldName, "\"159.32 .W211\""); 
+		//  skipped values
+		assertZeroResults(fldName, "\"NO CALL NUMBER\"");
+		assertZeroResults(fldName, "\"IN PROCESS\"");
+		assertZeroResults(fldName, "\"INTERNET RESOURCE\""); 
+		assertZeroResults(fldName, "\"" + govDocStr + "\""); 
+	}
+
+	/**
+	 * callnum_top_facet, for LC, contains the first letter of an LC call number
+	 *  along with a user friendly description of the broad topic indicated by
+	 *  the letter. Dewey and GovDoc values are tested in separate methods.
+	 */
+@Test
+	public final void testTopFacetLC() 
+			throws IOException, ParserConfigurationException, SAXException 
+	{
+		String fldName = "callnum_top_facet";
+		
+		// single char LC classification
+		solrFldMapTest.assertSolrFldValue(testFilePath, "6661112", fldName, "Z - Bibliography, Library Science, Information Resources");
+		// two char LC classification
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC22", fldName, "C - Historical Sciences (Archaeology, Genealogy)");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1033119", fldName, "B - Philosophy, Psychology, Religion");
+		// mixed one char and two char classification values
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC1dec", fldName, "D - World History");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2913114", fldName, "D - World History");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "3400092", fldName, "D - World History");
+		// mixed 2 and 3 three char LC classification
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3NoDec", fldName, "K - Law");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3Dec", fldName, "K - Law");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3DecSpace", fldName, "K - Law");
+						
+		// LCPER
+		solrFldMapTest.assertSolrFldValue(testFilePath, "460947", fldName, "E - History of the Americas (General)");		
+	}
+
+	/**
+	 * lc_alpha_facet contains the first alpha portion of the local LC
+	 *  call number along with a user friendly description of the topic  
+	 *  indicated by the letters. 
+	 */
+@Test
+	public final void testLCAlphaFacet() 
+		throws IOException, ParserConfigurationException, SAXException 
+	{
+		String fldName = "lc_alpha_facet";
+		
+		// single char LC classification
+		solrFldMapTest.assertSolrFldValue(testFilePath, "6661112", fldName, "Z - Bibliography, Library Science, Information Resources");
+		// LC 999 one letter, space before Cutter
+		solrFldMapTest.assertSolrFldValue(testFilePath, "7772223", fldName, "F - History of the Americas (Local)");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC1dec", fldName, "D - World History");
+
+		// two char LC classification
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "1033119", fldName, "B - Philosophy, Psychology, Religion");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1033119", fldName, "BX - Christian Denominations");
+		// LC 999 two letters, space before Cutter
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC2", fldName, "HG - Finance");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC22", fldName, "C - Auxiliary Sciences of History (General)");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC22", fldName, "CB - History of Civilization");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2913114", fldName, "DH - Low Countries (History)");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1732616", fldName, "QA - Mathematics");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "115472", fldName, "HC - Economic History & Conditions");
+		// mult values for a single doc
+		solrFldMapTest.assertSolrFldValue(testFilePath, "3400092", fldName, "DC - France (History)");
+
+		// three char LC classification
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC3NoDec", fldName, "K - Law");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC3Dec", fldName, "K - Law");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC3DecSpace", fldName, "K - Law");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3NoDec", fldName, "KJH - Law of Andorra");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3Dec", fldName, "KJH - Law of Andorra");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3DecSpace", fldName, "KJH - Law of Andorra");
+		
+		// LCPER
+		solrFldMapTest.assertSolrFldValue(testFilePath, "460947", fldName, "E - History of the Americas (General)");
+	}
+
+	/**
+	 * lc_b4cutter_facet contains the portion of local LC call numbers
+	 *  before the Cutter.
+	 */
+@Test
+	public final void testLCB4Cutter() 
+			throws IOException, ParserConfigurationException, SAXException 
+	{
+		String fldName = "lc_b4cutter_facet";
+		
+		// search for LC values
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "6661112", fldName, "Z");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "6661112", fldName, "Z3871");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC1dec", fldName, "D764.7");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC22", fldName, "C");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC22", fldName, "CB");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC22", fldName, "CB3");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC1dec", fldName, "D810");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "2913114", fldName, "D810");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "3400092", fldName, "D810");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2913114", fldName, "DH135");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC3NoDec", fldName, "K");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC3NoDec", fldName, "KJ");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999LC3NoDec", fldName, "KJH");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3NoDec", fldName, "KJH2678");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3DecSpace", fldName, "KJH66.6");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1033119", fldName, "BX4659");
+		// tricky cutter
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "115472", fldName, "HC241");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "115472", fldName, "HC241.25");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "3400092", fldName, "DC34.5");
+				
+		// LCPER
+		solrFldMapTest.assertSolrFldValue(testFilePath, "460947", fldName, "E184");
+	}
+
+
+	/**
+	 * callnum_search contains all local call numbers, except those that are 
+	 *  ignored, such as "NO CALL NUMBER"  It includes "bad" LC call numbers, 
+	 *  such as those beginning with X;  it includes MFILM and MCD call numbers
+	 *  and so on.  Testing Dewey call number search is in a separate method.
+	 */
+@Test
+	public final void testSearchLC() 
+			throws IOException, ParserConfigurationException, SAXException 
+	{
+		String fldName = "callnum_search";
+	
+		// LC 999 one letter
+		solrFldMapTest.assertSolrFldValue(testFilePath, "6661112", fldName, "Z3871.Z8");
+		// LC 999 one letter, space before Cutter
+		solrFldMapTest.assertSolrFldValue(testFilePath, "7772223", fldName, "F1356 .M464 2005");
+		// LC 999 one letter, decimal digits and space before Cutter
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC1dec", fldName, "D764.7 .K72 1990");
+		// LC 999 two letters, space before Cutter
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC2", fldName, "HG6046 .V28 1986");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC22", fldName, "CB3 .A6 SUPPL. V.31");
+		// LC 999 two letters, no space before Cutter
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC2NoDec", fldName, "PQ2678.I26 P54 1992");
+		// LC 999 three letters, no space before Cutter
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3NoDec", fldName, "KJH2678.I26 P54 1992");
+		// LC 999 three letters, decimal digit, no space before Cutter
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3Dec", fldName, "KJH666.4.I26 P54 1992");
+		// LC 999 three letters, decimal digit, space before Cutter
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3DecSpace", fldName, "KJH66.6 .I26 P54 1992");
+		// LC 999, LC 050, multiple LC facet values, 082 Dewey
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2913114", fldName, "DH135 .P6 I65");
+		// LC 999, LC 050, multiple LC facet values, 082 Dewey
+		solrFldMapTest.assertSolrFldValue(testFilePath, "3400092", fldName, "DC34.5 .A78 L4 1996");
+	
+		// LC 999, LC 050, tough cutter
+		solrFldMapTest.assertSolrFldValue(testFilePath, "115472", fldName, "HC241.25 .I4 D47");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1033119", fldName, "BX4659.E85 W44");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1033119", fldName, "BX4659 .E85 W44 1982");
+		// 082 Dewey, LC 999, 050 (same value)
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1732616", fldName, "QA273 .C83 1962");
+	
+		// Lane invalid LC call number, so it is excluded
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "7233951", fldName, "X578 .S64 1851");
+		solrFldMapTest.assertNoSolrFld(testFilePath, "7233951", fldName);
+
+		// non-Lane invalid LC call number so it's included
+		solrFldMapTest.assertSolrFldValue(testFilePath, "greenX", fldName, "X666 .S666 1666");
+		
+		// LCPER 999
+		solrFldMapTest.assertSolrFldValue(testFilePath, "460947", fldName, "E184.S75 R47A V.1 1980");
+		
+		// SUDOC 999 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5511738", fldName, "Y 4.AG 8/1:108-16");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2678655", fldName, "GA 1.13:RCED-85-88");
+	
+		// ALPHANUM 999 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "4578538", fldName, "SUSEL-69048");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1261173", fldName, "MFILM N.S. 1350 REEL 230 NO. 3741");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1234673", fldName, "MCD Brendel Plays Beethoven's Eroica variations");
+	}
+
+
+	/**
+	 * callnum_top_facet, for dewey, should be DEWEY_TOP_FACET_VAL
+	 */
+@Test
+	public final void testTopFacetDewey() 
+			throws IOException, ParserConfigurationException, SAXException 
+	{
+		String fldName = "callnum_top_facet";
+		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2328381", fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "DeweyVol", fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
 	}
 	
 
@@ -282,25 +315,16 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "dewey_1digit_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
-		
-		assertSingleResult("690002", fldName, "\"100s - Philosophy & Psychology\"");
-		assertSingleResult("2328381", fldName, "\"800s - Literature\"");
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("2214009");
-		docIds.add("1849258");
-		assertSearchResults(fldName, "\"300s - Social Sciences\"", docIds);
-		docIds.clear();
-		docIds.add("1");
-		docIds.add("11");
-		docIds.add("2");
-		docIds.add("22");
-		assertSearchResults(fldName, "\"000s - Computer Science, Information & General Works\"", docIds);
-		docIds.clear();
-		docIds.add("3");
-		docIds.add("31");
-		assertSearchResults(fldName, "\"900s - History & Geography\"", docIds);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, "100s - Philosophy & Psychology");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2328381", fldName, "800s - Literature");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2214009", fldName, "300s - Social Sciences");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1849258", fldName, "300s - Social Sciences");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, "000s - Computer Science, Information & General Works");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "11", fldName, "000s - Computer Science, Information & General Works");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2", fldName, "000s - Computer Science, Information & General Works");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "22", fldName, "000s - Computer Science, Information & General Works");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "3", fldName, "900s - History & Geography");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, "900s - History & Geography");
 	}
 
 	/**
@@ -313,25 +337,16 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "dewey_2digit_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
-		
-		assertSingleResult("690002", fldName, "\"150s - Psychology\"");
-		assertSingleResult("2328381", fldName, "\"820s - English & Old English Literatures\"");
-		assertSingleResult("1849258", fldName, "\"350s - Public Administration\"");	
-		assertSingleResult("2214009", fldName, "\"370s - Education\"");
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("1");
-		docIds.add("11");
-		assertSearchResults(fldName, "\"000s - Computer Science, Information & General Works\"", docIds);
-		docIds.clear();
-		docIds.add("2");
-		docIds.add("22");
-		assertSearchResults(fldName, "\"020s - Library & Information Sciences\"", docIds);
-		docIds.clear();
-		docIds.add("3");
-		docIds.add("31");
-		assertSearchResults(fldName, "\"990s - General History of Other Areas\"", docIds);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, "150s - Psychology");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2328381", fldName, "820s - English & Old English Literatures");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1849258", fldName, "350s - Public Administration");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2214009", fldName, "370s - Education");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, "000s - Computer Science, Information & General Works");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "11", fldName, "000s - Computer Science, Information & General Works");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2", fldName, "020s - Library & Information Sciences");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "22", fldName, "020s - Library & Information Sciences");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "3", fldName, "990s - General History of Other Areas");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, "990s - General History of Other Areas");
 	}
 
 
@@ -344,25 +359,20 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "dewey_b4cutter_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
-		
-		assertZeroResults(fldName, "159");
-		assertSingleResult("690002", fldName, "159.32");
-		assertZeroResults(fldName, "827");
-		assertSingleResult("2328381", fldName, "827.5"); 
-		assertZeroResults(fldName, "352");
-		assertSingleResult("1849258", fldName, "352.042"); 
-		assertZeroResults(fldName, "370");
-		assertSingleResult("2214009", fldName, "370.1"); 
-		assertZeroResults(fldName, "WITHDRAWN");
-		
-		assertSingleResult("1", fldName, "001"); 
-		assertSingleResult("11", fldName, "001.123"); 
-		assertSingleResult("2", fldName, "022"); 
-		assertSingleResult("22", fldName, "022.456"); 
-		assertSingleResult("3", fldName, "999"); 
-		assertSingleResult("31", fldName, "999.85"); 
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "690002", fldName, "159");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, "159.32");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "2328381", fldName, "827");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2328381", fldName, "827.5");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "1849258", fldName, "352");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1849258", fldName, "352.042");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "2214009", fldName, "370");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2214009", fldName, "370.1");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, "001");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "11", fldName, "001.123");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2", fldName, "022");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "22", fldName, "022.456");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "3", fldName, "999");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, "999.85");
 	}
 
 	/**
@@ -373,23 +383,17 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	public final void testSearchDewey() 
 			throws IOException, ParserConfigurationException, SAXException 
 	{
-		String fldName = "callnum_search";
-		assertFieldMultiValued(fldName);
-		assertTextFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldIndexed(fldName); 
-		assertFieldNotStored(fldName);  
-		
-		assertSingleResult("690002", fldName, "\"159.32 .W211\""); 
-		assertSingleResult("2328381", fldName, "\"827.5 .S97TG\""); 
-		assertSingleResult("1849258", fldName, "\"352.042 .C594 ED.2\""); 
-		assertSingleResult("2214009", fldName, "\"370.1 .S655\""); 
-		assertSingleResult("1", fldName, "\"1 .N44\""); 
-		assertSingleResult("11", fldName, "\"1.123 .N44\""); 
-		assertSingleResult("2", fldName, "\"22 .N47\""); 
-		assertSingleResult("22", fldName, "\"22.456 .S655\""); 
-		assertSingleResult("3", fldName, "\"999 .F67\""); 
-		assertSingleResult("31", fldName, "\"999.85 .P84\""); 
+		String fldName = "callnum_search";		
+		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, "159.32 .W211");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2328381", fldName, "827.5 .S97TG");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1849258", fldName, "352.042 .C594 ED.2");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2214009", fldName, "370.1 .S655");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, "1 .N44");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "11", fldName, "1.123 .N44");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2", fldName, "22 .N47");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "22", fldName, "22.456 .S655");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "3", fldName, "999 .F67");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, "999.85 .P84");
 	}
 
 
@@ -402,38 +406,28 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "dewey_1digit_facet";
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("1");
-		docIds.add("11");
-		docIds.add("2");
-		docIds.add("22");
-		assertSearchResults(fldName, "\"000s - Computer Science, Information & General Works\"", docIds);
-		docIds.clear();
-		docIds.add("3");
-		docIds.add("31");
-		assertSearchResults(fldName, "\"900s - History & Geography\"", docIds);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, "000s - Computer Science, Information & General Works");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "11", fldName, "000s - Computer Science, Information & General Works");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2", fldName, "000s - Computer Science, Information & General Works");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "22", fldName, "000s - Computer Science, Information & General Works");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "3", fldName, "900s - History & Geography");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, "900s - History & Geography");
 
 		fldName = "dewey_2digit_facet";
-		docIds.clear();
-		docIds.add("1");
-		docIds.add("11");
-		assertSearchResults(fldName, "\"000s - Computer Science, Information & General Works\"", docIds);
-		docIds.clear();
-		docIds.add("2");
-		docIds.add("22");
-		assertSearchResults(fldName, "\"020s - Library & Information Sciences\"", docIds);
-		docIds.clear();
-		docIds.add("3");
-		docIds.add("31");
-		assertSearchResults(fldName, "\"990s - General History of Other Areas\"", docIds);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, "000s - Computer Science, Information & General Works");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "11", fldName, "000s - Computer Science, Information & General Works");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2", fldName, "020s - Library & Information Sciences");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "22", fldName, "020s - Library & Information Sciences");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "3", fldName, "990s - General History of Other Areas");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, "990s - General History of Other Areas");
 
 		fldName = "dewey_b4cutter_facet";
-		assertSingleResult("1", fldName, "001"); 
-		assertSingleResult("11", fldName, "001.123"); 
-		assertSingleResult("2", fldName, "022"); 
-		assertSingleResult("22", fldName, "022.456"); 
-		assertSingleResult("3", fldName, "999"); 
-		assertSingleResult("31", fldName, "999.85"); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, "001");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "11", fldName, "001.123");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2", fldName, "022");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "22", fldName, "022.456");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "3", fldName, "999");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, "999.85");
 	}
 
 
@@ -447,12 +441,9 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "callnum_top_facet";
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("2557826");
-		docIds.add("5511738");
-		docIds.add("2678655");
-		assertSearchResults(fldName, "\"" + ItemUtils.GOV_DOC_TOP_FACET_VAL + "\"", docIds);
-		assertSearchResults(fldName, "\"" + govDocStr + "\"", docIds);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2557826", fldName, govDocStr);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5511738", fldName, govDocStr);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2678655", fldName, govDocStr);
 	}
 
 
@@ -464,24 +455,21 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	public final void testGovDocFromLocation() 
 			throws IOException, ParserConfigurationException, SAXException 
 	{
-		tearDown();
-		createIxInitVars("callNumberGovDocTests.mrc");
 		String fldName = "callnum_top_facet";
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("brit");  // lc
-		docIds.add("calif");
-		docIds.add("fed");
-		docIds.add("intl");
-		docIds.add("ssrcdocs");
-		docIds.add("ssrcfiche");  // dewey
-		docIds.add("ssrcnwdoc");
-		docIds.add("sudoc");   // not a gov doc location, but sudoc call number
-		assertSearchResults(fldName, "\"" + ItemUtils.GOV_DOC_TOP_FACET_VAL + "\"", docIds);
+	    testFilePath = testDataParentPath + File.separator + "callNumberGovDocTests.mrc";
+		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, ItemUtils.GOV_DOC_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "calif", fldName, ItemUtils.GOV_DOC_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "fed", fldName, ItemUtils.GOV_DOC_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "intl", fldName, ItemUtils.GOV_DOC_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcdocs", fldName, ItemUtils.GOV_DOC_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcfiche", fldName, ItemUtils.GOV_DOC_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcnwdoc", fldName, ItemUtils.GOV_DOC_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "sudoc", fldName, ItemUtils.GOV_DOC_TOP_FACET_VAL);
 		
-		assertZeroResults(fldName, "\"300s - Social Sciences\"");
-
-		// This is an LC call number, but the item has a gov doc location
-//		assertZeroResults(fldName, "\"Z - Bibliography, Library Science, Information Resources\"");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "ssrcfiche", fldName, "300s - Social Sciences");
+		
+		// item has LC call number AND item has gov doc location
+		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, "Z - Bibliography, Library Science, Information Resources");
 	}
 
 
@@ -496,24 +484,19 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	public final void testLevel2FacetGovDoc() 
 			throws IOException, ParserConfigurationException, SAXException 
 	{
-		tearDown();
-		createIxInitVars("callNumberGovDocTests.mrc");
-		String fldName = "gov_doc_type_facet";
+		String fldName = "gov_doc_type_facet";		
+	    testFilePath = testDataParentPath + File.separator + "callNumberGovDocTests.mrc";
 
-		assertSingleResult("brit", fldName, "\"" + ItemUtils.GOV_DOC_BRIT_FACET_VAL + "\"");
-		assertSingleResult("calif", fldName, "\"" + ItemUtils.GOV_DOC_CALIF_FACET_VAL + "\"");
-		assertSingleResult("intl", fldName, "\"" + ItemUtils.GOV_DOC_INTL_FACET_VAL + "\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, ItemUtils.GOV_DOC_BRIT_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "calif", fldName, ItemUtils.GOV_DOC_CALIF_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "intl", fldName, ItemUtils.GOV_DOC_INTL_FACET_VAL);		
+		solrFldMapTest.assertSolrFldValue(testFilePath, "fed", fldName, ItemUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcdocs", fldName, ItemUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcfiche", fldName, ItemUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcnwdoc", fldName, ItemUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "sudoc", fldName, ItemUtils.GOV_DOC_UNKNOWN_FACET_VAL);
 		
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("fed");
-		docIds.add("ssrcdocs");
-		docIds.add("ssrcfiche");
-		docIds.add("ssrcnwdoc");
-		assertSearchResults(fldName, "\"" + ItemUtils.GOV_DOC_FED_FACET_VAL + "\"", docIds);
-
-		assertSingleResult("sudoc", fldName, "\"" + ItemUtils.GOV_DOC_UNKNOWN_FACET_VAL + "\"");
-		
-		assertZeroResults(fldName, "\"" + govDocStr + "\"");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "brit", fldName, govDocStr);
 	}
 
 
@@ -524,29 +507,98 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	public final void testAccessOnlineFrom999() 
 			throws IOException, ParserConfigurationException, SAXException 
 	{
-		String afld = "access_facet";
+		String fldName = "access_facet";
 		String fldVal = Access.ONLINE.toString();
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("6280316");
-		docIds.add("7117119");
-		docIds.add("7531910");
-		assertSearchResults(afld, fldVal, docIds);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "6280316", fldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "7117119", fldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "7531910", fldName, fldVal);
 	}
 
 
 	/**
 	 * test that SHELBYTITL, SHELBYSER and STORBYTITL locations cause call 
-	 *  numbers to be ignored
+	 *  numbers to be ignored (not included in facets)
 	 */
 @Test
 	public final void testIgnoreShelbyLocations() 
 			throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "lc_b4cutter_facet";
-		assertZeroResults(fldName, "PQ9661");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "1111", fldName, "PQ9661");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "2211", fldName, "PQ9661");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "3311", fldName, "PQ9661");
 	}
 
-// FIXME:  move to ItemUtils check??
+
+	/**
+	 * shelfkey should contain shelving key versions of "lopped" call
+	 *  numbers (call numbers without volume info)
+	 */
+@Test
+	public final void testShelfkeysInIx() 
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+		String fldName = "shelfkey";
+		String revFldName = "reverse_shelfkey";
+		createIxInitVars(fileName);
+		assertFieldNotStored(fldName);
+		assertFieldNotStored(revFldName);
+		
+		// assert searching works
+	
+		// LC: no volume info
+		String id = "999LC2";
+		String callnum = "HG6046 .V28 1986";
+		String shelfkey = CallNumUtils.getLCShelfkey(callnum, id);
+		assertSingleResult(id, fldName, "\"" + shelfkey + "\"");
+		// it should be downcased
+		assertSingleResult(id, fldName, "\"" + shelfkey.toLowerCase() + "\"");
+		String reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
+		assertSingleResult("999LC2", revFldName, "\"" + reverseShelfkey + "\"");
+		// it should be downcased
+		assertSingleResult("999LC2", revFldName, "\"" + reverseShelfkey.toLowerCase() + "\"");
+		
+		// LC: volume info to lop off
+		id = "999LC22";
+		callnum = "CB3 .A6 SUPPL. V.31";
+		shelfkey = CallNumUtils.getLCShelfkey("CB3 .A6 SUPPL.", id).toLowerCase();
+		assertSingleResult(id, fldName, "\"" + shelfkey + "\"");
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
+		assertSingleResult("999LC22", revFldName, "\"" + reverseShelfkey + "\"");
+
+		// assert we don't find what we don't expect		
+		callnum = "NO CALL NUMBER";
+		assertZeroResults(fldName, "\"" + callnum + "\""); 
+		shelfkey = CallNumUtils.normalizeSuffix(callnum);
+		assertZeroResults(fldName, "\"" + shelfkey + "\""); 
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
+		assertZeroResults(revFldName, "\"" + reverseShelfkey + "\""); 
+
+		//   2009-12:  actually, the whole IN PROCESS record is skipped b/c only one withdrawn item
+		callnum = "IN PROCESS";
+		assertZeroResults(fldName, "\"" + callnum + "\""); 
+		shelfkey = CallNumUtils.normalizeSuffix(callnum);
+		assertZeroResults(fldName, "\"" + shelfkey + "\""); 
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
+		assertZeroResults(revFldName, "\"" + reverseShelfkey + "\""); 
+
+		// gov doc 
+		assertZeroResults(fldName, "\"" + govDocStr + "\""); 
+		shelfkey = CallNumUtils.normalizeSuffix(govDocStr);
+		assertZeroResults(fldName, "\"" + shelfkey + "\""); 
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
+		assertZeroResults(revFldName, "\"" + reverseShelfkey + "\""); 
+		
+		// ASIS 999 "INTERNET RESOURCE"
+		callnum = "INTERNET RESOURCE";
+		assertZeroResults(fldName, "\"" + callnum + "\""); 
+		shelfkey = CallNumUtils.normalizeSuffix(callnum);
+		assertZeroResults(fldName, "\"" + shelfkey + "\""); 
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
+		assertZeroResults(revFldName, "\"" + reverseShelfkey + "\""); 
+	}	
+
+
 	/**
 	 * shelfkey should contain shelving key versions of "lopped" call
 	 *  numbers (call numbers without volume info)
@@ -556,75 +608,91 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "shelfkey";
-		assertFieldNotStored(fldName);
 
 		// LC: no volume info
+		String id = "999LC2";
 		String callnum = "HG6046 .V28 1986";
-		String shelfkey = CallNumUtils.getLCShelfkey(callnum, "999LC2");
-		assertSingleResult("999LC2", fldName, "\"" + shelfkey + "\"");
-		// it should be downcased
-		assertSingleResult("999LC2", fldName, "\"" + shelfkey.toLowerCase() + "\"");
+		String shelfkey = CallNumUtils.getLCShelfkey(callnum, id).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, shelfkey);
 
 		// LC: volume info to lop off
+		id = "999LC22";
 		callnum = "CB3 .A6 SUPPL. V.31";
-		shelfkey = CallNumUtils.getLCShelfkey("CB3 .A6 SUPPL.", "999LC22");
-		assertSingleResult("999LC22", fldName, "\"" + shelfkey + "\"");
+		shelfkey = CallNumUtils.getLCShelfkey("CB3 .A6 SUPPL.", id).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, shelfkey);
 		
 		// LCPER
+		id = "460947";
 		callnum = "E184.S75 R47A V.1 1980";
-		shelfkey = CallNumUtils.getLCShelfkey("E184.S75 R47A", "460947");
-		assertSingleResult("460947", fldName, "\"" + shelfkey + "\"");
+		shelfkey = CallNumUtils.getLCShelfkey("E184.S75 R47A", id).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, shelfkey);
 
 		//  bad LC values
-		assertZeroResults(fldName, "\"NO CALL NUMBER\"");
-		// 852 to ignore
-		assertZeroResults(fldName, "\"IN PROCESS\"");
+		solrFldMapTest.assertNoSolrFld(testFilePath, "7370014", "NO CALL NUMBER");
+		//   2009-12:  actually, the whole record is skipped b/c only one withdrawn item
+//		solrFldMapTest.assertNoSolrFld(testFilePath, "3277173", "IN PROCESS");
 
 		// Dewey: no vol info
+		id = "31";
 		callnum = "999.85 .P84";
-		shelfkey = CallNumUtils.getDeweyShelfKey(callnum);
-		assertSingleResult("31", fldName, "\"" + shelfkey + "\""); 
+		shelfkey = CallNumUtils.getDeweyShelfKey(callnum).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, shelfkey);
 		
 		// Dewey: vol info to lop off
+		id = "DeweyVol";
 		callnum = "666 .F67 VOL. 5";
-		shelfkey = CallNumUtils.getDeweyShelfKey("666 .F67");
-		assertSingleResult("DeweyVol", fldName, "\"" + shelfkey + "\""); 
+		shelfkey = CallNumUtils.getDeweyShelfKey("666 .F67").toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, shelfkey);
 		
 // TODO: implement longest common prefix vol lopping for non-LC, non-Dewey	
 
 		// SUDOC 999  -  uses raw callno
+		id = "5511738";
 		callnum = "Y 4.AG 8/1:108-16";
-		shelfkey = CallNumUtils.normalizeSuffix(callnum);
-		assertSingleResult("5511738", fldName, "\"" + shelfkey + "\""); 
+		shelfkey = CallNumUtils.normalizeSuffix(callnum).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, shelfkey);
 		
 		callnum = "GA 1.13:RCED-85-88";
-		shelfkey = CallNumUtils.normalizeSuffix(callnum);
-		assertSingleResult("2678655", fldName, "\"" + shelfkey + "\""); 
+		shelfkey = CallNumUtils.normalizeSuffix(callnum).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2678655", fldName, shelfkey);
 
-		assertZeroResults(fldName, "\"" + govDocStr + "\""); 
+		solrFldMapTest.assertNoSolrFld(testFilePath, "2557826", govDocStr);
+		solrFldMapTest.assertNoSolrFld(testFilePath, "5511738", govDocStr);
+		solrFldMapTest.assertNoSolrFld(testFilePath, "2678655", govDocStr);
 
 		// ALPHANUM 999 - uses raw callno
 		callnum = "SUSEL-69048";
-		shelfkey = CallNumUtils.normalizeSuffix(callnum);
-		assertSingleResult("4578538", fldName, "\"" + shelfkey + "\""); 
+		shelfkey = CallNumUtils.normalizeSuffix(callnum).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "4578538", fldName, shelfkey);
 		
 		callnum = "MFILM N.S. 1350 REEL 230 NO. 3741";
-		shelfkey = CallNumUtils.normalizeSuffix(callnum);
-		assertSingleResult("1261173", fldName, "\"" + shelfkey + "\""); 
+		shelfkey = CallNumUtils.normalizeSuffix(callnum).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1261173", fldName, shelfkey);
 
 		callnum = "MCD Brendel Plays Beethoven's Eroica variations";
-		shelfkey = CallNumUtils.normalizeSuffix(callnum);
-		assertSingleResult("1234673", fldName, "\"" + shelfkey + "\""); 
+		shelfkey = CallNumUtils.normalizeSuffix(callnum).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1234673", fldName, shelfkey);
 		
-		// this is labelled as LC, but is recognized as invalid LC and processed as other
+		// this is a Lane invalid LC callnum
+		id = "7233951";
 		callnum = "X578 .S64 1851";
-		shelfkey = CallNumUtils.getLCShelfkey(callnum, "7233951");
-		assertZeroResults(fldName, "\"" + shelfkey + "\"");
-		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, "OTHER", "7233951");
-		assertSingleResult("7233951", fldName, "\"" + shelfkey + "\"");
+		shelfkey = CallNumUtils.getLCShelfkey(callnum, id).toLowerCase();
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, shelfkey);
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, "OTHER", id).toLowerCase();
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, shelfkey);
+		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
 		
+		id = "greenX";
+		callnum = "X666 .S666 1666";
+		shelfkey = CallNumUtils.getLCShelfkey(callnum, id).toLowerCase();
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, shelfkey);
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, "OTHER", id).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, shelfkey);
+
 		// ASIS 999 "INTERNET RESOURCE": No call number, but access Online
-		assertZeroResults(fldName, "\"INTERNET RESOURCE\""); 
+		solrFldMapTest.assertNoSolrFld(testFilePath, "6280316", "INTERNET RESOURCE");
+		solrFldMapTest.assertNoSolrFld(testFilePath, "7117119", "INTERNET RESOURCE");
+		solrFldMapTest.assertNoSolrFld(testFilePath, "7531910", "INTERNET RESOURCE");
 	}
 
 
@@ -638,93 +706,104 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "reverse_shelfkey";
-		assertFieldNotStored(fldName);
 
 		// LC: no volume info
+		String id = "999LC2";
 		String callnum = "HG6046 .V28 1986";
 		String shelfkey = CallNumUtils.getLCShelfkey(callnum, "999LC2");
 		String reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("999LC2", fldName, "\"" + reverseShelfkey + "\"");
-		// it should be downcased
-		assertSingleResult("999LC2", fldName, "\"" + reverseShelfkey.toLowerCase() + "\"");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, reverseShelfkey);
+		reverseShelfkey = reverseShelfkey.toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, reverseShelfkey);
 
 		// LC: volume info to lop off
+		id = "999LC22";
 		callnum = "CB3 .A6 SUPPL. V.31";
 // NOTE:  it finds V.31 first, so it doesn't strip suppl.
 		String lopped = "CB3 .A6 SUPPL.";
-		shelfkey = CallNumUtils.getLCShelfkey(lopped, "999LC22");
-		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("999LC22", fldName, "\"" + reverseShelfkey + "\"");
+		shelfkey = CallNumUtils.getLCShelfkey(lopped, id);
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, reverseShelfkey);
 		
 		// LCPER
+		id = "460947";
 		callnum = "E184.S75 R47A V.1 1980";
 		lopped = "E184.S75 R47A";
-		shelfkey = CallNumUtils.getLCShelfkey(lopped, "460947");
-		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("460947", fldName, "\"" + reverseShelfkey + "\"");
-
-		//  bad LC values
-		// LC 999 "NO CALL NUMBER" and 852 to ignore
-		assertZeroResults(fldName, "\"NO CALL NUMBER\"");
-		assertZeroResults(fldName, "\"IN PROCESS\"");
+		shelfkey = CallNumUtils.getLCShelfkey(lopped, id);
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, reverseShelfkey);
 
 		// Dewey: no vol info
 		callnum = "999.85 .P84";
 		shelfkey = CallNumUtils.getDeweyShelfKey(callnum);
-		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("31", fldName, "\"" + reverseShelfkey + "\""); 
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, reverseShelfkey);
 		
 		// Dewey: vol info to lop off
 		callnum = "352.042 .C594 ED.2";
 		lopped = "352.042 .C594";
 		shelfkey = CallNumUtils.getDeweyShelfKey(lopped);
-		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("1849258", fldName, "\"" + reverseShelfkey + "\""); 
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1849258", fldName, reverseShelfkey);
 		
 // TODO: implement longest common prefix vol lopping for non-LC, non-Dewey	
 		
 		// SUDOC 999 
 		callnum = "Y 4.AG 8/1:108-16";
 		shelfkey = CallNumUtils.normalizeSuffix(callnum);
-		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("5511738", fldName, "\"" + reverseShelfkey + "\""); 
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5511738", fldName, reverseShelfkey);
 		
 		callnum = "GA 1.13:RCED-85-88";
 		shelfkey = CallNumUtils.normalizeSuffix(callnum);
-		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("2678655", fldName, "\"" + reverseShelfkey + "\""); 
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2678655", fldName, reverseShelfkey);
 
-		shelfkey = CallNumUtils.normalizeSuffix(govDocStr);
-		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertZeroResults(fldName, "\"" + reverseShelfkey + "\""); 
-	
-		// this is labelled as LC, but is recognized as invalid LC and processed as other
+		// this is a Lane invalid LC callnum
+		id = "7233951";
 		callnum = "X578 .S64 1851";
-		shelfkey = CallNumUtils.getLCShelfkey(callnum, "7233951");
-		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertZeroResults(fldName, "\"" + reverseShelfkey + "\"");
+		shelfkey = CallNumUtils.getLCShelfkey(callnum, id);
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, reverseShelfkey);
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, "OTHER", "7233951");
-		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("7233951", fldName, "\"" + reverseShelfkey + "\"");
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, reverseShelfkey);
+		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
 		
+		id = "greenX";
+		callnum = "X666 .S666 1666";
+		// it's not processed as LC, but as OTHER
+		shelfkey = CallNumUtils.getLCShelfkey(callnum, id).toLowerCase();
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, reverseShelfkey);
+		// it's not processed as LC, but as OTHER
+		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, "OTHER", id).toLowerCase();
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, reverseShelfkey);
+
 		// ALPHANUM 999 - uses raw callno
 		callnum = "SUSEL-69048";
 		shelfkey = CallNumUtils.normalizeSuffix(callnum);
-		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("4578538", fldName, "\"" + reverseShelfkey + "\""); 
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "4578538", fldName, reverseShelfkey);
 		
 		callnum = "MFILM N.S. 1350 REEL 230 NO. 3741";
 		shelfkey = CallNumUtils.normalizeSuffix(callnum);
-		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("1261173", fldName, "\"" + reverseShelfkey + "\""); 
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1261173", fldName, reverseShelfkey);
 
 		callnum = "MCD Brendel Plays Beethoven's Eroica variations";
 		shelfkey = CallNumUtils.normalizeSuffix(callnum);
-		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertSingleResult("1234673", fldName, "\"" + reverseShelfkey + "\""); 
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1234673", fldName, reverseShelfkey);
 		
 		// ASIS 999 "INTERNET RESOURCE": No call number, but access Online
-		assertZeroResults(fldName, "\"INTERNET RESOURCE\""); 
+		callnum = "INTERNET RESOURCE";
+		shelfkey = CallNumUtils.normalizeSuffix(callnum);
+		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
+		solrFldMapTest.assertNoSolrFld(testFilePath, "6280316", "INTERNET RESOURCE");
+		solrFldMapTest.assertNoSolrFld(testFilePath, "7117119", "INTERNET RESOURCE");
+		solrFldMapTest.assertNoSolrFld(testFilePath, "7531910", "INTERNET RESOURCE");
 	}
 
 	/**
