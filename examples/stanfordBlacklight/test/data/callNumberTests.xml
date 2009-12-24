@@ -131,6 +131,15 @@
             <subfield code="o">.TECHSTAFF. PUB 1/22/91/pb</subfield>
             <subfield code="o">.TECHSTAFF. MIDSPINE.v.31 suppl.</subfield>
         </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">CB3 .A6 SUPPL. V.32</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105035087093</subfield>
+            <subfield code="k">CHECKEDOUT</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
     </record>
     <record>
         <leader>00616cam a2200181 a 4500</leader>
@@ -729,6 +738,14 @@
       <subfield code="u">4/15/1983</subfield>
       <subfield code="o">.TECHSTAFF. #16/i:jrt</subfield>
     </datafield>
+      <datafield tag="999" ind1=" " ind2=" ">
+          <subfield code="a">E184.S75 R47A V.2 1980</subfield>
+          <subfield code="w">LCPER</subfield>
+          <subfield code="c">1</subfield>
+          <subfield code="i">36105007402872</subfield>
+          <subfield code="l">STACKS</subfield>
+          <subfield code="m">GREEN</subfield>
+      </datafield>
   </record>
     
 <!-- 999 Dewey (3 digits and decimal); 092 Dewey: accept all (note Deweys are same for facets) -->
@@ -893,6 +910,14 @@
       <subfield code="u">3/14/1986</subfield>
       <subfield code="o">.TECHSTAFF. tf:SAL 06/17/05 batch</subfield>
     </datafield>
+      <datafield tag="999" ind1=" " ind2=" ">
+          <subfield code="a">352.042 .C594 ED.3</subfield>
+          <subfield code="w">DEWEY</subfield>
+          <subfield code="c">1</subfield>
+          <subfield code="i">36105047516096</subfield>
+          <subfield code="l">STACKS</subfield>
+          <subfield code="m">SAL3</subfield>
+      </datafield>
   </record>
 
 <!-- Three 999: Two LC, one Dewey; 050 LC and 092 Dewey (one LC, one Dewey for facets) -->
@@ -1232,6 +1257,14 @@
             <subfield code="z">TAX=8.25</subfield>
             <subfield code="o">.TECHSTAFF. FLOW, CLASS [5/8/97]/.COMMENT.DIOG/i:rsp</subfield>
             <subfield code="o">.TECHSTAFF. i:skc 12/17/2003</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">666 .F67 VOL. 6</subfield>
+            <subfield code="w">DEWEY</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105020376999</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">HOOVER</subfield>
         </datafield>
     </record>
     <!-- SHELBYTITL location: ignore call number -->

@@ -420,7 +420,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 		shelfkey = CallNumUtils.getShelfKey(lopped, alphanumScheme, recId).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, alphanumScheme, !isSerial, recId);
-		fldVal = "36105115652104 -|- SPEC-COLL -|- MSS-30 -|-  -|- NONCIRC -|- " +
+		fldVal = "36105115652104 -|- SPEC-COLL -|- UARCH-30 -|-  -|- NONCIRC -|- " +
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 	}
@@ -706,7 +706,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 		shelfkey = CallNumUtils.getShelfKey(lopped, lcperScheme, recId).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcperScheme, !isSerial, recId);
-		fldVal = "36105028826514 -|- SAL3 -|- STACKS -|-  -|- STKS-PERI -|- " +
+		fldVal = "36105028826514 -|- GREEN -|- STACKS -|-  -|- STKS-PERI -|- " +
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 	}

@@ -19,10 +19,11 @@ import edu.stanford.enumValues.*;
 public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 {
 	/** name of map used to translate raw library code to short display value */
-	private String LIBRARY_SHORT_MAP_NAME = null;
-	/** name of map used to translate raw location code to display value */
+	private static String LIBRARY_SHORT_MAP_NAME = null;
+	/** name of map used to translate raw location code to display value 
+	 *   map used to determine if call numbers should be lopped */
 	@Deprecated
-	private String LOCATION_MAP_NAME = null;
+	private static String LOCATION_MAP_NAME = null;
 	
 	/** locations indicating item should not be displayed */
 	static Set<String> SKIPPED_LOCS = null;
@@ -145,6 +146,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			if (!item.shouldBeSkipped())
 				itemSet.add(item);
 		}
+		ItemUtils.lopItemCallnums(itemSet, findMap(LOCATION_MAP_NAME));
 
 		setFormats(record);
 		isSerial = formats.contains(Format.JOURNAL_PERIODICAL.toString());
@@ -787,9 +789,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 				// get volume info to show in record view
 				String volSuffix = null;
+				// ensure we're using a true lopped call number -- if only
+				//   one item, this would have been set to full callnum
+				loppedCallnum = ItemUtils.getLoppedCallnum(fullCallnum, callnumScheme, isSerial);
 				if (loppedCallnum != null && loppedCallnum.length() > 0)
 					volSuffix = fullCallnum.substring(loppedCallnum.length()).trim();
-				if ((volSuffix == null || volSuffix.length() == 0) 
+				if ( (volSuffix == null || volSuffix.length() == 0) 
 						&& CallNumUtils.callNumIsVolSuffix(fullCallnum))
 					volSuffix = fullCallnum;
 
@@ -845,6 +850,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	{
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) {
+// FIXME:  non-LC lane and jackson callnums should be searchable			
 			if (!item.hasShelbyLoc() && !item.hasIgnoredCallnum()) {
 				String callnum = item.getCallnum();
 				if (callnum.length() > 0)
@@ -1180,5 +1186,5 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 // Generic Methods ------------------ End ---------------------- Generic Methods
-
+    
 }

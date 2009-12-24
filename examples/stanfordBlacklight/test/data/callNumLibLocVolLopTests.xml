@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<!-- don't lop:  one 999 -->
+    <record>
+        <leader>00928cam a2200229 a 4500</leader>
+        <controlfield tag="001">aoneLC999</controlfield>
+        <controlfield tag="008">870909s1986    enka          000 0 eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">don't lop:  single 999 (LC)</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.1</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402873</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+    </record>
+    <record>
+        <leader>00928cam a2200229 a 4500</leader>
+        <controlfield tag="001">aoneDewey999</controlfield>
+        <controlfield tag="008">870909s1986    enka          000 0 eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">don't lop:  single 999 (Dewey)</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">352.042 .C594 ED.1</subfield>
+            <subfield code="w">DEWEY</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105047516096</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL3</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00928cam a2200229 a 4500</leader>
+        <controlfield tag="001">aoneAlphanumBox</controlfield>
+        <controlfield tag="008">870909s1986    enka          000 0 eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">don't lop:  single 999 (Alphanum Box)</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">M1522 BOX 1</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105115680386</subfield>
+            <subfield code="l">MSS-30</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+        </datafield>
+    </record>
+        
+<!-- don't lop:  diff libraries --> 
+    <record>
+        <leader>00928cam a2200229 a 4500</leader>
+        <controlfield tag="001">adiffLib</controlfield>
+        <controlfield tag="008">870909s1986    enka          000 0 eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">don't lop: diff libraries</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.1</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402874</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.2</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402666</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL3</subfield>
+        </datafield>    
+    </record>
+    
+<!-- don't lop: same lib diff loc -->    
+    <record>
+        <leader>00928cam a2200229 a 4500</leader>
+        <controlfield tag="001">adiffHomeLoc</controlfield>
+        <controlfield tag="008">870909s1986    enka          000 0 eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">don't lop: same lib diff home locs</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.1</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402875</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.2</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402555</subfield>
+            <subfield code="l">VROOMAN</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+    </record>
+    
+<!-- don't lop: same lib same loc diff scheme -->
+    <record>
+        <leader>00928cam a2200229 a 4500</leader>
+        <controlfield tag="001">adiffScheme</controlfield>
+        <controlfield tag="008">870909s1986    enka          000 0 eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">don't lop:  same lib same home locs but diff scheme</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.1</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402878</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL3</subfield>
+        </datafield>    
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">352.042 .C594 ED.1</subfield>
+            <subfield code="w">DEWEY</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402888</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL3</subfield>
+        </datafield>    
+    </record>
+    
+<!-- lop: same lib, loc and scheme LC, LCPER -->
+    <record>
+        <leader>00928cam a2200229 a 4500</leader>
+        <controlfield tag="001">alcFlavors</controlfield>
+        <controlfield tag="008">870909s1986    enka          000 0 eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">lop: same lib, loc, and schemes LC, LCPER</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.1</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402879</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL3</subfield>
+        </datafield>    
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.2</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402999</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL3</subfield>
+        </datafield>    
+    </record>
+    
+    <record>
+        <leader>00928cam a2200229 a 4500</leader>
+        <controlfield tag="001">adeweyFlavors</controlfield>
+        <controlfield tag="008">870909s1986    enka          000 0 eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">lop: same lib, loc, and schemes DEWEY, DEWEYPER</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">352.042 .C594 ED.1</subfield>
+            <subfield code="w">DEWEY</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402870</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL3</subfield>
+        </datafield>    
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">352.042 .C594 ED.2</subfield>
+            <subfield code="w">DEWEYPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402000</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL3</subfield>
+        </datafield>    
+    </record>
+    
+<!-- should any of the other flavors go together?  alphanum and asis?  my assigned schemes in Item object (e.g.  incorrectLC, incorrectDewey ...) -->    
+    
+<!-- lop:  two 999 in same lib same trans loc -->    
+    <record>
+        <leader>00928cam a2200229 a 4500</leader>
+        <controlfield tag="001">asameTransLoc</controlfield>
+        <controlfield tag="008">870909s1986    enka          000 0 eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">yes lop:  two 999 in same lib same translated home loc</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.1</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402871</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.2</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402111</subfield>
+            <subfield code="l">STACKS-1</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+    </record>
+    
+<!-- lop one case:  two 999 in same, one in diff -->
+    <record>
+        <leader>00928cam a2200229 a 4500</leader>
+        <controlfield tag="001">asameAndDiff</controlfield>
+        <controlfield tag="008">870909s1986    enka          000 0 eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">lop some:  two match, one not</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.1</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402880</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.2</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402811</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.3</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402822</subfield>
+            <subfield code="l">VROOMAN</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+    </record>
+    
+<!-- lop:  same lib, loc, scheme but diff curr loc-->
+    <record>
+        <leader>00928cam a2200229 a 4500</leader>
+        <controlfield tag="001">adiffCurrLoc</controlfield>
+        <controlfield tag="008">870909s1986    enka          000 0 eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">yes lop:  diff curr loc, but same lib, home loc, scheme</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.1</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402872</subfield>
+            <subfield code="k">RESERVES</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.2</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402222</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.3</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402777</subfield>
+            <subfield code="k">RESERVES</subfield>
+            <subfield code="l">VROOMAN</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+    </record>
+
+<!-- skipped items -->
+    <record>
+        <leader>00928cam a2200229 a 4500</leader>
+        <controlfield tag="001">askippedItem</controlfield>
+        <controlfield tag="008">870909s1986    enka          000 0 eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">no lop:  one item skipped</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.1</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105035887392</subfield>
+            <subfield code="k">WITHDRAWN</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.2</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007403333</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+    </record>
+    
+<!-- skipped call numbers -->
+    <record>
+        <leader>00928cam a2200229 a 4500</leader>
+        <controlfield tag="001">askippedCallnum</controlfield>
+        <controlfield tag="008">870909s1986    enka          000 0 eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">don't lop - one callnum is skipped</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">NO CALL NUMBER</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">111</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47 V.1</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">222</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+    </record>
+
+</collection>

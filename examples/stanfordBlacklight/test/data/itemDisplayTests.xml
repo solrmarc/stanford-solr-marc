@@ -76,6 +76,17 @@
             <subfield code="u">4/15/1983</subfield>
             <subfield code="o">.TECHSTAFF. #16/i:jrt</subfield>
         </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">E184.S75 R47A V.2 1980</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105007402872</subfield>
+            <subfield code="d">2/5/2004</subfield>
+            <subfield code="e">9/3/1998</subfield>
+            <subfield code="l">ON-ORDER</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+        </datafield>
     </record>
 <!-- multiple items same building, diff location -->
     <record>

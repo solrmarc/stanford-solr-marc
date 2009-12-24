@@ -408,6 +408,19 @@
             <subfield code="t">NONCIRC</subfield>
             <subfield code="u">9/20/2007</subfield>
         </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">M1522 BOX 2</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105115680386</subfield>
+            <subfield code="d">5/22/2009</subfield>
+            <subfield code="l">MSS-30</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NONCIRC</subfield>
+            <subfield code="u">9/20/2007</subfield>
+        </datafield>
     </record>
 <!-- carton -->
     <record>
@@ -462,6 +475,18 @@
             <subfield code="t">NONCIRC</subfield>
             <subfield code="u">9/20/2007</subfield>
         </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">M1522 FLAT BOX 18</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105115690641</subfield>
+            <subfield code="l">MSS-30</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NONCIRC</subfield>
+            <subfield code="u">9/20/2007</subfield>
+        </datafield>
     </record>
 <!-- halfBox -->
     <record>
@@ -473,6 +498,19 @@
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">M1522 HALF BOX 1</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105115680386</subfield>
+            <subfield code="d">5/22/2009</subfield>
+            <subfield code="l">MANUSCRIPT</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NONCIRC</subfield>
+            <subfield code="u">9/20/2007</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">M1522 HALF BOX 2</subfield>
             <subfield code="w">ALPHANUM</subfield>
             <subfield code="c">1</subfield>
             <subfield code="i">36105115680386</subfield>
@@ -507,6 +545,19 @@
             <subfield code="t">NONCIRC</subfield>
             <subfield code="u">9/20/2007</subfield>
         </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">M1522 HALF CARTON 2</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105115680386</subfield>
+            <subfield code="d">5/22/2009</subfield>
+            <subfield code="l">MANUSCRIPT</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NONCIRC</subfield>
+            <subfield code="u">9/20/2007</subfield>
+         </datafield>
     </record>
    
 <!-- large map folder -->
@@ -519,6 +570,19 @@
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">M1522 LARGE MAP FOLDER 26</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105115640307</subfield>
+            <subfield code="l">MANUSCRIPT</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MANUSCRIPT</subfield>
+            <subfield code="u">2/2/2009</subfield>
+            <subfield code="o">.CIRCSTAFF. Basement, Map case Na8 - Tim Noakes, 2/2009</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">M1522 LARGE MAP FOLDER 27</subfield>
             <subfield code="w">ALPHANUM</subfield>
             <subfield code="c">1</subfield>
             <subfield code="i">36105115640307</subfield>
@@ -553,6 +617,19 @@
             <subfield code="u">2/2/2009</subfield>
             <subfield code="o">.CIRCSTAFF. Basement, Map case Na8 - Tim Noakes, 2/2009</subfield>
         </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">M1522 LARGE FOLDER 27</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105115640307</subfield>
+            <subfield code="l">MANUSCRIPT</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MANUSCRIPT</subfield>
+            <subfield code="u">2/2/2009</subfield>
+            <subfield code="o">.CIRCSTAFF. Basement, Map case Na8 - Tim Noakes, 2/2009</subfield>
+        </datafield>
     </record>
 
 <!-- map folder -->
@@ -565,6 +642,19 @@
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">M1522 MAP FOLDER 26</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105115640307</subfield>
+            <subfield code="l">MANUSCRIPT</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MANUSCRIPT</subfield>
+            <subfield code="u">2/2/2009</subfield>
+            <subfield code="o">.CIRCSTAFF. Basement, Map case Na8 - Tim Noakes, 2/2009</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">M1522 MAP FOLDER 27</subfield>
             <subfield code="w">ALPHANUM</subfield>
             <subfield code="c">1</subfield>
             <subfield code="i">36105115640307</subfield>
@@ -599,6 +689,19 @@
             <subfield code="u">2/2/2009</subfield>
             <subfield code="o">.CIRCSTAFF. Basement, Map case Na8 - Tim Noakes, 2/2009</subfield>
         </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">M1522 OS BOX 27</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105115640307</subfield>
+            <subfield code="l">MANUSCRIPT</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MANUSCRIPT</subfield>
+            <subfield code="u">2/2/2009</subfield>
+            <subfield code="o">.CIRCSTAFF. Basement, Map case Na8 - Tim Noakes, 2/2009</subfield>
+        </datafield>
     </record>
 <!-- os folder -->
     <record>
@@ -610,6 +713,19 @@
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">M1522 OS FOLDER 26</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105115640307</subfield>
+            <subfield code="l">MANUSCRIPT</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MANUSCRIPT</subfield>
+            <subfield code="u">2/2/2009</subfield>
+            <subfield code="o">.CIRCSTAFF. Basement, Map case Na8 - Tim Noakes, 2/2009</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">M1522 OS FOLDER 27</subfield>
             <subfield code="w">ALPHANUM</subfield>
             <subfield code="c">1</subfield>
             <subfield code="i">36105115640307</subfield>
@@ -644,6 +760,19 @@
             <subfield code="u">2/2/2009</subfield>
             <subfield code="o">.CIRCSTAFF. Basement, Map case Na8 - Tim Noakes, 2/2009</subfield>
         </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">M1522 SMALL MAP FOLDER 27</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105115640307</subfield>
+            <subfield code="l">MANUSCRIPT</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MANUSCRIPT</subfield>
+            <subfield code="u">2/2/2009</subfield>
+            <subfield code="o">.CIRCSTAFF. Basement, Map case Na8 - Tim Noakes, 2/2009</subfield>
+        </datafield>
     </record>
     
 <!-- small folder -->
@@ -667,6 +796,19 @@
             <subfield code="u">2/2/2009</subfield>
             <subfield code="o">.CIRCSTAFF. Basement, Map case Na8 - Tim Noakes, 2/2009</subfield>
         </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">M1522 SMALL FOLDER 27</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105115640307</subfield>
+            <subfield code="l">MANUSCRIPT</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MANUSCRIPT</subfield>
+            <subfield code="u">2/2/2009</subfield>
+            <subfield code="o">.CIRCSTAFF. Basement, Map case Na8 - Tim Noakes, 2/2009</subfield>
+        </datafield>
     </record>
     
 <!-- tube -->
@@ -679,6 +821,19 @@
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">M1522 TUBE 26</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105115640307</subfield>
+            <subfield code="l">MANUSCRIPT</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">MANUSCRIPT</subfield>
+            <subfield code="u">2/2/2009</subfield>
+            <subfield code="o">.CIRCSTAFF. Basement, Map case Na8 - Tim Noakes, 2/2009</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">M1522 TUBE 27</subfield>
             <subfield code="w">ALPHANUM</subfield>
             <subfield code="c">1</subfield>
             <subfield code="i">36105115640307</subfield>
@@ -746,7 +901,7 @@
             <subfield code="c">1</subfield>
             <subfield code="i">36105115652104</subfield>
             <subfield code="d">7/7/2008</subfield>
-            <subfield code="l">MSS-30</subfield>
+            <subfield code="l">UARCH-30</subfield>
             <subfield code="m">SPEC-COLL</subfield>
             <subfield code="r">Y</subfield>
             <subfield code="s">Y</subfield>
@@ -1064,7 +1219,7 @@
             <subfield code="d">9/24/2008</subfield>
             <subfield code="e">9/10/2008</subfield>
             <subfield code="l">STACKS</subfield>
-            <subfield code="m">SAL3</subfield>
+            <subfield code="m">GREEN</subfield>
             <subfield code="n">1</subfield>
             <subfield code="p">$40.00</subfield>
             <subfield code="q">10</subfield>

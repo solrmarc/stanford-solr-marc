@@ -197,10 +197,11 @@ public class Item {
 	}
 
 	/**
-	 * @return true if call number is to be ignored (e.g. "NO CALL NUMBER"
-	 *  or "XX(blah)" or Lane/Jackson invalid LC)
+	 * @return true if call number is to be ignored in some contexts
+	 *  (e.g. "NO CALL NUMBER" or "XX(blah)" or Lane/Jackson invalid LC)
 	 */
 	public boolean hasIgnoredCallnum() {
+//FIXME:  Lane and Jackson invalid LC should be diff category - they should be searcahble ...
 		return hasIgnoredCallnum;
 	}
 
@@ -225,6 +226,14 @@ public class Item {
 	 */
 	private void setLoppedCallnum(boolean isSerial) {
 		loppedCallnum = ItemUtils.getLoppedCallnum(normCallnum, scheme, isSerial);
+	}
+
+	/**
+	 * sets the private field loppedCallnum to the passed value.  Used when
+	 *  lopping must be dictated elsewhere.
+	 */
+	void setLoppedCallnum(String loppedCallnum) {
+		this.loppedCallnum = loppedCallnum;
 	}
 
 	

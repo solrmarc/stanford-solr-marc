@@ -99,6 +99,14 @@
       <subfield code="u">4/15/1983</subfield>
       <subfield code="o">.TECHSTAFF. #16/i:jrt</subfield>
     </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">E184.S75 R47A V.2 1980</subfield>
+      <subfield code="w">LCPER</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">36105007402874</subfield>
+      <subfield code="l">STACKS</subfield>
+      <subfield code="m">BIOLOGY</subfield>
+    </datafield>
   </record>
   <record>
     <leader>00651nam a22001575? 4500</leader>
@@ -126,6 +134,16 @@
       <subfield code="o">.TECHSTAFF. c:al</subfield>
       <subfield code="o">.TECHSTAFF. PUB 1/22/91/pb</subfield>
       <subfield code="o">.TECHSTAFF. MIDSPINE.v.31 suppl.</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">CB3 .A6 SUPPL. V.32</subfield>
+      <subfield code="w">LC</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">36105035087093</subfield>
+      <subfield code="k">CHECKEDOUT</subfield>
+      <subfield code="l">STACKS</subfield>
+      <subfield code="m">GREEN</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
