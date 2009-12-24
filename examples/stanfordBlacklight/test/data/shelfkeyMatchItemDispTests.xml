@@ -1,5 +1,5 @@
 <collection xmlns="http://www.loc.gov/MARC21/slim">
-    <record xmlns="http://www.loc.gov/MARC21/slim">
+    <record>
         <leader>01635cas a2200337 a 4500</leader>
         <controlfield tag="001">a5788269</controlfield>
         <controlfield tag='008'>030515c200u9999cauau        s0    0eng d</controlfield>
@@ -17,6 +17,14 @@
             <subfield code="s">Y</subfield>
             <subfield code="t">GOVSTKS</subfield>
             <subfield code="u">1/17/2007</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">CALIF A125 .A34 2003</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105122888544</subfield>
+            <subfield code="l">CALIF-DOCS</subfield>
+            <subfield code="m">GREEN</subfield>
         </datafield>
     </record>
     <record>
@@ -89,8 +97,16 @@
             <subfield code="o">.TECHSTAFF. tf:SAL 02/25/05 batch</subfield>
             <subfield code="o">.TECHSTAFF. i:vtd 9/13/2002</subfield>
         </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">553.2805 .P187 V.1-2 1919-1920</subfield>
+            <subfield code="w">DEWEYPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105027549076</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL3</subfield>
+        </datafield>
     </record>
-    <record xmlns="http://www.loc.gov/MARC21/slim">
+    <record>
         <leader>08088cas a22008051i 4500</leader>
         <controlfield tag="001">a373759</controlfield>
         <controlfield tag='008'>970819d19191978enksrzp       0   a0eng  </controlfield>
@@ -110,6 +126,14 @@
             <subfield code="u">10/24/2002</subfield>
             <subfield code="o">.TECHSTAFF. tf:SAL 02/25/05 batch</subfield>
             <subfield code="o">.TECHSTAFF. i:vtd10/24/2002</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">553.2805 .P494 V.11 1924:JUL.-DEC</subfield>
+            <subfield code="w">DEWEYPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105027313986</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL3</subfield>
         </datafield>
     </record>
     

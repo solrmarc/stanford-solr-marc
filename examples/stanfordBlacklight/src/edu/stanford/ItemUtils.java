@@ -2,6 +2,8 @@ package edu.stanford;
 
 import java.util.*;
 
+import org.solrmarc.tools.Utils;
+
 /**
  * Utility methods for item information Stanford SolrMarc
  *  
@@ -27,38 +29,62 @@ public class ItemUtils {
 	protected static final String GOV_DOC_UNKNOWN_FACET_VAL = "Other";
 	
 	/**
+	 * lop call numbers in Item objects if there is more than one Item with
+	 *  the same library-translated home loc-scheme combination; otherwise
+	 *  don't lop the call numbers.  (Don't lop skipped callnumbers)
+	 * SIDE EFFECT: changes state of passed Item objects to reflect lopping
+	 *  as indicated
 	 * @param itemSet - set of Item objects that does NOT include any items
 	 *  to be skipped
-	 * @return
+	 * @param locationMap - mapping from raw locations to translated location
 	 */
-//	private static Map<String, Set<String>> getLibLocScheme2Callnums(Set<Item> itemSet) {
-//		Map<String, Set<String>> libLocScheme2Callnums = new HashMap();
-//		for (Item item : itemSet) {
-//
-//			String library = item.getLibrary();
-//			String homeLoc = item.getHomeLoc();
-//			String callnumScheme = item.getCallnumScheme();
-//
-//			String callnum = item.getCallnum();
-//			if (callnum.length() == 0)
-//				continue;
-//
-//			String key = library + ":" + homeLoc;
-//			if (callnumScheme.startsWith("LC"))
-//				key = key + ":LC";
-//			else if (callnumScheme.startsWith("DEWEY"))
-//				key = key + ":DEWEY";
-//			else
-//				key = key + ":" + callnumScheme;
-//
-//			Set<String> currVal = libLocScheme2Callnums.get(key);
-//			if (currVal == null)
-//				currVal = new HashSet<String>();
-//			currVal.add(callnum);
-//			libLocScheme2Callnums.put(key, currVal);
-//		}
-//		return libLocScheme2Callnums;
-//	}
+	static void lopItemCallnums(Set<Item> itemSet, Map<String,String> locationMap) 
+	{
+		if (itemSet.size() == 0)
+			return;
+		if (itemSet.size() == 1) {
+			Item[] array = new Item[1];
+			Item item = itemSet.toArray(array)[0];
+			item.setLoppedCallnum(item.getCallnum());
+		}
+		else {
+			// set up data structure grouping items by lib/loc/scheme
+			Map<String, Set<Item>> libLocScheme2Items = new HashMap<String, Set<Item>>();
+			for (Item item : itemSet) {
+				if (item.hasIgnoredCallnum())
+					continue;
+				String library = item.getLibrary();
+				String homeLoc = item.getHomeLoc();
+				String translatedHomeLoc = Utils.remap(homeLoc, locationMap, true);
+				String callnumScheme = item.getCallnumScheme();
+
+				String key = library + ":" + translatedHomeLoc;
+				if (callnumScheme.startsWith("LC"))
+					key = key + ":LC";
+				else if (callnumScheme.startsWith("DEWEY"))
+					key = key + ":DEWEY";
+				else
+					key = key + ":" + callnumScheme;
+				
+				Set<Item> currVal = libLocScheme2Items.get(key);
+				if (currVal == null)
+					currVal = new HashSet<Item>();
+				currVal.add(item);
+				libLocScheme2Items.put(key, currVal);
+			}
+			
+			// process Item objects as necessary
+			for (String key : libLocScheme2Items.keySet()) {
+				Set<Item> items = libLocScheme2Items.get(key);
+				if (items.size() == 1) {
+					Item[] array = new Item[1];
+					Item item = items.toArray(array)[0];
+					item.setLoppedCallnum(item.getCallnum());
+				}
+				// otherwise, normal lopping will occur
+			}
+		}
+	}
 
 	/**
 	 * get the type of government document given a location code for a

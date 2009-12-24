@@ -29,7 +29,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 
 @Before
 	public final void setup() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		mappingTestInit();
 	}	
@@ -126,7 +125,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testTopFacetLC() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "callnum_top_facet";
 		
@@ -155,7 +153,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testLCAlphaFacet() 
-		throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "lc_alpha_facet";
 		
@@ -196,7 +193,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testLCB4Cutter() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "lc_b4cutter_facet";
 		
@@ -235,7 +231,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testSearchLC() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "callnum_search";
 	
@@ -294,7 +289,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testTopFacetDewey() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "callnum_top_facet";
 		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
@@ -312,7 +306,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testLevel2FacetDewey() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "dewey_1digit_facet";
 		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, "100s - Philosophy & Psychology");
@@ -334,7 +327,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testLevel3FacetDewey() 
-		throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "dewey_2digit_facet";
 		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, "150s - Psychology");
@@ -356,7 +348,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testLevel4FacetDewey() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "dewey_b4cutter_facet";
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "690002", fldName, "159");
@@ -381,7 +372,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testSearchDewey() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "callnum_search";		
 		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, "159.32 .W211");
@@ -403,7 +393,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testDeweyLeadingZeros() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "dewey_1digit_facet";
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, "000s - Computer Science, Information & General Works");
@@ -438,7 +427,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testGovtDocFromSUDOC() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "callnum_top_facet";
 		solrFldMapTest.assertSolrFldValue(testFilePath, "2557826", fldName, govDocStr);
@@ -453,7 +441,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testGovDocFromLocation() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "callnum_top_facet";
 	    testFilePath = testDataParentPath + File.separator + "callNumberGovDocTests.mrc";
@@ -482,7 +469,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testLevel2FacetGovDoc() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "gov_doc_type_facet";		
 	    testFilePath = testDataParentPath + File.separator + "callNumberGovDocTests.mrc";
@@ -505,7 +491,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testAccessOnlineFrom999() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "access_facet";
 		String fldVal = Access.ONLINE.toString();
@@ -521,7 +506,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testIgnoreShelbyLocations() 
-			throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "lc_b4cutter_facet";
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "1111", fldName, "PQ9661");
@@ -605,7 +589,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testShelfkey() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "shelfkey";
 
@@ -703,7 +686,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testReverseShelfkey() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "reverse_shelfkey";
 
@@ -811,7 +793,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testVolumeSortCallnum() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		boolean isSerial = true;
 		String reversePeriodStr = new String(CallNumUtils.reverseNonAlphanum('.'));
@@ -939,7 +920,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public void testLCSerialVolumeSorting() 
-		throws IOException, ParserConfigurationException, SAXException 
 	{
 		String lopped = "B8.14 L3";
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, lcScheme, "fake").toLowerCase();

@@ -8,6 +8,8 @@ import org.junit.runners.Suite;
     	AccessTests.class,
         AuthorTests.class,
         CallNumberTests.class,
+        CallNumLaneJacksonTests.class,
+        CallNumLibLocComboLopTests.class,
         CallNumLoppingUnitTests.class,
         CallNumTopFacetTests.class,
         CallNumUtilsUnitTests.class,

@@ -21,7 +21,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 
 @Before
 	public final void setup() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		mappingTestInit();
 	}	
@@ -32,7 +31,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testDeweyAsLC() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "6276339";
 	    // two items:
@@ -48,7 +46,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testAlphanumAsLC() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "7575731";
 	    // three items:
@@ -65,7 +62,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testWeirdLaneCallnums() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "7278184";
 	    // two items:
@@ -91,7 +87,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testLotsaDigits() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "4779032";
 	    // two items:
@@ -107,7 +102,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testTwoDigitsThenSpace() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "229099";
 	    // two items:
@@ -127,7 +121,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testFourDigitNumeric() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String id = "8373645";
 		// LC:  3781 2009 T
@@ -149,7 +142,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testFourDigitDecimal() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "5319829";
 	    // LC:  4861.1 /3700
@@ -185,7 +177,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testInProcess() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String id = "3315407";
 		// curr loc "INPROCESS"
@@ -199,7 +190,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testEdiInProcess() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "8366720";
 	    // LC:  427331959
@@ -212,7 +202,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testJapaneseInProcess() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String id = "7926635";
 		// LC:   7926635  curr loc INPROCESS   home loc JAPANESE  lib EAST-ASIA
@@ -228,7 +217,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testRareInProcess() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String id = "3495032";
 		// lib SPEC-COLL,  home loc RARE-BOOKS,  curr loc  INPROCESS
@@ -249,7 +237,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testMathCSTechReports() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    // math-cs tech-reports  (home Loc TECH-RPTS)
 	    String id = "4759923";
@@ -266,7 +253,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 //@Test   false positive!
 	public final void testShelbyTitleWeird() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "404891";
 	    // LCPER:  (space)1976  home loc SHELBYTITL
@@ -282,7 +268,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testQuoteCallNum() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "quote";
 	    // home loc:  ASK@GSB   barcode starts JL
@@ -298,7 +283,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testParenCallNums() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "paren";
 		// LC:  (OCOLC)65536925  curr loc B&F-HOLD home loc STACKS lib GREEN
@@ -318,7 +302,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testHyphenCallNums() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "hyphen";
 		// LC:   ---   curr loc B&F-HOLD  home loc STACKS  lib GREEN
@@ -330,7 +313,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testPeriodCallNums() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "period";
 		// LC:   .W42 1996   barcode  LL90670  home loc: ASK@LANE
@@ -344,7 +326,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testQuestionMarkCallNums() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "7603175";
 		// LC:   ???   barcode:  LL205659  home loc ASK@LANE
@@ -357,7 +338,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 //@Test   false positive!
 	public final void testBackTickCallNums() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "7859555";
 		// LC:   >̀PE1130 .H5 H64 1840 HELEK 1  home loc RARE-BOOKS
@@ -370,7 +350,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testLetterICallNums() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "letterI";
 	    // LC:  ISHII  barcode:  JJ182093  home loc ASK@GSB
@@ -383,7 +362,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testInternetResourceCallNum() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "4759923";
 	    // ASIS:  INTERNET RESOURCE
@@ -401,7 +379,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testLetterOCallNums() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "letterO";
 	    // LC:  OYER  barcode:  JJ183012  home loc:  ASK@GSB
@@ -416,7 +393,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testLetterWCallNums() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "letterW";
 	    // LC:  WILLIAMS   barcode JJ182091  home loc ASK@GSB
@@ -429,7 +405,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testLetterXCallNums() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "letterX";
 	    // home loc JAPANESE
@@ -448,7 +423,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testLetterYCallNums() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 	    String id = "letterY";
 	    // LC:  YILMAZ  barcode: JJ181738  home loc ASK@GSB
@@ -464,7 +438,6 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testOnlineResources()
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String myTestFilePath = testDataParentPath + File.separator + "locationTests.mrc";
 

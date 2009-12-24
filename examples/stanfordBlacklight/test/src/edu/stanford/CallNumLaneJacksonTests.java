@@ -2,12 +2,8 @@ package edu.stanford;
 
 import java.io.*;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.junit.*;
 import static org.junit.Assert.*;
-import org.xml.sax.SAXException;
-
 
 /**
  * junit4 tests for Stanford University strange call numbers from Lane and
@@ -21,7 +17,6 @@ public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
 
 @Before
 	public final void setup() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		mappingTestInit();
 	}	
@@ -42,7 +37,6 @@ public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testNoErrorMessages() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
 		PrintStream sysMsgs = new PrintStream(sysBAOS);
@@ -65,7 +59,6 @@ public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testFacetVals() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "callnum_top_facet";
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidLC", fldName, "A - General Works");
@@ -93,7 +86,6 @@ public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testNoShelfkey() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "shelfkey";
 		String lcKey = "a   0027.000000 b0.360000";
@@ -123,7 +115,6 @@ public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testNoReversekey() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "reverse_shelfkey";
 		String lcKey = "a   0027.000000 b0.360000";
@@ -158,7 +149,6 @@ public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testNoPreferredItemBarcode() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "preferred_barcode";
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidLC", fldName, "LL111");
@@ -188,7 +178,6 @@ public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testItemDisplay() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "item_display";
 		String sep = " -|- ";
