@@ -143,7 +143,7 @@ public final class CallNumUtils {
     public static char SORT_FIRST_CHAR = Character.MIN_VALUE;
 	public static StringBuilder reverseDefault = new StringBuilder(75);
 	static {
-		for (int i = 0; i < 75; i++) 
+		for (int i = 0; i < 50; i++) 
 // N.B.:  this char is tough to deal with in a variety of contexts.  
 // Hopefully diacritics and non-latin won't bite us in the butt.
 //			reverseDefault.append(Character.toChars(Character.MAX_CODE_POINT));
