@@ -118,7 +118,7 @@ public class CallNumLibLocComboLopTests extends AbstractStanfordBlacklightTest {
 		String id = "deweyFlavors";
 		assertDeweyVolLopped(id);
 		assertNoUnloppedDeweyVol1(id);
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, deweyVol2Shelfkey);
+		assertNoUnloppedDeweyVol2(id);
 	} 
 
 	/**
@@ -185,7 +185,19 @@ public class CallNumLibLocComboLopTests extends AbstractStanfordBlacklightTest {
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "NO CALL NUMBER");
 	}    
 
-// --------- helper assert methods -----
+	/**
+	 * lop when scheme is incorrect
+	 */
+@Test
+	public void testDeweyAsLC() 
+	{
+		String id = "deweyAsLC";
+		assertDeweyVolLopped(id);
+		assertNoUnloppedDeweyVol1(id);
+		assertNoUnloppedDeweyVol2(id);
+	} 
+	
+// --------- assert helper methods -----
 
 	/**
 	 * assert that the LC call number with Vol 1 used in many test records is not lopped
@@ -251,6 +263,13 @@ public class CallNumLibLocComboLopTests extends AbstractStanfordBlacklightTest {
 	private void assertNoUnloppedDeweyVol1(String id) 
 	{
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, deweyVol1Shelfkey);
+	}    
+	/**
+	 * assert absence of unlopped Dewey Vol2 call number
+	 */
+	private void assertNoUnloppedDeweyVol2(String id) 
+	{
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, deweyVol2Shelfkey);
 	}    
 	/**
 	 * assert that the Dewey call number with Vols used in many test records is lopped

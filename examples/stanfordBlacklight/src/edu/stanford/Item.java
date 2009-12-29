@@ -29,7 +29,8 @@ public class Item {
 	private String normCallnum;
 	private boolean isOnOrder = false;
 	private boolean isInProcess = false;
-	private boolean hasIgnoredCallnum;
+	private boolean hasIgnoredCallnum = false;
+	private boolean hasBadLcLaneJackCallnum = false;
 	/** call number with volume suffix lopped off the end.  Used to remove
 	 * noise in search results and in browsing */
 	private String loppedCallnum = null;
@@ -198,13 +199,18 @@ public class Item {
 
 	/**
 	 * @return true if call number is to be ignored in some contexts
-	 *  (e.g. "NO CALL NUMBER" or "XX(blah)" or Lane/Jackson invalid LC)
+	 *  (e.g. "NO CALL NUMBER" or "XX(blah)")
 	 */
 	public boolean hasIgnoredCallnum() {
-//FIXME:  Lane and Jackson invalid LC should be diff category - they should be searcahble ...
 		return hasIgnoredCallnum;
 	}
 
+	/**
+	 * @return true if call number is Lane or Jackson invalid LC callnum
+	 */
+	public boolean hasBadLcLaneJackCallnum() {
+		return hasBadLcLaneJackCallnum;
+	}
 	
 	/**
 	 * get the lopped call number (any volume suffix is lopped off the end.) 
@@ -305,7 +311,7 @@ public class Item {
 	private void setCallnumVolSort(boolean isSerial) {
 		if (loppedShelfkey == null)
 			// note:  setting loppedShelfkey will also set loppedCallnum
-			loppedShelfkey = edu.stanford.CallNumUtils.getShelfKey(normCallnum, scheme, recId);
+			loppedShelfkey = getShelfkey(isSerial);
 		callnumVolSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(
 					normCallnum, loppedCallnum, loppedShelfkey, scheme, isSerial, recId);
 	}
@@ -329,7 +335,7 @@ public class Item {
 		if (scheme.startsWith("DEWEY")
 				&& !CallNumUtils.isValidDewey(normCallnum)) {
 			System.err.println("record " + recId + " has invalid DEWEY callnumber: " + normCallnum);
-			scheme = "INCORRECTDEWEY";
+			scheme = "ALPHANUM";
 		}
 		else if (STRANGE_CALLNUM_START_CHARS.matcher(normCallnum).matches())
 			System.err.println("record " + recId + " has strange callnumber: " + normCallnum);
@@ -346,10 +352,9 @@ public class Item {
 				scheme = "DEWEY";
 			else
 			{
-// FIXME:  what's the deal with weird Law call numbers?
-				scheme = "INCORRECTLC";
+				scheme = "ALPHANUM";
 				if (library.equals("LANE-MED") || library.equals("JACKSON"))
-					hasIgnoredCallnum = true;
+					hasBadLcLaneJackCallnum = true;
 			}
 		}
 	}

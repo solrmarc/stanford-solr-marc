@@ -59,7 +59,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testMonthSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		// LC
 		String callnum = "BM198.2 .H85 OCT 2006";
@@ -133,7 +132,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testBoxSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1522 BOX 1";
 		String lopped = "M1522";
@@ -151,7 +149,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testCartonSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1479 CARTON 1";
 		String lopped = "M1479";
@@ -169,7 +166,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testFlatBoxSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1522 FLAT BOX 17";
 		String lopped = "M1522";
@@ -187,7 +183,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testHalfBoxSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1522 HALF BOX 1";
 		String lopped = "M1522";
@@ -205,7 +200,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testHalfCartonSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1522 HALF CARTON 1";
 		String lopped = "M1522";
@@ -223,7 +217,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testIndexSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "ML1 .I614 INDEX 1969-1986";
 		String lopped = "ML1 .I614";
@@ -241,7 +234,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testLargeMapFolderSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1522 LARGE MAP FOLDER 26";
 		String lopped = "M1522";
@@ -259,7 +251,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testLargeFolderSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1522 LARGE FOLDER 26";
 		String lopped = "M1522";
@@ -277,7 +268,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testMapFolderSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1522 MAP FOLDER 26";
 		String lopped = "M1522";
@@ -295,10 +285,9 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testMfilmReelSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "CD3031 .A35 T-60 MFILM REEL 3";
-		String lopped = "CD3031 .A35 T-60";
+		String lopped = "CD3031 .A35 T-60 MFILM";
 		String recId = "mfilmReel";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, alphanumScheme, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -313,7 +302,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testOSBoxSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1522 OS BOX 26";
 		String lopped = "M1522";
@@ -331,7 +319,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testOSFolderSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1522 OS FOLDER 26";
 		String lopped = "M1522";
@@ -349,7 +336,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testSmallMapFolderSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1522 SMALL MAP FOLDER 26";
 		String lopped = "M1522";
@@ -367,7 +353,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testSmallFolderSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1522 SMALL FOLDER 26";
 		String lopped = "M1522";
@@ -385,7 +370,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testTubeSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1522 TUBE 26";
 		String lopped = "M1522";
@@ -403,18 +387,23 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testSeriesBoxSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "SC 165 SERIES 5 BOX 1";
 		String lopped = "SC 165";
-		String recId = "seriesBox";
+		String recId = "seriesBox1";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, alphanumScheme, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, alphanumScheme, !isSerial, recId);
 		String fldVal = "36105116222980 -|- SPEC-COLL -|- UARCH-30 -|-  -|- NONCIRC -|- " +
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
+	    callnum = "SC 165 SERIES 5 BOX 2";
+		volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, alphanumScheme, !isSerial, recId);
+		fldVal = "36105116222998 -|- SPEC-COLL -|- UARCH-30 -|-  -|- NONCIRC -|- " +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 		
+	    recId = "seriesBox2";
 		callnum = "M1090 SERIES 24 BOX 1";
 		lopped = "M1090";
 		shelfkey = CallNumUtils.getShelfKey(lopped, alphanumScheme, recId).toLowerCase();
@@ -423,6 +412,11 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 		fldVal = "36105115652104 -|- SPEC-COLL -|- UARCH-30 -|-  -|- NONCIRC -|- " +
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
+		callnum = "M1090 SERIES 17 BOX 234";
+		volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, alphanumScheme, !isSerial, recId);
+		fldVal = "36105116169512 -|- SPEC-COLL -|- UARCH-30 -|-  -|- NONCIRC -|- " +
+		lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+		solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 	}
 
 	/**
@@ -430,7 +424,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testSeriesHalfBoxSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1090 SERIES 16 HALF BOX 1.1";
 		String lopped = "M1090";
@@ -450,11 +443,27 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	}
 
 	/**
+	 * test vol lopping when call number has Series Model Suffix
+	 */
+@Test
+	public void testSeriesModelSuffix() 
+	{
+		String callnum = "M1090 SERIES 19 MODEL 124";
+		String lopped = "M1090";
+		String recId = "seriesBox2";
+		String shelfkey = CallNumUtils.getShelfKey(lopped, alphanumScheme, recId).toLowerCase();
+		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		String volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, alphanumScheme, !isSerial, recId);
+		String fldVal = "36105116165783 -|- SPEC-COLL -|- UARCH-30 -|-  -|- NONCIRC -|- " +
+				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
+	}
+
+	/**
 	 * test vol lopping when call number has series os folder suffix
 	 */
 @Test
 	public void testSeriesOSFolderSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1090 SERIES 16 OS FOLDER 276.3";
 		String lopped = "M1090";
@@ -472,7 +481,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testSeriesSmallFolderSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1090 SERIES 16 SMALL FOLDER 72.06";
 		String lopped = "M1090";
@@ -490,7 +498,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testSeriesSmallMapFolderSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1090 SERIES 16 SMALL MAP FOLDER 72.02";
 		String lopped = "M1090";
@@ -508,7 +515,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testSeriesLargMapFolderSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "M1090 SERIES 16 LARGE MAP FOLDER 276.5";
 		String lopped = "M1090";
@@ -526,7 +532,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testSerialYearSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "QD1 .C59 1975:P.1-742";
 		String lopped = "QD1 .C59";
@@ -550,7 +555,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testNonSerialYearSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "QD1 .C59 1975:P.1-742";
 		String lopped = "QD1 .C59 1975:P.1-742";
@@ -577,20 +581,18 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testCalifGovDocSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "CALIF T900 .J6 V.1-2";
-// FIXME:  problem will get corrected with longest common prefix
-//		String lopped = "CALIF T900 .J6";
-		String lopped = "CALIF";
-		String recId = "govDocCalif";
+		String lopped = "CALIF T900 .J6";
+		String recId = "govDocCalif1";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, alphanumScheme, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, alphanumScheme, !isSerial, recId);
 		String fldVal = "36105123936382 -|- GREEN -|- CALIF-DOCS" + SEP + SEP + "GOVSTKS" + SEP +
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
-		
+
+	    recId = "govDocCalif2";
 		callnum = "CALIF L1080 .J67 V.1-12:NO.1";
 		lopped = "CALIF L1080 .J67";
 		shelfkey = CallNumUtils.getShelfKey(lopped, alphanumScheme, recId).toLowerCase();
@@ -606,7 +608,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testCutterEndsLetLCSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "TX519 .D26S 1954 V.1";
 		String lopped = "TX519 .D26S 1954";
@@ -646,7 +647,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testCutterEndsLetDeweySuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "505 .N285B V.241-245 1973";
 		String lopped = "505 .N285B";
@@ -674,7 +674,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testColonLCSuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = "Q1 .N2 V.434:NO.7031 2005:MAR.17";
 		String lopped = "Q1 .N2";
@@ -692,7 +691,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, recId, fldName, fldVal);
 
-// FIXME:  trailing period now removed
+// FIXME:  trailing period removed by normalization, but shouldn't be
 //		callnum = "Q1 .N2 V.171 1953:JAN.-MAR.";
 		callnum = "Q1 .N2 V.171 1953:JAN.-MAR";
 		volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, lcperScheme, !isSerial, recId);
@@ -716,7 +715,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testColonDeweySuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		// Note:  these are Shelbytitle
 		// String callnum = "505 .N285 V.434:1-680 2005";
@@ -744,7 +742,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	 */
 @Test
 	public void testCallNumVolOnlySuffix() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String callnum = " V.432: NO.7013-7017-7020 2004";
 		String volSuffix = callnum.trim();

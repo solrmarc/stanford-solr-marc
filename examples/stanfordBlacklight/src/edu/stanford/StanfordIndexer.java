@@ -775,7 +775,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			String reversekey = "";
 			String volSort = "";
 			if (!item.isOnline()) {
-				if (!item.hasIgnoredCallnum()) {
+				if (!item.hasIgnoredCallnum() && !item.hasBadLcLaneJackCallnum()) {
 					shelfkey = item.getShelfkey(isSerial);
 					reversekey = item.getReverseShelfkey(isSerial);
 				}
@@ -850,8 +850,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	{
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) {
-// FIXME:  non-LC lane and jackson callnums should be searchable			
-			if (!item.hasShelbyLoc() && !item.hasIgnoredCallnum()) {
+			if (!item.hasShelbyLoc() && !item.hasIgnoredCallnum()
+					&& !item.hasBadLcLaneJackCallnum()) {
 				String callnum = item.getCallnum();
 				if (callnum.length() > 0)
 					result.add(callnum);

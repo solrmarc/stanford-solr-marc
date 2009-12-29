@@ -27,7 +27,6 @@ import org.apache.log4j.Appender;
 import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.Logger;
 import org.marc4j.marc.*;
-import org.solrmarc.marc.MarcImporter;
 
 /**
  * General utility functions for solrmarc
@@ -1061,6 +1060,41 @@ public final class Utils {
         }
 
     }
+
+   /** compares two strings after removing periods and spaces */
+   public static Comparator<String> compareNoPeriodsOrSpaces = new Comparator<String>() 
+   {
+       public int compare(String s1, String s2)
+       {
+           String s1Norm = s1.replaceAll("[. ]", "");
+           String s2Norm = s2.replaceAll("[. ]", "");
+           return s1Norm.compareToIgnoreCase(s2Norm);
+       }
+   };
+   
+	/**
+	 * return the longest prefix common to both strings by checking each
+	 *  character from the beginning for equality.
+	 * @param str1 - first string to be compared
+	 * @param str2 - second string to be compared
+	 * @param comp - comparator used to determine equality of strings
+	 * @return longest prefix common to both strings 
+	 */
+   public static String getCommonPrefix(String str1, String str2, Comparator<String> comp)
+   {
+       int shortestLen = Math.min(str1.length(), str2.length());
+       int prefixLen = shortestLen;
+       for (int i = 0; i < shortestLen; i++)
+       {
+           if (comp.compare(str1.substring(i, i+1), str2.substring(i, i+1) ) != 0)
+           {
+               prefixLen = i;
+               break;
+           }
+       }
+       return (str1.substring(0, prefixLen));
+   }
+	
 
 
 }
