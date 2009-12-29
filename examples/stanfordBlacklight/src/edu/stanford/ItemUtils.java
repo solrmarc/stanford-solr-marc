@@ -77,9 +77,15 @@ public class ItemUtils {
 			for (String key : libLocScheme2Items.keySet()) {
 				Set<Item> items = libLocScheme2Items.get(key);
 				if (items.size() == 1) {
+					// single items are not lopped
 					Item[] array = new Item[1];
 					Item item = items.toArray(array)[0];
 					item.setLoppedCallnum(item.getCallnum());
+				}
+				else if (!key.contains(":LC") && !key.contains(":DEWEY")) {
+					// non-LC, non-Dewey call numbers are lopped longest common
+					//  prefix
+					CallNumUtils.setLopped2LongestComnPfx(items, 4);
 				}
 				// otherwise, normal lopping will occur
 			}
@@ -124,7 +130,8 @@ public class ItemUtils {
 		for (Item item : itemSet) {
 // FIXME:  shelby locations should be checked for by calling routine??
 			if (item.getCallnumScheme().startsWith("LC")
-					&& !item.hasIgnoredCallnum() && !item.hasShelbyLoc()) {
+					&& !item.hasIgnoredCallnum() && !item.hasBadLcLaneJackCallnum()
+					&& !item.hasShelbyLoc()) {
 				String callnum = edu.stanford.CallNumUtils.normalizeLCcallnum(item.getCallnum());
 				if (callnum.length() > 0)
 					result.add(callnum);
@@ -208,7 +215,7 @@ public class ItemUtils {
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) 
 		{
-			if (item.hasIgnoredCallnum() || item.isOnline())
+			if (item.hasIgnoredCallnum() || item.hasBadLcLaneJackCallnum() || item.isOnline())
 				continue;
 
 			if (item.getCallnum().length() == 0)
@@ -233,7 +240,7 @@ public class ItemUtils {
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) 
 		{
-			if (item.hasIgnoredCallnum() || item.isOnline())
+			if (item.hasIgnoredCallnum() || item.hasBadLcLaneJackCallnum() || item.isOnline())
 				continue;
 
 			if (item.getCallnum().length() == 0)
@@ -271,8 +278,8 @@ public class ItemUtils {
 		int longestOtherLen = 0;
 		String bestOtherBarcode = "";
 		for (Item item : itemSet) {
-			if (!item.hasIgnoredCallnum() && !item.isOnline() && 
-					!item.hasShelbyLoc()) {
+			if (!item.hasIgnoredCallnum() && !item.hasBadLcLaneJackCallnum() &&
+					!item.isOnline() && !item.hasShelbyLoc()) {
 				int callnumLen = item.getCallnum().length();
 				String barcode = item.getBarcode();
 				if (item.getCallnumScheme().startsWith("LC")

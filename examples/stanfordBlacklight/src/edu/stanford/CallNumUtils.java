@@ -3,8 +3,7 @@ package edu.stanford;
 import java.util.*;
 import java.util.regex.*;
 
-//import org.solrmarc.tools.CallNumUtils;
-import org.solrmarc.tools.StringNaturalCompare;
+import org.solrmarc.tools.*;
 
 /**
  * Call number utility methods for Stanford solrmarc
@@ -351,242 +350,22 @@ public class CallNumUtils {
 		return rawCallnum;
 	}
 	
-	/**
-	 * given a list of Strings, return the longest common prefix
-	 */
-	static String getLongestCommonPrefix(String[] callnums) 
-	{
-	   	 String result = "";
-		 //   where that item contains the common prefix followed by the volume information
-	     if (callnums == null || callnums.length == 0) 
-	    	 return "";
-	     if (callnums.length == 1)
-	    	 result = callnums[0];
-	     else
-	     {
-             String commonPrefix = callnums[0];
-             for (int i = 1; i < callnums.length; i++)
-             {
-                 commonPrefix = getCommonPrefix(commonPrefix, callnums[i], compareNoPeriodsOrSpaces);
-             }
-             result = commonPrefix.trim();
-	     }
-	     return result;
-	}
-	
-	/**
-	 * return the longest prefix string common to both strings by checking each
-	 *  character from the beginning for equality.
-	 * @param string1 - first string to be compared
-	 * @param string2 - second string to be compared
-	 * @param comp - comparator used to determine equality of strings
-	 * @return longest prefix common to both strings 
-	 */
-    private static String getCommonPrefix(String string1, String string2, Comparator comp)
+    /**
+     * reduce multiple whitespace to single, remove spaces before or after 
+     *   periods, remove spaces between letters and class digits
+     */
+    static String normalizeLCcallnum(String rawLCcallnum) 
     {
-        int len1 = string1.length();
-        int len2 = string2.length();
-        int shortestLen = Math.min(len1, len2);
-        int prefixLen = shortestLen;
-        for (int i = 0; i < shortestLen; i++)
-        {
-            if (comp.compare( string1.substring(i, i+1), string2.substring(i, i+1) ) != 0)
-            {
-                prefixLen = i;
-                break;
-            }
-        }
-        return (string1.substring(0, prefixLen));
+      	// change all multiple whitespace chars to a single space
+        String normalizedCallnum = rawLCcallnum.trim().replaceAll("\\s\\s+", " ");
+        // remove a space before or after a period
+        normalizedCallnum = normalizedCallnum.replaceAll("\\s?\\.\\s?", ".");
+        // remove space between class letters and digits
+        normalizedCallnum = normalizedCallnum.replaceAll("^([A-Z][A-Z]?[A-Z]?) ([0-9])", "$1$2");
+        return normalizedCallnum;
     }
     
-    
-    /**
-     * Return single value containing he common prefix followed by the 
-     * 	 summarized volume information
-     * @param TreeMap of LC normalized call numbers (map guaranteed to be in ascending key order)
-     */
-//     String getConflatedLCcallnum(Map<String, Set<String>> lcNormalizedCallnumTree)
-//     {
-//    	 String result = null;
-//    	 //   where that item contains the common prefix followed by the volume information
-//         if (lcNormalizedCallnumTree == null || lcNormalizedCallnumTree.size() == 0) 
-//        	 return null;
-//         Set<String> keys = lcNormalizedCallnumTree.keySet();
-//         for (String key : keys)
-//         {
-//             Set<String> values = lcNormalizedCallnumTree.get(key);
-//             String valueArr[] = values.toArray(new String[0]);
-//             if (valueArr.length == 1)
-//                 result = valueArr[0];
-//             else
-//             {
-//            	 // find prefix common to all the callnums
-//                 String commonPrefix = valueArr[0];
-//                 for (int i = 1; i < valueArr.length; i++)
-//                 {
-//                     commonPrefix = getCommonPrefix(commonPrefix, valueArr[i], compareNoPeriodsOrSpaces);
-//                 }
-//                 commonPrefix.trim();
-//
-//                 // we now have the common prefix;  use the array values for the "volume" part of the callnums
-//                 for (int i = 0; i < valueArr.length; i++)
-//                 {
-//                     valueArr[i] = valueArr[i].substring(commonPrefix.length());
-//                 }
-//                 Arrays.sort(valueArr, new StringNaturalCompare());
-//
-//                 // make a string of all of the "volume" parts
-//                 StringBuilder sb = new StringBuilder(commonPrefix);
-//                 String sep = " ";
-//                 for (int i = 0; i < valueArr.length; i++)
-//                 {
-//                     if (valueArr[i].length() > 0) 
-//                     {
-//                         sb.append(sep + valueArr[i]);
-//                         sep = ",";
-//                     }
-//                 }
-//                 
-//                 if (sb.length() > 100 || valueArr.length > 10)
-//// FIXME:  they're not always volumes ...                    	 
-//                     result = commonPrefix + " (" + valueArr.length + " volumes)";
-//                 else
-//                     result = sb.toString();
-//             }
-//         }
-//         return result;
-//     }
-     
-     /**
-      * reduce multiple whitespace to single, remove spaces before or after 
-      *   periods, remove spaces between letters and class digits
-      */
-     static String normalizeLCcallnum(String rawLCcallnum) 
-     {
-       	// change all multiple whitespace chars to a single space
-         String normalizedCallnum = rawLCcallnum.trim().replaceAll("\\s\\s+", " ");
-         // remove a space before or after a period
-         normalizedCallnum = normalizedCallnum.replaceAll("\\s?\\.\\s?", ".");
-         // remove space between class letters and digits
-         normalizedCallnum = normalizedCallnum.replaceAll("^([A-Z][A-Z]?[A-Z]?) ([0-9])", "$1$2");
-         return normalizedCallnum;
-     }
-	
-	
-//    private static String getBestSingleCallNumber(Map<String, Set<String>> lcCallnumTreeMap)
-//    {
-//        if (lcCallnumTreeMap == null || lcCallnumTreeMap.size() == 0)
-//            return(null);
-//
-//        String[] bestSet = getLargestCallNumberSubset(lcCallnumTreeMap);
-//        if (bestSet.length == 0) 
-//        	return(null);
-//        
-//        String result = bestSet[0];
-//        // replace any character that is not a letter, digit, or period with a space
-//        result = result.trim().replaceAll("[^A-Za-z0-9.]", " ");
-//    	// change all multiple whitespace chars to a single space
-//        result = result.replaceAll("\\s\\s+", " ");
-//        // remove a space before or after a period
-//        result = result.replaceAll("\\s?\\.\\s?", ".");
-//        
-//        return(result);
-//    }
-    
 
-    /**
-     * Given a tree map of LC call numbers (keyed on first 5 chars of callnum),
-     *  return a sorted array of the largest set of call numbers assigned to a
-     *  single key
-     * @param tree map of LC call numbers, keyed on the first 5 chars of the callnum
-     *   (a map guaranteed to be in ascending key order)
-     * @return a sorted array of LC call numbers that are the largest set of LC 
-     *  call numbers associated with a single key in the treemap
-     */
-    private static String[] getLargestCallNumberSubset(Map<String, Set<String>> lcCallnumTreeMap)
-    {
-        if (lcCallnumTreeMap == null || lcCallnumTreeMap.size() == 0)
-            return(null);
-        
-        int maxNumValues = 0;
-        Set<String> maxValueSet = null;
-        int maxNumLCvalues = 0;
-        Set<String> maxValidLCvalueSet = null;
-
-        Set<String> keys = lcCallnumTreeMap.keySet();
-        for (String key : keys)
-        {
-            Set<String> values = lcCallnumTreeMap.get(key);
-            int numValues = values.size();
-            if (numValues > maxNumValues)
-            {
-                maxNumValues = numValues;
-                maxValueSet = values;
-            }
-            String firstCallnum = values.iterator().next();
-            if (org.solrmarc.tools.CallNumUtils.isValidLC(firstCallnum) && values.size() > maxNumLCvalues)
-            {
-                maxNumLCvalues = numValues;
-                maxValidLCvalueSet = values;
-            }
-        }
-        if (maxValidLCvalueSet == null)
-            maxValidLCvalueSet = maxValueSet;
-
-        String valueArr[] = maxValidLCvalueSet.toArray(new String[0]);
-        Arrays.sort(valueArr, new StringNaturalCompare());
-        return(valueArr);
-    }
-    
-	
-    /**
-     * Extract a set of normalized LC call numbers, as a tree, from a list
-     *  of raw LC call numbers
-     * @param set of LC call numbers as string
-     * @return tree map of call numbers, keyed on the first 5 chars of the callnum
-     *   (a map guaranteed to be in ascending key order)
-     */
-    static Map<String, Set<String>> getLCNormalizedCallnumTree(Set<String> rawLCcallnums)
-    {
-        Map<String, Set<String>> resultTreeMap = new TreeMap<String, Set<String>>();
-        if (rawLCcallnums == null || rawLCcallnums.size() == 0)
-        	return(null);
-        for (String rawLCcallnum : rawLCcallnums)
-        {
-            String normalizedCallnum = normalizeLCcallnum(rawLCcallnum);
-
-            // key is first 5 chars, or length of callnum if < 5, of callnum as upper case
-            String key = normalizedCallnum.substring(0, Math.min(normalizedCallnum.length(), 5)).toUpperCase();
-
-            if (resultTreeMap.containsKey(key))
-            {
-                Set<String> set = resultTreeMap.get(key);
-                set.add(normalizedCallnum);
-                resultTreeMap.put(key, set);
-            }
-            else
-            {
-            	// normed comparator
-                Set<String> set = new TreeSet<String>(compareNoPeriodsOrSpaces);
-                set.add(normalizedCallnum);
-                resultTreeMap.put(key, set);
-            }
-        }
-        return(resultTreeMap);
-    }
-    
-    /** compares two strings after removing periods and spaces */
-    private static Comparator<String> compareNoPeriodsOrSpaces = new Comparator<String>() 
-    {
-        public int compare(String s1, String s2)
-        {
-            String s1Norm = s1.replaceAll("[. ]", "");
-            String s2Norm = s2.replaceAll("[. ]", "");
-            return s1Norm.compareToIgnoreCase(s2Norm);
-        }
-    };
-    
-	
 	/**
 	 * returns true if the entire call number is a volume suffix
 	 * @param rawCallnum
@@ -682,4 +461,104 @@ public class CallNumUtils {
 			// regular shelfkey is correct for sort
 			return getShelfKey(rawCallnum, scheme, recId).toLowerCase();
 	}
+	
+	
+	/**
+	 * given a set of items, assign the lopped call number to be the longest
+	 *  prefix common to the items' call numbers, adjusted for expected 
+	 *  volume strings ("VOL", "ED", etc.)
+	 * @param items
+	 */
+	static void setLopped2LongestComnPfx(Set<Item> items, int minLen) 
+	{
+		// single items are not lopped
+		Item[] itemArray = new Item[items.size()];
+		itemArray = items.toArray(itemArray);
+
+		// find prefix common to all the callnums
+		String commonPrefix = itemArray[0].getCallnum();
+		for (int i = 1; i < itemArray.length; i++)
+		{
+			commonPrefix = Utils.getCommonPrefix(commonPrefix, itemArray[i].getCallnum(), Utils.compareNoPeriodsOrSpaces);
+		}
+		commonPrefix.trim();
+		
+		// watch for ending years (where "19" or "20" is common ...)
+		String yearRegex = "(20|19|18)\\d{2}";
+		Pattern yearPatternAtEnd = Pattern.compile(" " + yearRegex + "$");
+		Pattern yearPatternThenChar = Pattern.compile(" " + yearRegex + "[ -:]$");
+		
+		String partialYearRegex = "(20|19|18)\\d{0,1}";
+		Pattern partialYearPattern = Pattern.compile(" " + partialYearRegex + "$");
+		Matcher matcher = partialYearPattern.matcher(commonPrefix);
+		if (matcher.find()) {
+			String callnum = itemArray[0].getCallnum();
+			// grab common prefix + 3 chars from call number
+			int lenToCheck = commonPrefix.length() + 3;
+			boolean matchedYear = false;
+			if (callnum.length() >= lenToCheck) {
+				matcher = yearPatternThenChar.matcher(callnum.substring(0, lenToCheck));
+				if (matcher.find()) {
+					matchedYear = true;
+					commonPrefix = commonPrefix.substring(0, matcher.start()).trim();					
+				}
+			}
+			// did common prefix end in 2 digits and call number has 2 more chars?
+			if (!matchedYear) {
+				lenToCheck = lenToCheck - 1;
+				if (callnum.length() >= lenToCheck) {
+					matcher = yearPatternAtEnd.matcher(callnum.substring(0, lenToCheck));
+					if (matcher.find()) {
+						matchedYear = true;
+						commonPrefix = commonPrefix.substring(0, matcher.start()).trim();
+					}
+				}
+			}
+			// did common prefix end in 3 digits and call number has 1 more char?
+			if (!matchedYear) {
+				lenToCheck = lenToCheck - 1;
+				if (callnum.length() >= lenToCheck) {
+					matcher = yearPatternAtEnd.matcher(callnum.substring(0, lenToCheck));
+					if (matcher.find()) {
+						commonPrefix = commonPrefix.substring(0, matcher.start()).trim();
+					}
+				}
+			}
+		}
+
+		// adjust the common prefix for volume string endings
+		String prefix = "[ \\.\\(\\:\\/]";
+		String volLettersRegex = "(bd|ed|jahrg|new ser|no|pts?|series|[^a-z]t|v|vols?|vyp)";
+		Pattern volLettersPattern = Pattern.compile(prefix + volLettersRegex, Pattern.CASE_INSENSITIVE);
+		String addlVolRegex = "(box|carton|disc|flat box|grade|half box|half carton|index|large folder|large map folder|map folder|reel|os box|os folder|small folder|small map folder|suppl|tube|series)";
+		Pattern addlVolPattern = Pattern.compile(prefix + addlVolRegex + ".*", Pattern.CASE_INSENSITIVE);
+
+		matcher = volLettersPattern.matcher(commonPrefix);
+		if (!matcher.find()) 
+			matcher = addlVolPattern.matcher(commonPrefix);
+			if (matcher.find(0)) {
+				commonPrefix = commonPrefix.substring(0, matcher.start()).trim();
+		}
+
+		// remove trailing hyphens, colons
+		if (commonPrefix.endsWith("-") || commonPrefix.endsWith(":") || commonPrefix.endsWith("("))
+			commonPrefix = commonPrefix.substring(0, commonPrefix.length() - 1).trim();
+
+		String tooShortRegex = "^(mcd|mdvd|zdvd|mfilm)$";
+		Pattern tooShortPattern = Pattern.compile(tooShortRegex, Pattern.CASE_INSENSITIVE);
+		matcher = tooShortPattern.matcher(commonPrefix);
+		boolean tooShort = false;
+		if (matcher.find() || commonPrefix.length() <= minLen) { 
+			tooShort = true;
+		}
+		for (int i = 0; i < itemArray.length; i++)
+		{
+			if (tooShort) 
+				itemArray[i].setLoppedCallnum(itemArray[i].getCallnum());
+			else {
+				itemArray[i].setLoppedCallnum(commonPrefix.trim());
+			}
+		}
+	}
+
 }

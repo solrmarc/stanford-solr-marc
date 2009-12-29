@@ -6,8 +6,8 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 /**
- * junit4 tests for Stanford University strange call numbers from Lane and
- * Jackson
+ * junit4 tests for Stanford University 
+ *   cope properly with strange call numbers from Lane and Jackson
  * @author Naomi Dushay
  */
 public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
