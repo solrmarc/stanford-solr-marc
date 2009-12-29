@@ -94,7 +94,7 @@
         <controlfield tag="001">akeepOne</controlfield>
         <controlfield tag="008">840514s1962    enk      b    000 0 eng  </controlfield>
         <datafield tag="245" ind1="1" ind2="0">
-            <subfield code="a">math-cs Shadowed location for loading Marcive SLS records and SAL Shadowed location for loading Marcive SLS records</subfield>
+            <subfield code="a">keep one, skip one</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">KEEP</subfield>
