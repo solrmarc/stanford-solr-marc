@@ -189,7 +189,7 @@ public class PublicationUtils {
 							if (first3int == (currYearAsInt / 10) - 1)
 								resultSet.add(PubDateGroup.LAST_10_YEARS.toString());
 
-							if (first3int >= (currYearAsInt / 10) - 6)
+							if (first3int >= (currYearAsInt / 10) - 5)
 								resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
 							else
 								resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
