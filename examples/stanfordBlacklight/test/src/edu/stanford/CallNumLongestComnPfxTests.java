@@ -2,8 +2,9 @@ package edu.stanford;
 
 import java.io.File;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+
+import edu.stanford.enumValues.CallNumberType;
 
 /**
  * junit4 tests for Stanford University 
@@ -161,11 +162,18 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 	{
 		String id = "sudoc";
 		String unlop1 = "C 13.58:";
+		String unlop1Shelfkey = CallNumUtils.getShelfKey(unlop1, CallNumberType.SUDOC, id).toLowerCase();
 		String unlop2 = "C 13.58:6616";
+		String unlop2Shelfkey = CallNumUtils.getShelfKey(unlop2, CallNumberType.SUDOC, id).toLowerCase();
 		String unlop3 = "C 13.58:6628";
+		String unlop3Shelfkey = CallNumUtils.getShelfKey(unlop3, CallNumberType.SUDOC, id).toLowerCase();
 		String lopped = "C 13.58";
-		assertExpectedLopping(id, unlop1, unlop2, lopped);
-		assertExpectedLopping(id, unlop2, unlop3, lopped);
+		String loppedShelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.SUDOC, id).toLowerCase();
+	
+	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, loppedShelfkey);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, unlop1Shelfkey);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, unlop2Shelfkey);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, unlop3Shelfkey);
 	}
 
 	/**
@@ -195,12 +203,12 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String unlop4 = "MCD 10945 (V.91:5)";
 		String lopped34 = "MCD";
 		
-		String unlop1Shelfkey = CallNumUtils.getShelfKey(unlop1, otherScheme, id).toLowerCase();
-		String unlop2Shelfkey = CallNumUtils.getShelfKey(unlop2, otherScheme, id).toLowerCase();
-		String unlop3Shelfkey = CallNumUtils.getShelfKey(unlop3, otherScheme, id).toLowerCase();
-		String unlop4Shelfkey = CallNumUtils.getShelfKey(unlop4, otherScheme, id).toLowerCase();
-		String lopped12Shelfkey = CallNumUtils.getShelfKey(lopped12, otherScheme, id).toLowerCase();
-		String lopped34Shelfkey = CallNumUtils.getShelfKey(lopped34, otherScheme, id).toLowerCase();
+		String unlop1Shelfkey = CallNumUtils.getShelfKey(unlop1, CallNumberType.OTHER, id).toLowerCase();
+		String unlop2Shelfkey = CallNumUtils.getShelfKey(unlop2, CallNumberType.OTHER, id).toLowerCase();
+		String unlop3Shelfkey = CallNumUtils.getShelfKey(unlop3, CallNumberType.OTHER, id).toLowerCase();
+		String unlop4Shelfkey = CallNumUtils.getShelfKey(unlop4, CallNumberType.OTHER, id).toLowerCase();
+		String lopped12Shelfkey = CallNumUtils.getShelfKey(lopped12, CallNumberType.OTHER, id).toLowerCase();
+		String lopped34Shelfkey = CallNumUtils.getShelfKey(lopped34, CallNumberType.OTHER, id).toLowerCase();
 	
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, unlop1Shelfkey);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, unlop2Shelfkey);
@@ -300,12 +308,12 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String barcode = "LL41857";
 		String lib = "LANE-MED";
 		String loc = "ASK@LANE";
-		String volSort = edu.stanford.CallNumUtils.getShelfKey(unlop1, alphanumScheme, id).toLowerCase();
+		String volSort = edu.stanford.CallNumUtils.getShelfKey(unlop1, CallNumberType.OTHER, id).toLowerCase();
 		String fldVal = barcode + sep + lib + sep + loc + sep + sep + sep +
 						lopped + sep + sep + sep + unlop1 + sep + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	    barcode = "LL41858";
-		volSort = edu.stanford.CallNumUtils.getShelfKey(unlop2, alphanumScheme, id).toLowerCase();
+		volSort = edu.stanford.CallNumUtils.getShelfKey(unlop2, CallNumberType.OTHER, id).toLowerCase();
 		fldVal = barcode + sep + lib + sep + loc + sep + sep + sep +
 					lopped + sep + sep + sep + unlop2 + sep + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
@@ -324,9 +332,9 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 	 */
 	private void assertExpectedLopping(String id, String unlop1, String unlop2, String lopped) 
 	{
-		String unlop1Shelfkey = CallNumUtils.getShelfKey(unlop1, otherScheme, id).toLowerCase();
-		String unlop2Shelfkey = CallNumUtils.getShelfKey(unlop2, otherScheme, id).toLowerCase();
-		String loppedShelfkey = CallNumUtils.getShelfKey(lopped, otherScheme, id).toLowerCase();
+		String unlop1Shelfkey = CallNumUtils.getShelfKey(unlop1, CallNumberType.OTHER, id).toLowerCase();
+		String unlop2Shelfkey = CallNumUtils.getShelfKey(unlop2, CallNumberType.OTHER, id).toLowerCase();
+		String loppedShelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, id).toLowerCase();
 	
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, loppedShelfkey);
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, unlop1Shelfkey);

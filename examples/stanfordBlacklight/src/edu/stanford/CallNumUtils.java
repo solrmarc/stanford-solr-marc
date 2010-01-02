@@ -5,6 +5,8 @@ import java.util.regex.*;
 
 import org.solrmarc.tools.*;
 
+import edu.stanford.enumValues.CallNumberType;
+
 /**
  * Call number utility methods for Stanford solrmarc
  * 
@@ -26,7 +28,7 @@ public class CallNumUtils {
     private static final String PUNCT_PREFIX = "([\\.:\\/\\(])?";
 	private static final String NS_PREFIX = "(n\\.s\\.?\\,? ?)?";
 	private static final String MONTHS = "jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec";
-	private static final String VOL_LETTERS = "[\\:\\/]?(bd|ed|jahrg|new ser|no|pts?|ser|[^a-z]t|v|vols?|vyp" + "|" + MONTHS + ")";
+	private static final String VOL_LETTERS = "[\\:\\/]?(bd|ed|iss|jahrg|new ser|no|part|pts?|ser|[^a-z]t|v|vols?|vyp" + "|" + MONTHS + ")";
 	private static final String VOL_NUMBERS = "\\d+([\\/-]\\d+)?( \\d{4}([\\/-]\\d{4})?)?( ?suppl\\.?)?";
 	private static final String VOL_NUMBERS_LOOSER = "\\d+.*";
 	private static final String VOL_NUM_AS_LETTERS = "[A-Z]([\\/-]\\[A-Z]+)?.*";
@@ -262,17 +264,17 @@ public class CallNumUtils {
 	 *  just goes for it
 	 *   this is called for non-Dewey, non-LC call numbers.
 	 * @param rawCallnum
-	 * @param callnumScheme - the scheme of this call number, such as SUDOC, ALPHANUM
+	 * @param callnumType - the type of this call number, such as SUDOC, ALPHANUM
 	 * @return call number without the volume information, or full call number
 	 *   if no volume information is present.
 	 */
-	static String removeNonLCDeweyVolSuffix(String rawCallnum, String callnumScheme) 
+	static String removeNonLCDeweyVolSuffix(String rawCallnum, CallNumberType callnumType) 
 	{
 		if (!isLoppableCallnum(rawCallnum))
 			return rawCallnum;
 
 		String lopped = rawCallnum;
-		if (!callnumScheme.equals("SUDOC"))
+		if (callnumType != CallNumberType.SUDOC)
 			// look for archive type stuff (flat box, etc.)
 			lopped = removeAddlVolSuffix(rawCallnum);
 		
@@ -293,32 +295,28 @@ public class CallNumUtils {
 					lopped = rawCallnum.substring(0, ix).trim();
 				}
 			}
-			// last ditch attempt for SUDOC, which wasn't tried above
-//			else if (callnumScheme.equals("SUDOC"))
-//				lopped = removeMoreVolSuffix(rawCallnum);
 		}
 		
 		if (lopped.length() < 5)
 			return rawCallnum;
 		return lopped;
 	}
-	
-	
+		
 	/**
 	 * remove volume suffix from call number if it is present.  Call number is
 	 *  for a serial, so if the suffix starts with a year, it can be removed.
 	 *   this is called for non-Dewey, non-LC call numbers.
 	 * @param rawCallnum
-	 * @param callnumScheme - the scheme of this call number, such as SUDOC, ALPHANUM
+	 * @param callnumType - the type of this call number, such as SUDOC, ALPHANUM
 	 * @return call number without the volume information, or full call number
 	 *   if no volume information is present.
 	 */
-	static String removeNonLCDeweySerialVolSuffix(String rawCallnum, String callnumScheme)
+	static String removeNonLCDeweySerialVolSuffix(String rawCallnum, CallNumberType callnumType)
 	{
 		if (!isLoppableCallnum(rawCallnum))
 			return rawCallnum;
 
-		String lopped = removeNonLCDeweyVolSuffix(rawCallnum, callnumScheme);
+		String lopped = removeNonLCDeweyVolSuffix(rawCallnum, callnumType);
 		if (lopped.length() > 10) {
 			String loppedMore = removeAddlSerialSuffix(lopped);
 			if (loppedMore.length() >= 5)
@@ -328,7 +326,6 @@ public class CallNumUtils {
 			return rawCallnum;
 		return lopped;
 	}
-
 	
 	/**
 	 * go after more localized call number suffixes, such as "box" "carton"
@@ -401,27 +398,32 @@ public class CallNumUtils {
 	/**
 	 * return a sortable shelving key for the call number
 	 * @param rawCallnum - the call number for which a shelfkey is desired
-	 * @param scheme - what kind of call number it is
+	 * @param type - what kind of call number it is (LC, DEWEY ...)
 	 * @param recId - record id, for error messages
 	 */
-	static String getShelfKey(String rawCallnum, String scheme, String recId) {
+	static String getShelfKey(String rawCallnum, CallNumberType type, String recId) {
 		String result = "";
 		if (rawCallnum.equals(""))
 			return result;
 		try {
-			if (scheme.startsWith("LC"))
-				result = org.solrmarc.tools.CallNumUtils.getLCShelfkey(rawCallnum, recId);
-			else if (scheme.startsWith("DEWEY"))
-				result = org.solrmarc.tools.CallNumUtils.getDeweyShelfKey(rawCallnum);
+			if (type == CallNumberType.LC)
+				result = type.getPrefix() + org.solrmarc.tools.CallNumUtils.getLCShelfkey(rawCallnum, recId);
+			else if (type == CallNumberType.DEWEY)
+				result = type.getPrefix() + org.solrmarc.tools.CallNumUtils.getDeweyShelfKey(rawCallnum);
 		}
 		catch (Exception e) {
 		}
 		if (result == null || result.equals("") 
-				|| result.equals(rawCallnum))
+				|| result.equals(rawCallnum)) {
 			result = getNonLCDeweyShelfKey(rawCallnum, recId);
+			if (type != CallNumberType.LC && type != CallNumberType.DEWEY)
+				result = type.getPrefix() + result;
+			else
+				result = CallNumberType.OTHER.getPrefix() + result;
+		}
 			
 		if (result == null || result.equals(""))
-			result = rawCallnum;
+			result = CallNumberType.OTHER.getPrefix() + rawCallnum;
 		
 		return result;
 	}
@@ -437,12 +439,12 @@ public class CallNumUtils {
 	 * @param rawCallnum
 	 * @param loppedCallnum - the call number with volume/part information lopped off
 	 * @param loppedShelfkey - shelfkey for the lopped callnum
-	 * @param scheme - the call number scheme (e.g. LC, DEWEY, SUDOC ...)
+	 * @param callnumType - the call number type (e.g. LC, DEWEY, SUDOC ...)
 	 * @param isSerial - true if the call number is for a serial 
 	 * @param recId - record id, for error messages
 	 * @return empty string if given empty string or null, o.w. the goods
 	 */
-	static String getVolumeSortCallnum(String rawCallnum, String loppedCallnum, String loppedShelfkey, String scheme, boolean isSerial, String recId) 
+	static String getVolumeSortCallnum(String rawCallnum, String loppedCallnum, String loppedShelfkey, CallNumberType callnumType, boolean isSerial, String recId) 
 	{
 		if (rawCallnum == null || rawCallnum.length() == 0)
 			return "";
@@ -459,8 +461,9 @@ public class CallNumUtils {
 		}
 		else
 			// regular shelfkey is correct for sort
-			return getShelfKey(rawCallnum, scheme, recId).toLowerCase();
+			return getShelfKey(rawCallnum, callnumType, recId).toLowerCase();
 	}
+	
 	
 	
 	/**
@@ -540,8 +543,9 @@ public class CallNumUtils {
 				commonPrefix = commonPrefix.substring(0, matcher.start()).trim();
 		}
 
-		// remove trailing hyphens, colons
-		if (commonPrefix.endsWith("-") || commonPrefix.endsWith(":") || commonPrefix.endsWith("("))
+		// remove trailing hyphens, colons, left parens, slashes
+		if (commonPrefix.endsWith("-") || commonPrefix.endsWith(":") || 
+				commonPrefix.endsWith("(") || commonPrefix.endsWith("/"))
 			commonPrefix = commonPrefix.substring(0, commonPrefix.length() - 1).trim();
 
 		String tooShortRegex = "^(mcd|mdvd|zdvd|mfilm)$";

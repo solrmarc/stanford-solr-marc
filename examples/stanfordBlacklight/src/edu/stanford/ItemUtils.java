@@ -4,6 +4,8 @@ import java.util.*;
 
 import org.solrmarc.tools.Utils;
 
+import edu.stanford.enumValues.CallNumberType;
+
 /**
  * Utility methods for item information Stanford SolrMarc
  *  
@@ -48,7 +50,7 @@ public class ItemUtils {
 			item.setLoppedCallnum(item.getCallnum());
 		}
 		else {
-			// set up data structure grouping items by lib/loc/scheme
+			// set up data structure grouping items by lib/loc/callnum scheme
 			Map<String, Set<Item>> libLocScheme2Items = new HashMap<String, Set<Item>>();
 			for (Item item : itemSet) {
 				if (item.hasIgnoredCallnum())
@@ -56,15 +58,9 @@ public class ItemUtils {
 				String library = item.getLibrary();
 				String homeLoc = item.getHomeLoc();
 				String translatedHomeLoc = Utils.remap(homeLoc, locationMap, true);
-				String callnumScheme = item.getCallnumScheme();
+				String callnumTypePrefix = item.getCallnumType().getPrefix();
 
-				String key = library + ":" + translatedHomeLoc;
-				if (callnumScheme.startsWith("LC"))
-					key = key + ":LC";
-				else if (callnumScheme.startsWith("DEWEY"))
-					key = key + ":DEWEY";
-				else
-					key = key + ":" + callnumScheme;
+				String key = library + ":" + translatedHomeLoc + ":" + callnumTypePrefix;
 				
 				Set<Item> currVal = libLocScheme2Items.get(key);
 				if (currVal == null)
@@ -82,7 +78,8 @@ public class ItemUtils {
 					Item item = items.toArray(array)[0];
 					item.setLoppedCallnum(item.getCallnum());
 				}
-				else if (!key.contains(":LC") && !key.contains(":DEWEY")) {
+				else if (!key.contains(":" + CallNumberType.LC.getPrefix()) &&
+						!key.contains(":" + CallNumberType.DEWEY.getPrefix()) ) {
 					// non-LC, non-Dewey call numbers are lopped longest common
 					//  prefix
 					CallNumUtils.setLopped2LongestComnPfx(items, 4);
@@ -129,7 +126,7 @@ public class ItemUtils {
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) {
 // FIXME:  shelby locations should be checked for by calling routine??
-			if (item.getCallnumScheme().startsWith("LC")
+			if (item.getCallnumType() == CallNumberType.LC
 					&& !item.hasIgnoredCallnum() && !item.hasBadLcLaneJackCallnum()
 					&& !item.hasShelbyLoc()) {
 				String callnum = edu.stanford.CallNumUtils.normalizeLCcallnum(item.getCallnum());
@@ -150,7 +147,7 @@ public class ItemUtils {
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) {
 // FIXME:  shelby locations should be checked for by calling routine??
-			if (item.getCallnumScheme().startsWith("DEWEY")
+			if (item.getCallnumType() == CallNumberType.DEWEY
 					&& !item.hasIgnoredCallnum() && !item.hasShelbyLoc()) {
 				String callnum = getNormalizedDeweyCallNumber(item);
 				if (callnum.length() > 0)
@@ -166,7 +163,7 @@ public class ItemUtils {
 	 */
 	private static String getNormalizedDeweyCallNumber(Item item)
 	{
-		if (item.getCallnumScheme().startsWith("DEWEY"))
+		if (item.getCallnumType() == CallNumberType.DEWEY)
 			return org.solrmarc.tools.CallNumUtils.addLeadingZeros(item.getCallnum());
 		else
 			return "";
@@ -177,18 +174,18 @@ public class ItemUtils {
 	 * return the call number with the volume part (if it exists) lopped off the
 	 *   end of it.
 	 * @param fullCallnum
-	 * @param scheme - the call number scheme (e.g. LC, DEWEY, SUDOC)
+	 * @param callnumType - the call number type (e.g. LC, DEWEY, SUDOC)
 	 * @param isSerial - true if the call number is for a serial, false o.w.
 	 * @return the lopped call number
 	 */
-	public static String getLoppedCallnum(String fullCallnum, String scheme, boolean isSerial) {
+	public static String getLoppedCallnum(String fullCallnum, CallNumberType callnumType, boolean isSerial) {
 		String loppedCallnum = fullCallnum;
-		if (scheme.startsWith("LC"))
+		if (callnumType == CallNumberType.LC)
 			if (isSerial)
 				loppedCallnum = edu.stanford.CallNumUtils.removeLCSerialVolSuffix(fullCallnum);
 			else
 				loppedCallnum = edu.stanford.CallNumUtils.removeLCVolSuffix(fullCallnum);
-		else if (scheme.startsWith("DEWEY"))
+		else if (callnumType == CallNumberType.DEWEY)
 			if (isSerial)
 				loppedCallnum = edu.stanford.CallNumUtils.removeDeweySerialVolSuffix(fullCallnum);
 			else
@@ -196,9 +193,9 @@ public class ItemUtils {
 		else 
 //TODO: needs to be longest common prefix
 			if (isSerial)
-				loppedCallnum = edu.stanford.CallNumUtils.removeNonLCDeweySerialVolSuffix(fullCallnum, scheme);
+				loppedCallnum = edu.stanford.CallNumUtils.removeNonLCDeweySerialVolSuffix(fullCallnum, callnumType);
 			else
-				loppedCallnum = edu.stanford.CallNumUtils.removeNonLCDeweyVolSuffix(fullCallnum, scheme);
+				loppedCallnum = edu.stanford.CallNumUtils.removeNonLCDeweyVolSuffix(fullCallnum, callnumType);
 
 		return loppedCallnum;
 	}
@@ -282,17 +279,17 @@ public class ItemUtils {
 					!item.isOnline() && !item.hasShelbyLoc()) {
 				int callnumLen = item.getCallnum().length();
 				String barcode = item.getBarcode();
-				if (item.getCallnumScheme().startsWith("LC")
+				if (item.getCallnumType() == CallNumberType.LC
 						&& callnumLen > longestLCLen) {
 					longestLCLen = callnumLen;
 					bestLCBarcode = barcode;
 				}
-				else if (item.getCallnumScheme().startsWith("DEWEY")
+				else if (item.getCallnumType() == CallNumberType.DEWEY
 						&& callnumLen > longestDeweyLen) {
 					longestDeweyLen = callnumLen;
 					bestDeweyBarcode = barcode;
 				}
-				else if (item.getCallnumScheme().equals("SUDOC")
+				else if (item.getCallnumType() == CallNumberType.SUDOC
 						&& callnumLen > longestSudocLen) {
 					longestSudocLen = callnumLen;
 					bestSudocBarcode = barcode;

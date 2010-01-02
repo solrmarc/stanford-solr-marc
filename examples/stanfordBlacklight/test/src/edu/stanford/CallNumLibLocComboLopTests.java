@@ -5,6 +5,8 @@ import java.io.File;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.stanford.enumValues.CallNumberType;
+
 /**
 * junit4 tests for Stanford University 
 *  lopping volume information from call numbers only in the context of multiple occurrences of items in the same
@@ -22,17 +24,17 @@ public class CallNumLibLocComboLopTests extends AbstractStanfordBlacklightTest {
 	private String lcCallnumVol2 = "E184.S75 R47 V.2";
 	private String lcCallnumVol3 = "E184.S75 R47 V.3";
 	private String lcLoppedCallnum = "E184.S75 R47";
-	private String lcVol1Shelfkey = CallNumUtils.getShelfKey(lcCallnumVol1, lcScheme, null).toLowerCase();
-	private String lcVol2Shelfkey = CallNumUtils.getShelfKey(lcCallnumVol2, lcScheme, null).toLowerCase();
-	private String lcVol3Shelfkey = CallNumUtils.getShelfKey(lcCallnumVol3, lcScheme, null).toLowerCase();
-	private String lcLoppedShelfkey = CallNumUtils.getShelfKey(lcLoppedCallnum, lcScheme, null).toLowerCase();
+	private String lcVol1Shelfkey = CallNumUtils.getShelfKey(lcCallnumVol1, CallNumberType.LC, null).toLowerCase();
+	private String lcVol2Shelfkey = CallNumUtils.getShelfKey(lcCallnumVol2, CallNumberType.LC, null).toLowerCase();
+	private String lcVol3Shelfkey = CallNumUtils.getShelfKey(lcCallnumVol3, CallNumberType.LC, null).toLowerCase();
+	private String lcLoppedShelfkey = CallNumUtils.getShelfKey(lcLoppedCallnum, CallNumberType.LC, null).toLowerCase();
 
 	private String deweyCallnumVol1 = "352.042 .C594 ED.1";
 	private String deweyCallnumVol2 = "352.042 .C594 ED.2";
 	private String deweyLoppedCallnum = "352.042 .C594";
-	private String deweyVol1Shelfkey = CallNumUtils.getShelfKey(deweyCallnumVol1, deweyScheme, null).toLowerCase();
-	private String deweyVol2Shelfkey = CallNumUtils.getShelfKey(deweyCallnumVol2, deweyScheme, null).toLowerCase();
-	private String deweyLoppedShelfkey = CallNumUtils.getShelfKey(deweyLoppedCallnum, deweyScheme, null).toLowerCase();
+	private String deweyVol1Shelfkey = CallNumUtils.getShelfKey(deweyCallnumVol1, CallNumberType.DEWEY, null).toLowerCase();
+	private String deweyVol2Shelfkey = CallNumUtils.getShelfKey(deweyCallnumVol2, CallNumberType.DEWEY, null).toLowerCase();
+	private String deweyLoppedShelfkey = CallNumUtils.getShelfKey(deweyLoppedCallnum, CallNumberType.DEWEY, null).toLowerCase();
 
 
 @Before
@@ -56,7 +58,7 @@ public class CallNumLibLocComboLopTests extends AbstractStanfordBlacklightTest {
 
 	    id = "oneAlphanumBox";
 	    String callnum = "M1522 BOX 1";
-	    String shelfkey = CallNumUtils.getShelfKey(callnum, otherScheme, id).toLowerCase();
+	    String shelfkey = CallNumUtils.getShelfKey(callnum, CallNumberType.OTHER, id).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, shelfkey);
 	}
 

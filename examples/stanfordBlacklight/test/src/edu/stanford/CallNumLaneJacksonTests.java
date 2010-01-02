@@ -5,6 +5,8 @@ import java.io.*;
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import edu.stanford.enumValues.CallNumberType;
+
 /**
  * junit4 tests for Stanford University 
  *   cope properly with strange call numbers from Lane and Jackson
@@ -79,6 +81,14 @@ public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
 		solrFldMapTest.assertNoSolrFld(testFilePath, "greenInvalidLC", fldName);
 	}
 	
+	private static String LC_SKEY = "lc a   0027.000000 b0.360000";
+	private static String DEWEY_SKEY = "dewey 666.00000000 t666";
+	private static String OTHER_SKEY = "other y000210 .a000003f000006 001973";
+	private static String LC_RSKEY = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(LC_SKEY).toLowerCase();
+	private static String DEWEY_RSKEY = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(DEWEY_SKEY).toLowerCase();
+	private static String OTHER_RSKEY = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(OTHER_SKEY).toLowerCase();
+
+
 	/**
 	 * There should be no shelfkey values when call number is 
 	 *   invalid LC and library is Lane or Jackson (item will not be part of
@@ -88,12 +98,10 @@ public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
 	public final void testNoShelfkey() 
 	{
 		String fldName = "shelfkey";
-		String lcKey = "a   0027.000000 b0.360000";
-		String deweyKey = "666.00000000 t666";
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidLC", fldName, lcKey);
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidDewey", fldName, deweyKey);
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidLC", fldName, lcKey);
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidDewey", fldName, deweyKey);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidLC", fldName, LC_SKEY);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidDewey", fldName, DEWEY_SKEY);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidLC", fldName, LC_SKEY);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidDewey", fldName, DEWEY_SKEY);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "7811196", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "8238755", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "8373645", fldName);
@@ -105,7 +113,7 @@ public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
 		solrFldMapTest.assertNoSolrFld(testFilePath, "7603175", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "letterO", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "letterY", fldName);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "greenInvalidLC", fldName, "y000210 .a000003f000006 001973");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "greenInvalidLC", fldName, OTHER_SKEY);
 	}
 
 	/**
@@ -117,14 +125,10 @@ public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
 	public final void testNoReversekey() 
 	{
 		String fldName = "reverse_shelfkey";
-		String lcKey = "a   0027.000000 b0.360000";
-		String lcReverseKey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(lcKey).toLowerCase();
-		String deweyKey = "666.00000000 t666";
-		String deweyReverseKey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(deweyKey).toLowerCase();
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidLC", fldName, lcReverseKey);
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidDewey", fldName, deweyReverseKey);
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidLC", fldName, lcReverseKey);
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidDewey", fldName, deweyReverseKey);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidLC", fldName, LC_RSKEY);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidDewey", fldName, DEWEY_RSKEY);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidLC", fldName, LC_RSKEY);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidDewey", fldName, DEWEY_RSKEY);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "7811196", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "8238755", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "8373645", fldName);
@@ -136,9 +140,7 @@ public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
 		solrFldMapTest.assertNoSolrFld(testFilePath, "7603175", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "letterO", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "letterY", fldName);
-		String key = "y000210 .a000003f000006 001973";
-		String rkey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(key).toLowerCase();
-		solrFldMapTest.assertSolrFldValue(testFilePath, "greenInvalidLC", fldName, rkey);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "greenInvalidLC", fldName, OTHER_RSKEY);
 	}
 
 
@@ -187,22 +189,18 @@ public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
 		String ASK_LANE = "ASK@LANE";
 		String ASK_JACK = "ASK@GSB";
 		String callnum = "A27 .B36";
-		String shelfkey = "a   0027.000000 b0.360000";
-		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		String fldVal = barcode + sep + LANE + sep + ASK_LANE + sep + sep + sep +
-						callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + shelfkey;
+						callnum + sep + LC_SKEY + sep + LC_RSKEY + sep + callnum + sep + LC_SKEY;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidLC", fldName, fldVal);
 		fldVal = "JJ111" + sep + JACKSON + sep + ASK_JACK + sep + sep + sep +
-					callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + shelfkey;
+					callnum + sep + LC_SKEY + sep + LC_RSKEY + sep + callnum + sep + LC_SKEY;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidLC", fldName, fldVal);
 	    callnum = "666 .T666";
-		shelfkey = "666.00000000 t666";
-		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		fldVal = "JJ666" + sep + JACKSON + sep + ASK_JACK + sep + sep + sep +
-					callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + shelfkey;
+					callnum + sep + DEWEY_SKEY + sep + DEWEY_RSKEY + sep + callnum + sep + DEWEY_SKEY;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidDewey", fldName, fldVal);
 		fldVal = "LL666" + sep + LANE + sep + ASK_LANE + sep + sep + sep +
-					callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + shelfkey;
+					callnum + sep + DEWEY_SKEY + sep + DEWEY_RSKEY + sep + callnum + sep + DEWEY_SKEY;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidDewey", fldName, fldVal);
 	    
 	    String id = "7811196";
@@ -263,10 +261,8 @@ public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
 
 		barcode = "94025";
 		callnum = "Y210 .A3F6 1973";
-		shelfkey = "y000210 .a000003f000006 001973";
-		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		fldVal = barcode + sep + "GREEN" + sep + "STACKS" + sep + sep + sep +
-					callnum + sep + shelfkey + sep + reversekey + sep + callnum + sep + shelfkey;
+					callnum + sep + OTHER_SKEY + sep + OTHER_RSKEY + sep + callnum + sep + OTHER_SKEY;
 		solrFldMapTest.assertSolrFldValue(testFilePath, "greenInvalidLC", fldName, fldVal);
 	}
 
@@ -281,7 +277,7 @@ public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
 		String SEP = " -|- ";
 		String LANE = "LANE-MED";
 		String ASK_LANE = "ASK@LANE";
-	    String shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, "NONLC", id).toLowerCase();
+	    String shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.OTHER, id).toLowerCase();
 		return barcode + SEP + LANE + SEP + ASK_LANE + SEP + SEP + SEP +
 				callnum + SEP + SEP + SEP + callnum + SEP + shelfkey;
 	}
@@ -296,7 +292,7 @@ public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
 		String SEP = " -|- ";
 		String JACKSON = "JACKSON";
 		String ASK_JACK = "ASK@GSB";
-	    String shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, "NONLC", id).toLowerCase();
+	    String shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.OTHER, id).toLowerCase();
 		return barcode + SEP + JACKSON + SEP + ASK_JACK + SEP + SEP + SEP +
 				callnum + SEP + SEP + SEP + callnum + SEP + shelfkey;
 	}
