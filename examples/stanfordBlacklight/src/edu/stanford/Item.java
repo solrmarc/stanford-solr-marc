@@ -5,6 +5,8 @@ import java.util.regex.Pattern;
 import org.marc4j.marc.DataField;
 import org.solrmarc.tools.CallNumUtils;
 
+import edu.stanford.enumValues.CallNumberType;
+
 /**
  * Item object for Stanford SolrMarc
  * @author Naomi Dushay
@@ -15,15 +17,14 @@ public class Item {
 	private final String recId;
 	private final String barcode;
 	private final String library;
-	private final String type;
-	/** scheme is LC, LCPER, DEWEY, DEWEYPER, SUDOC, ALPHANUM, ASIS ... */
-	private String scheme;
+	private final String itemType;
 	private final boolean shouldBeSkipped;
 	private final boolean hasGovDocLoc;
 	private final boolean isOnline;
 	private final boolean hasShelbyLoc;
 
 	/* normal instance variables */
+	private CallNumberType callnumType;
 	private String homeLoc;
 	private String currLoc;
 	private String normCallnum;
@@ -68,13 +69,13 @@ public class Item {
 		currLoc = GenericUtils.getSubfieldTrimmed(f999, 'k');
 		homeLoc = GenericUtils.getSubfieldTrimmed(f999, 'l');
 		library = GenericUtils.getSubfieldTrimmed(f999, 'm');
-		type = GenericUtils.getSubfieldTrimmed(f999, 't');
-		scheme = GenericUtils.getSubfieldTrimmed(f999, 'w');
+		itemType = GenericUtils.getSubfieldTrimmed(f999, 't');
+		String scheme = GenericUtils.getSubfieldTrimmed(f999, 'w');
 		String rawCallnum = GenericUtils.getSubfieldTrimmed(f999, 'a');
 				
 		if (StanfordIndexer.SKIPPED_LOCS.contains(currLoc)
 					|| StanfordIndexer.SKIPPED_LOCS.contains(homeLoc) 
-					|| type.equals("EDI-REMOVE"))
+					|| itemType.equals("EDI-REMOVE"))
 			shouldBeSkipped = true;
 		else 
 			shouldBeSkipped = false;
@@ -97,8 +98,9 @@ public class Item {
 		else
 			hasIgnoredCallnum = false;
 		
+		assignCallnumType(scheme);
 		if (!hasIgnoredCallnum) {
-			if (scheme.startsWith("LC") || scheme.startsWith("DEWEY"))
+			if (callnumType == CallNumberType.LC || callnumType == CallNumberType.DEWEY)
 				normCallnum = CallNumUtils.normalizeCallnum(rawCallnum);
 			else
 				normCallnum = rawCallnum.trim();
@@ -139,15 +141,15 @@ public class Item {
 	}
 
 	public String getType() {
-		return type;
+		return itemType;
 	}
 
 	public String getCallnum() {
 		return normCallnum;
 	}
 
-	public String getCallnumScheme() {
-		return scheme;
+	public CallNumberType getCallnumType() {
+		return callnumType;
 	}
 	
 	/**
@@ -231,7 +233,7 @@ public class Item {
 	 *   year suffix should be lopped in addition to regular volume lopping.
 	 */
 	private void setLoppedCallnum(boolean isSerial) {
-		loppedCallnum = ItemUtils.getLoppedCallnum(normCallnum, scheme, isSerial);
+		loppedCallnum = ItemUtils.getLoppedCallnum(normCallnum, callnumType, isSerial);
 	}
 
 	/**
@@ -262,7 +264,7 @@ public class Item {
 	private void setShelfkey(boolean isSerial) {
 		if (loppedCallnum == null)
 			setLoppedCallnum(isSerial);
-		loppedShelfkey = edu.stanford.CallNumUtils.getShelfKey(loppedCallnum, scheme, recId);
+		loppedShelfkey = edu.stanford.CallNumUtils.getShelfKey(loppedCallnum, callnumType, recId);
 	}
 
 	
@@ -313,29 +315,29 @@ public class Item {
 			// note:  setting loppedShelfkey will also set loppedCallnum
 			loppedShelfkey = getShelfkey(isSerial);
 		callnumVolSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(
-					normCallnum, loppedCallnum, loppedShelfkey, scheme, isSerial, recId);
+				normCallnum, loppedCallnum, loppedShelfkey, callnumType, isSerial, recId);
 	}
 
 	
-	
 	/** call numbers must start with a letter or digit */
     private static final Pattern STRANGE_CALLNUM_START_CHARS = Pattern.compile("^\\p{Alnum}");
+    
 	/**
 	 * output an error message if the call number is supposed to be LC or DEWEY
 	 *  but is invalid
 	 * @param recId the id of the record, used in error message
 	 */
 	private void validateCallnum(String recId) {
-		if (scheme.startsWith("LC") 
+		if (callnumType == CallNumberType.LC
 				&& !CallNumUtils.isValidLC(normCallnum)) {
 			if (!library.equals("LANE-MED") && !library.equals("JACKSON"))
 				System.err.println("record " + recId + " has invalid LC callnumber: " + normCallnum);
-			adjustLCCallnumScheme(recId);
+			adjustLCCallnumType(recId);
 		}
-		if (scheme.startsWith("DEWEY")
+		if (callnumType == CallNumberType.DEWEY
 				&& !CallNumUtils.isValidDewey(normCallnum)) {
 			System.err.println("record " + recId + " has invalid DEWEY callnumber: " + normCallnum);
-			scheme = "ALPHANUM";
+			callnumType = CallNumberType.OTHER;
 		}
 		else if (STRANGE_CALLNUM_START_CHARS.matcher(normCallnum).matches())
 			System.err.println("record " + recId + " has strange callnumber: " + normCallnum);
@@ -346,13 +348,14 @@ public class Item {
 	 *   incorrectly to a Dewey or ALPHANUM call number.  Called after  
 	 *   printMsgIfInvalidCallnum has already found invalid LC call number
 	 */
-	private void adjustLCCallnumScheme(String id) {
-		if (scheme.startsWith("LC")) {
-			if (CallNumUtils.isValidDewey(normCallnum))
-				scheme = "DEWEY";
+	private void adjustLCCallnumType(String id) {
+		if (callnumType == CallNumberType.LC) {
+			if (CallNumUtils.isValidDewey(normCallnum)) 
+				callnumType = CallNumberType.DEWEY;
 			else
 			{
-				scheme = "ALPHANUM";
+//  FIXME:   this is no good if the call number is SUDOC but mislabeled LC ...				
+				callnumType = CallNumberType.OTHER;
 				if (library.equals("LANE-MED") || library.equals("JACKSON"))
 					hasBadLcLaneJackCallnum = true;
 			}
@@ -395,5 +398,18 @@ public class Item {
 		}
 	}
 
+	/**
+	 * assign a value to callnumType based on scheme ...
+	 */
+	private void assignCallnumType(String scheme) {
+		if (scheme.startsWith("LC"))
+			callnumType = CallNumberType.LC;
+		else if (scheme.startsWith("DEWEY"))
+			callnumType = CallNumberType.DEWEY;
+		else if (scheme.equals("SUDOC"))
+			callnumType = CallNumberType.SUDOC;
+		else
+			callnumType = CallNumberType.OTHER;
+	}
 	
 }

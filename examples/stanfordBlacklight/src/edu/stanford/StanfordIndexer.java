@@ -241,8 +241,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		// check for format information from 999 ALPHANUM call numbers
 		for (Item item : itemSet) {
-			String scheme = item.getCallnumScheme();
-			if (scheme.equalsIgnoreCase("ALPHANUM")) {
+			if (item.getCallnumType() == CallNumberType.OTHER) {
 				String callnum = item.getCallnum();
 				if (callnum.startsWith("MFILM"))
 					formats.add(Format.MICROFORMAT.toString());
@@ -766,7 +765,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			}
 
 			// full call number & lopped call number
-			String callnumScheme = item.getCallnumScheme();
+			CallNumberType callnumType = item.getCallnumType();
 			String fullCallnum = item.getCallnum();
 			String loppedCallnum = item.getLoppedCallnum(isSerial);
 
@@ -791,7 +790,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				String volSuffix = null;
 				// ensure we're using a true lopped call number -- if only
 				//   one item, this would have been set to full callnum
-				loppedCallnum = ItemUtils.getLoppedCallnum(fullCallnum, callnumScheme, isSerial);
+				loppedCallnum = ItemUtils.getLoppedCallnum(fullCallnum, callnumType, isSerial);
 				if (loppedCallnum != null && loppedCallnum.length() > 0)
 					volSuffix = fullCallnum.substring(loppedCallnum.length()).trim();
 				if ( (volSuffix == null || volSuffix.length() == 0) 
@@ -815,7 +814,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				shelfkey = loppedCallnum.toLowerCase();
 				reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey);
 				isSerial = true;
-				volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(fullCallnum, loppedCallnum, shelfkey, callnumScheme, isSerial, id);
+				volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(fullCallnum, loppedCallnum, shelfkey, edu.stanford.enumValues.CallNumberType.OTHER, isSerial, id);
 			}
 
 			// create field
@@ -980,7 +979,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			if (!item.hasIgnoredCallnum() && !item.isOnline()) {
 				String rawLoc = item.getHomeLoc(); 
 				if (item.hasGovDocLoc() || has086 
-						|| item.getCallnumScheme().equalsIgnoreCase("SUDOC"))
+						|| item.getCallnumType() == CallNumberType.SUDOC)
 					govDocCats.add(ItemUtils.getGovDocTypeFromLocCode(rawLoc));
 			}
 		}
