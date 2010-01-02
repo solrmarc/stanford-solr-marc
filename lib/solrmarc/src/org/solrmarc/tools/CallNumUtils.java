@@ -958,7 +958,7 @@ public final class CallNumUtils {
 	private static String PUNCT_PREFIX = "([\\.:\\/])?";
 	private static String NS_PREFIX = "(n\\.s\\.?\\,? ?)?";
 	private static String MONTHS = "jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec";
-	private static String VOL_LETTERS = "[\\:\\/]?(bd|jahrg|new ser|no|pts?|ser|t|v|vols?|vyp" + "|" + MONTHS + ")";
+	private static String VOL_LETTERS = "[\\:\\/]?(bd|iss|jahrg|new ser|no|part|pts?|ser|t|v|vols?|vyp" + "|" + MONTHS + ")";
 	private static String VOL_NUMBERS = "\\d+([\\/-]\\d+)?( \\d{4}([\\/-]\\d{4})?)?( ?suppl\\.?)?";
 	private static String VOL_NUMBERS_LOOSER = "\\d+.*";
 	private static String VOL_NUM_AS_LETTERS = "[A-Z]([\\/-]\\[A-Z]+)?.*";
