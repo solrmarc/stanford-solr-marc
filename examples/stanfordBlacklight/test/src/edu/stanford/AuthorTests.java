@@ -2,6 +2,7 @@ package edu.stanford;
 
 import static org.junit.Assert.fail;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -16,45 +17,69 @@ import org.xml.sax.SAXException;
  * @author Naomi Dushay
  */
 public class AuthorTests extends AbstractStanfordBlacklightTest {
-	
+
 @Before
 	public final void setup() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("authorTests.mrc");
+		mappingTestInit();
 	}
 	
 // TODO:  problem with eclipse and encoding for non latin  :-(
+
+	/**
+	 * Test author display field properties and such in the context of index
+	 */
+@Test
+	public final void testDisplayFieldsInIx() 
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+		createIxInitVars("displayFieldsTests.mrc");
+
+		String fldName = "author_person_display";
+		assertDisplayFieldProperties(fldName);
+		assertFieldNotMultiValued(fldName);
+		
+		fldName = "author_person_full_display";
+		assertDisplayFieldProperties(fldName);
+		assertFieldNotMultiValued(fldName);
+
+		fldName = "author_corp_display";
+		assertDisplayFieldProperties(fldName);
+		assertFieldNotMultiValued(fldName);
+		
+		fldName = "author_meeting_display";
+		assertDisplayFieldProperties(fldName);
+		assertFieldNotMultiValued(fldName);
+	}
 
 	/**
 	 * Personal name display field tests.
 	 */
 @Test
 	public final void testPersonalNameDisplay() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_person_display";
-		assertDisplayFieldProperties(fldName);
-		assertFieldNotMultiValued(fldName);
+		String testFilePath = testDataParentPath + File.separator + "authorTests.mrc";
 
 		// 100a
 		// trailing period removed
-		assertDocHasFieldValue("345228", fldName, "Bashkov, Vladimir"); 
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "345228", fldName, "Bashkov, Vladimir"); 
 		// 100ad
 		// trailing hyphen retained
-		assertDocHasFieldValue("919006", fldName, "Oeftering, Michael, 1872-"); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "919006", fldName, "Oeftering, Michael, 1872-"); 
 		// 100ae  (e not indexed)
 		// trailing comma should be removed
-		assertDocHasFieldValue("7651581", fldName, "Coutinho, Frederico dos Reys"); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "7651581", fldName, "Coutinho, Frederico dos Reys"); 
 		// 100aqd 
 		// trailing period removed
-		assertDocHasFieldValue("690002", fldName, "Wallin, J. E. Wallace (John Edward Wallace), b. 1876");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, "Wallin, J. E. Wallace (John Edward Wallace), b. 1876");
 		// 100aqd 
-		assertDocHasFieldValue("1261173", fldName, "Johnson, Samuel, 1649-1703");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1261173", fldName, "Johnson, Samuel, 1649-1703");
 		// 'nother sort of trailing period - not removed
-		assertDocHasFieldValue("8634", fldName, "Sallust, 86-34 B.C.");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "8634", fldName, "Sallust, 86-34 B.C.");
 		// 100 with numeric subfield
-		assertDocHasFieldValue("1006", fldName, "Sox on Fox");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1006", fldName, "Sox on Fox");
 		// 100 6a x 2  123456 - non latin - not sure how to express here
 	}
 
@@ -63,20 +88,16 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testFullPersonalNameDisplay() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_person_full_display";
-		assertDisplayFieldProperties(fldName);
-		assertFieldNotMultiValued(fldName);
-
+		String testFilePath = testDataParentPath + File.separator + "authorTests.mrc";
 		// 100ae 
-		assertDocHasFieldValue("7651581", fldName, "Coutinho, Frederico dos Reys, ed."); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "7651581", fldName, "Coutinho, Frederico dos Reys, ed."); 
 		
-		tearDown();
-		createIxInitVars("displayFieldsTests.mrc");
-		assertDocHasFieldValue("1001", fldName, "Seuss, Dr."); 
-		assertDocHasFieldValue("1002", fldName, "Fowler, T. M. (Thaddeus Mortimer) 1842-1922."); 
-		assertDocHasFieldValue("1003", fldName, "Bach, Johann Sebastian."); 
+		testFilePath = testDataParentPath + File.separator + "displayFieldsTests.mrc";
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1001", fldName, "Seuss, Dr."); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1002", fldName, "Fowler, T. M. (Thaddeus Mortimer) 1842-1922."); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1003", fldName, "Bach, Johann Sebastian."); 
 	}
 
 	/**
@@ -84,20 +105,16 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testCorpNameDisplay() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_corp_display";
-		assertDisplayFieldProperties(fldName);
-		assertFieldNotMultiValued(fldName);
-		
+		String testFilePath = testDataParentPath + File.separator + "authorTests.mrc";
 		// 110 
-		assertDocHasFieldValue("NYPL", fldName, "New York Public Library."); 
-		assertDocHasFieldValue("5511738", fldName, "United States. Congress. House. Committee on Agriculture. Subcommittee on Department Operations, Oversight, Nutrition, and Forestry."); 
-		assertDocHasFieldValue("4578538", fldName, "Stanford University. Stanford Electronics Laboratories. SEL-69-048."); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "NYPL", fldName, "New York Public Library."); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5511738", fldName, "United States. Congress. House. Committee on Agriculture. Subcommittee on Department Operations, Oversight, Nutrition, and Forestry."); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "4578538", fldName, "Stanford University. Stanford Electronics Laboratories. SEL-69-048."); 
 
-		tearDown();
-		createIxInitVars("displayFieldsTests.mrc");
-		assertDocHasFieldValue("110", fldName, "United States. Congress (97th, 2nd session : 1982). House."); 
+		testFilePath = testDataParentPath + File.separator + "displayFieldsTests.mrc";
+		solrFldMapTest.assertSolrFldValue(testFilePath, "110", fldName, "United States. Congress (97th, 2nd session : 1982). House."); 
 	}
 
 	/**
@@ -105,40 +122,57 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testMeetingNameDisplay() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_meeting_display";
-		assertDisplayFieldProperties(fldName);
-		assertFieldNotMultiValued(fldName);
-		
+		String testFilePath = testDataParentPath + File.separator + "authorTests.mrc";
+
 		// 111a
-		assertDocHasFieldValue("111faim", fldName, "FAIM (Forum).");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "111faim", fldName, "FAIM (Forum).");
 		// 111 andc
-		assertDocHasFieldValue("5666387", fldName, "International Jean Sibelius Conference (3rd : 2000 : Helsinki, Finland)");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5666387", fldName, "International Jean Sibelius Conference (3rd : 2000 : Helsinki, Finland)");
 	}
 
 	/**
 	 * author_addl_display field - no longer used
 	 */
 //@Test
-	public final void testAuthorAddlDisplay() 
-			throws IOException, ParserConfigurationException, SAXException 
-	{
-		tearDown();
-		createIxInitVars("displayFieldsTests.mrc");
-	
-		String fldName = "author_addl_display";
-		assertDisplayFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
-		
-		assertDocHasFieldValue("711", fldName, "Kat, Bucky, 1995-2008"); 
-		assertDocHasFieldValue("711", fldName, "Rees, Graham L."); 
-		assertDocHasFieldValue("711", fldName, "Frog, Kermit, 1960-"); 
-		assertDocHasFieldValue("722", fldName, "Nypsus, Marcus Iunius. 1993."); 
-		assertDocHasFieldValue("733", fldName, "Mendelssohn-Bartholdy, Felix, 1809-1847."); 
-		assertDocHasFieldValue("733", fldName, "Rumpole, Horace, 1954-1998"); 
-	}
+//	public final void testAuthorAddlDisplay() 
+//	{
+//		String fldName = "author_addl_display";
+//		String testFilePath = testDataParentPath + File.separator + "displayFieldsTests.mrc";
+//
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "711", fldName, "Kat, Bucky, 1995-2008"); 
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "711", fldName, "Rees, Graham L."); 
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "711", fldName, "Frog, Kermit, 1960-"); 
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "722", fldName, "Nypsus, Marcus Iunius. 1993."); 
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "733", fldName, "Mendelssohn-Bartholdy, Felix, 1809-1847."); 
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "733", fldName, "Rumpole, Horace, 1954-1998"); 
+//	}
 
+	/**
+	 * Test author facet field properties and such in the context of index
+	 */
+@Test
+	public final void testFacetFieldsInIx() 
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+		createIxInitVars("authorTests.mrc");
+
+		String fldName = "author_person_facet";
+		assertFacetFieldProperties(fldName);
+		assertFieldOmitsNorms(fldName);
+		assertFieldMultiValued(fldName);
+
+		fldName = "author_corp_facet";
+		assertFacetFieldProperties(fldName);
+		assertFieldOmitsNorms(fldName);
+		assertFieldMultiValued(fldName);
+
+		fldName = "author_meeting_facet";
+		assertFacetFieldProperties(fldName);
+		assertFieldOmitsNorms(fldName);
+		assertFieldMultiValued(fldName);
+	}
 
 	/**
 	 * Personal name facet field tests, especially removal of trailing 
@@ -146,50 +180,48 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testPersonalNameFacet() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_person_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldMultiValued(fldName);
+		String testFilePath = testDataParentPath + File.separator + "authorTests.mrc";
 
 		// 100
 		// trailing period that isn't an initial should be removed
-		assertSingleResult("345228", fldName, "\"Bashkov, Vladimir\"");
-		assertZeroResults(fldName, "\"Bashkov, Vladimir.\"");
-		assertSingleResult("690002", fldName, "\"Wallin, J. E. Wallace (John Edward Wallace), b. 1876\"");
-		assertZeroResults(fldName, "\"Wallin, J. E. Wallace (John Edward Wallace), b. 1876.\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "345228", fldName, "Bashkov, Vladimir");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "345228", fldName, "Bashkov, Vladimir.");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, "Wallin, J. E. Wallace (John Edward Wallace), b. 1876");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "690002", fldName, "Wallin, J. E. Wallace (John Edward Wallace), b. 1876.");
 		// this trailing period should be left in
-		assertSingleResult("8634", fldName, "\"Sallust, 86-34 B.C.\"");
-		assertZeroResults(fldName, "\"Sallust, 86-34 B.C\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "8634", fldName, "Sallust, 86-34 B.C.");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "8634", fldName, "Sallust, 86-34 B.C");
 		// trailing hyphen should be left in
-		assertSingleResult("919006", fldName, "\"Oeftering, Michael, 1872-\"");
-		assertZeroResults(fldName, "\"Oeftering, Michael, 1872\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "919006", fldName, "Oeftering, Michael, 1872-");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "919006", fldName, "Oeftering, Michael, 1872");
 		// trailing comma should be removed
-		assertSingleResult("7651581", fldName, "\"Coutinho, Frederico dos Reys\"");
-		assertZeroResults(fldName, "\"Coutinho, Frederico dos Reys,\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "7651581", fldName, "Coutinho, Frederico dos Reys");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "7651581", fldName, "Coutinho, Frederico dos Reys,");
 		// 700
 		// remove trailing period
-		assertSingleResult("4428936", fldName, "\"Zagarrio, Vito\"");
-		assertZeroResults(fldName, "\"Zagarrio, Vito.\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "4428936", fldName, "Zagarrio, Vito");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "4428936", fldName, "Zagarrio, Vito.");
 		// jackpot: comma, period, hyphen
-		assertSingleResult("700friedman", fldName, "\"Friedman, Eli A., 1933-\"");
-		assertZeroResults(fldName, "\"Friedman, Eli A., 1933-,.\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "700friedman", fldName, "Friedman, Eli A., 1933-");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "700friedman", fldName, "Friedman, Eli A., 1933-,.");
 		// two 700s keep one trailing period, remove one
-		assertSingleResult("harrypotter", fldName, "\"Heyman, David\"");
-		assertSingleResult("harrypotter", fldName, "\"Rowling, J. K.\"");
-		assertZeroResults(fldName, "\"Heyman, David.\"");
-		assertZeroResults(fldName, "\"Rowling, J. K\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "harrypotter", fldName, "Heyman, David");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "harrypotter", fldName, "Rowling, J. K.");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "harrypotter", fldName, "Heyman, David.");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "harrypotter", fldName, "Rowling, J. K");
 		// 100 and 700
-		assertSingleResult("700sayers", fldName, "\"Whimsey, Peter\"");
-		assertSingleResult("700sayers", fldName, "\"Sayers, Dorothy L. (Dorothy Leigh), 1893-1957\"");
-		assertZeroResults(fldName, "\"Whimsey, Peter,\"");
-		assertZeroResults(fldName, "\"Sayers, Dorothy L. (Dorothy Leigh), 1893-1957.\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "700sayers", fldName, "Whimsey, Peter");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "700sayers", fldName, "Sayers, Dorothy L. (Dorothy Leigh), 1893-1957");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "700sayers", fldName, "Whimsey, Peter,");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "700sayers", fldName, "Sayers, Dorothy L. (Dorothy Leigh), 1893-1957.");
 		
 		// no 800
-		assertZeroResults(fldName, "\"Darnell, Jack\"");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "800", fldName, "Darnell, Jack");
+		solrFldMapTest.assertNoSolrFld(testFilePath, "800", fldName);
 		
-		assertSingleResult("1261173", fldName, "\"Johnson, Samuel, 1649-1703\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1261173", fldName, "Johnson, Samuel, 1649-1703");
 	}
 
 
@@ -199,43 +231,41 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testCorporateNameFacet() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_corp_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldMultiValued(fldName);
+		String testFilePath = testDataParentPath + File.separator + "authorTests.mrc";
 	
 		// 110 - trailing period to remove
-		assertSingleResult("110foo", fldName, "\"SAFE Association (U.S.). Symposium\"");
-		assertZeroResults(fldName, "\"SAFE Association (U.S.). Symposium.\"");
-		assertSingleResult("NYPL", fldName, "\"New York Public Library\"");
-		assertZeroResults(fldName, "\"New York Public Library.\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "110foo", fldName, "SAFE Association (U.S.). Symposium");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "110foo", fldName, "SAFE Association (U.S.). Symposium.");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "NYPL", fldName, "New York Public Library");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "NYPL", fldName, "New York Public Library.");
     	// 710 - trailing period to leave in
-		assertSingleResult("6280316", fldName, "\"Julius Bien & Co.\"");
-		assertZeroResults(fldName, "\"Julius Bien & Co\"");
-		assertSingleResult("57136914", fldName, "\"NetLibrary, Inc.\"");
-		assertZeroResults(fldName, "\"NetLibrary, Inc\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "6280316", fldName, "Julius Bien & Co.");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "6280316", fldName, "Julius Bien & Co");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "57136914", fldName, "NetLibrary, Inc.");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "57136914", fldName, "NetLibrary, Inc");
     	// 710 - last char paren
-		assertSingleResult("987666", fldName, "\"(this was a value in a non-latin script)\"");
-		assertZeroResults(fldName, "\"(this was a value in a non-latin script\"");
-		assertSingleResult("710corpname", fldName, "\"Warner Bros. Pictures (1969- )\"");
-		assertZeroResults(fldName, "\"Warner Bros. Pictures (1969- \"");
-		assertZeroResults(fldName, "\"Warner Bros. Pictures (1969-\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "987666", fldName, "(this was a value in a non-latin script)");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "987666", fldName, "(this was a value in a non-latin script");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "710corpname", fldName, "Warner Bros. Pictures (1969- )");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "710corpname", fldName, "Warner Bros. Pictures (1969- ");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "710corpname", fldName, "Warner Bros. Pictures (1969-");
 		// 710 - leading space
-		assertSingleResult("710corpname", fldName, "\"Heyday Films\"");
-		assertZeroResults(fldName, "\" Heyday Films.\"");
-		assertZeroResults(fldName, "\"Heyday Films.\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "710corpname", fldName, "Heyday Films");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "710corpname", fldName, " Heyday Films.");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "710corpname", fldName, "Heyday Films.");
 		
 		// 110 and 710
-		assertSingleResult("110710corpname", fldName, "\"Thelma\"");
-		assertZeroResults(fldName, "\"Thelma.\"");
-		assertSingleResult("110710corpname", fldName, "\"Roaring Woman, Louise. 2000-2001\"");
-		assertZeroResults(fldName, "\"Roaring Woman, Louise\"");
-		assertZeroResults(fldName, "\"Roaring Woman, Louise. 2000-2001.\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "110710corpname", fldName, "Thelma");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "110710corpname", fldName, "Thelma.");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "110710corpname", fldName, "Roaring Woman, Louise. 2000-2001");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "110710corpname", fldName, "Roaring Woman, Louise");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "110710corpname", fldName, "Roaring Woman, Louise. 2000-2001.");
 
 		// 810 not included
-		assertZeroResults(fldName, "\"American Academy in Rome\"");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "810", fldName, "American Academy in Rome");
+		solrFldMapTest.assertNoSolrFld(testFilePath, "810", fldName);
 	}
 
 	/**
@@ -243,39 +273,40 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testMeetingNameFacet() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_meeting_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldMultiValued(fldName);
+		String testFilePath = testDataParentPath + File.separator + "authorTests.mrc";
 	
 		// 111
-		assertSingleResult("111faim", fldName, "\"FAIM (Forum)\"");
-		assertZeroResults(fldName, "\"FAIM (Forum).\"");
-		assertZeroResults(fldName, "\"FAIM (Forum\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "111faim", fldName, "FAIM (Forum)");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "111faim", fldName, "FAIM (Forum).");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "111faim", fldName, "FAIM (Forum");
 		// 111 sub a n d c  - last char paren
-		assertSingleResult("5666387", fldName, "\"International Jean Sibelius Conference (3rd : 2000 : Helsinki, Finland)\"");
-		assertZeroResults(fldName, "\"International Jean Sibelius Conference (3rd : 2000 : Helsinki, Finland\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5666387", fldName, "International Jean Sibelius Conference (3rd : 2000 : Helsinki, Finland)");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "5666387", fldName, "International Jean Sibelius Conference (3rd : 2000 : Helsinki, Finland");
 		
 		// 711
-		assertSingleResult("711", fldName, "\"European Conference on Computer Vision (2006 : Graz, Austria)\"");
-		assertZeroResults(fldName, "\"European Conference on Computer Vision (2006 : Graz, Austria\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "711", fldName, "European Conference on Computer Vision (2006 : Graz, Austria)");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "711", fldName, "European Conference on Computer Vision (2006 : Graz, Austria");
 		
 		// 811 not included
-		assertZeroResults(fldName, "\"Delaware Symposium on Language Studies\"");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "811", fldName, "Delaware Symposium on Language Studies");
+		solrFldMapTest.assertNoSolrFld(testFilePath, "811", fldName);
 	}
 
 
 	/**
 	 * Other (meeting and corporate, not person) name facet tests, including 
 	 *  removal of trailing punctuation
+	 * NOTE:  copy field - must test as search
+
 	 */
 @Test
 	public final void testAuthorOtherFacet()
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_other_facet";
+		createIxInitVars("authorTests.mrc");
 		assertFacetFieldProperties(fldName);
 		assertFieldOmitsNorms(fldName);
 		assertFieldMultiValued(fldName);
@@ -331,32 +362,33 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 	 */
 // no longer in index 2009-05-14
 //@Test
-	public final void testAuthorCombinedFacet() 
-			throws ParserConfigurationException, IOException, SAXException 
-	{
-		String fldName = "author_combined_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldMultiValued(fldName);
+//	public final void testAuthorCombinedFacet() 
+//			throws ParserConfigurationException, IOException, SAXException 
+//	{
+//		String fldName = "author_combined_facet";
+//		assertFacetFieldProperties(fldName);
+//		assertFieldOmitsNorms(fldName);
+//		assertFieldMultiValued(fldName);
+//
+//		// 100 and 700
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "700sayers", fldName, "Whimsey, Peter");
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "700sayers", fldName, "Sayers, Dorothy L. (Dorothy Leigh), 1893-1957");
+//		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "700sayers", fldName, "Whimsey, Peter,");
+//		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "700sayers", fldName, "Sayers, Dorothy L. (Dorothy Leigh), 1893-1957.");
+//		// 110 and 710
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "110710corpname", fldName, "Thelma");
+//		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "110710corpname", fldName, "Thelma.");
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "110710corpname", fldName, "Roaring Woman, Louise. 2000-2001");
+//		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "110710corpname", fldName, "Roaring Woman, Louise");
+//		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "110710corpname", fldName, "Roaring Woman, Louise. 2000-2001.");
+//		// 111
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "111faim", fldName, "FAIM (Forum)");
+//		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "111faim", fldName, "FAIM (Forum).");
+//		// 711
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "711", fldName, "European Conference on Computer Vision (2006 : Graz, Austria)");
+//		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "711", fldName, "European Conference on Computer Vision (2006 : Graz, Austria");
+//	}
 
-		// 100 and 700
-		assertSingleResult("700sayers", fldName, "\"Whimsey, Peter\"");
-		assertSingleResult("700sayers", fldName, "\"Sayers, Dorothy L. (Dorothy Leigh), 1893-1957\"");
-		assertZeroResults(fldName, "\"Whimsey, Peter,\"");
-		assertZeroResults(fldName, "\"Sayers, Dorothy L. (Dorothy Leigh), 1893-1957.\"");
-		// 110 and 710
-		assertSingleResult("110710corpname", fldName, "\"Thelma\"");
-		assertZeroResults(fldName, "\"Thelma.\"");
-		assertSingleResult("110710corpname", fldName, "\"Roaring Woman, Louise. 2000-2001\"");
-		assertZeroResults(fldName, "\"Roaring Woman, Louise\"");
-		assertZeroResults(fldName, "\"Roaring Woman, Louise. 2000-2001.\"");
-		// 111
-		assertSingleResult("111faim", fldName, "\"FAIM (Forum)\"");
-		assertZeroResults(fldName, "\"FAIM (Forum).\"");
-		// 711
-		assertSingleResult("711", fldName, "\"European Conference on Computer Vision (2006 : Graz, Austria)\"");
-		assertZeroResults(fldName, "\"European Conference on Computer Vision (2006 : Graz, Austria\"");
-	}
 
 	/**
 	 * author_1xx_search:  check all search subfields for 100, 110, 111
@@ -366,6 +398,7 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_1xx_search";
+		createIxInitVars("authorTests.mrc");
 		assertSearchFldOneValProps(fldName);
 		assertSingleResult("100search", fldName, "100a");
 		assertSingleResult("100search", fldName, "100b");
@@ -455,6 +488,7 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_7xx_search";
+		createIxInitVars("authorTests.mrc");
 		assertSearchFldMultValProps(fldName);
 		assertSingleResult("7xxPersonSearch", fldName, "700a");
 		assertSingleResult("7xxPersonSearch", fldName, "700b");
@@ -539,6 +573,7 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_7xx_search";
+		createIxInitVars("authorTests.mrc");
 		assertSearchFldMultValProps(fldName);
 	
 		assertSingleResult("7xxCorpSearch", fldName, "710a");
@@ -622,6 +657,7 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_7xx_search";
+		createIxInitVars("authorTests.mrc");
 		assertSearchFldMultValProps(fldName);
 	
 		assertSingleResult("7xxMeetingSearch", fldName, "711a");
@@ -699,6 +735,7 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_8xx_search";
+		createIxInitVars("authorTests.mrc");
 		assertSearchFldMultValProps(fldName);
 		assertSingleResult("800search", fldName, "800a");
 		assertSingleResult("800search", fldName, "800b");
@@ -801,83 +838,83 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testAuthorSortIncludedFields() 
-		throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "author_sort";
-	    assertSortFldProps(fldName);
+		String testFilePath = testDataParentPath + File.separator + "authorTests.mrc";
 	
 		// 100 (then 240) then 245
-		assertSingleResult("345228", fldName, "\"Bashkov Vladimir 100a only\""); 
-		assertZeroResults(fldName, "\"Bashkov Vladimir\"");  // needs 245
-		assertZeroResults(fldName, "\"100a only\"");  // needs 100
+		solrFldMapTest.assertSolrFldValue(testFilePath, "345228", fldName, "Bashkov Vladimir 100a only"); 
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "345228", fldName, "Bashkov Vladimir");  // needs 245
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "345228", fldName, "100a only");  // needs 100
 		
 		// 110 (then 240) then 245
-		assertSingleResult("110710corpname", fldName, "\"Thelma facets from 110 and 710\""); 
-		assertZeroResults(fldName, "\"Thelma\"");  // needs 245
-		assertZeroResults(fldName, "\"Thelma.\"");  // needs 245
-		assertZeroResults(fldName, "\"facets from 110 and 710\"");  // needs 110
+		solrFldMapTest.assertSolrFldValue(testFilePath, "110710corpname", fldName, "Thelma facets from 110 and 710"); 
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "110710corpname", fldName, "Thelma");  // needs 245
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "110710corpname", fldName, "Thelma.");  // needs 245
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "110710corpname", fldName, "facets from 110 and 710");  // needs 110
 		
 		// 111 (then 240) then 245
-		assertSingleResult("111faim", fldName, "\"FAIM Forum mtg name facet from 111 should be FAIM Forum\"");
-		assertZeroResults(fldName, "\"FAIM Forum\""); // needs 245
-		assertZeroResults(fldName, "\"FAIM (Forum)\""); // needs 245
-		assertZeroResults(fldName, "\"FAIM (Forum).\""); // needs 245
-		assertZeroResults(fldName, "\"mtg name facet from 111 should be: FAIM Forum\""); // needs 111
-		assertZeroResults(fldName, "\"mtg name facet from 111 should be: FAIM (Forum)\""); // needs 111
-		assertZeroResults(fldName, "\"FAIM (Forum). mtg name facet from 111 should be: FAIM (Forum)\""); // needs puncuation stripped
+		solrFldMapTest.assertSolrFldValue(testFilePath, "111faim", fldName, "FAIM Forum mtg name facet from 111 should be FAIM Forum");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "111faim", fldName, "FAIM Forum"); // needs 245
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "111faim", fldName, "FAIM (Forum)"); // needs 245
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "111faim", fldName, "FAIM (Forum)."); // needs 245
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "111faim", fldName, "mtg name facet from 111 should be: FAIM Forum"); // needs 111
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "111faim", fldName, "mtg name facet from 111 should be: FAIM (Forum)"); // needs 111
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "111faim", fldName, "FAIM (Forum). mtg name facet from 111 should be: FAIM (Forum)"); // needs punctuation stripped
 		
 		// no 100 but 240 (then 245)
 		String s240 = "De incertitudine et vanitate scientiarum German ";
-		assertZeroResults(fldName, s240);  // needs 245
-		assertSingleResult("666", fldName, "\"" + sortLastPrefixStr + s240 + "ZZZZ\"");
-		assertZeroResults(fldName, "ZZZZ"); // needs 240
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "666", fldName, s240);  // needs 245
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "666", fldName, sortLastPrefixStr + s240);  // needs 245
+		solrFldMapTest.assertSolrFldValue(testFilePath, "666", fldName, sortLastPrefixStr + s240 + "ZZZZ");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "666", fldName, "ZZZZ"); // needs 240
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "666", fldName, sortLastPrefixStr + "ZZZZ"); // needs 240
 
 		// 100 and 240
-		assertSingleResult("100240", fldName, "\"Hoos Foos Marvin OGravel Balloon Face 100 and 240\""); 
-		assertZeroResults(fldName, "\"Hoos Foos 100 and 240\""); 
-		assertZeroResults(fldName, "\"Marvin OGravel Balloon Face 100 and 240\""); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "100240", fldName, "Hoos Foos Marvin OGravel Balloon Face 100 and 240"); 
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "100240", fldName, "Hoos Foos 100 and 240"); 
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "100240", fldName, "Marvin OGravel Balloon Face 100 and 240"); 
 
 		// no 100 no 240 (then 245)
-		assertSingleResult("245only", fldName, "\"" + sortLastPrefixStr + "245 no 100 or 240\""); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "245only", fldName, "" + sortLastPrefixStr + "245 no 100 or 240"); 
 	}
 
 
 	/**
 	 * Author sort field must ignore non-filing characters in 240 and 245 fields
 	 */
-	@Test
+@Test
 	public final void testAuthorSortNonFilingChars() 
-		throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "author_sort";
-	    assertSortFldProps(fldName);
+		String testFilePath = testDataParentPath + File.separator + "authorTests.mrc";
 		
 		// NOTE: 100 does not allow non-filing chars
 		
 		// no 100 but 240 w non-filing
-		assertSingleResult("2400", fldName, "\"" + sortLastPrefixStr + "Wacky 240 0 nonfiling\""); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2400", fldName, "" + sortLastPrefixStr + "Wacky 240 0 nonfiling"); 
 		
-		assertSingleResult("2402", fldName, "\"" + sortLastPrefixStr + "Wacky 240 2 nonfiling\""); 
-		assertZeroResults(fldName, "\"A Wacky 240 2 nonfiling\""); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2402", fldName, "" + sortLastPrefixStr + "Wacky 240 2 nonfiling"); 
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "2402", fldName, "A Wacky 240 2 nonfiling"); 
 		
-		assertSingleResult("2407", fldName, "\"" + sortLastPrefixStr + "Tacky 240 7 nonfiling\""); 
-		assertZeroResults(fldName, "\"A Wacky Tacky 240 7 nonfiling\""); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2407", fldName, "" + sortLastPrefixStr + "Tacky 240 7 nonfiling"); 
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "2407", fldName, "A Wacky Tacky 240 7 nonfiling"); 
 		
 		// no 100 but 240 (no non-filing), 245 with non-filing
 		String s240 = sortLastPrefixStr + "De incertitudine et vanitate scientiarum German ";
-		assertSingleResult("575946", fldName, "\"" + s240 + "Ruckzug der biblischen Prophetie von der neueren Geschichte\"");
-		assertZeroResults(fldName, "\"" + s240 + "Der Ruckzug der biblischen Prophetie von der neueren Geschichte\"");	
-		assertZeroResults(fldName, "\"Ruckzug der biblischen Prophetie von der neueren Geschichte\""); // needs 240
+		solrFldMapTest.assertSolrFldValue(testFilePath, "575946", fldName, "" + s240 + "Ruckzug der biblischen Prophetie von der neueren Geschichte");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "575946", fldName, "" + s240 + "Der Ruckzug der biblischen Prophetie von der neueren Geschichte");	
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "575946", fldName, "Ruckzug der biblischen Prophetie von der neueren Geschichte"); // needs 240
 		
 		// no 100 no 240, 245 with non-filing
-		assertSingleResult("1261174", fldName, "\"" + sortLastPrefixStr + "second part of the Confutation of the Ballancing letter\"");
-		assertZeroResults(fldName, "\"The second part of the Confutation of the Ballancing letter\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1261174", fldName, "" + sortLastPrefixStr + "second part of the Confutation of the Ballancing letter");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "1261174", fldName, "The second part of the Confutation of the Ballancing letter");
 
 		// no 100, but 240, 245 both with non-filing
-		assertSingleResult("892452", fldName, "\"" + sortLastPrefixStr + "Wacky 240 245 nonfiling\""); 
-		assertZeroResults(fldName, "\"A Wacky In 240 245 nonfiling\""); 
-		assertZeroResults(fldName, "\"Wacky In 240 245 nonfiling\""); 
-		assertZeroResults(fldName, "\"A Wacky 240 245 nonfiling\""); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "892452", fldName, "" + sortLastPrefixStr + "Wacky 240 245 nonfiling"); 
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "892452", fldName, "A Wacky In 240 245 nonfiling"); 
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "892452", fldName, "Wacky In 240 245 nonfiling"); 
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "892452", fldName, "A Wacky 240 245 nonfiling"); 
 	}
 
 
@@ -886,28 +923,27 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testAuthorSortNumericSubflds() 
-		throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "author_sort";
-	    assertSortFldProps(fldName);
+		String testFilePath = testDataParentPath + File.separator + "authorTests.mrc";//	    assertSortFldProps(fldName);
 	
 		// 100 
-		assertSingleResult("1006", fldName, "\"Sox on Fox 100 has sub 6\"");
-		assertZeroResults(fldName, "\"880\\-01 Sox on Fox 100 has sub 6\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1006", fldName, "Sox on Fox 100 has sub 6");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "1006", fldName, "880\\-01 Sox on Fox 100 has sub 6");
 		
 		// 240
-		assertSingleResult("0240", fldName, "\"" + sortLastPrefixStr + "sleep little fishies 240 has sub 0\"");
-		assertZeroResults(fldName, "\"(DE-101c)310008891 sleep little fishies 240 has sub 0\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "0240", fldName, "" + sortLastPrefixStr + "sleep little fishies 240 has sub 0");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "0240", fldName, "(DE-101c)310008891 sleep little fishies 240 has sub 0");
 		
 		// 240 mult numeric subfields
-		assertSingleResult("24025", fldName, "\"" + sortLastPrefixStr + "la di dah 240 has sub 2 and 5\"");
-		assertZeroResults(fldName, "\"ignore me la di dah NjP 240 has sub 2 and 5\"");
-		assertZeroResults(fldName, "\"la di dah NjP 240 has sub 2 and 5\"");
-		assertZeroResults(fldName, "\"ignore me la di dah 240 has sub 2 and 5\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "24025", fldName, "" + sortLastPrefixStr + "la di dah 240 has sub 2 and 5");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "24025", fldName, "ignore me la di dah NjP 240 has sub 2 and 5");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "24025", fldName, "la di dah NjP 240 has sub 2 and 5");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "24025", fldName, "ignore me la di dah 240 has sub 2 and 5");
 
 		// 245
-		assertSingleResult("2458", fldName, "\"" + sortLastPrefixStr + "245 has sub 8\"");
-		assertZeroResults(fldName, "\"1.5\\a 245 has sub 8\"");	
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2458", fldName, "" + sortLastPrefixStr + "245 has sub 8");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "2458", fldName, "1.5\\a 245 has sub 8");	
 	}
 	
 	/**
@@ -915,28 +951,27 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testAuthorSortPunct() 
-		throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "author_sort";
-	    assertSortFldProps(fldName);
+		String testFilePath = testDataParentPath + File.separator + "authorTests.mrc";
 	
-		assertSingleResult("111", fldName, "\"ind 0 leading quotes in 100\"");
-		assertZeroResults(fldName, "\"\"ind 0 leading quotes\" in 100\"");
-		assertZeroResults(fldName, "\"ind 0 leading quotes\\\" in 100\"");
-		assertSingleResult("333", fldName, "\"" + sortLastPrefixStr + "ind 0 leading hyphens in 240\"");
-		assertZeroResults(fldName, "\"--ind 0 leading hyphens in 240\"");
-		assertSingleResult("444", fldName, "\"" + sortLastPrefixStr + "ind 0 leading elipsis in 240\"");
-		assertZeroResults(fldName, "\"...ind 0 leading elipsis in 240\"");
-		assertSingleResult("555", fldName, "\"ind 0 leading quote elipsis in 100\"");
-		assertZeroResults(fldName, "\"\\\"...ind 0 leading quote elipsis in 100\"");
-		assertSingleResult("777", fldName, "\"" + sortLastPrefixStr + "ind 4 leading quote elipsis in 240\"");
-		assertZeroResults(fldName, "\"\\\"...ind 4 leading quote elipsis in 240\"");
-		assertSingleResult("888", fldName, "\"interspersed punctuation here\"");
-		assertZeroResults(fldName, "\"interspersed *(punctua@#$@#$tion \"here--");
-		assertZeroResults(fldName, "\"Boo! interspersed *(punctua@#$@#$tion \"here--");
-		assertSingleResult("999", fldName, "\"everything in 100\"");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "111", fldName, "ind 0 leading quotes in 100");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "111", fldName, "ind 0 leading quotes\" in 100");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "111", fldName, "ind 0 leading quotes\\\" in 100");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "333", fldName, "" + sortLastPrefixStr + "ind 0 leading hyphens in 240");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "333", fldName, "--ind 0 leading hyphens in 240");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "444", fldName, "" + sortLastPrefixStr + "ind 0 leading elipsis in 240");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "444", fldName, "...ind 0 leading elipsis in 240");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "555", fldName, "ind 0 leading quote elipsis in 100");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "555", fldName, "\\\"...ind 0 leading quote elipsis in 100");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "777", fldName, "" + sortLastPrefixStr + "ind 4 leading quote elipsis in 240");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "777", fldName, "\\\"...ind 4 leading quote elipsis in 240");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "888", fldName, "interspersed punctuation here");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "888", fldName, "interspersed *(punctua@#$@#$tion \"here--");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "888", fldName, "Boo! interspersed *(punctua@#$@#$tion \"here--");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "999", fldName, "everything in 100");
 		// lucene special chars:  + - && || ! ( ) { } [ ] ^ " ~ * ? : \
-		assertZeroResults(fldName, "\"every!\\\"#$%\\&'\\(\\)\\*\\+,\\-./\\:;<=>\\?@\\[\\\\\\]\\^_`\\{|\\}\\~thing in 100\"");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "999", fldName, "every!\\\"#$%\\&'\\(\\)\\*\\+,\\-./\\:;<=>\\?@\\[\\\\\\]\\^_`\\{|\\}\\~thing in 100");
 	}
 
 
@@ -947,6 +982,9 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 	public final void testAuthorSortOrder() 
 		throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException
 	{
+		createIxInitVars("authorTests.mrc");
+	    assertSortFldProps("author_sort");
+
 		// list of doc ids in correct author sort order
 		List<String> expectedOrderList = new ArrayList<String>(30);
 		expectedOrderList.add("345228");  // Bashkov Vladimir 100a only
