@@ -2,8 +2,8 @@ package edu.stanford;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.*;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.*;
@@ -17,24 +17,29 @@ import edu.stanford.enumValues.Access;
  */
 public class AccessTests extends AbstractStanfordBlacklightTest {
 	
-	private final String testDataFname = "onlineFormat.mrc";
 	private String fldName = "access_facet";
+    private final String onlineFldVal = Access.ONLINE.toString();
+    private final String atLibraryFldVal = Access.AT_LIBRARY.toString();
 
 @Before
 	public final void setup() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars(testDataFname);
+		mappingTestInit();
 	}
 
+	/**
+	 * test the field in the context of the index
+	 */
 @Test
-	public final void testFldProperties() 
+	public final void testAccessFldInIx() 
 		throws ParserConfigurationException, IOException, SAXException
 	{
+		createIxInitVars("onlineFormat.mrc");
 		assertFacetFieldProperties(fldName);
 		assertFieldMultiValued(fldName);
-		assertEquals("accessMethod string incorrect: ", "Online", Access.ONLINE.toString());
-		assertEquals("accessMethod string incorrect: ", "At the Library", Access.AT_LIBRARY.toString());
+		assertEquals("accessMethod string incorrect: ", "Online", onlineFldVal);
+		assertEquals("accessMethod string incorrect: ", "At the Library", atLibraryFldVal);
 	}
 
 // NOTE: can have multiple access types 
@@ -44,25 +49,19 @@ public class AccessTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testAccessFromFulltextURL() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
-	    String fldVal =  Access.ONLINE.toString();
-		
-		Set<String> docIds = new HashSet<String>();
-		// 
-		docIds.add("856ind2is0"); 
-		docIds.add("856ind2is0Again"); 
-		docIds.add("856ind2is1NotToc"); 
-		docIds.add("856ind2isBlankFulltext"); 
-		docIds.add("956BlankIndicators"); 
-		docIds.add("956ind2is0"); 
-		docIds.add("956and856TOC"); 
-		docIds.add("mult856and956"); 
-		docIds.add("956and856TOCand856suppl"); 
-		docIds.add("7117119"); 
-		docIds.add("newSfx"); 
-
-		assertSearchResults(fldName, fldVal, docIds);
+    	String testFilePath = testDataParentPath + File.separator + "onlineFormat.mrc";
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "856ind2is0", fldName, onlineFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "856ind2is0Again", fldName, onlineFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "856ind2is1NotToc", fldName, onlineFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "856ind2isBlankFulltext", fldName, onlineFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "956BlankIndicators", fldName, onlineFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "956ind2is0", fldName, onlineFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "956and856TOC", fldName, onlineFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "mult856and956", fldName, onlineFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "956and856TOCand856suppl", fldName, onlineFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "7117119", fldName, onlineFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "newSfx", fldName, onlineFldVal); 
 	}
 	
 	/**
@@ -70,14 +69,11 @@ public class AccessTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testAccessFromSfxURL() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
-        createIxInitVars("formatTests.mrc");
-	
-    	String fldVal =  Access.ONLINE.toString();
+        String testFilePath = testDataParentPath + File.separator + "formatTests.mrc";
 
 		// has SFX url in 956
-		assertSingleResult("7117119", fldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "7117119", fldName, onlineFldVal); 
 	}
 
 
@@ -87,21 +83,18 @@ public class AccessTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testGSBRequestUrl() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
-		String fldVal =  "\"" + Access.AT_LIBRARY.toString() + "\"";
-	
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("123http"); 
-		docIds.add("124http"); 
-		docIds.add("1234https"); 
-		docIds.add("7423084"); 
-		assertSearchResults(fldName, fldVal, docIds);
+		String testFilePath = testDataParentPath + File.separator + "onlineFormat.mrc";
 		
+		solrFldMapTest.assertSolrFldValue(testFilePath, "123http", fldName, atLibraryFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "124http", fldName, atLibraryFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1234https", fldName, atLibraryFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "7423084", fldName, atLibraryFldVal); 
+
 		String urlFldName = "url";
-		assertDocHasNoField("123http", urlFldName);
-		assertDocHasNoField("124http", urlFldName);
-		assertDocHasNoField("1234https", urlFldName);
+		solrFldMapTest.assertNoSolrFld(testFilePath, "123http", urlFldName);
+		solrFldMapTest.assertNoSolrFld(testFilePath, "124http", urlFldName);
+		solrFldMapTest.assertNoSolrFld(testFilePath, "1234https", urlFldName);
 	}
 
 
@@ -111,37 +104,31 @@ public class AccessTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testAccessFrom999() 
-			throws ParserConfigurationException, IOException, SAXException
 	{
-		createIxInitVars("buildingTests.mrc");
+    	String testFilePath = testDataParentPath + File.separator + "buildingTests.mrc";
 
 	 	// "Online"
 		// has SFX url in 956
-	 	assertSingleResult("7117119", fldName, Access.ONLINE.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "7117119", fldName, onlineFldVal); 
 
 	 	// "At the Library"
-	 	String fldVal = "\"" + Access.AT_LIBRARY.toString() + "\"";
-	 	// don't want to check *all* of them ...
-//	 	List<DocumentProxy> docList = getAllMatchingDocs(fldName, fldVal);
-	 	String[] docList = getDocIDList(fldName, fldVal);
-	 	String msg = fldName + " " + Access.AT_LIBRARY.toString() + ": ";
 	 	// formerly "On campus"
-	 	assertDocInList(docList, "115472", msg); 
-	 	assertDocInList(docList, "2442876", msg); 
-	 	assertDocInList(docList, "3142611", msg);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "115472", fldName, atLibraryFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2442876", fldName, atLibraryFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "3142611", fldName, atLibraryFldVal); 
 	 	// formerly "Upon request"
 	 	// SAL1 & 2
-	 	assertDocInList(docList, "1033119", msg);  
-	 	assertDocInList(docList, "1962398", msg);  
-	 	assertDocInList(docList, "2328381", msg);  
-	 	assertDocInList(docList, "2913114", msg);  
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1033119", fldName, atLibraryFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1962398", fldName, atLibraryFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2328381", fldName, atLibraryFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2913114", fldName, atLibraryFldVal); 
 	 	// SAL3
-	 	assertDocInList(docList, "690002", msg);  
-	 	assertDocInList(docList, "3941911", msg); 
-	 	assertDocInList(docList, "7651581", msg);  
-	 	assertDocInList(docList, "2214009", msg);  
+		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, atLibraryFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "3941911", fldName, atLibraryFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "7651581", fldName, atLibraryFldVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2214009", fldName, atLibraryFldVal); 
 	 	// SAL-NEWARK
-	 	assertDocInList(docList, "804724", msg); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "804724", fldName, atLibraryFldVal); 
 	}
 
 }
