@@ -288,6 +288,24 @@ public class CallNumLoppingUnitTests extends AbstractStanfordBlacklightTest {
 		assertEquals("M1479", CallNumUtils.removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
 		assertEquals("M1479", CallNumUtils.removeNonLCDeweySerialVolSuffix(callnum, CallNumberType.OTHER));
 	}
+
+	/**
+	 * test vol lopping when call number has figure or fig suffix
+	 */
+@Test
+	public void testFigureSuffix() 
+	{
+		String callnum = "3781 S78 M FIG.6";
+		assertEquals("3781 S78 M", CallNumUtils.removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
+		assertEquals("3781 S78 M", CallNumUtils.removeNonLCDeweySerialVolSuffix(callnum, CallNumberType.OTHER));
+		callnum = "3781 S78 M FIG.7 GEOLOGIC MAP";
+		assertEquals("3781 S78 M", CallNumUtils.removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
+		assertEquals("3781 S78 M", CallNumUtils.removeNonLCDeweySerialVolSuffix(callnum, CallNumberType.OTHER));
+		callnum = "3781 S78 P FIG.3 PHOTODUP";
+		assertEquals("3781 S78 P", CallNumUtils.removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
+		assertEquals("3781 S78 P", CallNumUtils.removeNonLCDeweySerialVolSuffix(callnum, CallNumberType.OTHER));
+		
+	}
 	
 	/**
 	 * test vol lopping when call number has flat box suffix
@@ -323,7 +341,7 @@ public class CallNumLoppingUnitTests extends AbstractStanfordBlacklightTest {
 	}
 	
 	/**
-	 * test vol lopping when call number has carton suffix
+	 * test vol lopping when call number has index suffix
 	 */
 @Test
 	public void testIndexSuffix() 
@@ -333,6 +351,21 @@ public class CallNumLoppingUnitTests extends AbstractStanfordBlacklightTest {
 		assertEquals("ML1 .I614", CallNumUtils.removeNonLCDeweySerialVolSuffix(callnum, CallNumberType.OTHER));
 	}
 	
+	/**
+	 * test vol lopping when call number has iss or issue suffix
+	 */
+@Test
+	public void testIssueSuffix() 
+	{
+		String callnum = "ML1 .I614 ISSUE 666";
+		assertEquals("ML1 .I614", CallNumUtils.removeLCVolSuffix(callnum));
+		assertEquals("ML1 .I614", CallNumUtils.removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
+		assertEquals("ML1 .I614", CallNumUtils.removeNonLCDeweySerialVolSuffix(callnum, CallNumberType.OTHER));
+		callnum = "ML1 .I614 ISS. 666";
+		assertEquals("ML1 .I614", CallNumUtils.removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
+		assertEquals("ML1 .I614", CallNumUtils.removeNonLCDeweySerialVolSuffix(callnum, CallNumberType.OTHER));
+	}
+
 	/**
 	 * test vol lopping when call number has large map folder suffix
 	 */
@@ -399,6 +432,31 @@ public class CallNumLoppingUnitTests extends AbstractStanfordBlacklightTest {
 		assertEquals("M1522", CallNumUtils.removeNonLCDeweySerialVolSuffix(callnum, CallNumberType.OTHER));
 	}
 	
+	/**
+	 * test vol lopping when call number has part suffix
+	 */
+@Test
+	public void testPartSuffix() 
+	{
+		String callnum = "540.6 .C517J PART 2";
+		assertEquals("540.6 .C517J", CallNumUtils.removeDeweyVolSuffix(callnum));
+		assertEquals("540.6 .C517J", CallNumUtils.removeDeweySerialVolSuffix(callnum));
+	}
+	
+	/**
+	 * test vol lopping when call number has pl or plate suffix
+	 */
+@Test
+	public void testPlateSuffix() 
+	{
+		String callnum = "3781 1971 G PL 1";
+		assertEquals("3781 1971 G", CallNumUtils.removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
+		assertEquals("3781 1971 G", CallNumUtils.removeNonLCDeweySerialVolSuffix(callnum, CallNumberType.OTHER));
+		callnum = "3781 S78 M PLATE 1";
+		assertEquals("3781 S78 M", CallNumUtils.removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
+		assertEquals("3781 S78 M", CallNumUtils.removeNonLCDeweySerialVolSuffix(callnum, CallNumberType.OTHER));
+	}
+
 	/**
 	 * test vol lopping when call number has small map folder suffix
 	 */
