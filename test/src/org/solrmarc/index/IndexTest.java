@@ -15,6 +15,12 @@ import org.solrmarc.solr.*;
 import org.solrmarc.tools.Utils;
 import org.xml.sax.SAXException;
 
+/**
+ * abstract class to be implemented by test classes.  Provides a number
+ *  of useful assertion methods and initializations.
+ *  
+ * @author Naomi Dushay
+ */
 public abstract class IndexTest {
 	
 	protected MarcImporter importer;
@@ -29,42 +35,21 @@ public abstract class IndexTest {
      * Given the paths to a marc file to be indexed, the solr directory, and
      *  the path for the solr index, create the index from the marc file.
      * @param confPropFilename - name of config.properties file
-     * @param testDataParentPath
-     * @param testDataFname
      * @param solrPath - the directory holding the solr instance (think conf files)
      * @param solrDataDir - the data directory to hold the index
+     * @param testDataParentPath - directory containing the test data file
+     * @param testDataFname - file of marc records to be indexed.  should end in ".mrc" "marc" or ".xml"
      */
 	public void createIxInitVars(String configPropFilename, String solrPath, String solrDataDir, 
 	                             String testDataParentPath, String testDataFname) 
 			                     throws ParserConfigurationException, IOException, SAXException 
 	{
-        //System.err.println("test.solr.verbose = " + System.getProperty("test.solr.verbose"));
-        if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
-        {
-            java.util.logging.Logger.getLogger("org.apache.solr").setLevel(java.util.logging.Level.SEVERE);
-            Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
-        }
-        if (solrPath != null)  
-        {
-            System.setProperty("solr.path", solrPath);
-            if (solrDataDir == null)
-            {
-                solrDataDir = solrPath + File.separator + "data";
-            }
-            System.setProperty("solr.data.dir", solrDataDir);
-        }
-        deleteDirContents(solrDataDir);
-        if (configPropFilename != null)
-        {
-            importer = new MarcImporter(new String[]{configPropFilename, testDataParentPath + File.separator + testDataFname});
-        }
-        else 
-        {
-            importer = new MarcImporter(new String[]{testDataParentPath + File.separator + testDataFname});
-        }
-      //  importer.getSolrCoreProxy().deleteAllDocs();
-        
-        int numImported = importer.importRecords();       
+		setSolrSysProperties(solrPath, solrDataDir);
+        deleteDirContents(System.getProperty("solr.data.dir"));
+		
+		setupMarcImporter(configPropFilename, testDataParentPath + File.separator + testDataFname);
+
+		int numImported = importer.importRecords();       
         importer.finish();
  
         solrCoreProxy = (SolrCoreProxy)importer.getSolrProxy();
@@ -72,52 +57,24 @@ public abstract class IndexTest {
 		searcherProxy = new SolrSearcherProxy(solrCoreProxy);
 	}
 
+	
     /**
      * Given the paths to a marc file to be indexed, the solr directory, and
-     *  the path for the solr index, create the index from the marc file.
+     *  the path for the solr index, delete the records from the index.
      * @param confPropFilename - name of config.properties file
-     * @param testDataParentPath
-     * @param testDataFname
      * @param solrPath - the directory holding the solr instance (think conf files)
      * @param solrDataDir - the data directory to hold the index
+	 *  @param deletedIdsFilename - file containing record ids to be deleted (including parent path)
      */
-	public void freshDeleteFromExistingIxInitVars(String configPropFilename, String solrPath, String solrDataDir, 
-	                             String testDataParentPath, String testDataFname, String deletedIdsFilename) 
+	public void deleteRecordsFromIx(String configPropFilename, String solrPath, String solrDataDir, String deletedIdsFilename) 
 			                     throws ParserConfigurationException, IOException, SAXException 
 	{
-        //System.err.println("test.solr.verbose = " + System.getProperty("test.solr.verbose"));
-        if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
-        {
-            java.util.logging.Logger.getLogger("org.apache.solr").setLevel(java.util.logging.Level.SEVERE);
-            Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
-        }
-        if (solrPath != null)  
-        {
-            System.setProperty("solr.path", solrPath);
-            if (solrDataDir == null)
-            {
-                solrDataDir = solrPath + File.separator + "data";
-            }
-            System.setProperty("solr.data.dir", solrDataDir);
-        }
-        deleteDirContents(solrDataDir);
-        if (configPropFilename != null)
-        {
-            importer = new MarcImporter(new String[]{configPropFilename, testDataParentPath + File.separator + testDataFname});
-        }
-        else 
-        {
-            importer = new MarcImporter(new String[]{testDataParentPath + File.separator + testDataFname});
-        }
-      //  importer.getSolrCoreProxy().deleteAllDocs();
-        
-        
+		setSolrSysProperties(solrPath, solrDataDir);
         if (deletedIdsFilename != null)
-        {
         	System.setProperty("marc.ids_to_delete", deletedIdsFilename);
-        }
+		setupMarcImporter(configPropFilename, deletedIdsFilename);    
         
-        int numImported = importer.deleteRecords();       
+        int numDeleted = importer.deleteRecords();       
         importer.finish();
  
         solrCoreProxy = (SolrCoreProxy) importer.getSolrProxy();
@@ -125,22 +82,50 @@ public abstract class IndexTest {
 		searcherProxy = new SolrSearcherProxy(solrCoreProxy);
 	}
 	
+
+    /**
+     * Given the paths to a marc file to be indexed, the solr directory, and
+     *  the path for the solr index, instantiate the MarcImporter object 
+     * @param confPropFilename - name of config.properties file (must include ".properties" on the end)
+     * @param argFileName - the name of a file to be processed by the
+     *   MarcImporter;  should end in  "marc" or ".mrc" or ".xml" or ".del", 
+     *    or be null (or the string "NONE") if there is no such file.  (All this per MarcHandler constructor)
+     */
+	private void setupMarcImporter(String configPropFilename, String argFileName) 
+    	throws ParserConfigurationException, IOException, SAXException 
+    {
+        if (argFileName == null)
+        	argFileName = "NONE";
+        
+        if (configPropFilename != null)
+       		importer = new MarcImporter(new String[] {configPropFilename, argFileName});
+        else 
+       		importer = new MarcImporter(new String[] {argFileName});
+	}
 	
-//	private void deleteAllRecordsFromSolrIndex(String configPropFilename) throws IOException
-//    {
-//        if (configPropFilename != null)
-//        {
-//            importer = new MarcImporter(new String[]{configPropFilename, "NONE"});
-//        }
-//        else 
-//        {
-//            importer = new MarcImporter(new String[]{"NONE"});
-//        }
-//
-//        importer = null;
-//    }
-//
 	
+    /**
+     * Set the appropriate system properties for Solr processing
+     * @param solrPath - the directory holding the solr instance (think solr/conf files)
+     * @param solrDataDir - the data directory to hold the index
+     */
+	private void setSolrSysProperties(String solrPath, String solrDataDir) 
+	{
+        if (solrPath != null)  
+        {
+            System.setProperty("solr.path", solrPath);
+            if (solrDataDir == null)
+                solrDataDir = solrPath + File.separator + "data";
+
+            System.setProperty("solr.data.dir", solrDataDir);
+        }
+        if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
+        {
+            java.util.logging.Logger.getLogger("org.apache.solr").setLevel(java.util.logging.Level.SEVERE);
+            Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
+        }
+	}
+
 	protected SolrSearcherProxy getSearcherProxy()
 	{
 	    while (searcherProxy == null)
@@ -281,7 +266,7 @@ public abstract class IndexTest {
 			throws ParserConfigurationException, SAXException, IOException 
 	{
         int solrDocNums[] = getSearcherProxy().getDocSet(docIDfname, doc_id);
-        assertTrue("Found no document with id \"" + doc_id + "\"", solrDocNums.length == 0);
+        assertTrue("Found document with id \"" + doc_id + "\"", solrDocNums.length == 0);
 	}
 
 //	/**

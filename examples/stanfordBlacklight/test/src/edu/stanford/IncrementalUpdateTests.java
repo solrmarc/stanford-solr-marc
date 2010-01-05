@@ -1,6 +1,6 @@
 package edu.stanford;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -25,7 +25,6 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	public final void setup() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("unicornWHoldings.mrc");
 	}
 	
 
@@ -36,7 +35,6 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	public final void testDeleteButEmptyIndex() 
 		throws ParserConfigurationException, SAXException, IOException
 	{
-		// when first record in index
 	}
 
 	/**
@@ -46,7 +44,10 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	public final void testDeleteFirstRecord() 
 		throws ParserConfigurationException, SAXException, IOException
 	{
-		// when first record in index
+		createIxInitVars("unicornWHoldings.mrc");
+		assertDocPresent("115472");
+		deleteIxDocs(testDataParentPath + File.separator + "deleteFirstKey.txt");
+		assertDocNotPresent("115472");
 	}
 
 	
@@ -57,7 +58,7 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	public final void testDeleteLastRecord() 
 		throws ParserConfigurationException, SAXException, IOException
 	{
-		// when last record in index
+		createIxInitVars("unicornWHoldings.mrc");
 	}
 
 	/**
@@ -69,6 +70,7 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	{
 		// when records to delete are in the middle
 		// keys are NOT in ascending order
+		createIxInitVars("unicornWHoldings.mrc");
 	}
 
 	/**
@@ -79,6 +81,7 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 		throws ParserConfigurationException, SAXException, IOException
 	{
 		// when first few, last few, and middle recs in index
+		createIxInitVars("unicornWHoldings.mrc");
 	}
 	
 
@@ -92,6 +95,7 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	{
 		// file also has key that exists
 		// file is also out of numeric order
+		createIxInitVars("unicornWHoldings.mrc");
 	}
 
 
@@ -99,11 +103,23 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	 * Test that new records are added properly
 	 */
 @Test
-	public final void testNewRecords() 
+	public final void testNewRecordsEmptyIx() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
+		createIxInitVars("unicornWHoldings.mrc");
 	}
 
+	
+	/**
+	 * Test that new records are added properly
+	 */
+@Test
+	public final void testNewRecordsExistingIx() 
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+		createIxInitVars("unicornWHoldings.mrc");
+	}
+	
 	
 	/**
 	 * Test that records are updated properly
@@ -118,6 +134,7 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 		// fields in old record that weren't in new record
 		// fields that exist in both record, but changed
 		// multiple occurrences of fields
+		createIxInitVars("unicornWHoldings.mrc");
 	}
 
 
