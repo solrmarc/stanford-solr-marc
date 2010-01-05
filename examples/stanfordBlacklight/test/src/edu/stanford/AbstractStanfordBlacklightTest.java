@@ -70,11 +70,8 @@ public abstract class AbstractStanfordBlacklightTest extends IndexTest {
                 testDataParentPath = "examples" + File.separator
                         + "stanfordBlacklight" + File.separator + "test"
                         + File.separator + "data";
-
             // testDir = "test";
             // testDataParentPath = testDir + File.separator + "data";
-//    		testDataPath = testDataParentPath + File.separator + "allfieldsTests.mrc";
-
             System.setProperty("test.data.path", testDataParentPath);
         }
 		
@@ -129,10 +126,29 @@ public abstract class AbstractStanfordBlacklightTest extends IndexTest {
 
         createIxInitVars(testConfigFname, solrPath, null, testDataParentPath,
                 testDataFname);
+	}
+	
+	/**
+	 * creates an index from the indicated test file, and initializes 
+	 *  necessary variables
+	 *  @param deletedIdsFilename - name of file containing record ids to be deleted
+	 */
+	public void deleteIxDocs(String deletedIdsFilename) 
+		throws ParserConfigurationException, IOException, SAXException 
+	{
+		String solrPath = System.getProperty("solr.path");
+        if (solrPath == null)
+            fail("property solr.path must be defined for the tests to run");
 
-//		createNewTestIndex(testDataParentPath + File.separator + testDataFname, configPropFile, solrPath, solrDataDir, solrmarcPath, siteSpecificPath);
-//		solrCore = getSolrCore(solrPath, solrDataDir);
-//		sis = getSolrIndexSearcher(solrCore);
+        String testDataParentPath = System.getProperty("test.data.path");
+        if (testDataParentPath == null)
+            fail("property test.data.path must be defined for the tests to run");
+
+        String testConfigFname = System.getProperty("test.config.file");
+        if (testConfigFname == null)
+            fail("property test.config.file must be defined for the tests to run");
+        
+        deleteRecordsFromIx(testConfigFname, solrPath, null, deletedIdsFilename);
 	}
 	
 }
