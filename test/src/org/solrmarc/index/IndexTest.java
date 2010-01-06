@@ -57,6 +57,30 @@ public abstract class IndexTest {
 		searcherProxy = new SolrSearcherProxy(solrCoreProxy);
 	}
 
+    /**
+     * Given the paths to a marc file to be indexed, the solr directory, and
+     *  the path for the solr index, create the index from the marc file.
+     * @param confPropFilename - name of config.properties file
+     * @param solrPath - the directory holding the solr instance (think conf files)
+     * @param solrDataDir - the data directory to hold the index
+     * @param testDataParentPath - directory containing the test data file
+     * @param testDataFname - file of marc records to be indexed.  should end in ".mrc" "marc" or ".xml"
+     */
+	public void updateIx(String configPropFilename, String solrPath, String solrDataDir, 
+	                             String testDataParentPath, String testDataFname) 
+			                     throws ParserConfigurationException, IOException, SAXException 
+	{
+		setSolrSysProperties(solrPath, solrDataDir);
+		setupMarcImporter(configPropFilename, testDataParentPath + File.separator + testDataFname);
+		int numImported = importer.importRecords();       
+        importer.finish();
+ 
+        solrCoreProxy = (SolrCoreProxy)importer.getSolrProxy();
+        solrCoreProxy.commit(false);
+		searcherProxy = new SolrSearcherProxy(solrCoreProxy);
+	}
+
+	
 	
     /**
      * Given the paths to a marc file to be indexed, the solr directory, and

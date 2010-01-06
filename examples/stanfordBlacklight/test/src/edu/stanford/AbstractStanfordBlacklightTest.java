@@ -129,6 +129,28 @@ public abstract class AbstractStanfordBlacklightTest extends IndexTest {
 	}
 	
 	/**
+	 * updates an existing index from the indicated test file, and initializes 
+	 *  necessary variables
+	 */
+	public void updateIx(String testDataFname) 
+		throws ParserConfigurationException, IOException, SAXException 
+	{
+		String solrPath = System.getProperty("solr.path");
+        if (solrPath == null)
+            fail("property solr.path must be defined for the tests to run");
+
+        String testDataParentPath = System.getProperty("test.data.path");
+        if (testDataParentPath == null)
+            fail("property test.data.path must be defined for the tests to run");
+
+        String testConfigFname = System.getProperty("test.config.file");
+        if (testConfigFname == null)
+            fail("property test.config.file must be defined for the tests to run");
+
+        updateIx(testConfigFname, solrPath, null, testDataParentPath, testDataFname);
+	}
+	
+	/**
 	 * creates an index from the indicated test file, and initializes 
 	 *  necessary variables
 	 *  @param deletedIdsFilename - name of file containing record ids to be deleted
@@ -136,6 +158,8 @@ public abstract class AbstractStanfordBlacklightTest extends IndexTest {
 	public void deleteIxDocs(String deletedIdsFilename) 
 		throws ParserConfigurationException, IOException, SAXException 
 	{
+		docIDfname = "id";
+
 		String solrPath = System.getProperty("solr.path");
         if (solrPath == null)
             fail("property solr.path must be defined for the tests to run");
