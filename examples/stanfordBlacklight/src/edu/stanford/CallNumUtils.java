@@ -28,7 +28,7 @@ public class CallNumUtils {
     private static final String PUNCT_PREFIX = "([\\.:\\/\\(])?";
 	private static final String NS_PREFIX = "(n\\.s\\.?\\,? ?)?";
 	private static final String MONTHS = "jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec";
-	private static final String VOL_LETTERS = "[\\:\\/]?(bd|ed|iss|issue|jahrg|new ser|no|part|pts?|ser|[^a-z]t|v|vols?|vyp" + "|" + MONTHS + ")";
+	private static final String VOL_LETTERS = "[\\:\\/]?(bd|ed|hov|iss|issue|jahrg|new ser|no|part|pts?|ser|shanah|[^a-z]t|v|vols?|vyp" + "|" + MONTHS + ")";
 	private static final String VOL_NUMBERS = "\\d+([\\/-]\\d+)?( \\d{4}([\\/-]\\d{4})?)?( ?suppl\\.?)?";
 	private static final String VOL_NUMBERS_LOOSER = "\\d+.*";
 	private static final String VOL_NUM_AS_LETTERS = "[A-Z]([\\/-]\\[A-Z]+)?.*";
@@ -37,7 +37,7 @@ public class CallNumUtils {
 	private static final Pattern VOL_LOOSE_PATTERN = Pattern.compile(PUNCT_PREFIX + NS_PREFIX + VOL_LETTERS + "\\.? ?" + VOL_NUMBERS_LOOSER, Pattern.CASE_INSENSITIVE);
 	private static final Pattern VOL_LETTERS_PATTERN = Pattern.compile(PUNCT_PREFIX + NS_PREFIX + VOL_LETTERS + "[\\/\\. ]" + VOL_NUM_AS_LETTERS , Pattern.CASE_INSENSITIVE);
 
-	private static final String ADDL_VOL_REGEX = "[\\:\\/]?(box|carton|fig|flat box|grade|half box|half carton|index|large folder|large map folder|map folder|mfilm|os box|os folder|pl|reel|small folder|small map folder|suppl|tube|series)";
+	private static final String ADDL_VOL_REGEX = "[\\:\\/]?(box|carton|fig|flat box|grade|half box|half carton|index|large folder|large map folder|map folder|mfilm|os box|os folder|pl|reel|sheet|small folder|small map folder|suppl|tube|series)";
 	private static final Pattern ADDL_VOL_PATTERN = Pattern.compile(ADDL_VOL_REGEX + ".*", Pattern.CASE_INSENSITIVE);
 
 	private static final String FOUR_DIGIT_YEAR_REGEX = "(20|19|18|17|16|15|14)\\d{2}";
