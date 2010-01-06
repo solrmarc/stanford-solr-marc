@@ -86,6 +86,21 @@ public class CallNumUtilsUnitTests {
 	}
 	
 	/**
+	 * remove hov suffix, if it exists  (hov. is hebrew volume designation)
+	 */
+@Test
+	public void testHovSuffix()
+	{
+		String callnum = "LB1575.5 .I75 A5 1963 HOV. 4";
+		assertEquals("LB1575.5 .I75 A5 1963", removeLCVolSuffix(callnum));
+// FIXME: took too much --> "LB"
+//		assertEquals("LB1575.5 .I75 A5", removeLCSerialVolSuffix(callnum));
+		callnum = "DS110 .T3 Y43 HOV.2(1931)";
+		assertEquals("DS110 .T3 Y43", removeLCVolSuffix(callnum));
+		assertEquals("DS110 .T3 Y43", removeLCSerialVolSuffix(callnum));
+	}
+
+	/**
 	 * remove large map folder suffix, if it exists
 	 */
 @Test
@@ -151,6 +166,36 @@ public class CallNumUtilsUnitTests {
 		assertEquals("M1522", removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
 	}
 	
+	/**
+	 * remove shanah suffix, if it exists  (shanah. is hebrew volume designation)
+	 */
+@Test
+	public void testShanahSuffix()
+	{
+		String callnum = "BM198.55 .K78 SHANAH 2:KOVETS 5";
+		assertEquals("BM198.55 .K78", removeLCVolSuffix(callnum));
+		assertEquals("BM198.55 .K78", removeLCSerialVolSuffix(callnum));
+		callnum = "DS110 .T3 Y42 F SHANAH 22., GIL. 1/3 ";
+		assertEquals("DS110 .T3 Y42 F", removeLCVolSuffix(callnum));
+		assertEquals("DS110 .T3 Y42 F", removeLCSerialVolSuffix(callnum));
+	}
+
+	/**
+	 * remove sheet suffix, if it exists
+	 */
+@Test
+	public void testSheetSuffix()
+	{
+		String callnum = "G8840 S50 .G7 SHEET 331 SE";
+		assertEquals("G8840 S50 .G7", removeLCVolSuffix(callnum));
+		assertEquals("G8840 S50 .G7", removeLCSerialVolSuffix(callnum));
+		callnum = "G7980 S50 .U53 SHEET 5051-III";
+		assertEquals("G7980 S50 .U53", removeLCVolSuffix(callnum));
+		assertEquals("G7980 S50 .U53", removeLCSerialVolSuffix(callnum));
+	}
+
+
+
 	/**
 	 * remove small folder suffix, if it exists
 	 */
