@@ -1,17 +1,12 @@
 package edu.stanford;
 
 import java.io.*;
-import java.util.Set;
-import java.util.HashSet;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.solrmarc.solr.SolrSearcherProxy;
 import org.xml.sax.SAXException;
 
 import org.junit.*;
-
-import static org.junit.Assert.*;
 
 
 /**
@@ -21,13 +16,6 @@ import static org.junit.Assert.*;
 public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	
 	
-@Before
-	public final void setup() 
-			throws ParserConfigurationException, IOException, SAXException 
-	{
-	}
-	
-
 	/**
 	 * Test deleting record when there is no index
 	 */
@@ -35,6 +23,8 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	public final void testDeleteButEmptyIndex() 
 		throws ParserConfigurationException, SAXException, IOException
 	{
+		createIxInitVars(null);
+		deleteIxDocs(testDataParentPath + File.separator + "deleteFirstKey.txt");
 	}
 
 	/**
@@ -44,10 +34,10 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	public final void testDeleteFirstRecord() 
 		throws ParserConfigurationException, SAXException, IOException
 	{
-		createIxInitVars("unicornWHoldings.mrc");
-		assertDocPresent("115472");
+		createIxInitVars("incrementalIxTests1.mrc");
+		assertDocPresent("1");
 		deleteIxDocs(testDataParentPath + File.separator + "deleteFirstKey.txt");
-		assertDocNotPresent("115472");
+		assertDocNotPresent("1");
 	}
 
 	
@@ -58,30 +48,33 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	public final void testDeleteLastRecord() 
 		throws ParserConfigurationException, SAXException, IOException
 	{
-		createIxInitVars("unicornWHoldings.mrc");
+		createIxInitVars("incrementalIxTests1.mrc");
+		assertDocPresent("9");
+		deleteIxDocs(testDataParentPath + File.separator + "deleteLastKey.txt");
+		assertDocNotPresent("9");
 	}
 
 	/**
-	 * Test when deleted records are in the middle of the index, and not in order
+	 * Test when deleted records include the first and last and some middle ones,
+	 *   and they're not in order 
 	 */
 @Test 
-	public final void testDeleteRecords() 
+	public final void testDeletedMultRecords() 
 		throws ParserConfigurationException, SAXException, IOException
 	{
-		// when records to delete are in the middle
-		// keys are NOT in ascending order
-		createIxInitVars("unicornWHoldings.mrc");
-	}
-
-	/**
-	 * Test when deleted records include the first and last 
-	 */
-@Test 
-	public final void testDeletedFirstLastRecords() 
-		throws ParserConfigurationException, SAXException, IOException
-	{
-		// when first few, last few, and middle recs in index
-		createIxInitVars("unicornWHoldings.mrc");
+		createIxInitVars("incrementalIxTests1.mrc");
+		assertDocPresent("1");
+		assertDocPresent("2");
+		assertDocPresent("5");
+		assertDocPresent("8");
+		assertDocPresent("9");
+		// these keys are NOT in this order in the delete file
+		deleteIxDocs(testDataParentPath + File.separator + "deleteMultKeys.txt");
+		assertDocNotPresent("1");
+		assertDocNotPresent("2");
+		assertDocNotPresent("5");
+		assertDocNotPresent("8");
+		assertDocNotPresent("9");
 	}
 	
 
@@ -95,34 +88,42 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	{
 		// file also has key that exists
 		// file is also out of numeric order
-		createIxInitVars("unicornWHoldings.mrc");
+		createIxInitVars("incrementalIxTests1.mrc");
+		assertDocNotPresent("666");
+		deleteIxDocs(testDataParentPath + File.separator + "deleteMissingKey.txt");
+		assertDocNotPresent("666");
 	}
 
 
 	/**
-	 * Test that new records are added properly
+	 * Test that new records are added properly to an empty index
 	 */
 @Test
 	public final void testNewRecordsEmptyIx() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("unicornWHoldings.mrc");
+		createIxInitVars("incrementalIxTests1.mrc");
 	}
 
 	
 	/**
-	 * Test that new records are added properly
+	 * Test that new records are added properly to an existing index
 	 */
 @Test
 	public final void testNewRecordsExistingIx() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("unicornWHoldings.mrc");
+		createIxInitVars("incrementalIxTests1.mrc");
+		assertDocPresent("1");
+		assertDocNotPresent("99");
+		updateIx("incrementalIxTests2.mrc");
+		assertDocPresent("1");
+		assertDocPresent("99");
 	}
 	
 	
 	/**
-	 * Test that records are updated properly
+	 * Test that records are updated properly in an existing index
 	 *   when deleted then added
 	 *   when just updated record present (not deleted)
 	 */
@@ -130,11 +131,24 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	public final void testUpdatedRecords() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		// fields in new record that weren't in old record
-		// fields in old record that weren't in new record
-		// fields that exist in both record, but changed
-		// multiple occurrences of fields
-		createIxInitVars("unicornWHoldings.mrc");
+		String titleFldName = "title_245a_display";
+		String authorFldName = "author_person_display";
+		createIxInitVars("incrementalIxTests1.mrc");
+
+		// record 2: field that exists in old and records, but changed
+		// record 3: field in new record that wasn't in old record
+		// record 4: field in old record that isn't in new record
+
+		assertDocHasFieldValue("2", titleFldName, "record 2");
+		assertDocHasNoField("3", authorFldName);
+		assertDocHasFieldValue("4", authorFldName, "original 100 field in record 4");
+		
+		updateIx("incrementalIxTests2.mrc");
+		assertDocHasFieldValue("2", titleFldName, "updated record 2 - changed title field");
+		assertDocHasFieldValue("3", authorFldName, "added author field");
+		assertDocHasNoField("4", authorFldName);
+
+		// TODO: check multiple occurrences of fields
 	}
 
 

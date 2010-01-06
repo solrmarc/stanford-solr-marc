@@ -141,8 +141,9 @@ public abstract class MarcHandler {
         }
         reader = null;
         String fName = Utils.getProperty(configProps, "marc.path");
+        if (source.equals("FILE") && fName == null)
+        	return;
         if (fName != null)  fName = fName.trim();
-        
         loadReader(source, fName);
 	}
 	
