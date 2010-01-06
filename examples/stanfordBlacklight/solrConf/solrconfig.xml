@@ -10,7 +10,7 @@
   <indexDefaults>
    <!-- Values here affect all index writers and act as a default unless overridden. -->
     <useCompoundFile>false</useCompoundFile>
-    <mergeFactor>20</mergeFactor>
+    <mergeFactor>10</mergeFactor>
     <!--
       If both ramBufferSizeMB and maxBufferedDocs is set, then Lucene will flush based on whichever limit is hit first.
     -->
@@ -18,8 +18,10 @@
     <!-- Tell Lucene when to flush documents to disk.
       Giving Lucene more memory for indexing means faster indexing at the cost of more RAM
     -->
-    <ramBufferSizeMB>10240</ramBufferSizeMB>
+    <ramBufferSizeMB>128</ramBufferSizeMB>
+<!--     
     <maxMergeDocs>2147483647</maxMergeDocs>
+-->
     <writeLockTimeout>1000</writeLockTimeout>
     <commitLockTimeout>10000</commitLockTimeout>   
     <!-- See docs re: luceneAutoCommit -->
@@ -32,10 +34,12 @@
   <mainIndex>
     <!-- options specific to the main on-disk lucene index -->
     <useCompoundFile>false</useCompoundFile>
-    <ramBufferSizeMB>10240</ramBufferSizeMB>
-    <mergeFactor>20</mergeFactor>
+    <ramBufferSizeMB>128</ramBufferSizeMB>
+    <mergeFactor>10</mergeFactor>
+<!-- 
     <maxMergeDocs>2147483647</maxMergeDocs>
-    <maxFieldLength>10000</maxFieldLength>
+-->
+    <maxFieldLength>2147483647</maxFieldLength>
     <unlockOnStartup>false</unlockOnStartup>
     <deletionPolicy class="solr.SolrDeletionPolicy">
       <str name="keepOptimizedOnly">false</str>
