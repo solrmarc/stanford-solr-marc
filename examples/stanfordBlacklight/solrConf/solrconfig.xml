@@ -77,8 +77,8 @@
          autowarmCount - the number of entries to prepopulate from
            and old cache.
          -->
-    <filterCache class="solr.LRUCache"
-        size="102400" initialSize="102400" autowarmCount="51200"/>
+    <filterCache class="solr.FastLRUCache"
+      size="102400" initialSize="25600" autowarmCount="12800" cleanupThread="true"/>
 
 <!-- TODO: (Stanford) not clear since we currently don't update live via SOLR ... do we ever autowarm ?? -->
 
@@ -87,13 +87,14 @@
          The fieldValueCache is created by default even if not configured here.
     -->
     <fieldValueCache class="solr.FastLRUCache"
-        size="5120" autowarmCount="2048" showItems="64"/>
+        size="25" initialSize="25" autowarmCount="25" showItems="64"/>
 
    <!-- queryResultCache caches results of searches - ordered lists of
          document ids (DocList) based on a query, a sort, and the range
          of documents requested. -->
     <queryResultCache class="solr.LRUCache"
-        size="8192" initialSize="8192" autowarmCount="0"/>
+      size="102400" initialSize="8192" autowarmCount="1024"/>
+
 
   <!-- documentCache caches Lucene Document objects (the stored fields for each document).
        Since Lucene internal document ids are transient, this cache will not be autowarmed.        
@@ -102,7 +103,7 @@
        to ensure that Solr does not need to refetch a document during a request. The more 
        fields you store in your documents, the higher the memory usage of this cache will be. -->
     <documentCache class="solr.LRUCache"
-        size="51200" initialSize="51200" autowarmCount="10240"/>
+      size="102400" initialSize="8192" autowarmCount="0"/>
 
     <!-- If true, stored fields that are not requested will be loaded lazily.
     This can result in a significant speed improvement if the usual case is to
