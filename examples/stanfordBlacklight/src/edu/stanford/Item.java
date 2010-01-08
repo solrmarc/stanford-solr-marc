@@ -233,7 +233,7 @@ public class Item {
 	 *   year suffix should be lopped in addition to regular volume lopping.
 	 */
 	private void setLoppedCallnum(boolean isSerial) {
-		loppedCallnum = ItemUtils.getLoppedCallnum(normCallnum, callnumType, isSerial);
+		loppedCallnum = edu.stanford.CallNumUtils.getLoppedCallnum(normCallnum, callnumType, isSerial);
 	}
 
 	/**

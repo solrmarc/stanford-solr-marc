@@ -157,8 +157,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		setShelfkeys(record);
 		setGovDocCats(record);
 		
-		lcCallnums = ItemUtils.getLCcallnums(itemSet);
-		deweyCallnums = ItemUtils.getDeweyNormCallnums(itemSet);
+		lcCallnums = CallNumUtils.getLCcallnums(itemSet);
+		deweyCallnums = CallNumUtils.getDeweyNormCallnums(itemSet);
 	}
 
 // Id Methods  -------------------- Begin --------------------------- Id Methods
@@ -790,7 +790,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				String volSuffix = null;
 				// ensure we're using a true lopped call number -- if only
 				//   one item, this would have been set to full callnum
-				loppedCallnum = ItemUtils.getLoppedCallnum(fullCallnum, callnumType, isSerial);
+				loppedCallnum = CallNumUtils.getLoppedCallnum(fullCallnum, callnumType, isSerial);
 				if (loppedCallnum != null && loppedCallnum.length() > 0)
 					volSuffix = fullCallnum.substring(loppedCallnum.length()).trim();
 				if ( (volSuffix == null || volSuffix.length() == 0) 
@@ -875,10 +875,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		// TODO: ?need to REMOVE LC callnum if it's a gov doc location? not sure.
 		if (govDocCats.size() > 0)
-			result.add(ItemUtils.GOV_DOC_TOP_FACET_VAL);
+			result.add(CallNumUtils.GOV_DOC_TOP_FACET_VAL);
 
 		if (deweyCallnums.size() > 0)
-			result.add(ItemUtils.DEWEY_TOP_FACET_VAL);
+			result.add(CallNumUtils.DEWEY_TOP_FACET_VAL);
 
 		return result;
 	}
@@ -980,7 +980,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				String rawLoc = item.getHomeLoc(); 
 				if (item.hasGovDocLoc() || has086 
 						|| item.getCallnumType() == CallNumberType.SUDOC)
-					govDocCats.add(ItemUtils.getGovDocTypeFromLocCode(rawLoc));
+					govDocCats.add(CallNumUtils.getGovDocTypeFromLocCode(rawLoc));
 			}
 		}
 	}
@@ -1002,7 +1002,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	private void setShelfkeys(final Record record) 
 	{
 		shelfkeys.clear();
-		shelfkeys.addAll(ItemUtils.getShelfkeys(itemSet, id, isSerial));
+		shelfkeys.addAll(CallNumUtils.getShelfkeys(itemSet, id, isSerial));
 	}
 
 	/**
@@ -1012,7 +1012,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getReverseShelfkeys(final Record record) 
 	{
-		return ItemUtils.getReverseShelfkeys(itemSet, isSerial);
+		return CallNumUtils.getReverseShelfkeys(itemSet, isSerial);
 	}
 
 

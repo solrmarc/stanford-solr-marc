@@ -644,7 +644,7 @@ public class CallNumLoppingUnitTests extends AbstractStanfordBlacklightTest {
 		boolean isSerial = true;
 	
 		String callnum = "3781 2009 Z";
-		assertEquals(callnum, ItemUtils.getLoppedCallnum(callnum, CallNumberType.THESIS, !isSerial));
+		assertEquals(callnum, CallNumUtils.getLoppedCallnum(callnum, CallNumberType.THESIS, !isSerial));
 	}
 
 }

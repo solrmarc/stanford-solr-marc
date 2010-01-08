@@ -38,7 +38,7 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	    // LC:  219.7 KA193L V.5
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "1");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "2");
-	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	    // LC:  202 DATA SYSTEMS, INC.
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "1");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "2");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	    // LC:  20.44
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "1");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "2");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	    
 	    // LL barcodes
 	    id = "7672538";
@@ -79,7 +79,7 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "4");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "6");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "8");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	    // LC:  5115126059 A17 2004
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "1");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "5");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "7");
 	    // LC:  95 05041  GREEN home loc stacks 
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "9");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
 
 
@@ -128,12 +128,12 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 		// ALPHANUM:  2061 4246 NO.5-6 1936-1937
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "3");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "2");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 
 	    id = "8215917";
 	    // LC:  4362 .S12P2 1965 .C3   (home loc:  MAP-CASES)
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "4");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
 	
 
@@ -146,7 +146,7 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	    String id = "5319829";
 	    // LC:  4861.1 /3700
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "4");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	    
 	    id = "4208298";
 	    // ALPHANUM:  4488.301 0300 1999
@@ -156,18 +156,18 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	    // ALPHANUM:  9701 6587.30 NO.3-6 1959:MAR.-JUNE
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "4");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "9");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	    
 	    id = "6773122";
 	    // LC:  1975.1 3772.1
 	    // LCPER:   1975.1 3772.1 NO.29 2008
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "1");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	    
 	    id = "485907";
 	    // ALPHANUM: 8291.209 .A963 V.7 1975/1976  SAL3 home loc STACKS
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "8");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}    
 
 
@@ -182,7 +182,7 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 		// curr loc "INPROCESS"
 		// LC:  001AQJ5818
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "0");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
 
 	/**
@@ -194,7 +194,7 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	    String id = "8366720";
 	    // LC:  427331959
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "4");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
 
 	/**
@@ -208,7 +208,7 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 		// LC:  7885324-1001-2  curr loc INPROCESS   home loc JAPANESE  lib EAST-ASIA
 		// LC:  7890569-1001  curr loc INPROCESS   home loc JAPANESE  lib EAST-ASIA
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "7");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
 	
 
@@ -222,7 +222,7 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 		// lib SPEC-COLL,  home loc RARE-BOOKS,  curr loc  INPROCESS
 		// LC:   741.5 F 
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "7");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	
 		id = "paren";
 		// LC:  (ADL4044.1)XX   curr loc INPROCESS   home loc RARE-BOOKS  lib SPEC-COLL
@@ -244,7 +244,7 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	    // LC:  262198  
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "1");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "2");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
 
 
@@ -258,7 +258,7 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	    // LCPER:  (space)1976  home loc SHELBYTITL
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "1");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, " ");
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
 	
 	
@@ -330,7 +330,7 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 	    String id = "7603175";
 		// LC:   ???   barcode:  LL205659  home loc ASK@LANE
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "?");	
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
 
 	/**
@@ -464,7 +464,7 @@ public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
 		// RESV-URL is no longer skipped
 		id = "690002";
 		// callnum = "159.32 .W211";
-	    solrFldMapTest.assertSolrFldValue(myTestFilePath, id, fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldValue(myTestFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	
 	    // SUL library - INTERNET
 		myTestFilePath = testDataParentPath + File.separator + "callNumberTests.mrc";

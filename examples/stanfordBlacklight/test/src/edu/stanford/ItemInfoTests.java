@@ -1309,7 +1309,7 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		// shelfkey should be same in item_display and in shelfkey fields
 	    String id = "5788269";
 	    String callnum = "CALIF A125 .A34 2002";
-	    String lopped = ItemUtils.getLoppedCallnum(callnum, CallNumberType.OTHER, isSerial);
+	    String lopped = CallNumUtils.getLoppedCallnum(callnum, CallNumberType.OTHER, isSerial);
 	    String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, id).toLowerCase();
 	    String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 	    String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, id);
@@ -1320,7 +1320,7 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	    
 	    id = "409752";
 		callnum = "CALIF A125 .B9 V.17 1977:NO.3";
-		lopped = ItemUtils.getLoppedCallnum(callnum, CallNumberType.OTHER, isSerial);
+		lopped = CallNumUtils.getLoppedCallnum(callnum, CallNumberType.OTHER, isSerial);
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, id);
@@ -1329,7 +1329,7 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "item_display", fldVal);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "shelfkey", shelfkey);
 		callnum = "CALIF A125 .B9 V.7-15 1966-1977:NO.1";
-		lopped = ItemUtils.getLoppedCallnum(callnum, CallNumberType.OTHER, isSerial);
+		lopped = CallNumUtils.getLoppedCallnum(callnum, CallNumberType.OTHER, isSerial);
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, id);
@@ -1340,7 +1340,7 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 
 	    id = "373245";
 		callnum = "553.2805 .P187 V.1-2 1916-1918";
-		lopped = ItemUtils.getLoppedCallnum(callnum, CallNumberType.DEWEY, isSerial);
+		lopped = CallNumUtils.getLoppedCallnum(callnum, CallNumberType.DEWEY, isSerial);
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.DEWEY, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, id);
@@ -1351,7 +1351,7 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	    
 	    id = "373759";
 		callnum = "553.2805 .P494 V.11 1924:JAN.-JUNE";
-		lopped = ItemUtils.getLoppedCallnum(callnum, CallNumberType.DEWEY, isSerial);
+		lopped = CallNumUtils.getLoppedCallnum(callnum, CallNumberType.DEWEY, isSerial);
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.DEWEY, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, id);

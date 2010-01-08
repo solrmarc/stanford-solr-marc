@@ -16,6 +16,7 @@ import org.junit.runners.Suite;
         CallNumUtilsUnitTests.class,
         DiacriticTests.class,
         FormatTests.class,
+        IncrementalUpdateTests.class,
         ItemDisplayCallnumLoppingTests.class,
         ItemInfoTests.class,
         ItemObjectTests.class,
