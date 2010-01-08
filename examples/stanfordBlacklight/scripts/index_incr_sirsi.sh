@@ -17,11 +17,6 @@ else
   LOG_SUBDIR=$TODAY
 fi
 
-# create log directory
-LOG_PARENT_DIR=$RAW_DATA_DIR/logs
-LOG_DIR=$LOG_PARENT_DIR/$LOG_SUBDIR
-mkdir $LOG_DIR
-
 JAVA_HOME=/usr/lib/jvm/java
 
 BLACKLIGHT_HOMEDIR=/home/blacklight
@@ -31,8 +26,13 @@ REC_FNAME=$RAW_DATA_DIR/$RECORDS_FNAME
 
 DEL_ARG="-Dmarc.ids_to_delete="$RAW_DATA_DIR/$DEL_KEYS_FNAME
 
+# create log directory
+LOG_PARENT_DIR=$RAW_DATA_DIR/logs
+LOG_DIR=$LOG_PARENT_DIR/$LOG_SUBDIR
+mkdir $LOG_DIR
+
 # index the files
-nohup java -Xmx4g -Xms4g $DEL_ARG -jar $SOLRMARC_JAR $RECORDS_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
-#nohup java -Xmx16g -Xms16g $DEL_ARG -Dsolr.optimize_at_end="true" -jar $SOLRMARC_JAR $RECORDS_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
+nohup java -Xmx4g -Xms4g $DEL_ARG -jar $SOLRMARC_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
+#nohup java -Xmx16g -Xms16g $DEL_ARG -Dsolr.optimize_at_end="true" -jar $SOLRMARC_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
 
 exit 0
