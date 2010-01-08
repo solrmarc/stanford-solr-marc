@@ -395,6 +395,141 @@ public class CallNumUtils {
 		return org.solrmarc.tools.CallNumUtils.normalizeSuffix(rawCallnum);
 	}
 
+	
+	/**
+	 * returns a list of any LC call numbers present in the items, normalized
+	 * @param itemSet - a Set of Item objects
+	 */
+	protected static Set<String> getLCcallnums(Set<Item> itemSet) 
+	{
+		Set<String> result = new HashSet<String>();
+		for (Item item : itemSet) {
+// FIXME:  shelby locations should be checked for by calling routine??
+			if (item.getCallnumType() == CallNumberType.LC
+					&& !item.hasIgnoredCallnum() && !item.hasBadLcLaneJackCallnum()
+					&& !item.hasShelbyLoc()) {
+				String callnum = edu.stanford.CallNumUtils.normalizeLCcallnum(item.getCallnum());
+				if (callnum.length() > 0)
+					result.add(callnum);
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * returns a list of any Dewey call numbers present in the items, normalized
+	 *  with leading zeroes as necessary.
+	 * @param itemSet - a Set of Item objects
+	 */
+	static Set<String> getDeweyNormCallnums(Set<Item> itemSet) 
+	{
+		Set<String> result = new HashSet<String>();
+		for (Item item : itemSet) {
+// FIXME:  shelby locations should be checked for by calling routine??
+			if (item.getCallnumType() == CallNumberType.DEWEY
+					&& !item.hasIgnoredCallnum() && !item.hasShelbyLoc()) {
+				String callnum = getNormalizedDeweyCallNumber(item);
+				if (callnum.length() > 0)
+					result.add(callnum);
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * if the item has a Dewey call number, add leading zeroes to normalized it,
+	 *  if necessary, and return it. Otherwise, return empty string
+	 */
+	private static String getNormalizedDeweyCallNumber(Item item)
+	{
+		if (item.getCallnumType() == CallNumberType.DEWEY)
+			return org.solrmarc.tools.CallNumUtils.addLeadingZeros(item.getCallnum());
+		else
+			return "";
+	}
+
+	
+	/**
+	 * @param itemSet - set of Item objects
+	 * @param id - record id, used for error messages
+	 * @param isSerial - true if document is a serial, false otherwise
+	 * @return a set of shelfkeys for the lopped call numbers in the items
+	 */
+	static Set<String> getShelfkeys(Set<Item> itemSet, String id, boolean isSerial)
+	{
+		Set<String> result = new HashSet<String>();
+		for (Item item : itemSet) 
+		{
+			if (item.hasIgnoredCallnum() || item.hasBadLcLaneJackCallnum() || item.isOnline())
+				continue;
+
+			if (item.getCallnum().length() == 0)
+				continue;
+
+			String shelfkey = item.getShelfkey(isSerial);
+			
+			if (shelfkey.length() > 0)
+				result.add(shelfkey.toLowerCase());
+		}
+		return result;
+	}
+
+	/**
+	 * @param itemSet - set of Item objects
+	 * @param id - record id, used for error messages
+	 * @param isSerial - true if document is a serial, false otherwise
+	 * @return a set of shelfkeys for the lopped call numbers in the items
+	 */
+	static Set<String> getReverseShelfkeys(Set<Item> itemSet, boolean isSerial)
+	{
+		Set<String> result = new HashSet<String>();
+		for (Item item : itemSet) 
+		{
+			if (item.hasIgnoredCallnum() || item.hasBadLcLaneJackCallnum() || item.isOnline())
+				continue;
+
+			if (item.getCallnum().length() == 0)
+				continue;
+
+			String reverseShelfkey = item.getReverseShelfkey(isSerial);
+			
+			if (reverseShelfkey.length() > 0)
+				result.add(reverseShelfkey.toLowerCase());
+		}
+		return result;
+	}
+
+	
+	/**
+	 * return the call number with the volume part (if it exists) lopped off the
+	 *   end of it.
+	 * @param fullCallnum
+	 * @param callnumType - the call number type (e.g. LC, DEWEY, SUDOC)
+	 * @param isSerial - true if the call number is for a serial, false o.w.
+	 * @return the lopped call number
+	 */
+	static String getLoppedCallnum(String fullCallnum, CallNumberType callnumType, boolean isSerial) {
+		String loppedCallnum = fullCallnum;
+		if (callnumType == CallNumberType.LC)
+			if (isSerial)
+				loppedCallnum = edu.stanford.CallNumUtils.removeLCSerialVolSuffix(fullCallnum);
+			else
+				loppedCallnum = edu.stanford.CallNumUtils.removeLCVolSuffix(fullCallnum);
+		else if (callnumType == CallNumberType.DEWEY)
+			if (isSerial)
+				loppedCallnum = edu.stanford.CallNumUtils.removeDeweySerialVolSuffix(fullCallnum);
+			else
+				loppedCallnum = edu.stanford.CallNumUtils.removeDeweyVolSuffix(fullCallnum);
+		else 
+//TODO: needs to be longest common prefix
+			if (isSerial)
+				loppedCallnum = edu.stanford.CallNumUtils.removeNonLCDeweySerialVolSuffix(fullCallnum, callnumType);
+			else
+				loppedCallnum = edu.stanford.CallNumUtils.removeNonLCDeweyVolSuffix(fullCallnum, callnumType);
+
+		return loppedCallnum;
+	}
+	
 	/**
 	 * return a sortable shelving key for the call number
 	 * @param rawCallnum - the call number for which a shelfkey is desired
@@ -564,5 +699,43 @@ public class CallNumUtils {
 			}
 		}
 	}
+	
+	/** call number facet values */
+	protected static final String DEWEY_TOP_FACET_VAL = "Dewey Classification";
+	protected static final String GOV_DOC_TOP_FACET_VAL = "Government Document";
+	protected static final String GOV_DOC_BRIT_FACET_VAL = "British";
+	protected static final String GOV_DOC_CALIF_FACET_VAL = "California";
+	protected static final String GOV_DOC_FED_FACET_VAL = "Federal";
+	protected static final String GOV_DOC_INTL_FACET_VAL = "International";
+	protected static final String GOV_DOC_UNKNOWN_FACET_VAL = "Other";
+	
+	/**
+	 * get the type of government document given a location code for a
+	 * government document.  
+	 * This method should only be called when the location code is known to
+	 *  belong to a government document item.
+	 * @param govDocLocCode - government document location code
+	 * @return user friendly string of the type of gov doc.
+	 */
+	static String getGovDocTypeFromLocCode(String govDocLocCode) {
+		if (govDocLocCode.equals("BRIT-DOCS"))
+			return GOV_DOC_BRIT_FACET_VAL;
+		if (govDocLocCode.equals("CALIF-DOCS"))
+			return GOV_DOC_CALIF_FACET_VAL;
+		if (govDocLocCode.equals("FED-DOCS"))
+			return GOV_DOC_FED_FACET_VAL;
+		if (govDocLocCode.equals("INTL-DOCS"))
+			return GOV_DOC_INTL_FACET_VAL;
+
+// TODO: should all the SSRC ones be federal?
+		if (govDocLocCode.equals("SSRC-DOCS")
+				|| govDocLocCode.equals("SSRC-FICHE")
+				|| govDocLocCode.equals("SSRC-NWDOC"))
+			return GOV_DOC_FED_FACET_VAL;
+
+		else
+			return GOV_DOC_UNKNOWN_FACET_VAL;
+	}
+
 
 }

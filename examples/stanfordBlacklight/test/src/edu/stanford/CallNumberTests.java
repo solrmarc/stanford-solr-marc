@@ -69,7 +69,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		docIds.add("3");
 		docIds.add("31");
 		docIds.add("DeweyVol");
-		assertSearchResults(fldName, "\"" + ItemUtils.DEWEY_TOP_FACET_VAL + "\"", docIds);
+		assertSearchResults(fldName, "\"" + edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL + "\"", docIds);
 		assertSearchResults(fldName, "\"Dewey Classification\"", docIds);
 		
 		fldName = "lc_alpha_facet";
@@ -292,11 +292,11 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	public final void testTopFacetDewey() 
 	{
 		String fldName = "callnum_top_facet";
-		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2328381", fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "DeweyVol", fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "2328381", fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "DeweyVol", fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
 	
 
@@ -445,14 +445,14 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 	{
 		String fldName = "callnum_top_facet";
 	    testFilePath = testDataParentPath + File.separator + "callNumberGovDocTests.mrc";
-		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, ItemUtils.GOV_DOC_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "calif", fldName, ItemUtils.GOV_DOC_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "fed", fldName, ItemUtils.GOV_DOC_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "intl", fldName, ItemUtils.GOV_DOC_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcdocs", fldName, ItemUtils.GOV_DOC_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcfiche", fldName, ItemUtils.GOV_DOC_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcnwdoc", fldName, ItemUtils.GOV_DOC_TOP_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "sudoc", fldName, ItemUtils.GOV_DOC_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "calif", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "fed", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "intl", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcdocs", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcfiche", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcnwdoc", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "sudoc", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
 		
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "ssrcfiche", fldName, "300s - Social Sciences");
 		
@@ -474,14 +474,14 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		String fldName = "gov_doc_type_facet";		
 	    testFilePath = testDataParentPath + File.separator + "callNumberGovDocTests.mrc";
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, ItemUtils.GOV_DOC_BRIT_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "calif", fldName, ItemUtils.GOV_DOC_CALIF_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "intl", fldName, ItemUtils.GOV_DOC_INTL_FACET_VAL);		
-		solrFldMapTest.assertSolrFldValue(testFilePath, "fed", fldName, ItemUtils.GOV_DOC_FED_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcdocs", fldName, ItemUtils.GOV_DOC_FED_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcfiche", fldName, ItemUtils.GOV_DOC_FED_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcnwdoc", fldName, ItemUtils.GOV_DOC_FED_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "sudoc", fldName, ItemUtils.GOV_DOC_UNKNOWN_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, edu.stanford.CallNumUtils.GOV_DOC_BRIT_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "calif", fldName, edu.stanford.CallNumUtils.GOV_DOC_CALIF_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "intl", fldName, edu.stanford.CallNumUtils.GOV_DOC_INTL_FACET_VAL);		
+		solrFldMapTest.assertSolrFldValue(testFilePath, "fed", fldName, edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcdocs", fldName, edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcfiche", fldName, edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcnwdoc", fldName, edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "sudoc", fldName, edu.stanford.CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
 		
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "brit", fldName, govDocStr);
 	}

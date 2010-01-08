@@ -64,9 +64,9 @@ public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
 	{
 		String fldName = "callnum_top_facet";
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidLC", fldName, "A - General Works");
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidDewey", fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "LaneValidDewey", fldName, CallNumUtils.DEWEY_TOP_FACET_VAL);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidLC", fldName, "A - General Works");
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidDewey", fldName, ItemUtils.DEWEY_TOP_FACET_VAL);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "JacksonValidDewey", fldName, CallNumUtils.DEWEY_TOP_FACET_VAL);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "7811196", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "8238755", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "8373645", fldName);

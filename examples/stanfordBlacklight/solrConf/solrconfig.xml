@@ -53,13 +53,6 @@
   <query>
     <maxBooleanClauses>1024</maxBooleanClauses>
 
-    <!-- There are two implementations of cache available for Solr,
-         LRUCache, based on a synchronized LinkedHashMap, and
-         FastLRUCache, based on a ConcurrentHashMap.  FastLRUCache has faster gets
-         and slower puts in single threaded operation and thus is generally faster
-         than LRUCache when the hit ratio of the cache is high (> 75%), and may be
-         faster under other scenarios on multi-cpu systems. -->
-
     <!-- filterCache: Cache used by SolrIndexSearcher for filters (DocSets),
          unordered sets of *all* documents that match a query.  Three uses:
            fq param
@@ -69,32 +62,22 @@
          or "autowarmed" using data from caches in the old searcher.
          autowarmCount is the number of items to prepopulate.  For LRUCache,
          the autowarmed items will be the most recently accessed items.
-       Parameters:
-         class - the SolrCache implementation LRUCache or FastLRUCache
-         size - the maximum number of entries in the cache
-         initialSize - the initial capacity (number of entries) of
-           the cache.  (seel java.util.HashMap)
-         autowarmCount - the number of entries to prepopulate from
-           and old cache.
          -->
     <filterCache class="solr.FastLRUCache"
-      size="102400" initialSize="25600" autowarmCount="12800" cleanupThread="true"/>
+      size="102400" initialSize="5120" autowarmCount="1280" cleanupThread="true"/>
 
-<!-- TODO: (Stanford) not clear since we currently don't update live via SOLR ... do we ever autowarm ?? -->
-
-    <!-- Cache used to hold field values that are quickly accessible
-         by document id. Used for sorting, and in some cases, faceting.
-         The fieldValueCache is created by default even if not configured here.
+    <!-- The fieldValueCache is created by default even if not configured here.
     -->
     <fieldValueCache class="solr.FastLRUCache"
-        size="25" initialSize="25" autowarmCount="25" showItems="64"/>
+        size="25" initialSize="25" minSize="17" autowarmCount="25" showItems="64"/>
 
    <!-- queryResultCache caches results of searches - ordered lists of
          document ids (DocList) based on a query, a sort, and the range
          of documents requested. -->
+<!-- turned off due to hit ratio < 20%
     <queryResultCache class="solr.LRUCache"
       size="102400" initialSize="8192" autowarmCount="1024"/>
-
+-->
 
   <!-- documentCache caches Lucene Document objects (the stored fields for each document).
        Since Lucene internal document ids are transient, this cache will not be autowarmed.        
@@ -105,17 +88,8 @@
     <documentCache class="solr.LRUCache"
       size="102400" initialSize="8192" autowarmCount="0"/>
 
-    <!-- If true, stored fields that are not requested will be loaded lazily.
-    This can result in a significant speed improvement if the usual case is to
-    not load all stored fields, especially if the skipped fields are large compressed
-    text fields. -->
     <enableLazyFieldLoading>true</enableLazyFieldLoading>
 
-   <!-- An optimization that attempts to use a filter to satisfy a search.
-         If the requested sort does not include score, then the filterCache
-         will be checked for a filter matching the query. If found, the filter
-         will be used as the source of document ids, and then the sort will be
-         applied to that.  -->
     <useFilterForSortedQuery>true</useFilterForSortedQuery>
 
    <!-- An optimization for use with the queryResultCache.  When a search
