@@ -30,6 +30,25 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 	}	
 	
 	/**
+	 * if call number is actually lopped, it should have ellipsis on end
+	 */
+@Test
+	public void testLoppedCallnumEllipsis()
+	{
+		// labelled LC but it's Dewey 
+		String id = "lopped";
+		String callnum = "F12 .B6 V.27";
+		String lopped = "F12 .B6 ...";
+		//  it's not LC
+		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.LC, id).toLowerCase();
+		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, !isSerial, id);
+		String fldVal = "001 -|- GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
+				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
+	}
+
+	/**
 	 * test that scheme for call number that is supposed to be LC, but isn't
 	 *  valid LC, is changed to DEWEY or other
 	 */

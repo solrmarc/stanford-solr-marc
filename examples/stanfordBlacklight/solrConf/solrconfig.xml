@@ -63,8 +63,9 @@
          autowarmCount is the number of items to prepopulate.  For LRUCache,
          the autowarmed items will be the most recently accessed items.
          -->
+<!-- TODO:  decrease size??? -->
     <filterCache class="solr.FastLRUCache"
-      size="102400" initialSize="5120" autowarmCount="1280" cleanupThread="true"/>
+      size="100000" initialSize="5120" minSize="65000" acceptableSize="75000" autowarmCount="1280" cleanupThread="true"/>
 
     <!-- The fieldValueCache is created by default even if not configured here.
     -->
@@ -85,6 +86,7 @@
          max_results * max_concurrent_queries, 
        to ensure that Solr does not need to refetch a document during a request. The more 
        fields you store in your documents, the higher the memory usage of this cache will be. -->
+<!-- TODO:  increase size to 1024000??? -->
     <documentCache class="solr.LRUCache"
       size="102400" initialSize="8192" autowarmCount="0"/>
 

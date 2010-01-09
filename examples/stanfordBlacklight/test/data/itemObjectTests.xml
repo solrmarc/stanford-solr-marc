@@ -2,6 +2,30 @@
 <collection>
     <record>
         <leader>01767nam a22003614a 4500</leader>
+        <controlfield tag="001">alopped</controlfield>
+        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">call number gets lopped</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">F12 .B6 V.27</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">001</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">F12 .B6 V.27</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">002</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01767nam a22003614a 4500</leader>
         <controlfield tag="001">adeweyAsLC</controlfield>
         <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
         <datafield tag="245" ind1=" " ind2=" ">

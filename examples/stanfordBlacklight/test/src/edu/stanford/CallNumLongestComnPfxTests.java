@@ -35,7 +35,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String unlop2 = "2451 7513 1957:NO.7-1959:NO.6";
 		String unlop3 = "2451 7513 1961:NO.1,3-6";
 		String unlop4 = "2451 7513 1954-1983 INDEX";
-		String lopped = "2451 7513";
+		String lopped = "2451 7513 ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 		assertExpectedLopping(id, unlop3, unlop4, lopped);
 	}
@@ -50,7 +50,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String unlop1 = "4488.301 0300 2001 CD-ROM";
 		String unlop2 = "4488.301 0300 1961";
 		String unlop3 = "4488.301 0300 1950-1960";
-		String lopped = "4488.301 0300";
+		String lopped = "4488.301 0300 ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 		assertExpectedLopping(id, unlop1, unlop3, lopped);
 	}
@@ -65,8 +65,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String id = "4then4decimalBoth";
 		String unlop1 = "9698.3 4275.25 F V.1";
 		String unlop2 = "9698.3 4275.25 F V.2";
-// FIMXE:  lopping include F or not??
-		String lopped = "9698.3 4275.25 F";
+		String lopped = "9698.3 4275.25 F ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 	}
 
@@ -80,7 +79,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String id = "2then5";
 		String unlop1 = "71 15446 V.1";
 		String unlop2 = "71 15446 V.2";
-		String lopped = "71 15446";
+		String lopped = "71 15446 ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 	}
 
@@ -93,7 +92,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String id = "japInProc";
 		String unlop1 = "7885324-1001-1";
 		String unlop2 = "7885324-1001-2";
-		String lopped = "7885324-1001";
+		String lopped = "7885324-1001 ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 	}
 
@@ -106,7 +105,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String id = "deweyish";
 		String unlop1 = "8291.209 .A963 V.7 1975/1976";
 		String unlop2 = "8291.209 .A963 V.16:NO.4 1994";
-		String lopped = "8291.209 .A963";
+		String lopped = "8291.209 .A963 ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 	}
 	
@@ -119,7 +118,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String id = "mapXM";
 		String unlop1 = "XM98-1 NO.1";
 		String unlop2 = "XM98-1 NO.2";
-		String lopped = "XM98-1";
+		String lopped = "XM98-1 ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 	}
 
@@ -132,7 +131,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String id = "yugoSerial";
 		String unlop1 = "YUGOSLAV SERIAL 1996 V.37";
 		String unlop2 = "YUGOSLAV SERIAL 1997-1998 V.38-39";
-		String lopped = "YUGOSLAV SERIAL";
+		String lopped = "YUGOSLAV SERIAL ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 	}
 
@@ -146,10 +145,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String unlop1 = "M1162";
 		String unlop2 = "M1162 ACCN 2000-260 BOX 1";
 		String unlop3 = "M1162 ACCN 2000-260 BOX 2";
-// FIMXE:  lop all to M1162  or lop 2 to M1162 ACCN 2000-260 ?
-		String lopped = "M1162";
-//		assertExpectedLopping(id, unlop1, unlop2, lopped);
-//		String lopped = "M1162 ACCN 2000-260";
+		String lopped = "M1162 ...";
 		assertExpectedLopping(id, unlop2, unlop3, lopped);
 	}
 
@@ -167,7 +163,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String unlop2Shelfkey = CallNumUtils.getShelfKey(unlop2, CallNumberType.SUDOC, id).toLowerCase();
 		String unlop3 = "C 13.58:6628";
 		String unlop3Shelfkey = CallNumUtils.getShelfKey(unlop3, CallNumberType.SUDOC, id).toLowerCase();
-		String lopped = "C 13.58";
+		String lopped = "C 13.58 ...";
 		String loppedShelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.SUDOC, id).toLowerCase();
 	
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, loppedShelfkey);
@@ -185,7 +181,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String id = "MCD";
 		String unlop1 = "MCD 17393 DISC 1";
 		String unlop2 = "MCD 17393 DISC 2";
-		String lopped = "MCD 17393";
+		String lopped = "MCD 17393 ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 	}
 
@@ -198,10 +194,10 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String id = "MCDdontLop";
 		String unlop1 = "MCDI 141 (V.87:2)";
 		String unlop2 = "MCDI 142 (V.87:3)";
-		String lopped12 = "MCDI";
+		String lopped12 = "MCDI ...";
 		String unlop3 = "MCD 10313 (V.91:3)";
 		String unlop4 = "MCD 10945 (V.91:5)";
-		String lopped34 = "MCD";
+		String lopped34 = "MCD ...";
 		
 		String unlop1Shelfkey = CallNumUtils.getShelfKey(unlop1, CallNumberType.OTHER, id).toLowerCase();
 		String unlop2Shelfkey = CallNumUtils.getShelfKey(unlop2, CallNumberType.OTHER, id).toLowerCase();
@@ -227,7 +223,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String id = "MDVD";
 		String unlop1 = "MDVD 703 (V.12)";
 		String unlop2 = "MDVD 703 (V.13)";
-		String lopped = "MDVD 703";
+		String lopped = "MDVD 703 ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 	}
 
@@ -240,7 +236,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String id = "ZDVD";
 		String unlop1 = "ZDVD 20921 DISC 1";
 		String unlop2 = "ZDVD 20921 DISC 2";
-		String lopped = "ZDVD 20921";
+		String lopped = "ZDVD 20921 ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 	}
 
@@ -253,12 +249,12 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String id = "mfilmHoover1";
 		String unlop1 = "N343 MFILM 1886 JUL-DEC.";
 		String unlop2 = "N343 MFILM 1891 JAN-JUN.";
-		String lopped = "N343 MFILM";
+		String lopped = "N343 MFILM ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 		id = "mfilmHoover2";
 		unlop1 = "N413 1947:SEP. MFILM";
 		unlop2 = "N413 1947:OCT. MFILM";
-		lopped = "N413 1947";
+		lopped = "N413 1947 ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 	}
 	
@@ -271,7 +267,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String id = "mfilmNS";
 		String unlop1 = "MFILM N.S. 56 V.65 1981";
 		String unlop2 = "MFILM N.S. 56 V.53 1969";
-		String lopped = "MFILM N.S. 56";
+		String lopped = "MFILM N.S. 56 ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 	}
 	
@@ -284,7 +280,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String id = "letterY";
 		String unlop1 = "Y210 .A3F6 1973";
 		String unlop2 = "Y210 .A3F6 1978";
-		String lopped = "Y210 .A3F6";
+		String lopped = "Y210 .A3F6 ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 	}
 	
@@ -298,7 +294,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 		String id = "laneBadLC";
 		String unlop1 = "Y210 .A3F6 VOL. 1";
 		String unlop2 = "Y210 .A3F6 VOL. 2";
-		String lopped = "Y210 .A3F6";
+		String lopped = "Y210 .A3F6 ...";
 		//  no shelfkey for bad LC from Lane or Jackson
 	    solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
 	    

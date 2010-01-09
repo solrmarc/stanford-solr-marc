@@ -546,7 +546,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// LC: volume info to lop off
 		id = "999LC22";
 		callnum = "CB3 .A6 SUPPL. V.31";
-		shelfkey = CallNumberType.LC.getPrefix() + CallNumUtils.getLCShelfkey("CB3 .A6 SUPPL.", id).toLowerCase();
+		shelfkey = CallNumberType.LC.getPrefix() + CallNumUtils.getLCShelfkey("CB3 .A6 SUPPL. ...", id).toLowerCase();
 		assertSingleResult(id, fldName, "\"" + shelfkey + "\"");
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
 		assertSingleResult("999LC22", revFldName, "\"" + reverseShelfkey + "\"");
@@ -602,13 +602,13 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// LC: volume info to lop off
 		id = "999LC22";
 		callnum = "CB3 .A6 SUPPL. V.31";
-		shelfkey = CallNumberType.LC.getPrefix() + CallNumUtils.getLCShelfkey("CB3 .A6 SUPPL.", id).toLowerCase();
+		shelfkey = CallNumberType.LC.getPrefix() + CallNumUtils.getLCShelfkey("CB3 .A6 SUPPL. ...", id).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, shelfkey);
 		
 		// LCPER
 		id = "460947";
 		callnum = "E184.S75 R47A V.1 1980";
-		shelfkey = CallNumberType.LC.getPrefix() + CallNumUtils.getLCShelfkey("E184.S75 R47A", id).toLowerCase();
+		shelfkey = CallNumberType.LC.getPrefix() + CallNumUtils.getLCShelfkey("E184.S75 R47A ...", id).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, shelfkey);
 
 		//  bad LC values
@@ -627,7 +627,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// Dewey: vol info to lop off
 		id = "DeweyVol";
 		callnum = "666 .F67 VOL. 5";
-		shelfkey = CallNumberType.DEWEY.getPrefix() + CallNumUtils.getDeweyShelfKey("666 .F67").toLowerCase();
+		shelfkey = CallNumberType.DEWEY.getPrefix() + CallNumUtils.getDeweyShelfKey("666 .F67 ...").toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, shelfkey);
 		
 		// SUDOC 999  -  uses raw callno
