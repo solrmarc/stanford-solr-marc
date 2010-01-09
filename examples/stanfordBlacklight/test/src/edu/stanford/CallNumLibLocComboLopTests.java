@@ -23,7 +23,7 @@ public class CallNumLibLocComboLopTests extends AbstractStanfordBlacklightTest {
 	private String lcCallnumVol1 = "E184.S75 R47 V.1";
 	private String lcCallnumVol2 = "E184.S75 R47 V.2";
 	private String lcCallnumVol3 = "E184.S75 R47 V.3";
-	private String lcLoppedCallnum = "E184.S75 R47";
+	private String lcLoppedCallnum = "E184.S75 R47 ...";
 	private String lcVol1Shelfkey = CallNumUtils.getShelfKey(lcCallnumVol1, CallNumberType.LC, null).toLowerCase();
 	private String lcVol2Shelfkey = CallNumUtils.getShelfKey(lcCallnumVol2, CallNumberType.LC, null).toLowerCase();
 	private String lcVol3Shelfkey = CallNumUtils.getShelfKey(lcCallnumVol3, CallNumberType.LC, null).toLowerCase();
@@ -31,7 +31,7 @@ public class CallNumLibLocComboLopTests extends AbstractStanfordBlacklightTest {
 
 	private String deweyCallnumVol1 = "352.042 .C594 ED.1";
 	private String deweyCallnumVol2 = "352.042 .C594 ED.2";
-	private String deweyLoppedCallnum = "352.042 .C594";
+	private String deweyLoppedCallnum = "352.042 .C594 ...";
 	private String deweyVol1Shelfkey = CallNumUtils.getShelfKey(deweyCallnumVol1, CallNumberType.DEWEY, null).toLowerCase();
 	private String deweyVol2Shelfkey = CallNumUtils.getShelfKey(deweyCallnumVol2, CallNumberType.DEWEY, null).toLowerCase();
 	private String deweyLoppedShelfkey = CallNumUtils.getShelfKey(deweyLoppedCallnum, CallNumberType.DEWEY, null).toLowerCase();

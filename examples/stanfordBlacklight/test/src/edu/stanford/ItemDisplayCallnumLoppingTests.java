@@ -64,7 +64,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	{
 		// LC
 		String callnum = "BM198.2 .H85 OCT 2006";
-		String lopped = "BM198.2 .H85";
+		String lopped = "BM198.2 .H85 ...";
 		String id = "Months";
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.LC, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -136,7 +136,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testBoxSuffix() 
 	{
 		String callnum = "M1522 BOX 1";
-		String lopped = "M1522";
+		String lopped = "M1522 ...";
 		String id = "box";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -153,7 +153,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testCartonSuffix() 
 	{
 		String callnum = "M1479 CARTON 1";
-		String lopped = "M1479";
+		String lopped = "M1479 ...";
 		String recId = "carton";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -170,7 +170,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testFlatBoxSuffix() 
 	{
 		String callnum = "M1522 FLAT BOX 17";
-		String lopped = "M1522";
+		String lopped = "M1522 ...";
 		String recId = "flatBox";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -187,7 +187,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testHalfBoxSuffix() 
 	{
 		String callnum = "M1522 HALF BOX 1";
-		String lopped = "M1522";
+		String lopped = "M1522 ...";
 		String recId = "halfBox";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -204,7 +204,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testHalfCartonSuffix() 
 	{
 		String callnum = "M1522 HALF CARTON 1";
-		String lopped = "M1522";
+		String lopped = "M1522 ...";
 		String recId = "halfCarton";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -221,7 +221,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testIndexSuffix() 
 	{
 		String callnum = "ML1 .I614 INDEX 1969-1986";
-		String lopped = "ML1 .I614";
+		String lopped = "ML1 .I614 ...";
 		String recId = "index";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.LC, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -238,7 +238,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testLargeMapFolderSuffix() 
 	{
 		String callnum = "M1522 LARGE MAP FOLDER 26";
-		String lopped = "M1522";
+		String lopped = "M1522 ...";
 		String recId = "largeMapFolder";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -255,7 +255,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testLargeFolderSuffix() 
 	{
 		String callnum = "M1522 LARGE FOLDER 26";
-		String lopped = "M1522";
+		String lopped = "M1522 ...";
 		String recId = "largeFolder";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -272,7 +272,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testMapFolderSuffix() 
 	{
 		String callnum = "M1522 MAP FOLDER 26";
-		String lopped = "M1522";
+		String lopped = "M1522 ...";
 		String recId = "mapFolder";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -289,7 +289,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testMfilmReelSuffix() 
 	{
 		String callnum = "CD3031 .A35 T-60 MFILM REEL 3";
-		String lopped = "CD3031 .A35 T-60 MFILM";
+		String lopped = "CD3031 .A35 T-60 MFILM ...";
 		String recId = "mfilmReel";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -306,7 +306,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testOSBoxSuffix() 
 	{
 		String callnum = "M1522 OS BOX 26";
-		String lopped = "M1522";
+		String lopped = "M1522 ...";
 		String recId = "osBox";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -323,7 +323,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testOSFolderSuffix() 
 	{
 		String callnum = "M1522 OS FOLDER 26";
-		String lopped = "M1522";
+		String lopped = "M1522 ...";
 		String recId = "osFolder";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -340,7 +340,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testSmallMapFolderSuffix() 
 	{
 		String callnum = "M1522 SMALL MAP FOLDER 26";
-		String lopped = "M1522";
+		String lopped = "M1522 ...";
 		String recId = "smallMapFolder";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -357,7 +357,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testSmallFolderSuffix() 
 	{
 		String callnum = "M1522 SMALL FOLDER 26";
-		String lopped = "M1522";
+		String lopped = "M1522 ...";
 		String recId = "smallFolder";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -374,7 +374,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testTubeSuffix() 
 	{
 		String callnum = "M1522 TUBE 26";
-		String lopped = "M1522";
+		String lopped = "M1522 ...";
 		String recId = "tube";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -391,7 +391,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testSeriesBoxSuffix() 
 	{
 		String callnum = "SC 165 SERIES 5 BOX 1";
-		String lopped = "SC 165";
+		String lopped = "SC 165 ...";
 		String recId = "seriesBox1";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -407,7 +407,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 		
 	    recId = "seriesBox2";
 		callnum = "M1090 SERIES 24 BOX 1";
-		lopped = "M1090";
+		lopped = "M1090 ...";
 		shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.OTHER, !isSerial, recId);
@@ -428,7 +428,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testSeriesHalfBoxSuffix() 
 	{
 		String callnum = "M1090 SERIES 16 HALF BOX 1.1";
-		String lopped = "M1090";
+		String lopped = "M1090 ...";
 		String recId = "seriesHalfBox";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -451,7 +451,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testSeriesModelSuffix() 
 	{
 		String callnum = "M1090 SERIES 19 MODEL 124";
-		String lopped = "M1090";
+		String lopped = "M1090 ...";
 		String recId = "seriesBox2";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -468,7 +468,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testSeriesOSFolderSuffix() 
 	{
 		String callnum = "M1090 SERIES 16 OS FOLDER 276.3";
-		String lopped = "M1090";
+		String lopped = "M1090 ...";
 		String recId = "seriesOSFolder";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -485,7 +485,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testSeriesSmallFolderSuffix() 
 	{
 		String callnum = "M1090 SERIES 16 SMALL FOLDER 72.06";
-		String lopped = "M1090";
+		String lopped = "M1090 ...";
 		String recId = "seriesSmallFolder";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -502,7 +502,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testSeriesSmallMapFolderSuffix() 
 	{
 		String callnum = "M1090 SERIES 16 SMALL MAP FOLDER 72.02";
-		String lopped = "M1090";
+		String lopped = "M1090 ...";
 		String recId = "seriesSmallMapFolder";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -519,7 +519,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testSeriesLargMapFolderSuffix() 
 	{
 		String callnum = "M1090 SERIES 16 LARGE MAP FOLDER 276.5";
-		String lopped = "M1090";
+		String lopped = "M1090 ...";
 		String recId = "seriesLargeMapFolder";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -536,7 +536,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testSerialYearSuffix() 
 	{
 		String callnum = "QD1 .C59 1975:P.1-742";
-		String lopped = "QD1 .C59";
+		String lopped = "QD1 .C59 ...";
 		String recId = "year4digitSerial";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.LC, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -558,6 +558,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 @Test
 	public void testNonSerialYearSuffix() 
 	{
+// FIXME:  shouldn't these be lopped??	
 		String callnum = "QD1 .C59 1975:P.1-742";
 		String lopped = "QD1 .C59 1975:P.1-742";
 		String recId = "year4digitNonSerial";
@@ -585,7 +586,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testCalifGovDocSuffix() 
 	{
 		String callnum = "CALIF T900 .J6 V.1-2";
-		String lopped = "CALIF T900 .J6";
+		String lopped = "CALIF T900 .J6 ...";
 		String recId = "govDocCalif1";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -596,7 +597,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 
 	    recId = "govDocCalif2";
 		callnum = "CALIF L1080 .J67 V.1-12:NO.1";
-		lopped = "CALIF L1080 .J67";
+		lopped = "CALIF L1080 .J67 ...";
 		shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.OTHER, !isSerial, recId);
@@ -612,7 +613,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testCutterEndsLetLCSuffix() 
 	{
 		String callnum = "TX519 .D26S 1954 V.1";
-		String lopped = "TX519 .D26S 1954";
+		String lopped = "TX519 .D26S 1954 ...";
 		String recId = "cutterEndsLetLC";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.LC, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -623,7 +624,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 
 		// serial
 		callnum = "TX519 .D26S 1954 V.2";
-		lopped = "TX519 .D26S";
+		lopped = "TX519 .D26S ...";
 		recId = "cutterEndsLetLCSerial";
 		shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.LC, recId).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -634,7 +635,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 		
 		// grade
 		callnum = "TX519 .L18ST GRADE 1";
-		lopped = "TX519 .L18ST";
+		lopped = "TX519 .L18ST ...";
 		recId = "cutterEndsLetLCGrade";
 		shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.LC, recId).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -651,7 +652,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testCutterEndsLetDeweySuffix() 
 	{
 		String callnum = "505 .N285B V.241-245 1973";
-		String lopped = "505 .N285B";
+		String lopped = "505 .N285B ...";
 		String recId = "cutterEndsLetDewey";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.DEWEY, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -662,7 +663,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 
 		// dewey cutter invalid: starts 2 letters ...		
 		callnum = "888.4 .JF78A V.5";
-		lopped = "888.4 .JF78A";
+		lopped = "888.4 .JF78A ...";
 		shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, recId).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.OTHER, !isSerial, recId);
@@ -678,7 +679,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 	public void testColonLCSuffix() 
 	{
 		String callnum = "Q1 .N2 V.434:NO.7031 2005:MAR.17";
-		String lopped = "Q1 .N2";
+		String lopped = "Q1 .N2 ...";
 		String recId = "colonLC";
 		String shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.LC, recId).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -703,7 +704,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 
 //		callnum = "Q1 .S34 V.293:5527-5535 2001:JUL.-AUG.";
 		callnum = "Q1 .S34 V.293:5527-5535 2001:JUL.-AUG";
-		lopped = "Q1 .S34";
+		lopped = "Q1 .S34 ...";
 		shelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.LC, recId).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, !isSerial, recId);
