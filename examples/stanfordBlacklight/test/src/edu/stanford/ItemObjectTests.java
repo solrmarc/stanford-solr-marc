@@ -124,8 +124,7 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * when homeLoc is INTERNET, item is online
 	 */
-// FIXME:  uncomment when we start having item_display for online resources
-//@Test
+@Test
 	public void testHomeLocInternet() 
 	{
 		// home location INTERNET
@@ -139,7 +138,7 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    //  curr loc added, callnum changed
-		fldVal = "444 -|- GREEN" + SEP + INET_LOC + SEP + INET_LOC + SEP + SEP + INET_CALLNUM + SEP +
+		fldVal = "444 -|- GREEN" + SEP + INET_LOC + SEP + INET_LOC + SEP + "SUL" + SEP + INET_CALLNUM + SEP +
 				shelfkey + SEP + reversekey + SEP + INET_CALLNUM + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
@@ -169,6 +168,7 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * when callnum is 'INTERNET RESOURCE', item is online
 	 */
+// FIXME:  not sure what to do here.  Talk to Jessie  2010-01-09
 //@Test
 	public void testCallnumInternet() 
 	{

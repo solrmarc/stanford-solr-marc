@@ -1,0 +1,35 @@
+<record xmlns="http://www.loc.gov/MARC21/slim">
+    <leader>01760cmm a2200349Ia 4500</leader>
+    <controlfield tag="001">a7652182</controlfield>
+    <controlfield tag="008">080708s2008 cau b eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+        <subfield code="a">testing media locations left as is</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+        <subfield code="a">G70.212 .A73934 2008</subfield>
+        <subfield code="w">LC</subfield>
+        <subfield code="c">1</subfield>
+        <subfield code="i">36105130436541</subfield>
+        <subfield code="j">4</subfield>
+        <subfield code="l">PERM-RES</subfield>
+        <subfield code="m">EARTH-SCI</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+        <subfield code="a">G70.212 .A73934 2008</subfield>
+        <subfield code="w">LC</subfield>
+        <subfield code="c">2</subfield>
+        <subfield code="i">36105130436848</subfield>
+        <subfield code="j">2</subfield>
+        <subfield code="l">REFERENCE</subfield>
+        <subfield code="m">EARTH-SCI</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+        <subfield code="a">G70.212 .A73934 2008</subfield>
+        <subfield code="w">LC</subfield>
+        <subfield code="c">3</subfield>
+        <subfield code="i">36105130437192</subfield>
+        <subfield code="j">2</subfield>
+        <subfield code="l">MEDIA</subfield>
+        <subfield code="m">EARTH-SCI</subfield>
+    </datafield>
+</record>

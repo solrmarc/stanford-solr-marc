@@ -546,6 +546,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// LC: volume info to lop off
 		id = "999LC22";
 		callnum = "CB3 .A6 SUPPL. V.31";
+// TODO: suboptimal -  it finds V.31 first, so it doesn't strip suppl.
 		shelfkey = CallNumberType.LC.getPrefix() + CallNumUtils.getLCShelfkey("CB3 .A6 SUPPL. ...", id).toLowerCase();
 		assertSingleResult(id, fldName, "\"" + shelfkey + "\"");
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
@@ -602,6 +603,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// LC: volume info to lop off
 		id = "999LC22";
 		callnum = "CB3 .A6 SUPPL. V.31";
+// TODO: suboptimal -  it finds V.31 first, so it doesn't strip suppl.
 		shelfkey = CallNumberType.LC.getPrefix() + CallNumUtils.getLCShelfkey("CB3 .A6 SUPPL. ...", id).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, shelfkey);
 		
@@ -705,7 +707,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// LC: volume info to lop off
 		id = "999LC22";
 		callnum = "CB3 .A6 SUPPL. V.31";
-// NOTE:  it finds V.31 first, so it doesn't strip suppl.
+// TODO: suboptimal -  it finds V.31 first, so it doesn't strip suppl.
 		String lopped = "CB3 .A6 SUPPL.";
 		shelfkey = CallNumberType.LC.getPrefix() + CallNumUtils.getLCShelfkey(lopped, id);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -731,8 +733,6 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		shelfkey = CallNumberType.DEWEY.getPrefix() + CallNumUtils.getDeweyShelfKey(lopped);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1849258", fldName, reverseShelfkey);
-		
-// TODO: implement longest common prefix vol lopping for non-LC, non-Dewey	
 		
 		// SUDOC 999 
 		callnum = "Y 4.AG 8/1:108-16";
@@ -850,7 +850,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 // NOTE:  Dewey is like LC, except part before cutter is numeric.  Given
 // how the code works, there is no need to test Dewey in addition to LC.
 
-// TODO:  call numbers that are neither LC nor Dewey ...
+// TODO:  test sorting of call numbers that are neither LC nor Dewey ...
 
 	// list of raw call numbers NOT in order to check sorting
 	List<String> lcVolumeUnsortedCallnumList = new ArrayList<String>(25);

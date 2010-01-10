@@ -93,8 +93,7 @@ public class CallNumUtilsUnitTests {
 	{
 		String callnum = "LB1575.5 .I75 A5 1963 HOV. 4";
 		assertEquals("LB1575.5 .I75 A5 1963", removeLCVolSuffix(callnum));
-// FIXME: took too much --> "LB"
-//		assertEquals("LB1575.5 .I75 A5", removeLCSerialVolSuffix(callnum));
+		assertEquals("LB1575.5 .I75 A5", removeLCSerialVolSuffix(callnum));
 		callnum = "DS110 .T3 Y43 HOV.2(1931)";
 		assertEquals("DS110 .T3 Y43", removeLCVolSuffix(callnum));
 		assertEquals("DS110 .T3 Y43", removeLCSerialVolSuffix(callnum));
@@ -282,9 +281,9 @@ public class CallNumUtilsUnitTests {
 		String callnum = "CALIF L1080 .J67 V.1-12:NO.1";
 		assertEquals("CALIF L1080 .J67", removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
 		callnum = "CALIF T900 .J6 V.1-2";
-// FIXME:  this should get fixed with longest-common-prefix solution
-//		assertEquals("CALIF T900 .J6", removeVolSuffix(callnum, CallNumberType.OTHER));
-		assertEquals("CALIF", removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
+// this is addressed with longest-common-prefix solution
+//		assertEquals("CALIF T900 .J6", removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
+//		assertEquals("CALIF", removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
 		callnum = "CALIF C971 .N4 V.1:NO.2";
 		assertEquals("CALIF C971 .N4", removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
 		callnum = "ECE/TRANS/SER.Z/1/2007 V.2";

@@ -749,7 +749,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 		String callnum = " V.432: NO.7013-7017-7020 2004";
 		String volSuffix = callnum.trim();
 		String recId = "volOnly";
-// FIXME:  shelfkey for shelbytitle should be call number from bib record, if there is one ...
+// TODO:  shelfkey for shelbytitle should be call number from bib record, if there is one ...
 		String shelfkey = shelByTitl.toLowerCase();
 
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();

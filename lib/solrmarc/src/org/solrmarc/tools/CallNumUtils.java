@@ -977,8 +977,7 @@ public final class CallNumUtils {
 	public static String removeLCVolSuffix(String rawLCcallnum)
 	{
 		// get suffix to last occurring cutter, if there is one
-		String cut2suffix = getSecondLCcutterSuffix(rawLCcallnum);
-		String suffix = cut2suffix;
+		String suffix = getSecondLCcutterSuffix(rawLCcallnum);
 		if (suffix == null || suffix.length() == 0) {
 			String cut1suffix = getFirstLCcutterSuffix(rawLCcallnum);
 			if (cut1suffix != null) {

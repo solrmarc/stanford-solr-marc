@@ -41,8 +41,8 @@ public class CallNumUtils {
 	private static final Pattern ADDL_VOL_PATTERN = Pattern.compile(ADDL_VOL_REGEX + ".*", Pattern.CASE_INSENSITIVE);
 
 	private static final String FOUR_DIGIT_YEAR_REGEX = "(20|19|18|17|16|15|14)\\d{2}";
-	private static final Pattern FOUR_DIGIT_YEAR_PATTERN = Pattern.compile(PUNCT_PREFIX + " *" + FOUR_DIGIT_YEAR_REGEX + "\\D.*", Pattern.CASE_INSENSITIVE);
-	private static final Pattern FOUR_DIGIT_YEAR_END_PATTERN = Pattern.compile(PUNCT_PREFIX + " *" + FOUR_DIGIT_YEAR_REGEX + "$", Pattern.CASE_INSENSITIVE);
+	private static final Pattern FOUR_DIGIT_YEAR_PATTERN = Pattern.compile("\\W *" + FOUR_DIGIT_YEAR_REGEX + "\\D.*", Pattern.CASE_INSENSITIVE);
+	private static final Pattern FOUR_DIGIT_YEAR_END_PATTERN = Pattern.compile("\\W *" + FOUR_DIGIT_YEAR_REGEX + "$", Pattern.CASE_INSENSITIVE);
 	private static final Pattern LOOSER_MONTHS_PATTERN = Pattern.compile(PUNCT_PREFIX + " *" + MONTHS, Pattern.CASE_INSENSITIVE);
 
 	/**
@@ -101,6 +101,12 @@ public class CallNumUtils {
 		else 
 			lopped = removeAddlVolSuffix(rawLCcallnum);
 
+		// make sure lopping wasn't too short - don't lop class 
+		//  digits that look like a year
+		if (lopped.length() < 4) {
+			return rawLCcallnum;
+		}
+		
 		if (lopped.endsWith(":") || lopped.endsWith("("))
 			return lopped.substring(0, lopped.length() -1);
 		else
@@ -116,7 +122,15 @@ public class CallNumUtils {
 	 */
 	static String removeLCSerialVolSuffix(String rawLCcallnum)
 	{
-		return removeAddlSerialSuffix(removeLCVolSuffix(rawLCcallnum));
+		String lopped = removeLCVolSuffix(rawLCcallnum);
+		String loppedFurther = removeAddlSerialSuffix(lopped);
+		
+		// make sure lopping wasn't too short - don't lop class 
+		//  digits that look like a year
+		if (loppedFurther.length() < 4) 
+			return lopped;
+		else
+			return loppedFurther;
 	}
 	
 	/**
