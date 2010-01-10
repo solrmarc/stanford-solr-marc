@@ -991,8 +991,7 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	 * test if item_display field is populated correctly when location is to
 	 *  be left "as is"  (no translation in map, but don't skip)
 	 */
-// FIXME:  this needs to be changed to a location that is still "as is"
-//@Test
+@Test
 	public final void testAsIsLocations()
 			throws ParserConfigurationException, IOException, SAXException 
 	{
