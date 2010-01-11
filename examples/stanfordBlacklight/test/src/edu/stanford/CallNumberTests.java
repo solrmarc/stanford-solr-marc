@@ -938,4 +938,84 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		}
 	}
 	
+	/**
+	 * test that the volume sorting is correct
+	 */
+@Test
+	public final void testVolumeSortingCorrect() 
+	{
+		List<String> unsortedDeweyVolSortList = new ArrayList<String>(25);
+		unsortedDeweyVolSortList.add("570.5 .N287 V.34:NO.2 1941");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.34:NO.3 1941");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.32:NO.4 1939");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.34:NO.1 1941");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.1-2 1923");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.28:NO.2 1936:AUG.");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.7-8 1926");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.9-10 1927");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.11-12 1928");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.3-4 1924");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.23-24 1934");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.25-26 1935");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.21-22 1933");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.29-30 1937");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.17-18 1931");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.33:NO.2-10 1940");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.5-6 1925");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.15-16 1930");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.13-14 1929");
+		unsortedDeweyVolSortList.add("570.5 .N287 V.19-20 1932");
+		
+		
+		// list of raw call numbers in "proper" order for show view of serial
+		List<String> sortedDeweyVolSortList = new ArrayList<String>(25);
+		sortedDeweyVolSortList.add("570.5 .N287 V.34:NO.3 1941");
+		sortedDeweyVolSortList.add("570.5 .N287 V.34:NO.2 1941");
+		sortedDeweyVolSortList.add("570.5 .N287 V.34:NO.1 1941");
+		sortedDeweyVolSortList.add("570.5 .N287 V.33:NO.2-10 1940");
+		sortedDeweyVolSortList.add("570.5 .N287 V.32:NO.4 1939");
+		sortedDeweyVolSortList.add("570.5 .N287 V.29-30 1937");
+		sortedDeweyVolSortList.add("570.5 .N287 V.28:NO.2 1936:AUG.");
+		sortedDeweyVolSortList.add("570.5 .N287 V.25-26 1935");
+		sortedDeweyVolSortList.add("570.5 .N287 V.23-24 1934");
+		sortedDeweyVolSortList.add("570.5 .N287 V.21-22 1933");
+		sortedDeweyVolSortList.add("570.5 .N287 V.19-20 1932");
+		sortedDeweyVolSortList.add("570.5 .N287 V.17-18 1931");
+		sortedDeweyVolSortList.add("570.5 .N287 V.15-16 1930");
+		sortedDeweyVolSortList.add("570.5 .N287 V.13-14 1929");
+		sortedDeweyVolSortList.add("570.5 .N287 V.11-12 1928");
+		sortedDeweyVolSortList.add("570.5 .N287 V.9-10 1927");
+		sortedDeweyVolSortList.add("570.5 .N287 V.7-8 1926");
+		sortedDeweyVolSortList.add("570.5 .N287 V.5-6 1925");
+		sortedDeweyVolSortList.add("570.5 .N287 V.3-4 1924");
+		sortedDeweyVolSortList.add("570.5 .N287 V.1-2 1923");
+		
+//		// compute list: non-serial volume sorting
+//		Map<String,String> volSortString2callnum = new HashMap<String,String>(75);
+//		for (String callnum : unsortedDeweyVolSortList) {
+//			volSortString2callnum.put(getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, ignoredId), callnum);
+//		}
+//		
+//		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.LC, "fake").toLowerCase();
+
+		boolean isSerial = true;
+		String lopped = "570.5 .N287 ...";
+		String loppedShelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.DEWEY, ignoredId);
+		// compute list: serial volume sorting
+		Map<String,String> volSortString2callnum = new HashMap<String,String>(75);
+		for (String callnum : unsortedDeweyVolSortList) {
+			volSortString2callnum.put(getVolumeSortCallnum(callnum, lopped, loppedShelfkey, CallNumberType.DEWEY, isSerial, ignoredId), callnum);
+		}
+
+		
+		
+		List<String> ordered = new ArrayList<String>(volSortString2callnum.keySet());		
+		Collections.sort(ordered);
+
+		for (int i = 0; i < ordered.size(); i++) {
+			assertEquals("At position " + i + " in list: ", sortedDeweyVolSortList.get(i), volSortString2callnum.get(ordered.get(i)));
+		}
+
+	}
+
 }

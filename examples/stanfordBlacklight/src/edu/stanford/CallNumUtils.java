@@ -604,7 +604,14 @@ public class CallNumUtils {
 		if (isSerial) 
 		{  
 			//   basic call num sorts as shelfkey, volume suffix sorts as reverse key
-			String volSuffix = rawCallnum.substring(loppedCallnum.length()).trim();
+
+			// remove ellipsis if they are present
+			String volSuffix;
+			if (loppedCallnum.endsWith(" ..."))
+				volSuffix = rawCallnum.substring(loppedCallnum.length()-4).trim();
+			else
+				volSuffix = rawCallnum.substring(loppedCallnum.length()).trim();
+				
 			String volSortString = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(org.solrmarc.tools.CallNumUtils.normalizeSuffix(volSuffix));
 			return loppedShelfkey.toLowerCase() + " " + volSortString.toLowerCase();
 		}

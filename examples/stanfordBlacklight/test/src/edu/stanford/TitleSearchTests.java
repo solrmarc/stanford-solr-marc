@@ -490,6 +490,8 @@ public class TitleSearchTests extends AbstractStanfordBlacklightTest {
 		assertZeroResults(fldName, "nope");
 	}
 
+
+// FIXME:  these should go away once Series searching fields are in place
 	/**
 	 * Series Title Search: 440, 490
 	 */
