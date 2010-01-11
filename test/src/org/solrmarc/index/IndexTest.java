@@ -487,6 +487,34 @@ public abstract class IndexTest {
 			assertDocHasFieldValue(docId, fldName, fldVal); 
 	}
 
+	/**
+	 * ensure that the value(s) for the two fields in the document are the 
+	 *  same
+	 * @param docId - the id of the document
+	 * @param fldName1 - the first field to match
+	 * @param fldName2 - the second field to match
+	 */
+	public final void assertFieldValuesEqual(String docId, String fldName1, String fldName2)
+			throws ParserConfigurationException, SAXException, IOException 
+	{
+		int solrDocNum = getSingleDocNum(docIDfname, docId);
+		DocumentProxy doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
+		String[] fld1Vals = doc.getValues(fldName1);
+		int numValsFld1 = fld1Vals.length;
+		String[] fld2Vals = doc.getValues(fldName2);
+		int numValsFld2 = fld2Vals.length;
+		String errmsg ="fields " + fldName1 + ", " + fldName2 + " have different numbers of values";
+		assertEquals(errmsg, numValsFld1, numValsFld2);
+		
+		errmsg = "In doc " + docId + ", field " + fldName1 + " has value not in " + fldName2 + ": ";
+		List<String> fld1ValList = Arrays.asList(fld1Vals);
+		List<String> fld2ValList = Arrays.asList(fld2Vals);
+		for (String val : fld1ValList)
+		{
+			if (!fld2ValList.contains(val))
+				fail(errmsg + val);
+		}
+	}
 	
 	/**
 	 * get all the documents matching the implied term search and check for

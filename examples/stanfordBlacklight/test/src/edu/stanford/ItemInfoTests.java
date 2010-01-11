@@ -895,6 +895,7 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 		// CHECKEDOUT as current location, STACKS as home location
 		String id = "575946";
 		String callnum = "CB3 .A6 SUPPL. V.31";
+// TODO:  suboptimal - it finds V.31, so it doesn't look for SUPPL. preceding it.
 		String lopped = "CB3 .A6 SUPPL. ...";
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.LC, id).toLowerCase();
 		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -1044,7 +1045,7 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 
 		id = "575946";
 		callnum = "CB3 .A6 SUPPL. V.31";
-// FIXME:  it finds V.31, so it doesn't look for SUPPL. preceding it.
+// TODO:  suboptimal - it finds V.31, so it doesn't look for SUPPL. preceding it.
 		lopped = "CB3 .A6 SUPPL. ...";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.LC, id).toLowerCase();
 		reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
