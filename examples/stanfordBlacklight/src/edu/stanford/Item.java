@@ -234,7 +234,7 @@ public class Item {
 	 */
 	private void setLoppedCallnum(boolean isSerial) {
 		loppedCallnum = edu.stanford.CallNumUtils.getLoppedCallnum(normCallnum, callnumType, isSerial);
-		if (!loppedCallnum.equals(normCallnum))
+		if (!loppedCallnum.endsWith(" ...") && !loppedCallnum.equals(normCallnum))
 			loppedCallnum = loppedCallnum + " ...";
 	}
 
@@ -244,7 +244,7 @@ public class Item {
 	 */
 	void setLoppedCallnum(String loppedCallnum) {
 		this.loppedCallnum = loppedCallnum;
-		if (!loppedCallnum.equals(normCallnum))
+		if (!loppedCallnum.endsWith(" ...") && !loppedCallnum.equals(normCallnum))
 			this.loppedCallnum = loppedCallnum + " ...";
 	}
 

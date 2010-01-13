@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<!-- lc serial -->
+    <record>
+        <leader>01659cas a2200409Ia 4500</leader>
+        <controlfield tag="001">aonlyLoppedLC</controlfield>
+        <controlfield tag="008">090331c20079999ja ar         0    0jpn d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">only lopped LC call numbers</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">PN1993.5 .A1 S5595 V.1 2007</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105130701050</subfield>
+            <subfield code="l">JAPANESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">PN1993.5 .A1 S5595 V.2 2008</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105130701043</subfield>
+            <subfield code="l">JAPANESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+        </datafield>    
+    </record>
+    <record>
+        <leader>01321cas a22003014a 4500</leader>
+        <controlfield tag="001">aloppedAndUnloppedLC</controlfield>
+        <controlfield tag="008">050125c20059999ii qr p       0    0eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">unlopped LC call number the same as lopped LC call number</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">PN1993.5 .A75 C564</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">5753495-1001</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">PN1993.5 .A75 C564 2005:NO.1</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105123016755</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">PN1993.5 .A75 C564 V.1:NO.1-4 2005</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105123038692</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+<!-- dewey serial -->
+    <record>
+        <leader>01659cas a2200409Ia 4500</leader>
+        <controlfield tag="001">aonlyLoppedDewey</controlfield>
+        <controlfield tag="008">080718c20089999vaumr p       0    0eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">only lopped dewey call numbers</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">550.5 .G355 V.53 2008:SEPT.-DEC.</subfield>
+            <subfield code="w">DEWEYPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105132729083</subfield>
+            <subfield code="j">2</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">EARTH-SCI</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">550.5 .G355 V.55:NO.1 2010:JAN.</subfield>
+            <subfield code="w">DEWEYPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105213121408</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">EARTH-SCI</subfield>
+            <subfield code="p">$250.00</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01321cas a22003014a 4500</leader>
+        <controlfield tag="001">aloppedAndUnloppedDewey</controlfield>
+        <controlfield tag="008">050125c20059999ii qr p       0    0eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">unlopped dewey call number the same as dewey lopped call number</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">550.5 .G355</subfield>
+            <subfield code="w">DEWEYPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">7654812-2001</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">EARTH-SCI</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">550.5 .G355 V.53 2008:SEPT.-DEC.</subfield>
+            <subfield code="w">DEWEYPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105132729083</subfield>
+            <subfield code="j">2</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">EARTH-SCI</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">550.5 .G355 V.55:NO.1 2010:JAN.</subfield>
+            <subfield code="w">DEWEYPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105213121408</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">EARTH-SCI</subfield>
+            <subfield code="p">$250.00</subfield>
+        </datafield>
+    </record>
+    
+<!-- sudoc serial -->    
+    <record>
+        <leader>01679nam a2200349 a 4500</leader>
+        <controlfield tag="001">aonlyLoppedSudoc</controlfield>
+        <controlfield tag="008">090902m20099999dcu      b   f000 0 eng c</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">only sudoc lopped call numbers</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">Y 1.1/8:111-244/PT.1</subfield>
+            <subfield code="w">SUDOC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105050522601</subfield>
+            <subfield code="l">FED-DOCS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">Y 1.1/8:111-244/PT.2</subfield>
+            <subfield code="w">SUDOC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105050522602</subfield>
+            <subfield code="l">FED-DOCS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+    </record>
+    <record>
+        <leader>01679nam a2200349 a 4500</leader>
+        <controlfield tag="001">aloppedAndUnloppedSudoc</controlfield>
+        <controlfield tag="008">090902m20099999dcu      b   f000 0 eng c</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">unlopped sudoc call number the same as sudoc lopped call number</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">Y 1.1/8:111-244</subfield>
+            <subfield code="w">SUDOC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">8366145-1001</subfield>
+            <subfield code="l">FED-DOCS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">Y 1.1/8:111-244/PT.1</subfield>
+            <subfield code="w">SUDOC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105050522601</subfield>
+            <subfield code="l">FED-DOCS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">Y 1.1/8:111-244/PT.2</subfield>
+            <subfield code="w">SUDOC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105050522602</subfield>
+            <subfield code="l">FED-DOCS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+    </record>
+    
+<!-- other, NON-serial -->    
+    <record>
+        <leader>02619cgm a2200481Ka 4500</leader>
+        <controlfield tag="001">aonlyLoppedOther</controlfield>
+        <controlfield tag="008">050210s2004    xxu600 j          vleng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">only lopped "other" call numbers</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ZDVD 9149 DISC 1</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105118480008</subfield>
+            <subfield code="l">MEDIA-MTXT</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ZDVD 9149 DISC 2</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105118479992</subfield>
+            <subfield code="l">MEDIA-MTXT</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+    </record>
+    <record>
+        <leader>02619cgm a2200481Ka 4500</leader>
+        <controlfield tag="001">aloppedAndUnloppedOther</controlfield>
+        <controlfield tag="008">050210s2004    xxu600 j          vleng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">unlopped "other" call number the same as lopped "other" call number</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ZDVD 9149</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105118480008</subfield>
+            <subfield code="l">MEDIA-MTXT</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ZDVD 9149 DISC 1</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105118480008</subfield>
+            <subfield code="l">MEDIA-MTXT</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ZDVD 9149 DISC 2</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105118479992</subfield>
+            <subfield code="l">MEDIA-MTXT</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>    
+    </record>
+<!-- other serial -->    
+    <record>
+        <leader>01659cas a2200409Ia 4500</leader>
+        <controlfield tag="001">aonlyLoppedOtherSerial</controlfield>
+        <controlfield tag="008">041029c20049999cauar        s0    0eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">only lopped sudoc call numbers</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">CALIF G700 .H25 R4 2004:JUL.</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105130393361</subfield>
+            <subfield code="l">CALIF-DOCS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">CALIF G700 .H25 R4 2005:JUL.</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105130393353</subfield>
+            <subfield code="l">CALIF-DOCS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01321cas a22003014a 4500</leader>
+        <controlfield tag="001">aloppedAndUnloppedOtherSerial</controlfield>
+        <controlfield tag="008">041029c20049999cauar        s0    0eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">unlopped "other" call number the same as "other" lopped call number</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">CALIF G700 .H25 R4</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">5966354-1001</subfield>
+            <subfield code="l">CALIF-DOCS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">CALIF G700 .H25 R4 2004:JUL.</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105130393361</subfield>
+            <subfield code="l">CALIF-DOCS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">CALIF G700 .H25 R4 2005:JUL.</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105130393353</subfield>
+            <subfield code="l">CALIF-DOCS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+</collection>
