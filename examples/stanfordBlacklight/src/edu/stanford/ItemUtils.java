@@ -29,7 +29,7 @@ public class ItemUtils {
 	 *  to be skipped
 	 * @param locationMap - mapping from raw locations to translated location
 	 */
-	static void lopItemCallnums(Set<Item> itemSet, Map<String,String> locationMap) 
+	static void lopItemCallnums(Set<Item> itemSet, Map<String,String> locationMap, boolean isSerial) 
 	{
 		if (itemSet.size() == 0)
 			return;
@@ -60,7 +60,10 @@ public class ItemUtils {
 			
 			// process Item objects as necessary
 			for (String key : libLocScheme2Items.keySet()) {
+
 				Set<Item> items = libLocScheme2Items.get(key);
+				Set<String> loppedCallnums = new HashSet<String>(items.size());
+				
 				if (items.size() == 1) {
 					// single items are not lopped
 					Item[] array = new Item[1];
@@ -71,13 +74,44 @@ public class ItemUtils {
 						!key.contains(":" + CallNumberType.DEWEY.getPrefix()) ) {
 					// non-LC, non-Dewey call numbers are lopped longest common
 					//  prefix
-					CallNumUtils.setLopped2LongestComnPfx(items, 4);
+					String lopped = CallNumUtils.setLopped2LongestComnPfx(items, 4);
+					loppedCallnums.add(lopped);
+					ensureCorrectEllipsis(loppedCallnums, items);
 				}
-				// otherwise, normal lopping will occur
+				else
+				{
+					for (Item item : items) {
+						String fullCallnum = item.getCallnum();
+						String lopped = edu.stanford.CallNumUtils.getLoppedCallnum(fullCallnum, item.getCallnumType(), isSerial);
+						if (!lopped.equals(fullCallnum)) {
+							item.setLoppedCallnum(lopped);
+							loppedCallnums.add(lopped);
+						}
+					}
+					ensureCorrectEllipsis(loppedCallnums, items);
+				}
 			}
 		}
 	}
-
+	
+	/**
+	 * ensure we add ellipsis to item's lopped call number when 
+	 * when there is a lopped call number in the set of items that is the
+	 * same as a full call number of one of the items
+	 * SIDE EFFECT:  may change lopped callnums of item objects
+	 */
+	private static void ensureCorrectEllipsis(Set<String> loppedCallnums, Set<Item> items) 
+	{
+		if (loppedCallnums.size() > 0) {
+			for (Item item : items) {
+				String fullCallnum = item.getCallnum();
+				if (loppedCallnums.contains(fullCallnum)) {
+					item.setLoppedCallnum(fullCallnum + " ...");
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Return the barcode of the item with the preferred callnumber.  The 
 	 *  algorithm is:

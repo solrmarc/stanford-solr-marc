@@ -1,9 +1,12 @@
 package edu.stanford;
 
-import java.io.File;
+import java.io.*;
+import java.util.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.junit.*;
+import org.xml.sax.SAXException;
 
 import edu.stanford.enumValues.CallNumberType;
 
@@ -199,6 +202,81 @@ public class CallNumLibLocComboLopTests extends AbstractStanfordBlacklightTest {
 		assertNoUnloppedDeweyVol2(id);
 	} 
 	
+
+	/**
+	 * when there is a non-lopped call number that matches a lopped call number
+	 *  in a lib-loc-combo, then the non-lopped call number should have the
+	 *  ellipsis added so it matches the lopped call number(s).
+	 */
+@Test
+	public final void testNonLoppedMatchGetsEllipsis() 
+			throws IOException, ParserConfigurationException, SAXException 
+	{
+		createIxInitVars("callNumEllipsisTests.mrc");
+		String fldName = "shelfkey";
+		
+		String id = "onlyLoppedLC";
+		String loppedNoEllip = "PN1993.5 .A1 S5595";
+		String loppedEllip = "PN1993.5 .A1 S5595 ...";
+		String shelfkeyNoEllip = CallNumUtils.getShelfKey(loppedNoEllip, CallNumberType.LC, id);
+		String shelfkeyEllip = CallNumUtils.getShelfKey(loppedEllip, CallNumberType.LC, id);
+		assertZeroResults(fldName, "\"" + shelfkeyNoEllip + "\"");
+		assertSingleResult(id, fldName, "\"" + shelfkeyEllip + "\"");
+
+		id = "loppedAndUnloppedLC";
+		loppedNoEllip = "PN1993.5 .A75 C564";
+		loppedEllip = "PN1993.5 .A75 C564 ...";
+		shelfkeyNoEllip = CallNumUtils.getShelfKey(loppedNoEllip, CallNumberType.LC, id);
+		shelfkeyEllip = CallNumUtils.getShelfKey(loppedEllip, CallNumberType.LC, id);
+		assertZeroResults(fldName, "\"" + shelfkeyNoEllip + "\"");
+		assertSingleResult(id, fldName, "\"" + shelfkeyEllip + "\"");
+		
+		id = "onlyLoppedDewey";
+		loppedNoEllip = "550.5 .G355";
+		loppedEllip = "550.5 .G355 ...";
+		shelfkeyNoEllip = CallNumUtils.getShelfKey(loppedNoEllip, CallNumberType.DEWEY, id);
+		shelfkeyEllip = CallNumUtils.getShelfKey(loppedEllip, CallNumberType.DEWEY, id);
+		assertZeroResults(fldName, "\"" + shelfkeyNoEllip + "\"");
+		Set<String> docIds = new HashSet<String>(2);
+		docIds.add(id);
+		docIds.add("loppedAndUnloppedDewey");
+		assertSearchResults(fldName, "\"" + shelfkeyEllip + "\"", docIds);
+		
+		id = "onlyLoppedSudoc";
+		loppedNoEllip = "Y 1.1/8:111-244";
+		loppedEllip = "Y 1.1/8:111-244 ...";
+		shelfkeyNoEllip = CallNumUtils.getShelfKey(loppedNoEllip, CallNumberType.SUDOC, id);
+		shelfkeyEllip = CallNumUtils.getShelfKey(loppedEllip, CallNumberType.SUDOC, id);
+		assertZeroResults(fldName, "\"" + shelfkeyNoEllip + "\"");
+		docIds.clear();
+		docIds.add(id);
+		docIds.add("loppedAndUnloppedSudoc");
+		assertSearchResults(fldName, "\"" + shelfkeyEllip + "\"", docIds);
+		
+		id = "onlyLoppedOther";
+		loppedNoEllip = "ZDVD 9149";
+		loppedEllip = "ZDVD 9149 ...";
+		shelfkeyNoEllip = CallNumUtils.getShelfKey(loppedNoEllip, CallNumberType.OTHER, id);
+		shelfkeyEllip = CallNumUtils.getShelfKey(loppedEllip, CallNumberType.OTHER, id);
+		assertZeroResults(fldName, "\"" + shelfkeyNoEllip + "\"");
+		docIds.clear();
+		docIds.add(id);
+		docIds.add("loppedAndUnloppedOther");
+		assertSearchResults(fldName, "\"" + shelfkeyEllip + "\"", docIds);
+		
+		id = "onlyLoppedOtherSerial";
+		loppedNoEllip = "CALIF G700 .H25 R4";
+		loppedEllip = "CALIF G700 .H25 R4 ...";
+		shelfkeyNoEllip = CallNumUtils.getShelfKey(loppedNoEllip, CallNumberType.OTHER, id);
+		shelfkeyEllip = CallNumUtils.getShelfKey(loppedEllip, CallNumberType.OTHER, id);
+		assertZeroResults(fldName, "\"" + shelfkeyNoEllip + "\"");
+		docIds.clear();
+		docIds.add(id);
+		docIds.add("loppedAndUnloppedOtherSerial");
+		assertSearchResults(fldName, "\"" + shelfkeyEllip + "\"", docIds);
+	}
+
+
 // --------- assert helper methods -----
 
 	/**

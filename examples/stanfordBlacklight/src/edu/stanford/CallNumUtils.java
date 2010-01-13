@@ -627,8 +627,9 @@ public class CallNumUtils {
 	 *  prefix common to the items' call numbers, adjusted for expected 
 	 *  volume strings ("VOL", "ED", etc.)
 	 * @param items
+	 * @return the lopped call number, if distinct from a full call number that is lopped
 	 */
-	static void setLopped2LongestComnPfx(Set<Item> items, int minLen) 
+	static String setLopped2LongestComnPfx(Set<Item> items, int minLen) 
 	{
 		// single items are not lopped
 		Item[] itemArray = new Item[items.size()];
@@ -711,14 +712,20 @@ public class CallNumUtils {
 		if (matcher.find() || commonPrefix.length() <= minLen) { 
 			tooShort = true;
 		}
+		
+		String loppedToReturn = "";
 		for (int i = 0; i < itemArray.length; i++)
 		{
-			if (tooShort) 
+			if (tooShort)
 				itemArray[i].setLoppedCallnum(itemArray[i].getCallnum());
 			else {
-				itemArray[i].setLoppedCallnum(commonPrefix.trim());
+				String lopped = commonPrefix.trim();
+				itemArray[i].setLoppedCallnum(lopped);
+				if (!lopped.equals(itemArray[i].getCallnum()))
+					loppedToReturn = lopped;
 			}
 		}
+		return loppedToReturn;
 	}
 	
 	/** call number facet values */

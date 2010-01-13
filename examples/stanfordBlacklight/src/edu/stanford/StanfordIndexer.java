@@ -146,14 +146,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			if (!item.shouldBeSkipped())
 				itemSet.add(item);
 		}
-		ItemUtils.lopItemCallnums(itemSet, findMap(LOCATION_MAP_NAME));
 
 		setFormats(record);
 		isSerial = formats.contains(Format.JOURNAL_PERIODICAL.toString());
+		ItemUtils.lopItemCallnums(itemSet, findMap(LOCATION_MAP_NAME), isSerial);
 		setSFXUrls(); // doesn't need record b/c they come from 999
 		setFullTextUrls(record);
 		setBuildings(record);
-		// setShelfkeys(record);
 		setShelfkeys(record);
 		setGovDocCats(record);
 		

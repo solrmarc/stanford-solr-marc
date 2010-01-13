@@ -4,6 +4,7 @@ import java.io.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.solrmarc.solr.DocumentProxy;
 import org.xml.sax.SAXException;
 
 import org.junit.*;
@@ -20,7 +21,7 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	 * Test deleting record when there is no index
 	 */
 @Test 
-	public final void testDeleteButEmptyIndex() 
+	public void testDeleteButEmptyIndex() 
 		throws ParserConfigurationException, SAXException, IOException
 	{
 		createIxInitVars(null);
@@ -31,7 +32,7 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	 * Test when deleted record is the first one in the index
 	 */
 @Test 
-	public final void testDeleteFirstRecord() 
+	public void testDeleteFirstRecord() 
 		throws ParserConfigurationException, SAXException, IOException
 	{
 		createIxInitVars("incrementalIxTests1.mrc");
@@ -45,7 +46,7 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	 * Test when deleted record is the last one in the index
 	 */
 @Test 
-	public final void testDeleteLastRecord() 
+	public void testDeleteLastRecord() 
 		throws ParserConfigurationException, SAXException, IOException
 	{
 		createIxInitVars("incrementalIxTests1.mrc");
@@ -59,7 +60,7 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	 *   and they're not in order 
 	 */
 @Test 
-	public final void testDeletedMultRecords() 
+	public void testDeletedMultRecords() 
 		throws ParserConfigurationException, SAXException, IOException
 	{
 		createIxInitVars("incrementalIxTests1.mrc");
@@ -83,7 +84,7 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	 *  causes no other problems
 	 */
 @Test
-	public final void testDeleteNonExistentRecords() 
+	public void testDeleteNonExistentRecords() 
 	    throws ParserConfigurationException, IOException, SAXException
 	{
 		// file also has key that exists
@@ -99,7 +100,7 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	 * Test that new records are added properly to an empty index
 	 */
 @Test
-	public final void testNewRecordsEmptyIx() 
+	public void testNewRecordsEmptyIx() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		createIxInitVars("incrementalIxTests1.mrc");
@@ -110,7 +111,7 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	 * Test that new records are added properly to an existing index
 	 */
 @Test
-	public final void testNewRecordsExistingIx() 
+	public void testNewRecordsExistingIx() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		createIxInitVars("incrementalIxTests1.mrc");
@@ -128,7 +129,7 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 	 *   when just updated record present (not deleted)
 	 */
 @Test
-	public final void testUpdatedRecords() 
+	public void testUpdatedRecords() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String titleFldName = "title_245a_display";
@@ -151,5 +152,46 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 		// TODO: check multiple occurrences of fields
 	}
 
+	// TODO:  test when multiple occurrences of marc record with same bib key in file
+
+
+	/**
+	 * created date field needs to retain the original value, while 
+	 *  last_updated date field should use latest indexing time
+	 */
+//@Test
+	public void testDates()
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+		String createDateFldName = "created";
+		String updateDateFldName = "last_updated";
+		createIxInitVars("incrementalIxTests1.mrc");
+		
+		// assert created and last_updated are the same
+		assertFieldValuesEqual("1", createDateFldName, updateDateFldName);
+		assertFieldValuesEqual("2", createDateFldName, updateDateFldName);
+		assertFieldValuesEqual("3", createDateFldName, updateDateFldName);
+		assertFieldValuesEqual("4", createDateFldName, updateDateFldName);
+
+		updateIx("incrementalIxTests2.mrc");
+		// assert created and last_updated are the same
+		//   new record
+		assertFieldValuesEqual("99", createDateFldName, updateDateFldName);
+		//   old unchanged record
+		assertFieldValuesEqual("1", createDateFldName, updateDateFldName);
+		
+		// assert created < last_updated  2, 3, 4
+		int solrDocNum = getSingleDocNum(docIDfname, "2");
+		DocumentProxy doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
+		String[] createVals = doc.getValues(createDateFldName);
+		String[] updateVals = doc.getValues(updateDateFldName);
+		
+		org.apache.solr.schema.DateField d = new org.apache.solr.schema.DateField();
+	
+		java.util.Date createDate = d.parseMath(null, createVals[0]);
+		java.util.Date updateDate = d.parseMath(null, updateVals[0]);
+		org.junit.Assert.assertTrue(createDate.before(updateDate));
+		
+	}
 
 }
