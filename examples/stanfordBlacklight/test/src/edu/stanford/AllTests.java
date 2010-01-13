@@ -27,6 +27,7 @@ import org.junit.runners.Suite;
         MiscellaneousFieldTests.class,
         PhysicalTests.class,
         PublicationTests.class,
+        SeriesTests.class,
         StandardNumberTests.class,
         SubjectTests.class,
         TableOfContentsTests.class,

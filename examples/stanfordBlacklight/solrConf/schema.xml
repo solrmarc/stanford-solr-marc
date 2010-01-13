@@ -121,7 +121,8 @@
   <fields>
     <!-- id: Unique id for indexed document -->
     <field name="id" type="string_no_stop" indexed="true" stored="true" required="true" />
-    <field name="timestamp" type="date" indexed="true" stored="true" default="NOW" />
+    <field name="created" type="date" indexed="true" stored="true" default="NOW/SECOND" />
+    <field name="last_updated" type="date" indexed="true" stored="true" default="NOW/SECOND" />
     <!-- entire marc bib record, in raw marc21 -->
     <field name="marc21" type="string" indexed="false" stored="true" />
     <!-- collection: allow searching within collections for aggr. colls, also used for get all docs -->
@@ -181,8 +182,10 @@
     <field name="vern_title_display" type="string" indexed="false" stored="true" />
     <field name="title_245a_display" type="string" indexed="false" stored="true" />
     <field name="vern_title_245a_display" type="string" indexed="false" stored="true" />
+<!--  2010-01-12:  we don't currently use 245c display, and 1250 records are not indexed b/c they incorrectly have more than one 245c 
     <field name="title_245c_display" type="string" indexed="false" stored="true" />
     <field name="vern_title_245c_display" type="string" indexed="false" stored="true" />
+-->
 <!-- TODO:  replace w use of title_display and title_245c_display? -->    
     <field name="title_full_display" type="string" indexed="false" stored="true" />
     <field name="vern_title_full_display" type="string" indexed="false" stored="true" />
@@ -244,6 +247,14 @@
     <field name="topic_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <field name="geographic_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <field name="era_facet" type="string" indexed="true" stored="false" multiValued="true" />
+
+    <!-- Series Search Fields -->
+    <field name="series_title_search" type="text" indexed="true" stored="false" multiValued="true"/>
+    <field name="series_person_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="series_org_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="series_proc_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="series_anything_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="series_anything490_search" type="text" indexed="true" stored="false" multiValued="true" />
 
     <!-- Publishing Fields -->
     <field name="pub_search" type="text" indexed="true" stored="false" omitNorms="true" multiValued="true"/>

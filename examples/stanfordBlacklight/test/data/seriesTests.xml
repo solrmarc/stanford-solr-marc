@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a440</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">four-forty</subfield>
+        </datafield>
+        <datafield tag="440" ind1=" " ind2=" ">
+            <subfield code="a">440a</subfield>
+            <subfield code="n">440n</subfield>
+            <subfield code="p">440p</subfield>
+            <subfield code="v">440v</subfield>
+            <subfield code="w">nope</subfield>
+            <subfield code="x">nope</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a490</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">four-ninety</subfield>
+        </datafield>
+        <datafield tag="490" ind1=" " ind2=" ">
+            <subfield code="a">490a</subfield>
+            <subfield code="l">490l</subfield>
+            <subfield code="v">490v</subfield>
+            <subfield code="x">490x</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a800</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">eight hundred</subfield>
+        </datafield>
+        <datafield tag="800" ind1=" " ind2=" ">
+            <subfield code="a">800a</subfield>
+            <subfield code="d">800d</subfield>
+            <subfield code="f">800f</subfield>
+            <subfield code="g">800g</subfield>
+            <subfield code="h">800h</subfield>
+            <subfield code="j">800j</subfield>
+            <subfield code="k">800k</subfield>
+            <subfield code="l">800l</subfield>
+            <subfield code="m">800m</subfield>
+            <subfield code="n">800n</subfield>
+            <subfield code="o">800o</subfield>
+            <subfield code="p">800p</subfield>
+            <subfield code="r">800r</subfield>
+            <subfield code="s">800s</subfield>
+            <subfield code="t">800t</subfield>
+            <subfield code="v">800v</subfield>
+            <subfield code="x">800x</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a810</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">eight ten</subfield>
+        </datafield>
+        <datafield tag="810" ind1=" " ind2=" ">
+            <subfield code="a">810a</subfield>
+            <subfield code="d">810d</subfield>
+            <subfield code="f">810f</subfield>
+            <subfield code="g">810g</subfield>
+            <subfield code="h">810h</subfield>
+            <subfield code="j">810j</subfield>
+            <subfield code="k">810k</subfield>
+            <subfield code="l">810l</subfield>
+            <subfield code="m">810m</subfield>
+            <subfield code="n">810n</subfield>
+            <subfield code="o">810o</subfield>
+            <subfield code="p">810p</subfield>
+            <subfield code="r">810r</subfield>
+            <subfield code="s">810s</subfield>
+            <subfield code="t">810t</subfield>
+            <subfield code="v">810v</subfield>
+            <subfield code="x">810x</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a811</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">eight eleven</subfield>
+        </datafield>
+        <datafield tag="811" ind1=" " ind2=" ">
+            <subfield code="a">811a</subfield>
+            <subfield code="d">811d</subfield>
+            <subfield code="f">811f</subfield>
+            <subfield code="g">811g</subfield>
+            <subfield code="h">811h</subfield>
+            <subfield code="j">811j</subfield>
+            <subfield code="k">811k</subfield>
+            <subfield code="l">811l</subfield>
+            <subfield code="m">811m</subfield>
+            <subfield code="n">811n</subfield>
+            <subfield code="o">811o</subfield>
+            <subfield code="p">811p</subfield>
+            <subfield code="r">811r</subfield>
+            <subfield code="s">811s</subfield>
+            <subfield code="t">811t</subfield>
+            <subfield code="v">811v</subfield>
+            <subfield code="x">811x</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a830</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">eight thirty</subfield>
+        </datafield>
+        <datafield tag="830" ind1=" " ind2=" ">
+            <subfield code="a">830a</subfield>
+            <subfield code="d">830d</subfield>
+            <subfield code="f">830f</subfield>
+            <subfield code="g">830g</subfield>
+            <subfield code="h">830h</subfield>
+            <subfield code="j">830j</subfield>
+            <subfield code="k">830k</subfield>
+            <subfield code="l">830l</subfield>
+            <subfield code="m">830m</subfield>
+            <subfield code="n">830n</subfield>
+            <subfield code="o">830o</subfield>
+            <subfield code="p">830p</subfield>
+            <subfield code="r">830r</subfield>
+            <subfield code="s">830s</subfield>
+            <subfield code="t">830t</subfield>
+            <subfield code="v">830v</subfield>
+            <subfield code="x">830x</subfield>
+        </datafield>
+    </record>
+    
+<!-- "Lecture notes in computer science"  440, 490, 830 -->
+<!-- 490, 830 -->
+    <record>
+        <leader>01157nas a2200265 a 4500</leader>
+        <controlfield tag="001">a1964873</controlfield>
+        <controlfield tag="008">841211d19851986gw gr         0   a0eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">title</subfield>
+        </datafield>
+        <datafield tag="490" ind1="1" ind2=" ">
+            <subfield code="a">Lecture notes in computer science ;</subfield>
+            <subfield code="v">240</subfield>
+        </datafield>
+        <datafield tag="830" ind1=" " ind2="0">
+            <subfield code="a">Lecture notes in computer science ;</subfield>
+            <subfield code="v">240.</subfield>
+        </datafield>
+    </record>
+<!-- 490, 830 -->    
+    <record>
+        <leader>01309cam a2200325 a 4500</leader>
+        <controlfield tag="001">a4489006</controlfield>
+        <controlfield tag="008">001207s2000    nyua     b    000 0 eng  </controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">title</subfield>
+        </datafield>
+        <datafield tag="490" ind1="1" ind2=" ">
+            <subfield code="a">Lecture notes in computer science ;</subfield>
+            <subfield code="v">1658</subfield>
+        </datafield>
+        <datafield tag="830" ind1=" " ind2="0">
+            <subfield code="a">Lecture notes in computer science ;</subfield>
+            <subfield code="v">1658.</subfield>
+        </datafield>
+    </record>
+<!-- 440 only -->    
+    <record>
+        <leader>06736nas a2200637   4500</leader>
+        <controlfield tag="001">a408434</controlfield>
+        <controlfield tag="008">790220c197u9999gw ar         1   a0eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">title</subfield>
+        </datafield>
+        <datafield tag="440" ind1=" " ind2="0">
+            <subfield code="a">Lecture notes in computer science ;</subfield>
+            <subfield code="v">28, 32, 45, 53, 64, 74, 88, 118, 176, 233, 324, 379, 452, 520, 629, 711, 841, 969, 1113, 1295, 1450, 1672</subfield>
+        </datafield>
+    </record>
+<!-- 830 only -->
+    <record>
+        <leader>02153cas a2200337   4500</leader>
+        <controlfield tag="001">a488433</controlfield>
+        <controlfield tag="008">790220d19uu1975nyuuu         1    0eng d</controlfield>
+        <datafield tag="830" ind1=" " ind2="0">
+            <subfield code="a">Lecture notes in computer science</subfield>
+        </datafield>  
+    </record>
+<!-- phrase in 245 only -->
+    <record>
+        <leader>02153cas a2200337   4500</leader>
+        <controlfield tag="001">a444</controlfield>
+        <controlfield tag="008">790220d19uu1975nyuuu         1    0eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">Lecture notes in computer science</subfield>
+        </datafield>  
+    </record>
+    
+<!-- Beitrage zur Afrikakunde  440, 490, 830 -->    
+<!-- 490, 830 -->    
+    <record>
+        <leader>00890nam a2200241ua 4500</leader>
+        <controlfield tag="001">a1025630</controlfield>
+        <controlfield tag="008">821104s1981    sz b          000 0 ger d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">title</subfield>
+        </datafield>
+        <datafield tag="490" ind1="1" ind2=" ">
+            <subfield code="a">Beitrage zur Afrikakunde,</subfield>
+            <subfield code="x">0171-1660 ;</subfield>
+            <subfield code="v">3</subfield>
+        </datafield>
+        <datafield tag="830" ind1=" " ind2="0">
+            <subfield code="a">Beitrage zur Afrikakunde ;</subfield>
+            <subfield code="v">3.</subfield>
+        </datafield>
+    </record>
+<!-- 440 only -->
+    <record>
+        <leader>01346cam a2200313ua 4500</leader>
+        <controlfield tag="001">a1554950</controlfield>
+        <controlfield tag="008">841002s1984    sz b     b    000 0 eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">title</subfield>
+        </datafield>
+        <datafield tag="440" ind1=" " ind2="0">
+            <subfield code="a">Beitrage zur Afrikakunde,</subfield>
+            <subfield code="x">0171-1660 ;</subfield>
+            <subfield code="v">6</subfield>
+        </datafield>
+    </record>
+<!-- phrase in 245 only -->
+    <record>
+        <leader>01211cam a2200325 a 4500</leader>
+        <controlfield tag="001">a666</controlfield>
+        <controlfield tag="008">910812s1991    sz ab    b    001 0 ger c</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">Beitrage zur Afrikakunde  NOT in series field</subfield>
+        </datafield>
+    </record>
+    
+<!-- "Macmillan series in applied computer science"  490, 830 -->
+<!-- 490, 830 -->
+    <record>
+        <leader>01549nam a2200289u  4500</leader>
+        <controlfield tag="001">a1173521</controlfield>
+        <controlfield tag="008">860409c19711970nyua          001 0 eng  </controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">title</subfield>
+        </datafield>
+        <datafield tag="490" ind1="1" ind2=" ">
+            <subfield code="a">Macmillan series in applied computer science</subfield>
+        </datafield>
+        <datafield tag="830" ind1=" " ind2="0">
+            <subfield code="a">Macmillan series in applied computer science.</subfield>
+        </datafield>
+    </record>
+<!-- phrase in 245 only -->    
+    <record>
+        <leader>01060cam a2200277   4500</leader>
+        <controlfield tag="001">a333</controlfield>
+        <controlfield tag="008">710225s1971    nyua     b    001 0 eng  </controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">Macmillan series in applied computer science.</subfield>
+        </datafield>
+    </record>
+    
+    
+<!-- 800, 490 -->    
+    <record>
+        <leader>01383cam a2200337 i 4500</leader>
+        <controlfield tag="001">a797438</controlfield>
+        <controlfield tag="008">800626s1979    nyuh     b    000 0 eng  </controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">title</subfield>
+        </datafield>
+        <datafield tag="490" ind1="1" ind2=" ">
+            <subfield code="a">The James Joyce archive</subfield>
+        </datafield>
+        <datafield tag="800" ind1="1" ind2=" ">
+            <subfield code="a">Joyce, James,</subfield>
+            <subfield code="d">1882-1941.</subfield>
+            <subfield code="t">James Joyce archive.</subfield>
+        </datafield>
+    </record>
+<!-- 800, 490 -->
+    <record>
+        <leader>01254cam a2200325 i 4500</leader>
+        <controlfield tag="001">a798059</controlfield>
+        <controlfield tag="008">800701r1978    nyu      b    000 1 eng  </controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">title</subfield>
+        </datafield>
+        <datafield tag="490" ind1="1" ind2=" ">
+            <subfield code="a">Joyce, James, 1882-1941. The James Joyce archive</subfield>
+        </datafield>
+        <datafield tag="800" ind1="1" ind2=" ">
+            <subfield code="a">Joyce, James,</subfield>
+            <subfield code="d">1882-1941.</subfield>
+            <subfield code="t">James Joyce archive</subfield>
+        </datafield>
+    </record>
+<!-- phrase in 245 only -->    
+    <record>
+        <leader>01254cam a2200325 i 4500</leader>
+        <controlfield tag="001">a222</controlfield>
+        <controlfield tag="008">800701r1978    nyu      b    000 1 eng  </controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">Joyce, James, 1882-1941. The James Joyce archive</subfield>
+        </datafield>
+    </record>
+    
+    
+<!-- 810, 490 -->    
+    <record>
+        <leader>01665nam a2200349 a 4500</leader>
+        <controlfield tag="001">a1943665</controlfield>
+        <controlfield tag="008">890717s1988    fr           i000 0 eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">title</subfield>
+        </datafield>
+        <datafield tag="490" ind1="1" ind2=" ">
+            <subfield code="a">Publications de la Cour europeenne des droits de l'homme. Serie A, Arrets et decisions =</subfield>
+            <subfield code="a">Publications of the European Court of Human Rights. Series A, Judgments and decisions ;</subfield>
+            <subfield code="v">vol. 138</subfield>
+        </datafield>
+        <datafield tag="810" ind1="2" ind2=" ">
+            <subfield code="a">European Court of Human Rights.</subfield>
+            <subfield code="t">Publications de la Cour europeenne des droits de l'homme.</subfield>
+            <subfield code="n">Serie A,</subfield>
+            <subfield code="p">Arrets et decisions ;</subfield>
+            <subfield code="v">vol. 138.</subfield>
+        </datafield>
+    </record>
+<!-- 810, 490 -->    
+    <record>
+        <leader>01578nam a2200313 a 4500</leader>
+        <controlfield tag="001">a1943753</controlfield>
+        <controlfield tag="008">890719s1988    fr            000 0 fre d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">title</subfield>
+        </datafield>
+        <datafield tag="490" ind1="1" ind2=" ">
+            <subfield code="a">Publications de la Cour europeenne des droits de l'homme. Serie A, Arrets et decisions =</subfield>
+            <subfield code="a">Publications of the European Court of Human Rights, Series A, Judgments and decisions ;</subfield>
+            <subfield code="v">vol. 132</subfield>
+        </datafield>
+        <datafield tag="810" ind1="2" ind2=" ">
+            <subfield code="a">European Court of Human Rights.</subfield>
+            <subfield code="t">Publications de la Cour europeenne des droits de l'homme.</subfield>
+            <subfield code="n">Serie A,</subfield>
+            <subfield code="p">Arrets et decisions ;</subfield>
+            <subfield code="v">vol. 132.</subfield>
+        </datafield>
+    </record>
+<!-- phrase in 245 only -->
+    <record>
+        <leader>01578nam a2200313 a 4500</leader>
+        <controlfield tag="001">a111</controlfield>
+        <controlfield tag="008">890719s1988    fr            000 0 fre d</controlfield>
+        <datafield tag="245" ind1="2" ind2=" ">
+            <subfield code="a">European Court of Human Rights.</subfield>
+        </datafield>
+    </record>
+    
+<!-- 811, 490 -->
+    <record>
+        <leader>01596cam a2200325ua 4500</leader>
+        <controlfield tag="001">a1588366</controlfield>
+        <controlfield tag="008">850731s1985    njua     b    101 0 eng  </controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">title</subfield>
+        </datafield>
+        <datafield tag="490" ind1="1" ind2=" ">
+            <subfield code="a">Delaware symposia on language studies ;</subfield>
+            <subfield code="v">4</subfield>
+        </datafield>
+        <datafield tag="811" ind1="2" ind2=" ">
+            <subfield code="a">Delaware Symposium on Language Studies.</subfield>
+            <subfield code="t">Delaware symposia on language studies ;</subfield>
+            <subfield code="v">4.</subfield>
+        </datafield>
+    </record>
+<!-- 811, 490 -->
+    <record>
+        <leader>01393nam a2200313ZZ 4500</leader>
+        <controlfield tag="001">a253693</controlfield>
+        <controlfield tag="008">900517s1990    nju|||||||||||||| ||eng||</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">title</subfield>
+        </datafield>
+        <datafield tag="490" ind1="1" ind2=" ">
+            <subfield code="a">Delaware symposia on language studies ;</subfield>
+            <subfield code="v">7.</subfield>
+        </datafield>
+        <datafield tag="811" ind1="2" ind2=" ">
+            <subfield code="a">Delaware Symposium on Language Studies.</subfield>
+            <subfield code="t">Delaware symposia on language studies ;</subfield>
+            <subfield code="v">7.</subfield>
+        </datafield>
+    </record>
+<!-- phrase in 245 only -->
+    <record>
+        <leader>01393nam a2200313ZZ 4500</leader>
+        <controlfield tag="001">a999</controlfield>
+        <controlfield tag="008">900517s1990    nju|||||||||||||| ||eng||</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">Delaware symposia on language studies ;</subfield>
+        </datafield>
+    </record>
+    
+</collection>
