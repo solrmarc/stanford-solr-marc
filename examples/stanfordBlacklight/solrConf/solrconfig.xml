@@ -62,6 +62,7 @@
          or "autowarmed" using data from caches in the old searcher.
          autowarmCount is the number of items to prepopulate.  For LRUCache,
          the autowarmed items will be the most recently accessed items.
+         size = maximum number of filters
          -->
 <!-- TODO:  decrease size??? -->
     <filterCache class="solr.FastLRUCache"
@@ -74,7 +75,9 @@
 
    <!-- queryResultCache caches results of searches - ordered lists of
          document ids (DocList) based on a query, a sort, and the range
-         of documents requested. -->
+         of documents requested. 
+         size = maximum number of queries
+         -->
 <!-- turned off due to hit ratio < 20%
     <queryResultCache class="solr.LRUCache"
       size="102400" initialSize="8192" autowarmCount="1024"/>
@@ -85,10 +88,11 @@
        The size for the documentCache should always be greater than 
          max_results * max_concurrent_queries, 
        to ensure that Solr does not need to refetch a document during a request. The more 
-       fields you store in your documents, the higher the memory usage of this cache will be. -->
-<!-- TODO:  increase size to 1024000??? -->
+       fields you store in your documents, the higher the memory usage of this cache will be. 
+       size = maximum number of documents -->
+<!-- TODO:  decrease size??? -->
     <documentCache class="solr.LRUCache"
-      size="102400" initialSize="8192" autowarmCount="0"/>
+      size="20480" initialSize="8192" autowarmCount="0"/>
 
     <enableLazyFieldLoading>true</enableLazyFieldLoading>
 
