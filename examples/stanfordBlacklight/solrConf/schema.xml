@@ -250,11 +250,17 @@
 
     <!-- Series Search Fields -->
     <field name="series_title_search" type="text" indexed="true" stored="false" multiValued="true"/>
+    <field name="vern_series_title_search" type="text" indexed="true" stored="false" multiValued="true"/>
     <field name="series_person_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_series_person_search" type="text" indexed="true" stored="false" multiValued="true" />
     <field name="series_org_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_series_org_search" type="text" indexed="true" stored="false" multiValued="true" />
     <field name="series_proc_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_series_proc_search" type="text" indexed="true" stored="false" multiValued="true" />
     <field name="series_anything_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_series_anything_search" type="text" indexed="true" stored="false" multiValued="true" />
     <field name="series_anything490_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_series_anything490_search" type="text" indexed="true" stored="false" multiValued="true" />
 
     <!-- Publishing Fields -->
     <field name="pub_search" type="text" indexed="true" stored="false" omitNorms="true" multiValued="true"/>
