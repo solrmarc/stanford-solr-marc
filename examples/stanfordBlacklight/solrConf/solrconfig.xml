@@ -245,6 +245,7 @@
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
       <str name="mm">4&lt;-1 4&lt;90%</str>
+      <str name="qs">1</str>
       <str name="qf">
         title_245a_unstem_search^100000
         title_245a_search^75000        vern_title_245a_search^75000
@@ -411,6 +412,7 @@
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
       <str name="mm">4&lt;-1 4&lt;90%</str>
+      <str name="qs">1</str>
       <str name="qf">
         title_245a_unstem_search^50000
         title_245_unstem_search^25000
@@ -514,6 +516,7 @@
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
       <str name="mm">4&lt;-1 4&lt;90%</str>
+      <str name="qs">1</str>
       <str name="qf">
         author_1xx_unstem_search^200
         author_7xx_unstem_search^50
@@ -604,6 +607,7 @@
       <str name="echoParams">explicit</str>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
+      <str name="qs">1</str>
       <str name="mm">4&lt;-1 4&lt;90%</str>
 
       <str name="qf">
@@ -722,6 +726,7 @@
       <str name="rows">20</str> 
       <str name="df">all_search</str> 
       <str name="q.op">AND</str> 
+      <str name="qs">1</str>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
 
       <!-- used for dismax query parser -->
