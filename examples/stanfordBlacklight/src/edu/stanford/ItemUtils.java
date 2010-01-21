@@ -13,6 +13,9 @@ import edu.stanford.enumValues.CallNumberType;
  */
 public class ItemUtils {
 
+	/** separator used in item_display field */
+	public static final String SEP = " -|- ";
+	
 	/**
 	 * Default Constructor: private, so it can't be instantiated by other objects
 	 */	
@@ -173,24 +176,95 @@ public class ItemUtils {
 	
 	
 	/**
-	 * 
+	 * given a set of non-skipped Item objects, return a set of item_display
+	 *   field values
 	 * @param itemSet - set of Item objects
 	 * @param isSerial - true if the record is a serial, false otherwise
 	 * @param id - record id, used for error messages
 	 * @return set of fields from non-skipped items:
-	 *   barcode + sep + 
-	 *   loppedCallnum + sep + 
-	 *   shelfkey + sep +
-	 *   reversekey + sep + 
-	 *   fullCallnum + sep +
+	 *   barcode + SEP + 
+	 *   library + SEP + 
+	 *   home location + SEP + 
+	 *   current location + SEP + 
+	 *   item type + SEP + 
+	 *   loppedCallnum + SEP + 
+	 *   shelfkey + SEP +
+	 *   reversekey + SEP + 
+	 *   fullCallnum + SEP +
 	 *   volSort
-	 *   
-	 *     where sep is " -|- "
 	 */
 	static Set<String> getItemDisplay(Set<Item> itemSet, boolean isSerial, String id) 
 	{
 		Set<String> result = new HashSet<String>();
-// TODO: can't implement here until using raw building/location codes		
+
+		// itemSet contains all non-skipped items
+		for (Item item : itemSet) {
+			String homeLoc = item.getHomeLoc();				
+
+			// full call number & lopped call number
+			CallNumberType callnumType = item.getCallnumType();
+			String fullCallnum = item.getCallnum();
+			String loppedCallnum = item.getLoppedCallnum(isSerial);
+
+			// get sortable call numbers for record view
+			String shelfkey = "";
+			String reversekey = "";
+			String volSort = "";
+			if (!item.isOnline()) {
+				if (!item.hasIgnoredCallnum() && !item.hasBadLcLaneJackCallnum()) {
+					shelfkey = item.getShelfkey(isSerial);
+					reversekey = item.getReverseShelfkey(isSerial);
+				}
+				volSort = item.getCallnumVolSort(isSerial);
+			}
+			
+			// deal with shelved by title locations
+			if (item.hasShelbyLoc() && 
+					!item.isInProcess() && !item.isOnOrder() && 
+					!item.isOnline()) {
+
+				// get volume info to show in record view
+				String volSuffix = null;
+				// ensure we're using a true lopped call number -- if only
+				//   one item, this would have been set to full callnum
+				loppedCallnum = CallNumUtils.getLoppedCallnum(fullCallnum, callnumType, isSerial);
+				if (loppedCallnum != null && loppedCallnum.length() > 0)
+					volSuffix = fullCallnum.substring(loppedCallnum.length()).trim();
+				if ( (volSuffix == null || volSuffix.length() == 0) 
+						&& CallNumUtils.callNumIsVolSuffix(fullCallnum))
+					volSuffix = fullCallnum;
+
+				if (homeLoc.equals("SHELBYTITL")) {
+					loppedCallnum = "Shelved by title";
+				}
+				if (homeLoc.equals("SHELBYSER")) {
+					loppedCallnum = "Shelved by Series title";
+				} 
+				else if (homeLoc.equals("STORBYTITL")) {
+					loppedCallnum = "Shelved by title";
+				}
+				
+				fullCallnum = loppedCallnum + " " + volSuffix;
+				shelfkey = loppedCallnum.toLowerCase();
+				reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey);
+				isSerial = true;
+				volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(fullCallnum, loppedCallnum, shelfkey, edu.stanford.enumValues.CallNumberType.OTHER, isSerial, id);
+			}
+
+			// create field
+			if (loppedCallnum != null)
+    			result.add( item.getBarcode() + SEP + 
+    						item.getLibrary() + SEP + 
+    						homeLoc + SEP +
+    						item.getCurrLoc() + SEP +
+    						item.getType() + SEP +
+	    					loppedCallnum + SEP + 
+	    					(item.isMissingOrLost() ? "" : shelfkey.toLowerCase()) + SEP + 
+	    					(item.isMissingOrLost() ? "" : reversekey.toLowerCase()) + SEP + 
+	    					fullCallnum + SEP + 
+	    					volSort );
+		} // end loop through items
+
 		return result;
 	}
 

@@ -719,124 +719,29 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 	
 	/**
-	 * for search result display:
+	 * for search results and record view displays:
 	 * @return set of fields containing individual item information 
 	 *  (callnums, lib, location, status ...)
 	 */
 	public Set<String> getItemDisplay(final Record record) 
 	{
 		Set<String> result = new HashSet<String>();
-// FIXME: sep should be globally avail constant (for tests also?)
-		String sep = " -|- ";
 
 		// if there are no 999s, then it's on order
 		if (!has999s) {
+			String sep = ItemUtils.SEP;
 			result.add( "" + sep +	// barcode
 						"" + sep + 	// library
 						"ON-ORDER" + sep +	// home loc
 						"ON-ORDER" + sep +	// current loc
 						"" + sep +	// item type
-// for old style index ...
-//						"On order" + sep +	// home loc
 						"" + sep + 	// lopped Callnum
 						"" + sep + 	// shelfkey
 						"" + sep + 	// reverse shelfkey
 						"" + sep + 	// fullCallnum
 						""); 	// volSort
 		}
-		
-// TODO:  can do this after not translating location codes		
-//		return ItemUtils.getItemDisplay(itemSet, isSerial, id);
-
-		// itemList is a list of non-skipped items
-		for (Item item : itemSet) {
-			String building = "";
-			String translatedLoc = "";
-			String homeLoc = item.getHomeLoc();				
-
-			if (item.isOnline()) {
-				building = "Online";
-				translatedLoc = "Online";
-			} 
-			else {
-				// map building to short name
-				String origBldg = item.getLibrary();
-				if (origBldg.length() > 0)
-					building = Utils.remap(origBldg, findMap(LIBRARY_SHORT_MAP_NAME), true);
-				if (building == null || building.length() == 0)
-					building = origBldg;
-				// location --> mapped
-// TODO:  stop mapping location (it will be done in UI)					
-				if (homeLoc.length() > 0)
-					translatedLoc = Utils.remap(homeLoc, findMap(LOCATION_MAP_NAME), true);
-			}
-
-			// full call number & lopped call number
-			CallNumberType callnumType = item.getCallnumType();
-			String fullCallnum = item.getCallnum();
-			String loppedCallnum = item.getLoppedCallnum(isSerial);
-
-			// get sortable call numbers for record view
-			String shelfkey = "";
-			String reversekey = "";
-			String volSort = "";
-			if (!item.isOnline()) {
-				if (!item.hasIgnoredCallnum() && !item.hasBadLcLaneJackCallnum()) {
-					shelfkey = item.getShelfkey(isSerial);
-					reversekey = item.getReverseShelfkey(isSerial);
-				}
-				volSort = item.getCallnumVolSort(isSerial);
-			}
-			
-			// deal with shelved by title locations
-			if (item.hasShelbyLoc() && 
-					!item.isInProcess() && !item.isOnOrder() && 
-					!item.isOnline()) {
-
-				// get volume info to show in record view
-				String volSuffix = null;
-				// ensure we're using a true lopped call number -- if only
-				//   one item, this would have been set to full callnum
-				loppedCallnum = CallNumUtils.getLoppedCallnum(fullCallnum, callnumType, isSerial);
-				if (loppedCallnum != null && loppedCallnum.length() > 0)
-					volSuffix = fullCallnum.substring(loppedCallnum.length()).trim();
-				if ( (volSuffix == null || volSuffix.length() == 0) 
-						&& CallNumUtils.callNumIsVolSuffix(fullCallnum))
-					volSuffix = fullCallnum;
-
-				if (homeLoc.equals("SHELBYTITL")) {
-					translatedLoc = "Serials";
-					loppedCallnum = "Shelved by title";
-				}
-				if (homeLoc.equals("SHELBYSER")) {
-					translatedLoc = "Serials";
-					loppedCallnum = "Shelved by Series title";
-				} 
-				else if (homeLoc.equals("STORBYTITL")) {
-					translatedLoc = "Storage area";
-					loppedCallnum = "Shelved by title";
-				}
-				
-				fullCallnum = loppedCallnum + " " + volSuffix;
-				shelfkey = loppedCallnum.toLowerCase();
-				reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey);
-				isSerial = true;
-				volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(fullCallnum, loppedCallnum, shelfkey, edu.stanford.enumValues.CallNumberType.OTHER, isSerial, id);
-			}
-
-			// create field
-			if (loppedCallnum != null)
-    			result.add( item.getBarcode() + sep + 
-    						item.getLibrary() + sep + 
-    						homeLoc + sep +
-    						item.getCurrLoc() + sep +
-    						item.getType() + sep +
-	    					loppedCallnum + sep + 
-	    					(item.isMissingOrLost() ? "" : shelfkey.toLowerCase()) + sep + 
-	    					(item.isMissingOrLost() ? "" : reversekey.toLowerCase()) + sep + 
-	    					fullCallnum + sep + 
-	    					volSort );
-		} // end loop through items
+		else result.addAll(ItemUtils.getItemDisplay(itemSet, isSerial, id));
 
 		return result;
 	}
