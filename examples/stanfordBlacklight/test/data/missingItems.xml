@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<!-- Missing -->
+    <record>
+        <leader>01450cam a2200337 i 4500</leader>
+        <controlfield tag="001">aonlyMissing</controlfield>
+        <controlfield tag="008">770621s1883    ii            000 0 eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">only item is missing</subfield>
+            <subfield code="b">from 51388</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">363.2 .V349</subfield>
+            <subfield code="w">DEWEY</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105002467384</subfield>
+            <subfield code="k">MISSING</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01936cas a2200277   4500</leader>
+        <controlfield tag="001">amissingDiff</controlfield>
+        <controlfield tag="008">790220c19739999enkuu         0    0eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">missing and non-missing items w diff call numbers</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">A1 .B2</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">111</subfield>
+            <subfield code="k">MISSING</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">B2 .C3</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">2</subfield>
+            <subfield code="i">222</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01936cas a2200277   4500</leader>
+        <controlfield tag="001">amissingSame</controlfield>
+        <controlfield tag="008">790220c19739999enkuu         0    0eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">missing item has call number matching lopped of non-missing items</subfield>
+            <subfield code="b">from 404447</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">TR692 .P37</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105042256730</subfield>
+            <subfield code="k">MISSING</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">TR692 .P37 V.3 1978</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">2</subfield>
+            <subfield code="i">36105000549084</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">TR692 .P37 V.1 1973</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">2</subfield>
+            <subfield code="i">36105000549068</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL</subfield>
+        </datafield>
+    </record>
+<!-- Lost -->   
+    <record>
+        <leader>01450cam a2200337 i 4500</leader>
+        <controlfield tag="001">aonlyLost</controlfield>
+        <controlfield tag="008">770621s1883    ii            000 0 eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">only item is lost</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">363.2 .V349</subfield>
+            <subfield code="w">DEWEY</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105002467384</subfield>
+            <subfield code="k">LOST-ASSUM</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01936cas a2200277   4500</leader>
+        <controlfield tag="001">alostDiff</controlfield>
+        <controlfield tag="008">790220c19739999enkuu         0    0eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">lost and non-lost items w diff call numbers</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">A1 .B2</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">111</subfield>
+            <subfield code="k">LOST-ASSUM</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">B2 .C3</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">2</subfield>
+            <subfield code="i">222</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01936cas a2200277   4500</leader>
+        <controlfield tag="001">alostSame</controlfield>
+        <controlfield tag="008">790220c19739999enkuu         0    0eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">lopped item has call number matching lopped of non-lost items</subfield>
+            <subfield code="b">from 404447</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">TR692 .P37</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105042256730</subfield>
+            <subfield code="k">LOST-ASSUM</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">TR692 .P37 V.3 1978</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">2</subfield>
+            <subfield code="i">36105000549084</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">TR692 .P37 V.1 1973</subfield>
+            <subfield code="w">LCPER</subfield>
+            <subfield code="c">2</subfield>
+            <subfield code="i">36105000549068</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SAL</subfield>
+        </datafield>
+    </record>
+</collection>
