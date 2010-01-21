@@ -1,8 +1,9 @@
 package edu.stanford;
 
-import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.*;
 import org.junit.Test;
+
+import edu.stanford.enumValues.CallNumberType;
 
 /**
  * unit tests for edu.stanford.CallNumberUtils LC lopping methods
@@ -82,7 +83,7 @@ public class CallNumLCLoppingUnitTests extends AbstractStanfordBlacklightTest {
 	 * test that LC lopping doesn't go after the class number when it looks 
 	 *  like a year -- suffix after second cutter
 	 */
-	@Test
+@Test
 	public void testLCNoLopClassLikeYearTwoCuttersSuffix() 
 	{
 		String callnum;
@@ -121,6 +122,40 @@ public class CallNumLCLoppingUnitTests extends AbstractStanfordBlacklightTest {
 		callnum = "PN1993.5 .S6 S374 F 2001:JUL.-NOV.";
 		assertEquals("PN1993.5 .S6 S374 F", CallNumUtils.removeLCSerialVolSuffix(callnum));
 		assertEquals("PN1993.5 .S6 S374 F 2001", CallNumUtils.removeLCVolSuffix(callnum));
+	}
+
+
+	/**
+	 * shelfkeys for (lopped) LC call numbers ending with ellipsis should 
+	 * themselves end in ellipsis
+	 */
+@Test
+	public final void testShelfkeyEllipsis() 
+	{
+		// after first cutter
+		String loppedEllip = "A1 .B2 ...";
+		String shelfkeyEllip = CallNumUtils.getShelfKey(loppedEllip, CallNumberType.LC, null);
+		assertTrue("shelfkey should end with ellipsis", shelfkeyEllip.endsWith(" ..."));
+		// after first cutter suffix
+		loppedEllip = "A1 .B2 BOO ...";
+		shelfkeyEllip = CallNumUtils.getShelfKey(loppedEllip, CallNumberType.LC, null);
+		assertTrue("shelfkey should end with ellipsis", shelfkeyEllip.endsWith(" ..."));
+		// after second cutter 
+		loppedEllip = "A1 .B2 .C3 ...";
+		shelfkeyEllip = CallNumUtils.getShelfKey(loppedEllip, CallNumberType.LC, null);
+		assertTrue("shelfkey should end with ellipsis", shelfkeyEllip.endsWith(" ..."));
+		// after second cutter when there is a first cutter suffix
+		loppedEllip = "A1 .B2 BOO .C3 ...";
+		shelfkeyEllip = CallNumUtils.getShelfKey(loppedEllip, CallNumberType.LC, null);
+		assertTrue("shelfkey should end with ellipsis", shelfkeyEllip.endsWith(" ..."));
+		// after second cutter suffix
+		loppedEllip = "A1 .B2 .C3 BOO ...";
+		shelfkeyEllip = CallNumUtils.getShelfKey(loppedEllip, CallNumberType.LC, null);
+		assertTrue("shelfkey should end with ellipsis", shelfkeyEllip.endsWith(" ..."));
+		// after second cutter suffix when ther is a first cutter suffix
+		loppedEllip = "A1 .B2 BOO .C3 BOO ...";
+		shelfkeyEllip = CallNumUtils.getShelfKey(loppedEllip, CallNumberType.LC, null);
+		assertTrue("shelfkey should end with ellipsis", shelfkeyEllip.endsWith(" ..."));
 	}
 
 }

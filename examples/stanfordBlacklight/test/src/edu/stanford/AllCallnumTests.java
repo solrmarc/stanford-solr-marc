@@ -15,6 +15,7 @@ import org.junit.runners.Suite;
         CallNumUtilsUnitTests.class,
         ItemDisplayCallnumLoppingTests.class,
         ItemInfoTests.class,
+        ItemMissingTests.class,
         ItemObjectTests.class,
         ItemUtilsUnitTests.class
 //        org.solrmarc.index.CallNumberUnitTests.class
