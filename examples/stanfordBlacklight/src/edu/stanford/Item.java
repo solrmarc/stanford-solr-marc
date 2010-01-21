@@ -32,6 +32,7 @@ public class Item {
 	private boolean isInProcess = false;
 	private boolean hasIgnoredCallnum = false;
 	private boolean hasBadLcLaneJackCallnum = false;
+	private boolean isMissingLost = false;
 	/** call number with volume suffix lopped off the end.  Used to remove
 	 * noise in search results and in browsing */
 	private String loppedCallnum = null;
@@ -85,6 +86,12 @@ public class Item {
 			hasGovDocLoc = true;
 		else
 			hasGovDocLoc = false;
+		
+		if (StanfordIndexer.MISSING_LOCS.contains(currLoc) 
+				|| StanfordIndexer.MISSING_LOCS.contains(homeLoc) )
+			isMissingLost = true;
+		else
+			isMissingLost = false;
 		
 		if (StanfordIndexer.SHELBY_LOCS.contains(currLoc) 
 				|| StanfordIndexer.SHELBY_LOCS.contains(homeLoc) )
@@ -159,6 +166,13 @@ public class Item {
 	 */
 	public boolean shouldBeSkipped() {
 		return shouldBeSkipped;
+	}
+	
+	/**
+	 * @return true if item location indicating it is missing or lost
+	 */
+	public boolean isMissingOrLost() {
+		return isMissingLost;
 	}
 	
 	/**

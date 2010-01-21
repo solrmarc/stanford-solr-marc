@@ -136,7 +136,8 @@ public class ItemUtils {
 		String bestOtherBarcode = "";
 		for (Item item : itemSet) {
 			if (!item.hasIgnoredCallnum() && !item.hasBadLcLaneJackCallnum() &&
-					!item.isOnline() && !item.hasShelbyLoc()) {
+					!item.isOnline() && !item.hasShelbyLoc() &&
+					!item.isMissingOrLost()) {
 				int callnumLen = item.getCallnum().length();
 				String barcode = item.getBarcode();
 				if (item.getCallnumType() == CallNumberType.LC

@@ -274,6 +274,15 @@ public class CallNumLibLocComboLopTests extends AbstractStanfordBlacklightTest {
 		docIds.add(id);
 		docIds.add("loppedAndUnloppedOtherSerial");
 		assertSearchResults(fldName, "\"" + shelfkeyEllip + "\"", docIds);
+		
+		// plain call number is for a missing item.
+		id = "missing";
+		loppedNoEllip = "TR692 .P37";
+		loppedEllip = "TR692 .P37 ...";
+		shelfkeyNoEllip = CallNumUtils.getShelfKey(loppedNoEllip, CallNumberType.LC, id);
+		shelfkeyEllip = CallNumUtils.getShelfKey(loppedEllip, CallNumberType.LC, id);
+		assertZeroResults(fldName, "\"" + shelfkeyNoEllip + "\"");
+		assertSingleResult(id, fldName, "\"" + shelfkeyEllip + "\"");
 	}
 
 

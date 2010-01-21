@@ -421,7 +421,7 @@ public class CallNumUtils {
 // FIXME:  shelby locations should be checked for by calling routine??
 			if (item.getCallnumType() == CallNumberType.LC
 					&& !item.hasIgnoredCallnum() && !item.hasBadLcLaneJackCallnum()
-					&& !item.hasShelbyLoc()) {
+					&& !item.hasShelbyLoc() && !item.isMissingOrLost()) {
 				String callnum = edu.stanford.CallNumUtils.normalizeLCcallnum(item.getCallnum());
 				if (callnum.length() > 0)
 					result.add(callnum);
@@ -441,7 +441,8 @@ public class CallNumUtils {
 		for (Item item : itemSet) {
 // FIXME:  shelby locations should be checked for by calling routine??
 			if (item.getCallnumType() == CallNumberType.DEWEY
-					&& !item.hasIgnoredCallnum() && !item.hasShelbyLoc()) {
+					&& !item.hasIgnoredCallnum() && !item.hasShelbyLoc()
+					&& !item.isMissingOrLost()) {
 				String callnum = getNormalizedDeweyCallNumber(item);
 				if (callnum.length() > 0)
 					result.add(callnum);
@@ -474,7 +475,8 @@ public class CallNumUtils {
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) 
 		{
-			if (item.hasIgnoredCallnum() || item.hasBadLcLaneJackCallnum() || item.isOnline())
+			if (item.hasIgnoredCallnum() || item.hasBadLcLaneJackCallnum() || 
+					item.isOnline() || item.isMissingOrLost())
 				continue;
 
 			if (item.getCallnum().length() == 0)
@@ -499,7 +501,8 @@ public class CallNumUtils {
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) 
 		{
-			if (item.hasIgnoredCallnum() || item.hasBadLcLaneJackCallnum() || item.isOnline())
+			if (item.hasIgnoredCallnum() || item.hasBadLcLaneJackCallnum() || 
+					item.isOnline() || item.isMissingOrLost())
 				continue;
 
 			if (item.getCallnum().length() == 0)

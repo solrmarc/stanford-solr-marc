@@ -27,6 +27,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	
 	/** locations indicating item should not be displayed */
 	static Set<String> SKIPPED_LOCS = null;
+	/** locations indicating item is missing or lost */
+	static Set<String> MISSING_LOCS = null;
 	/** locations indicating item is online */
 	static Set<String> ONLINE_LOCS = null;
 	/** locations indicating item is a government document */
@@ -57,6 +59,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		}
         
         SKIPPED_LOCS = GenericUtils.loadPropertiesSet(propertyDirs, "locations_skipped_list.properties");
+        MISSING_LOCS = GenericUtils.loadPropertiesSet(propertyDirs, "locations_missing_list.properties");
         ONLINE_LOCS = GenericUtils.loadPropertiesSet(propertyDirs, "locations_online_list.properties");
         GOV_DOC_LOCS = GenericUtils.loadPropertiesSet(propertyDirs, "gov_doc_location_list.properties");
         SHELBY_LOCS = GenericUtils.loadPropertiesSet(propertyDirs, "locations_shelby_list.properties");
@@ -157,6 +160,11 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		setGovDocCats(record);
 		
 		lcCallnums = CallNumUtils.getLCcallnums(itemSet);
+		for (String callnum : lcCallnums) {
+			if (!org.solrmarc.tools.CallNumUtils.isValidLC(callnum)) 
+				lcCallnums.remove(callnum);
+		}
+
 		deweyCallnums = CallNumUtils.getDeweyNormCallnums(itemSet);
 	}
 
@@ -823,11 +831,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     						homeLoc + sep +
     						item.getCurrLoc() + sep +
     						item.getType() + sep +
-// building + sep + 
-// translatedLoc + sep + 
 	    					loppedCallnum + sep + 
-	    					shelfkey.toLowerCase() + sep + 
-	    					reversekey.toLowerCase() + sep + 
+	    					(item.isMissingOrLost() ? "" : shelfkey.toLowerCase()) + sep + 
+	    					(item.isMissingOrLost() ? "" : reversekey.toLowerCase()) + sep + 
 	    					fullCallnum + sep + 
 	    					volSort );
 		} // end loop through items
@@ -868,8 +874,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	{
 		Set<String> result = new HashSet<String>();
 		for (String callnum : lcCallnums) {
-			if (org.solrmarc.tools.CallNumUtils.isValidLC(callnum))
-				result.add(callnum.substring(0, 1).toUpperCase());
+			result.add(callnum.substring(0, 1).toUpperCase());
 		}
 
 		// TODO: ?need to REMOVE LC callnum if it's a gov doc location? not sure.

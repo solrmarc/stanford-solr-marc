@@ -357,9 +357,17 @@ public final class CallNumUtils {
 	        matcher = pattern.matcher(rawLCcallnum);
 	
 	        if (matcher.find() && matcher.groupCount() > 5 
-	        		&& matcher.group(6) != null && matcher.group(6).length() > 0)
+	        		&& matcher.group(6) != null && matcher.group(6).length() > 0) 
 	        	// there is a second cutter preceded by a period
 	        	result = matcher.group(6).trim();
+	        else {
+	        	// is string after first cutter ellipsis?
+		    	regex = LC_CLASS_N_CUTTER + " ...$"; 
+		        pattern = Pattern.compile(regex);
+		        matcher = pattern.matcher(rawLCcallnum);
+		        if (matcher.find())
+		        	result = " ...";
+	        }
 	    }
 		return result;
 	}
@@ -690,7 +698,7 @@ public final class CallNumUtils {
    		try {
    	    	// normalize first numeric portion to a constant length:
    	    	//  four digits before decimal, 6 digits after
-   	   		String digitStr = getLCClassDigits(upcaseLCcallnum);
+   	   		String digitStr = getLCClassDigits(upcaseLCcallnum); 	   		
    	   		if (digitStr != null) 
    	   			resultBuf.append(normalizeFloat(digitStr, 4, 6));
    	   	    else
@@ -705,7 +713,7 @@ public final class CallNumUtils {
    	    	String firstCutter = getFirstLCcutter(upcaseLCcallnum);
    	    	if (firstCutter != null) {
    	    		resultBuf.append(" " + normalizeCutter(firstCutter, 6));
-   	    	
+
    		    	// normalize optional first cutter suffix
    		    	String firstCutterSuffix = getFirstLCcutterSuffix(upcaseLCcallnum);
    		    	if (firstCutterSuffix != null)
