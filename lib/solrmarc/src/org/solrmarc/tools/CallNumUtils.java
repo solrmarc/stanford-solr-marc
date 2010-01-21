@@ -561,9 +561,7 @@ public final class CallNumUtils {
     }
 
 	/**
-     * return the first cutter in the call number, without the preceding 
-	 * characters (such as the "required" period, which is sometimes missing, 
-	 * or spaces).
+     * return suffix to the first cutter in the dewey call number
      * @param rawCallnum - the entire call number, as a string
      */
     public static String getDeweyCutterSuffix(String rawCallnum) {
