@@ -182,11 +182,8 @@
     <field name="vern_title_display" type="string" indexed="false" stored="true" />
     <field name="title_245a_display" type="string" indexed="false" stored="true" />
     <field name="vern_title_245a_display" type="string" indexed="false" stored="true" />
-<!--  2010-01-12:  we don't currently use 245c display, and 1250 records are not indexed b/c they incorrectly have more than one 245c 
     <field name="title_245c_display" type="string" indexed="false" stored="true" />
     <field name="vern_title_245c_display" type="string" indexed="false" stored="true" />
--->
-<!-- TODO:  replace w use of title_display and title_245c_display? -->    
     <field name="title_full_display" type="string" indexed="false" stored="true" />
     <field name="vern_title_full_display" type="string" indexed="false" stored="true" />
     <field name="title_uniform_display" type="string" indexed="false" stored="true" />

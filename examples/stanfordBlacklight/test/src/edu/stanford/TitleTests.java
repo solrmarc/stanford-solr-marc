@@ -1,6 +1,7 @@
 package edu.stanford;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -13,7 +14,51 @@ import org.xml.sax.SAXException;
  */
 public class TitleTests extends AbstractStanfordBlacklightTest {
 	
+	
+	private String testFileName = "titleTests.mrc";
+    private String testFilePath = testDataParentPath + File.separator + testFileName;
+    private String dispFileName = "displayFieldsTests.mrc";
+    private String dispTestFilePath = testDataParentPath + File.separator + dispFileName;
+
+@Before
+	public final void setup() 
+	{
+		mappingTestInit();
+	}	
+
+
 	/**
+	 * test the properties of the fields, which requires building the index
+	 */
+@Test
+	public void testDisplayFieldProperties()
+		throws IOException, ParserConfigurationException, SAXException 
+	{
+		createIxInitVars(testFileName);
+
+		Set<String> fldNames = new HashSet<String>();
+		fldNames.add("title_245a_display");
+		fldNames.add("title_245c_display");
+		fldNames.add("title_display");
+		fldNames.add("title_full_display");
+		fldNames.add("title_uniform_display");
+		for (String fldName : fldNames) {
+			assertDisplayFieldProperties(fldName);
+			assertFieldNotMultiValued(fldName);
+		}
+		
+		String fldName = "title_sort";		
+		// field is not string; rather tokenized with single term
+		assertTextFieldProperties(fldName);
+		assertFieldOmitsNorms(fldName);
+		assertFieldIndexed(fldName);
+	    // stored because it's used for sorting in nearby-on-shelf
+		assertFieldStored(fldName);
+		assertFieldNotMultiValued(fldName);
+	}
+
+
+    /**
 	 * Test title_245a_display field;  trailing punctuation is removed
 	 */
 @Test
@@ -21,19 +66,65 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "title_245a_display";
-		createIxInitVars("titleTests.mrc");
-		assertDisplayFieldProperties(fldName);
-		assertFieldNotMultiValued(fldName);
 
-		assertDocHasFieldValue("245NoNorP", fldName, "245 no subfield n or p"); 
-		assertDocHasFieldValue("245nAndp", fldName, "245 n and p"); 
-		assertDocHasFieldValue("245multpn", fldName, "245 multiple p, n"); 
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "245NoNorP", fldName, "245 no subfield n or p");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "245nAndp", fldName, "245 n and p");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "245multpn", fldName, "245 multiple p, n");
 
-		tearDown();
-		createIxInitVars("displayFieldsTests.mrc");
 		// trailing punctuation removed
-		assertDocHasFieldValue("2451", fldName, "Heritage Books archives"); 
-		assertDocHasFieldValue("2452", fldName, "Ton meionoteton eunoia"); 
+	    solrFldMapTest.assertSolrFldValue(dispTestFilePath, "2451", fldName, "Heritage Books archives");
+	    solrFldMapTest.assertSolrFldHasNoValue(dispTestFilePath, "2451", fldName, "Heritage Books archives.");
+	    solrFldMapTest.assertSolrFldValue(dispTestFilePath, "2452", fldName, "Ton meionoteton eunoia");
+	    solrFldMapTest.assertSolrFldHasNoValue(dispTestFilePath, "2452", fldName, "Ton meionoteton eunoia :");
+	}
+
+	/**
+	 * Test vern_title_245a_display field;  trailing punctuation is removed
+	 */
+@Test
+	public final void testVernTitle245aDisplay() 
+			throws IOException, ParserConfigurationException, SAXException 
+	{
+		String fldName = "vern_title_245a_display";
+		String filePath = testDataParentPath + File.separator + "vernacularNonSearchTests.mrc";
+	
+	    solrFldMapTest.assertSolrFldValue(filePath, "allVern", fldName, "vernacular title 245");
+		// trailing punctuation removed
+	    solrFldMapTest.assertSolrFldValue(filePath, "trailingPunct", fldName, "vernacular ends in slash");
+	    solrFldMapTest.assertSolrFldHasNoValue(filePath, "trailingPunct", fldName, "vernacular ends in slash /");
+	}
+	
+	/**
+	 * Test title_245c_display field;  trailing punctuation is removed
+	 */
+	@Test
+	public final void testTitle245cDisplay() 
+			throws IOException, ParserConfigurationException, SAXException 
+	{
+		String fldName = "title_245c_display";
+	
+		// trailing punctuation removed
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "245NoNorP", fldName, "by John Sandford");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "245NoNorP", fldName, "by John Sandford.");
+	    
+	    solrFldMapTest.assertSolrFldValue(dispTestFilePath, "2451", fldName, "Laverne Galeener-Moore");
+	    solrFldMapTest.assertSolrFldHasNoValue(dispTestFilePath, "2451", fldName, "Laverne Galeener-Moore.");
+	    solrFldMapTest.assertSolrFldValue(dispTestFilePath, "2453", fldName, "...");
+	}
+
+	/**
+	 * Test title_245c_display field;  trailing punctuation is removed
+	 */
+@Test
+	public final void testVernTitle245cDisplay() 
+			throws IOException, ParserConfigurationException, SAXException 
+	{
+		String fldName = "vern_title_245c_display";
+		String filePath = testDataParentPath + File.separator + "vernacularNonSearchTests.mrc";
+
+		// trailing punctuation removed
+	    solrFldMapTest.assertSolrFldValue(filePath, "RtoL", fldName, "crocodile for is c");
+	    solrFldMapTest.assertSolrFldHasNoValue(filePath, "RtoL", fldName, "crocodile for is c,");
 	}
 
 	/**
@@ -44,26 +135,19 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "title_display";
-		createIxInitVars("titleTests.mrc");
-		assertDisplayFieldProperties(fldName);
-		assertFieldNotMultiValued(fldName);
-
-		assertDocHasFieldValue("245NoNorP", fldName, "245 no subfield n or p [electronic resource]"); 
-		assertDocHasFieldValue("245nNotp", fldName, "245 n but no p Part one."); 
-		assertDocHasFieldValue("245pNotn", fldName, "245 p but no n. subfield b Student handbook"); 
-		assertDocHasFieldValue("245nAndp", fldName, "245 n and p: A, The humanities and social sciences"); 
-		assertDocHasFieldValue("245multpn", fldName, "245 multiple p, n first p subfield first n subfield second p subfield second n subfield"); 
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "245NoNorP", fldName, "245 no subfield n or p [electronic resource]");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "245nNotp", fldName, "245 n but no p Part one.");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "245pNotn", fldName, "245 p but no n. subfield b Student handbook");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "245nAndp", fldName, "245 n and p: A, The humanities and social sciences");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "245multpn", fldName, "245 multiple p, n first p subfield first n subfield second p subfield second n subfield");
 		
-		tearDown();
-		createIxInitVars("displayFieldsTests.mrc");
-		
-		assertDocHasFieldValue("2451", fldName, "Heritage Books archives. Underwood biographical dictionary. Volumes 1 & 2 revised [electronic resource]"); 
 		// trailing slash removed
-		assertDocHasNoFieldValue("2451", fldName, "Heritage Books archives. Underwood biographical dictionary. Volumes 1 & 2 revised [electronic resource] /"); 
-		assertDocHasFieldValue("2452", fldName, "Ton meionoteton eunoia : mythistorema"); 
-		assertDocHasNoFieldValue("2452", fldName, "Ton meionoteton eunoia : mythistorema /"); 
-		assertDocHasFieldValue("2453", fldName, "Proceedings"); 
-		assertDocHasNoFieldValue("2453", fldName, "Proceedings /"); 
+	    solrFldMapTest.assertSolrFldValue(dispTestFilePath, "2451", fldName, "Heritage Books archives. Underwood biographical dictionary. Volumes 1 & 2 revised [electronic resource]");
+	    solrFldMapTest.assertSolrFldHasNoValue(dispTestFilePath, "2451", fldName, "Heritage Books archives. Underwood biographical dictionary. Volumes 1 & 2 revised [electronic resource] /");
+	    solrFldMapTest.assertSolrFldValue(dispTestFilePath, "2452", fldName, "Ton meionoteton eunoia : mythistorema");
+	    solrFldMapTest.assertSolrFldHasNoValue(dispTestFilePath, "2452", fldName, "Ton meionoteton eunoia : mythistorema /");
+	    solrFldMapTest.assertSolrFldValue(dispTestFilePath, "2453", fldName, "Proceedings");
+	    solrFldMapTest.assertSolrFldHasNoValue(dispTestFilePath, "2453", fldName, "Proceedings /");
 	}
 
 	/**
@@ -75,39 +159,36 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 		throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "title_display";
-		createIxInitVars("titleTests.mrc");
-		assertDisplayFieldProperties(fldName);
-		assertFieldNotMultiValued(fldName);
-	
+
 		// also check for trailing punctuation handling
-		assertDocHasFieldValue("115472", fldName, "India and the European Economic Community"); 
-		assertDocHasNoFieldValue("115472", fldName, "India and the European Economic Community."); 
-		assertDocHasFieldValue("7117119", fldName, "HOUSING CARE AND SUPPORT PUTTING GOOD IDEAS INTO PRACTICE"); 
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "115472", fldName, "India and the European Economic Community");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "115472", fldName, "India and the European Economic Community.");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "7117119", fldName, "HOUSING CARE AND SUPPORT PUTTING GOOD IDEAS INTO PRACTICE");
 		// non-filing characters and trailing punctuation
-		assertDocHasFieldValue("1962398", fldName, "A guide to resources in United States libraries"); 
-		assertDocHasNoFieldValue("1962398", fldName, "A guide to resources in United States libraries /"); 
-		assertDocHasNoFieldValue("1962398", fldName, "guide to resources in United States libraries"); 
-		assertDocHasNoFieldValue("1962398", fldName, "guide to resources in United States libraries /"); 
-		assertDocHasFieldValue("4428936", fldName, "Il cinema della transizione"); 
-		assertDocHasNoFieldValue("4428936", fldName, "cinema della transizione"); 
-		assertDocHasFieldValue("1261173", fldName, "The second part of the Confutation of the Ballancing letter"); 
-		assertDocHasNoFieldValue("1261173", fldName, "second part of the Confutation of the Ballancing letter"); 
-		assertDocHasFieldValue("575946", fldName, "Der Ruckzug der biblischen Prophetie von der neueren Geschichte"); 
-		assertDocHasNoFieldValue("575946", fldName, "Der Ruckzug der biblischen Prophetie von der neueren Geschichte."); 
-		assertDocHasNoFieldValue("575946", fldName, "Ruckzug der biblischen Prophetie von der neueren Geschichte"); 
-		assertDocHasNoFieldValue("575946", fldName, "Ruckzug der biblischen Prophetie von der neueren Geschichte."); 
-		assertDocHasFieldValue("666", fldName, "ZZZZ");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "1962398", fldName, "A guide to resources in United States libraries");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "1962398", fldName, "A guide to resources in United States libraries /");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "1962398", fldName, "guide to resources in United States libraries");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "1962398", fldName, "guide to resources in United States libraries /");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "4428936", fldName, "Il cinema della transizione");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "4428936", fldName, "cinema della transizione");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "1261173", fldName, "The second part of the Confutation of the Ballancing letter");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "1261173", fldName, "second part of the Confutation of the Ballancing letter");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "575946", fldName, "Der Ruckzug der biblischen Prophetie von der neueren Geschichte");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "575946", fldName, "Der Ruckzug der biblischen Prophetie von der neueren Geschichte.");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "575946", fldName, "Ruckzug der biblischen Prophetie von der neueren Geschichte");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "575946", fldName, "Ruckzug der biblischen Prophetie von der neueren Geschichte.");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "666", fldName, "ZZZZ");
 	
 		// 245 only even though 130 or 240 present.
-		assertDocHasFieldValue("2400", fldName, "240 0 non-filing"); 
-		assertDocHasFieldValue("2402", fldName, "240 2 non-filing"); 
-		assertDocHasFieldValue("2407", fldName, "240 7 non-filing"); 
-		assertDocHasFieldValue("130", fldName, "130 4 non-filing"); 
-		assertDocHasFieldValue("130240", fldName, "130 and 240"); 
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "2400", fldName, "240 0 non-filing");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "2402", fldName, "240 2 non-filing");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "2407", fldName, "240 7 non-filing");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "130", fldName, "130 4 non-filing");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "130240", fldName, "130 and 240");
 		
 		// numeric subfields
-		assertDocHasFieldValue("2458", fldName, "245 has sub 8");
-		assertDocHasNoFieldValue("2458", fldName, "1.5\\a 245 has sub 8");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "2458", fldName, "245 has sub 8");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "2458", fldName, "1.5\\a 245 has sub 8");
 	}
 
 	/**
@@ -118,22 +199,16 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "title_full_display";
-		createIxInitVars("titleTests.mrc");
-		assertDisplayFieldProperties(fldName);
-		assertFieldNotMultiValued(fldName);
+
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "245NoNorP", fldName, "245 no subfield n or p [electronic resource] / by John Sandford.");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "245nNotp", fldName, "245 n but no p Part one.");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "245pNotn", fldName, "245 p but no n. subfield b Student handbook.");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "245nAndp", fldName, "245 n and p: A, The humanities and social sciences.");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "245multpn", fldName, "245 multiple p, n first p subfield first n subfield second p subfield second n subfield");
 		
-		assertDocHasFieldValue("245NoNorP", fldName, "245 no subfield n or p [electronic resource] / by John Sandford."); 
-		assertDocHasFieldValue("245nNotp", fldName, "245 n but no p Part one."); 
-		assertDocHasFieldValue("245pNotn", fldName, "245 p but no n. subfield b Student handbook."); 
-		assertDocHasFieldValue("245nAndp", fldName, "245 n and p: A, The humanities and social sciences."); 
-		assertDocHasFieldValue("245multpn", fldName, "245 multiple p, n first p subfield first n subfield second p subfield second n subfield"); 
-		
-		tearDown();
-		createIxInitVars("displayFieldsTests.mrc");
-		
-		assertDocHasFieldValue("2451", fldName, "Heritage Books archives. Underwood biographical dictionary. Volumes 1 & 2 revised [electronic resource] / Laverne Galeener-Moore."); 
-		assertDocHasFieldValue("2452", fldName, "Ton meionoteton eunoia : mythistorema / Spyrou Gkrintzou."); 
-		assertDocHasFieldValue("2453", fldName, "Proceedings / ..."); 
+	    solrFldMapTest.assertSolrFldValue(dispTestFilePath, "2451", fldName, "Heritage Books archives. Underwood biographical dictionary. Volumes 1 & 2 revised [electronic resource] / Laverne Galeener-Moore.");
+	    solrFldMapTest.assertSolrFldValue(dispTestFilePath, "2452", fldName, "Ton meionoteton eunoia : mythistorema / Spyrou Gkrintzou.");
+	    solrFldMapTest.assertSolrFldValue(dispTestFilePath, "2453", fldName, "Proceedings / ...");
 	}
 
 	/**
@@ -147,48 +222,43 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 			throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "title_uniform_display";
-		createIxInitVars("titleTests.mrc");
-		assertDisplayFieldProperties(fldName);
-		assertFieldNotMultiValued(fldName);
 	
 		// no 240 or 130
-		assertDocHasNoField("115472", fldName);
-		assertDocHasNoField("7117119", fldName);
-		assertDocHasNoField("1962398", fldName);
-		assertDocHasNoField("4428936", fldName);
-		assertDocHasNoField("1261173", fldName);
+		solrFldMapTest.assertNoSolrFld(testFilePath, "115472", fldName);
+		solrFldMapTest.assertNoSolrFld(testFilePath, "7117119", fldName);
+		solrFldMapTest.assertNoSolrFld(testFilePath, "1962398", fldName);
+		solrFldMapTest.assertNoSolrFld(testFilePath, "4428936", fldName);
+		solrFldMapTest.assertNoSolrFld(testFilePath, "1261173", fldName);
 		
 		// 240 only
 		String s240 = "De incertitudine et vanitate scientiarum. German";
-		assertDocHasFieldValue("575946", fldName, s240);
-		assertDocHasFieldValue("666", fldName, s240); 
-		assertDocHasFieldValue("2400", fldName, "Wacky"); 
-		assertDocHasFieldValue("2402", fldName, "A Wacky"); 
-		assertDocHasNoFieldValue("2402", fldName, "Wacky"); 
-		assertDocHasFieldValue("2407", fldName, "A Wacky Tacky"); 
-		assertDocHasNoFieldValue("2407", fldName, "Tacky"); 
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "575946", fldName, s240);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "666", fldName, s240);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "2400", fldName, "Wacky");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "2402", fldName, "A Wacky");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "2402", fldName, "Wacky");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "2407", fldName, "A Wacky Tacky");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "2407", fldName, "Tacky");
 
 		// uniform title 130 if exists, 240 if not.
-		assertDocHasFieldValue("130", fldName, "The Snimm."); 
-		assertDocHasNoFieldValue("130", fldName, "Snimm."); 
-		assertDocHasFieldValue("130240", fldName, "Hoos Foos"); 
-		assertDocHasNoFieldValue("130240", fldName, "Marvin O'Gravel Balloon Face"); 
-		assertDocHasNoFieldValue("130240", fldName, "Hoos Foos Marvin O'Gravel Balloon Face"); 
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "130", fldName, "The Snimm.");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "130", fldName, "Snimm.");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "130240", fldName, "Hoos Foos");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "130240", fldName, "Marvin O'Gravel Balloon Face");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "130240", fldName, "Hoos Foos Marvin O'Gravel Balloon Face");
 		
 		// numeric subfields
-		assertDocHasFieldValue("1306", fldName, "Sox on Fox");
-		assertDocHasNoFieldValue("1306", fldName, "880-01 Sox on Fox");
-		assertDocHasFieldValue("0240", fldName, "sleep little fishies");
-		assertDocHasNoFieldValue("0240", fldName, "(DE-101c)310008891 sleep little fishies");
-		assertDocHasFieldValue("24025", fldName, "la di dah");
-		assertDocHasNoFieldValue("24025", fldName, "ignore me la di dah");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "1306", fldName, "Sox on Fox");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "1306", fldName, "880-01 Sox on Fox");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "0240", fldName, "sleep little fishies");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "0240", fldName, "(DE-101c)310008891 sleep little fishies");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "24025", fldName, "la di dah");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "24025", fldName, "ignore me la di dah");
 		
-		tearDown();
-		createIxInitVars("displayFieldsTests.mrc");
-		assertDocHasFieldValue("2401", fldName, "Variations, piano, 4 hands, K. 501, G major"); 
-		assertDocHasFieldValue("2402", fldName, "Treaties, etc. Poland, 1948 Mar. 2. Protocols, etc., 1951 Mar. 6"); 
-		assertDocHasFieldValue("130", fldName, "Bible. O.T. Five Scrolls. Hebrew. Biblioteca apostolica vaticana. Manuscript. Urbiniti Hebraicus 1. 1980."); 
-		assertDocHasFieldValue("11332244", fldName, "Bodkin Van Horn"); 
+	    solrFldMapTest.assertSolrFldValue(dispTestFilePath, "2401", fldName, "Variations, piano, 4 hands, K. 501, G major");
+	    solrFldMapTest.assertSolrFldValue(dispTestFilePath, "2402", fldName, "Treaties, etc. Poland, 1948 Mar. 2. Protocols, etc., 1951 Mar. 6");
+	    solrFldMapTest.assertSolrFldValue(dispTestFilePath, "130", fldName, "Bible. O.T. Five Scrolls. Hebrew. Biblioteca apostolica vaticana. Manuscript. Urbiniti Hebraicus 1. 1980.");
+	    solrFldMapTest.assertSolrFldValue(dispTestFilePath, "11332244", fldName, "Bodkin Van Horn");
 	}
 
 	/**
@@ -199,36 +269,18 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 	public final void testUniformTitle() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("vernacularNonSearchTests.mrc");
+		String filePath = testDataParentPath + File.separator + "vernacularNonSearchTests.mrc";
+	
 		String fldName = "title_uniform_display";
-		assertDocHasFieldValue("130only", fldName, "main entry uniform title");
+	    solrFldMapTest.assertSolrFldValue(filePath, "130only", fldName, "main entry uniform title");
 		fldName = "vern_title_uniform_display";
-		assertDocHasFieldValue("130only", fldName, "vernacular main entry uniform title");		
+	    solrFldMapTest.assertSolrFldValue(filePath, "130only", fldName, "vernacular main entry uniform title");
 	
 		// 240 is back in uniform title (despite title_sort being 130 245)
 		fldName = "title_uniform_display";
-		assertDocHasFieldValue("240only", fldName, "uniform title");
+	    solrFldMapTest.assertSolrFldValue(filePath, "240only", fldName, "uniform title");
 		fldName = "vern_title_uniform_display";
-		assertDocHasFieldValue("240only", fldName, "vernacular uniform title");		
-	}
-
-	/**
-	 * Test that title sort field has the correct properties
-	 */
-@Test
-	public final void testTitleSortFieldProperties() 
-		throws ParserConfigurationException, IOException, SAXException
-	{
-		String fldName = "title_sort";
-		createIxInitVars("titleTests.mrc");
-		
-		// field is not string; rather tokenized with single term
-		assertTextFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldIndexed(fldName);
-	    // stored because it's used for sorting in nearby-on-shelf
-		assertFieldStored(fldName);
-		assertFieldNotMultiValued(fldName);
+	    solrFldMapTest.assertSolrFldValue(filePath, "240only", fldName, "vernacular uniform title");
 	}
 
 	/**
@@ -239,24 +291,23 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 		throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "title_sort";
-		createIxInitVars("titleTests.mrc");
 		
 		// 130 (with non-filing)
-		assertSingleResult("130", fldName, "\"Snimm 130 4 nonfiling\""); 
-		assertSingleResult("1306", fldName, "\"Sox on Fox 130 has sub 6\"");
-		assertSingleResult("888", fldName, "\"interspersed punctuation here\"");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "130", fldName, "Snimm 130 4 nonfiling");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "1306", fldName, "Sox on Fox 130 has sub 6");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "888", fldName, "interspersed punctuation here");
 		
 		// 240
-		assertZeroResults(fldName, "\"sleep little fishies 240 has sub 0\"");
-		assertSingleResult("0240", fldName, "\"240 has sub 0\"");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "0240", fldName, "sleep little fishies 240 has sub 0");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "0240", fldName, "240 has sub 0");
 
-		assertZeroResults(fldName, "\"la di dah 240 has sub 2 and 5\"");
-		assertSingleResult("24025", fldName, "\"240 has sub 2 and 5\"");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "24025", fldName, "la di dah 240 has sub 2 and 5");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "24025", fldName, "240 has sub 2 and 5");
 
 		// 130 and 240
-		assertSingleResult("130240", fldName, "\"Hoos Foos 130 and 240\""); 
-		assertZeroResults(fldName, "\"Hoos Foos Marvin OGravel Balloon Face 130 and 240\""); 
-		assertZeroResults(fldName, "\"Marvin OGravel Balloon Face 130 and 240\""); 
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "130240", fldName, "Hoos Foos 130 and 240");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "130240", fldName, "Hoos Foos Marvin OGravel Balloon Face 130 and 240");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "130240", fldName, "Marvin OGravel Balloon Face 130 and 240");
 	}
 
 	/**
@@ -268,7 +319,7 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 		throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "title_sort";
-		createIxInitVars("titleTests.mrc");
+		createIxInitVars(testFileName);
 		
 		// sort field is indexed (but not tokenized) - search for documents		
 		assertSingleResult("115472", fldName, "\"India and the European Economic Community\"");
@@ -328,22 +379,21 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 		throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "title_sort";
-		createIxInitVars("titleTests.mrc");
 
-		assertSingleResult("2458", fldName, "\"245 has sub 8\"");
-		assertZeroResults(fldName, "\"1.5\\a 245 has sub 8\"");	
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "2458", fldName, "245 has sub 8");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "2458", fldName, "1.5\\a 245 has sub 8");
 		
-		assertSingleResult("1306", fldName, "\"Sox on Fox 130 has sub 6\"");
-		assertZeroResults(fldName, "\"880\\-01 Sox on Fox 130 has sub 6\"");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "1306", fldName, "Sox on Fox 130 has sub 6");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "1306", fldName, "880\\-01 Sox on Fox 130 has sub 6");
 
 		// 240 no longer in title_sort
-		assertSingleResult("0240", fldName, "\"240 has sub 0\"");
-		assertZeroResults(fldName, "\"sleep little fishies 240 has sub 0\"");
-		assertZeroResults(fldName, "\"(DE-101c)310008891 sleep little fishies 240 has sub 0\"");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "0240", fldName, "240 has sub 0");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "0240", fldName, "sleep little fishies 240 has sub 0");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "0240", fldName, "(DE-101c)310008891 sleep little fishies 240 has sub 0");
 
-		assertSingleResult("24025", fldName, "\"240 has sub 2 and 5\"");
-		assertZeroResults(fldName, "\"la di dah 240 has sub 2 and 5\"");
-		assertZeroResults(fldName, "\"ignore me la di dah NjP 240 has sub 2 and 5\"");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "24025", fldName, "240 has sub 2 and 5");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "24025", fldName, "la di dah 240 has sub 2 and 5");
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "24025", fldName, "ignore me la di dah NjP 240 has sub 2 and 5");
 	}
 
 	/**
@@ -354,7 +404,7 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 		throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "title_sort";
-		createIxInitVars("titleTests.mrc");
+		createIxInitVars(testFileName);
 	
 		assertSingleResult("111", fldName, "\"ind 0 leading quotes\"");
 		assertZeroResults(fldName, "\"\"ind 0 leading quotes\"\"");
