@@ -1196,7 +1196,7 @@
     </target>
     
 <!-- Cobertura Code Coverage -->
-    <property name="cobertura.dir" value="/home/hudson/hudson/plugins/cobertura/WEB-INF/classes/hudson/plugins/cobertura" />
+    <property name="cobertura.dir" value="/home/hudson/tools/cobertura" />
 <!--
     <property name="cobertura.dir" value="/home/hudson/hudson/plugins/cobertura" />
     <property name="cobertura.dir" value="/Applications/cobertura-1.9.3" />
@@ -1205,7 +1205,6 @@
     <property name="cobertura.coverage.dir" value="${build.dir}/coverage/cobertura" />
     <path id="cobertura.classpath">
         <fileset dir="${cobertura.dir}">
-            <include name="**/*.class" />
             <include name="cobertura.jar" />
             <include name="lib/**/*.jar" />
         </fileset>
