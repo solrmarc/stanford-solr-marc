@@ -1110,8 +1110,10 @@
     </path>
        
     <!-- Load <emma> and <emmajava> custom tasks -->
+<!--
     <taskdef resource="emma_ant.properties" classpathref="emma.lib" />
-    
+-->    
+
     <!-- Enable Emma -->
     <target name="emma" description="turns on EMMA's instrumentation/reporting" >
 
@@ -1194,22 +1196,25 @@
     </target>
     
 <!-- Cobertura Code Coverage -->
-    <property name="cobertura.dir" value="/home/hudson/hudson/plugins/cobertura" />
+    <property name="cobertura.dir" value="/home/hudson/hudson/plugins/cobertura/WEB-INF/classes/hudson/plugins/cobertura" />
 <!--
+    <property name="cobertura.dir" value="/home/hudson/hudson/plugins/cobertura" />
     <property name="cobertura.dir" value="/Applications/cobertura-1.9.3" />
 -->
     <property name="cobertura.instr.dir" value="instr"/>
     <property name="cobertura.coverage.dir" value="${build.dir}/coverage/cobertura" />
     <path id="cobertura.classpath">
         <fileset dir="${cobertura.dir}">
+            <include name="**/*.class" />
             <include name="cobertura.jar" />
             <include name="lib/**/*.jar" />
         </fileset>
     </path>
     
     <!-- Load cobertura custom ant tasks -->
+<!--
     <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
-    
+-->    
     <target name="cobertura-instrument" depends="clean,compile" description="instrument classes for Cobertura">
         <delete dir="${cobertura.instr.dir}" />
         <mkdir dir="${cobertura.instr.dir}" />
