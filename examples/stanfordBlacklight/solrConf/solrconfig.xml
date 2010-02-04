@@ -376,6 +376,7 @@
         physical,
         pub_date,
         title_245a_display,
+        title_245c_display,
         title_display,
         title_full_display,
         title_uniform_display,
@@ -388,6 +389,7 @@
         vern_author_person_full_display,
         vern_physical,
         vern_title_245a_display,
+        vern_title_245c_display,
         vern_title_display,
         vern_title_uniform_display
       </str>
@@ -480,6 +482,7 @@
         physical,
         pub_date,
         title_245a_display,
+        title_245c_display,
         title_display,
         title_full_display,
         title_uniform_display,
@@ -492,6 +495,7 @@
         vern_author_person_full_display,
         vern_physical,
         vern_title_245a_display,
+        vern_title_245c_display,
         vern_title_display,
         vern_title_uniform_display
       </str>
@@ -572,6 +576,7 @@
         physical,
         pub_date,
         title_245a_display,
+        title_245c_display,
         title_display,
         title_full_display,
         title_uniform_display,
@@ -584,6 +589,7 @@
         vern_author_person_full_display,
         vern_physical,
         vern_title_245a_display,
+        vern_title_245c_display,
         vern_title_display,
         vern_title_uniform_display
       </str>
@@ -680,6 +686,7 @@
         physical,
         pub_date,
         title_245a_display,
+        title_245c_display,
         title_display,
         title_full_display,
         title_uniform_display,
@@ -692,6 +699,7 @@
         vern_author_person_full_display,
         vern_physical,
         vern_title_245a_display,
+        vern_title_245c_display,
         vern_title_display,
         vern_title_uniform_display
       </str>
@@ -903,6 +911,7 @@
         physical,
         pub_date,
         title_245a_display,
+        title_245c_display,
         title_display,
         title_full_display,
         title_uniform_display,
@@ -915,6 +924,7 @@
         vern_author_person_full_display,
         vern_physical,
         vern_title_245a_display,
+        vern_title_245c_display,
         vern_title_display,
         vern_title_uniform_display
       </str>
@@ -977,6 +987,7 @@
         physical,
         pub_date,
         title_245a_display,
+        title_245c_display,
         title_display,
         title_full_display,
         title_uniform_display,
@@ -989,6 +1000,7 @@
         vern_author_person_full_display,
         vern_physical,
         vern_title_245a_display,
+        vern_title_245c_display,
         vern_title_display,
         vern_title_uniform_display
       </str>
