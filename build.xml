@@ -1211,9 +1211,7 @@
     </path>
     
     <!-- Load cobertura custom ant tasks -->
-<!--
     <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
--->    
     <target name="cobertura-instrument" depends="clean,compile" description="instrument classes for Cobertura">
         <delete dir="${cobertura.instr.dir}" />
         <mkdir dir="${cobertura.instr.dir}" />
