@@ -123,7 +123,7 @@ public class Item {
 		// isOnline is immutable so must be set here
 		if (StanfordIndexer.ONLINE_LOCS.contains(currLoc) 
 				|| StanfordIndexer.ONLINE_LOCS.contains(homeLoc) //) {
-				|| normCallnum.equals(ECALLNUM) ) {
+				|| normCallnum.startsWith(ECALLNUM) ) {
 			isOnline = true;
 			homeLoc = ELOC;
 			currLoc = ELOC;
