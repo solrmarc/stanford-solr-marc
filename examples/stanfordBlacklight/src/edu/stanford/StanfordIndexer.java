@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 import org.marc4j.marc.*;
 //could import static, but this seems clearer
 import org.solrmarc.index.SolrIndexer;
-import org.solrmarc.tools.Utils;
+import org.solrmarc.tools.*;
 
 import edu.stanford.enumValues.*;
 
@@ -97,7 +97,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/** date008 is bytes 7-10 (0 based index) in 008 field */
 	String date008 = null;
 	/** date260c is a four character String containing year from 260c 
-	 * "cleaned" per Utils.cleanDate() */
+	 * "cleaned" per DateUtils.cleanDate() */
 	String date260c = null;
 	/** Set of 020 subfield a */
 	Set<String> f020suba;
@@ -143,11 +143,15 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		has999s = !list999df.isEmpty();
 
 		setId(record);
+		boolean onlyOnlineItems = true;
+		
 		itemSet.clear();
 		for (DataField df999 : list999df) {
 			Item item = new Item(df999, id);
 			if (!item.shouldBeSkipped())
 				itemSet.add(item);
+			if (!item.isOnline())
+				onlyOnlineItems = false;
 		}
 
 		setFormats(record);
@@ -156,8 +160,15 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		setSFXUrls(); // doesn't need record b/c they come from 999
 		setFullTextUrls(record);
 		setBuildings(record);
-		setShelfkeys(record);
 		setGovDocCats(record);
+
+		if (onlyOnlineItems) {
+			// get a call number from the bib fields, if there is one
+			boolean isGovDoc = !govDocCats.isEmpty();
+			CallNumUtils.setCallnumsFromBib(record, itemSet, isGovDoc);
+		}
+
+		setShelfkeys(record);
 		
 		lcCallnums = CallNumUtils.getLCcallnums(itemSet);
 		for (String callnum : lcCallnums) {
@@ -235,8 +246,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		List<DataField> dfList = (List<DataField>) record.getDataFields();
 		for (DataField df : dfList) {
 			if (df.getTag().startsWith("6")) {
-				List<String> subList = Utils.getSubfieldStrings(df, 'x');
-				subList.addAll(Utils.getSubfieldStrings(df, 'v'));
+				List<String> subList = MarcUtils.getSubfieldStrings(df, 'x');
+				subList.addAll(MarcUtils.getSubfieldStrings(df, 'v'));
 				for (String s : subList) {
 					if (s.toLowerCase().contains("congresses")) {
 						formats.remove(Format.JOURNAL_PERIODICAL.toString());
@@ -420,12 +431,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		// uniform title
 		DataField df = (DataField) record.getVariableField("130");
 		if (df != null)
-			resultBuf.append(getAlphaSubfldsAsSortStr(df, false));
+			resultBuf.append(MarcUtils.getAlphaSubfldsAsSortStr(df, false));
 
 		// 245 (required) title statement
 		df = (DataField) record.getVariableField("245");
 		if (df != null)
-			resultBuf.append(getAlphaSubfldsAsSortStr(df, true));
+			resultBuf.append(MarcUtils.getAlphaSubfldsAsSortStr(df, true));
 
 		return resultBuf.toString().trim();
 	}
@@ -715,7 +726,18 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public String getPreferredItemBarcode(final Record record)
 	{
-		return ItemUtils.getPreferredItemBarcode(itemSet);
+		String barcode = ItemUtils.getPreferredItemBarcode(itemSet);
+		if (barcode == null || barcode.length() == 0) {
+			for (Item item : itemSet) {
+				if (item.isOnline() && item.callnumNotFromItem()) {
+					String skey = item.getShelfkey(isSerial);
+					if (skey != null && skey.length() > 0)
+						return item.getBarcode();
+				}
+			}
+		}
+
+		return barcode;
 	}
 	
 	/**
@@ -885,11 +907,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		boolean has086 = !record.getVariableFields("086").isEmpty();
 
 		for (Item item : itemSet) {
-			if (!item.hasIgnoredCallnum() && !item.isOnline()) {
+			if (item.hasGovDocLoc() || has086
+				|| item.getCallnumType() == CallNumberType.SUDOC) {
 				String rawLoc = item.getHomeLoc(); 
-				if (item.hasGovDocLoc() || has086 
-						|| item.getCallnumType() == CallNumberType.SUDOC)
-					govDocCats.add(CallNumUtils.getGovDocTypeFromLocCode(rawLoc));
+				govDocCats.add(CallNumUtils.getGovDocTypeFromLocCode(rawLoc));
 			}
 		}
 	}

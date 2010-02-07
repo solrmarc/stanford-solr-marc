@@ -13,6 +13,9 @@ import edu.stanford.enumValues.CallNumberType;
  */
 public class Item {
 
+	public final static String ECALLNUM = "INTERNET RESOURCE";
+	public final static String ELOC = "INTERNET";
+	
 	/* immutable instance variables */
 	private final String recId;
 	private final String barcode;
@@ -33,6 +36,7 @@ public class Item {
 	private boolean hasIgnoredCallnum = false;
 	private boolean hasBadLcLaneJackCallnum = false;
 	private boolean isMissingLost = false;
+	private boolean callnumNotFromItem = false;
 	/** call number with volume suffix lopped off the end.  Used to remove
 	 * noise in search results and in browsing */
 	private String loppedCallnum = null;
@@ -118,12 +122,11 @@ public class Item {
 
 		// isOnline is immutable so must be set here
 		if (StanfordIndexer.ONLINE_LOCS.contains(currLoc) 
-				|| StanfordIndexer.ONLINE_LOCS.contains(homeLoc) ) {
-//				|| normCallnum.equals("INTERNET RESOURCE") ) {
+				|| StanfordIndexer.ONLINE_LOCS.contains(homeLoc) //) {
+				|| normCallnum.equals(ECALLNUM) ) {
 			isOnline = true;
-			homeLoc = "INTERNET";
-			currLoc = homeLoc;
-			normCallnum = "INTERNET RESOURCE";
+			homeLoc = ELOC;
+			currLoc = ELOC;
 		}	
 		else
 			isOnline = false;
@@ -155,8 +158,27 @@ public class Item {
 		return normCallnum;
 	}
 
+	/**
+	 * for resources that have only online items without call numbers 
+	 * (SUL INTERNET RESOURCE), we look for a call number in the bib record 
+	 * fields (050, 090, 086 ...) for browse nearby and for call number facets.
+	 * If one is found, this method is used.
+	 */
+	public void setCallnum(String callnum) {
+		callnumNotFromItem = true;
+		if (callnumType == CallNumberType.LC || callnumType == CallNumberType.DEWEY)
+			normCallnum = CallNumUtils.normalizeCallnum(callnum);
+		else
+			normCallnum = callnum.trim();
+		loppedCallnum = normCallnum;
+	}
+	
 	public CallNumberType getCallnumType() {
 		return callnumType;
+	}
+	
+	public void setCallnumType(CallNumberType callnumType) {
+		this.callnumType = callnumType;
 	}
 	
 	/**
@@ -186,7 +208,7 @@ public class Item {
 	 * return true if item has a location code indicating it is online
 	 */
 	public boolean isOnline() {
-		if (normCallnum.startsWith("INTERNET"))
+		if (normCallnum.startsWith(ECALLNUM))
 			return true;
 		else
 			return isOnline;
@@ -226,6 +248,13 @@ public class Item {
 	 */
 	public boolean hasBadLcLaneJackCallnum() {
 		return hasBadLcLaneJackCallnum;
+	}
+	
+	/**
+	 * @return true if item has a call number from the bib fields
+	 */
+	public boolean callnumNotFromItem() {
+		return callnumNotFromItem;
 	}
 	
 	/**
@@ -280,11 +309,13 @@ public class Item {
 	 * @param isSerial - true if item is for a serial.
 	 */
 	private void setShelfkey(boolean isSerial) {
-		if (loppedCallnum == null)
-			setLoppedCallnum(isSerial);
-		loppedShelfkey = edu.stanford.CallNumUtils.getShelfKey(loppedCallnum, callnumType, recId);
+		if (loppedShelfkey == null) {
+			if (loppedCallnum == null)
+				setLoppedCallnum(isSerial);
+			if (!normCallnum.startsWith(ECALLNUM))
+				loppedShelfkey = edu.stanford.CallNumUtils.getShelfKey(loppedCallnum, callnumType, recId);
+		}
 	}
-
 	
 	/**
 	 * get the reverse sortable version of the lopped call number.
@@ -305,7 +336,8 @@ public class Item {
 	private void setReverseShelfkey(boolean isSerial) {
 		if (loppedShelfkey == null)
 			setShelfkey(isSerial);
-		reverseLoppedShelfkey = CallNumUtils.getReverseShelfKey(loppedShelfkey);
+		if (loppedShelfkey != null && loppedShelfkey.length() > 0)
+			reverseLoppedShelfkey = CallNumUtils.getReverseShelfKey(loppedShelfkey);
 	}
 
 	
@@ -418,6 +450,7 @@ public class Item {
 
 	/**
 	 * assign a value to callnumType based on scheme ...
+	 *   LCPER --> LC;  DEWEYPER --> DEWEY
 	 */
 	private void assignCallnumType(String scheme) {
 		if (scheme.startsWith("LC"))

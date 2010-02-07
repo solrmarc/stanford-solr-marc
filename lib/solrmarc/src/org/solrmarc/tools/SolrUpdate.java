@@ -1,9 +1,6 @@
 package org.solrmarc.tools;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -11,7 +8,6 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.solrmarc.marc.MarcImporter;
-import org.solrmarc.tools.GetDefaultConfig;
 
 
 public class SolrUpdate
@@ -42,9 +38,9 @@ public class SolrUpdate
             String configProperties = GetDefaultConfig.getConfigName(null);
             if (configProperties != null)
             {
-                configProps = Utils.loadProperties(null, configProperties);
+                configProps = PropertiesUtils.loadProperties(null, configProperties);
                 // Ths URL of the currently running Solr server
-                solrServerURL = Utils.getProperty(configProps, "solr.hosturl");
+                solrServerURL = PropertiesUtils.getProperty(configProps, "solr.hosturl");
             }
         }
         

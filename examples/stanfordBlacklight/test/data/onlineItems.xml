@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<!-- single item internet resource, no callnum in bib record -->
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">aonly999</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+<!-- addl item has call number -->
+    <record>
+        <leader>02169cam a2200409Ia 4500</leader>
+        <controlfield tag="001">aaddlItem</controlfield>
+        <controlfield tag="008">090306s2009    dcuad   sb    000 0 eng d</controlfield><!-- call number in bib record -->
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999 and other 999</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">A1 .B2</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">STACKS-3</subfield>
+            <subfield code="m">LAW</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE KF3400 .S36 2009</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">2</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+<!-- 050 -->
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">a050</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999</subfield>
+        </datafield>
+        <datafield tag="050" ind1="1" ind2="4">
+            <subfield code="a">QA76.76.C672</subfield>
+            <subfield code="b">B367 2001eb</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+<!-- 050 and 090 -->
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">a050090</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999</subfield>
+        </datafield>
+        <datafield tag="050" ind1="1" ind2="4">
+            <subfield code="a">QA76.76.C672</subfield>
+            <subfield code="b">B367 2001eb</subfield>
+        </datafield>
+        <datafield tag="090" ind1=" " ind2=" ">
+            <subfield code="a">QM142</subfield>
+            <subfield code="b">.A84 2010</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+<!-- 090 -->
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">a090-1</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999</subfield>
+        </datafield>
+        <datafield tag="090" ind1=" " ind2=" ">
+            <subfield code="a">QM142</subfield>
+            <subfield code="b">.A84 2010</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">a090-2</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999</subfield>
+        </datafield>
+        <datafield tag="090" ind1=" " ind2=" ">
+            <subfield code="a">JZ5584.U6</subfield>
+            <subfield code="b">SR no.227</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+<!-- 090 and 082 -->
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">a090082</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999</subfield>
+        </datafield>
+        <datafield tag="082" ind1="0" ind2="4">
+            <subfield code="a">794.8/15265</subfield>
+            <subfield code="2">21</subfield>
+        </datafield>
+        <datafield tag="090" ind1=" " ind2=" ">
+            <subfield code="a">QM142</subfield>
+            <subfield code="b">.A84 2010</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+<!-- 082 -->
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">a082-1</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999</subfield>
+        </datafield>
+        <datafield tag="082" ind1="0" ind2="4">
+            <subfield code="a">794.8/15265</subfield>
+            <subfield code="2">21</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">a082-2</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999</subfield>
+        </datafield>
+        <datafield tag="082" ind1="0" ind2="4">
+            <subfield code="a">620/.0042/0285536</subfield>
+            <subfield code="2">22</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+<!-- 082 and 086 -->
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">a082086</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999</subfield>
+        </datafield>
+        <datafield tag="082" ind1="0" ind2="4">
+            <subfield code="a">794.8/15265</subfield>
+            <subfield code="2">21</subfield>
+        </datafield>
+        <datafield tag="086" ind1=" " ind2=" ">
+            <subfield code="a">E/ESCWA/EDGD/2009/1</subfield>
+            <subfield code="2">undocs</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+<!-- 086 -->
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">a086-1</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999</subfield>
+        </datafield>
+        <datafield tag="086" ind1=" " ind2=" ">
+            <subfield code="a">E/ESCWA/EDGD/2009/1</subfield>
+            <subfield code="2">undocs</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">a086-2</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999</subfield>
+        </datafield>
+        <datafield tag="086" ind1="0" ind2=" ">
+            <subfield code="a">Y 4.W 36:110-64</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">a086-3</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999</subfield>
+        </datafield>
+        <datafield tag="086" ind1=" " ind2=" ">
+            <subfield code="a">E2015.A5 M64</subfield>
+            <subfield code="2">cadocs</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">a086-4</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999</subfield>
+        </datafield>
+        <datafield tag="086" ind1="0" ind2=" ">
+            <subfield code="a">Y 4.G 74/9:S.HRG.110-819</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">a086-5</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999</subfield>
+        </datafield>
+        <datafield tag="086" ind1=" " ind2=" ">
+            <subfield code="a">L425.B9bas 2009/10</subfield>
+            <subfield code="2">cadocs</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+<!-- 086 and 050 -->
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">a086050</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999</subfield>
+        </datafield>
+        <datafield tag="050" ind1="1" ind2="4">
+            <subfield code="a">QA76.76.C672</subfield>
+            <subfield code="b">B367 2001eb</subfield>
+        </datafield>
+        <datafield tag="086" ind1=" " ind2=" ">
+            <subfield code="a">E/ESCWA/EDGD/2009/1</subfield>
+            <subfield code="2">undocs</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+<!-- 086 and 090 -->
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">a086090</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999</subfield>
+        </datafield>
+        <datafield tag="090" ind1=" " ind2=" ">
+            <subfield code="a">QM142</subfield>
+            <subfield code="b">.A84 2010</subfield>
+        </datafield>
+        <datafield tag="086" ind1=" " ind2=" ">
+            <subfield code="a">E/ESCWA/EDGD/2009/1</subfield>
+            <subfield code="2">undocs</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+    
+</collection>

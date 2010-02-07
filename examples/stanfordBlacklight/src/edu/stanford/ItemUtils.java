@@ -3,6 +3,7 @@ package edu.stanford;
 import java.util.*;
 
 import org.solrmarc.tools.Utils;
+import org.marc4j.marc.Record;
 
 import edu.stanford.enumValues.CallNumberType;
 
@@ -20,7 +21,6 @@ public class ItemUtils {
 	 * Default Constructor: private, so it can't be instantiated by other objects
 	 */	
 	private ItemUtils(){ }
-	
 	
 	/**
 	 * lop call numbers in Item objects if there is more than one Item with
@@ -210,11 +210,12 @@ public class ItemUtils {
 			String shelfkey = "";
 			String reversekey = "";
 			String volSort = "";
+			if ( (item.isOnline() && item.callnumNotFromItem() )
+				 || !(item.hasIgnoredCallnum() || item.hasBadLcLaneJackCallnum() ) ) {
+				shelfkey = item.getShelfkey(isSerial);
+				reversekey = item.getReverseShelfkey(isSerial);
+			}
 			if (!item.isOnline()) {
-				if (!item.hasIgnoredCallnum() && !item.hasBadLcLaneJackCallnum()) {
-					shelfkey = item.getShelfkey(isSerial);
-					reversekey = item.getReverseShelfkey(isSerial);
-				}
 				volSort = item.getCallnumVolSort(isSerial);
 			}
 			
@@ -250,18 +251,37 @@ public class ItemUtils {
 				isSerial = true;
 				volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(fullCallnum, loppedCallnum, shelfkey, edu.stanford.enumValues.CallNumberType.OTHER, isSerial, id);
 			}
-
+			
+			if (shelfkey == null)
+				shelfkey = "";
+			else
+				shelfkey = shelfkey.toLowerCase();
+			if (reversekey == null)
+				reversekey = "";
+			else
+				reversekey = reversekey.toLowerCase();
+			
+			
+			String itemDispCallnum = "";
+			if (loppedCallnum == null)
+				loppedCallnum = "";
+			if (!item.callnumNotFromItem() && !loppedCallnum.startsWith(Item.ECALLNUM))
+				itemDispCallnum = loppedCallnum;
+			
+			if (item.callnumNotFromItem())
+				fullCallnum = "";
+				
 			// create field
-			if (loppedCallnum != null)
+			if (loppedCallnum.length() > 0)
     			result.add( item.getBarcode() + SEP + 
     						item.getLibrary() + SEP + 
     						homeLoc + SEP +
     						item.getCurrLoc() + SEP +
     						item.getType() + SEP +
-	    					loppedCallnum + SEP + 
-	    					(item.isMissingOrLost() ? "" : shelfkey.toLowerCase()) + SEP + 
-	    					(item.isMissingOrLost() ? "" : reversekey.toLowerCase()) + SEP + 
-	    					fullCallnum + SEP + 
+	    					itemDispCallnum + SEP + 
+	    					(item.isMissingOrLost() ? "" : shelfkey) + SEP + 
+	    					(item.isMissingOrLost() ? "" : reversekey) + SEP + 
+	    					(fullCallnum.startsWith(Item.ECALLNUM) ? "" : fullCallnum) + SEP + 
 	    					volSort );
 		} // end loop through items
 

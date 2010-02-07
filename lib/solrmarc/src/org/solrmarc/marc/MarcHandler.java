@@ -3,15 +3,13 @@ package org.solrmarc.marc;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.util.*;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
+import java.util.jar.*;
 import java.util.zip.ZipEntry;
 
 import org.apache.log4j.Logger;
 import org.marc4j.*;
 import org.solrmarc.index.SolrIndexer;
-import org.solrmarc.tools.GetDefaultConfig;
-import org.solrmarc.tools.Utils;
+import org.solrmarc.tools.*;
 
 public abstract class MarcHandler {
 
@@ -103,44 +101,44 @@ public abstract class MarcHandler {
         homeDir = GetDefaultConfig.getJarFileName();
         if (homeDir != null) homeDir = new File(homeDir).getParent();
         
-        configProps = Utils.loadProperties(new String[]{homeDir}, configProperties);
+        configProps = PropertiesUtils.loadProperties(new String[]{homeDir}, configProperties);
 	    
-        solrmarcPath = Utils.getProperty(configProps, "solrmarc.path");
+        solrmarcPath = PropertiesUtils.getProperty(configProps, "solrmarc.path");
         solrmarcPath = normalizePathProperty(homeDir, solrmarcPath);
 
-        siteSpecificPath = Utils.getProperty(configProps, "solrmarc.site.path");
+        siteSpecificPath = PropertiesUtils.getProperty(configProps, "solrmarc.site.path");
         siteSpecificPath = normalizePathProperty(homeDir, siteSpecificPath);
  
         // class name of SolrIndexer or the subclass to be used
-        indexerName = Utils.getProperty(configProps, "solr.indexer");
+        indexerName = PropertiesUtils.getProperty(configProps, "solr.indexer");
 
         // _index.properties file
-        indexerProps = Utils.getProperty(configProps, "solr.indexer.properties");
+        indexerProps = PropertiesUtils.getProperty(configProps, "solr.indexer.properties");
 
-        combineConsecutiveRecordsFields = Utils.getProperty(configProps, "marc.combine_records");
+        combineConsecutiveRecordsFields = PropertiesUtils.getProperty(configProps, "marc.combine_records");
         if (combineConsecutiveRecordsFields != null && combineConsecutiveRecordsFields.length() == 0) 
             combineConsecutiveRecordsFields = null;
         
-        permissiveReader = Boolean.parseBoolean(Utils.getProperty(configProps, "marc.permissive"));
-        if (Utils.getProperty(configProps, "marc.default_encoding") != null)
+        permissiveReader = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "marc.permissive"));
+        if (PropertiesUtils.getProperty(configProps, "marc.default_encoding") != null)
         {
-            defaultEncoding = Utils.getProperty(configProps, "marc.default_encoding").trim();    
+            defaultEncoding = PropertiesUtils.getProperty(configProps, "marc.default_encoding").trim();    
         }
         else
         {
             defaultEncoding = "BESTGUESS";
         }
-        verbose = Boolean.parseBoolean(Utils.getProperty(configProps, "marc.verbose"));
-        includeErrors = Boolean.parseBoolean(Utils.getProperty(configProps, "marc.include_errors"));
-        to_utf_8 = Boolean.parseBoolean(Utils.getProperty(configProps, "marc.to_utf_8"));
-        boolean unicodeNormalize = Boolean.parseBoolean(Utils.getProperty(configProps, "marc.unicode_normalize"));
-        String source = Utils.getProperty(configProps, "marc.source", "STDIN").trim();
-        if (Utils.getProperty(configProps, "marc.override")!= null)
+        verbose = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "marc.verbose"));
+        includeErrors = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "marc.include_errors"));
+        to_utf_8 = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "marc.to_utf_8"));
+        boolean unicodeNormalize = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "marc.unicode_normalize"));
+        String source = PropertiesUtils.getProperty(configProps, "marc.source", "STDIN").trim();
+        if (PropertiesUtils.getProperty(configProps, "marc.override")!= null)
         {
-            System.setProperty("org.marc4j.marc.MarcFactory", Utils.getProperty(configProps, "marc.override").trim());
+            System.setProperty("org.marc4j.marc.MarcFactory", PropertiesUtils.getProperty(configProps, "marc.override").trim());
         }
         reader = null;
-        String fName = Utils.getProperty(configProps, "marc.path");
+        String fName = PropertiesUtils.getProperty(configProps, "marc.path");
         if (source.equals("FILE") && fName == null)
         	return;
         if (fName != null)  fName = fName.trim();
@@ -229,7 +227,7 @@ public abstract class MarcHandler {
         }
         else if (source.equals("DIR"))
         {
-            reader = new MarcDirStreamReader(Utils.getProperty(configProps, "marc.path").trim(), permissiveReader, to_utf_8);
+            reader = new MarcDirStreamReader(PropertiesUtils.getProperty(configProps, "marc.path").trim(), permissiveReader, to_utf_8);
         }
         else if (source.equals("Z3950"))
         {
@@ -249,9 +247,9 @@ public abstract class MarcHandler {
                 reader = new MarcCombiningReader(reader, errors, errors2, combineConsecutiveRecordsFields);
             }
         }
-        String marcIncludeIfPresent = Utils.getProperty(configProps, "marc.include_if_present");
-        String marcIncludeIfMissing = Utils.getProperty(configProps, "marc.include_if_missing");
-        String marcDeleteSubfields = Utils.getProperty(configProps, "marc.delete_subfields");
+        String marcIncludeIfPresent = PropertiesUtils.getProperty(configProps, "marc.include_if_present");
+        String marcIncludeIfMissing = PropertiesUtils.getProperty(configProps, "marc.include_if_missing");
+        String marcDeleteSubfields = PropertiesUtils.getProperty(configProps, "marc.delete_subfields");
         if (marcDeleteSubfields != null)  marcDeleteSubfields = marcDeleteSubfields.trim();
         if (reader != null && (marcIncludeIfPresent != null || marcIncludeIfMissing != null || marcDeleteSubfields != null))
         {

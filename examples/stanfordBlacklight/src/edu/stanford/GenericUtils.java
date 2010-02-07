@@ -5,7 +5,7 @@ import java.util.*;
 
 import org.marc4j.marc.*;
 
-import org.solrmarc.tools.Utils;
+import org.solrmarc.tools.*;
 
 /**
  * Utility methods for StanfordIndexer in SolrMarc project
@@ -168,7 +168,7 @@ public class GenericUtils {
 	 *  subfield value.
 	 */
 	static String getSubfieldTrimmed(DataField df, char subcode) {
-		String result = Utils.getSubfieldData(df, subcode);
+		String result = MarcUtils.getSubfieldData(df, subcode);
 		if (result != null)
 			return result.trim();
 		else
@@ -184,7 +184,7 @@ public class GenericUtils {
 	 */
 	static Set<String> loadPropertiesSet(String[] possiblePaths, String listFilename)   {
 		Set<String> result = new LinkedHashSet<String>();
-        InputStream propFileIS = Utils.getPropertyFileInputStream(possiblePaths, listFilename);
+        InputStream propFileIS = PropertiesUtils.getPropertyFileInputStream(possiblePaths, listFilename);
         BufferedReader propFileBR = new BufferedReader(new InputStreamReader(propFileIS));
         String line;
         try

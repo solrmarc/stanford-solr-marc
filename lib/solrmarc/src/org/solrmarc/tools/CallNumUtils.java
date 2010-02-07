@@ -18,8 +18,7 @@ package org.solrmarc.tools;
 
 import java.text.DecimalFormat;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.regex.*;
 
 import schema.UnicodeCharUtil;
 
@@ -868,7 +867,7 @@ public final class CallNumUtils {
     				reverse.append(SORT_FIRST_CHAR);
     			}
     		}
-           	else // not a letter or a digit
+           	else // not a letter or a digit 
       			reverse.append(reverseNonAlphanum(chs[0]));
 
     		ix += chs.length;
@@ -884,6 +883,8 @@ public final class CallNumUtils {
 	public static char[] reverseNonAlphanum(char ch) {
 		// use punctuation before or after alphanum as appropriate
 		switch (ch) {
+	   		case '.':
+	   			return Character.toChars('}');
 			case '{':
 			case '|':
 			case '}':

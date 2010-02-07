@@ -12,11 +12,12 @@ import org.junit.runners.Suite;
         CallNumLongestComnPfxTests.class,
         CallNumLoppingUnitTests.class,
         CallNumTopFacetTests.class,
-        CallNumUtilsUnitTests.class,
+        CallNumUtilsLoppingUnitTests.class,
         ItemDisplayCallnumLoppingTests.class,
         ItemInfoTests.class,
         ItemMissingTests.class,
         ItemObjectTests.class,
+        ItemOnlineTests.class,
         ItemUtilsUnitTests.class
 //        org.solrmarc.index.CallNumberUnitTests.class
         })

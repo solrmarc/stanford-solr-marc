@@ -17,16 +17,12 @@ package org.solrmarc.tools;
  */
 
 import java.io.*;
-import java.text.DecimalFormat;
-import java.net.URL;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.regex.*;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.Logger;
-import org.marc4j.marc.*;
 
 /**
  * General utility functions for solrmarc
@@ -37,159 +33,34 @@ import org.marc4j.marc.*;
 
 public final class Utils {
     
-    private final static Pattern FOUR_DIGIT_PATTERN_BRACES = Pattern.compile("\\[[12]\\d{3,3}\\]");
-    private final static Pattern FOUR_DIGIT_PATTERN_ONE_BRACE = Pattern.compile("\\[[12]\\d{3,3}");
-    private final static Pattern FOUR_DIGIT_PATTERN_STARTING_WITH_1_2 = Pattern.compile("(200|1[98765][0-9])[0-9]");
-    private final static Pattern FOUR_DIGIT_PATTERN_OTHER_1 = Pattern.compile("l\\d{3,3}");
-    private final static Pattern FOUR_DIGIT_PATTERN_OTHER_2 = Pattern.compile("\\[19\\]\\d{2,2}");
-    private final static Pattern FOUR_DIGIT_PATTERN_OTHER_3 = Pattern.compile("(200|1[98765][0-9])[-?0-9]");
-    private final static Pattern FOUR_DIGIT_PATTERN_OTHER_4 = Pattern.compile("i.e. (200|1[98765][0-9])[0-9]");
-    private final static Pattern BC_DATE_PATTERN = Pattern.compile("[0-9]+ [Bb][.]?[Cc][.]?");
-    private final static Pattern FOUR_DIGIT_PATTERN = Pattern.compile("\\d{4,4}");
-    private static Matcher matcher;
-    private static Matcher matcher_braces;
-    private static Matcher matcher_one_brace;
-    private static Matcher matcher_start_with_1_2;
-    private static Matcher matcher_l_plus_three_digits;
-    private static Matcher matcher_bracket_19_plus_two_digits;
-    private static Matcher matcher_ie_date;
-    private static Matcher matcher_bc_date;
-    private static Matcher matcher_three_digits_plus_unk;
-    private final static DecimalFormat timeFormat = new DecimalFormat("00.00");
-    protected static Logger logger = Logger.getLogger(Utils.class.getName());    
+    protected static Logger logger = Logger.getLogger(Utils.class.getName());
+    
     /**
-     * Default Constructor
-     * It's private, so it can't be instantiated by other objects
-     *
+     * Default Constructor,  private, so it can't be instantiated by other objects
      */    
     private Utils(){ }
     
     /**
-     * Check first for a particular property in the System Properties, so that the -Dprop="value" command line arg 
-     * mechanism can be used to override values defined in the passed in property file.  This is especially useful
-     * for defining the marc.source property to define which file to operate on, in a shell script loop.
-     * @param props - property set in which to look.
-     * @param propname - name of the property to lookup.
-     * @returns String - value stored for that property (or null if it doesn't exist) 
+     * return an int for the passed string, catching NumberFormatException
+     *  and ignoring it
+     * @param str
+     * @param defValue - default value, if string doesn't parse into int
      */
-    public static String getProperty(Properties props, String propname)
+    public static int parseIntNoNFE(String str, int defValue)
     {
-        return getProperty(props, propname, null);
-    }
-    
-    /**
-     * Check first for a particular property in the System Properties, so that the -Dprop="value" command line arg 
-     * mechanism can be used to override values defined in the passed in property file.  This is especially useful
-     * for defining the marc.source property to define which file to operate on, in a shell script loop.
-     * @param props - property set in which to look.
-     * @param propname - name of the property to lookup.
-     * @param defVal - the default value to use if property is not defined
-     * @returns String - value stored for that property (or the  if it doesn't exist) 
-     */
-    public static String getProperty(Properties props, String propname, String defVal)
-    {
-        String prop;
-        if ((prop = System.getProperty(propname)) != null)
-        {
-            return(prop);
-        }
-        if ((prop = props.getProperty(propname)) != null)
-        {
-            return(prop);
-        }
-        return defVal;
-    }
-    
-    /**
-     * load a properties file into a Properties object
-     * @param propertyPaths the directories to search for the properties file
-     * @param propertyFileName name of the sought properties file
-     * @return Properties object 
-     */
-    public static Properties loadProperties(String propertyPaths[], String propertyFileName)
-    {
-        InputStream in = getPropertyFileInputStream(propertyPaths, propertyFileName);
-        String errmsg = "Fatal error: Unable to find specified properties file: " + propertyFileName;
-        
-        // load the properties
-        Properties props = new Properties();
+        int value = defValue;
         try
         {
-            props.load(in);
-            in.close();
+            value = Integer.parseInt(str);
         }
-        catch (IOException e)
+        catch (NumberFormatException nfe)
         {
-            throw new IllegalArgumentException(errmsg);
+            // provided value is not valid numeric string
+            // Ignoring it and moving happily on.
         }
-        return props;
+        return (value);
     }
-
-    public static InputStream getPropertyFileInputStream(String[] propertyPaths, String propertyFileName) 
-    {
-        InputStream in = null;
-        // look for properties file in paths
-        if (propertyPaths != null)
-        {
-            File propertyFile = new File(propertyFileName);
-
-            int pathCnt = 0;
-            do 
-            {
-                if (propertyFile.exists() && propertyFile.isFile() && propertyFile.canRead())
-                {
-                    try
-                    {
-                        in = new FileInputStream(propertyFile);
-                    }
-                    catch (FileNotFoundException e)
-                    {
-                        // simply eat this exception since we should only try to open the file if we previously
-                        // determined that the file exists and is readable. 
-                    }
-                    break;   // we found it!
-                }
-                if (propertyPaths != null && pathCnt < propertyPaths.length)
-                {
-                    propertyFile = new File(propertyPaths[pathCnt], propertyFileName);
-                }
-                pathCnt++;
-            } while (propertyPaths != null && pathCnt <= propertyPaths.length);
-        }
-        // if we didn't find it as a file, look for it as a URL
-        String errmsg = "Fatal error: Unable to find specified properties file: " + propertyFileName;
-        if (in == null)
-        {
-            Utils utilObj = new Utils();
-            URL url = utilObj.getClass().getClassLoader().getResource(propertyFileName);
-            if (url == null)  
-                url = utilObj.getClass().getResource("/" + propertyFileName);
-/*
-            if (url == null) 
-                url = utilObj.getClass().getClassLoader().getResource(propertyPath + "/" + propertyFileName);
-            if (url == null) 
-                url = utilObj.getClass().getResource("/" + propertyPath + "/" + propertyFileName);
-*/
-            if (url != null)
-            {
-                try
-                {
-                    in = url.openStream();
-                }
-                catch (IOException e)
-                {
-                    throw new IllegalArgumentException(errmsg);
-                }
-            }
-            else
-            {
-                throw new IllegalArgumentException(errmsg);
-            }
-        }
-        return(in);
-    }
-    
-    
+	
     /**
      * Takes an InputStream, reads the entire contents into a String
      * @param stream - the stream to read in.
@@ -209,87 +80,6 @@ public final class Utils {
 
         return sb.toString();
      }
-    
-    
-    /**
-     * Cleans non-digits from a String
-     * @param date String to parse
-     * @return Numeric part of date String (or null)
-     */
-    public static String cleanDate(final String date)
-    {
-        matcher_braces = FOUR_DIGIT_PATTERN_BRACES.matcher(date);
-        matcher_one_brace = FOUR_DIGIT_PATTERN_ONE_BRACE.matcher(date);
-        matcher_start_with_1_2 = FOUR_DIGIT_PATTERN_STARTING_WITH_1_2.matcher(date);
-        matcher_l_plus_three_digits = FOUR_DIGIT_PATTERN_OTHER_1.matcher(date);
-        matcher_bracket_19_plus_two_digits = FOUR_DIGIT_PATTERN_OTHER_2.matcher(date);
-        matcher_three_digits_plus_unk = FOUR_DIGIT_PATTERN_OTHER_3.matcher(date);
-        matcher_ie_date = FOUR_DIGIT_PATTERN_OTHER_4.matcher(date);
-        matcher = FOUR_DIGIT_PATTERN.matcher(date);
-        matcher_bc_date = BC_DATE_PATTERN.matcher(date);
-        
-        String cleanDate = null; // raises DD-anomaly
-        
-        if(matcher_braces.find())
-        {   
-            cleanDate = matcher_braces.group();
-            cleanDate = Utils.removeOuterBrackets(cleanDate);
-            if (matcher.find())
-            {
-                String tmp = matcher.group();
-                if (!tmp.equals(cleanDate))
-                {
-                    tmp = "" + tmp;
-                }
-            }
-        } 
-        else if (matcher_ie_date.find())
-        {
-            cleanDate = matcher_ie_date.group().replaceAll("i.e. ", "");
-        }
-        else if(matcher_one_brace.find())
-        {   
-            cleanDate = matcher_one_brace.group();
-            cleanDate = Utils.removeOuterBrackets(cleanDate);
-            if (matcher.find())
-            {
-                String tmp = matcher.group();
-                if (!tmp.equals(cleanDate))
-                {
-                    tmp = "" + tmp;
-                }
-            }
-        }
-        else if(matcher_bc_date.find())
-        {   
-            cleanDate = null;
-        } 
-        else if(matcher_start_with_1_2.find())
-        {   
-            cleanDate = matcher_start_with_1_2.group();
-        } 
-        else if(matcher_l_plus_three_digits.find())
-        {   
-            cleanDate = matcher_l_plus_three_digits.group().replaceAll("l", "1");
-        } 
-        else if(matcher_bracket_19_plus_two_digits.find())
-        {   
-            cleanDate = matcher_bracket_19_plus_two_digits.group().replaceAll("\\[", "").replaceAll("\\]", "");
-        } 
-        else if(matcher_three_digits_plus_unk.find())
-        {   
-            cleanDate = matcher_three_digits_plus_unk.group().replaceAll("[-?]", "0");
-        } 
-        if (cleanDate != null)
-        {
-            logger.debug("Date : "+ date + " mapped to : "+ cleanDate);            
-        }
-        else
-        {
-            logger.debug("No Date match: "+ date);
-        }
-        return cleanDate;
-    }
     
     /**
      * Removes trailing characters (space, comma, slash, semicolon, colon),
@@ -502,16 +292,6 @@ public final class Utils {
         return result.trim();
     }
 
-    
-    /**
-     * Calculate time from milliseconds
-     * @param totalTime Time in milliseconds
-     * @return Time in the format mm:ss.ss
-     */
-    public static String calcTime(final long totalTime)
-    {
-        return totalTime / 60000 + ":" + timeFormat.format((totalTime % 60000 ) / 1000);
-    }
     
     /**
      * Test if a String has a numeric equivalent
@@ -874,71 +654,6 @@ public final class Utils {
         }
         return isbnSet;            
     }
-    
-    
-    /**
-     * For each occurrence of a marc field in the tags list, extract all 
-     * subfield data from the field, place it in a single string (individual 
-     * subfield data separated by spaces) and add the string to the result set.
-     */
-    @SuppressWarnings("unchecked")
-    public static final Set<String> getAllSubfields(final Record record, String[] tags) 
-    {
-        Set<String> result = new LinkedHashSet<String>();
-
-        List<VariableField> varFlds = record.getVariableFields(tags);
-        for (VariableField vf : varFlds) {
-            
-            StringBuilder buffer = new StringBuilder(500);
-
-            DataField df = (DataField) vf;
-            if (df != null) {
-                List<Subfield> subfields = df.getSubfields();
-                for (Subfield sf : subfields) {
-                    if (buffer.length() > 0) {
-                        buffer.append(" " + sf.getData());
-                    } else {
-                        buffer.append(sf.getData());
-                    }
-                }
-            }
-            if (buffer.length() > 0)
-                result.add(buffer.toString());
-        }
-        
-        return result;
-    }
-
-    /**
-     * get the contents of a subfield, rigorously ensuring no NPE
-     * @param df - DataField of interest
-     * @param code - code of subfield of interest
-     * @return the contents of the subfield, if it exists; null otherwise
-     */
-    public static final String getSubfieldData(DataField df, char code) {
-        String result = null;
-        if (df != null) {
-            Subfield sf = df.getSubfield(code);
-            if (sf != null && sf.getData() != null) {
-                result = sf.getData();
-            }
-        }
-        return result;
-    }
-
-    /** returns all values of subfield strings of a particular code 
-     *  contained in the data field
-     */
-    @SuppressWarnings("unchecked")
-    public static final List<String> getSubfieldStrings(DataField df, char code) {
-        List<Subfield> listSubcode = df.getSubfields(code);
-        List<String> vals = new ArrayList(listSubcode.size());
-        for (Subfield s : listSubcode) {
-            vals.add(s.getData());
-        }
-        return vals;
-    }
-    
     
     /**
      * given a latin letter with a diacritic, return the latin letter without

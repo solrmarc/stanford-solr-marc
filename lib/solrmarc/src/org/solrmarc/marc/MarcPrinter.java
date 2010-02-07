@@ -17,26 +17,16 @@ package org.solrmarc.marc;
  */
 
 
-import java.io.FileNotFoundException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TreeSet;
+import java.io.*;
+import java.util.*;
 
 import org.apache.log4j.Logger;
 
-import org.marc4j.MarcException;
-import org.marc4j.MarcStreamWriter;
-import org.marc4j.MarcWriter;
-import org.marc4j.MarcXmlWriter;
+import org.marc4j.*;
 import org.marc4j.marc.Record;
 
 import org.solrmarc.marc.MarcFilteredReader;
-import org.solrmarc.tools.Utils;
+import org.solrmarc.tools.PropertiesUtils;
 
 /**
  * A Utility class that writes to the PrintWriter passed in.
@@ -90,8 +80,8 @@ public class MarcPrinter extends MarcHandler
 
     private void loadLocalProperties(Properties props) 
     {
-        String marcIncludeIfPresent2 = Utils.getProperty(props, "marc.include_if_present2");
-        String marcIncludeIfMissing2 = Utils.getProperty(props, "marc.include_if_missing2");
+        String marcIncludeIfPresent2 = PropertiesUtils.getProperty(props, "marc.include_if_present2");
+        String marcIncludeIfMissing2 = PropertiesUtils.getProperty(props, "marc.include_if_missing2");
 
         if (reader != null && (marcIncludeIfPresent2 != null || marcIncludeIfMissing2 != null)) 
         {

@@ -3,6 +3,7 @@ package edu.stanford;
 import java.util.*;
 import java.util.regex.*;
 
+import org.marc4j.marc.*;
 import org.solrmarc.tools.*;
 
 import edu.stanford.enumValues.CallNumberType;
@@ -420,8 +421,14 @@ public class CallNumUtils {
 		for (Item item : itemSet) {
 // FIXME:  shelby locations should be checked for by calling routine??
 			if (item.getCallnumType() == CallNumberType.LC
-					&& !item.hasIgnoredCallnum() && !item.hasBadLcLaneJackCallnum()
-					&& !item.hasShelbyLoc() && !item.isMissingOrLost()) {
+				&& ( (item.isOnline() && item.callnumNotFromItem() )
+				     || !(item.hasBadLcLaneJackCallnum()
+				          || item.hasShelbyLoc() || item.isMissingOrLost()
+				          || item.hasIgnoredCallnum() 
+				         ) 
+				   ) 
+			   ) 
+			{
 				String callnum = edu.stanford.CallNumUtils.normalizeLCcallnum(item.getCallnum());
 				if (callnum.length() > 0)
 					result.add(callnum);
@@ -441,8 +448,8 @@ public class CallNumUtils {
 		for (Item item : itemSet) {
 // FIXME:  shelby locations should be checked for by calling routine??
 			if (item.getCallnumType() == CallNumberType.DEWEY
-					&& !item.hasIgnoredCallnum() && !item.hasShelbyLoc()
-					&& !item.isMissingOrLost()) {
+					&& !(item.hasIgnoredCallnum() || item.hasShelbyLoc()
+						 || item.isMissingOrLost() ) ) {
 				String callnum = getNormalizedDeweyCallNumber(item);
 				if (callnum.length() > 0)
 					result.add(callnum);
@@ -475,17 +482,20 @@ public class CallNumUtils {
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) 
 		{
-			if (item.hasIgnoredCallnum() || item.hasBadLcLaneJackCallnum() || 
-					item.isOnline() || item.isMissingOrLost())
-				continue;
-
-			if (item.getCallnum().length() == 0)
-				continue;
-
-			String shelfkey = item.getShelfkey(isSerial);
-			
-			if (shelfkey.length() > 0)
-				result.add(shelfkey.toLowerCase());
+			String callnum = item.getCallnum();
+			if (callnum != null && callnum.length() > 0 
+			      && ( (item.isOnline() && item.callnumNotFromItem() )
+					    || !(item.hasBadLcLaneJackCallnum()
+					        || item.hasShelbyLoc() || item.isMissingOrLost()
+					        || item.hasIgnoredCallnum() 
+					        ) 
+					 ) 
+			   ) 
+			{
+				String shelfkey = item.getShelfkey(isSerial);
+				if (shelfkey != null && shelfkey.length() > 0)
+					result.add(shelfkey.toLowerCase());
+			}
 		}
 		return result;
 	}
@@ -501,17 +511,20 @@ public class CallNumUtils {
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) 
 		{
-			if (item.hasIgnoredCallnum() || item.hasBadLcLaneJackCallnum() || 
-					item.isOnline() || item.isMissingOrLost())
-				continue;
-
-			if (item.getCallnum().length() == 0)
-				continue;
-
-			String reverseShelfkey = item.getReverseShelfkey(isSerial);
-			
-			if (reverseShelfkey.length() > 0)
-				result.add(reverseShelfkey.toLowerCase());
+			String shelfkey = item.getShelfkey(isSerial);
+			if (shelfkey != null && shelfkey.length() > 0 
+				&& ( (item.isOnline() && item.callnumNotFromItem() )
+					 || !(item.hasBadLcLaneJackCallnum()
+						 || item.hasShelbyLoc() || item.isMissingOrLost()
+						 || item.hasIgnoredCallnum() 
+						) 
+					) 
+			   ) 
+			{
+				String reverseShelfkey = item.getReverseShelfkey(isSerial);
+				if (reverseShelfkey != null && reverseShelfkey.length() > 0)
+					result.add(reverseShelfkey.toLowerCase());
+			}
 		}
 		return result;
 	}
@@ -610,11 +623,14 @@ public class CallNumUtils {
 
 			// remove ellipsis if they are present
 			String volSuffix;
-			if (loppedCallnum.endsWith(" ..."))
+			if (loppedCallnum.endsWith(" ...")) {
 				volSuffix = rawCallnum.substring(loppedCallnum.length()-4).trim();
+				if (loppedShelfkey.endsWith(" ..."))
+					loppedShelfkey = loppedShelfkey.substring(0, loppedShelfkey.length()-4);
+			}
 			else
 				volSuffix = rawCallnum.substring(loppedCallnum.length()).trim();
-				
+			
 			String volSortString = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(org.solrmarc.tools.CallNumUtils.normalizeSuffix(volSuffix));
 			return loppedShelfkey.toLowerCase() + " " + volSortString.toLowerCase();
 		}
@@ -768,5 +784,92 @@ public class CallNumUtils {
 			return GOV_DOC_UNKNOWN_FACET_VAL;
 	}
 
+
+	/**
+	 * get call number(s) from the bib fields:
+	 *   if the record is for a government doc, get a call number from the 086. (take first one)
+	 *   if there is a valid LC call number in 050, get it (take first one)
+	 *   if there is no 086 or 050 valid call number, look for a valid LC call number in 090.
+	 *     
+	 *   note that the only situation that would have multiple call nums from
+	 *   the bib is when there is a government doc with a call number in 086 
+	 *   that also has an LC call number in 050, 080
+	 */
+	public static void setCallnumsFromBib(Record record, Set<Item> itemSet, boolean isGovDoc) {
+
+		for (Item item: itemSet) {
+			String callnumFromItem = item.getCallnum();
+			if (callnumFromItem == null || callnumFromItem.length() == 0 
+					|| callnumFromItem.startsWith(Item.ECALLNUM)) {
+				
+				// get 086 call number if record is a gov doc
+				if (isGovDoc) {
+					// 086 has no sub b
+					List<DataField> df086List = record.getVariableFields("086");
+					for (DataField df : df086List) {
+						String suba = MarcUtils.getSubfieldData(df, 'a');
+						if (suba != null && suba.length() > 0) {
+							if (df.getIndicator1() == '0')
+								// SUDOC
+								item.setCallnumType(CallNumberType.SUDOC);
+							else 
+								// non-SUDOC gov doc
+								item.setCallnumType(CallNumberType.OTHER);
+							item.setCallnum(suba);
+						}
+					}
+				}
+				
+				// if we don't have a call number yet, 
+				// look for valid LC call number
+				if (!item.callnumNotFromItem()) {
+					List<String> candidates = getSubAB(record, "050");
+					for (String lcCandidate : candidates) {
+						if (org.solrmarc.tools.CallNumUtils.isValidLC(lcCandidate)) {
+							item.setCallnumType(CallNumberType.LC);
+							item.setCallnum(lcCandidate);
+						}
+					}					
+					// if we don't have a call number from 050, look in 090
+					if (!item.callnumNotFromItem()) {
+						candidates = getSubAB(record, "090");
+						for (String lcCandidate : candidates) {
+							if (org.solrmarc.tools.CallNumUtils.isValidLC(lcCandidate)) {
+								item.setCallnumType(CallNumberType.LC);
+								item.setCallnum(lcCandidate);
+							}
+						}
+					}
+				}    // end looking for LC callnum
+			}    // end if there is no existing callnum for item
+		}     // end for each item
+	}
+	
+	
+	/**
+	 * given a record and a tag, extract subfields a and b from each such
+	 *  field in the record.  The first subfield a is the only one included,
+	 *  per field.
+	 * @return a List of Strings containing subfields a and b concatenated
+	 *  together (separated by a space) 
+	 */
+	private static List<String> getSubAB(Record record, String tag)
+	{
+		List<String> results = new ArrayList<String>();
+
+		List<DataField> dfList = record.getVariableFields(tag);
+		for (DataField df : dfList) {
+			String suba = MarcUtils.getSubfieldData(df, 'a');
+			String subb = MarcUtils.getSubfieldData(df, 'b');
+			StringBuffer subab = new StringBuffer();
+			if (suba != null)
+				subab.append(suba);
+			if (subb != null)
+				subab.append(" " + subb);
+			if (subab.length() > 0)
+				results.add(subab.toString());
+		}
+		return results;
+	}
 
 }

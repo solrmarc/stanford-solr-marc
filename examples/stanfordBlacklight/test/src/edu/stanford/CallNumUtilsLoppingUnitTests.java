@@ -8,10 +8,10 @@ import org.junit.*;
 import edu.stanford.enumValues.CallNumberType;
 
 /**
- * unit tests for edu.stanford.CallNumUtils methods
+ * unit tests for edu.stanford.CallNumUtils lopping methods
  * @author Naomi Dushay
  */
-public class CallNumUtilsUnitTests {
+public class CallNumUtilsLoppingUnitTests {
 
 	/**
 	 * remove box suffix, if it exists
@@ -281,7 +281,7 @@ public class CallNumUtilsUnitTests {
 		String callnum = "CALIF L1080 .J67 V.1-12:NO.1";
 		assertEquals("CALIF L1080 .J67", removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
 		callnum = "CALIF T900 .J6 V.1-2";
-// this is addressed with longest-common-prefix solution
+// FIXME: lopping too much
 //		assertEquals("CALIF T900 .J6", removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
 //		assertEquals("CALIF", removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
 		callnum = "CALIF C971 .N4 V.1:NO.2";

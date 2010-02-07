@@ -1,11 +1,6 @@
 package org.solrmarc.tools;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class PropertyFileFetcher {
 	/**
@@ -24,7 +19,7 @@ public class PropertyFileFetcher {
             {
                 directory = args[1]; 
             }
-            InputStream in = Utils.getPropertyFileInputStream(null, jarFile);
+            InputStream in = PropertiesUtils.getPropertyFileInputStream(null, jarFile);
             File outputFile = new File(directory, jarFile);
             try {
                 FileOutputStream out = new FileOutputStream(outputFile);
@@ -54,7 +49,7 @@ public class PropertyFileFetcher {
         }
         String homeDir = GetDefaultConfig.getJarFileName();
         if (homeDir != null) homeDir = new File(homeDir).getParent();
-        InputStream in = Utils.getPropertyFileInputStream(new String[]{homeDir}, propertyFile);
+        InputStream in = PropertiesUtils.getPropertyFileInputStream(new String[]{homeDir}, propertyFile);
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         String line;
         try {

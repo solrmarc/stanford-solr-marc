@@ -9,11 +9,8 @@ import org.marc4j.*;
 import org.marc4j.marc.Record;
 import org.solrmarc.index.SolrIndexer;
 
-import org.solrmarc.solr.DocumentProxy;
-import org.solrmarc.solr.SolrCoreLoader;
-import org.solrmarc.solr.SolrCoreProxy;
-import org.solrmarc.solr.SolrSearcherProxy;
-import org.solrmarc.tools.Utils;
+import org.solrmarc.solr.*;
+import org.solrmarc.tools.*;
 
 import org.apache.log4j.Logger;
 
@@ -62,9 +59,9 @@ public class SolrReIndexer extends MarcImporter
 
     private void loadLocalProperties(Properties props)
     {
-        solrFieldContainingEncodedMarcRecord = Utils.getProperty(props, "solr.fieldname");
-        queryForRecordsToUpdate = Utils.getProperty(props, "solr.query");
-        String up = Utils.getProperty(props, "solr.do_update");
+        solrFieldContainingEncodedMarcRecord = PropertiesUtils.getProperty(props, "solr.fieldname");
+        queryForRecordsToUpdate = PropertiesUtils.getProperty(props, "solr.query");
+        String up = PropertiesUtils.getProperty(props, "solr.do_update");
         doUpdate = (up == null) ? true : Boolean.parseBoolean(up);
     }
     

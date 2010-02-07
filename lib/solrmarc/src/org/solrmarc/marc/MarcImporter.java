@@ -30,12 +30,8 @@ import java.util.regex.PatternSyntaxException;
 import org.apache.log4j.*;
 import org.marc4j.ErrorHandler;
 import org.marc4j.marc.Record;
-import org.solrmarc.solr.SolrCoreLoader;
-import org.solrmarc.solr.SolrProxy;
-import org.solrmarc.solr.SolrRemoteProxy;
-import org.solrmarc.solr.SolrRuntimeException;
-import org.solrmarc.tools.SolrUpdate;
-import org.solrmarc.tools.Utils;
+import org.solrmarc.solr.*;
+import org.solrmarc.tools.*;
 
 
 /**
@@ -88,18 +84,18 @@ public class MarcImporter extends MarcHandler
 	private void loadLocalProperties(Properties props) 
 	{
         // The solr.home directory
-        solrCoreDir = Utils.getProperty(props, "solr.path");
+        solrCoreDir = PropertiesUtils.getProperty(props, "solr.path");
 
         // The solr data diretory to use
-        solrDataDir = Utils.getProperty(props, "solr.data.dir");
+        solrDataDir = PropertiesUtils.getProperty(props, "solr.data.dir");
 
         // The name of the solr core to use, in a solr multicore environment
-        solrCoreName = Utils.getProperty(props, "solr.core.name");
+        solrCoreName = PropertiesUtils.getProperty(props, "solr.core.name");
         
         // Ths URL of the currently running Solr server
-        SolrHostURL = Utils.getProperty(props, "solr.hosturl");
+        SolrHostURL = PropertiesUtils.getProperty(props, "solr.hosturl");
         
-        String solrLogLevel = Utils.getProperty(props, "solr.log.level");
+        String solrLogLevel = PropertiesUtils.getProperty(props, "solr.log.level");
         
         Level level = Level.WARNING;
         if (solrLogLevel != null)
@@ -119,7 +115,7 @@ public class MarcImporter extends MarcHandler
         // Specification of how to modify the entries in the delete record file
         // before passing the id onto Solr.   Based on syntax of String.replaceAll
         //  To prepend a 'u' specify the following:  "(.*)->u$1"
-        deleteRecordIDMapper = Utils.getProperty(props, "marc.delete_record_id_mapper");
+        deleteRecordIDMapper = PropertiesUtils.getProperty(props, "marc.delete_record_id_mapper");
         if (deleteRecordIDMapper != null)
         {
             String parts[] = deleteRecordIDMapper.split("->");
@@ -145,11 +141,11 @@ public class MarcImporter extends MarcHandler
             }
         }
         
-        justIndexDontAdd = Boolean.parseBoolean(Utils.getProperty(props, "marc.just_index_dont_add"));
+        justIndexDontAdd = Boolean.parseBoolean(PropertiesUtils.getProperty(props, "marc.just_index_dont_add"));
         if (justIndexDontAdd)
             Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
-        deleteRecordListFilename = Utils.getProperty(props, "marc.ids_to_delete");
-        optimizeAtEnd = Boolean.parseBoolean(Utils.getProperty(props, "solr.optimize_at_end"));
+        deleteRecordListFilename = PropertiesUtils.getProperty(props, "marc.ids_to_delete");
+        optimizeAtEnd = Boolean.parseBoolean(PropertiesUtils.getProperty(props, "solr.optimize_at_end"));
         return;
 	}
 
@@ -265,7 +261,7 @@ public class MarcImporter extends MarcHandler
                 {
             	    // this error should (might?) only be thrown if we can't write to the index
             	    //   therefore, continuing to index would be pointless.
-            	    logger.error("Unable to index record: " + (recCntlNum != null ? recCntlNum : "") + " (record count "+ recsReadCounter +  ") -- " + e.getMessage(), e);
+            	    logger.error("Unable to index record " + (recCntlNum != null ? recCntlNum : "") + " (record count "+ recsReadCounter +  ") -- " + e.getMessage(), e);
             	    if (e instanceof SolrRuntimeException) throw ((SolrRuntimeException)e);
                 }
                 else
@@ -501,8 +497,8 @@ public class MarcImporter extends MarcHandler
         Date end = new Date();
         long totalTime = end.getTime() - start.getTime();
         
-        logger.info("Finished indexing in " + Utils.calcTime(totalTime));
-        //System.out.println("Finished in " + Utils.calcTime(totalTime) );
+        logger.info("Finished indexing in " + DateUtils.calcTime(totalTime));
+        //System.out.println("Finished in " + DateUtils.calcTime(totalTime) );
         
         // calculate the time taken
         float indexingRate = numImported*1000 / totalTime;
