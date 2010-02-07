@@ -19,13 +19,11 @@ package org.solrmarc.z3950;
 
 
 import java.io.File;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Date;
 
 import org.marc4j.marc.Record;
-import org.solrmarc.marc.MarcImporter;
-import org.solrmarc.tools.Utils;
+import org.solrmarc.tools.*;
 
 /**
  * Test Z39.50 importer
@@ -43,10 +41,6 @@ public class Z3950Importer
     public static void main(String[] args)
     {
         String properties = "import.properties";
-        String tempdir = System.getProperty("java.io.tmpdir");
-//        if(args.length > 0){
-//            properties = args[0];
-//        }
         File dir1 = new File (".");
         try {
            System.out.println ("Current dir : " + dir1.getCanonicalPath());
@@ -161,7 +155,7 @@ public class Z3950Importer
         
         long totalTime = end.getTime() - start.getTime();
         
-        System.out.println("Finished in " + Utils.calcTime(totalTime) );
+        System.out.println("Finished in " + DateUtils.calcTime(totalTime) );
         
         // calculate the time taken
         float indexingRate = recordCounter*1000 / totalTime;

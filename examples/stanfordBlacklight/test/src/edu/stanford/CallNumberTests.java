@@ -708,7 +708,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		id = "999LC22";
 		callnum = "CB3 .A6 SUPPL. V.31";
 // TODO: suboptimal -  it finds V.31 first, so it doesn't strip suppl.
-		String lopped = "CB3 .A6 SUPPL.";
+		String lopped = "CB3 .A6 SUPPL. ...";
 		shelfkey = CallNumberType.LC.getPrefix() + CallNumUtils.getLCShelfkey(lopped, id);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, reverseShelfkey);
@@ -716,7 +716,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		// LCPER
 		id = "460947";
 		callnum = "E184.S75 R47A V.1 1980";
-		lopped = "E184.S75 R47A";
+		lopped = "E184.S75 R47A ...";
 		shelfkey = CallNumberType.LC.getPrefix() + CallNumUtils.getLCShelfkey(lopped, id);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, reverseShelfkey);
@@ -729,7 +729,7 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		
 		// Dewey: vol info to lop off
 		callnum = "352.042 .C594 ED.2";
-		lopped = "352.042 .C594";
+		lopped = "352.042 .C594 ...";
 		shelfkey = CallNumberType.DEWEY.getPrefix() + CallNumUtils.getDeweyShelfKey(lopped);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1849258", fldName, reverseShelfkey);
@@ -805,10 +805,11 @@ public class CallNumberTests extends AbstractStanfordBlacklightTest {
 		
 		// LC
 		String callnum = "M453 .Z29 Q1 L V.2"; 
-		String lopped = "M453 .Z29 Q1 L"; 
+		String lopped = "M453 .Z29 Q1 L ..."; 
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.LC, "fake").toLowerCase();
 		assertEquals("lc m   0453.000000 z0.290000 q0.100000 l v.000002", getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, !isSerial, ignoredId));
 		String reversePrefix = "lc m   0453.000000 z0.290000 q0.100000 l 4" + reversePeriodStr + "zzzzzx";
+		String junk = getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, ignoredId);
 		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, ignoredId).startsWith(reversePrefix));
 		
 		callnum = "M453 .Z29 Q1 L SER.2"; 

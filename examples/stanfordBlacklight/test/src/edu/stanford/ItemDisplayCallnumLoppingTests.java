@@ -42,7 +42,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 		String callnum = "TX519 .D26S 1954 V.2";
 // TODO: currently look for other suffixes before we resort to year ...
 //		String lopped = "TX519 .D26S";
-		String lopped = "TX519 .D26S 1954";
+		String lopped = "TX519 .D26S 1954 ...";
 		String recId = "cutterEndsLetLCSerial";
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.LC, recId).toLowerCase();
 		String volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, recId);
@@ -51,7 +51,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 		for (String val : values) {
 			if (val.startsWith("36105049317907")) {
 				assertTrue("volSort doesn't reverse vol number for serial", !volSort.contains("v.2"));
-				assertTrue("volSort doesn't reverse vol number for serial", volSort.contains("4~zzzzzx"));
+				assertTrue("volSort doesn't reverse vol number for serial", volSort.contains("4}zzzzzx"));
 			}
 		}
 	}

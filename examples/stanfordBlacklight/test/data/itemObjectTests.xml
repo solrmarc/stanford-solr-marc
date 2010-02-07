@@ -80,17 +80,13 @@
             <subfield code="a">internet home loc</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">IGNORED</subfield>
+            <subfield code="a">INTERNET RESOURCE</subfield>
             <subfield code="w">ASIS</subfield>
             <subfield code="c">1</subfield>
             <subfield code="i">444</subfield>
             <subfield code="l">INTERNET</subfield>
             <subfield code="m">GREEN</subfield>
-            <subfield code="r">N</subfield>
-            <subfield code="s">Y</subfield>
             <subfield code="t">SUL</subfield>
-            <subfield code="u">12/15/2007</subfield>
-            <subfield code="z">TAX=8.25</subfield>
         </datafield>
     </record>
     <record>
@@ -101,18 +97,14 @@
             <subfield code="a">internet current loc</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">IGNORED</subfield>
+            <subfield code="a">INTERNET RESOURCE</subfield>
             <subfield code="w">ASIS</subfield>
             <subfield code="c">1</subfield>
             <subfield code="i">555</subfield>
             <subfield code="k">INTERNET</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
-            <subfield code="r">N</subfield>
-            <subfield code="s">Y</subfield>
             <subfield code="t">SUL</subfield>
-            <subfield code="u">12/15/2007</subfield>
-            <subfield code="z">TAX=8.25</subfield>
         </datafield>
     </record>
     <record>
@@ -129,11 +121,7 @@
             <subfield code="i">666</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
-            <subfield code="r">N</subfield>
-            <subfield code="s">Y</subfield>
             <subfield code="t">SUL</subfield>
-            <subfield code="u">12/15/2007</subfield>
-            <subfield code="z">TAX=8.25</subfield>
         </datafield>
     </record>
     <record>
@@ -150,11 +138,7 @@
             <subfield code="i">777</subfield>
             <subfield code="l">EDI</subfield>
             <subfield code="m">SUL</subfield>
-            <subfield code="r">Y</subfield>
-            <subfield code="s">Y</subfield>
             <subfield code="t">EDI-REMOVE</subfield>
-            <subfield code="u">10/15/2009</subfield>
-            <subfield code="z">TAX=8.25</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">111.11 .A5</subfield>

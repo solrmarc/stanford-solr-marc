@@ -1,20 +1,9 @@
 package org.solrmarc.tools;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.io.*;
+import java.util.*;
 
-import org.marc4j.marc.DataField;
-import org.marc4j.marc.Record;
-import org.marc4j.marc.Subfield;
+import org.marc4j.marc.*;
 
 public class PropertyMapLookup
 {
@@ -75,7 +64,7 @@ public class PropertyMapLookup
     private static void loadTranslationMapValues(String transMapName, String mapName, String mapKeyPrefix)
     {
         Properties props = null;
-        props = Utils.loadProperties(new String[0], transMapName);
+        props = PropertiesUtils.loadProperties(new String[0], transMapName);
 //        logger.debug("Loading Custom Map: " + transMapName);
         loadTranslationMapValues(props, mapName, mapKeyPrefix);
     }

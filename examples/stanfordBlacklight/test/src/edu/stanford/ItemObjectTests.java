@@ -116,10 +116,6 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
-	
-	
-	static String INET_LOC = "INTERNET";
-	static String INET_CALLNUM = "INTERNET RESOURCE";
 
 	/**
 	 * when homeLoc is INTERNET, item is online
@@ -129,17 +125,16 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 	{
 		// home location INTERNET
 		String id = "homeLocInternet";
-		String callnum = "IGNORED";
 	    String shelfkey = "";
 		String reversekey = "";
 		String volSort = "";
 		//  it's not left alone
-		String fldVal = "444 -|- GREEN" + SEP + INET_LOC + SEP + SEP + SEP + callnum + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+		String fldVal = "444 -|- GREEN" + SEP + Item.ELOC + SEP + SEP + "SUL" + SEP + Item.ECALLNUM + SEP +
+				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-	    //  curr loc added, callnum changed
-		fldVal = "444 -|- GREEN" + SEP + INET_LOC + SEP + INET_LOC + SEP + "SUL" + SEP + INET_CALLNUM + SEP +
-				shelfkey + SEP + reversekey + SEP + INET_CALLNUM + SEP + volSort;
+	    //  curr loc added, callnum dropped
+		fldVal = "444 -|- GREEN" + SEP + Item.ELOC + SEP + Item.ELOC + SEP + "SUL" + SEP + SEP +
+				shelfkey + SEP + reversekey + SEP + SEP;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
 
@@ -151,40 +146,37 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 	public void testCurrLocInternet() 
 	{
 		String id = "currLocInternet";
-		String callnum = "IGNORED";
 		String shelfkey = "";
 		String reversekey = "";
 		String volSort = "";
 		//  it's not left alone
-		String fldVal = "555 -|- GREEN" + SEP + INET_LOC + SEP + INET_LOC + SEP + SEP + callnum + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+		String fldVal = "555 -|- GREEN" + SEP + Item.ELOC + SEP + Item.ELOC + SEP + "SUL" + SEP + Item.ECALLNUM + SEP +
+				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-	    //  callnum changed
-		fldVal = "555 -|- GREEN" + SEP + INET_LOC + SEP + INET_LOC + SEP + "SUL" + SEP + INET_CALLNUM + SEP +
-				shelfkey + SEP + reversekey + SEP + INET_CALLNUM + SEP + volSort;
+	    //  callnum dropped
+		fldVal = "555 -|- GREEN" + SEP + Item.ELOC + SEP + Item.ELOC + SEP + "SUL" + SEP + SEP +
+				shelfkey + SEP + reversekey + SEP  + SEP;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
 	
 	/**
 	 * when callnum is 'INTERNET RESOURCE', item is online
 	 */
-// FIXME:  not sure what to do here.  Talk to Jessie  2010-01-09
-//@Test
+@Test
 	public void testCallnumInternet() 
 	{
-		// call number INTERENT RESOURCE
+		// call number INTERNET RESOURCE, but GREEN STACKS, not SUL
 		String id = "internetCallnum";
-		String callnum = INET_CALLNUM;
 		String shelfkey = "";
 		String reversekey = "";
 		String volSort = "";
 		//  it's not left alone
-		String fldVal = "666 -|- GREEN -|- STACKS" + SEP + SEP + SEP + callnum + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+		String fldVal = "666 -|- GREEN -|- STACKS" + SEP + SEP + "SUL"  + SEP + Item.ECALLNUM + SEP +
+				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-	    //  home loc changed, curr loc changed
-		fldVal = "666 -|- GREEN" + SEP + INET_LOC + SEP + INET_LOC + SEP + SEP + callnum + SEP +
-				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
+	    //  home loc changed, curr loc changed, callnum ignored
+	    fldVal = "666 -|- GREEN" + SEP + Item.ELOC + SEP + Item.ELOC + SEP + "SUL" + SEP + SEP +
+				shelfkey + SEP + reversekey + SEP + SEP;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
 	

@@ -28,13 +28,9 @@ import org.apache.log4j.Logger;
 import org.marc4j.*;
 import org.marc4j.marc.*;
 import org.solrmarc.marc.MarcImporter;
-import org.solrmarc.tools.Utils;
+import org.solrmarc.tools.*;
 
-import bsh.BshMethod;
-import bsh.EvalError;
-import bsh.Interpreter;
-import bsh.Primitive;
-import bsh.UtilEvalError;
+import bsh.*;
 
 /**
  * 
@@ -97,7 +93,7 @@ public class SolrIndexer
         for (String indexProps : indexingPropsFiles)
         {
             indexProps = indexProps.trim();
-            Properties indexingProps = Utils.loadProperties(propertyFilePaths, indexProps);
+            Properties indexingProps = PropertiesUtils.loadProperties(propertyFilePaths, indexProps);
             fillMapFromProperties(indexingProps);
         }
     }
@@ -431,7 +427,7 @@ public class SolrIndexer
     private void loadTranslationMapValues(String transMapName, String mapName, String mapKeyPrefix)
     {
         Properties props = null;
-        props = Utils.loadProperties(propertyFilePaths, transMapName);
+        props = PropertiesUtils.loadProperties(propertyFilePaths, transMapName);
         logger.debug("Loading Custom Map: " + transMapName);
         loadTranslationMapValues(props, mapName, mapKeyPrefix);
     }
@@ -803,7 +799,7 @@ public class SolrIndexer
         String paths[] = new String[propertyFilePaths.length+1];
         System.arraycopy(propertyFilePaths, 0, paths, 1, propertyFilePaths.length);
         paths[0] = "scripts";
-        InputStream script = Utils.getPropertyFileInputStream(paths, scriptFileName);
+        InputStream script = PropertiesUtils.getPropertyFileInputStream(paths, scriptFileName);
         String scriptContents;
         try
         {
@@ -1182,7 +1178,7 @@ public class SolrIndexer
         DataField titleField = (DataField) record.getVariableField("245");
         if (titleField == null)
             return null;
-        int nonFilingInt = getInd2AsInt(titleField);
+        int nonFilingInt = MarcUtils.getInd2AsInt(titleField);
         String thisTitle = getTitle(record).substring(nonFilingInt);
         return thisTitle.toLowerCase();
     }
@@ -1203,17 +1199,17 @@ public class SolrIndexer
         DataField df = (DataField) record.getVariableField("100");
         // main entry personal name
         if (df != null)
-            resultBuf.append(getAlphaSubfldsAsSortStr(df, false));
+            resultBuf.append(MarcUtils.getAlphaSubfldsAsSortStr(df, false));
 
         df = (DataField) record.getVariableField("110");
         // main entry corporate name
         if (df != null)
-            resultBuf.append(getAlphaSubfldsAsSortStr(df, false));
+            resultBuf.append(MarcUtils.getAlphaSubfldsAsSortStr(df, false));
 
         df = (DataField) record.getVariableField("111");
         // main entry meeting name
         if (df != null)
-            resultBuf.append(getAlphaSubfldsAsSortStr(df, false));
+            resultBuf.append(MarcUtils.getAlphaSubfldsAsSortStr(df, false));
 
         // need to sort fields missing 100/110/111 last
         if (resultBuf.length() == 0)
@@ -1225,12 +1221,12 @@ public class SolrIndexer
         // uniform title, main entry
         df = (DataField) record.getVariableField("240");
         if (df != null)
-            resultBuf.append(getAlphaSubfldsAsSortStr(df, false));
+            resultBuf.append(MarcUtils.getAlphaSubfldsAsSortStr(df, false));
 
         // 245 (required) title statement
         df = (DataField) record.getVariableField("245");
         if (df != null)
-            resultBuf.append(getAlphaSubfldsAsSortStr(df, true));
+            resultBuf.append(MarcUtils.getAlphaSubfldsAsSortStr(df, true));
 
         // Solr field properties should convert to lowercase
         return resultBuf.toString().trim();
@@ -1246,7 +1242,7 @@ public class SolrIndexer
         String date = getFieldVals(record, "260c", ", ");
         if (date == null || date.length() == 0)
             return (null);
-        return Utils.cleanDate(date);
+        return DateUtils.cleanDate(date);
     }
     
     /**
@@ -1286,7 +1282,7 @@ public class SolrIndexer
         for (VariableField vf : list856)
         {
             DataField df = (DataField) vf;
-            List<String> possUrls = Utils.getSubfieldStrings(df, 'u');
+            List<String> possUrls = MarcUtils.getSubfieldStrings(df, 'u');
             if (possUrls.size() > 0)
             {
                 char ind2 = df.getIndicator2();
@@ -1324,7 +1320,7 @@ public class SolrIndexer
         for (VariableField vf : list856)
         {
             DataField df = (DataField) vf;
-            List<String> possUrls = Utils.getSubfieldStrings(df, 'u');
+            List<String> possUrls = MarcUtils.getSubfieldStrings(df, 'u');
             char ind2 = df.getIndicator2();
             switch (ind2)
             {
@@ -1351,8 +1347,8 @@ public class SolrIndexer
     protected boolean isSupplementalUrl(DataField f856)
     {
         boolean supplmntl = false;
-        List<String> list3z = Utils.getSubfieldStrings(f856, '3');
-        list3z.addAll(Utils.getSubfieldStrings(f856, 'z'));
+        List<String> list3z = MarcUtils.getSubfieldStrings(f856, '3');
+        list3z.addAll(MarcUtils.getSubfieldStrings(f856, 'z'));
         for (String s : list3z)
         {
             if (s.toLowerCase().contains("table of contents")
@@ -1670,8 +1666,7 @@ public class SolrIndexer
      * separator and add the string to the result set. Each instance of each
      * marc field will be put in a separate result.
      * 
-     * @param record -
-     *            the marc record
+     * @param record - the marc record
      * @param fieldSpec -
      *            the marc fields (e.g. 600:655) in which we will grab the
      *            alphabetic subfield contents for the result set. The field may
@@ -1733,8 +1728,7 @@ public class SolrIndexer
      * separator and add the string to the result set, handling multiple
      * occurrences as indicated
      * 
-     * @param record -
-     *            the marc record
+     * @param record - the marc record
      * @param fieldSpec -
      *            the marc fields (e.g. 600:655) in which we will grab the
      *            alphabetic subfield contents for the result set. The field may
@@ -1985,26 +1979,6 @@ public class SolrIndexer
     }
 
     /**
-     * return an int for the passed string
-     * @param str
-     * @param defValue - default value, if string doesn't parse into int
-     */
-    private int localParseInt(String str, int defValue)
-    {
-        int value = defValue;
-        try
-        {
-            value = Integer.parseInt(str);
-        }
-        catch (NumberFormatException nfe)
-        {
-            // provided value is not valid numeric string
-            // Ignoring it and moving happily on.
-        }
-        return (value);
-    }
-
-    /**
      * Loops through all datafields and creates a field for "all fields"
      * searching. Shameless stolen from Vufind Indexer Custom Code
      * 
@@ -2023,15 +1997,15 @@ public class SolrIndexer
     public String getAllSearchableFields(final Record record, String lowerBoundStr, String upperBoundStr)
     {
         StringBuilder buffer = new StringBuilder("");
-        int lowerBound = localParseInt(lowerBoundStr, 100);
-        int upperBound = localParseInt(upperBoundStr, 900);
+        int lowerBound = Utils.parseIntNoNFE(lowerBoundStr, 100);
+        int upperBound = Utils.parseIntNoNFE(upperBoundStr, 900);
 
         List<DataField> fields = record.getDataFields();
         for (DataField field : fields)
         {
             // Get all fields starting with the 100 and ending with the 839
             // This will ignore any "code" fields and only use textual fields
-            int tag = localParseInt(field.getTag(), -1);
+            int tag = Utils.parseIntNoNFE(field.getTag(), -1);
             if ((tag >= lowerBound) && (tag < upperBound))
             {
                 // Loop through subfields
@@ -2050,7 +2024,7 @@ public class SolrIndexer
     /**
      * Custom routine to process a field specification very similar to the way 
      *  that specifying "first" works  ie. create a list of responses based on 
-     *  the field spec, but only return one on them. (In this case, the longest of them)
+     *  the field spec, but only return one of them. (In this case, the longest of them)
      *  Additionally this function demonstrates how custom indexing functions can 
      *  encounter errors, and continue indexing, but record the error in the generated index map.
      *
@@ -2126,55 +2100,6 @@ public class SolrIndexer
             result[1] = singleFieldSpec.substring(3);
         else
             result[1] = null;
-        return result;
-    }
-
-    /**
-     * treats indicator 2 as the number of non-filing indicators to exclude,
-     * removes ascii punctuation
-     * @param DataField with ind2 containing # non-filing chars, or has value ' '
-     * @param skipSubFldc true if subfield c contents should be skipped
-     * @return StringBuilder of the contents of the subfields - with a trailing
-     *         space
-     */
-    @SuppressWarnings("unchecked")
-	protected static StringBuilder getAlphaSubfldsAsSortStr(DataField df, boolean skipSubFldc)
-    {
-        StringBuilder result = new StringBuilder();
-        int nonFilingInt = getInd2AsInt(df);
-        boolean firstSubfld = true;
-
-        List<Subfield> subList = df.getSubfields();
-        for (Subfield sub : subList)
-        {
-            char subcode = sub.getCode();
-            if (Character.isLetter(subcode) && (!skipSubFldc || subcode != 'c'))
-            {
-                String data = sub.getData();
-                if (firstSubfld)
-                {
-                    if (nonFilingInt < data.length() - 1)
-                        data = data.substring(nonFilingInt);
-                    firstSubfld = false;
-                }
-                // eliminate ascii punctuation marks from sorting as well
-                result.append(data.replaceAll("\\p{Punct}*", "").trim() + ' ');
-            }
-        }
-        return result;
-    }
-
-    /**
-     * @param df
-     *            a DataField
-     * @return the integer (0-9, 0 if blank or other) in the 2nd indicator
-     */
-    protected static int getInd2AsInt(DataField df)
-    {
-        char ind2char = df.getIndicator2();
-        int result = 0;
-        if (Character.isDigit(ind2char))
-            result = Integer.valueOf(String.valueOf(ind2char));
         return result;
     }
 

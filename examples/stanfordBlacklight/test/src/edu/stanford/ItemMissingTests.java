@@ -54,13 +54,16 @@ public class ItemMissingTests extends AbstractStanfordBlacklightTest {
 	private static String LCB_CNUM = "B2 .C3";
 	private static String LCB_SKEY = CallNumUtils.getShelfKey(LCB_CNUM, CallNumberType.LC, null).toLowerCase();
 	private static String LCT_CNUM = "TR692 .P37";
+	private static String LCT_CNUM_ELLIP = "TR692 .P37 ...";
 	private static String LCT_SKEY = CallNumUtils.getShelfKey(LCT_CNUM, CallNumberType.LC, null).toLowerCase();
+	private static String LCT_SKEY_ELLIP = CallNumUtils.getShelfKey(LCT_CNUM_ELLIP, CallNumberType.LC, null).toLowerCase();
 	private static String DEWEY_CNUM = "363.2 .V349";
 	private static String DEWEY_SKEY = CallNumUtils.getShelfKey(DEWEY_CNUM, CallNumberType.DEWEY, null).toLowerCase();
 	
 	private static String LCA_RSKEY = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(LCA_SKEY).toLowerCase();
 	private static String LCB_RSKEY = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(LCB_SKEY).toLowerCase();
 	private static String LCT_RSKEY = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(LCT_SKEY).toLowerCase();
+	private static String LCT_RSKEY_ELLIP = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(LCT_SKEY_ELLIP).toLowerCase();
 	private static String DEWEY_RSKEY = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(DEWEY_SKEY).toLowerCase();
 
 
@@ -76,13 +79,15 @@ public class ItemMissingTests extends AbstractStanfordBlacklightTest {
 		solrFldMapTest.assertNoSolrFld(testFilePath, "onlyMissing", fldName);
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "missingDiff", fldName, LCA_SKEY);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "missingDiff", fldName, LCB_SKEY);
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "missingSame", fldName, LCT_SKEY);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "missingSame", fldName, LCT_SKEY_ELLIP);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "missingSame", fldName, LCT_SKEY);
 
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "onlyLost", fldName, DEWEY_SKEY);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "onlyLost", fldName);
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "lostDiff", fldName, LCA_SKEY);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "lostDiff", fldName, LCB_SKEY);
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "lostSame", fldName, LCT_SKEY);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "lostSame", fldName, LCT_SKEY_ELLIP);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "lostSame", fldName, LCT_SKEY);
 	}
 
 	/**
@@ -93,17 +98,20 @@ public class ItemMissingTests extends AbstractStanfordBlacklightTest {
 	public final void testNoReversekey() 
 	{
 		String fldName = "reverse_shelfkey";
+		
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "onlyMissing", fldName, DEWEY_RSKEY);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "onlyMissing", fldName);
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "missingDiff", fldName, LCA_RSKEY);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "missingDiff", fldName, LCB_RSKEY);
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "missingSame", fldName, LCT_RSKEY);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "missingSame", fldName, LCT_RSKEY_ELLIP);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "missingSame", fldName, LCT_RSKEY);
 
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "onlyLost", fldName, DEWEY_RSKEY);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "onlyLost", fldName);
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "lostDiff", fldName, LCA_RSKEY);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "lostDiff", fldName, LCB_RSKEY);
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "lostSame", fldName, LCT_RSKEY);
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "lostSame", fldName, LCT_RSKEY_ELLIP);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "lostSame", fldName, LCT_RSKEY);
 	}
 
 
@@ -175,18 +183,18 @@ public class ItemMissingTests extends AbstractStanfordBlacklightTest {
 		fldVal = firstPart + sep + sep + LCT_CNUM + sep + LCT_SKEY;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);   	
 	    barcode = "36105000549084";  // not missing - yes shelfkey pieces
-	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCT_CNUM + " ..." + sep;
+	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCT_CNUM_ELLIP + sep;
 	    String fullCallnum = "TR692 .P37 V.3 1978";
-	    String volSort = CallNumUtils.getVolumeSortCallnum(fullCallnum, LCT_CNUM, LCT_SKEY, CallNumberType.LC, true, id);
-		fldVal = firstPart + LCT_SKEY + sep + LCT_RSKEY + sep + fullCallnum + sep + volSort;
+	    String volSort = CallNumUtils.getVolumeSortCallnum(fullCallnum, LCT_CNUM_ELLIP, LCT_SKEY_ELLIP, CallNumberType.LC, true, id);
+		fldVal = firstPart + LCT_SKEY_ELLIP + sep + LCT_RSKEY_ELLIP + sep + fullCallnum + sep + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		fldVal = firstPart + sep + sep + fullCallnum + sep + volSort;
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    barcode = "36105000549068";  // not missing - yes shelfkey pieces
-	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCT_CNUM + " ..." + sep;
 	    fullCallnum = "TR692 .P37 V.1 1973";
-	    volSort = CallNumUtils.getVolumeSortCallnum(fullCallnum, LCT_CNUM, LCT_SKEY, CallNumberType.LC, true, id);
-		fldVal = firstPart + LCT_SKEY + sep + LCT_RSKEY + sep + fullCallnum + sep + volSort;
+	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCT_CNUM_ELLIP + sep;
+	    volSort = CallNumUtils.getVolumeSortCallnum(fullCallnum, LCT_CNUM_ELLIP, LCT_SKEY_ELLIP, CallNumberType.LC, true, id);
+		fldVal = firstPart + LCT_SKEY_ELLIP + sep + LCT_RSKEY_ELLIP + sep + fullCallnum + sep + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		fldVal = firstPart + sep + sep + fullCallnum + sep + volSort;
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
@@ -222,18 +230,18 @@ public class ItemMissingTests extends AbstractStanfordBlacklightTest {
 		fldVal = firstPart + sep + sep + LCT_CNUM + sep + LCT_SKEY;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);   	
 	    barcode = "36105000549084";  // not lost - yes shelfkey pieces
-	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCT_CNUM  + " ..." + sep;
+	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCT_CNUM_ELLIP + sep;
 	    fullCallnum = "TR692 .P37 V.3 1978";
-	    volSort = CallNumUtils.getVolumeSortCallnum(fullCallnum, LCT_CNUM, LCT_SKEY, CallNumberType.LC, true, id);
-		fldVal = firstPart + LCT_SKEY + sep + LCT_RSKEY + sep + fullCallnum + sep + volSort;
+	    volSort = CallNumUtils.getVolumeSortCallnum(fullCallnum, LCT_CNUM_ELLIP, LCT_SKEY_ELLIP, CallNumberType.LC, true, id);
+		fldVal = firstPart + LCT_SKEY_ELLIP + sep + LCT_RSKEY_ELLIP + sep + fullCallnum + sep + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		fldVal = firstPart + sep + sep + fullCallnum + sep + volSort;
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    barcode = "36105000549068";  // not lost - yes shelfkey pieces
-	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCT_CNUM  + " ..." + sep;
 	    fullCallnum = "TR692 .P37 V.1 1973";
-	    volSort = CallNumUtils.getVolumeSortCallnum(fullCallnum, LCT_CNUM, LCT_SKEY, CallNumberType.LC, true, id);
-		fldVal = firstPart + LCT_SKEY + sep + LCT_RSKEY + sep + fullCallnum + sep + volSort;
+	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCT_CNUM_ELLIP + sep;
+	    volSort = CallNumUtils.getVolumeSortCallnum(fullCallnum, LCT_CNUM_ELLIP, LCT_SKEY_ELLIP, CallNumberType.LC, true, id);
+		fldVal = firstPart + LCT_SKEY_ELLIP + sep + LCT_RSKEY_ELLIP + sep + fullCallnum + sep + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 		fldVal = firstPart + sep + sep + fullCallnum + sep + volSort;
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
