@@ -275,7 +275,7 @@ public class ItemOnlineTests extends AbstractStanfordBlacklightTest {
 	 * online resources that are on order or in process:  on order/in process 
 	 *  current location should be preserved, but otherwise treat as above
 	 */
-//@Test
+@Test
 	public void testOnOrderOnline()
 	{
 		String id = "onOrder";

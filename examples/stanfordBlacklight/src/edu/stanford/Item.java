@@ -339,7 +339,8 @@ public class Item {
 			String skeyCallnum = getBrowseCallnum(isSerial);
 			if (skeyCallnum != null && skeyCallnum.length() > 0
 				&& !StanfordIndexer.SKIPPED_CALLNUMS.contains(skeyCallnum) 
-				&& !skeyCallnum.startsWith(ECALLNUM) )
+				&& !skeyCallnum.startsWith(ECALLNUM) 
+				&& !skeyCallnum.startsWith("XX") )
 				loppedShelfkey = edu.stanford.CallNumUtils.getShelfKey(skeyCallnum, callnumType, recId);
 		}
 	}
