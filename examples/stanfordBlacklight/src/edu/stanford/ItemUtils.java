@@ -206,18 +206,18 @@ public class ItemUtils {
 			String fullCallnum = item.getCallnum();
 			String loppedCallnum = item.getLoppedCallnum(isSerial);
 
-			// get sortable call numbers for record view
+			// get shelflist pieces
 			String shelfkey = "";
 			String reversekey = "";
-			String volSort = "";
-			if ( (item.isOnline() && item.callnumNotFromItem() )
+			if ( item.hasSeparateBrowseCallnum() 
 				 || !(item.hasIgnoredCallnum() || item.hasBadLcLaneJackCallnum() ) ) {
 				shelfkey = item.getShelfkey(isSerial);
 				reversekey = item.getReverseShelfkey(isSerial);
 			}
-			if (!item.isOnline()) {
+			// get sortable call number for record view
+			String volSort = "";
+			if (!item.hasIgnoredCallnum())
 				volSort = item.getCallnumVolSort(isSerial);
-			}
 			
 			// deal with shelved by title locations
 			if (item.hasShelbyLoc() && 
@@ -253,36 +253,40 @@ public class ItemUtils {
 			}
 			
 			if (shelfkey == null)
-				shelfkey = "";
+				shelfkey = ""; // avoid NPE
 			else
 				shelfkey = shelfkey.toLowerCase();
 			if (reversekey == null)
-				reversekey = "";
+				reversekey = "";  // avoid NPE
 			else
 				reversekey = reversekey.toLowerCase();
 			
-			
+			// lopped callnum in item_display field is left blank when 
+			//   the call number is not to be displayed in search results
 			String itemDispCallnum = "";
 			if (loppedCallnum == null)
-				loppedCallnum = "";
-			if (!item.callnumNotFromItem() && !loppedCallnum.startsWith(Item.ECALLNUM))
+				loppedCallnum = ""; // avoid NPE
+			if ( ! (item.hasSeparateBrowseCallnum() 
+					|| StanfordIndexer.SKIPPED_CALLNUMS.contains(loppedCallnum) 
+					|| loppedCallnum.startsWith(Item.ECALLNUM)
+				   ) )
 				itemDispCallnum = loppedCallnum;
 			
-			if (item.callnumNotFromItem())
+			if (item.hasSeparateBrowseCallnum() 
+					&& !item.isInProcess() && !item.isOnOrder())
 				fullCallnum = "";
 				
 			// create field
-			if (loppedCallnum.length() > 0)
-    			result.add( item.getBarcode() + SEP + 
-    						item.getLibrary() + SEP + 
-    						homeLoc + SEP +
-    						item.getCurrLoc() + SEP +
-    						item.getType() + SEP +
-	    					itemDispCallnum + SEP + 
-	    					(item.isMissingOrLost() ? "" : shelfkey) + SEP + 
-	    					(item.isMissingOrLost() ? "" : reversekey) + SEP + 
-	    					(fullCallnum.startsWith(Item.ECALLNUM) ? "" : fullCallnum) + SEP + 
-	    					volSort );
+			result.add( item.getBarcode() + SEP + 
+						item.getLibrary() + SEP + 
+						homeLoc + SEP +
+						item.getCurrLoc() + SEP +
+						item.getType() + SEP +
+    					itemDispCallnum + SEP + 
+    					(item.isMissingOrLost() ? "" : shelfkey) + SEP + 
+    					(item.isMissingOrLost() ? "" : reversekey) + SEP + 
+    					(fullCallnum == null ? "" : fullCallnum) + SEP + 
+    					volSort );
 		} // end loop through items
 
 		return result;

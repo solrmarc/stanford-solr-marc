@@ -18,11 +18,8 @@ import edu.stanford.enumValues.*;
  */
 public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 {
-	/** name of map used to translate raw library code to short display value */
-	private static String LIBRARY_SHORT_MAP_NAME = null;
 	/** name of map used to translate raw location code to display value 
 	 *   map used to determine if call numbers should be lopped */
-	@Deprecated
 	private static String LOCATION_MAP_NAME = null;
 	
 	/** locations indicating item should not be displayed */
@@ -50,7 +47,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		super(indexingPropsFile, propertyDirs);
         try
         {
-        	LIBRARY_SHORT_MAP_NAME = loadTranslationMap(null, "library_short_map.properties");
         	LOCATION_MAP_NAME = loadTranslationMap(null, "location_map.properties");
         }
         catch (IllegalArgumentException e)
@@ -729,7 +725,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		String barcode = ItemUtils.getPreferredItemBarcode(itemSet);
 		if (barcode == null || barcode.length() == 0) {
 			for (Item item : itemSet) {
-				if (item.isOnline() && item.callnumNotFromItem()) {
+				if (item.isOnline() && item.hasSeparateBrowseCallnum()) {
 					String skey = item.getShelfkey(isSerial);
 					if (skey != null && skey.length() > 0)
 						return item.getBarcode();
