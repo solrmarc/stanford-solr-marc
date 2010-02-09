@@ -133,8 +133,8 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    //  curr loc added, callnum dropped
-		fldVal = "444 -|- GREEN" + SEP + Item.ELOC + SEP + Item.ELOC + SEP + "SUL" + SEP + SEP +
-				shelfkey + SEP + reversekey + SEP + SEP;
+		fldVal = "444 -|- GREEN" + SEP + Item.ELOC + SEP + SEP + "SUL" + SEP + SEP +
+				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
 
@@ -154,8 +154,8 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    //  callnum dropped
-		fldVal = "555 -|- GREEN" + SEP + Item.ELOC + SEP + Item.ELOC + SEP + "SUL" + SEP + SEP +
-				shelfkey + SEP + reversekey + SEP  + SEP;
+		fldVal = "555 -|- GREEN" + SEP + "STACKS" + SEP + Item.ELOC + SEP + "SUL" + SEP + SEP +
+				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
 	
@@ -175,8 +175,8 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    //  home loc changed, curr loc changed, callnum ignored
-	    fldVal = "666 -|- GREEN" + SEP + Item.ELOC + SEP + Item.ELOC + SEP + "SUL" + SEP + SEP +
-				shelfkey + SEP + reversekey + SEP + SEP;
+	    fldVal = "666 -|- GREEN" + SEP + "STACKS" + SEP + SEP + "SUL" + SEP + SEP +
+				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
 	

@@ -420,18 +420,20 @@ public class CallNumUtils {
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) {
 // FIXME:  shelby locations should be checked for by calling routine??
-			if (item.getCallnumType() == CallNumberType.LC
-				&& ( (item.isOnline() && item.callnumNotFromItem() )
-				     || !(item.hasBadLcLaneJackCallnum()
-				          || item.hasShelbyLoc() || item.isMissingOrLost()
-				          || item.hasIgnoredCallnum() 
-				         ) 
-				   ) 
-			   ) 
-			{
-				String callnum = edu.stanford.CallNumUtils.normalizeLCcallnum(item.getCallnum());
-				if (callnum.length() > 0)
-					result.add(callnum);
+			if (item.getCallnumType() == CallNumberType.LC) {
+				String rawCallnum = "";
+				if (item.hasSeparateBrowseCallnum())
+					rawCallnum = item.getBrowseCallnum();
+				else if (!( item.hasBadLcLaneJackCallnum()
+				           || item.hasShelbyLoc() || item.isMissingOrLost()
+				           || item.hasIgnoredCallnum() 
+				         ) )
+					rawCallnum = item.getCallnum();
+				if (rawCallnum != null && rawCallnum.length() > 0) {
+					String lcCallnum = edu.stanford.CallNumUtils.normalizeLCcallnum(rawCallnum);
+					if (lcCallnum.length() > 0)
+						result.add(lcCallnum);
+				}
 			}
 		}
 		return result;
@@ -483,13 +485,12 @@ public class CallNumUtils {
 		for (Item item : itemSet) 
 		{
 			String callnum = item.getCallnum();
+			if (item.hasSeparateBrowseCallnum())
+				callnum = item.getBrowseCallnum(isSerial);
 			if (callnum != null && callnum.length() > 0 
-			      && ( (item.isOnline() && item.callnumNotFromItem() )
-					    || !(item.hasBadLcLaneJackCallnum()
-					        || item.hasShelbyLoc() || item.isMissingOrLost()
-					        || item.hasIgnoredCallnum() 
-					        ) 
-					 ) 
+			      && ! (item.hasBadLcLaneJackCallnum()
+					    || item.hasShelbyLoc() || item.isMissingOrLost()
+					   ) 
 			   ) 
 			{
 				String shelfkey = item.getShelfkey(isSerial);
@@ -513,12 +514,9 @@ public class CallNumUtils {
 		{
 			String shelfkey = item.getShelfkey(isSerial);
 			if (shelfkey != null && shelfkey.length() > 0 
-				&& ( (item.isOnline() && item.callnumNotFromItem() )
-					 || !(item.hasBadLcLaneJackCallnum()
+				&& ! (item.hasBadLcLaneJackCallnum()
 						 || item.hasShelbyLoc() || item.isMissingOrLost()
-						 || item.hasIgnoredCallnum() 
-						) 
-					) 
+					 ) 
 			   ) 
 			{
 				String reverseShelfkey = item.getReverseShelfkey(isSerial);
@@ -800,7 +798,7 @@ public class CallNumUtils {
 		for (Item item: itemSet) {
 			String callnumFromItem = item.getCallnum();
 			if (callnumFromItem == null || callnumFromItem.length() == 0 
-					|| callnumFromItem.startsWith(Item.ECALLNUM)) {
+				|| item.hasIgnoredCallnum()) {
 				
 				// get 086 call number if record is a gov doc
 				if (isGovDoc) {
@@ -815,28 +813,28 @@ public class CallNumUtils {
 							else 
 								// non-SUDOC gov doc
 								item.setCallnumType(CallNumberType.OTHER);
-							item.setCallnum(suba);
+							item.setBrowseCallnum(suba);
 						}
 					}
 				}
 				
 				// if we don't have a call number yet, 
 				// look for valid LC call number
-				if (!item.callnumNotFromItem()) {
+				if (!item.hasSeparateBrowseCallnum()) {
 					List<String> candidates = getSubAB(record, "050");
 					for (String lcCandidate : candidates) {
 						if (org.solrmarc.tools.CallNumUtils.isValidLC(lcCandidate)) {
 							item.setCallnumType(CallNumberType.LC);
-							item.setCallnum(lcCandidate);
+							item.setBrowseCallnum(lcCandidate);
 						}
 					}					
 					// if we don't have a call number from 050, look in 090
-					if (!item.callnumNotFromItem()) {
+					if (!item.hasSeparateBrowseCallnum()) {
 						candidates = getSubAB(record, "090");
 						for (String lcCandidate : candidates) {
 							if (org.solrmarc.tools.CallNumUtils.isValidLC(lcCandidate)) {
 								item.setCallnumType(CallNumberType.LC);
-								item.setCallnum(lcCandidate);
+								item.setBrowseCallnum(lcCandidate);
 							}
 						}
 					}

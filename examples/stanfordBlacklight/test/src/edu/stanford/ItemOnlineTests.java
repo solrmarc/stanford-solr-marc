@@ -190,11 +190,13 @@ public class ItemOnlineTests extends AbstractStanfordBlacklightTest {
 		String fldName = "item_display";
 	
 		String sep = ItemUtils.SEP;
-		String firstPart = "1" + sep + "SUL" + sep + "INTERNET" + sep + "INTERNET" + sep + sep + sep;	
-		String fldVal = firstPart + sep + sep + sep;
+		String firstPart = "1" + sep + "SUL" + sep + Item.ELOC + sep + sep + sep + sep;	
+		String fldVal = firstPart + sep + sep + Item.ECALLNUM + sep;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "only999", fldName, fldVal);
 	
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "addlItem", fldName, fldVal.replace('1', '2'));
+	    fldVal = firstPart.replace('1', '2') + sep + sep + "INTERNET RESOURCE KF3400 .S36 2009" + sep;
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "addlItem", fldName, fldVal);
+
 	    String callnum = "A1 .B2";
 	    String skey = CallNumberType.LC.getPrefix() + org.solrmarc.tools.CallNumUtils.getLCShelfkey(callnum, null).toLowerCase();
 	    String rkey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(skey).toLowerCase();
@@ -269,5 +271,128 @@ public class ItemOnlineTests extends AbstractStanfordBlacklightTest {
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "082086", fldName, CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
 	
+	/**
+	 * online resources that are on order or in process:  on order/in process 
+	 *  current location should be preserved, but otherwise treat as above
+	 */
+//@Test
+	public void testOnOrderOnline()
+	{
+		String id = "onOrder";
+		String id050 = "onOrder050";
+		
+		String fldName = "callnum_top_facet";
+		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
+		solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, "A - General Works");
 
+		fldName = "preferred_barcode";
+		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
+		solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, "1");
+		
+		fldName = "shelfkey";
+		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
+		String bibCallnum = "A1 .B2";
+	    String skey = CallNumberType.LC.getPrefix() + org.solrmarc.tools.CallNumUtils.getLCShelfkey(bibCallnum, null).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, skey);
+
+		fldName = "item_display";
+		String sep = ItemUtils.SEP;
+		String firstPart = "1" + sep + "SUL" + sep + Item.ELOC + sep + "ON-ORDER" + sep + sep;	
+		String callnum = "XX(8438957.2)";
+		String fldVal = firstPart + callnum + sep + sep + sep + callnum + sep;
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "onOrder", fldName, fldVal);
+	    
+	    // note:  on order and in process items do not include lopped callnum or vol sort. SW-229
+	    String rkey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(skey).toLowerCase();
+	    fldVal = firstPart + sep + skey + sep + rkey + sep + callnum + sep;
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "onOrder050", fldName, fldVal);
+	}
+
+	/**
+	 * when the call number in the 050 or 090 is a partial LC call number
+	 *   (just the class code), then it should be included in the facets, 
+	 *   but not in the shelflist (preferred_barcode, shelfkey, reverse_shelfkey,
+	 *   item_display)
+	 */
+//@Test
+	public void testPartialLC()
+	{
+		String id = "050partial";
+		String fldName = "callnum_top_facet";
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, "A - General Works");
+
+		fldName = "preferred barcode";
+		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
+		
+		fldName = "shelfkey";
+		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
+		
+		fldName = "item_display";
+		String sep = ItemUtils.SEP;
+		String firstPart = "1" + sep + "SUL" + sep + Item.ELOC + sep + sep + sep;	
+		String fldVal = firstPart + sep + sep + sep + sep;
+	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
+	}
+
+	/**
+	 * "NO CALL NUMBER" is a skipped call number;  there are Lane resources
+	 *   that are online, have this call number, and do not have "INTERNET" 
+	 *   as the home or current location
+	 */
+//@Test
+	public void testNoCallNumber()
+	{
+		String id = "NCN";
+		String id050 = "NCN050";
+		String fldName = "callnum_top_facet";
+		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
+		solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, "A - General Works");
+
+		fldName = "preferred_barcode";
+		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
+		solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, "1");
+		
+		fldName = "shelfkey";
+		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
+		String callnum = "A1 .B2";
+	    String skey = CallNumberType.LC.getPrefix() + org.solrmarc.tools.CallNumUtils.getLCShelfkey(callnum, null).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, skey);
+
+		fldName = "item_display";
+		String sep = ItemUtils.SEP;
+		String uncallnum = "NO CALL NUMBER";
+		String firstPart = "1" + sep + "LANE-MED" + sep + "ASK@LANE" + sep + sep + sep + uncallnum + sep;	
+	    String fldVal = firstPart + sep + sep + uncallnum + sep + uncallnum;
+	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
+	    
+		String rkey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(skey).toLowerCase();
+	    fldVal = firstPart + skey + sep + rkey + uncallnum + sep + uncallnum;
+		solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, fldVal);
+	}
+
+	/**
+	 * item has a real call number, but is online also b/c it has an 856
+	 */
+//@Test
+	public void testOnline856()
+	{
+		String id = "online856";
+		String fldName = "callnum_top_facet";
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, "A - General Works");
+		
+		fldName = "preferred_barcode";
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, "1");
+		
+		fldName = "shelfkey";
+		String callnum = "A1 .B2";
+	    String skey = CallNumberType.LC.getPrefix() + org.solrmarc.tools.CallNumUtils.getLCShelfkey(callnum, null).toLowerCase();
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, skey);
+		
+		fldName = "item_display";
+	    String rkey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(skey).toLowerCase();
+		String sep = ItemUtils.SEP;
+		String firstPart = "1" + sep + "GREEN" + sep + "STACKS" + sep + sep + sep;	
+	    String fldVal = firstPart + callnum + sep + skey + sep + rkey + callnum + sep + callnum;
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
+	}
 }

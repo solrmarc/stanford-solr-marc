@@ -22,6 +22,10 @@
         <leader>02169cam a2200409Ia 4500</leader>
         <controlfield tag="001">aaddlItem</controlfield>
         <controlfield tag="008">090306s2009    dcuad   sb    000 0 eng d</controlfield><!-- call number in bib record -->
+        <datafield tag="050" ind1="1" ind2="4">
+            <subfield code="a">A1</subfield>
+            <subfield code="b">.B2</subfield>
+        </datafield>
         <datafield tag="245" ind1="1" ind2=" ">
             <subfield code="a">internet resource 999 and other 999</subfield>
         </datafield>
@@ -53,6 +57,26 @@
         <datafield tag="050" ind1="1" ind2="4">
             <subfield code="a">QA76.76.C672</subfield>
             <subfield code="b">B367 2001eb</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+<!-- 050 has partial call number -->    
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">a050partial</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource with 050 has partial lc call number</subfield>
+        </datafield>
+        <datafield tag="050" ind1="1" ind2="4">
+            <subfield code="a">A1</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">INTERNET RESOURCE</subfield>
@@ -367,6 +391,102 @@
             <subfield code="i">1</subfield>
             <subfield code="l">INTERNET</subfield>
             <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+<!-- on order -->
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">aonOrder</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999 on order</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">XX(8438957.2)</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="k">ON-ORDER</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">aonOrder050</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource 999 on order with 050</subfield>
+        </datafield>
+        <datafield tag="050" ind1=" " ind2=" ">
+            <subfield code="a">A1</subfield>
+            <subfield code="b">.B2</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">XX(8438957.2)</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="k">ON-ORDER</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+<!-- Lane no call number but online -->
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">aNCN</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">lane internet resource 999</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">NO CALL NUMBER</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">LL271310</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">aNCN050</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">lane internet resource 999 with 050</subfield>
+        </datafield>
+        <datafield tag="050" ind1=" " ind2=" ">
+            <subfield code="a">A1</subfield>
+            <subfield code="b">.B2</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">NO CALL NUMBER</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">LL271310</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
+        </datafield>
+    </record>
+<!-- real call number, but online via 856 -->    
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">aonline856</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">999 has callnum, but 086</subfield>
+        </datafield>
+        <datafield tag="856" ind1="4" ind2="1">
+            <subfield code="u">http://somewhere.org</subfield>
+        </datafield>        
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">A1 .B2</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
         </datafield>
     </record>
     
