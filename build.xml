@@ -1222,10 +1222,12 @@
                 <include name="**/*.class" />
                 <exclude name="**/*Test.class" />
             </fileset>
+ <!--           
             <fileset dir="${lib.dir}/solrmarc/${solrmarc.core.build.dir}">
                 <include name="**/*.class" />
                 <exclude name="**/*Test.class" />
             </fileset>
+ -->
         </cobertura-instrument>
     </target>
     
