@@ -132,9 +132,9 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 		String fldVal = "444 -|- GREEN" + SEP + Item.ELOC + SEP + SEP + "SUL" + SEP + Item.ECALLNUM + SEP +
 				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-	    //  curr loc added, callnum dropped
+	    //  no lopped or full call number included
 		fldVal = "444 -|- GREEN" + SEP + Item.ELOC + SEP + SEP + "SUL" + SEP + SEP +
-				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP;
+				shelfkey + SEP + reversekey + SEP + SEP;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
 
@@ -153,9 +153,9 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 		String fldVal = "555 -|- GREEN" + SEP + Item.ELOC + SEP + Item.ELOC + SEP + "SUL" + SEP + Item.ECALLNUM + SEP +
 				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-	    //  callnum dropped
+	    //  lopped and full callnum dropped
 		fldVal = "555 -|- GREEN" + SEP + "STACKS" + SEP + Item.ELOC + SEP + "SUL" + SEP + SEP +
-				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP;
+				shelfkey + SEP + reversekey + SEP + SEP;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
 	
@@ -174,9 +174,9 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 		String fldVal = "666 -|- GREEN -|- STACKS" + SEP + SEP + "SUL"  + SEP + Item.ECALLNUM + SEP +
 				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-	    //  home loc changed, curr loc changed, callnum ignored
+	    //  lopped and full callnum dropped 
 	    fldVal = "666 -|- GREEN" + SEP + "STACKS" + SEP + SEP + "SUL" + SEP + SEP +
-				shelfkey + SEP + reversekey + SEP + Item.ECALLNUM + SEP;
+				shelfkey + SEP + reversekey + SEP + SEP;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
 	

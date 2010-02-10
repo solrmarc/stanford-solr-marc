@@ -801,7 +801,8 @@ public class CallNumUtils {
 				|| item.hasIgnoredCallnum()) 
 				&& !(item.isInProcess() || item.isOnOrder()) ) {
 				
-				// get 086 call number if record is a gov doc
+				// get 086 call number if record is a gov doc 
+				//   (isGovDoc is set by calling routine if there is an 086, among other conditions)
 				if (isGovDoc) {
 					// 086 has no sub b
 					List<DataField> df086List = record.getVariableFields("086");

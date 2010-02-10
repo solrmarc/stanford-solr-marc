@@ -138,16 +138,20 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		List<DataField> list999df = (List<DataField>) record.getVariableFields("999");
 		has999s = !list999df.isEmpty();
 
-		setId(record);
-		boolean onlyOnlineItems = true;
+		setId(record);		
+		boolean getBrowseCallnumFromBib = true;
 		
 		itemSet.clear();
 		for (DataField df999 : list999df) {
 			Item item = new Item(df999, id);
 			if (!item.shouldBeSkipped())
 				itemSet.add(item);
-			if (!item.isOnline())
-				onlyOnlineItems = false;
+			// we need to get a browseable call number from bib only if
+			//   all items are online, or all items have callnum of "NO CALL NUMBER"
+			if (getBrowseCallnumFromBib) {				
+				if (!item.isOnline() && !item.hasIgnoredCallnum())
+					getBrowseCallnumFromBib = false;
+			}	
 		}
 
 		setFormats(record);
@@ -158,7 +162,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		setBuildings(record);
 		setGovDocCats(record);
 
-		if (onlyOnlineItems) {
+		if (getBrowseCallnumFromBib) {
 			// get a call number from the bib fields, if there is one
 			boolean isGovDoc = !govDocCats.isEmpty();
 			CallNumUtils.setCallnumsFromBib(record, itemSet, isGovDoc);
@@ -725,7 +729,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		String barcode = ItemUtils.getPreferredItemBarcode(itemSet);
 		if (barcode == null || barcode.length() == 0) {
 			for (Item item : itemSet) {
-				if (item.isOnline() && item.hasSeparateBrowseCallnum()) {
+				if ( ( item.isOnline() || item.hasIgnoredCallnum() ) 
+					 && item.hasSeparateBrowseCallnum()) {
 					String skey = item.getShelfkey(isSerial);
 					if (skey != null && skey.length() > 0)
 						return item.getBarcode();
