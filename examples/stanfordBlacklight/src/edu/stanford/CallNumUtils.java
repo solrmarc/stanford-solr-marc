@@ -797,8 +797,9 @@ public class CallNumUtils {
 
 		for (Item item: itemSet) {
 			String callnumFromItem = item.getCallnum();
-			if (callnumFromItem == null || callnumFromItem.length() == 0 
-				|| item.hasIgnoredCallnum()) {
+			if ((callnumFromItem == null || callnumFromItem.length() == 0 
+				|| item.hasIgnoredCallnum()) 
+				&& !(item.isInProcess() || item.isOnOrder()) ) {
 				
 				// get 086 call number if record is a gov doc
 				if (isGovDoc) {

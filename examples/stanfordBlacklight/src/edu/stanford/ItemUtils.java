@@ -202,7 +202,6 @@ public class ItemUtils {
 			String homeLoc = item.getHomeLoc();				
 
 			// full call number & lopped call number
-			CallNumberType callnumType = item.getCallnumType();
 			String fullCallnum = item.getCallnum();
 			String loppedCallnum = item.getLoppedCallnum(isSerial);
 
@@ -228,6 +227,7 @@ public class ItemUtils {
 				String volSuffix = null;
 				// ensure we're using a true lopped call number -- if only
 				//   one item, this would have been set to full callnum
+				CallNumberType callnumType = item.getCallnumType();
 				loppedCallnum = CallNumUtils.getLoppedCallnum(fullCallnum, callnumType, isSerial);
 				if (loppedCallnum != null && loppedCallnum.length() > 0)
 					volSuffix = fullCallnum.substring(loppedCallnum.length()).trim();
@@ -269,11 +269,12 @@ public class ItemUtils {
 			if ( ! (item.hasSeparateBrowseCallnum() 
 					|| StanfordIndexer.SKIPPED_CALLNUMS.contains(loppedCallnum) 
 					|| loppedCallnum.startsWith(Item.ECALLNUM)
+					|| loppedCallnum.startsWith(Item.TMP_CALLNUM_PREFIX)
 				   ) )
 				itemDispCallnum = loppedCallnum;
 			
-			if (item.hasSeparateBrowseCallnum() 
-					&& !item.isInProcess() && !item.isOnOrder())
+			if ( item.hasSeparateBrowseCallnum() 
+					|| fullCallnum.startsWith(Item.TMP_CALLNUM_PREFIX) )
 				fullCallnum = "";
 				
 			// create field

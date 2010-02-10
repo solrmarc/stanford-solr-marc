@@ -13,8 +13,12 @@ import edu.stanford.enumValues.CallNumberType;
  */
 public class Item {
 
+	/** call number for SUL online items */
 	public final static String ECALLNUM = "INTERNET RESOURCE";
+	/** location code for online items */
 	public final static String ELOC = "INTERNET";
+	/** temporary call numbers (in process, on order ..) should start with this prefix */
+	public final static String TMP_CALLNUM_PREFIX = "XX";
 	
 	/* immutable instance variables */
 	private final String recId;
@@ -107,7 +111,7 @@ public class Item {
 
 		if (StanfordIndexer.SKIPPED_CALLNUMS.contains(rawCallnum)
 				|| rawCallnum.startsWith(ECALLNUM)
-				|| rawCallnum.startsWith("XX"))
+				|| rawCallnum.startsWith(TMP_CALLNUM_PREFIX))
 			hasIgnoredCallnum = true;
 		else
 			hasIgnoredCallnum = false;
@@ -340,7 +344,7 @@ public class Item {
 			if (skeyCallnum != null && skeyCallnum.length() > 0
 				&& !StanfordIndexer.SKIPPED_CALLNUMS.contains(skeyCallnum) 
 				&& !skeyCallnum.startsWith(ECALLNUM) 
-				&& !skeyCallnum.startsWith("XX") )
+				&& !skeyCallnum.startsWith(TMP_CALLNUM_PREFIX) )
 				loppedShelfkey = edu.stanford.CallNumUtils.getShelfKey(skeyCallnum, callnumType, recId);
 		}
 	}
@@ -451,7 +455,7 @@ public class Item {
 	 * @param recId - for error message
 	 */
 	private void dealWithXXCallnums(String recId) {
-		if (normCallnum.startsWith("XX"))
+		if (normCallnum.startsWith(TMP_CALLNUM_PREFIX))
 		{
 			if (currLoc.equals("ON-ORDER"))
 				isOnOrder = true;

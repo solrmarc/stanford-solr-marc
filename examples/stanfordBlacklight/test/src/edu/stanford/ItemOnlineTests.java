@@ -283,29 +283,46 @@ public class ItemOnlineTests extends AbstractStanfordBlacklightTest {
 		
 		String fldName = "callnum_top_facet";
 		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
-		solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, "A - General Works");
+		solrFldMapTest.assertNoSolrFld(testFilePath, id050, fldName);
 
 		fldName = "preferred_barcode";
 		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
-		solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, "1");
+		solrFldMapTest.assertNoSolrFld(testFilePath, id050, fldName);
 		
 		fldName = "shelfkey";
 		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
-		String bibCallnum = "A1 .B2";
-	    String skey = CallNumberType.LC.getPrefix() + org.solrmarc.tools.CallNumUtils.getLCShelfkey(bibCallnum, null).toLowerCase();
-		solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, skey);
+		solrFldMapTest.assertNoSolrFld(testFilePath, id050, fldName);
 
+// TODO: should  on order and in process items have XX callnum in lopped, full and volsort?  SW-229
 		fldName = "item_display";
 		String sep = ItemUtils.SEP;
 		String firstPart = "1" + sep + "SUL" + sep + Item.ELOC + sep + "ON-ORDER" + sep + sep;	
 		String callnum = "XX(8438957.2)";
-		String fldVal = firstPart + callnum + sep + sep + sep + callnum + sep;
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "onOrder", fldName, fldVal);
-	    
-	    // note:  on order and in process items do not include lopped callnum or vol sort. SW-229
+		// call number included (lopped, full) but no volsort
+	    String fldVal = firstPart + callnum + sep + sep + sep + callnum + sep;
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
+	    // with vol sort
+	    fldVal = firstPart + callnum + sep + sep + sep + callnum + sep + callnum;
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
+	    // no call number:  lopped, nor full nor volsort
+	    fldVal = firstPart + sep + sep + sep + sep;
+	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
+		
+		// on order online item with 050
+		String bibCallnum = "A1 .B2";
+	    String skey = CallNumberType.LC.getPrefix() + org.solrmarc.tools.CallNumUtils.getLCShelfkey(bibCallnum, null).toLowerCase();
 	    String rkey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(skey).toLowerCase();
+	    fldVal = firstPart + callnum + sep + skey + sep + rkey + sep + callnum + sep;
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id050, fldName, fldVal);
 	    fldVal = firstPart + sep + skey + sep + rkey + sep + callnum + sep;
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "onOrder050", fldName, fldVal);
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id050, fldName, fldVal);
+	    fldVal = firstPart + callnum + sep + skey + sep + rkey + sep + callnum + sep;
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id050, fldName, fldVal);
+	    fldVal = firstPart + callnum + sep + sep + sep + callnum + sep;
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id050, fldName, fldVal);
+	    // no call number, no shelflist
+	    fldVal = firstPart + sep + sep + sep + sep;
+	    solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, fldVal);
 	}
 
 	/**
