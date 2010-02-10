@@ -274,7 +274,8 @@ public class ItemUtils {
 				itemDispCallnum = loppedCallnum;
 			
 			if ( item.hasSeparateBrowseCallnum() 
-					|| fullCallnum.startsWith(Item.TMP_CALLNUM_PREFIX) )
+					|| fullCallnum.startsWith(Item.TMP_CALLNUM_PREFIX) 
+					|| StanfordIndexer.SKIPPED_CALLNUMS.contains(fullCallnum))
 				fullCallnum = "";
 				
 			// create field

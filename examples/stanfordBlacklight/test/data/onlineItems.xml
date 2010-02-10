@@ -432,43 +432,6 @@
             <subfield code="m">SUL</subfield>
         </datafield>
     </record>
-<!-- Lane no call number but online -->
-    <record>
-        <leader>00988nas a2200193z  4500</leader>
-        <controlfield tag="001">aNCN</controlfield>
-        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
-        <datafield tag="245" ind1="1" ind2=" ">
-            <subfield code="a">lane internet resource 999</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">NO CALL NUMBER</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">LL271310</subfield>
-            <subfield code="l">ASK@LANE</subfield>
-            <subfield code="m">LANE-MED</subfield>
-        </datafield>
-    </record>
-    <record>
-        <leader>00988nas a2200193z  4500</leader>
-        <controlfield tag="001">aNCN050</controlfield>
-        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
-        <datafield tag="245" ind1="1" ind2=" ">
-            <subfield code="a">lane internet resource 999 with 050</subfield>
-        </datafield>
-        <datafield tag="050" ind1=" " ind2=" ">
-            <subfield code="a">A1</subfield>
-            <subfield code="b">.B2</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">NO CALL NUMBER</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">LL271310</subfield>
-            <subfield code="l">ASK@LANE</subfield>
-            <subfield code="m">LANE-MED</subfield>
-        </datafield>
-    </record>
 <!-- real call number, but online via 856 -->    
     <record>
         <leader>00988nas a2200193z  4500</leader>

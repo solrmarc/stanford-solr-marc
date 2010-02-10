@@ -191,7 +191,10 @@ public class ItemOnlineTests extends AbstractStanfordBlacklightTest {
 	
 		String sep = ItemUtils.SEP;
 		String firstPart = "1" + sep + "SUL" + sep + Item.ELOC + sep + sep + sep + sep;	
+		// no full or lopped call number
 		String fldVal = firstPart + sep + sep + Item.ECALLNUM + sep;
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "only999", fldName, fldVal);
+		fldVal = firstPart + sep + sep + sep;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "only999", fldName, fldVal);
 	
 	    fldVal = firstPart.replace('1', '2') + sep + sep + "INTERNET RESOURCE KF3400 .S36 2009" + sep;
@@ -349,42 +352,6 @@ public class ItemOnlineTests extends AbstractStanfordBlacklightTest {
 		String firstPart = "1" + sep + "SUL" + sep + Item.ELOC + sep + sep + sep;	
 		String fldVal = firstPart + sep + sep + sep + sep;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-	}
-
-	/**
-	 * "NO CALL NUMBER" is a skipped call number;  there are Lane resources
-	 *   that are online, have this call number, and do not have "INTERNET" 
-	 *   as the home or current location
-	 */
-//@Test
-	public void testNoCallNumber()
-	{
-		String id = "NCN";
-		String id050 = "NCN050";
-		String fldName = "callnum_top_facet";
-		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
-		solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, "A - General Works");
-
-		fldName = "preferred_barcode";
-		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
-		solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, "1");
-		
-		fldName = "shelfkey";
-		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
-		String callnum = "A1 .B2";
-	    String skey = CallNumberType.LC.getPrefix() + org.solrmarc.tools.CallNumUtils.getLCShelfkey(callnum, null).toLowerCase();
-		solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, skey);
-
-		fldName = "item_display";
-		String sep = ItemUtils.SEP;
-		String uncallnum = "NO CALL NUMBER";
-		String firstPart = "1" + sep + "LANE-MED" + sep + "ASK@LANE" + sep + sep + sep + uncallnum + sep;	
-	    String fldVal = firstPart + sep + sep + uncallnum + sep + uncallnum;
-	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-	    
-		String rkey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(skey).toLowerCase();
-	    fldVal = firstPart + skey + sep + rkey + uncallnum + sep + uncallnum;
-		solrFldMapTest.assertSolrFldValue(testFilePath, id050, fldName, fldVal);
 	}
 
 	/**
