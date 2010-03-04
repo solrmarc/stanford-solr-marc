@@ -53,6 +53,7 @@ LOG_DIR=$LOG_PARENT_DIR/$LOG_SUBDIR
 #nohup java -Xmx16g -Xms16g -jar $SOLRMARC_JAR $RAW_DATA_DIR/uni_06500000_06999999.marc &>$LOG_DIR/log650-699.txt
 #nohup java -Xmx16g -Xms16g -jar $SOLRMARC_JAR $RAW_DATA_DIR/uni_07000000_07499999.marc &>$LOG_DIR/log700-749.txt
 #nohup java -Xmx16g -Xms16g -jar $SOLRMARC_JAR $RAW_DATA_DIR/uni_07500000_07999999.marc &>$LOG_DIR/log750-799.txt
-nohup java -Xmx16g -Xms16g -Dsolr.optimize_at_end="true" -jar $SOLRMARC_JAR $RAW_DATA_DIR/uni_08000000_08499999.marc &>$LOG_DIR/log800-849.txt
+#nohup java -Xmx16g -Xms16g -jar $SOLRMARC_JAR $RAW_DATA_DIR/uni_08000000_08499999.marc &>$LOG_DIR/log800-849.txt
+nohup java -Xmx16g -Xms16g -Dsolr.optimize_at_end="true" -jar $SOLRMARC_JAR $RAW_DATA_DIR/uni_08500000_08999999.marc &>$LOG_DIR/log850-899.txt
 
 exit 0
