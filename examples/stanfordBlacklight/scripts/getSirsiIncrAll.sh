@@ -3,7 +3,7 @@
 # Pull over all the incremental update files from Sirsi
 #  Naomi Dushay 2010-03-13
 
-REMOTE_DATA_DIR=/s/Dataload/SearchworkIncrement
+REMOTE_DATA_DIR=/s/Dataload/SearchworkIncrement/Output
 
 LOCAL_DATA_DIR=/home/blacklight/data/unicorn
 LATEST_DATA_DIR=$LOCAL_DATA_DIR/latest
