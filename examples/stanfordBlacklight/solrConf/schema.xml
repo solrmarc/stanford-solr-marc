@@ -99,15 +99,6 @@
       </analyzer>
     </fieldType>
 
-<!--
-    <fieldtype name="phonetic" stored="false" indexed="true" class="solr.TextField" >
-      <analyzer>
-        <tokenizer class="solr.StandardTokenizerFactory"/>
-        <filter class="solr.DoubleMetaphoneFilterFactory" inject="false"/>
-      </analyzer>
-    </fieldtype> 
--->
-
   </types>
 
   <fields>
@@ -120,12 +111,6 @@
     <!-- collection: allow searching within collections for aggr. colls, also used for get all docs -->
     <field name="collection" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <field name="all_search" type="text" indexed="true" stored="false" />
-    <!-- spell check / did you mean fields -->
-    <!-- default spell is single valued b/c all_search is single valued -->
-    <field name="spell" type="textSpell" indexed="true" stored="true" omitNorms="true" />
-    <field name="spell_title" type="textSpell" indexed="true" stored="true" multiValued="true" omitNorms="true" />
-    <field name="spell_author" type="textSpell" indexed="true" stored="true" multiValued="true" omitNorms="true" />
-    <field name="spell_subject" type="textSpell" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <!-- for OpenSearch string completion; requires a stored field -->
     <field name="open_search" type="text" indexed="true" stored="true" multiValued="true"/>
 
@@ -339,42 +324,6 @@
   <copyField source="toc_search" dest="toc_unstem_search" />
   <copyField source="context_search" dest="context_unstem_search" />
   <copyField source="summary_search" dest="summary_unstem_search" />
-  
-  <!-- Spell copyFields -->
-  <copyField source="all_search" dest="spell" />
-  <!-- these should match the fields searched in the search_title request handler -->
-  <copyField source="title_245a_search" dest="spell_title" />
-  <copyField source="vern_title_245a_search" dest="spell_title" />
-  <copyField source="title_245_search" dest="spell_title" />
-  <copyField source="vern_title_245_search" dest="spell_title" />
-  <copyField source="title_uniform_search" dest="spell_title" />
-  <copyField source="vern_title_uniform_search" dest="spell_title" />
-  <copyField source="title_variant_search" dest="spell_title" />
-  <copyField source="vern_title_variant_search" dest="spell_title" />
-  <copyField source="title_related_search" dest="spell_title" />
-  <copyField source="vern_title_related_search" dest="spell_title" />
-  <copyField source="title_series_search" dest="spell_title" />
-  <copyField source="vern_title_series_search" dest="spell_title" />
-  <!-- these should match the fields searched in the search_author request handler -->
-  <copyField source="author_1xx_search" dest="spell_author" />
-  <copyField source="vern_author_1xx_search" dest="spell_author" />
-  <copyField source="author_7xx_search" dest="spell_author" />
-  <copyField source="vern_author_7xx_search" dest="spell_author" />
-  <copyField source="author_8xx_search" dest="spell_author" />
-  <copyField source="vern_author_8xx_search" dest="spell_author" />
-  <!-- these should match the fields searched in the search_subject request handler -->
-  <copyField source="topic_search" dest="spell_subject" />
-  <copyField source="vern_topic_search" dest="spell_subject" />
-  <copyField source="geographic_search" dest="spell_subject" />
-  <copyField source="vern_geographic_search" dest="spell_subject" />
-  <copyField source="subject_other_search" dest="spell_subject" />
-  <copyField source="vern_subject_other_search" dest="spell_subject" />
-  <copyField source="topic_subx_search" dest="spell_subject" />
-  <copyField source="vern_topic_subx_search" dest="spell_subject" />
-  <copyField source="geographic_subz_search" dest="spell_subject" />
-  <copyField source="vern_geographic_subz_search" dest="spell_subject" />
-  <copyField source="subject_other_subvy_search" dest="spell_subject" />
-  <copyField source="vern_subject_other_subvy_search" dest="spell_subject" /> 
   
   <!-- field to populate OpenSearch queries -->
   <copyField source="title_245_search" dest="open_search" />
