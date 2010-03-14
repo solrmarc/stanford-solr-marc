@@ -147,7 +147,8 @@ public class MiscellaneousFieldTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * spell fields should be stored and indexed
 	 */
-@Test
+//@Test   no longer using spell fields, 
+// spell fields removed from solr config files as of 2010-03-12
 	public final void testSpellFields() 
 	    throws ParserConfigurationException, IOException, SAXException
 	{
