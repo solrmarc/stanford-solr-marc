@@ -679,7 +679,7 @@
   
   
   <!-- request handler for different searches in the pulldown menu for the single search box -->
-  <requestHandler name="search_pulldown" class="solr.SearchHandler" default="true">
+  <requestHandler name="search_pulldown" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="defType">edismax</str>
       <str name="echoParams">explicit</str>
