@@ -9,7 +9,7 @@ SITE_BASEDIR=..
 DIST_DIR=$SOLRMARC_BASEDIR/dist
 
 #RAW_DATA_DIR=$SITE_BASEDIR/test/data
-RAW_DATA_DIR=$BLACKLIGHT_HOMEDIR/data/unicorn/latest
+RAW_DATA_DIR=/data/unicorn/latest
 SOLR_DATA_DIR=$BLACKLIGHT_HOMEDIR/data/solr/dataBuild
 SOLRMARC_JAR=$DIST_DIR/swSolrMarc.jar
 

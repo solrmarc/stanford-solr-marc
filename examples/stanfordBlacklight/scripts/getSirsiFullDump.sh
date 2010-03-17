@@ -6,7 +6,7 @@
 COUNTS_FNAME=files_counts
 REMOTE_DATA_DIR=/s/Dataload/VufindDump/Output
 
-LOCAL_DATA_DIR=/home/blacklight/data/unicorn
+LOCAL_DATA_DIR=/data/unicorn
 LATEST_DATA_DIR=$LOCAL_DATA_DIR/latest
 PREVIOUS_DATA_DIR=$LOCAL_DATA_DIR/previous
 
