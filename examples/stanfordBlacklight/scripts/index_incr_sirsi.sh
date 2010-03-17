@@ -21,7 +21,7 @@ JAVA_HOME=/usr/lib/jvm/java
 
 BLACKLIGHT_HOMEDIR=/home/blacklight
 SOLRMARC_JAR=$BLACKLIGHT_HOMEDIR/solrmarc/dist/swSolrMarc.jar
-RAW_DATA_DIR=$BLACKLIGHT_HOMEDIR/data/unicorn/latest/updates
+RAW_DATA_DIR=/data/unicorn/latest/updates
 REC_FNAME=$RAW_DATA_DIR/$RECORDS_FNAME
 
 DEL_ARG="-Dmarc.ids_to_delete="$RAW_DATA_DIR/$DEL_KEYS_FNAME
