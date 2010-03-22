@@ -238,21 +238,16 @@
   </requestDispatcher>
 
   <!-- Replication -->
-  <str name="confFiles">solrconfig-slave.xml:solrconfig.xml,x.xml,y.xml</str>
   <requestHandler name="/replication" class="solr.ReplicationHandler" >
-    <lst name="master">
-      <!--Replicate on 'startup' and 'commit'. 'optimize' is also a valid value for replicateAfter. -->
-      <str name="replicateAfter">startup</str>
-      <str name="replicateAfter">commit</str>
-      
-      <!--Create a backup after 'optimize'. Other values can be 'commit', 'startup'. It is possible to have multiple entries of this config string.  Note that this is just for backup, replication does not require this. -->
-      <!-- <str name="backupAfter">optimize</str> -->
-      
-      <!--If configuration files need to be replicated give the names here, separated by comma -->
-      <str name="confFiles">schema.xml,solrconfig.xml,stopwords.txt</str>
+    <lst name="slave">
+      <str name="masterUrl">http://sw-solr-master:8983/solr/replication</str>  
+        
+      <!--Interval in which the slave should poll master .Format is HH:mm:ss . 
+          If this is absent slave does not poll automatically.  -->
+      <str name="pollInterval">00:01:00</str>  
     </lst>
   </requestHandler>
-       
+    
   <!-- everywhere/unfielded search request handler -->
   <requestHandler name="search" class="solr.SearchHandler" default="true">
     <lst name="defaults">
