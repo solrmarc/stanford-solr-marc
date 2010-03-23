@@ -247,7 +247,7 @@
       <!--Create a backup after 'optimize'. Other values can be 'commit', 'startup'. It is possible to have multiple entries of this config string.  Note that this is just for backup, replication does not require this. -->
       <!-- <str name="backupAfter">optimize</str> -->
       
-      <str name="confFiles">solrconfig-slave.xml:solrconfig.xml,schema.xml,solrconfig.xml,stopwords.txt</str>
+      <str name="confFiles">solrconfig-slave.xml:solrconfig.xml,schema.xml,stopwords.txt</str>
     </lst>
   </requestHandler>
        
