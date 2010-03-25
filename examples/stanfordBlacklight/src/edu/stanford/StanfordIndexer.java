@@ -568,10 +568,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		// get full text urls from 856, then check for gsb forms
 		fullTextUrls = super.getFullTextUrls(record);
-		for (String possUrl : fullTextUrls) {
-       		if (possUrl.startsWith("http://www.gsb.stanford.edu/jacksonlibrary/services/") ||
-          		     possUrl.startsWith("https://www.gsb.stanford.edu/jacksonlibrary/services/"))
-				fullTextUrls.remove(possUrl);
+    	// avoid ConcurrentModificationException
+		synchronized(fullTextUrls) { 
+			for (String possUrl : fullTextUrls) {
+	       		if (possUrl.startsWith("http://www.gsb.stanford.edu/jacksonlibrary/services/") ||
+	          		     possUrl.startsWith("https://www.gsb.stanford.edu/jacksonlibrary/services/"))
+					fullTextUrls.remove(possUrl);
+			}
 		}
 		fullTextUrls.addAll(fullTextUrls);
 
