@@ -63,7 +63,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         // try to reuse HashSet, etc. objects instead of creating fresh each time
         formats = new HashSet<String>();
     	sfxUrls = new HashSet<String>();
-    	fullTextUrls = new HashSet<String>();
+    	// avoid ConcurrentModificationException
+    	fullTextUrls = Collections.synchronizedSet(new HashSet<String>());
     	buildings = new HashSet<String>();
     	shelfkeys = new HashSet<String>();
     	govDocCats = new HashSet<String>();
