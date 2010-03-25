@@ -461,7 +461,7 @@ public class Item {
 				isOnOrder = true;
 			else if (currLoc.equals("INPROCESS"))
 				isInProcess = true;
-			else if (shouldBeSkipped)
+			else if (shouldBeSkipped || currLoc.equals("LAC") || homeLoc.equals("LAC"))
 				; // we're okay
 			else if (currLoc.length() > 0) {
 				System.err.println("record " + recId + " has XX callnumber but current location is not ON-ORDER or INPROCESS or shadowy");

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<!-- LAC current location -->
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">aLACcurrXX</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">LAC in current location</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">XX(6792210.1)</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="k">LAC</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">aLAChomeXX</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">LAC in home location</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">XX(6792210.1)</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="i">2</subfield>
+            <subfield code="l">LAC</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">aLACcurrLC</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">LAC in current location LC callnum</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">A1 .B2</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="i">3</subfield>
+            <subfield code="k">LAC</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+    
+</collection>
