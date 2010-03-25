@@ -20,6 +20,7 @@ import org.junit.runners.Suite;
         IncrementalUpdateTests.class,
         ItemDisplayCallnumLoppingTests.class,
         ItemInfoTests.class,
+        ItemLACTests.class,
         ItemMissingTests.class,
         ItemNoCallNumberTests.class,
         ItemObjectTests.class,
