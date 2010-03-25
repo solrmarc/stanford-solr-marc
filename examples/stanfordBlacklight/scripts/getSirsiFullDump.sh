@@ -6,11 +6,11 @@
 COUNTS_FNAME=files_counts
 REMOTE_DATA_DIR=/s/Dataload/VufindDump/Output
 
-LOCAL_DATA_DIR=/data/unicorn
+LOCAL_DATA_DIR=/data/sirsi
 LATEST_DATA_DIR=$LOCAL_DATA_DIR/latest
 PREVIOUS_DATA_DIR=$LOCAL_DATA_DIR/previous
 
-# check if dump is on unicorn box
+# check if dump is on jenson 
 
 # grab remote files_counts
 sftp -o 'IdentityFile=~/.ssh/id_rsa' apache@jenson:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
@@ -23,7 +23,7 @@ sftp -o 'IdentityFile=~/.ssh/id_rsa' apache@jenson:$REMOTE_DATA_DIR/$COUNTS_FNAM
 `diff -q $LOCAL_DATA_DIR/$COUNTS_FNAME $LATEST_DATA_DIR/$COUNTS_FNAME` >/dev/null 2>&1
 if [ $? -eq 0]
 then 
-  echo " Local Unicorn dump is up to date"
+  echo " Local sirsi dump is up to date"
   exit 0
 fi
 # if different, it is new
@@ -44,7 +44,7 @@ mv $LATEST_DATA_DIR/logs/* $PREVIOUS_DATA_DIR/logs
 #fi
 
 #DUMP_DATE=$1
-#LOCAL_DATA_DIR=/home/blacklight/data/unicorn_$DUMP_DATE
+#LOCAL_DATA_DIR=/home/blacklight/data/sirsi_$DUMP_DATE
 #mkdir $LOCAL_DATA_DIR
 
 

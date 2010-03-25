@@ -5,7 +5,7 @@
 
 REMOTE_DATA_DIR=/s/Dataload/SearchworkIncrement/Output
 
-LOCAL_DATA_DIR=/data/unicorn
+LOCAL_DATA_DIR=/data/sirsi
 LATEST_DATA_DIR=$LOCAL_DATA_DIR/latest/updates
 
 #  scp remote files to "latest" preserving timestamps
