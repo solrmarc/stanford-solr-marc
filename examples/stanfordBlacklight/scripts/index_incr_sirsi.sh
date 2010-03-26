@@ -10,13 +10,11 @@ if [ $1 ] ; then
   COUNTS_FNAME=$1"_dates_counts"
   DEL_KEYS_FNAME=$1"_ckeys_delete.del"
   RECORDS_FNAME=$1"_uni_increment.marc"
-  LOG_SUBDIR=$1
 else
   TODAY=`eval date +%y%m%d`
   COUNTS_FNAME=$TODAY"_dates_counts"
   DEL_KEYS_FNAME=$TODAY"_ckeys_delete.del"
   RECORDS_FNAME=$TODAY"_uni_increment.marc"
-  LOG_SUBDIR=$TODAY
 fi
 
 JAVA_HOME=/usr/lib/jvm/java
@@ -30,7 +28,7 @@ DEL_ARG="-Dmarc.ids_to_delete="$RAW_DATA_DIR/$DEL_KEYS_FNAME
 
 # create log directory
 LOG_PARENT_DIR=$RAW_DATA_DIR/logs
-LOG_DIR=$LOG_PARENT_DIR/$LOG_SUBDIR
+LOG_DIR=$LOG_PARENT_DIR
 mkdir -p $LOG_DIR
 
 # index the files
