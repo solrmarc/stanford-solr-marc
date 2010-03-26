@@ -44,8 +44,8 @@ mv $LATEST_DATA_DIR/logs/* $PREVIOUS_DATA_DIR/logs
 #fi
 
 #DUMP_DATE=$1
-#LOCAL_DATA_DIR=/home/blacklight/data/sirsi_$DUMP_DATE
-#mkdir $LOCAL_DATA_DIR
+#LOCAL_DATA_DIR=/data/sirsi_$DUMP_DATE
+#mkdir -p $LOCAL_DATA_DIR
 
 
 #  scp remote files to "latest" preserving timestamps

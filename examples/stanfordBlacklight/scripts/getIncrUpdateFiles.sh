@@ -5,8 +5,9 @@
 
 REMOTE_DATA_DIR=/s/Dataload/SearchworkIncrement/Output
 
-LOCAL_DATA_DIR=/home/blacklight/data/sirsi
+LOCAL_DATA_DIR=/data/sirsi
 LATEST_DATA_DIR=$LOCAL_DATA_DIR/latest/updates
+mkdir -p $LATEST_DATA_DIR
 
 # get filename date
 if [ $1 ] ; then
