@@ -63,8 +63,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         // try to reuse HashSet, etc. objects instead of creating fresh each time
         formats = new HashSet<String>();
     	sfxUrls = new HashSet<String>();
-    	// avoid ConcurrentModificationException
-    	fullTextUrls = Collections.synchronizedSet(new HashSet<String>());
+    	fullTextUrls = new HashSet<String>();
     	buildings = new HashSet<String>();
     	shelfkeys = new HashSet<String>();
     	govDocCats = new HashSet<String>();
@@ -568,15 +567,24 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		// get full text urls from 856, then check for gsb forms
 		fullTextUrls = super.getFullTextUrls(record);
-    	// avoid ConcurrentModificationException
-		synchronized(fullTextUrls) { 
-			for (String possUrl : fullTextUrls) {
-	       		if (possUrl.startsWith("http://www.gsb.stanford.edu/jacksonlibrary/services/") ||
-	          		     possUrl.startsWith("https://www.gsb.stanford.edu/jacksonlibrary/services/"))
-					fullTextUrls.remove(possUrl);
-			}
+		
+		// avoid ConcurrentModificationException  SW-322
+		String[] urlArray = new String[fullTextUrls.size()];
+		urlArray = fullTextUrls.toArray(urlArray);
+		for (int i = 0; i < urlArray.length; i++) {
+			String possUrl = urlArray[i];
+       		if (possUrl.startsWith("http://www.gsb.stanford.edu/jacksonlibrary/services/") ||
+         		     possUrl.startsWith("https://www.gsb.stanford.edu/jacksonlibrary/services/"))
+				fullTextUrls.remove(possUrl);
 		}
-		fullTextUrls.addAll(fullTextUrls);
+		
+//		for (String possUrl : fullTextUrls) {
+//       		if (possUrl.startsWith("http://www.gsb.stanford.edu/jacksonlibrary/services/") ||
+//          		     possUrl.startsWith("https://www.gsb.stanford.edu/jacksonlibrary/services/"))
+//// FIXME  SW-322:  avoid ConcurrentModificationException
+//				fullTextUrls.remove(possUrl);
+//		}
+//		fullTextUrls.addAll(fullTextUrls);
 
 		// get all 956 subfield u containing fulltext urls that aren't SFX
 		for (String url : f956subu) {
