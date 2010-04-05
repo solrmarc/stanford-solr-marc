@@ -48,7 +48,7 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	    assertSingleResult("1147269", fldName, "\"Classics\"");
 	    assertSingleResult("1505065", fldName, "\"Branner (Earth Sciences & Maps)\"");
 	    assertSingleResult("1618836", fldName, "\"Cubberley (Education)\"");
-	    assertSingleResult("1732616", fldName, "\"Math & Computer Science\"");
+	    assertSingleResult("1732616", fldName, "\"Mathematics & Statistics\"");
 	    assertSingleResult("1849258", fldName, "Engineering");
 	    assertSingleResult("2099904", fldName, "\"Jonsson (Government Documents)\"");
 	    assertSingleResult("2678655", fldName, "\"Jackson (Business)\"");
