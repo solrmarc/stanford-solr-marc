@@ -89,5 +89,22 @@ public class ItemLACTests extends AbstractStanfordBlacklightTest {
 	    fldVal = firstPart + "LAC" + lastPart;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
+	
+	/**
+	 * test LAC current location with an XX call number in a real record.
+	 */
+@Test
+	public void actualLACExample()
+	{
+	    String id = "6792210";
+		String fldName = "item_display";
+		String sep = ItemUtils.SEP;
+		String firstPart = "36105123571122" + sep + "GREEN" + sep + "STACKS" + sep;	
+	    String lastPart = sep + sep + sep + sep + sep + sep;
+	    String fldVal = firstPart + "ON-ORDER" + lastPart;
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
+	    fldVal = firstPart + "LAC" + lastPart;
+	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
+	}
 
 }
