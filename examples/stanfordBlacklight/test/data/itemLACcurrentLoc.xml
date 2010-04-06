@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collection xmlns="http://www.loc.gov/MARC21/slim">
-<!-- LAC current location -->
+<!-- LAC current location XX callnum -->
     <record>
         <leader>00988nas a2200193z  4500</leader>
         <controlfield tag="001">aLACcurrXX</controlfield>
@@ -17,6 +17,7 @@
             <subfield code="m">GREEN</subfield>
         </datafield>
     </record>
+<!-- LAC home location XX callnum -->
     <record>
         <leader>00988nas a2200193z  4500</leader>
         <controlfield tag="001">aLAChomeXX</controlfield>
@@ -32,6 +33,7 @@
             <subfield code="m">GREEN</subfield>
         </datafield>
     </record>
+<!-- LAC current location LC callnum -->
     <record>
         <leader>00988nas a2200193z  4500</leader>
         <controlfield tag="001">aLACcurrLC</controlfield>
@@ -46,6 +48,44 @@
             <subfield code="k">LAC</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+ <!-- LAC from actual record -->
+    <record>
+        <leader>00466cam a22001455  4500</leader>
+        <controlfield tag='001'>a6792210</controlfield>
+        <controlfield tag='003'>SIRSI</controlfield>
+        <controlfield tag='008'>070424s2004    xx            000 0 und u</controlfield>
+        <datafield tag='020' ind1=' ' ind2=' '>
+            <subfield code='a'>9993076856</subfield>
+            <subfield code='z'>9993076851</subfield>
+        </datafield>
+        <datafield tag='100' ind1='1' ind2=' '>
+            <subfield code='a'>Barkhudarian, Alvard.</subfield>
+        </datafield>
+        <datafield tag='245' ind1='1' ind2='0'>
+            <subfield code='a'>Karabakh :</subfield>
+            <subfield code='b'>dareverch.</subfield>
+        </datafield>
+        <datafield tag='260' ind1=' ' ind2=' '>
+            <subfield code='a'>[S.l.] :</subfield>
+            <subfield code='b'>[s.n.],</subfield>
+            <subfield code='c'>2004.</subfield>
+        </datafield>
+        <datafield tag='300' ind1=' ' ind2=' '>
+            <subfield code='a'>304 p.</subfield>
+        </datafield>
+        <datafield tag='596' ind1=' ' ind2=' '>
+            <subfield code='a'>1</subfield>
+        </datafield>
+        <datafield tag='999' ind1=' ' ind2=' '>
+            <subfield code='a'>XX(6792210.1)</subfield>
+            <subfield code='w'>LC</subfield>
+            <subfield code='c'>1</subfield>
+            <subfield code='i'>36105123571122</subfield>
+            <subfield code='k'>LAC</subfield>
+            <subfield code='l'>STACKS</subfield>
+            <subfield code='m'>GREEN</subfield>
         </datafield>
     </record>
     
