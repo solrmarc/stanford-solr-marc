@@ -100,7 +100,8 @@ public class SolrUpdate
         // Send POST output.
         printout = new DataOutputStream (urlConn.getOutputStream ());
 
-        String content = "<commit/>";
+        // see http://wiki.apache.org/solr/UpdateXmlMessages for explanation of attributes
+        String content = "<commit waitSearcher=\"false\" />";
          
         printout.writeBytes (content);
         printout.flush ();
