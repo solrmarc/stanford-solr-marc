@@ -240,9 +240,7 @@
   <!-- Replication -->
   <requestHandler name="/replication" class="solr.ReplicationHandler" >
     <lst name="master">
-      <!--Replicate on 'startup' and 'commit'. 'optimize' is also a valid value for replicateAfter. -->
-      <str name="replicateAfter">startup</str>
-      <str name="replicateAfter">commit</str>
+      <str name="replicateAfter">startup,commit,optimize</str>
       
       <!--Create a backup after 'optimize'. Other values can be 'commit', 'startup'. It is possible to have multiple entries of this config string.  Note that this is just for backup, replication does not require this. -->
       <!-- <str name="backupAfter">optimize</str> -->
