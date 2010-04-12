@@ -9,26 +9,18 @@
   <dataDir>${solr.data.dir:/data/solr}</dataDir>
 
   <indexDefaults>
-   <!-- Values here affect all index writers and act as a default unless overridden. -->
     <useCompoundFile>false</useCompoundFile>
     <mergeFactor>10</mergeFactor>
     <!--
       If both ramBufferSizeMB and maxBufferedDocs is set, then Lucene will flush based on whichever limit is hit first.
     -->
     <!--<maxBufferedDocs>1000</maxBufferedDocs>-->
-    <!-- Tell Lucene when to flush documents to disk.
-      Giving Lucene more memory for indexing means faster indexing at the cost of more RAM
-    -->
     <ramBufferSizeMB>128</ramBufferSizeMB>
 <!--     
     <maxMergeDocs>2147483647</maxMergeDocs>
 -->
     <writeLockTimeout>1000</writeLockTimeout>
     <commitLockTimeout>10000</commitLockTimeout>   
-    <!-- See docs re: luceneAutoCommit -->
-    
-    <!-- single suggested for a read-only index. Others are 
-       "native" and "simple" -->
     <lockType>single</lockType>
   </indexDefaults>
 
@@ -53,18 +45,6 @@
 
   <query>
     <maxBooleanClauses>1024</maxBooleanClauses>
-
-    <!-- filterCache: Cache used by SolrIndexSearcher for filters (DocSets),
-         unordered sets of *all* documents that match a query.  Three uses:
-           fq param
-           faceting, when TermEnum method
-           sorting, if useFilterForSortedQuery config option is set to true
-         When a new searcher is opened, its caches may be prepopulated
-         or "autowarmed" using data from caches in the old searcher.
-         autowarmCount is the number of items to prepopulate.  For LRUCache,
-         the autowarmed items will be the most recently accessed items.
-         size = maximum number of filters
-         -->
 <!-- TODO:  decrease size??? -->
     <filterCache class="solr.FastLRUCache"
       size="100000" initialSize="5120" minSize="65000" acceptableSize="75000" autowarmCount="1280" cleanupThread="true"/>
@@ -74,23 +54,11 @@
     <fieldValueCache class="solr.FastLRUCache"
         size="25" initialSize="25" minSize="17" autowarmCount="25" showItems="64"/>
 
-   <!-- queryResultCache caches results of searches - ordered lists of
-         document ids (DocList) based on a query, a sort, and the range
-         of documents requested. 
-         size = maximum number of queries
-         -->
 <!-- turned off due to hit ratio < 20%
     <queryResultCache class="solr.LRUCache"
       size="102400" initialSize="8192" autowarmCount="1024"/>
 -->
 
-  <!-- documentCache caches Lucene Document objects (the stored fields for each document).
-       Since Lucene internal document ids are transient, this cache will not be autowarmed.        
-       The size for the documentCache should always be greater than 
-         max_results * max_concurrent_queries, 
-       to ensure that Solr does not need to refetch a document during a request. The more 
-       fields you store in your documents, the higher the memory usage of this cache will be. 
-       size = maximum number of documents -->
 <!-- TODO:  decrease size??? -->
     <documentCache class="solr.LRUCache"
       size="20480" initialSize="8192" autowarmCount="0"/>
@@ -99,22 +67,10 @@
 
     <useFilterForSortedQuery>true</useFilterForSortedQuery>
 
-   <!-- An optimization for use with the queryResultCache.  When a search
-         is requested, a superset of the requested number of document ids
-         are collected.  For example, if a search for a particular query
-         requests matching documents 10 through 19, and queryWindowSize is 50,
-         then documents 0 through 49 will be collected and cached.  Any further
-         requests in that range can be satisfied via the cache.  -->
     <queryResultWindowSize>80</queryResultWindowSize>
     
-    <!-- Maximum number of documents to cache for any entry in the
-      queryResultCache. -->
     <queryResultMaxDocsCached>100</queryResultMaxDocsCached>
 
-    <!-- This entry enables an int hash representation for filters (DocSets)
-         when the number of items in the set is less than maxSize.  For smaller
-         sets, this representation is more memory efficient, more efficient to
-         iterate over, and faster to take intersections.  -->
     <HashDocSet maxSize="200000" loadFactor="0.75"/>
 
     <!-- a newSearcher event is fired whenever a new searcher is being prepared
@@ -241,10 +197,7 @@
   <requestHandler name="/replication" class="solr.ReplicationHandler" >
     <lst name="master">
       <str name="replicateAfter">startup,commit,optimize</str>
-      
-      <!--Create a backup after 'optimize'. Other values can be 'commit', 'startup'. It is possible to have multiple entries of this config string.  Note that this is just for backup, replication does not require this. -->
       <!-- <str name="backupAfter">optimize</str> -->
-      
       <str name="confFiles">solrconfig-slave.xml:solrconfig.xml,schema.xml,stopwords.txt</str>
     </lst>
   </requestHandler>
