@@ -196,7 +196,7 @@
   <!-- Replication -->
   <requestHandler name="/replication" class="solr.ReplicationHandler" >
     <lst name="slave">
-      <str name="masterUrl">http://sw-solr-master:8983/solr/replication</str>  
+      <str name="masterUrl">http://localhost:8983/solr/replication</str>  
       <!--Format is HH:mm:ss -->
       <str name="pollInterval">00:15:00</str>  
     </lst>
