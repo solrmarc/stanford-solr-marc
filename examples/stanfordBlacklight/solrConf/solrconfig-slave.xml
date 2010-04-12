@@ -244,7 +244,7 @@
         
       <!--Interval in which the slave should poll master .Format is HH:mm:ss . 
           If this is absent slave does not poll automatically.  -->
-      <str name="pollInterval">00:01:00</str>  
+      <str name="pollInterval">00:15:00</str>  
     </lst>
   </requestHandler>
     
