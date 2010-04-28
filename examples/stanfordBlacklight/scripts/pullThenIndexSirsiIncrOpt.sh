@@ -1,7 +1,8 @@
 #! /bin/bash
-# pullThenIndexSirsiIncr.sh
-# Pull over the latest incremental update files from Sirsi, then do an
+# pullThenIndexSirsiIncrOpt.sh
+# Pull over the latest incremental update files from Sirsi, then
 #  Remove deleted records from index and update index per marc records given
+#  then optimize Solr index
 #  Naomi Dushay 2010-04-09
 
 REMOTE_DATA_DIR=/s/Dataload/SearchworkIncrement/Output
@@ -46,6 +47,6 @@ LOG_DIR=$LATEST_DATA_DIR/logs
 mkdir -p $LOG_DIR
 
 # index the files
-nohup java -Xmx4g -Xms4g -Dsolr.data.dir=$SOLR_DATA_DIR $DEL_ARG -Dsolr.optimize_at_end="true" -jar $SOLRMARC_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
+java -Xmx4g -Xms4g -Dsolr.data.dir=$SOLR_DATA_DIR $DEL_ARG -Dsolr.optimize_at_end="true" -jar $SOLRMARC_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
 
 exit 0

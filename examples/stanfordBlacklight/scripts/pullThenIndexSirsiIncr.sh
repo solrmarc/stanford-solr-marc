@@ -1,6 +1,6 @@
 #! /bin/bash
 # pullThenIndexSirsiIncr.sh
-# Pull over the latest incremental update files from Sirsi, then do an
+# Pull over the latest incremental update files from Sirsi, then 
 #  Remove deleted records from index and update index per marc records given
 #  Naomi Dushay 2010-04-09
 
@@ -46,6 +46,6 @@ LOG_DIR=$LATEST_DATA_DIR/logs
 mkdir -p $LOG_DIR
 
 # index the files
-nohup java -Xmx4g -Xms4g -Dsolr.data.dir=$SOLR_DATA_DIR $DEL_ARG -jar $SOLRMARC_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
+java -Xmx4g -Xms4g -Dsolr.data.dir=$SOLR_DATA_DIR $DEL_ARG -jar $SOLRMARC_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
 
 exit 0
