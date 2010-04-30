@@ -3,7 +3,8 @@
 # Remove deleted records from index and update index per marc records given
 #  Naomi Dushay 2010-01-08
 
-SOLR_DATA_DIR=/data/solr/dataBuild
+#SOLR_DATA_DIR=/data/solr/dataBuild
+SOLR_DATA_DIR=/data/solr
 
 # get filename date
 if [ $1 ] ; then
