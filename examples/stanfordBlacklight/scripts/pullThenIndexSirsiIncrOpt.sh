@@ -34,7 +34,7 @@ sftp -o 'IdentityFile=~/.ssh/id_rsa' apache@jenson:$REMOTE_DATA_DIR/$RECORDS_FNA
 #########
 
 JAVA_HOME=/usr/lib/jvm/java
-SOLR_DATA_DIR=/data/solr/dataBuild
+SOLR_DATA_DIR=/data/solr
 BLACKLIGHT_HOMEDIR=/home/blacklight
 SOLRMARC_JAR=$BLACKLIGHT_HOMEDIR/solrmarc/dist/swSolrMarc.jar
 
@@ -48,5 +48,7 @@ mkdir -p $LOG_DIR
 
 # index the files
 java -Xmx4g -Xms4g -Dsolr.data.dir=$SOLR_DATA_DIR $DEL_ARG -Dsolr.optimize_at_end="true" -jar $SOLRMARC_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
+
+tail -15 $LOG_DIR/$RECORDS_FNAME".txt"
 
 exit 0
