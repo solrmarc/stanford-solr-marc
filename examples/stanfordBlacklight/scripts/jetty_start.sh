@@ -9,7 +9,8 @@ SOLR_DATA_DIR=/data/solr
 
 JAVA_HOME=/usr/lib/jvm/java
 
-JAVA_OPTS="-server -Xmx12g -Xms12g -d64 -XX:+UseParallelGC -XX:+AggressiveOpts -XX:NewRatio=5"
+#JAVA_OPTS="-server -Xmx12g -Xms12g -d64 -XX:+UseParallelGC -XX:+AggressiveOpts -XX:NewRatio=5"
+JAVA_OPTS="-server -Xmx12g -Xms12g -d64 -XX:+AggressiveOpts -XX:+UseConcMarkSweepGC -XX:NewRatio=3"
 
 #LOG_OPTS=-Djava.util.logging.config.file=$BLACKLIGHT_HOMEDIR/jetty/solr/logging.properties
 
