@@ -9,8 +9,16 @@ SOLR_DATA_DIR=/data/solr
 
 JAVA_HOME=/usr/lib/jvm/java
 
-#JAVA_OPTS="-server -Xmx12g -Xms12g -d64 -XX:+UseParallelGC -XX:+AggressiveOpts -XX:NewRatio=5"
-JAVA_OPTS="-server -Xmx12g -Xms12g -d64 -XX:+AggressiveOpts -XX:+UseConcMarkSweepGC -XX:NewRatio=3"
+#   see memorymanagement_whitepaper.pdf  from Sun
+# gc general options of interest:  -XX:NewRatio=n
+# gc algorithm options
+#   parallel gc options:  –XX:ParallelGCThreads=n
+#   parallel gc algorithms:   -XX:+UseParallelGC   and maybe   -XX:+UseParallelOldGC
+#   another parallel gc algorithm:    -XX:+UseConcMarkSweepGC   and maybe   –XX:+CMSIncrementalMode  or  -Xincgc
+#
+#JAVA_OPTS="-server -Xmx12g -Xms12g -d64 -XX:+AggressiveOpts -XX:+UseParallelGC -XX:NewRatio=5"
+#JAVA_OPTS="-server -Xmx12g -Xms12g -d64 -XX:+AggressiveOpts -XX:+UseConcMarkSweepGC -XX:NewRatio=3"
+JAVA_OPTS="-server -Xmx15g -Xms15g -d64 -XX:+AggressiveOpts -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=4 -XX:NewRatio=3"
 
 #LOG_OPTS=-Djava.util.logging.config.file=$BLACKLIGHT_HOMEDIR/jetty/solr/logging.properties
 
