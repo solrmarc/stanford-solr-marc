@@ -49,6 +49,6 @@ mkdir -p $LOG_DIR
 java -Xmx4g -Xms4g -Dsolr.data.dir=$SOLR_DATA_DIR $DEL_ARG -jar $SOLRMARC_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
 
 echo " "
-tail -15 $LOG_DIR/$RECORDS_FNAME".txt"
+cat $LOG_DIR/$RECORDS_FNAME".txt"
 
 exit 0
