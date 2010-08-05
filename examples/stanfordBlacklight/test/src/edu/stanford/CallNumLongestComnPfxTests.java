@@ -15,7 +15,7 @@ import edu.stanford.enumValues.CallNumberType;
 public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
 
 	private String fldName = "shelfkey";
-	private String fileName = "callNumLongCommPfxTests.mrc";
+	private String fileName = "callnumLongCommPfxTests.mrc";
     private String testFilePath = testDataParentPath + File.separator + fileName;
 
 @Before
