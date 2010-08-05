@@ -186,12 +186,14 @@ public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
 		String[] createVals = doc.getValues(createDateFldName);
 		String[] updateVals = doc.getValues(updateDateFldName);
 		
+/* won't compile with current build.xml  2010-07-31
+test commented out anyway b/c it's ahead of the actual code being written
 		org.apache.solr.schema.DateField d = new org.apache.solr.schema.DateField();
 	
 		java.util.Date createDate = d.parseMath(null, createVals[0]);
 		java.util.Date updateDate = d.parseMath(null, updateVals[0]);
 		org.junit.Assert.assertTrue(createDate.before(updateDate));
-		
+*/		
 	}
 
 }

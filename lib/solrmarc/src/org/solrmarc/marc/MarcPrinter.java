@@ -38,7 +38,7 @@ import org.solrmarc.tools.PropertiesUtils;
  *   translate - ??
  *   
  * @author Robert Haschart
- * @version $Id: MarcPrinter.java 797 2009-08-15 06:14:29Z naomi.dushay $
+ * @version $Id: MarcPrinter.java 1139 2010-03-23 18:55:17Z rh9ec@virginia.edu $
  *
  */
 public class MarcPrinter extends MarcHandler
@@ -51,17 +51,16 @@ public class MarcPrinter extends MarcHandler
     private MarcWriter writer = null;
     private PrintWriter out;
     
-    public MarcPrinter(String args[], PrintWriter out)
+    public MarcPrinter(PrintWriter out)
     {
-        super(args);
+        super();
         this.out = out;
-        loadLocalProperties(configProps);
-        processAdditionalArgs(addnlArgs);
     }
     
-    private void processAdditionalArgs(String[] args) 
+    @Override
+    protected void processAdditionalArgs() 
     {
-        for (String arg : args)
+        for (String arg : addnlArgs)
         {
             if (arg.equals("print") || arg.equals("index") || arg.equals("to_xml") || arg.equals("translate"))
             {
@@ -78,10 +77,11 @@ public class MarcPrinter extends MarcHandler
         }
     }
 
-    private void loadLocalProperties(Properties props) 
+    @Override
+    protected void loadLocalProperties() 
     {
-        String marcIncludeIfPresent2 = PropertiesUtils.getProperty(props, "marc.include_if_present2");
-        String marcIncludeIfMissing2 = PropertiesUtils.getProperty(props, "marc.include_if_missing2");
+        String marcIncludeIfPresent2 = PropertiesUtils.getProperty(configProps, "marc.include_if_present2");
+        String marcIncludeIfMissing2 = PropertiesUtils.getProperty(configProps, "marc.include_if_missing2");
 
         if (reader != null && (marcIncludeIfPresent2 != null || marcIncludeIfMissing2 != null)) 
         {
@@ -92,7 +92,7 @@ public class MarcPrinter extends MarcHandler
     @Override
     public int handleAll() 
     {
-           // keep track of record count
+        // keep track of record count
         int recordCounter = 0;
         
         while(reader != null && reader.hasNext())
@@ -133,7 +133,7 @@ public class MarcPrinter extends MarcHandler
                 {
                     if (writer == null)
                     {
-                        writer = new MarcStreamWriter(System.out, "UTF-8");
+                        writer = new MarcStreamWriter(System.out, "UTF-8", true);
                     }
                     writer.write(record);
                 }
@@ -203,7 +203,8 @@ public class MarcPrinter extends MarcHandler
         PrintWriter pOut = null;
         try {
             pOut = new PrintWriter(new OutputStreamWriter(System.out, "UTF-8"));
-            marcPrinter = new MarcPrinter(args, pOut);
+            marcPrinter = new MarcPrinter(pOut);
+            marcPrinter.init(args);
         }
         catch (IllegalArgumentException e)
         {

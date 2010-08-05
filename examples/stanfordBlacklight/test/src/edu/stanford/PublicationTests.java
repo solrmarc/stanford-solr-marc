@@ -253,16 +253,6 @@ public class PublicationTests extends AbstractStanfordBlacklightTest
 		// list of doc ids in correct publish date sort order
 		List<String> expectedOrderList = new ArrayList<String>(50);
 		
-		// TODO: invalid/missing dates are designated as last or first in solr
-		//  schema file, but are first here (as this is lucene context).
-		//  "ties" show up in document order here (order of occurrence in data 
-		// file)
-		expectedOrderList.add("pubDate6666"); 
-		expectedOrderList.add("pubDate1uuu"); 
-		expectedOrderList.add("pubDate9999"); 
-		expectedOrderList.add("pubDate0000"); 
-		expectedOrderList.add("pubDate0019"); 
-		
 		expectedOrderList.add("pubDate00uu");   // "1st century"
 		expectedOrderList.add("pubDate01uu");   // "2nd century"
 		expectedOrderList.add("pubDate02uu");   // "3rd century"
@@ -309,6 +299,14 @@ public class PublicationTests extends AbstractStanfordBlacklightTest
 		expectedOrderList.add("b2008");   // "2008"
 		expectedOrderList.add("z2009");   // "2009"
 		expectedOrderList.add("pubDate2010");   // "2010"
+		
+		// invalid/missing dates are designated as last in solr schema file
+		//  TODO: not sure what creates the order for "ties" 
+		expectedOrderList.add("pubDate1uuu"); 
+		expectedOrderList.add("pubDate9999"); 
+		expectedOrderList.add("pubDate6666"); 
+		expectedOrderList.add("pubDate0000"); 
+		expectedOrderList.add("pubDate0019"); 			
 		
 		// get search results sorted by pub_date_sort field
 		// pub_date_sort isn't stored, so we must look at id field
@@ -403,10 +401,8 @@ public class PublicationTests extends AbstractStanfordBlacklightTest
 		expectedOrderList.add("pubDate01uu");   // "2nd century"
 		expectedOrderList.add("pubDate00uu");   // "1st century"
 
-		// TODO: invalid/missing dates are designated as last or first in solr
-		//  schema file, but are last here in forward sort order (as this is 
-		//  lucene context).  In this test, we are doing a "reverse" lucene
-		//  sort, so they show as last for this test, in rever doc id order.
+		// invalid/missing dates are designated as last or first in solr
+		//  schema file.  
 		expectedOrderList.add("pubDate1uuu"); 
 		expectedOrderList.add("pubDate9999"); 
 		expectedOrderList.add("pubDate6666"); 

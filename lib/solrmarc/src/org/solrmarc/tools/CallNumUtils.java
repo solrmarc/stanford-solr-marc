@@ -727,8 +727,9 @@ public final class CallNumUtils {
    		    	}
    	    	}
    		} catch (NumberFormatException e) {
-   			if (!rawLCcallnum.startsWith("XX"))
-   				System.err.println("Problem creating shelfkey for record " + recid + "; call number: " + rawLCcallnum);
+//   			if (recid != null)
+   			if ( (recid != null) && (!rawLCcallnum.startsWith("XX")) ) // Stanford mod
+   			    System.err.println("Problem creating shelfkey for record " + recid + "; call number: " + rawLCcallnum);
    			//e.printStackTrace();
    			resultBuf = new StringBuilder();
    		}

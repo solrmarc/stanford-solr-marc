@@ -29,7 +29,7 @@ public abstract class IndexTest {
 
 	protected static String docIDfname = "id";
 
-    static Logger logger = Logger.getLogger(MarcImporter.class.getName());
+    static Logger logger = Logger.getLogger(IndexTest.class.getName());
 	
     /**
      * Given the paths to a marc file to be indexed, the solr directory, and
@@ -45,10 +45,22 @@ public abstract class IndexTest {
 			                     throws ParserConfigurationException, IOException, SAXException 
 	{
 		setSolrSysProperties(solrPath, solrDataDir);
-        deleteDirContents(System.getProperty("solr.data.dir"));
-		
-		setupMarcImporter(configPropFilename, testDataParentPath + File.separator + testDataFname);
 
+		// delete old index files
+        logger.debug("System.getProperty(\"os.name\") : "+System.getProperty("os.name"));
+        if (!System.getProperty("os.name").toLowerCase().contains("win"))
+        {
+            logger.info("Calling Delete Dir Contents");
+            deleteDirContents(System.getProperty("solr.data.dir"));
+        }
+        else
+        {
+            logger.info("Calling Delete All Docs");
+            importer.getSolrProxy().deleteAllDocs();
+        }
+
+		setupMarcImporter(configPropFilename, testDataParentPath + File.separator + testDataFname);
+        
 		int numImported = importer.importRecords();       
         importer.finish();
  
@@ -121,11 +133,12 @@ public abstract class IndexTest {
         if (argFileName == null)
         	argFileName = "NONE";
         
-        if (configPropFilename != null)
-       		importer = new MarcImporter(new String[] {configPropFilename, argFileName});
-        else 
-       		importer = new MarcImporter(new String[] {argFileName});
-	}
+        importer = new MarcImporter();
+        if (configPropFilename != null) 
+            importer.init(new String[] {configPropFilename, argFileName});        	
+        else  
+       	    importer.init(new String[] {argFileName});	
+ 	}
 	
 	
     /**
@@ -234,6 +247,7 @@ public abstract class IndexTest {
 			{	// recursively remove files and directories
 				deleteDir(file.getAbsolutePath());
 			}
+		logger.debug("Deleting: "+ d.getAbsolutePath());
 		d.delete();
 	}
 
