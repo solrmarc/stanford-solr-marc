@@ -142,18 +142,17 @@ public class SolrSearcherProxy
 	 * Given an index field name and value, return a list of Lucene Document
 	 *  ids that match the term query sent to the index, sorted (by Lucene) by 
 	 *  the indicated field (ASCENDING)
-	 * @param fld - the name of the field to be searched in the lucene index
+	 * @param fieldName - the name of the field to be searched in the lucene index
 	 * @param value - the string to be searched in the given field
 	 * @param sortfld - name of the field by which results should be sorted
 	 * @return an array of int containing the sorted document ids
      */
-    public int[] getAscSortDocNums(String field, String value, String sortfld) throws IOException, ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    public int[] getAscSortDocNums(String fieldName, String value, String sortfld) throws IOException, ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         try
         {
-            Class sortClass = Class.forName("org.apache.lucene.search.Sort");
-            Object sort = sortClass.getConstructor(String.class).newInstance(sortfld);
-            Object docListObj = getSortedSolrDocList(field, value, sort);
+            Object sortObj = getSortObject(sortfld, false);
+            Object docListObj = getSortedSolrDocList(fieldName, value, sortObj);
             return getIdsFromDocList(docListObj);
         }
         catch (Exception e)
@@ -172,19 +171,17 @@ public class SolrSearcherProxy
 	 * Given an index field name and value, return a list of Lucene Document
 	 *  ids that match the term query sent to the index, sorted (by Lucene) by 
 	 *  the indicated field (DESCENDING)
-	 * @param fld - the name of the field to be searched in the lucene index
+	 * @param fieldName - the name of the field to be searched in the lucene index
 	 * @param value - the string to be searched in the given field
 	 * @param sortfld - name of the field by which results should be sorted
 	 * @return an array of int containing the sorted document ids
      */
-    public int[] getDescSortDocNums(String field, String value, String sortfld) throws IOException, ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
+    public int[] getDescSortDocNums(String fieldName, String value, String sortfld) throws IOException, ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException
     {
         try
         {
-            Class sortClass = Class.forName("org.apache.lucene.search.Sort");
-            // reverse sort -->  new Sort(sortfld, true)
-            Object sort = sortClass.getConstructor(String.class, boolean.class).newInstance(sortfld, true);
-            Object docListObj = getSortedSolrDocList(field, value, sort);
+            Object sortObj = getSortObject(sortfld, true);
+            Object docListObj = getSortedSolrDocList(fieldName, value, sortObj);
             return getIdsFromDocList(docListObj);
         }
         catch (Exception e)
@@ -197,6 +194,34 @@ public class SolrSearcherProxy
             e.printStackTrace();
         }
         return(null);    
+    }
+    
+    
+    /**
+     * Given an index field name and sort direction, return a corresponding Sort 
+     *  object
+     * @param fieldName
+     * @param descending  true if sort is an descending sort
+     * @return a Sort Object
+     */
+    private Object getSortObject(String fieldName, boolean descending)
+    	throws ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException
+    {
+		Class solrIndexSearcherClass = Class.forName("org.apache.solr.search.SolrIndexSearcher");
+        Object solrIndexSearchObj = solrIndexSearcherClass.cast(solrSearcher);
+
+        Object indexSchemaObj = solrIndexSearcherClass.getMethod("getSchema").invoke(solrIndexSearchObj);
+        Class indexSchemaClass = Class.forName("org.apache.solr.schema.IndexSchema");
+        
+        Object schemaFieldObj = indexSchemaClass.getMethod("getField", String.class).invoke(indexSchemaObj, fieldName);
+        Class schemaFieldClass = Class.forName("org.apache.solr.schema.SchemaField");
+
+		Object sortFieldObj = schemaFieldClass.getMethod("getSortField", boolean.class).invoke(schemaFieldObj, descending);
+        Class sortFieldClass = Class.forName("org.apache.lucene.search.SortField");
+
+        Class sortClass = Class.forName("org.apache.lucene.search.Sort");
+        Object sortObj = sortClass.getConstructor(sortFieldClass).newInstance(sortFieldObj);
+        return sortObj;
     }
     
     /**

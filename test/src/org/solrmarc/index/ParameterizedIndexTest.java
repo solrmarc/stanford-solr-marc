@@ -1,6 +1,5 @@
 package org.solrmarc.index;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -19,7 +18,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.solrmarc.marc.MarcPrinter;
 
 @RunWith(Parameterized.class)
 public class ParameterizedIndexTest
@@ -49,7 +47,8 @@ public class ParameterizedIndexTest
      */
     public void verifyIndexingResults() throws Exception 
     {
-        MarcMappingOnly marcMappingTest = new MarcMappingOnly(new String[]{config, "id"});
+        MarcMappingOnly marcMappingTest = new MarcMappingOnly();
+        marcMappingTest.init(new String[]{config, "id"});
         String recordToLookAt = null;  // null means just get the first record from the named file
         if (recordFilename.matches("[^(]*[(][^)]*[)]"))
         {
@@ -58,18 +57,29 @@ public class ParameterizedIndexTest
             recordToLookAt = recParts[1];
         }
         String fullRecordFilename = dataDirectory + File.separator + recordFilename;
-        Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(recordToLookAt, fullRecordFilename);
+        Object solrFldValObj;
+        if (fieldToCheck.matches("^[0-9].*"))
+        {
+            solrFldValObj = marcMappingTest.lookupRawRecordValue(recordToLookAt, fullRecordFilename, fieldToCheck);
+        }
+        else 
+        {
+            Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(recordToLookAt, fullRecordFilename);
+            solrFldValObj = solrFldName2ValMap.get(fieldToCheck);
+        }
         String expected[];
         if (expectedValue.length() > 0)
             expected = expectedValue.split("[|]");
         else
             expected = new String[0];
-        Object solrFldValObj = solrFldName2ValMap.get(fieldToCheck);
         String received[] = null;
         if (solrFldValObj == null)
         {
             if (expected.length != 0)
+            {
+                System.out.println("No value assigned for Solr field " + fieldToCheck + " in Solr document " + recordFilename);
                 fail("No value assigned for Solr field " + fieldToCheck + " in Solr document " + recordFilename);
+            }
             received = new String[0];
         }
         if (solrFldValObj instanceof String)
@@ -99,6 +109,19 @@ public class ParameterizedIndexTest
                 }
                 // System.out.println("DEBUG: value is [" + fldVal + "]");
             }
+            if (!foundIt)
+            {
+                System.out.println("Solr field " + fieldToCheck + " did not have any value matching " + expect);
+                for (String receive : received)
+                {
+                    if (expect.equals(receive))
+                    {    
+                        foundIt = true;
+                        break;
+                    }
+                    System.out.println("DEBUG: found value [" + receive + "]");
+                }
+            }
             assertTrue("Solr field " + fieldToCheck + " did not have any value matching " + expect, foundIt);
         }
         for (String receive : received)
@@ -112,6 +135,10 @@ public class ParameterizedIndexTest
                     break;
                 }
                 // System.out.println("DEBUG: value is [" + fldVal + "]");
+            }
+            if (!foundIt)
+            {
+                System.out.println("Solr field " + fieldToCheck + " did not have any value matching " + receive);
             }
             assertTrue("Solr field " + fieldToCheck + " had extra unexpected value " + receive, foundIt);
         }

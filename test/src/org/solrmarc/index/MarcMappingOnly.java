@@ -30,28 +30,20 @@ public class MarcMappingOnly extends MarcHandler
      * Constructor
      * @param args - array of Strings:
      *    arg[0] - name of xxx_config.properties file
-     *            arg[1] - name of unique key field in solr document
+     *    arg[1] - name of unique key field in solr document
      */
-    public MarcMappingOnly(String args[])
+    public MarcMappingOnly()
     {
-        super(args);
-        if (args.length < 2)
-        {
-            throw new RuntimeException(
-                    "Must have at least 2 arguments for MarcMappingTest: name of xxx_config.properties file and the name of the unique key field in the solr document");
-        }
-        idFldName = args[1];
+        super();
     }
     
-    /**
-     * Constructor
-     * @param arg - String :  name of xxx_config.properties file
+    /** 
+     * processAdditionalArgs - local init for subclasses of MarcHandler
      */
-    public MarcMappingOnly(String arg)
+    protected void processAdditionalArgs()
     {
-        super(new String[]{arg});
-        idFldName = null;
-    }
+        idFldName = addnlArgs[0];
+    }  
 
     /**
      * read in the file of marc records indicated, looking for the desired
@@ -84,6 +76,43 @@ public class MarcMappingOnly extends MarcHandler
                 Object thisRecId = solrFldName2ValMap.get(idFldName);
                 if (thisRecId != null && thisRecId.equals(desiredRecId))
                     return solrFldName2ValMap;
+            }
+            catch (MarcException me)
+            {
+                System.err.println("Error reading Marc Record: " + me.getMessage());
+            }
+        }
+        return null;
+    }
+    /**
+     * read in the file of marc records indicated, looking for the desired
+     * record, and return the specified field/fields according to the provided fieldSpec
+     * 
+     * @param desiredRecId -
+     *            value for solr id field, or pass in a value of null to simply accept 
+     *            the first record that occurs in the specified marc file
+     * @param mrcFileName -
+     *            absolute path of file of marc records (name must end in .mrc
+     *            or .marc or .xml)
+     * @param fieldSpec -
+     *            a raw SolrMarc-type field specification, for testing the lower level functions of 
+     *            SolrMarc without first processing a full indexing specification.
+     * @return the field/subfields from the indicated record as specified by the fieldSpec parameter
+     */
+    public Set<String> lookupRawRecordValue(String desiredRecId, String mrcFileName, String fieldSpec)
+    {
+        loadReader("FILE", mrcFileName);
+        while (reader != null && reader.hasNext())
+        {
+            try
+            {
+                Record record = reader.next();
+
+                String thisRecId = record.getControlNumber();
+                if (!thisRecId.equals(desiredRecId)) continue;
+
+                Set<String> result = SolrIndexer.getFieldList(record, fieldSpec);
+                return(result);
             }
             catch (MarcException me)
             {

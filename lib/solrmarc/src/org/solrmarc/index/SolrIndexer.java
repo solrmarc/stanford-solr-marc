@@ -35,7 +35,7 @@ import bsh.*;
 /**
  * 
  * @author Robert Haschart
- * @version $Id: SolrIndexer.java 950 2009-10-28 17:37:43Z naomi.dushay $
+ * @version $Id: SolrIndexer.java 1140 2010-03-23 18:56:16Z rh9ec@virginia.edu $
  * 
  */
 /**
@@ -50,6 +50,10 @@ public class SolrIndexer
     /** map of translation maps.  keys are names of translation maps; 
      *  values are the translation maps (hence, it's a map of maps) */
     private Map<String, Map<String, String>> transMapMap = null;
+
+    /** map of custom methods.  keys are names of custom methods; 
+     *  values are the translation maps (hence, it's a map of maps) */
+    private Map<String, Method> customMethodMap = null;
 
     /** map of script interpreters.  keys are names of scripts; 
      *  values are the Interpterers  */
@@ -76,6 +80,7 @@ public class SolrIndexer
         fieldMap = new HashMap<String, String[]>();
         transMapMap = new HashMap<String, Map<String, String>>();
         scriptMap = new HashMap<String, Interpreter>();
+        customMethodMap = new HashMap<String, Method>();
         indexDate = new Date();
     }
 
@@ -97,6 +102,26 @@ public class SolrIndexer
             fillMapFromProperties(indexingProps);
         }
     }
+    
+    /* A constructor that takes an INDEXER Properties object, and a search
+     * path (possibly empty). This is used by SolrMarc tests, may not
+     * work as you might expect right in actual program use, not sure.
+     *
+     *  You can initialize an 'empty' indexex for unit testing like so:
+     *  SolrIndexer.indexerFromProperties( new Properties(), 
+     *
+     * @param indexingProperties a Properties mapping solr
+     *  field names to values in the marc records
+     * @param propertyDirs - array of directories holding properties files
+     * UNTESTED SO COMMENTED OUT FOR THE FUTURE
+     */
+     /*public static SolrIndexer indexerFromProperties(Properties indexingProperties, String searchPath[]) {
+        SolrIndexer indexer = new SolrIndexer();
+        indexer.propertyFilePaths = searchPath;
+        indexer.fillMapFromProperties(indexingProperties);
+        
+        return indexer;
+     }*/
 
     /**
      * Parse the properties file and load parameters into fieldMap. Also
@@ -312,10 +337,13 @@ public class SolrIndexer
                     parmClasses[i + 1] = String.class;
                 }
                 method = getClass().getMethod(functionName, parmClasses);
+                customMethodMap.put(functionName, method);
             }
             else
+            {    
                 method = getClass().getMethod(indexParm, new Class[] { Record.class });
-
+                customMethodMap.put(indexParm, method);
+            }
             Class<?> retval = method.getReturnType();
             // if (!method.isAccessible())
             // {
@@ -601,14 +629,17 @@ public class SolrIndexer
                 {
                     parmClasses[i + 1] = String.class;
                     objParms[i + 1] = dequote(parms[i].trim());
-                }
+                } 
+// NRD 2010-06-03  can't do this because have functionName with two signatures!  (getAllAlphaSubfields)                
+//                method = customMethodMap.get(functionName);
                 method = getClass().getMethod(functionName, parmClasses);
                 returnType = method.getReturnType();
                 retval = method.invoke(this, objParms);
             }
             else
             {
-                method = getClass().getMethod(indexParm, new Class[]{Record.class});
+                method = customMethodMap.get(indexParm);
+//            	method = getClass().getMethod(indexParm, new Class[]{Record.class});
                 returnType = method.getReturnType();
                 retval = method.invoke(this, new Object[] { record });
             }
@@ -625,7 +656,7 @@ public class SolrIndexer
         }
         catch (IllegalArgumentException e)
         {
-            // e.printStackTrace();
+        	// e.printStackTrace();
             logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
         }
         catch (IllegalAccessException e)
@@ -635,7 +666,7 @@ public class SolrIndexer
         }
         catch (InvocationTargetException e)
         {
-            // e.printStackTrace();
+            //e.printStackTrace();
             logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
         }
         boolean deleteIfEmpty = false;
@@ -1042,7 +1073,8 @@ public class SolrIndexer
                     // if bracket expression is digits, expression is treated as character positions
                     int substart = Integer.parseInt(sub[0]);
                     subend = (sub.length > 1) ? Integer.parseInt(sub[1]) + 1 : substart + 1;
-                    result.addAll(getSubfieldDataAsSet(record, tag, subfield, substart, subend));
+                    String subfieldWObracket = subfield.substring(0, bracket-3);
+                    result.addAll(getSubfieldDataAsSet(record, tag, subfieldWObracket, substart, subend));
                 }
                 catch (NumberFormatException e)
                 {
@@ -1073,6 +1105,121 @@ public class SolrIndexer
         return result;
     }
 
+    /****
+     * Intended to be called as a custom method from an indexing properties
+     * file: some_field = custom, getWithOptions( marcFieldSpec, options)
+     *
+     *  marcFieldSpec is the ordinary field spec for SolrIndexer, eg
+     *  "245a:500az" etc. 
+     *
+     *  Options is a colon-seperated list of one or more of the following:
+     *
+     *  first  => take first value found only
+     *  includeLinkedFields => include all 880 linked fields for spec, with getLinkedField
+     *  removeTrailingPunct => Remove trailing punctuation from all values, using Util.cleanData. 
+     * map=mapName  =>   A map to send all values through, using the same semantics as the other SolrIndexer mapping functions. Eg, "map=somefile.properties" or "map=map_defined_in_index_properties". Utils.remap is used to do the mapping. 
+     * "default=Default Value" => A default value to use whenever there are otherwise no values found for this index entry. Default value can contain spaces, but not colons (since we parse colon-seperated). If a map is used, and there are marc fields matching the spec,  this default value will be used ONLY if the map returns _no_ values (map is not set to pass through, map does not have default value). If there are no marc fields matching the spec, the default value will always be used. 
+     * combineSubfields=joinStr => combine all subfields in the same marc field in one Solr field, joined by the joinStr. Will use getAllSubfields to fetch, instead of getFieldList. joinStr can include spaces but not colons. If you want it to end in a space, and it's the last option in an options list, just add a terminal colon.   "combineSubfields= :"
+     *
+     * eg:  some_field = custom, getWithOptions(245a:500a, includeLinkedFields:removeTrailingPunct:default=Unknown)
+     * 
+     */
+    public Set<String> getWithOptions(Record record, String tagStr, String optionStr) {
+      //default options
+      boolean first = false;
+      boolean includeLinked = false;
+      boolean removeTrailingPunct = false;
+      String strDefault = null;
+      String mapName = null;
+      String combineSubfieldsJoin = null;
+      //specified options
+      String[] options = optionStr.split(":");
+      for (int i = 0; i < options.length; i++) {
+         String option = options[i];
+         if (option.equals("first")) {
+          first = true;
+         } else if (option.equals("includedLinkedFields")) {
+          includeLinked = true;
+         } else if ( option.equals("removeTrailingPunct")) {
+          removeTrailingPunct = true; 
+         } else if ( option.length() > 4 &&
+                     option.substring(0, 4).equals("map=")) {
+          mapName = option.substring(4, option.length()); 
+         } else if ( option.length() > 8 && 
+                     option.substring(0,8).equals("default=")) {
+          strDefault = option.substring(8, option.length());
+         } else if ( option.length() > 17 &&
+                     option.substring(0, 17).equals("combineSubfields=")) {
+          combineSubfieldsJoin = option.substring(17, option.length());
+         }
+      }
+      
+      
+       // While getFieldList and similar methods are
+       // declared as returning only a Set, for
+       // 'first' functionality to work, it better be a LinkedHashSet
+       // with predictable order! That we can't really guarantee this
+       // seems to be a flaw in the jdk library designs, there's no
+       // interface for predictable-order-set. oh well.
+       
+       // We need to use two different methods depending on if we're doing
+      // a combineSubfieldsJoin or not. TODO, would be nice to refactor
+      // SolrIndexer to make this more straightforward. 
+      
+      Set<String> results = null;
+      if ( combineSubfieldsJoin == null ) {      
+        results = getFieldList(record, tagStr);
+      }
+      else {
+        //combine subfields!
+        results = getAllSubfields(record, tagStr, combineSubfieldsJoin);
+      }
+       
+
+       
+       //linked fields?
+       if (includeLinked) {
+          results.addAll(getLinkedField(record, tagStr));    
+       }       
+       
+       //first only?       
+       if ( results.size() > 0 && first) {
+         Iterator<String> iter = results.iterator();
+         Set newResults = new LinkedHashSet<String>();
+         newResults.add(iter.next());
+         results = newResults;
+       }
+       
+       //Map?
+       if (mapName != null ) {
+         //TODO: It's somewhat inefficient to call loadTranslationMap
+         // when it may already have beenloaded. But it's the only
+         // way to get the internal map name we need for later call
+         // to findMap, to pass to remap. Code in rest of this class
+         // should be refactored to make this a lot more reasonable.  
+         String internalMapName = loadTranslationMap(mapName);         
+         results = Utils.remap(results, findMap(internalMapName), true);         
+       }
+       
+       //removeTrailingPunct?
+       if ( removeTrailingPunct ) {
+         Set newResults = new LinkedHashSet<String>();
+         for (String s : results)
+         {
+            newResults.add(Utils.cleanData(s));
+         }
+         results = newResults;
+       }
+       
+       //default value?
+       if ( (results.size() == 0) && (strDefault != null) ) {
+         results.add(strDefault); 
+       }
+       
+       return results;
+    }
+
+    
     /**
      * Get all field values specified by tagStr, joined as a single string.
      * @param record - the marc record object
@@ -1146,30 +1293,36 @@ public class SolrIndexer
      *    See org.solrmarc.tools.Utils.cleanData() for details on the 
      *     punctuation removal
      * @param record - the marc record object
-     * @return 245a and 245b values concatenated, with trailing punct removed.
+     * @return 245a, b, and k values concatenated in order found, with trailing punct removed. Returns empty string if no suitable title found. 
      */
     public String getTitle(Record record)
     {
         DataField titleField = (DataField) record.getVariableField("245");
-        String thisTitle = "";
-
-        if (titleField != null && titleField.getSubfield('a') != null)
-        {
-            thisTitle = titleField.getSubfield('a').getData();
-
-            // check for a subfield b
-            if (titleField.getSubfield('b') != null)
-                thisTitle += " " + titleField.getSubfield('b').getData();
+        if ( titleField == null) {
+          return ""; 
         }
-        return Utils.cleanData(thisTitle);
+        
+        StringBuilder titleBuilder = new StringBuilder();
+
+        Iterator<Subfield> iter = titleField.getSubfields().iterator();
+        while ( iter.hasNext() ) {
+          Subfield f = iter.next(); 
+          char code = f.getCode();
+          if ( code == 'a' || code == 'b' || code == 'k' ) {
+             titleBuilder.append(f.getData()); 
+          }
+        }        
+
+        return Utils.cleanData(titleBuilder.toString());
     }
 
     /**
      * Get the title (245ab) from a record, without non-filing chars as
-     * specified in 245 2nd indicator
+     * specified in 245 2nd indicator, and lowercased. 
      * @param record - the marc record object
      * @return 245a and 245b values concatenated, with trailing punct removed,
-     *         and with non-filing characters omitted
+     *         and with non-filing characters omitted. Null returned if no
+     *         title can be found. 
      * 
      * @see org.solrmarc.index.SolrIndexer.getTitle()
      */
@@ -1177,10 +1330,23 @@ public class SolrIndexer
     {
         DataField titleField = (DataField) record.getVariableField("245");
         if (titleField == null)
-            return null;
+            return "";
+          
         int nonFilingInt = MarcUtils.getInd2AsInt(titleField);
-        String thisTitle = getTitle(record).substring(nonFilingInt);
-        return thisTitle.toLowerCase();
+        
+        String title = getTitle(record);
+        title = title.toLowerCase();
+        
+        //Skip non-filing chars, if possible. 
+        if ( title.length() > nonFilingInt )  {
+          title = title.substring(nonFilingInt);          
+        }
+        
+        if ( title.length() == 0) {
+          return null;
+        }                
+        
+        return title;
     }
 
     /**
@@ -1535,7 +1701,7 @@ public class SolrIndexer
     protected String writeRaw(Record record)
     {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        MarcWriter writer = new MarcStreamWriter(out, "UTF-8");
+        MarcWriter writer = new MarcStreamWriter(out, "UTF-8", true);
         writer.write(record);
         writer.close();
 
@@ -1743,7 +1909,7 @@ public class SolrIndexer
 	public final Set<String> getAllAlphaSubfields(final Record record, String fieldSpec, String multOccurs) 
     {
         Set<String> result = getAllAlphaSubfields(record, fieldSpec);
-
+        
         if (multOccurs.equals("first"))
         {
             Set<String> first = new HashSet<String>();

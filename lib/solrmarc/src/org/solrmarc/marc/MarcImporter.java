@@ -19,15 +19,16 @@ package org.solrmarc.marc;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.UnknownHostException;
+import java.lang.reflect.Method;
+import java.net.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.regex.PatternSyntaxException;
 
 import org.apache.log4j.*;
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.impl.BinaryRequestWriter;
+import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
 import org.marc4j.ErrorHandler;
 import org.marc4j.marc.Record;
 import org.solrmarc.solr.*;
@@ -36,7 +37,7 @@ import org.solrmarc.tools.*;
 
 /**
  * @author Wayne Graham (wsgrah@wm.edu)
- * @version $Id: MarcImporter.java 948 2009-10-28 17:13:10Z rh9ec@virginia.edu $
+ * @version $Id: MarcImporter.java 1113 2010-03-09 16:52:27Z rh9ec@virginia.edu $
  *
  */
 public class MarcImporter extends MarcHandler 
@@ -50,7 +51,8 @@ public class MarcImporter extends MarcHandler
     protected String solrCoreName;
     private String deleteRecordListFilename;
     private String deleteRecordIDMapper = null;
-    private String SolrHostURL;
+    private String solrHostURL;
+    private String solrHostUpdateURL;
     protected boolean optimizeAtEnd = false;
     protected boolean shuttingDown = false;
     protected boolean isShutDown = false;
@@ -59,7 +61,7 @@ public class MarcImporter extends MarcHandler
     private int recsIndexedCounter = 0;
     private int idsToDeleteCounter = 0;
     private int recsDeletedCounter = 0;
-    
+    private boolean useBinaryRequestHandler = false;
     // Initialize logging category
     protected static Logger logger = Logger.getLogger(MarcImporter.class.getName());
     
@@ -67,35 +69,42 @@ public class MarcImporter extends MarcHandler
     /**
 	 * Constructs an instance with properties files
 	 */
-    public MarcImporter(String args[])
+    public MarcImporter()
     {
-        // Process Properties in super class MarcHandler
-    	super(args);
-    	
-    	loadLocalProperties(configProps);
-        // Set up Solr core
-        solrProxy = getSolrProxy();
+        showConfig = true;
+        showInputFile = true;
 	}
     	
     /**
 	 * Load the properties file
 	 * @param properties
 	 */
-	private void loadLocalProperties(Properties props) 
+    @Override
+    protected void loadLocalProperties() 
 	{
         // The solr.home directory
-        solrCoreDir = PropertiesUtils.getProperty(props, "solr.path");
+        solrCoreDir = PropertiesUtils.getProperty(configProps, "solr.path");
 
         // The solr data diretory to use
-        solrDataDir = PropertiesUtils.getProperty(props, "solr.data.dir");
+        solrDataDir = PropertiesUtils.getProperty(configProps, "solr.data.dir");
 
         // The name of the solr core to use, in a solr multicore environment
-        solrCoreName = PropertiesUtils.getProperty(props, "solr.core.name");
+        solrCoreName = PropertiesUtils.getProperty(configProps, "solr.core.name");
         
         // Ths URL of the currently running Solr server
-        SolrHostURL = PropertiesUtils.getProperty(props, "solr.hosturl");
+        solrHostURL = PropertiesUtils.getProperty(configProps, "solr.hosturl");
         
-        String solrLogLevel = PropertiesUtils.getProperty(props, "solr.log.level");
+        // Ths URL of the currently running Solr server
+        solrHostUpdateURL = PropertiesUtils.getProperty(configProps, "solr.updateurl");
+        if (solrHostUpdateURL == null && solrHostURL != null) 
+        {
+            if (solrHostURL.endsWith("/update"))
+                solrHostUpdateURL = solrHostURL;
+            else
+                solrHostUpdateURL = solrHostURL+"/update";
+        }
+        
+        String solrLogLevel = PropertiesUtils.getProperty(configProps, "solr.log.level");
         
         Level level = Level.WARNING;
         if (solrLogLevel != null)
@@ -115,7 +124,7 @@ public class MarcImporter extends MarcHandler
         // Specification of how to modify the entries in the delete record file
         // before passing the id onto Solr.   Based on syntax of String.replaceAll
         //  To prepend a 'u' specify the following:  "(.*)->u$1"
-        deleteRecordIDMapper = PropertiesUtils.getProperty(props, "marc.delete_record_id_mapper");
+        deleteRecordIDMapper = PropertiesUtils.getProperty(configProps, "marc.delete_record_id_mapper");
         if (deleteRecordIDMapper != null)
         {
             String parts[] = deleteRecordIDMapper.split("->");
@@ -141,11 +150,20 @@ public class MarcImporter extends MarcHandler
             }
         }
         
-        justIndexDontAdd = Boolean.parseBoolean(PropertiesUtils.getProperty(props, "marc.just_index_dont_add"));
+        justIndexDontAdd = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "marc.just_index_dont_add"));
         if (justIndexDontAdd)
             Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
-        deleteRecordListFilename = PropertiesUtils.getProperty(props, "marc.ids_to_delete");
-        optimizeAtEnd = Boolean.parseBoolean(PropertiesUtils.getProperty(props, "solr.optimize_at_end"));
+        deleteRecordListFilename = PropertiesUtils.getProperty(configProps, "marc.ids_to_delete");
+        optimizeAtEnd = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "solr.optimize_at_end"));
+        
+        // Set up Solr core
+        boolean useSolrServerProxy = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "solrmarc.use_solr_server_proxy"));
+        useBinaryRequestHandler = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "solrmarc.use_binary_request_handler"));
+        if (useSolrServerProxy) 
+            solrProxy = getSolrServerProxy();
+        else
+            solrProxy = getSolrProxy();
+
         return;
 	}
 
@@ -387,7 +405,7 @@ public class MarcImporter extends MarcHandler
      * that server that the indexes have changed, so that it will find the new data
      * with out having to be restarted.
      * 
-     * uses member variable SolrHostURL which contains the URL of the Solr server
+     * uses member variable solrHostUpdateURL which contains the URL of the Solr server
      * for example:    http://localhost:8983/solr/update
      * This value is taken from the  solr.hosturl  entry in the properties file. 
      */
@@ -395,25 +413,25 @@ public class MarcImporter extends MarcHandler
     protected void signalServer()
     {
         if (shuttingDown) return;
-        // if solrCoreDir == null  and  SolrHostURL != null  then we are talking to a remote 
+        // if solrCoreDir == null  and  solrHostUpdateURL != null  then we are talking to a remote 
         // solr server during the main program, so there is no need to separately contact
         // server to tell it to commit,  therefore merely return.
-        if ((solrCoreDir == null || solrCoreDir.length() == 0 || solrCoreDir.equalsIgnoreCase("REMOTE")) && SolrHostURL != null) 
+        if ((solrCoreDir == null || solrCoreDir.length() == 0 || solrCoreDir.equalsIgnoreCase("REMOTE")) && solrHostUpdateURL != null) 
             return;
-        if (SolrHostURL == null || SolrHostURL.length() == 0) return;
+        if (solrHostUpdateURL == null || solrHostUpdateURL.length() == 0) return;
         try {
-            logger.info("Connecting to solr server at URL: " + SolrHostURL);
-            SolrUpdate.signalServer(SolrHostURL);
+            logger.info("Connecting to solr server at URL: " + solrHostUpdateURL);
+            SolrUpdate.signalServer(solrHostUpdateURL);
         }
         catch (MalformedURLException me)
         {
             //System.err.println("MalformedURLException: " + me);
-        	logger.error("Specified URL is malformed: " + SolrHostURL);
+        	logger.error("Specified URL is malformed: " + solrHostUpdateURL);
         }
         catch (IOException ioe)
         {
             //System.err.println("IOException: " + ioe.getMessage());
-        	logger.warn("Unable to establish connection to solr server at URL: " + SolrHostURL);
+        	logger.warn("Unable to establish connection to solr server at URL: " + solrHostUpdateURL);
         }
     }  
 
@@ -517,7 +535,7 @@ public class MarcImporter extends MarcHandler
         if (solrProxy == null)
         {
             solrProxyIsRemote = false;
-            if (SolrHostURL != null && SolrHostURL.length() > 0)
+            if (solrHostUpdateURL != null && solrHostUpdateURL.length() > 0)
             {
                 if ((solrCoreDir == null || solrCoreDir.length() == 0 || solrCoreDir.equalsIgnoreCase("REMOTE")))
                 {
@@ -528,7 +546,7 @@ public class MarcImporter extends MarcHandler
                     URL solrhostURL;
                     try
                     {
-                        solrhostURL = new URL(SolrHostURL);
+                        solrhostURL = new URL(solrHostUpdateURL);
                         java.net.InetAddress address = java.net.InetAddress.getByName(solrhostURL.getHost());
                         
                         String urlCanonicalHostName = address.getCanonicalHostName();
@@ -552,8 +570,8 @@ public class MarcImporter extends MarcHandler
             }
             if (solrProxyIsRemote)
             {
-                logger.info(" Connecting to remote Solr server at URL " + SolrHostURL);
-                solrProxy = new SolrRemoteProxy(SolrHostURL); 
+                logger.info(" Connecting to remote Solr server at URL " + solrHostUpdateURL);
+                solrProxy = new SolrRemoteProxy(solrHostUpdateURL, useBinaryRequestHandler); 
             }
             else 
             {
@@ -564,6 +582,17 @@ public class MarcImporter extends MarcHandler
                     System.exit(1);               
                 }
                 File solrcoretest = new File(solrCoreDir);
+                if (!solrcoretest.isAbsolute())  solrcoretest = new File(homeDir, solrCoreDir);
+                try
+                {
+                    solrCoreDir = solrcoretest.getCanonicalPath();
+                    System.setProperty("solr.solr.home", solrCoreDir);
+                }
+                catch (IOException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 if (!solrcoretest.exists() || !solrcoretest.isDirectory() )
                 {
                     System.err.println("Error: Supplied Solr home directory does not exist: "+ solrCoreDir) ;
@@ -579,10 +608,145 @@ public class MarcImporter extends MarcHandler
                     System.exit(1);               
                 }
                 logger.info(" Updating to Solr index at " + solrCoreDir);
-                logger.info("     Using Solr data dir " + solrDataDir);
+                if (!solrcoretest1.exists() && solrDataDir == null)
+                {
+                    solrDataDir = new File(solrcoretest, "data").getAbsolutePath();
+                }
+                else if (solrDataDir != null && solrDataDir.contains("${solr.path}"))
+                {
+                    String dataPathFrag = solrDataDir.replaceFirst("[$][{]solr[.]path[}][/\\\\]+", "");
+                    solrDataDir = new File(solrCoreDir, dataPathFrag).getAbsolutePath();
+                }
+                if (solrDataDir != null)
+                {
+                    System.setProperty("solr.data.dir", solrDataDir);
+                    logger.info("     Using Solr data dir " + solrDataDir);
+                }
                 if (solrCoreName != null && solrCoreName.length() != 0)
                     logger.info("     Using Solr core " + solrCoreName);
                 solrProxy = SolrCoreLoader.loadCore(solrCoreDir, solrDataDir, solrCoreName, logger);
+            }
+        }
+        return(solrProxy);
+    }
+    
+    public SolrProxy getSolrServerProxy()
+    {
+        if (solrProxy == null)
+        {
+            solrProxyIsRemote = false;
+            if (solrHostUpdateURL != null && solrHostUpdateURL.length() > 0)
+            {
+                if ((solrCoreDir == null || solrCoreDir.length() == 0 || solrCoreDir.equalsIgnoreCase("REMOTE")))
+                {
+                    solrProxyIsRemote = true;
+                }
+                else 
+                {
+                    URL solrhostURL;
+                    try
+                    {
+                        solrhostURL = new URL(solrHostUpdateURL);
+                        java.net.InetAddress address = java.net.InetAddress.getByName(solrhostURL.getHost());
+                        
+                        String urlCanonicalHostName = address.getCanonicalHostName();
+                        String localCanonicalHostName = java.net.InetAddress.getLocalHost().getCanonicalHostName();
+                        if (!(address.isLoopbackAddress() || urlCanonicalHostName.equals(localCanonicalHostName))) 
+                        {
+                            solrProxyIsRemote = true;
+                        }
+                    }
+                    catch (MalformedURLException e)
+                    {
+                        // URL seems invalid, assume that we want local access to the solr index and proceed
+                        solrProxyIsRemote = false;
+                    }
+                    catch (UnknownHostException e)
+                    {
+                        // hostname in URL seems invalid, assume that we want local access to the solr index and proceed
+                        solrProxyIsRemote = false;
+                    }
+                }
+            }
+            if (solrProxyIsRemote)
+            {
+                logger.info(" Connecting to remote Solr server at URL " + solrHostUpdateURL);
+                SolrServer solrserver;
+                try
+                {
+                    String URL = solrHostUpdateURL.replaceAll("[/\\\\]update$", "");
+                    CommonsHttpSolrServer httpsolrserver = new CommonsHttpSolrServer(URL);
+//                    Class<?> clazz = httpsolrserver.getClass();
+//                    Method methods[] = clazz.getMethods();
+//                    for (Method m : methods)
+//                    {
+//                        System.out.println(m.toString());
+//                    }
+                    if (useBinaryRequestHandler)
+                    {
+                        httpsolrserver.setRequestWriter(new BinaryRequestWriter());
+                    }
+                    solrProxy = new SolrServerProxy(httpsolrserver); 
+                }
+                catch (MalformedURLException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            else 
+            {
+                if (solrCoreDir.equals("@SOLR_PATH@") )
+                {
+                    System.err.println("Error: Solr home directory not initialized, please run setsolrhome") ;
+                    logger.error("Error: Solr home directory not initialized, please run setsolrhome") ;
+                    System.exit(1);               
+                }
+                File solrcoretest = new File(solrCoreDir);
+                if (!solrcoretest.isAbsolute())  solrcoretest = new File(homeDir, solrCoreDir);
+                try
+                {
+                    solrCoreDir = solrcoretest.getCanonicalPath();
+                    System.setProperty("solr.solr.home", solrCoreDir);
+                }
+                catch (IOException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                if (!solrcoretest.exists() || !solrcoretest.isDirectory() )
+                {
+                    System.err.println("Error: Supplied Solr home directory does not exist: "+ solrCoreDir) ;
+                    logger.error("Error: Supplied Solr home directory does not exist: "+ solrCoreDir) ;
+                    System.exit(1);               
+                }
+                File solrcoretest1 = new File(solrCoreDir, "solr.xml");
+                File solrcoretest2 = new File(solrCoreDir, "conf");
+                if (!solrcoretest1.exists() &&  !solrcoretest2.exists() )
+                {
+                    System.err.println("Error: Supplied Solr home directory does not contain proper solr configuration: "+ solrCoreDir) ;
+                    logger.error("Error: Supplied Solr home directory does not contain proper solr configuration: "+ solrCoreDir) ;
+                    System.exit(1);               
+                }
+                logger.info(" Updating to Solr index at " + solrCoreDir);
+                if (!solrcoretest1.exists() && solrDataDir == null)
+                {
+                    solrDataDir = new File(solrcoretest, "data").getAbsolutePath();
+                }
+                else if (solrDataDir != null && solrDataDir.contains("${solr.path}"))
+                {
+                    String dataPathFrag = solrDataDir.replaceFirst("[$][{]solr[.]path[}][/\\\\]+", "");
+                    solrDataDir = new File(solrCoreDir, dataPathFrag).getAbsolutePath();
+                }
+                if (solrDataDir != null)
+                {
+                    System.setProperty("solr.data.dir", solrDataDir);
+                    logger.info("     Using Solr data dir " + solrDataDir);
+                }
+                if (solrCoreName != null && solrCoreName.length() != 0)
+                    logger.info("     Using Solr core " + solrCoreName);
+              //  solrProxy = SolrCoreLoader.loadCore(solrCoreDir, solrDataDir, solrCoreName, logger);
+                solrProxy = SolrCoreLoader.loadEmbeddedCore(solrCoreDir, solrDataDir, solrCoreName, useBinaryRequestHandler, logger);
             }
         }
         return(solrProxy);
@@ -599,7 +763,8 @@ public class MarcImporter extends MarcHandler
         MarcImporter importer = null;
         try
         {
-            importer = new MarcImporter(args);
+            importer = new MarcImporter();
+            importer.init(args);
         }
         catch (IllegalArgumentException e)
         {
