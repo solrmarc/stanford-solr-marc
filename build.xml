@@ -168,13 +168,13 @@
          </ant>
     </target>
     
-    <target name="test-custom-coverage" depends="init" description="run junittest in local build directory with Coberature code coverage for custom code only">
+    <target name="test-custom-coverage" depends="init" description="run junittest in local build directory with Cobertura code coverage for custom code only">
         <ant antfile="${site.dir}/build.xml" target="test-custom-coverage" inheritAll="false" >
             <property name="dist.path" location="${dist.dir}" />
         </ant>
     </target>
     
-    <target name="test-all-coverage" depends="init" description="run junittest in local build directory with Coberature code coverage for custom and core code">
+    <target name="test-all-coverage" depends="init" description="run junittest in local build directory with Cobertura code coverage for custom and core code">
         <ant antfile="${site.dir}/build.xml" target="test-all-coverage" inheritAll="false" >
             <property name="dist.path" location="${dist.dir}" />
         </ant>
