@@ -26,6 +26,7 @@ import org.junit.runners.Suite;
         ItemObjectTests.class,
         ItemOnlineTests.class,
         ItemSkippedTests.class,
+        ItemsSplitTests.class,
         ItemUtilsUnitTests.class,
         LanguageTests.class,
         MiscellaneousFieldTests.class,

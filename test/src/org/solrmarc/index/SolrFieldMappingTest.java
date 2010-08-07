@@ -72,7 +72,7 @@ public class SolrFieldMappingTest
             boolean foundIt = false;
             for (String fldVal : (Collection<String>) solrFldValObj)
             {
-                if (fldVal.equals(expectedFldVal))
+            	if (fldVal.equals(expectedFldVal))
                     foundIt = true;
 //System.out.println("DEBUG: value is [" + fldVal + "]");
             }
@@ -116,6 +116,47 @@ public class SolrFieldMappingTest
                 if (fldVal.equals(expectedFldVal))
                     fail("Solr field " + expectedFldName + " unexpectedly has value [" + expectedFldVal + "]");
             }
+        }
+    }
+    
+    /**
+     * assert that when the file of marc records is processed, the Solr document
+     * with the given id contains the expected number of instances of the 
+     * indicated field
+     * 
+     * @param mrcFileName -
+     *            absolute path of file of marc records (name must end in .mrc
+     *            or .marc or .xml)
+     * @param solrDocId -
+     *            value of Solr unique key field for the Solr document to
+     *            checked
+     * @param expectedFldName -
+     *            the name of the Solr field to be checked
+     * @param expectedNumVals -
+     *            the number of values that should be in the Solr field for
+     *            the indicated Solr document
+     */
+    public void assertSolrFldHasNumValues(String mrcFileName, String solrDocId,
+            String expectedFldName, int expectedNumVals)
+    {
+        Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(solrDocId, mrcFileName);
+        if (solrFldName2ValMap == null)
+        	fail("there is no document with id " + solrDocId);
+
+        Object solrFldValObj = solrFldName2ValMap.get(expectedFldName);
+        if (solrFldValObj instanceof String) 
+        {
+        	if (expectedNumVals != 1) 
+        		fail("Solr field " + expectedFldName
+                        + " unexpectedly has a single value " 
+                        + solrFldValObj.toString() 
+                        + "; expected " + String.valueOf(expectedNumVals));
+       	}
+        else if (solrFldValObj instanceof Collection)
+        {
+        	int numVals = ((Collection<String>) solrFldValObj).size();
+            assertTrue("Solr field " + expectedFldName
+                    + " unexpectedly has " + numVals + " values; expected " + expectedNumVals, expectedNumVals == numVals);
         }
     }
     
