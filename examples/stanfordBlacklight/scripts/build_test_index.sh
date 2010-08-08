@@ -38,7 +38,7 @@ mv $SOLR_DATA_DIR/index $SOLR_DATA_DIR/index_b4_$LOG_SUBDIR
 # create log directory
 LOG_PARENT_DIR=$SOLRMARC_BASEDIR/local_build/test/solr/logs
 LOG_DIR=$LOG_PARENT_DIR/$LOG_SUBDIR
-mkdir $LOG_DIR
+mkdir -p $LOG_DIR
 
 # index the file
 java -Xmx1g -Xms1g -Dsolr.data.dir=$SOLR_DATA_DIR -cp $CP -jar $CORE_JAR $RAW_DATA_DIR/physicalTests.mrc &>$LOG_DIR/log.txt
