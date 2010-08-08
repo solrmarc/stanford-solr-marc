@@ -22,10 +22,10 @@ ant -buildfile $SOLRMARC_BASEDIR/build.xml -Dexample.configuration=stanfordBlack
 #ant -buildfile $SOLRMARC_BASEDIR/build.xml build
 
 # set up the classpath
-$DIST_DIR = $SOLRMARC_BASEDIR/dist
-$SITE_JAR = $DIST_DIR/StanfordIndexer.jar
-$CORE_JAR = $DIST_DIR/dist/SolrMarc.jar
-$CP = $SITE_JAR:$CORE_JAR:$DIST_DIR
+DIST_DIR=$SOLRMARC_BASEDIR/dist
+SITE_JAR=$DIST_DIR/StanfordIndexer.jar
+CORE_JAR=$DIST_DIR/dist/SolrMarc.jar
+CP=$SITE_JAR:$CORE_JAR:$DIST_DIR
 
 # get index directory ready 
 SOLR_DATA_DIR=$SOLRMARC_BASEDIR/local_build/test/solr/data
