@@ -5,9 +5,8 @@
 
 BLACKLIGHT_HOMEDIR=/home/blacklight
 SOLRMARC_BASEDIR=$BLACKLIGHT_HOMEDIR/solrmarc
-SITE_BASEDIR=$SOLRMARC_BASEDIR/examples/stanfordBlacklight
 
-RAW_DATA_DIR=$SITE_BASEDIR/test/data
+RAW_DATA_DIR=$SOLRMARC_BASEDIR/examples/stanfordBlacklight/test/data
 
 JAVA_HOME=/usr/lib/jvm/java
 
@@ -19,7 +18,6 @@ LOG_SUBDIR=$1
 # create new dist files
 rm -rf $SOLRMARC_BASEDIR/local_build
 ant -buildfile $SOLRMARC_BASEDIR/build.xml -Dexample.configuration=stanfordBlacklight -Dinput.continue.processing.with.not.uptodate=c dist
-#ant -buildfile $SOLRMARC_BASEDIR/build.xml build
 
 # set up the classpath
 DIST_DIR=$SOLRMARC_BASEDIR/dist
