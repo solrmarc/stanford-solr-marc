@@ -17,14 +17,14 @@ JAVA_HOME=/usr/lib/jvm/java
 LOG_SUBDIR=$1
 
 # create new dist files
+rm -rf $SOLRMARC_BASEDIR/local_build
 ant -buildfile $SOLRMARC_BASEDIR/build.xml -Dexample.configuration=stanfordBlacklight -Dinput.continue.processing.with.not.uptodate=c dist
-#ant -buildfile $SOLRMARC_BASEDIR/build.xml build
 
 # set up the classpath
-$DIST_DIR = $SOLRMARC_BASEDIR/dist
-$SITE_JAR = $DIST_DIR/StanfordIndexer.jar
-$CORE_JAR = $DIST_DIR/dist/SolrMarc.jar
-$CP = $SITE_JAR:$CORE_JAR:$DIST_DIR
+DIST_DIR=$SOLRMARC_BASEDIR/dist
+SITE_JAR=$DIST_DIR/StanfordIndexer.jar
+CORE_JAR=$DIST_DIR/SolrMarc.jar
+CP=$SITE_JAR:$CORE_JAR:$DIST_DIR
 
 # get index directories ready
 SOLR_DATA_DIR=/data/solr/dataBuild
