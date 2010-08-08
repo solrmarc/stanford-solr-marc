@@ -16,7 +16,7 @@ JAVA_HOME=/usr/lib/jvm/java
  echo "   Usage: `basename $0` log_subdir(yyyy-mm-dd)"
 LOG_SUBDIR=$1
 
-# create new dist files
+# create new dist jar and other files
 rm -rf $SOLRMARC_BASEDIR/local_build
 ant -buildfile $SOLRMARC_BASEDIR/build.xml -Dexample.configuration=stanfordBlacklight -Dinput.continue.processing.with.not.uptodate=c dist
 
@@ -36,8 +36,9 @@ mv $SOLR_DATA_DIR/index $SOLR_DATA_DIR/index_b4_$LOG_SUBDIR
 
 # create log directory
 LOG_PARENT_DIR=$RAW_DATA_DIR/logs
+mkdir -p $LOG_PARENT_DIR
 LOG_DIR=$LOG_PARENT_DIR/$LOG_SUBDIR
-mkdir -p $LOG_DIR
+mkdir $LOG_DIR
 
 # index the files
 nohup java -Xmx16g -Xms16g -Dsolr.data.dir=$SOLR_DATA_DIR -cp $CP -jar $CORE_JAR $RAW_DATA_DIR/uni_00000000_00499999.marc &>$LOG_DIR/log000-049.txt
