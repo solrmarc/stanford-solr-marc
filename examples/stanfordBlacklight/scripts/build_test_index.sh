@@ -17,6 +17,7 @@ JAVA_HOME=/usr/lib/jvm/java
 LOG_SUBDIR=$1
 
 # create new dist files
+rm -rf $SOLRMARC_BASEDIR/local_build
 ant -buildfile $SOLRMARC_BASEDIR/build.xml -Dexample.configuration=stanfordBlacklight -Dinput.continue.processing.with.not.uptodate=c dist
 #ant -buildfile $SOLRMARC_BASEDIR/build.xml build
 
