@@ -41,8 +41,8 @@ LOG_DIR=$LOG_PARENT_DIR/$LOG_SUBDIR
 mkdir -p $LOG_DIR
 
 # index the file
-java -Xmx1g -Xms1g -Dsolr.data.dir=$SOLR_DATA_DIR -cp $CP -jar $CORE_JAR $RAW_DATA_DIR/physicalTests.mrc &>$LOG_DIR/log.txt
-#java -Xmx1g -Xms1g -Dsolr.data.dir=$SOLR_DATA_DIR -cp $CP -Dsolrmarc.main.class="org.solrmarc.marc.MarcImporter" -jar $CORE_JAR $RAW_DATA_DIR/physicalTests.mrc &>$LOG_DIR/log.txt
+#java -Xmx1g -Xms1g -Dsolr.data.dir=$SOLR_DATA_DIR -cp $CP -jar $CORE_JAR $RAW_DATA_DIR/physicalTests.mrc &>$LOG_DIR/log.txt
+java -Xmx1g -Xms1g -Dsolr.data.dir=$SOLR_DATA_DIR -cp $CP -jar $CORE_JAR $RAW_DATA_DIR/formatTests.mrc &>$LOG_DIR/log.txt
 #java -Xmx1g -Xms1g -Dsolr.data.dir=$SOLR_DATA_DIR -cp $CP -Dsolr.optimize_at_end="true" -jar $CORE_JAR $RAW_DATA_DIR/physicalTests.mrc &>$LOG_DIR/log.txt
 
 exit 0
