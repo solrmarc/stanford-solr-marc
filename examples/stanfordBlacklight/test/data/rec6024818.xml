@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><collection xmlns="http://www.loc.gov/MARC21/slim">
+  <record>
+    <leader>00975cam a2200277   4500</leader>
+    <controlfield tag="001">a6024818</controlfield>
+    <controlfield tag="003">SIRSI</controlfield>
+    <controlfield tag="008">741011s1973    gw            000 0 ger u</controlfield>
+    <datafield tag="010" ind1=" " ind2=" ">
+      <subfield code="a">   74323891</subfield>
+    </datafield>
+    <datafield tag="035" ind1=" " ind2=" ">
+      <subfield code="a">(MH)MHBDB97179HU</subfield>
+    </datafield>
+    <datafield tag="035" ind1=" " ind2=" ">
+      <subfield code="a">(OCoLC-M)1038034</subfield>
+    </datafield>
+    <datafield tag="035" ind1=" " ind2=" ">
+      <subfield code="a">(OCoLC-I)275777001</subfield>
+    </datafield>
+    <datafield tag="040" ind1=" " ind2=" ">
+      <subfield code="c">PU</subfield>
+      <subfield code="d">MH</subfield>
+      <subfield code="d">CStRLIN</subfield>
+    </datafield>
+    <datafield tag="050" ind1=" " ind2="4">
+      <subfield code="a">DS1</subfield>
+      <subfield code="b">.I55 Nr.54</subfield>
+    </datafield>
+    <datafield tag="100" ind1="1" ind2=" ">
+      <subfield code="a">Sand, Klemens van de.</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">Grundlagen und Probleme der ländlichen Lokalverwaltung in Indien.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">Hamburg,</subfield>
+      <subfield code="b">[Institut für Asienkunde]</subfield>
+      <subfield code="c">1973.</subfield>
+    </datafield>
+    <datafield tag="300" ind1=" " ind2=" ">
+      <subfield code="a">202 p.</subfield>
+      <subfield code="c">21 cm.</subfield>
+    </datafield>
+    <datafield tag="490" ind1="1" ind2=" ">
+      <subfield code="a">Mitteilungen des Instituts für Asienkunde Hamburg,</subfield>
+      <subfield code="v">Nr.54</subfield>
+    </datafield>
+    <datafield tag="500" ind1=" " ind2=" ">
+      <subfield code="a">Originally presented as the author's thesis, Würzburg.</subfield>
+    </datafield>
+    <datafield tag="504" ind1=" " ind2=" ">
+      <subfield code="a">Bibliography: p.189-202.</subfield>
+    </datafield>
+    <datafield tag="596" ind1=" " ind2=" ">
+      <subfield code="a">20</subfield>
+    </datafield>
+    <datafield tag="650" ind1=" " ind2="0">
+      <subfield code="a">Panchayat</subfield>
+      <subfield code="z">India.</subfield>
+    </datafield>
+    <datafield tag="830" ind1=" " ind2="0">
+      <subfield code="a">Mitteilungen des Instituts für Asienkunde Hamburg ;</subfield>
+      <subfield code="v">Nr. 54.</subfield>
+    </datafield>
+    <datafield tag="852" ind1="8" ind2=" ">
+      <subfield code="a">MH</subfield>
+      <subfield code="i">Asia 9.85 vol.54</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">JS7008 .S213</subfield>
+      <subfield code="w">LC</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">36105120792978</subfield>
+      <subfield code="l">SAL-PAGE</subfield>
+      <subfield code="m">SAL</subfield>
+      <subfield code="r">Y</subfield>
+      <subfield code="s">Y</subfield>
+      <subfield code="t">STKS-MONO</subfield>
+      <subfield code="u">10/13/2005</subfield>
+    </datafield>
+  </record>
+</collection>
