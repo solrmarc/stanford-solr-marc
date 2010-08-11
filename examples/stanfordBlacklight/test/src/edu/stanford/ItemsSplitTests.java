@@ -38,6 +38,9 @@ public class ItemsSplitTests extends AbstractStanfordBlacklightTest {
 @Test
 	public void testFirstRecordSplit()
 	{
+		solrFldMapTest.assertSolrFldValue(testFilePath, "notSplit1", "id", "notSplit1");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "notSplit2", "id", "notSplit2");
+	
 		String id = "split1";
 		solrFldMapTest.assertSolrFldHasNumValues(testFilePath, id, fldName, 5);
 
@@ -177,6 +180,16 @@ public class ItemsSplitTests extends AbstractStanfordBlacklightTest {
 		fldVal = barcode + SEP + "GREEN -|- STACKS" + SEP + SEP + SEP + lopped + SEP +
 				shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
+	}
+
+	/**
+	 * assert the non-split records are present.
+	 */
+@Test
+	public void testNonSplitRecords()
+	{
+		solrFldMapTest.assertSolrFldValue(testFilePath, "notSplit1", "id", "notSplit1");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "notSplit2", "id", "notSplit2");
 	}
 
 }
