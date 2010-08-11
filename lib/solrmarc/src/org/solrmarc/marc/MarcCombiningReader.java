@@ -102,12 +102,6 @@ public class MarcCombiningReader implements MarcReader
                 copyErrors(currentErrors, nextErrors);
                 nextRecord = null; 
             }
-// NRDEBUG
-//if (currentRecord == null)         
-//	System.err.println("currentRecord is null");
-//else 
-//	System.err.println("currentRecord id is " + currentRecord.getControlNumber());            
-            
             if (!reader.hasNext()) 
             {
                 return ((currentRecord != null) ? next() : null);
@@ -116,36 +110,16 @@ public class MarcCombiningReader implements MarcReader
             try {
                 nextRecord = reader.next();
             }
-// NRDFIX
-//            catch (MarcException me)
-//            {
-//                //System.err.println("Error reading Marc Record: "+ me.getMessage());  
-////              exception = new SolrMarcException(me.getMessage(), me.getCause());
-////              exception.printMessage("Error reading Marc record:");
-////              exception.printStackTrace();
-//                logger.error("Error reading Marc Record.");
-//                logger.error(me.getMessage());
-//            }
+			catch (Exception e)
+			{
+				if (currentRecord != null) {
+					String recCntlNum = currentRecord.getControlNumber();
+				    logger.error("Couldn't get next record after " + (recCntlNum != null ? recCntlNum : "") + " -- " + e.toString(), e);
+				}
+				else
+				    logger.error("Marc record couldn't be read -- " + e.toString(), e);
+			}
 
-            
-// NRDFIX            
-catch (Exception e)
-{
-	if (currentRecord != null) {
-		String recCntlNum = currentRecord.getControlNumber();
-	    logger.error("Couldn't get next record after " + (recCntlNum != null ? recCntlNum : "") + " -- " + e.toString(), e);
-	}
-	else
-	    logger.error("Marc record couldn't be read -- " + e.toString(), e);
-}
-
-
-// NRDEBUG
-//if (nextRecord == null)         
-//	System.err.println("nextRecord is null");
-//else 
-//	System.err.println("nextRecord id is " + nextRecord.getControlNumber());            
-//System.err.println();
 
             while (currentRecord != null && nextRecord != null &&
                     currentRecord.getControlNumber() != null && 
@@ -158,19 +132,10 @@ catch (Exception e)
                     try {
                         nextRecord = reader.next();
                     }
-// NRDFIX                    
-//                    catch (MarcException me)
                     catch (Exception e)
                     {
-//                        //System.err.println("Error reading Marc Record: "+ me.getMessage());  
-//    //                  exception = new SolrMarcException(me.getMessage(), me.getCause());
-//    //                  exception.printMessage("Error reading Marc record:");
-//    //                  exception.printStackTrace();
-//                        logger.error("Error reading Marc Record.");
-//                        logger.error(me.getMessage());
-
-String recCntlNum = currentRecord.getControlNumber();
-logger.error("Couldn't get next record after " + (recCntlNum != null ? recCntlNum : "") + " -- " + e.toString(), e);
+						String recCntlNum = currentRecord.getControlNumber();
+						logger.error("Couldn't get next record after " + (recCntlNum != null ? recCntlNum : "") + " -- " + e.toString(), e);
                     }
                 }
                 else 
