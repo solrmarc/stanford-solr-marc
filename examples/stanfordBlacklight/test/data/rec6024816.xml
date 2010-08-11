@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><collection xmlns="http://www.loc.gov/MARC21/slim">
+  <record>
+    <leader>01202cam a2200349 a 4500</leader>
+    <controlfield tag="001">a6024816</controlfield>
+    <controlfield tag="003">SIRSI</controlfield>
+    <controlfield tag="008">050203s2005    enkb   e      000 0 eng  </controlfield>
+    <datafield tag="010" ind1=" " ind2=" ">
+      <subfield code="a">  2006530814</subfield>
+    </datafield>
+    <datafield tag="015" ind1=" " ind2=" ">
+      <subfield code="a">GBA536074</subfield>
+      <subfield code="2">bnb</subfield>
+    </datafield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">0745632041 (hbk.)</subfield>
+    </datafield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">074563205X (pbk.)</subfield>
+    </datafield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780745632049</subfield>
+    </datafield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780745632056 (pbk.)</subfield>
+    </datafield>
+    <datafield tag="035" ind1=" " ind2=" ">
+      <subfield code="a">(OCoLC-M)59878029</subfield>
+    </datafield>
+    <datafield tag="035" ind1=" " ind2=" ">
+      <subfield code="a">(OCoLC-I)275776997</subfield>
+    </datafield>
+    <datafield tag="040" ind1=" " ind2=" ">
+      <subfield code="a">UKM</subfield>
+      <subfield code="c">UKM</subfield>
+      <subfield code="d">BAKER</subfield>
+      <subfield code="d">C#P</subfield>
+    </datafield>
+    <datafield tag="041" ind1="1" ind2=" ">
+      <subfield code="a">eng</subfield>
+      <subfield code="h">fre</subfield>
+    </datafield>
+    <datafield tag="050" ind1=" " ind2="4">
+      <subfield code="a">HD1947</subfield>
+      <subfield code="b">.B6913 2005</subfield>
+    </datafield>
+    <datafield tag="082" ind1="0" ind2="4">
+      <subfield code="a">338.1</subfield>
+      <subfield code="2">22</subfield>
+    </datafield>
+    <datafield tag="100" ind1="1" ind2=" ">
+      <subfield code="a">Bové, José,</subfield>
+      <subfield code="d">1953-</subfield>
+    </datafield>
+    <datafield tag="240" ind1="1" ind2="0">
+      <subfield code="a">Grain de l'avenir.</subfield>
+      <subfield code="l">English</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">Food for the future :</subfield>
+      <subfield code="b">agriculture for a global age /</subfield>
+      <subfield code="c">Jóse Bóve and François Dufour ; with a foreword by André Coutin ; translated by Jean Birrell.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">Cambridge ;</subfield>
+      <subfield code="a">Malden, MA :</subfield>
+      <subfield code="b">Polity,</subfield>
+      <subfield code="c">c2005.</subfield>
+    </datafield>
+    <datafield tag="300" ind1=" " ind2=" ">
+      <subfield code="a">xi, 170 p. :</subfield>
+      <subfield code="b">maps ;</subfield>
+      <subfield code="c">24 cm.</subfield>
+    </datafield>
+    <datafield tag="546" ind1=" " ind2=" ">
+      <subfield code="a">Translated from the French.</subfield>
+    </datafield>
+    <datafield tag="596" ind1=" " ind2=" ">
+      <subfield code="a">1</subfield>
+    </datafield>
+    <datafield tag="650" ind1=" " ind2="0">
+      <subfield code="a">Agriculture and state.</subfield>
+    </datafield>
+    <datafield tag="650" ind1=" " ind2="0">
+      <subfield code="a">Agriculture</subfield>
+      <subfield code="x">Social aspects.</subfield>
+    </datafield>
+    <datafield tag="700" ind1="1" ind2=" ">
+      <subfield code="a">Dufour, François.</subfield>
+    </datafield>
+    <datafield tag="994" ind1=" " ind2=" ">
+      <subfield code="a">Z0</subfield>
+      <subfield code="b">STF</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">HD1947 .B6913 2005</subfield>
+      <subfield code="w">LC</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">36105119951254</subfield>
+      <subfield code="d">5/2/2008</subfield>
+      <subfield code="e">4/23/2008</subfield>
+      <subfield code="l">STACKS</subfield>
+      <subfield code="m">GREEN</subfield>
+      <subfield code="n">4</subfield>
+      <subfield code="r">Y</subfield>
+      <subfield code="s">Y</subfield>
+      <subfield code="t">STKS-MONO</subfield>
+      <subfield code="u">10/13/2005</subfield>
+      <subfield code="z">DIGI-SENT</subfield>
+    </datafield>
+  </record>
+</collection>
