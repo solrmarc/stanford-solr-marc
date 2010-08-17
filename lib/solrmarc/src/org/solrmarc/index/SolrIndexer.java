@@ -35,7 +35,7 @@ import bsh.*;
 /**
  * 
  * @author Robert Haschart
- * @version $Id: SolrIndexer.java 1140 2010-03-23 18:56:16Z rh9ec@virginia.edu $
+ * @version $Id: SolrIndexer.java 1222 2010-08-10 16:39:34Z demian.katz@villanova.edu $
  * 
  */
 /**
@@ -236,7 +236,7 @@ public class SolrIndexer
                         String values2[] = values[1].trim().split("[ ]*,[ ]*", 2);
                         fieldDef[1] = "all";
                         if (values2[0].equals("first") ||
-                        		(values2.length > 1 && values2[1].equals("first")))
+                                (values2.length > 1 && values2[1].equals("first")))
                             fieldDef[1] = "first";
 
                         if (values2[0].startsWith("join"))
@@ -263,12 +263,12 @@ public class SolrIndexer
                             {
                                 try
                                 {
-		                            fieldDef[3] = loadTranslationMap(props, fieldDef[3]);
+                                    fieldDef[3] = loadTranslationMap(props, fieldDef[3]);
                                 }
                                 catch (IllegalArgumentException e)
                                 {
-		                            logger.error("Unable to find file containing specified translation map (" + fieldDef[3] + ")");
-		                            throw new IllegalArgumentException("Error: Problems reading specified translation map (" + fieldDef[3] + ")");
+                                    logger.error("Unable to find file containing specified translation map (" + fieldDef[3] + ")");
+                                    throw new IllegalArgumentException("Error: Problems reading specified translation map (" + fieldDef[3] + ")");
                                 }
                             }
                         }
@@ -315,7 +315,7 @@ public class SolrIndexer
     /**
      * verify that custom methods defined in the _index properties file are
      * present and accounted for
-	 * @param indexParm - name of custom function plus args
+     * @param indexParm - name of custom function plus args
      */
     private void verifyCustomMethodExists(String indexParm)
     {
@@ -539,7 +539,8 @@ public class SolrIndexer
                 if (fields.size() != 0)
                     addFields(indexMap, indexField, null, fields);
                 else  // no entries produced for field => generate no record in Solr
-                    return new HashMap<String, Object>();
+                    throw new SolrMarcIndexerException(SolrMarcIndexerException.DELETE, 
+                                                    "Index specification: "+ indexField +" says this record should be deleted.");
             }
             else if (indexType.startsWith("join"))
             {
@@ -557,15 +558,53 @@ public class SolrIndexer
             }
             else if (indexType.startsWith("custom"))
             {
-                boolean shouldBeDeleted = handleCustom(indexMap, indexType, indexField, mapName, record, indexParm);
-                if (shouldBeDeleted)
-                    return new HashMap<String, Object>();
+                try {
+                    handleCustom(indexMap, indexType, indexField, mapName, record, indexParm);
+                }
+                catch(SolrMarcIndexerException e)
+                {
+                    String recCntlNum = null;
+                    try {
+                    	recCntlNum = record.getControlNumber();
+                    }
+                    catch (NullPointerException npe) { /* ignore */ }
+
+                	if (e.getLevel() == SolrMarcIndexerException.DELETE)
+                    {
+                        throw new SolrMarcIndexerException(SolrMarcIndexerException.DELETE, 
+                                "Record " + (recCntlNum != null ? recCntlNum : "") + " purposely not indexed because " + key + " field is empty");
+//                		logger.error("Record " + (recCntlNum != null ? recCntlNum : "") + " not indexed because " + key + " field is empty -- " + e.getMessage(), e);
+                    }
+                	else
+                	{
+                        logger.error("Unable to index record " + (recCntlNum != null ? recCntlNum : "") + " due to field " + key + " -- " + e.getMessage(), e);
+                        throw(e);
+                	}
+                }
             }
             else if (indexType.startsWith("script"))
             {
-                boolean shouldBeDeleted = handleScript(indexMap, indexType, indexField, mapName, record, indexParm);
-                if (shouldBeDeleted)
-                    return new HashMap<String, Object>();
+                try {
+                    handleScript(indexMap, indexType, indexField, mapName, record, indexParm);
+                }
+                catch(SolrMarcIndexerException e)
+                {
+                    String recCntlNum = null;
+                    try {
+                    	recCntlNum = record.getControlNumber();
+                    }
+                    catch (NullPointerException npe) { /* ignore */ }
+
+                	if (e.getLevel() == SolrMarcIndexerException.DELETE)
+                    {
+                		logger.error("Record " + (recCntlNum != null ? recCntlNum : "") + " purposely not indexed because " + key + " field is empty -- " + e.getMessage(), e);
+                    }
+                	else
+                	{
+                        logger.error("Unable to index record " + (recCntlNum != null ? recCntlNum : "") + " due to field " + key + " -- " + e.getMessage(), e);
+                        throw(e);
+                	}
+                }
             }
         }
         this.errors = null;
@@ -602,12 +641,10 @@ public class SolrIndexer
      * @param record -  The MARC record that is being indexed.
      * @param indexParm - contains the name of the custom method to invoke, as well as the 
      *                    additional parameters to pass to that method.
-     * @return  returns true if the indexing process should stop and the solr record should be deleted
-     *                    if no value is generated by this custom indexing method.
      */
-    private boolean handleCustom(Map<String, Object> indexMap,
+    private void handleCustom(Map<String, Object> indexMap,
             String indexType, String indexField, String mapName, Record record,
-            String indexParm)
+            String indexParm)  throws SolrMarcIndexerException
     {
         Object retval = null;
         Class<?> returnType = null;
@@ -666,13 +703,18 @@ public class SolrIndexer
         }
         catch (InvocationTargetException e)
         {
+            if (e.getTargetException() instanceof SolrMarcIndexerException)
+            {
+                throw((SolrMarcIndexerException)e.getTargetException());
+            }
             //e.printStackTrace();
             logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
         }
         boolean deleteIfEmpty = false;
         if (indexType.equals("customDeleteRecordIfFieldEmpty")) 
             deleteIfEmpty = true;
-        return finishCustomOrScript(indexMap, indexField, mapName, returnType, retval, deleteIfEmpty);
+        boolean result = finishCustomOrScript(indexMap, indexField, mapName, returnType, retval, deleteIfEmpty);
+        if (result == true) throw new SolrMarcIndexerException(SolrMarcIndexerException.DELETE);
     }
 
     /**
@@ -694,9 +736,8 @@ public class SolrIndexer
      * @param record -  The MARC record that is being indexed.
      * @param indexParm - contains the name of the custom BeanShell script method to invoke, as well as the 
      *                    additional parameters to pass to that method.
-     * @return  returns true if the indexing process should stop and the solr record should be deleted.
      */
-    private boolean handleScript(Map<String, Object> indexMap, String indexType, String indexField, String mapName, Record record, String indexParm)
+    private void handleScript(Map<String, Object> indexMap, String indexType, String indexField, String mapName, Record record, String indexParm)
     {
         String scriptFileName = indexType.replaceFirst("script[A-Za-z]*[(]", "").replaceFirst("[)]$", "");
         Interpreter bsh = getInterpreterForScript(scriptFileName);
@@ -762,7 +803,8 @@ public class SolrIndexer
             deleteIfEmpty = true;
         if (retval == Primitive.NULL)  
             retval = null;
-        return finishCustomOrScript(indexMap, indexField, mapName, returnType, retval, deleteIfEmpty);
+        boolean result = finishCustomOrScript(indexMap, indexField, mapName, returnType, retval, deleteIfEmpty);
+        if (result == true) throw new SolrMarcIndexerException(SolrMarcIndexerException.DELETE);
     }
 
     /**
@@ -929,7 +971,7 @@ public class SolrIndexer
             char eraStart1 = eraField.charAt(0);
             char eraStart2 = eraField.charAt(1);
             if (eraStart1 >= 'a' && eraStart1 <= 'y' && 
-            		eraStart2 >= '0' && eraStart2 <= '9')
+                    eraStart2 >= '0' && eraStart2 <= '9')
                 return getEra(result, eraStart1, eraStart2, eraStart1, eraStart2);
         }
         return result;
@@ -1598,7 +1640,7 @@ public class SolrIndexer
                         if (subfldsStr.indexOf(sf.getCode()) != -1)
                         {
                             if (buffer.length() > 0)
-	                        	buffer.append(separator != null ? separator : " ");
+                                buffer.append(separator != null ? separator : " ");
                             buffer.append(sf.getData().trim());
                         }
                     }
@@ -1607,8 +1649,8 @@ public class SolrIndexer
                 }
                 else
                 {
-	                // get all instances of the single subfield
-	                List<Subfield> subFlds = dfield.getSubfields(subfldsStr.charAt(0));
+                    // get all instances of the single subfield
+                    List<Subfield> subFlds = dfield.getSubfields(subfldsStr.charAt(0));
                     for (Subfield sf : subFlds)
                     {
                         resultSet.add(sf.getData().trim());
@@ -1662,7 +1704,7 @@ public class SolrIndexer
                     for (Subfield sf : subFlds)
                     {
                         if (subfield.indexOf(sf.getCode()) != -1 && 
-                        		sf.getData().length() >= endIx)
+                                sf.getData().length() >= endIx)
                         {
                             if (buffer.length() > 0)
                                 buffer.append(" ");
@@ -1844,7 +1886,7 @@ public class SolrIndexer
      *         all the alphabetic subfields.
      */
     @SuppressWarnings("unchecked")
-	public Set<String> getAllAlphaSubfields(final Record record, String fieldSpec) 
+    public Set<String> getAllAlphaSubfields(final Record record, String fieldSpec) 
     {
         Set<String> resultSet = new LinkedHashSet<String>();
 
@@ -1872,9 +1914,9 @@ public class SolrIndexer
                     {
                         if (Character.isLetter(sf.getCode()))
                         {
-	                        if (buffer.length() > 0) {
+                            if (buffer.length() > 0) {
                                 buffer.append(" " + sf.getData().trim());
-	                        } else {
+                            } else {
                                 buffer.append(sf.getData().trim());
                             }
                         }
@@ -1906,7 +1948,7 @@ public class SolrIndexer
      *         all the alphabetic subfields.
      */
     @SuppressWarnings("unchecked")
-	public final Set<String> getAllAlphaSubfields(final Record record, String fieldSpec, String multOccurs) 
+    public final Set<String> getAllAlphaSubfields(final Record record, String fieldSpec, String multOccurs) 
     {
         Set<String> result = getAllAlphaSubfields(record, fieldSpec);
         

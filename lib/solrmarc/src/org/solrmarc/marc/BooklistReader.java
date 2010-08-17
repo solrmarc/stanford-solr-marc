@@ -21,13 +21,14 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 //import org.apache.lucene.document.Document;
 import org.solrmarc.marc.MarcImporter.MyShutdownThread;
+import org.solrmarc.tools.SolrMarcIndexerException;
 import org.solrmarc.tools.Utils;
 
 /**
  * 
  * 
  * @author Robert Haschart 
- * @version $Id: BooklistReader.java 1095 2010-01-22 17:22:43Z rh9ec@virginia.edu $
+ * @version $Id: BooklistReader.java 1221 2010-08-10 14:14:44Z rh9ec@virginia.edu $
  *
  */
 public class BooklistReader extends SolrReIndexer
@@ -128,15 +129,34 @@ public class BooklistReader extends SolrReIndexer
                 if (dateReceived.after(today)) continue;
                 
                 String docID = "u"+fields[9];
-                Map<String, Object> docMap = getDocumentMap(docID);
-                if (docMap != null)
-                {
-                    addNewDataToRecord( docMap, valuesToAdd );
-                    documentCache.put(docID, docMap);
-                    if (doUpdate && docMap != null && docMap.size() != 0)
+                try {
+                    Map<String, Object> docMap = getDocumentMap(docID);
+                    if (docMap != null)
                     {
-                        update(docMap);
+                        addNewDataToRecord( docMap, valuesToAdd );
+                        documentCache.put(docID, docMap);
+                        if (doUpdate && docMap != null && docMap.size() != 0)
+                        {
+                            update(docMap);
+                        }
                     }
+                }
+                catch (SolrMarcIndexerException e)
+                {
+                    if (e.getLevel() == SolrMarcIndexerException.IGNORE)
+                    {
+                        logger.error("Indexing routine says record "+ docID + " should be ignored");                                   
+                    }
+                    else if (e.getLevel() == SolrMarcIndexerException.DELETE)
+                    {
+                        logger.error("Indexing routine says record "+ docID + " should be deleted");                                   
+                    }
+                    if (e.getLevel() == SolrMarcIndexerException.EXIT)
+                    {
+                        logger.error("Indexing routine says processing should be terminated by record "+ docID); 
+                        break;
+                    }
+
                 }
             }
         }

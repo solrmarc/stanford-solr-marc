@@ -1,7 +1,7 @@
 @echo off
-:: marcupdate.bat
-:: Program to copy a marc record file, merging in updates and deletions
-:: $Id:marcupdate.bat
+:: marcdiff.sh
+:: Diagnostic program to show look for differences between Marc record files.
+:: $Id: marcdiff.sh 
 setlocal
 ::Get the current batch file's short path
 for %%x in (%~f0) do set scriptdir=%%~dpsx
@@ -14,4 +14,4 @@ popd
 
 :doit
 
-java -Dsolrmarc.main.class="org.solrmarc.marc.MarcMerger" -jar %scriptdir%SolrMarc.jar %1 %2 %3 %4 %5 %6 %7 
+java -Dsolrmarc.main.class="org.solrmarc.tools.MarcDiff" -jar %scriptdir%SolrMarc.jar %1 %2 %3 
