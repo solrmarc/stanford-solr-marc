@@ -9,6 +9,7 @@ import java.util.zip.ZipEntry;
 import org.apache.log4j.Logger;
 import org.marc4j.*;
 import org.solrmarc.index.SolrIndexer;
+import org.solrmarc.marcoverride.MarcUnprettyXmlReader;
 import org.solrmarc.tools.*;
 
 public abstract class MarcHandler {
@@ -50,7 +51,7 @@ public abstract class MarcHandler {
 	{
 	}
 	
-	final public void init(String args[])
+	public void init(String args[])
 	{
         String configProperties = GetDefaultConfig.getConfigName("config.properties");
 
@@ -107,7 +108,6 @@ public abstract class MarcHandler {
             loadIndexer(indexerName, indexerProps); 
         }
         
-        loadLocalProperties();
         processAdditionalArgs();
 	}
 		
@@ -143,8 +143,16 @@ public abstract class MarcHandler {
 	{
         homeDir = getHomeDir();
         logger.debug("Current Directory = "+ (new File(".").getAbsolutePath()));
-        configProps = PropertiesUtils.loadProperties(new String[]{homeDir}, configProperties, showConfig, "config.file.dir");
-	    
+        if (configProperties.equals("null.properties"))
+        {
+            configProps = new Properties();
+        }
+        else
+        {
+            configProps = PropertiesUtils.loadProperties(new String[]{homeDir}, configProperties, showConfig, "config.file.dir");
+        }
+        loadLocalProperties();
+        
         solrmarcPath = PropertiesUtils.getProperty(configProps, "solrmarc.path");
         solrmarcPath = normalizePathsProperty(homeDir, solrmarcPath);
 
@@ -181,13 +189,20 @@ public abstract class MarcHandler {
         String source = PropertiesUtils.getProperty(configProps, "marc.source", "STDIN").trim();
         if (PropertiesUtils.getProperty(configProps, "marc.override")!= null)
         {
+// NRDEBUG 2010-08-17 - changing logic that seemed incorrect ...  (set it here to NoSortMarcFactoryImpl ... which ignores setting?)
             System.setProperty("org.marc4j.marc.MarcFactory", PropertiesUtils.getProperty(configProps, "marc.override").trim());
+//            System.setProperty("org.marc4j.marc.MarcFactory", "org.solrmarc.marcoverride.NoSortMarcFactoryImpl");
+        }
+        else 
+        {
+            System.setProperty("org.marc4j.marc.MarcFactory", "org.solrmarc.marcoverride.NoSortMarcFactoryImpl");
         }
         reader = null;
         String fName = PropertiesUtils.getProperty(configProps, "marc.path");
         if (source.equals("FILE") && fName == null)
         	return;
         if (fName != null)  fName = fName.trim();
+
         loadReader(source, fName);
 	}
 	
@@ -354,7 +369,7 @@ public abstract class MarcHandler {
         	}
             if (inputTypeXML)
             {
-                reader = new MarcXmlReader(is);
+                reader = new MarcUnprettyXmlReader(is);
             }
             else if (permissiveReader)
             {

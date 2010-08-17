@@ -25,8 +25,8 @@ import org.apache.log4j.Logger;
 
 import org.marc4j.*;
 import org.marc4j.marc.*;
-import org.marc4j.marc.impl.SubfieldImpl;
-
+import org.marc4j.marc.impl.*;
+import org.solrmarc.marcoverride.MarcSplitStreamWriter;
 import org.solrmarc.tools.*;
 
 /**
@@ -48,25 +48,72 @@ public class MarcPatcher extends MarcHandler
      // Initialize logging category
     static Logger logger = Logger.getLogger(MarcPatcher.class.getName());
     private String changedRecordFileName = null;
+    private String changedLocationFileName = null;
     private String locationFileName = null;
     private MarcWriter writerAll = null;
     private MarcWriter writerChanged = null;
+    private RawRecordReader rawReader = null;
     private PrintStream out;
     private String locationRecordIDMapper = null;
     private String mapPattern = null;
     private String mapReplace = null;
     private String locationFileLine[] = null;
+    private String currentLocationID = null;
 //    private String libraryLocationMap = null;
 //    private Properties libraries = null;
     private StringNaturalCompare compare = null;
+    private boolean handleAllLocs = false;
 
-    public MarcPatcher(String locationFile, String changedFile, PrintStream out)
+//    public MarcPatcher(String locationFile, String changedOutputFile, PrintStream out)
+//    {
+//        super();
+//        this.out = out;
+//        locationFileName = locationFile;
+//        changedRecordFileName = changedOutputFile;
+//    }
+   
+    public MarcPatcher(String locationFile, String changedLocationFile, String changedOutputFile, PrintStream out, boolean handleAllLocs)
     {
         super();
         this.out = out;
         locationFileName = locationFile;
-        changedRecordFileName = changedFile;
-//        this.libraryLocationMap = libraryLocationMap;
+        changedRecordFileName = changedOutputFile;
+        changedLocationFileName = changedLocationFile;
+        this.handleAllLocs = handleAllLocs;
+    }
+    
+    @Override
+    public void loadReader(String source, String fName)
+    {       
+        if (source.equals("FILE") || source.equals("STDIN"))
+        {
+            InputStream is = null;
+            if (source.equals("FILE")) 
+            {
+                try {
+                    if (showInputFile)
+                        logger.info("Attempting to open data file: "+ new File(fName).getAbsolutePath());
+                    else 
+                        logger.debug("Attempting to open data file: "+ new File(fName).getAbsolutePath());
+                    is = new FileInputStream(fName);
+                } 
+                catch (FileNotFoundException e) 
+                {
+                    logger.error("Fatal error: Unable to open specified MARC data file: " + fName);
+                    throw new IllegalArgumentException("Fatal error: Unable to open specified MARC data file: " + fName);
+                }
+            }
+            else
+            {
+                if (showInputFile)
+                    logger.info("Attempting to read data from stdin ");
+                else
+                    logger.debug("Attempting to read data from stdin ");
+                is = System.in;
+            }
+            rawReader = new RawRecordReader(is);
+            reader = null;
+        }
     }
     
     @Override
@@ -164,9 +211,22 @@ public class MarcPatcher extends MarcHandler
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
+        BufferedReader changedLocationReader = null;
+        if (changedLocationFileName != null)
+        {
+            try
+            {
+                changedLocationReader = new BufferedReader(new InputStreamReader( new FileInputStream(new File(changedLocationFileName))));
+            }
+            catch (FileNotFoundException e1)
+            {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
         if (writerAll == null && out != null && changedRecordFileName != null)
         {
-        	writerAll = new MarcStreamWriter(out, "ISO-8859-1", true);
+            writerAll = new MarcSplitStreamWriter(out, "ISO-8859-1", 70000, "999");
         }
         if (writerChanged == null && changedRecordFileName != null)
         {
@@ -175,7 +235,7 @@ public class MarcPatcher extends MarcHandler
             {
                 File changedRecordFile = new File(changedRecordFileName);
                 changedRecordStream = new FileOutputStream(changedRecordFile);
-                writerChanged = new MarcStreamWriter(changedRecordStream, "ISO-8859-1", true);
+                writerChanged = new MarcSplitStreamWriter(changedRecordStream, "ISO-8859-1", 70000, "999");
             }
             catch (FileNotFoundException e)
             {
@@ -186,21 +246,25 @@ public class MarcPatcher extends MarcHandler
         }
         else if (writerChanged == null && changedRecordFileName == null && out != null)
         {
-            writerChanged = new MarcStreamWriter(out, "ISO-8859-1", true);
+            writerChanged = new MarcSplitStreamWriter(out, "ISO-8859-1", 70000, "999");
         }
 
-        while(reader != null && reader.hasNext())
+        while(rawReader != null && rawReader.hasNext())
         {
             recordCounter++;
  
             try {
-                Record record = reader.next();
-                boolean patched = patchRecord(record, locationReader);
+                RawRecord record = rawReader.next();
+                Record patchedRecord = patchRecord(record, locationReader, changedLocationReader);
                 
-                if (writerAll != null)  writerAll.write(record);
-                if (patched && writerChanged != null) 
+                if (writerAll != null)
                 {
-                    writerChanged.write(record);
+                    if (patchedRecord != null) writerAll.write(patchedRecord);
+                    else out.write(record.getRecordBytes());
+                }
+                if (patchedRecord != null && writerChanged != null) 
+                {
+                    writerChanged.write(patchedRecord);
                 }
                 if (out != null) out.flush();
             }
@@ -210,6 +274,12 @@ public class MarcPatcher extends MarcHandler
                 logger.error("Error reading Marc Record: "+ me.getMessage());
                 return(1);
             }        
+            catch (IOException me)
+            {
+                System.err.println("Error Writing Raw Marc Record: "+ me.getMessage());                                   
+                logger.error("Error Writing Raw Marc Record: "+ me.getMessage());
+                return(1);
+            }        
         }
         if (writerAll != null) { writerAll.close(); }
         if (writerChanged != null) { writerChanged.close(); }
@@ -217,52 +287,114 @@ public class MarcPatcher extends MarcHandler
     }
 
     
-    private boolean patchRecord(Record record, BufferedReader locationReader)
+    private Record patchRecord(RawRecord rawRecord, BufferedReader locationReader, BufferedReader changedlocationReader)
     {
         boolean patched = false;
-        String recId = record.getControlNumber();
-        if (locationFileLine == null) locationFileLine = getNextLocationLine(locationReader);
+        Record record = null;
+        String recId = rawRecord.getRecordId();
+        if (locationFileLine == null) locationFileLine = getNextLocationLine(locationReader, changedlocationReader);
         while (locationFileLine != null && compare.compare(locationFileLine[0], recId) < 0)
         {
-            locationFileLine = getNextLocationLine(locationReader);
+            locationFileLine = getNextLocationLine(locationReader, changedlocationReader);
         }
-        while (locationFileLine != null && compare.compare(locationFileLine[0], recId) == 0)
+        if (locationFileLine != null && compare.compare(locationFileLine[0], recId) == 0)
         {
-            patched |= patchRecordWithLine(record, locationFileLine);
-            locationFileLine = getNextLocationLine(locationReader);
+            record = rawRecord.getAsRecord(true, false, true, "MARC8");
+            List<VariableField> fields999 = (List<VariableField>)record.getVariableFields("999");
+            while (locationFileLine != null && compare.compare(locationFileLine[0], recId) == 0)
+            {
+                patched |= patchRecordWithLine(record, fields999, locationFileLine);
+                locationFileLine = getNextLocationLine(locationReader, changedlocationReader);
+            }
+            if (handleAllLocs)
+            {
+                fields999 = (List<VariableField>)record.getVariableFields("999");
+                Iterator<VariableField> fieldIter = fields999.iterator();
+                while (fieldIter.hasNext())
+                {
+                    VariableField vf = fieldIter.next();
+                    if (vf.getId() == null) // vf.getId().intValue() != 1 && vf.getId().intValue() != 2)
+                    {
+                        record.removeVariableField(vf);
+                        fieldIter.remove();
+                        patched = true;
+                    }
+                }
+            }
         }
-        return(patched);
+        return(patched ? record : null);
     }
 
-    private String[] getNextLocationLine(BufferedReader locationReader)
+    private String[] getNextLocationLine(BufferedReader locationReader, BufferedReader changedLocationReader)
     {
         String line = null;
-        try
-        {
-            line = locationReader.readLine();
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        if (line == null) return(null);
-        String result[] = line.split("\\|");
+        String result[];
+        do { 
+            try
+            {
+                line = locationReader.readLine();
+            }
+            catch (IOException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            if (line == null) return(null);
+            result = line.split("\\|");
+            if (changedLocationReader == null) break;
+            if (currentLocationID == null || compare.compare(currentLocationID, result[0]) < 0)
+            {
+                try
+                {
+                    currentLocationID = changedLocationReader.readLine();
+                    if (currentLocationID == null) return(null);
+                }
+                catch (IOException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        } while (!result[0].equals(currentLocationID));
+    
         result[0] =  result[0].replaceFirst(mapPattern, mapReplace);
         result[1] = result[1].trim();
         return result;
     }
 
-    private boolean patchRecordWithLine(Record record, String locationFileLine2[])
+    private boolean patchRecordWithLine(Record record, List<VariableField> fields999, String locationFileLine2[])
     {
         boolean changed = false;
-        List<VariableField> fields999 = (List<VariableField>)record.getVariableFields("999");
+        boolean barcodeFound = false;
+        DataField closestMatch = null;
+        int minEditDistance = 100;
         for (VariableField f999 : fields999)
         {
             DataField df999 = (DataField)f999;
+            List multi_i = null;
+            if ((multi_i = df999.getSubfields('i')).size() > 1)
+            {
+                // patch to fix problem with multiple 'i' subfields problem
+                // Subfield first_i = (Subfield)multi_i.get(0);
+                Subfield second_i = (Subfield)multi_i.get(1);
+                Subfield loc_k = df999.getSubfield('k');
+                if (loc_k.getData().equals(second_i.getData()))
+                {
+                    df999.removeSubfield(second_i);
+                }
+                else
+                {
+                    second_i.setCode('k');
+                }
+                loc_k.setCode('l');
+                changed = true;
+            }
             Subfield barcode = df999.getSubfield('i');
+            int curEditDistance;
             if (barcode != null && barcode.getData().equals(locationFileLine2[1]))
             {
+                barcodeFound = true;
+                df999.setId(new Long(1));
                 Subfield curLoc = df999.getSubfield('k');
                 Subfield homeLoc = df999.getSubfield('l');
                 if (curLoc == null)
@@ -307,10 +439,107 @@ public class MarcPatcher extends MarcHandler
                     changed = true;
                 }
             }
+            else if (handleAllLocs && locationFileLine2.length >= 8)
+            {
+            }
+            else if (handleAllLocs && !barcodeFound && barcode != null && (curEditDistance = getLevenshteinDistance(barcode.getData(), locationFileLine2[1])) < minEditDistance)
+            {
+                minEditDistance = curEditDistance;
+                closestMatch = df999;
+            }
+        }
+        // didn't find existing 999 corresponding to the location file line in question. create one from scratch.
+        if (!barcodeFound && (closestMatch != null || locationFileLine2.length >= 8))
+        {
+            DataField df = new DataFieldImpl();
+            df.addSubfield(new SubfieldImpl('a', closestMatch != null ? closestMatch.getSubfield('a').getData() : locationFileLine2[7]));
+            df.addSubfield(new SubfieldImpl('w', closestMatch != null ? closestMatch.getSubfield('w').getData() : locationFileLine2[6]));
+            df.addSubfield(new SubfieldImpl('i', locationFileLine2[1]));
+            if (!locationFileLine2[2].equals(locationFileLine2[3]))
+            {
+                df.addSubfield(new SubfieldImpl('k', locationFileLine2[2]));
+            }
+            df.addSubfield(new SubfieldImpl('l', locationFileLine2[3]));
+            df.addSubfield(new SubfieldImpl('m', locationFileLine2[4]));
+            df.addSubfield(new SubfieldImpl('t', closestMatch != null ? closestMatch.getSubfield('t').getData() : locationFileLine2[5]));
+            df.setId(new Long(2));
+            df.setTag(closestMatch != null  ? closestMatch.getTag() : "999");
+            df.setIndicator1(closestMatch != null  ? closestMatch.getIndicator1() : ' ');
+            df.setIndicator2(closestMatch != null  ? closestMatch.getIndicator2() : ' ');
+            record.addVariableField(df);
+            changed = true;
         }
         return(changed);
     }
 
+    public static int getLevenshteinDistance (String s, String t) 
+    {
+        if (s == null || t == null) {
+          throw new IllegalArgumentException("Strings must not be null");
+        }
+              
+        /*
+          The difference between this impl. and the previous is that, rather 
+           than creating and retaining a matrix of size s.length()+1 by t.length()+1, 
+           we maintain two single-dimensional arrays of length s.length()+1.  The first, d,
+           is the 'current working' distance array that maintains the newest distance cost
+           counts as we iterate through the characters of String s.  Each time we increment
+           the index of String t we are comparing, d is copied to p, the second int[].  Doing so
+           allows us to retain the previous cost counts as required by the algorithm (taking 
+           the minimum of the cost count to the left, up one, and diagonally up and to the left
+           of the current cost count being calculated).  (Note that the arrays aren't really 
+           copied anymore, just switched...this is clearly much better than cloning an array 
+           or doing a System.arraycopy() each time  through the outer loop.)
+
+           Effectively, the difference between the two implementations is this one does not 
+           cause an out of memory condition when calculating the LD over two very large strings.          
+        */        
+              
+        int n = s.length(); // length of s
+        int m = t.length(); // length of t
+              
+        if (n == 0) {
+          return m;
+        } else if (m == 0) {
+          return n;
+        }
+
+        int p[] = new int[n+1]; //'previous' cost array, horizontally
+        int d[] = new int[n+1]; // cost array, horizontally
+        int _d[]; //placeholder to assist in swapping p and d
+
+        // indexes into strings s and t
+        int i; // iterates through s
+        int j; // iterates through t
+
+        char t_j; // jth character of t
+
+        int cost; // cost
+
+        for (i = 0; i<=n; i++) {
+           p[i] = i;
+        }
+              
+        for (j = 1; j<=m; j++) {
+           t_j = t.charAt(j-1);
+           d[0] = j;
+              
+           for (i=1; i<=n; i++) {
+              cost = s.charAt(i-1)==t_j ? 0 : 1;
+              // minimum of cell to the left+1, to the top+1, diagonally left and up +cost                
+              d[i] = Math.min(Math.min(d[i-1]+1, p[i]+1),  p[i-1]+cost);  
+           }
+
+           // copy current distance counts to 'previous row' distance counts
+           _d = p;
+           p = d;
+           d = _d;
+        } 
+              
+        // our last action in the above loop was to switch d and p, so p now 
+        // actually has the most recent cost counts
+        return p[n];
+      }
 //    private String getLibraryName(String location)
 //    {
 //        String result = null;
@@ -336,12 +565,16 @@ public class MarcPatcher extends MarcHandler
         String tmpArgs[] = new String[1];
         tmpArgs[0] = args[0];
         String locationFile = null;
+        String changedLocationFile = null;
         String changedFile = null;
         boolean changesOnly = false;
+        boolean handleAllLocs = false;
         String outputFile = null;
         for (int i = 1; i < args.length; i++)
         {
-            if (args[i].endsWith(".txt")) locationFile = args[i];
+            if (args[i].endsWith(".txt") && locationFile == null) locationFile = args[i];
+            else if (args[i].endsWith(".txt") && locationFile != null) changedLocationFile = args[i];
+            else if (args[i].equals("handleAllLocs")) handleAllLocs = true;
             else if (args[i].equals("changesOnly")) changesOnly = true;
             else if (args[i].endsWith(".mrc") && changedFile == null) changedFile = args[i];
             else if (args[i].endsWith(".mrc") && changedFile != null) outputFile = args[i];
@@ -362,7 +595,7 @@ public class MarcPatcher extends MarcHandler
                 pOut = new PrintStream(new FileOutputStream(new File(outputFile)));
             else
                 pOut = System.out;
-            marcPatcher = new MarcPatcher(locationFile, changedFile, pOut);
+            marcPatcher = new MarcPatcher(locationFile, changedLocationFile, changedFile, pOut, handleAllLocs);
             marcPatcher.init(tmpArgs);
         }
         catch (IllegalArgumentException e)

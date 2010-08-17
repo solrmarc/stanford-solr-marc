@@ -1,11 +1,12 @@
 @echo off
-:: updatesolrserver.bat
-:: send an update message to a running solr server, 
-:: $Id: updatesolrserver.bat
+:: printrecord.bat
+:: Diagnostic program to display marc records.
+:: $Id: printrecord.bat
 setlocal
 ::Get the current batch file's short path
 for %%x in (%~f0) do set scriptdir=%%~dpsx
 for %%x in (%scriptdir%) do set scriptdir=%%~dpsx
+::echo BatchPath = %scriptdir%
 
 if EXIST %scriptdir%SolrMarc.jar goto doit
 pushd %scriptdir%..
@@ -13,6 +14,5 @@ for %%x in (%CD%) do set scriptdir=%%~sx\
 popd
 
 :doit
-::echo BatchPath = %scriptdir%
 
-java -Dsolrmarc.main.class="org.solrmarc.tools.SolrUpdate" -jar %scriptdir%SolrMarc.jar %1
+java -Dsolrmarc.main.class="org.solrmarc.marc.MarcPrinter" -jar %scriptdir%SolrMarc.jar untranslate %1 %2 %3
