@@ -67,11 +67,7 @@ public class MarcPrinter extends MarcHandler
             {
                 mode = arg;
             }
-            else if (mode.equals("index"))
-            {
-                indexkeyprefix = arg.replaceAll("\\*", ".*").replaceAll("\\?", ".?");
-            }
-            else if (mode.equals("print"))
+            else if (mode.equals("index") || mode.equals("print"))
             {
                 indexkeyprefix = arg.replaceAll("\\*", ".*").replaceAll("\\?", ".?");
             }

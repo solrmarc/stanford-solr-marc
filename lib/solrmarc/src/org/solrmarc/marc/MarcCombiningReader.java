@@ -30,7 +30,7 @@ public class MarcCombiningReader implements MarcReader
     Record currentRecord = null;
     Record nextRecord = null;
     MarcReader reader;
-    String idsToMerge = null;
+    String tagsToMerge = null;
     ErrorHandler nextErrors;
     ErrorHandler currentErrors;
     // Initialize logging category
@@ -42,12 +42,12 @@ public class MarcCombiningReader implements MarcReader
      * when the next record is a continuation of the currently read record.  
      * 
      * @param reader - The Lower level MarcReader that returns Marc4J Record objects that are read from a Marc file.
-     * @param idsToMerge - string representing a regular expression matching those fields to be merged for continuation records.
+     * @param tagsToMerge - string representing a regular expression matching those fields to be merged for continuation records.
      */
-    MarcCombiningReader(MarcReader reader, String idsToMerge)
+    MarcCombiningReader(MarcReader reader, String tagsToMerge)
     {
         this.reader = reader;
-        this.idsToMerge = idsToMerge;
+        this.tagsToMerge = tagsToMerge;
         this.nextErrors = null;
         this.currentErrors = null;
     }
@@ -66,12 +66,12 @@ public class MarcCombiningReader implements MarcReader
      * @param reader - The Lower level MarcReader that returns Marc4J Record objects that are read from a Marc file.
      * @param currentErrors - ErrorHandler Object to use for attaching errors to a record.
      * @param nextErrors - ErrorHandler Object that was passed into the lower level MarcReader
-     * @param idsToMerge - string representing a regular expression matching those fields to be merged for continuation records.
+     * @param tagsToMerge - string representing a regular expression matching those fields to be merged for continuation records.
      */
-    MarcCombiningReader(MarcReader reader, ErrorHandler currentErrors, ErrorHandler nextErrors, String idsToMerge)
+    MarcCombiningReader(MarcReader reader, ErrorHandler currentErrors, ErrorHandler nextErrors, String tagsToMerge)
     {
         this.reader = reader;
-        this.idsToMerge = idsToMerge;
+        this.tagsToMerge = tagsToMerge;
         this.nextErrors = nextErrors;
         this.currentErrors = currentErrors;
     }
@@ -173,7 +173,7 @@ public class MarcCombiningReader implements MarcReader
             if (field instanceof ControlField)
             {
                 ControlField cf = (ControlField) field;
-                if (cf.getTag().matches(idsToMerge))
+                if (cf.getTag().matches(tagsToMerge))
                 {
                     currentRecord.addVariableField(cf);
                 }
@@ -181,7 +181,7 @@ public class MarcCombiningReader implements MarcReader
             else if (field instanceof DataField)
             {
                 DataField df = (DataField) field;
-                if (df.getTag().matches(idsToMerge))
+                if (df.getTag().matches(tagsToMerge))
                 {
                     currentRecord.addVariableField(df);
                 }
