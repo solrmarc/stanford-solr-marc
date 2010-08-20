@@ -24,7 +24,6 @@ public class ItemObjectTests extends AbstractStanfordBlacklightTest {
 	
 @Before
 	public final void setup() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		mappingTestInit();
 	}	

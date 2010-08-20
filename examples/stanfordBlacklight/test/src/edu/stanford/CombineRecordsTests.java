@@ -12,13 +12,13 @@ import org.xml.sax.SAXException;
 
 /**
  * tests for MarcCombiningReader to ensure it indexes all the records it should
+ *   (it doesn't stop indexing when it hits a bad record)
  * @author Naomi Dushay
  */
 public class CombineRecordsTests extends AbstractStanfordBlacklightTest {
 
 @Before
 	public final void setup() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		mappingTestInit();
 	}	

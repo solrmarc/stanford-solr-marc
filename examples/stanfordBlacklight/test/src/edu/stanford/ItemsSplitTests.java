@@ -1,12 +1,10 @@
 package edu.stanford;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.xml.sax.SAXException;
 
 import edu.stanford.enumValues.CallNumberType;
@@ -27,7 +25,6 @@ public class ItemsSplitTests extends AbstractStanfordBlacklightTest {
 	
 @Before
 	public final void setup() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		mappingTestInit();
 	}	
@@ -191,5 +188,63 @@ public class ItemsSplitTests extends AbstractStanfordBlacklightTest {
 		solrFldMapTest.assertSolrFldValue(testFilePath, "notSplit1", "id", "notSplit1");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "notSplit2", "id", "notSplit2");
 	}
+
+	/**
+	 * assert all items are present and not garbled (via sampling)
+	 *    (turns out problem is in the marc directory ... the ruby marc gem
+	 *    can read these records correctly if it uses the "forgiving" reader.
+	 *    but the REAL solution is to switch to marcxml.
+	 */
+//@Test
+	public void testAllItemsPresent()
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+		String barcodeFldName = "barcode_search";
+
+		// 3195846 is a giant record for "Science"
+		createIxInitVars("3195846.mrc");
+//		createIxInitVars("100817_uni_increment.marc");
+		assertDocPresent("3195846");
+				
+		// first barcode
+		assertSingleResult("3195846", barcodeFldName, "36105016962404");
+		// last "good" 999 in UI
+		assertSingleResult("3195846", barcodeFldName, "36105019891873");
+		// first "bad" 999 in UI
+		assertSingleResult("3195846", barcodeFldName, "36105018074463");
+		// last barcode
+		assertSingleResult("3195846", barcodeFldName, "36105123124971");
+
+
+		// 3195846 is a giant record for Buckminster Fuller 
+		createIxInitVars("4332640.mrc");
+//		createIxInitVars("100813_uni_increment.marc");
+		assertDocPresent("4332640");
+
+		// first barcode
+		assertSingleResult("4332640", barcodeFldName, "36105116017505");
+		// last "good" 999 in UI
+		assertSingleResult("4332640", barcodeFldName, "36105116028791");
+		// first "bad" 999 in UI
+		assertSingleResult("4332640", barcodeFldName, "36105116028809");
+		// last barcode
+		assertSingleResult("4332640", barcodeFldName, "36105115865367");
+	
+
+		// 7621542 is a moderately large record for Southern Pacific Railroad Group 2
+		createIxInitVars("7621542.mrc");
+		assertDocPresent("7621542");
+
+		// first barcode
+		assertSingleResult("7621542", barcodeFldName, "36105115582079");
+		// last "good" 999 in UI
+		assertSingleResult("7621542", barcodeFldName, "36105116127981");
+		// first "bad" 999 in UI
+		assertSingleResult("7621542", barcodeFldName, "36105116127999");
+		// last barcode
+		assertSingleResult("7621542", barcodeFldName, "36105115641370"); 
+	}
+
+
 
 }
