@@ -159,8 +159,7 @@ public abstract class AbstractStanfordBlacklightTest extends IndexTest {
 	}
 	
 	/**
-	 * creates an index from the indicated test file, and initializes 
-	 *  necessary variables
+	 * removes records from the index
 	 *  @param deletedIdsFilename - name of file containing record ids to be deleted
 	 */
 	public void deleteIxDocs(String deletedIdsFilename) 

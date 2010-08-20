@@ -25,7 +25,6 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordBlacklightTe
 
 @Before
 	public void setup() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		mappingTestInit();
 	}	
