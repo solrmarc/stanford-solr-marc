@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<schema name="Stanford Searchworks Index" version="1.2">
+<schema name="Stanford Searchworks Index" version="1.1">
   <types>
     <fieldtype name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true" />
     <fieldtype name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true" />
@@ -107,7 +107,7 @@
     <field name="created" type="date" indexed="true" stored="true" default="NOW/SECOND" />
     <field name="last_updated" type="date" indexed="true" stored="true" default="NOW/SECOND" />
     <!-- entire marc bib record, in raw marc21 -->
-    <field name="marc21" type="string" indexed="false" stored="true" />
+    <field name="raw_marc" type="string" indexed="false" stored="true" />
     <!-- collection: allow searching within collections for aggr. colls, also used for get all docs -->
     <field name="collection" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <field name="all_search" type="text" indexed="true" stored="false" />

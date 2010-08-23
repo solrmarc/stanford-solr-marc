@@ -216,7 +216,7 @@ public class ItemsSplitTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("3195846", barcodeFldName, "36105123124971");
 
 
-		// 3195846 is a giant record for Buckminster Fuller 
+		// 4332640 is a giant record for Buckminster Fuller 
 		createIxInitVars("4332640.mrc");
 //		createIxInitVars("100813_uni_increment.marc");
 		assertDocPresent("4332640");
