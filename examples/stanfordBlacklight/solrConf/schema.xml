@@ -106,7 +106,7 @@
     <field name="id" type="string_no_stop" indexed="true" stored="true" required="true" />
     <field name="created" type="date" indexed="true" stored="true" default="NOW/SECOND" />
     <field name="last_updated" type="date" indexed="true" stored="true" default="NOW/SECOND" />
-    <!-- entire marc bib record, in raw marc21 -->
+    <!-- entire marc bib record -->
     <field name="raw_marc" type="string" indexed="false" stored="true" />
     <!-- collection: allow searching within collections for aggr. colls, also used for get all docs -->
     <field name="collection" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
