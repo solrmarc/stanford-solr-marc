@@ -37,6 +37,7 @@
     <deletionPolicy class="solr.SolrDeletionPolicy">
       <str name="keepOptimizedOnly">false</str>
       <str name="maxCommitsToKeep">1</str>
+      <str name="maxOptimizedCommitsToKeep">0</str>
     </deletionPolicy>
   </mainIndex>
 
@@ -1106,12 +1107,13 @@
       <str name="echoParams">explicit</str>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
-      <str name="mm">4&lt;-1 4&lt;90%</str>
       <str name="qs">1</str>
       <str name="rows">20</str> 
       
+      <str name="mm">1</str> <!-- set to 1 for advanced search -->
       <str name="ps">3</str> 
       <float name="tie">0.01</float>
+
       <!-- for user query terms in author text box -->
       <str name="qf_author">
         author_1xx_unstem_search^200

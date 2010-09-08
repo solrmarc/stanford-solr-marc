@@ -69,8 +69,12 @@
     
     <!-- Analyzed Text, whitespace token separation and lower case only -->
     <!-- also stopwords so dismax doesn't look for stopwords in these fields -->
+    <!-- On client side, Lucene query parser breaks things up by whitespace *before* field analysis for dismax  -->
+    <!-- so some pattern matching to remove punctuation (& :) terms to allow results from other fields when these chars are surrounded by spaces in query -->
     <fieldType name="text_wslc" class="solr.TextField" omitNorms="true">
       <analyzer>
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="&amp;" replacement="and" replace="all" />
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern=":" replacement="" replace="all" />
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
         <filter class="schema.UnicodeNormalizationFilterFactory" version="icu4j" composed="false" remove_diacritics="true" remove_modifiers="true" fold="true" />
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
@@ -79,8 +83,11 @@
     </fieldType>
 
     <!-- single token with stopwords removed so dismax doesn't look for stopwords in these fields-->
+    <!-- On client side, Lucene query parser breaks things up by whitespace *before* field analysis for dismax  -->
+    <!-- so some pattern matching to change punctuation (& :) into stopwords to allow results from other fields when these chars are surrounded by spaces in query -->
     <fieldType name="string_no_stop" class="solr.TextField" omitNorms="true">
       <analyzer>
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[&amp;:]" replacement="and" replace="all" />
         <tokenizer class="solr.KeywordTokenizerFactory" />
         <filter class="schema.UnicodeNormalizationFilterFactory" version="icu4j" composed="false" remove_diacritics="true" remove_modifiers="true" fold="true" />
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
@@ -107,7 +114,7 @@
     <field name="created" type="date" indexed="true" stored="true" default="NOW/SECOND" />
     <field name="last_updated" type="date" indexed="true" stored="true" default="NOW/SECOND" />
     <!-- entire marc bib record -->
-    <field name="raw_marc" type="string" indexed="false" stored="true" />
+    <field name="marc21" type="string" indexed="false" stored="true" />
     <!-- collection: allow searching within collections for aggr. colls, also used for get all docs -->
     <field name="collection" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <field name="all_search" type="text" indexed="true" stored="false" />
@@ -149,7 +156,7 @@
     <field name="vern_title_related_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="title_related_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
 
-<!-- TODO:  revisions to series search!!!! -->
+<!-- TODO:  revisions to series search!!!! These old series search fields should go away. -->
     <field name="title_series_search" type="text" indexed="true" stored="false" multiValued="true" />
     <field name="vern_title_series_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="title_series_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
