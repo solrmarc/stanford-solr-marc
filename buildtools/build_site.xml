@@ -187,6 +187,7 @@
             <fileset file="${site.build.dir}/${custom.jar.name}.jar" />
             <fileset dir="${site.test.dir}/tmp_solrmarc_jars" includes="*.jar" />
         </path>
+
         <javac destdir="${site.test.build.dir}" 
                srcdir="${site.test.dir}/${src.dir}" 
                target="${java.compat.version}" source="${java.compat.version}" 
@@ -207,7 +208,7 @@
         </jar>
     </target>
     
-    <target name="test" depends="smoketest,indextest,junittest" description="run the three types of tests" >
+    <target name="test" depends="maintest,smoketest,indextest,junittest" description="run the four types of tests" >
     </target>
     
     <target name="smoketest" depends="dist,testInit" description="start jetty pointing at test solr, index file, then look for it.">
@@ -271,15 +272,27 @@
         <get_jars_from_solr_war src="${jetty.install.dir}/webapps/solr.war" todir="${solr.jar.file.dir}" />
         <get_jars_from_solrmarc_onejar junit="test/*.jar"  todir="${site.test.dir}/tmp_solrmarc_jars" />
 
-        <path id="test.run.classpath.jars">
-            <fileset file="${site.build.dir}/${custom.jar.name}.jar" />
-            <fileset dir="${site.test.dir}/tmp_solrmarc_jars" includes="*.jar" />
-            <fileset file="${site.test.build.dir}/${site.test.jar}" />
-            <fileset dir="${solr.jar.file.dir}" includes="*.jar" />
-        </path>
- 
+        <if >
+            <isset property="top_level_test_only" />
+            <then>
+                <path id="test.run.classpath.jars">
+                    <fileset dir="${site.test.dir}/tmp_solrmarc_jars" includes="*.jar" />
+                    <fileset dir="${solr.jar.file.dir}" includes="*.jar" />
+                </path>
+                <property name="indextest.data.file" value="maintest.txt" /> 
+            </then>
+            <else>
+                <path id="test.run.classpath.jars">
+                    <fileset file="${site.build.dir}/${custom.jar.name}.jar" />
+                    <fileset dir="${site.test.dir}/tmp_solrmarc_jars" includes="*.jar" />
+                    <fileset file="${site.test.build.dir}/${site.test.jar}" />
+                    <fileset dir="${solr.jar.file.dir}" includes="*.jar" />
+                </path>
+                <property name="indextest.data.file" value="indextest.txt" /> 
+            </else>
+        </if >
+        
         <property name="indextest.class" value="org.solrmarc.index.ParameterizedIndexTest" />
-        <property name="indextest.data.file" value="indextest.txt" /> 
         <echo message="indextest class = ${indextest.class} " />
         <echo message="solr.data.dir = ${site.test.solr.dir}/data " />
       
@@ -319,6 +332,12 @@
         <!--  Now delete the jar files that had to be un-jarred from the solr.war file for the test to run -->
         <delete dir="${solr.jar.file.dir}" deleteonexit="true" quiet="true" />
         <delete dir="${site.test.dir}/tmp_solrmarc_jars" deleteonexit="true" quiet="true" />
+    </target>
+    
+    <target name="maintest" depends="dist,testJar" description="run indexscript tests for main program">
+        <antcall target="indextest" >
+            <param name="top_level_test_only" value="true" />
+        </antcall>
     </target>
     
     <target name="junittest" depends="dist,testJar" description="run junit tests for bib index">

@@ -189,14 +189,13 @@ public abstract class MarcHandler {
         String source = PropertiesUtils.getProperty(configProps, "marc.source", "STDIN").trim();
         if (PropertiesUtils.getProperty(configProps, "marc.override")!= null)
         {
-// NRDEBUG 2010-08-17 - changing logic that seemed incorrect ...  (set it here to NoSortMarcFactoryImpl ... which ignores setting?)
             System.setProperty("org.marc4j.marc.MarcFactory", PropertiesUtils.getProperty(configProps, "marc.override").trim());
-//            System.setProperty("org.marc4j.marc.MarcFactory", "org.solrmarc.marcoverride.NoSortMarcFactoryImpl");
         }
-        else 
+        else  // no override, tell solrmarc to use the NoSortMarcFactory by default.
         {
             System.setProperty("org.marc4j.marc.MarcFactory", "org.solrmarc.marcoverride.NoSortMarcFactoryImpl");
         }
+
         reader = null;
         String fName = PropertiesUtils.getProperty(configProps, "marc.path");
         if (source.equals("FILE") && fName == null)
@@ -392,15 +391,17 @@ public abstract class MarcHandler {
         }
         if (reader != null && combineConsecutiveRecordsFields != null)
         {
+            String combineLeftField = PropertiesUtils.getProperty(configProps, "marc.combine_records.left_field");
+            String combineRightField = PropertiesUtils.getProperty(configProps, "marc.combine_records.right_field");
             if (errors == null)
             {
-                reader = new MarcCombiningReader(reader, combineConsecutiveRecordsFields);
+                reader = new MarcCombiningReader(reader, combineConsecutiveRecordsFields, combineLeftField, combineRightField);
             }
             else
             {
                 ErrorHandler errors2 = errors;
                 errors = new ErrorHandler();
-                reader = new MarcCombiningReader(reader, errors, errors2, combineConsecutiveRecordsFields);
+                reader = new MarcCombiningReader(reader, errors, errors2, combineConsecutiveRecordsFields, combineLeftField, combineRightField);
             }
         }
         String marcIncludeIfPresent = PropertiesUtils.getProperty(configProps, "marc.include_if_present");

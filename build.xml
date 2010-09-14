@@ -191,5 +191,11 @@
              <property name="dist.path" location="${dist.dir}" />
          </ant>
     </target>
+    
+    <target name="maintest" depends="init" description="Run indextest test suite from top-level directory">
+         <ant antfile="${site.dir}/build.xml" target="maintest" inheritAll="false" >
+             <property name="dist.path" location="${dist.dir}" />
+         </ant>
+    </target>
 
 </project>
