@@ -3,16 +3,15 @@ package org.solrmarc.marcoverride;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.IllegalAddException;
 import org.marc4j.marc.VariableField;
-import org.marc4j.marc.impl.RecordImpl;
 import org.marc4j.marc.impl.Verifier;
 
 /**
  * 
  * @author Robert Haschart
- * @version $Id: UVARecordImpl.java 19 2008-06-20 14:58:26Z wayne.graham $
+ * @version $Id: UVARecordImpl.java 1240 2010-09-03 20:55:17Z rh9ec@virginia.edu $
  *
  */
-public class UVARecordImpl extends RecordImpl
+public class UVARecordImpl extends NoSortRecordImpl
 {
 
     /**

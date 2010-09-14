@@ -35,7 +35,7 @@ import bsh.*;
 /**
  * 
  * @author Robert Haschart
- * @version $Id: SolrIndexer.java 1222 2010-08-10 16:39:34Z demian.katz@villanova.edu $
+ * @version $Id: SolrIndexer.java 1249 2010-09-09 18:35:09Z rh9ec@virginia.edu $
  * 
  */
 /**
@@ -63,7 +63,7 @@ public class SolrIndexer
     private Date indexDate = null;
 
     /** list of path to look for property files in */
-    private String propertyFilePaths[];
+    protected String propertyFilePaths[];
 
     /** Error Handler used for reporting errors */
     private ErrorHandler errors;
@@ -115,13 +115,14 @@ public class SolrIndexer
      * @param propertyDirs - array of directories holding properties files
      * UNTESTED SO COMMENTED OUT FOR THE FUTURE
      */
-     /*public static SolrIndexer indexerFromProperties(Properties indexingProperties, String searchPath[]) {
+     public static SolrIndexer indexerFromProperties(Properties indexingProperties, String searchPath[]) 
+     {
         SolrIndexer indexer = new SolrIndexer();
         indexer.propertyFilePaths = searchPath;
         indexer.fillMapFromProperties(indexingProperties);
         
         return indexer;
-     }*/
+     }
 
     /**
      * Parse the properties file and load parameters into fieldMap. Also
@@ -525,7 +526,19 @@ public class SolrIndexer
             String mapName = fieldVal[3];
 
             if (indexType.equals("constant"))
-                addField(indexMap, indexField, indexParm);
+            {
+                if (indexParm.contains("|"))
+                {
+                    String parts[] = indexParm.split("[|]");
+                    Set<String> result = new LinkedHashSet<String>();
+                    result.addAll(Arrays.asList(parts));
+                    // if a zero length string appears, remove it
+                    result.remove("");
+                    addFields(indexMap, indexField, null, result);
+                }
+                else
+                    addField(indexMap, indexField, indexParm);
+            }
             else if (indexType.equals("first"))
                 addField(indexMap, indexField, getFirstFieldVal(record, mapName, indexParm));
             else if (indexType.equals("all"))
