@@ -70,11 +70,11 @@
     <!-- Analyzed Text, whitespace token separation and lower case only -->
     <!-- also stopwords so dismax doesn't look for stopwords in these fields -->
     <!-- On client side, Lucene query parser breaks things up by whitespace *before* field analysis for dismax  -->
-    <!-- so some pattern matching to remove punctuation (& :) terms to allow results from other fields when these chars are surrounded by spaces in query -->
+    <!-- so some pattern matching to remove punctuation (& : ;) terms to allow results from other fields when these chars are surrounded by spaces in query -->
     <fieldType name="text_wslc" class="solr.TextField" omitNorms="true">
       <analyzer>
         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="&amp;" replacement="and" replace="all" />
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern=":" replacement="" replace="all" />
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[:;]" replacement="" replace="all" />
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
         <filter class="schema.UnicodeNormalizationFilterFactory" version="icu4j" composed="false" remove_diacritics="true" remove_modifiers="true" fold="true" />
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
@@ -84,10 +84,10 @@
 
     <!-- single token with stopwords removed so dismax doesn't look for stopwords in these fields-->
     <!-- On client side, Lucene query parser breaks things up by whitespace *before* field analysis for dismax  -->
-    <!-- so some pattern matching to change punctuation (& :) into stopwords to allow results from other fields when these chars are surrounded by spaces in query -->
+    <!-- so some pattern matching to change punctuation (& : ;) into stopwords to allow results from other fields when these chars are surrounded by spaces in query -->
     <fieldType name="string_no_stop" class="solr.TextField" omitNorms="true">
       <analyzer>
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[&amp;:]" replacement="and" replace="all" />
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[&amp;:;]" replacement="and" replace="all" />
         <tokenizer class="solr.KeywordTokenizerFactory" />
         <filter class="schema.UnicodeNormalizationFilterFactory" version="icu4j" composed="false" remove_diacritics="true" remove_modifiers="true" fold="true" />
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
