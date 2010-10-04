@@ -92,8 +92,8 @@ public class CallNumLoppingUnitTests extends AbstractStanfordBlacklightTest {
 		assertEquals("E 8.1", CallNumUtils.removeNonLCDeweySerialVolSuffix(callnum, CallNumberType.OTHER));
 		assertEquals(callnum, CallNumUtils.removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
 		
-		// vol then year
 		callnum = "CALIF G255 .R4 NO.I-1B 1978"; // 425082
+		// vol then year
 		assertEquals("CALIF G255 .R4", CallNumUtils.removeNonLCDeweySerialVolSuffix(callnum, CallNumberType.OTHER));
 		assertEquals("CALIF G255 .R4", CallNumUtils.removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
 		
@@ -135,7 +135,7 @@ public class CallNumLoppingUnitTests extends AbstractStanfordBlacklightTest {
 	}
 
 	/**
-	 * test lopping for MFLIM call number
+	 * test lopping for ZDVD call number
 	 */
 @Test
 	public void testZDVDLopping()
@@ -151,7 +151,7 @@ public class CallNumLoppingUnitTests extends AbstractStanfordBlacklightTest {
 	}
 	
 	/**
-	 * test lopping for MFLIM call number
+	 * test lopping for xCD call number
 	 */
 @Test
 	public void testMusicRecordingLopping()
