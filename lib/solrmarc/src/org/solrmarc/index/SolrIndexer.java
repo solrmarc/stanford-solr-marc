@@ -2224,7 +2224,6 @@ public class SolrIndexer
         List<DataField> fields = record.getDataFields();
         for (DataField field : fields)
         {
-            // Get all fields starting with the 100 and ending with the 839
             // This will ignore any "code" fields and only use textual fields
             int tag = Utils.parseIntNoNFE(field.getTag(), -1);
             if ((tag >= lowerBound) && (tag < upperBound))
