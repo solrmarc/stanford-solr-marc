@@ -482,9 +482,9 @@
         <delete dir="${site.test.dir}/tmp_solrmarc_jars" deleteonexit="true" quiet="true" />
     </target>    
     
-    <target name="test-custom-coverage" depends="instrument-custom,testJar,run-instrumented-test" description="run junittest with Coberature code coverage for custom code only" />
+    <target name="test-custom-coverage" depends="instrument-custom,testJar,run-instrumented-test" description="run junittest with code coverage for custom code only" />
         
-    <target name="test-all-coverage" depends="instrument-all,testJar,run-instrumented-test" description="run junittest with Coberature code coverage for custom and core solrmarc code" />
+    <target name="test-all-coverage" depends="instrument-all,testJar,run-instrumented-test" description="run junittest with code coverage for custom and core solrmarc code" />
         
 
 
