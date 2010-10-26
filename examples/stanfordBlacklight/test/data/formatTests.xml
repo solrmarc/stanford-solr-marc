@@ -219,13 +219,13 @@
       <subfield code="a">other (instructional kit): leader/06 o</subfield>
     </datafield>
   </record>
-  <!-- leader/06 a /07 s 008/21 n - newspaper -->
+  <!-- leader/07 s 008/21 n - newspaper -->
   <record>
     <leader>01952cas  2200457Ia 45í0</leader>
     <controlfield tag="001">anewspaper</controlfield>
     <controlfield tag="008">780930m19391944nyu   n       000 v eng d</controlfield>
     <datafield tag="245" ind1="1" ind2="0">
-      <subfield code="a">newspaper: leader/06 a /07 s 008/21 n</subfield>
+      <subfield code="a">newspaper: leader/07 s 008/21 n</subfield>
     </datafield>
   </record> 
   <!-- leader/06 m 008/26 u - other -->
@@ -518,14 +518,14 @@
       <subfield code="a">format Serial Publication; leader/07 b, 006/00 s, 006/04 blank, 008/21 blank</subfield>
     </datafield>
   </record>
-  <!-- Other; leader/07 b, 006/00 s, 006/04 d, 008/21 |  -->
+  <!-- Database (Other); leader/07 b, 006/00 s, 006/04 d, 008/21 |  -->
   <record>
     <leader>01823cab a22004457a 4500</leader>
     <controlfield tag="001">a321</controlfield>
     <controlfield tag="006">s   d    h        </controlfield>
     <controlfield tag="008">961105d19961996dcuuuu|      f0    0eng d</controlfield>
     <datafield tag="245" ind1="0" ind2="0">
-      <subfield code="a">Other; leader/07 b, 006/00 s, 006/04 |, 008/21 |</subfield>
+      <subfield code="a">Database (Other); leader/07 b, 006/00 s, 006/04 |, 008/21 |</subfield>
     </datafield>
   </record>
   
@@ -581,14 +581,14 @@
     </datafield>
   </record>
   
-  <!-- Newspaper: leader/07 s 008/21 d, 006/00 s 006/04 n -->
+  <!-- Newspaper per 006/00 s 006/04 n -->
   <record>
     <leader>01068cas a2200277 a 4500</leader>
     <controlfield tag="001">a334455</controlfield>
     <controlfield tag="006">s   n    h        </controlfield>
-    <controlfield tag="008">030807c20029999nyufx d       0    0eng c</controlfield>
+    <controlfield tag="008">030807c20029999nyufx         0    0eng c</controlfield>
     <datafield tag="245" ind1="0" ind2="0">
-      <subfield code="a">Newspaper: leader/07 s 008/21 d, 006/00 s 006/04 n</subfield>
+      <subfield code="a">Newspaper: 006/00 s 006/04 n</subfield>
     </datafield>
   </record>
   

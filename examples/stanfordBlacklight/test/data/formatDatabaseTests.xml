@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+  <record>
+    <leader>01541cai a2200349Ia 4500</leader>
+    <controlfield tag="001">aone999db</controlfield>
+    <controlfield tag="006">m        d        </controlfield>
+    <controlfield tag="006">a     s     000 0 </controlfield>
+    <controlfield tag="007">cr |||||||||||</controlfield>
+    <controlfield tag="008">040727c20049999nyuuu dss     0    2eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">one 999 database (was format Other)</subfield>
+      <subfield code="b">Scopus</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ALPHANUM</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">8545966-1001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+      <subfield code="t">DATABASE</subfield>
+    </datafield>
+  </record>
+  
+  
+  <record>
+    <leader>01541cai a2200349Ia 4500</leader>
+    <controlfield tag="001">aone999Notdb</controlfield>
+    <controlfield tag="006">m        d        </controlfield>
+    <controlfield tag="006">a     s     000 0 </controlfield>
+    <controlfield tag="007">cr |||||||||||</controlfield>
+    <controlfield tag="008">100315c20109999vau---        o   vleng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">one 999 not database (was format Other)</subfield>
+      <subfield code="b">Scopus</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ALPHANUM</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">8545966-1001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>02755cgi a2200649Ka 4500</leader>
+    <controlfield tag="001">adbVideo</controlfield>
+    <controlfield tag="006">m        c        </controlfield>
+    <controlfield tag="006">suu w s     0    2</controlfield>
+    <controlfield tag="007">vz mzazuu</controlfield>
+    <controlfield tag="007">cr |||||||||||</controlfield>
+    <controlfield tag="008">100315c20109999vau---        o   vleng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">one 999 database (was format Video)</subfield>
+      <subfield code="b">Ethnographic video online - a8655611</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">8655611-2001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+      <subfield code="r">Y</subfield>
+      <subfield code="s">Y</subfield>
+      <subfield code="t">DATABASE</subfield>
+      <subfield code="u">7/22/2010</subfield>
+      <subfield code="o">.TECHSTAFF. online access wanted/ mmd20100722</subfield>
+    </datafield>
+  </record>
+  
+  
+  <record>
+    <leader>01520cjm a22003254a 4500</leader>
+    <controlfield tag="001">adbMusicRecording</controlfield>
+    <controlfield tag="003">SIRSI</controlfield>
+    <controlfield tag="006">m        h 0      </controlfield>
+    <controlfield tag="006">suu dss     0    2</controlfield>
+    <controlfield tag="007">cr*cna||||||||</controlfield>
+    <controlfield tag="008">051024m200u9999xx      s         0 eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">one 999 database (was format Music Recording)</subfield>
+      <subfield code="b">Naxos music library.</subfield>
+      <subfield code="p">Jazz - a6061688</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">6061688-1001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+      <subfield code="r">Y</subfield>
+      <subfield code="s">Y</subfield>
+      <subfield code="t">DATABASE</subfield>
+      <subfield code="u">10/25/2005</subfield>
+    </datafield>    
+  </record>
+  
+  
+  
+  <record>
+    <leader>08920cas a2200961   4500</leader>
+    <controlfield tag="001">amult999oneDb</controlfield>
+    <controlfield tag="007">cr||||</controlfield>
+    <controlfield tag="008">790219d19671999nyuuu p       0    0eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">mult 999, one database (was format Journal/Periodical)</subfield>
+      <subfield code="b">RILM abstracts of music literature. a375121</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">ML118 .R574 V.6/10 1972/76</subfield>
+      <subfield code="w">LCPER</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">36105011403149</subfield>
+      <subfield code="d">3/7/1997</subfield>
+      <subfield code="l">R-STACKS</subfield>
+      <subfield code="m">MUSIC</subfield>
+      <subfield code="r">Y</subfield>
+      <subfield code="s">Y</subfield>
+      <subfield code="t">NH-7DAY</subfield>
+      <subfield code="u">3/7/1997</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">375121-36001</subfield>
+      <subfield code="d">10/5/1998</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+      <subfield code="r">Y</subfield>
+      <subfield code="s">Y</subfield>
+      <subfield code="t">DATABASE</subfield>
+      <subfield code="u">12/8/1997</subfield>
+      <subfield code="o">.TECHSTAFF. i:ygy</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">ML118 .R574 V.21/25 1987/1991 INDEX</subfield>
+      <subfield code="w">LCPER</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">36105011403008</subfield>
+      <subfield code="d">6/3/2004</subfield>
+      <subfield code="e">5/21/2004</subfield>
+      <subfield code="l">R-STACKS</subfield>
+      <subfield code="m">MUSIC</subfield>
+      <subfield code="n">2</subfield>
+      <subfield code="q">2</subfield>
+      <subfield code="r">Y</subfield>
+      <subfield code="s">Y</subfield>
+      <subfield code="t">NH-7DAY</subfield>
+      <subfield code="u">3/7/1997</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">ML118 .R574 V.11 1977</subfield>
+      <subfield code="w">LCPER</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">36105011403016</subfield>
+      <subfield code="d">3/7/1997</subfield>
+      <subfield code="l">R-STACKS</subfield>
+      <subfield code="m">MUSIC</subfield>
+      <subfield code="r">Y</subfield>
+      <subfield code="s">Y</subfield>
+      <subfield code="t">NH-7DAY</subfield>
+      <subfield code="u">3/7/1997</subfield>
+    </datafield>  
+  </record>
+  
+  
+  <record>
+    <leader>02502cmm a22004815a 4500</leader>
+    <controlfield tag="001">atwo99oneShadowWasOther</controlfield>
+    <controlfield tag="007">cr|cn</controlfield>
+    <controlfield tag="008">970922m19uu9999xxu        e        eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">two 999 second one shadowed (was format Other)</subfield>
+      <subfield code="b">INSPEC</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">3755815-1001</subfield>
+      <subfield code="d">10/1/1998</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+      <subfield code="r">Y</subfield>
+      <subfield code="s">Y</subfield>
+      <subfield code="t">DATABASE</subfield>
+      <subfield code="u">1/5/1998</subfield>
+      <subfield code="o">.TECHSTAFF. .COMMENTS.c:gdg Level 5 folio database</subfield>
+      <subfield code="o">.TECHSTAFF. i:jy 1/18/2001</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">XX(3755815.2)</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">3755815-2001</subfield>
+      <subfield code="l">SHADOW</subfield>
+      <subfield code="m">SUL</subfield>
+      <subfield code="r">Y</subfield>
+      <subfield code="s">Y</subfield>
+      <subfield code="t">UNKNOWN</subfield>
+      <subfield code="u">12/16/2003</subfield>
+      <subfield code="z">NONTAXABLE</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>02238cji a2200421Ia 4500</leader>
+    <controlfield tag="001">aDBandMusicRecOne999</controlfield>
+    <controlfield tag="006">m        j        </controlfield>
+    <controlfield tag="006">suu|dss|||||0   |2</controlfield>
+    <controlfield tag="007">cr cna||||||||</controlfield>
+    <controlfield tag="007">sz uunnnn|||uu</controlfield>
+    <controlfield tag="008">071219c20079999vaumun  saz         eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">single 999 Music-Recording AND Database?</subfield>
+      <subfield code="b">Contemporary world music</subfield>   
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">7915569-1001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+      <subfield code="r">Y</subfield>
+      <subfield code="s">Y</subfield>
+      <subfield code="t">DATABASE</subfield>
+      <subfield code="u">4/29/2009</subfield>
+    </datafield>    
+  </record>
+
+  <record>
+    <leader>01785cai a2200421Ia 4500</leader>
+    <controlfield tag="001">aotherBecomesDB</controlfield>
+    <controlfield tag="006">m        m        </controlfield>
+    <controlfield tag="007">cr |||||||||||</controlfield>
+    <controlfield tag="008">090417c20099999vauuu d s     0    2eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">single 999 (was format Other)</subfield>
+      <subfield code="b">Music online</subfield>      
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">7916641-1001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+      <subfield code="r">Y</subfield>
+      <subfield code="s">Y</subfield>
+      <subfield code="t">DATABASE</subfield>
+      <subfield code="u">4/30/2009</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>02075cai a2200457Ia 4500</leader>
+    <controlfield tag="001">adbOther</controlfield>
+    <controlfield tag="006">m        d        </controlfield>
+    <controlfield tag="007">cr cn||||u||||</controlfield>
+    <controlfield tag="008">080404c20079999enkzr w s     0    2eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">single 999 (was format Other)</subfield>
+      <subfield code="b">Oxford music online - a7626894</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ALPHANUM</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">7626894-1001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+      <subfield code="r">Y</subfield>
+      <subfield code="s">Y</subfield>
+      <subfield code="t">DATABASE</subfield>
+      <subfield code="u">6/26/2008</subfield>
+    </datafield>    
+  </record>
+  
+  <record>
+    <leader>01796cai a2200397Ka 4500</leader>
+    <controlfield tag="001">another</controlfield>
+    <controlfield tag="006">m        m        </controlfield>
+    <controlfield tag="006">jopnn           n </controlfield>
+    <controlfield tag="007">cr cna||||||||</controlfield>
+    <controlfield tag="008">091019c20099999enk x wss     0   a2eng d</controlfield>    
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">single 999 (was format Other)</subfield>
+      <subfield code="b">Ballad operas online - a8379484</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">8379484-1001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+      <subfield code="r">Y</subfield>
+      <subfield code="s">Y</subfield>
+      <subfield code="t">DATABASE</subfield>
+      <subfield code="u">11/4/2009</subfield>
+    </datafield>
+  </record>
+
+  <record>
+    <leader>01796cai a2200397Ka 4500</leader>
+    <controlfield tag="001">a6xxv</controlfield>
+    <controlfield tag="006">m        m        </controlfield>
+    <controlfield tag="006">jopnn           n </controlfield>
+    <controlfield tag="007">cr cna||||||||</controlfield>
+    <controlfield tag="008">091019c20099999enk x wss     0   a2eng d</controlfield>    
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">6xx subfield v "databases"</subfield>
+    </datafield>
+    <datafield tag="651" ind1=" " ind2="0">
+      <subfield code="a">Great Britain</subfield>
+      <subfield code="x">Imprints</subfield>
+      <subfield code="v">Databases.</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">8379484-1001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01796cai a2200397Ka 4500</leader>
+    <controlfield tag="001">a6xxx</controlfield>
+    <controlfield tag="006">m        m        </controlfield>
+    <controlfield tag="006">jopnn           n </controlfield>
+    <controlfield tag="007">cr cna||||||||</controlfield>
+    <controlfield tag="008">091019c20099999enk x wss     0   a2eng d</controlfield>    
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">6xx subfield x "databases"</subfield>
+    </datafield>
+    <datafield tag="651" ind1=" " ind2="0">
+      <subfield code="a">Great Britain</subfield>
+      <subfield code="x">Imprints</subfield>
+      <subfield code="x">Databases.</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">8379484-1001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+    </datafield>
+  </record>
+
+<!-- leader/07 and 008/21 -->
+
+  <record>
+    <leader>01796cai a2200397Ka 4500</leader>
+    <controlfield tag="001">aldr07i_008-21d</controlfield>
+    <controlfield tag="008">780930m19391944nyu   d       000 v eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">leader/07 i and 008 byte 21 d - database</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">8379484-1001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01796cas a2200397Ka 4500</leader>
+    <controlfield tag="001">aldr07s_008-21d</controlfield>
+    <controlfield tag="008">780930m19391944nyu   d       000 v eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">leader/07 s and 008 byte 21 d - database</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">8379484-1001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01796cas a2200397Ka 4500</leader>
+    <controlfield tag="001">aldr07s_008-21f</controlfield>
+    <controlfield tag="008">780930m19391944nyu   f       000 v eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">leader/07 s and 008 byte 21 f - NOT database</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">8379484-1001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01796cai a2200397Ka 4500</leader>
+    <controlfield tag="001">aldr07i_008-21c</controlfield>
+    <controlfield tag="008">780930m19391944nyu   c       000 v eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">leader/07 i and 008 byte 21 c - NOT database</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">8379484-1001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01796cab a2200397Ka 4500</leader>
+    <controlfield tag="001">aldr07b_008-21d</controlfield>
+    <controlfield tag="008">780930m19391944nyu   d       000 v eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">leader/07 b and 008 byte 21 d and  - NOT database</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">8379484-1001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+    </datafield>
+  </record>
+
+<!-- 006/00 and 006/04 -->
+
+  <record>
+    <leader>01796cai a2200397Ka 4500</leader>
+    <controlfield tag="001">a006-00s-04d</controlfield>
+    <controlfield tag="006">s   d    m        </controlfield>
+    <controlfield tag="008">091019c20099999enk x wss     0   a2eng d</controlfield>    
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">006/00 s and 006/04 d - database</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">8379484-1001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01796cai a2200397Ka 4500</leader>
+    <controlfield tag="001">a006-00s-04blank</controlfield>
+    <controlfield tag="006">s        m        </controlfield>
+    <controlfield tag="008">091019c20099999enk x wss     0   a2eng d</controlfield>    
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">006/00 s and 006/04 blank - NOT database</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">8379484-1001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+    </datafield>
+  </record>
+  
+  
+  <record>
+    <leader>01796cai a2200397Ka 4500</leader>
+    <controlfield tag="001">a006-00m-04d</controlfield>
+    <controlfield tag="006">m   d    m        </controlfield>
+    <controlfield tag="008">091019c20099999enk x wss     0   a2eng d</controlfield>    
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">006/00 m and 006/04 d - NOT database</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="c">1</subfield>
+      <subfield code="i">8379484-1001</subfield>
+      <subfield code="l">INTERNET</subfield>
+      <subfield code="m">SUL</subfield>
+    </datafield>
+  </record>  
+  
+</collection>
