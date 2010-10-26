@@ -1,30 +1,23 @@
 package edu.stanford;
 
 import java.io.File;
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
 import edu.stanford.enumValues.Format;
 
 /**
- * junit4 tests for Stanford University format fields for blacklight index
+ * junit4 tests for Stanford University format field for blacklight index
  * @author Naomi Dushay
  */
 public class FormatDatabaseTests extends AbstractStanfordBlacklightTest {
-
 	
 	String testFilePath = testDataParentPath + File.separator + "formatDatabaseTests.mrc";
-	String displayFldName = "format";
 	String facetFldName = "format";
 
 @Before
 	public final void setup() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		mappingTestInit();
 	}

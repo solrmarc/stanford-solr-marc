@@ -15,6 +15,7 @@ import org.junit.runners.Suite;
         CallNumLoppingUnitTests.class,
         CallNumTopFacetTests.class,
         CallNumUtilsLoppingUnitTests.class,
+        DatabaseAZSubjectTests.class,
         DiacriticTests.class,
         FormatTests.class,
         FormatDatabaseTests.class,
