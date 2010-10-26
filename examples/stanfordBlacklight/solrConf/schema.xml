@@ -94,9 +94,9 @@
     <fieldType name="callnum_ws" class="solr.TextField" omitNorms="true">
       <analyzer type="index">
         <!-- LC: no space between class letters and digits; normalize to " ." before first cutter, no leading space -->
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^ *([A-Z]{1,3}) ?(\d{1,4}(\.\d+)?) ?\.?([A-Z]\d+)" replacement="$1$2 .$4"/>  
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^ *([A-Za-z]{1,3}) ?(\d{1,4}(\.\d+)?) ?\.?([A-Za-z]\d+)" replacement="$1$2 .$4"/>  
         <!-- LC: add space between first cutter letter and its digits to allow matching on first cutter letter only -->
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([A-Z]{1,3}\d{1,4}(\.\d+)? \.([A-Z]))(\d+)" replacement="$1 $4"/>  
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([A-Za-z]{1,3}\d{1,4}(\.\d+)? \.([A-Za-z]))(\d+)" replacement="$1 $4"/>  
         <!-- prepend yyyy to string so searches can be left anchored -->
         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^ *([^ ]{1})" replacement="yyyy$1"/>  
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
@@ -105,11 +105,11 @@
       <!-- Note that the query string could be a partial call number, so we can't combine all patterns -->
       <analyzer type="query">
         <!-- LC: no space between class letters and digits, no leading space -->
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^ *([A-Z]{1,3}) *(\d{1,4})" replacement="$1$2" />  
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^ *([A-Za-z]{1,3}) *(\d{1,4})" replacement="$1$2" />  
         <!-- LC: normalize to " ." before first cutter or first letter of cutter (could be preceded by " ." "." " " or nothing) -->
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([A-Z]{1,3}\d{1,4}(\.\d+)?) *\.?([A-Z](\d+)?)" replacement="$1 .$3" />  
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([A-Za-z]{1,3}\d{1,4}(\.\d+)?) *\.?([A-Za-z](\d+)?)" replacement="$1 .$3" />  
         <!-- LC: add space between first cutter letter and its digits to allow matching on first cutter letter only -->
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([A-Z]{1,3}\d{1,4}(\.\d+)? \.([A-Z]))([^ ])" replacement="$1 $4"/>  
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([A-Za-z]{1,3}\d{1,4}(\.\d+)? \.([A-Za-z]))([^ ])" replacement="$1 $4"/>  
         <!-- prepend yyyy to string so searches can be left anchored -->
         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^ *([^ ]{1})" replacement="yyyy$1"/>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
