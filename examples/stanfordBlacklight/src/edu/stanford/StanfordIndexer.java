@@ -292,6 +292,21 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		
 	}
 
+	/**
+	 * given that there is a Format.DATABASE_A_Z assigned to the record,
+	 *  look in the 099a for subject codes
+	 * @param record - marc4j Record object
+	 * @return Set of strings containing ISBN numbers
+	 */
+	public Set<String> getDbAZSubjects(final Record record) 
+	{
+		Set<String> subjectsSet = new HashSet<String>();
+		if (formats.contains(Format.DATABASE_A_Z.toString())) {
+			subjectsSet = getFieldList(record, "099a");
+		}
+		return subjectsSet;
+	}
+
 // Format Methods  --------------- Begin ------------------------ Format Methods
 
 // Standard Number Methods --------- Begin ------------- Standard Number Methods

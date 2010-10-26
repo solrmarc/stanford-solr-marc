@@ -146,6 +146,7 @@
 
     <!-- Format Field: facet and display -->
     <field name="format" type="string" indexed="true" stored="true" multiValued="true" />
+    <field name="dbAZsubjects_facet" type="string" indexed="true" stored="false" multiValued="true" />
 
     <!-- Language Field: facet and display -->
     <field name="language" type="string" indexed="true" stored="true" multiValued="true" />

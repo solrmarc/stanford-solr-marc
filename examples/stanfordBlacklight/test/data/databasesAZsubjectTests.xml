@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+    <record>
+        <leader>01541cai a2200349Ia 4500</leader>
+        <controlfield tag="001">a2diffsubs</controlfield>
+        <controlfield tag="008">040727c20049999nyuuu dss     0    2eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">database 999t with 099s mapping to different subjects</subfield>
+        </datafield>
+        <datafield tag="099" ind1=" " ind2=" ">
+            <subfield code="a">AP</subfield>
+        </datafield>
+        <datafield tag="099" ind1=" " ind2=" ">
+            <subfield code="a">Q</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+            <subfield code="t">DATABASE</subfield>
+        </datafield>
+    </record>
+    
+    <record>
+        <leader>01541cai a2200349Ia 4500</leader>
+        <controlfield tag="001">aincorrectCode</controlfield>
+        <controlfield tag="008">040727c20049999nyuuu dss     0    2eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">database 999t with 099 with unmapped value</subfield>
+        </datafield>
+        <datafield tag="099" ind1=" " ind2=" ">
+            <subfield code="a">ZZ</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+            <subfield code="t">DATABASE</subfield>
+        </datafield>
+    </record>
+    
+    <record>
+        <leader>01541cai a2200349Ia 4500</leader>
+        <controlfield tag="001">agoodAndBadCode</controlfield>
+        <controlfield tag="008">040727c20049999nyuuu dss     0    2eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">database 999t with one mapped and one unmapped 099 value</subfield>
+        </datafield>
+        <datafield tag="099" ind1=" " ind2=" ">
+            <subfield code="a">XB</subfield>
+        </datafield>
+        <datafield tag="099" ind1=" " ind2=" ">
+            <subfield code="a">ZZ</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+            <subfield code="t">DATABASE</subfield>
+        </datafield>
+    </record>
+    
+    <record>
+        <leader>01541cai a2200349Ia 4500</leader>
+        <controlfield tag="001">ano099</controlfield>
+        <controlfield tag="008">040727c20049999nyuuu dss     0    2eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">database 999t with no 099</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+            <subfield code="t">DATABASE</subfield>
+        </datafield>
+    </record>
+    
+    <record>
+        <leader>01541cai a2200349Ia 4500</leader>
+        <controlfield tag="001">a099wrongSub</controlfield>
+        <controlfield tag="008">040727c20049999nyuuu dss     0    2eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">database 999t with 099 but wrong subfield</subfield>
+        </datafield>
+        <datafield tag="099" ind1=" " ind2=" ">
+            <subfield code="b">Q</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+            <subfield code="t">DATABASE</subfield>
+        </datafield>
+    </record>
+    
+    <record>
+        <leader>01541cai a2200349Ia 4500</leader>
+        <controlfield tag="001">aotherdbW099</controlfield>
+        <controlfield tag="008">040727c20049999nyuuu dss     0    2eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">database NOT from 999t with 099a</subfield>
+        </datafield>
+        <datafield tag="099" ind1=" " ind2=" ">
+            <subfield code="a">Q</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">1</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+        </datafield>
+    </record>
+    
+</collection>    
