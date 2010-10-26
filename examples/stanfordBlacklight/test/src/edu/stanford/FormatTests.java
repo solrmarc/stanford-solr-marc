@@ -1,6 +1,6 @@
 package edu.stanford;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -11,11 +11,10 @@ import org.junit.*;
 
 import edu.stanford.enumValues.Format;
 
-import static org.junit.Assert.*;
-
 
 /**
- * junit4 tests for Stanford University format fields for blacklight index
+ * junit4 tests for Stanford University format fields 
+ * Database formats are tested separately in FormatDatabaseTests
  * @author Naomi Dushay
  */
 public class FormatTests extends AbstractStanfordBlacklightTest {
@@ -24,32 +23,22 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 	String displayFldName = "format";
 	String facetFldName = "format";
 
+@Before
+	public final void setup() 
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+		createIxInitVars(testDataFname);
+		mappingTestInit();
+	}
+	
 @Test
 	public final void testFormatFieldProperties() 
 		throws ParserConfigurationException, IOException, SAXException
 	{
-        createIxInitVars(testDataFname);
         assertStringFieldProperties(facetFldName);
         assertFieldIndexed(facetFldName);
         assertFieldStored(facetFldName);
 		assertFieldMultiValued(facetFldName);
-		
-		// are values as expected?
-		assertEquals("format string incorrect: ", "Book", Format.BOOK.toString());
-		assertEquals("format string incorrect: ", "Computer File", Format.COMPUTER_FILE.toString());
-		assertEquals("format string incorrect: ", "Conference Proceedings", Format.CONFERENCE_PROCEEDINGS.toString());
-	    assertEquals("format string incorrect: ", "Image", Format.IMAGE.toString());
-		assertEquals("format string incorrect: ", "Journal/Periodical", Format.JOURNAL_PERIODICAL.toString());
-		assertEquals("format string incorrect: ", "Manuscript/Archive", Format.MANUSCRIPT_ARCHIVE.toString());
-	    assertEquals("format string incorrect: ", "Microformat", Format.MICROFORMAT.toString());
-		assertEquals("format string incorrect: ", "Map/Globe", Format.MAP_GLOBE.toString());
-		assertEquals("format string incorrect: ", "Music - Recording", Format.MUSIC_RECORDING.toString());
-		assertEquals("format string incorrect: ", "Music - Score", Format.MUSIC_SCORE.toString());
-	    assertEquals("format string incorrect: ", "Newspaper", Format.NEWSPAPER.toString());
-		assertEquals("format string incorrect: ", "Other", Format.OTHER.toString());
-		assertEquals("format string incorrect: ", "Sound Recording", Format.SOUND_RECORDING.toString());
-	    assertEquals("format string incorrect: ", "Thesis", Format.THESIS.toString());
-	    assertEquals("format string incorrect: ", "Video", Format.VIDEO.toString());
 	}
 
 	/**
@@ -60,7 +49,6 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 	public final void testBookFormat() 
 			throws IOException, ParserConfigurationException, SAXException 
 	{
-        createIxInitVars(testDataFname);
 		String fldVal = Format.BOOK.toString();
 		
 		Set<String> docIds = new HashSet<String>();
@@ -91,7 +79,6 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 	public final void testJournalFormat() 
 			throws IOException, ParserConfigurationException, SAXException 
 	{
-        createIxInitVars(testDataFname);
         String fldVal = "Journal";
 
 		Set<String> docIds = new HashSet<String>();
@@ -117,7 +104,6 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 	public final void testSerialPubFormat() 
 			throws IOException, ParserConfigurationException, SAXException 
 	{
-        createIxInitVars(testDataFname);
         String fldVal = "Serial Publication";
 		
 		Set<String> docIds = new HashSet<String>();
@@ -146,7 +132,6 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 	public final void testJournalPeriodicalFormat() 
 			throws IOException, ParserConfigurationException, SAXException 
 	{
-        createIxInitVars(testDataFname);
         String fldVal = "Journal/Periodical";
 		
 		Set<String> docIds = new HashSet<String>();
@@ -176,7 +161,6 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 	public final void testNewspaper() 
 			throws IOException, ParserConfigurationException, SAXException 
 	{
-        createIxInitVars(testDataFname);
         String fldVal = Format.NEWSPAPER.toString();
 		
 		Set<String> docIds = new HashSet<String>();
@@ -202,7 +186,6 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 	public final void testConferenceProceedings() 
 			throws ParserConfigurationException, SAXException, IOException
 	{
-        createIxInitVars(testDataFname);
         String fldVal = Format.CONFERENCE_PROCEEDINGS.toString();
 		
 		Set<String> docIds = new HashSet<String>();
@@ -222,7 +205,6 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 	public final void testOtherFormat() 
 			throws IOException, ParserConfigurationException, SAXException 
 	{
-        createIxInitVars(testDataFname);
         String fldVal = Format.OTHER.toString();
 
 		Set<String> docIds = new HashSet<String>();
@@ -230,7 +212,6 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 		docIds.add("leader06k00833w"); 
 		docIds.add("leader06g00833w"); 
 		docIds.add("leader06m00826u"); 
-		docIds.add("leader07s00600j00821d"); 
 		docIds.add("leader07b00600s00821n"); // 006/00 s /04 w
 		// instructional kit 
 		docIds.add("leader06o"); 
@@ -239,10 +220,13 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 		// web site 
 		docIds.add("leader07sNo00600821w"); 
 		docIds.add("leader07b00600s00821w"); 
-		docIds.add("321");
-		docIds.add("112233");  // leader/07 s 008/21 d, 006/00 s 006/04 d
 		docIds.add("7117119"); // leader/07 s, 006/00 m, 008/21 |
-		docIds.add("778899");  // leader/07 s 008/21 d, 006/00 j 006/04 p
+		// as of 2010-10-03 008/21 d   means database if nothing else is assigned.
+//		docIds.add("112233");  // leader/07 s 008/21 d, 006/00 s 006/04 d
+//		docIds.add("778899");  // leader/07 s 008/21 d, 006/00 j 006/04 p
+//		docIds.add("leader07s00600j00821d"); 
+//		docIds.add("321");  // 006/00 s  006/04 d
+
 		
 		assertFieldValues(displayFldName, fldVal, docIds);
 		
@@ -257,7 +241,6 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 	public final void testRemainingFormats() 
 			throws IOException, ParserConfigurationException, SAXException 
 	{
-        createIxInitVars(testDataFname);
         // map/globe
 		assertDocHasFieldValue("leader06e", displayFldName, "Map/Globe"); 
 		assertDocHasFieldValue("leader06f", displayFldName, Format.MAP_GLOBE.toString()); 
@@ -300,6 +283,7 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 
 	/**
 	 * test format population based on ALPHANUM field values from 999
+	 *  This must be LAST test against test index because it creates a new test index
 	 */
 @Test
 	public final void testFormatsFrom999()
@@ -313,5 +297,6 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 		// 999 ALPHANUM starting with MCD
 		assertDocHasFieldValue("1234673", displayFldName, Format.MUSIC_RECORDING.toString()); 
 	}
+
 
 }

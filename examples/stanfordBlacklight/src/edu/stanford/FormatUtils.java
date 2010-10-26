@@ -4,7 +4,7 @@ import java.util.*;
 
 import org.marc4j.marc.*;
 import org.solrmarc.index.SolrIndexer;
-import org.solrmarc.tools.Utils;
+import org.solrmarc.tools.*;
 
 import edu.stanford.enumValues.Format;
 
@@ -94,6 +94,21 @@ public class FormatUtils {
 			break;
 		} // end switch
 
+		
+		// is it an updating database? (leader/07 = "s" or "i" and 008/21 = "d") OR (006/00 = "s" and 006/04 = "d") 
+		// (leader/07 = "s" and 008/21 = "d" handled by getSerialFormat()
+		// (006/00 = "s" and 006/04 = "d") is handled by getSerialFormat() which calls getSerialFormat006()
+		
+		if (leaderChar07 == 'i') {
+			// check if it's a database based on 008 char 21
+			char c21 = '\u0000';
+			if (cf008 != null) {
+				c21 = ((ControlField) cf008).getData().charAt(21);
+				if (c21 == 'd')
+					result.add(Format.DATABASE_OTHER.toString());
+			}
+		}
+		
 		return result;
 	}
 	
@@ -117,35 +132,26 @@ public class FormatUtils {
 		if (cf008 != null)
 			c21 = ((ControlField) cf008).getData().charAt(21);
 		
+		// look for serial format per leader/07 and 008/21
 		if (leaderChar07 == 's')
 			result = getSerialFormatFromChar(c21);
 		if (result != null)
 			return result;
 
-		// look for serial publications in 006/00
+		// look for serial publications in 006/00 and 006/04
 		result = FormatUtils.getSerialFormat006(f006);
 		if (result != null)
 			return result;
 
-		// see if 007/00s serial publication by default
-		if (leaderChar07 == 's' && cf008 != null) 
-			switch (c21) {
-//				case 'd':
-//				case 'l':
-//				case 'm':
-//				case 'n':
-//				case 'p':
-//				case 'w':
-//					break;
-				case ' ':
-					return Format.JOURNAL_PERIODICAL.toString();
-			}
+		// default to journal if leader/07 s and 008/21 is blank
+		if (leaderChar07 == 's' && cf008 != null && c21 == ' ') 
+			return Format.JOURNAL_PERIODICAL.toString();
 		
 		return null;
 	}
 	
 	/**
-	 * Assign format if 006 starts with 's' (?) and 4th char has a desirable
+	 * Assign format if 006 starts with 's' and 4th char has a desirable
 	 *  value.
 	 * 
 	 * @param f006 - 006 as a VariableField object
@@ -153,7 +159,7 @@ public class FormatUtils {
 	 */
 	static String getSerialFormat006(VariableField f006) 
 	{
-		if (f006 != null && f006.find("^[s]")) {
+		if (f006 != null && f006.find("^s")) {
 			char c04 = ((ControlField) f006).getData().charAt(4);
 			String format = getSerialFormatFromChar(c04);
 			if (format != null)
@@ -175,8 +181,8 @@ public class FormatUtils {
 	private static String getSerialFormatFromChar(char ch) {
 		if (ch != '\u0000') 
 			switch (ch) {
-//				case 'd': // updating database (ignore)
-//					break;
+				case 'd': // updating database 
+					return Format.DATABASE_OTHER.toString();
 //				case 'l': // updating looseleaf (ignore)
 //					break;
 				case 'm': // monographic series
@@ -192,7 +198,7 @@ public class FormatUtils {
 	}
 	
 	/**
-	 * @param record
+	 * @param record - marc4j record object
 	 * @return true if there is a 245h that contains the string "microform", 
 	 *  false otherwise
 	 */
@@ -206,16 +212,30 @@ public class FormatUtils {
 	
 	/**
 	 * thesis is determined by the presence of a 502 field.
-	 * @param record
+	 * @param record - marc4j record object
 	 * @return true if there is a 502 field, false otherwise
 	 */
 	static boolean isThesis(Record record) {
-//		Set<String> dissNote = SolrIndexer.getSubfieldDataAsSet(record, "502", "a", " ");
-//		if (!dissNote.isEmpty() || dissNote.size() != 0)
         if (record.getVariableFields("502").isEmpty())
 			return false;
 		else
 			return true;
 	}
 	
+	
+	/**
+	 * it's a database if 6xx |v or |x contains "databases."
+	 * @param record - marc4j record object
+	 * @return true if there is a  6xx |v or |x starts with "database", false otherwise
+	 */
+	static boolean isDatabasePer6xxSubvOrx(Record record) {
+		List<DataField> flds = MarcUtils.getDataFieldsInRange(record, "600", "699");
+		List<String> subfldStrings = MarcUtils.getSubfieldStrings(flds, "v");
+		subfldStrings.addAll(MarcUtils.getSubfieldStrings(flds, "x"));
+		for (String value : subfldStrings ) {
+			if (value.toLowerCase().startsWith("database"))
+				return true;
+		}
+		return false;
+	}
 }
