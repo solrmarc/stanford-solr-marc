@@ -509,6 +509,32 @@
             <subfield code="o">.TECHSTAFF. tf:CPM 05/99 batch</subfield>
         </datafield>
     </record>    
+<!-- ALPHANUM MFICHE -->
+    <record>
+        <leader>01879cam a2200409 i 4500</leader>
+        <controlfield tag="001">amfiche</controlfield>
+        <controlfield tag="007">he bmu|||buca</controlfield>
+        <controlfield tag="008">101015q20092010fr a    bbm   000 0 fre c</controlfield>        
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">MFICHE callnum</subfield>
+            <subfield code="b">https://jirasul.stanford.edu/jira/browse/SW-378</subfield>
+            <subfield code="c">ckey 8729402</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">MFICHE 3239</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">8729402-1001</subfield>
+            <subfield code="k">INPROCESS</subfield>
+            <subfield code="l">MEDIA-MTXT</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NH-MICR</subfield>
+            <subfield code="u">10/6/2010</subfield>
+        </datafield>
+    </record>
+    
 <!-- ALPHANUM MCD -->
     <record>
         <leader>01669nam a2200289ua 4500</leader>

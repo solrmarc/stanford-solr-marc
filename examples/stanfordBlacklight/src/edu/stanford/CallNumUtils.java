@@ -38,7 +38,7 @@ public class CallNumUtils {
 	private static final Pattern VOL_LOOSE_PATTERN = Pattern.compile(PUNCT_PREFIX + NS_PREFIX + VOL_LETTERS + "\\.? ?" + VOL_NUMBERS_LOOSER, Pattern.CASE_INSENSITIVE);
 	private static final Pattern VOL_LETTERS_PATTERN = Pattern.compile(PUNCT_PREFIX + NS_PREFIX + VOL_LETTERS + "[\\/\\. ]" + VOL_NUM_AS_LETTERS , Pattern.CASE_INSENSITIVE);
 
-	private static final String ADDL_VOL_REGEX = "[\\:\\/]?(box|carton|fig|flat box|grade|half box|half carton|index|large folder|large map folder|map folder|mfilm|os box|os folder|pl|reel|sheet|small folder|small map folder|suppl|tube|series)";
+	private static final String ADDL_VOL_REGEX = "[\\:\\/]?(box|carton|fig|flat box|grade|half box|half carton|index|large folder|large map folder|map folder|mfilm|mfiche|os box|os folder|pl|reel|sheet|small folder|small map folder|suppl|tube|series)";
 	private static final Pattern ADDL_VOL_PATTERN = Pattern.compile(ADDL_VOL_REGEX + ".*", Pattern.CASE_INSENSITIVE);
 
 	private static final String FOUR_DIGIT_YEAR_REGEX = "(20|19|18|17|16|15|14)\\d{2}";
@@ -255,7 +255,7 @@ public class CallNumUtils {
 	}
 	
 	/** regular expression for beginning of call numbers that shouldn't be lopped */
-	private static final String DO_NOT_LOP_START_REGEX = "^([A-Z]DVD \\d|[A-Z]CD \\d|MFILM|V\\.)";
+	private static final String DO_NOT_LOP_START_REGEX = "^([A-Z]DVD \\d|[A-Z]CD \\d|MFILM|MFICHE|V\\.)";
 	private static final Pattern DO_NOT_LOP_START_PATTERN = Pattern.compile(DO_NOT_LOP_START_REGEX);
 	
 	/**
@@ -722,7 +722,7 @@ public class CallNumUtils {
 				commonPrefix.endsWith("(") || commonPrefix.endsWith("/"))
 			commonPrefix = commonPrefix.substring(0, commonPrefix.length() - 1).trim();
 
-		String tooShortRegex = "^(mcd|mdvd|zdvd|mfilm)$";
+		String tooShortRegex = "^(mcd|mdvd|zdvd|mfilm|mfiche)$";
 		Pattern tooShortPattern = Pattern.compile(tooShortRegex, Pattern.CASE_INSENSITIVE);
 		matcher = tooShortPattern.matcher(commonPrefix);
 		boolean tooShort = false;
