@@ -294,9 +294,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/**
 	 * given that there is a Format.DATABASE_A_Z assigned to the record,
-	 *  look in the 099a for subject codes
+	 *  look in the 099a for subject codes.  Some subject codes are mapped
+	 *  to multiple values -- for these we must assign a second code value
 	 * @param record - marc4j Record object
-	 * @return Set of strings containing ISBN numbers
+	 * @return Set of strings database A-Z subject codes from 099a
 	 */
 	public Set<String> getDbAZSubjects(final Record record) 
 	{
@@ -304,6 +305,36 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (formats.contains(Format.DATABASE_A_Z.toString())) {
 			subjectsSet = getFieldList(record, "099a");
 		}
+		// add second value for those codes mapping to two values
+		if (subjectsSet.contains("BP"))
+			subjectsSet.add("BP2");
+		if (subjectsSet.contains("BQ"))
+			subjectsSet.add("BQ2");
+		
+		if (subjectsSet.contains("GF"))
+			subjectsSet.add("GF2");
+
+		if (subjectsSet.contains("JK"))
+			subjectsSet.add("JK2");
+		if (subjectsSet.contains("JX"))
+			subjectsSet.add("JX2");
+
+		if (subjectsSet.contains("KJV"))
+			subjectsSet.add("KJV2");
+		if (subjectsSet.contains("KJW"))
+			subjectsSet.add("KJW2");
+		if (subjectsSet.contains("KK"))
+			subjectsSet.add("KK2");
+		if (subjectsSet.contains("KKA"))
+			subjectsSet.add("KKA2");
+		if (subjectsSet.contains("KKB"))
+			subjectsSet.add("KKB2");
+		if (subjectsSet.contains("KKC"))
+			subjectsSet.add("KKC2");
+
+		if (subjectsSet.contains("PA"))
+			subjectsSet.add("PA2");
+				
 		return subjectsSet;
 	}
 

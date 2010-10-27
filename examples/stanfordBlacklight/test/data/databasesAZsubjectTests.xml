@@ -128,4 +128,37 @@
         </datafield>
     </record>
     
+    <record>
+        <leader>01744cai a2200373La 4500</leader>
+        <controlfield tag="001">a6859025</controlfield>
+        <controlfield tag="003">SIRSI</controlfield>
+        <controlfield tag="006">m d </controlfield>
+        <controlfield tag="007">cr cn|---uuuuu</controlfield>
+        <controlfield tag="008">030701c200u9999dcuuu dss 000 02eng d</controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">CQ Congress collection</subfield>
+            <subfield code="h">[electronic resource].</subfield>
+        </datafield>
+        <datafield tag="099" ind1=" " ind2=" ">
+            <subfield code="a">JK</subfield>
+        </datafield>
+        <datafield tag="099" ind1=" " ind2=" ">
+            <subfield code="a">XM</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">6859025-2001</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">SUL</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">DATABASE</subfield>
+            <subfield code="u">8/3/2007</subfield>
+            <subfield code="o">.TECHSTAFF. online subscr. wanted/ mmd20070803</subfield>
+        </datafield>
+    </record>
+    
+    
 </collection>    
