@@ -15,6 +15,10 @@ public class FormatDatabaseTests extends AbstractStanfordBlacklightTest {
 	
 	String testFilePath = testDataParentPath + File.separator + "formatDatabaseTests.mrc";
 	String facetFldName = "format";
+	String dbAZval = Format.DATABASE_A_Z.toString();
+	String dbOtherVal = Format.DATABASE_OTHER.toString();
+	String dbAllVal = Format.DATABASE_ALL.toString();
+	String otherVal = Format.OTHER.toString();
 
 @Before
 	public final void setup() 
@@ -29,35 +33,35 @@ public class FormatDatabaseTests extends AbstractStanfordBlacklightTest {
 	public final void testDatabaseAZ()
 	{
 		// when it has no other format (would have been "Other"), then Database is the only value
-		solrFldMapTest.assertSolrFldValue(testFilePath, "one999db", facetFldName, Format.DATABASE_A_Z.toString());
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "one999db", facetFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "one999db", facetFldName, dbAZval);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "one999db", facetFldName, otherVal);
 		
-		solrFldMapTest.assertSolrFldValue(testFilePath, "one999Notdb", facetFldName, Format.OTHER.toString());
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "one999Notdb", facetFldName, Format.DATABASE_A_Z.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "one999Notdb", facetFldName, otherVal);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "one999Notdb", facetFldName, dbAZval);
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "dbVideo", facetFldName, Format.DATABASE_A_Z.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "dbVideo", facetFldName, dbAZval);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "dbVideo", facetFldName, Format.VIDEO.toString()); 
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "dbMusicRecording", facetFldName, Format.DATABASE_A_Z.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "dbMusicRecording", facetFldName, dbAZval);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "dbMusicRecording", facetFldName, Format.MUSIC_RECORDING.toString());
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "mult999oneDb", facetFldName, Format.DATABASE_A_Z.toString());  
+		solrFldMapTest.assertSolrFldValue(testFilePath, "mult999oneDb", facetFldName, dbAZval);  
 		solrFldMapTest.assertSolrFldValue(testFilePath, "mult999oneDb", facetFldName, Format.JOURNAL_PERIODICAL.toString());
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "two99oneShadowWasOther", facetFldName, Format.DATABASE_A_Z.toString());
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "two99oneShadowWasOther", facetFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "two99oneShadowWasOther", facetFldName, dbAZval);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "two99oneShadowWasOther", facetFldName, otherVal);
 		
-		solrFldMapTest.assertSolrFldValue(testFilePath, "DBandMusicRecOne999", facetFldName, Format.DATABASE_A_Z.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "DBandMusicRecOne999", facetFldName, dbAZval);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "DBandMusicRecOne999", facetFldName, Format.MUSIC_RECORDING.toString());
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "otherBecomesDB", facetFldName, Format.DATABASE_A_Z.toString());
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "otherBecomesDB", facetFldName, Format.OTHER.toString()); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "otherBecomesDB", facetFldName, dbAZval);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "otherBecomesDB", facetFldName, otherVal); 
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "dbOther", facetFldName, Format.DATABASE_A_Z.toString());
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "dbOther", facetFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "dbOther", facetFldName, dbAZval);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "dbOther", facetFldName, otherVal);
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "nother", facetFldName, Format.DATABASE_A_Z.toString());
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "nother", facetFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "nother", facetFldName, dbAZval);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "nother", facetFldName, otherVal);
 		
 	}	
 
@@ -68,32 +72,32 @@ public class FormatDatabaseTests extends AbstractStanfordBlacklightTest {
 @Test
 	public final void testDatabaseOther()
 	{
-		solrFldMapTest.assertSolrFldValue(testFilePath, "6xxv", facetFldName, Format.DATABASE_OTHER.toString());
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "6xxv", facetFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "6xxv", facetFldName, dbOtherVal);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "6xxv", facetFldName, otherVal);
 		
-		solrFldMapTest.assertSolrFldValue(testFilePath, "6xxx", facetFldName, Format.DATABASE_OTHER.toString());
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "6xxx", facetFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "6xxx", facetFldName, dbOtherVal);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "6xxx", facetFldName, otherVal);
 		
 		// record is a serial, and type is "updating database" (leader/07 = "s" or "i" and 008/21 = "d") OR (006/00 = "s" and 006/04 = "d")
 		
 		// leader/07 "i" and 008/21 "d"
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ldr07i_008-21d", facetFldName, Format.DATABASE_OTHER.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ldr07i_008-21d", facetFldName, dbOtherVal);
 		// leader/07 "s" and 008/21 "d"
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ldr07s_008-21d", facetFldName, Format.DATABASE_OTHER.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ldr07s_008-21d", facetFldName, dbOtherVal);
 		// leader/07 "s" and 008/21 not "d"
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "ldr07s_008-21f", facetFldName, Format.DATABASE_OTHER.toString());
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "ldr07s_008-21f", facetFldName, dbOtherVal);
 		// leader/07 "i" and 008/21 not "d"
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "ldr07i_008-21c", facetFldName, Format.DATABASE_OTHER.toString());
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "ldr07i_008-21c", facetFldName, dbOtherVal);
 		// 008/21 "d" and leader/07 not "i" or "s"
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "ldr07b_008-21d", facetFldName, Format.DATABASE_OTHER.toString());
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "ldr07b_008-21d", facetFldName, dbOtherVal);
 		
 
 		// 006/00 "s" and 006/04 "d"
-		solrFldMapTest.assertSolrFldValue(testFilePath, "006-00s-04d", facetFldName, Format.DATABASE_OTHER.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "006-00s-04d", facetFldName, dbOtherVal);
 		// 006/00 "s" and 006/04 not "d"
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "006-00s-04blank", facetFldName, Format.DATABASE_OTHER.toString());
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "006-00s-04blank", facetFldName, dbOtherVal);
 		// 006/04 not "s" and 006/00 "d"
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "006-00m-04d", facetFldName, Format.DATABASE_OTHER.toString());
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "006-00m-04d", facetFldName, dbOtherVal);
 	}
 
 	/**
@@ -102,24 +106,24 @@ public class FormatDatabaseTests extends AbstractStanfordBlacklightTest {
 @Test
 	public final void testDatabaseAllIncludesAZ()
 	{
-		solrFldMapTest.assertSolrFldValue(testFilePath, "one999db", facetFldName, Format.DATABASE_ALL.toString());
-		solrFldMapTest.assertSolrFldValue(testFilePath, "dbVideo", facetFldName, Format.DATABASE_ALL.toString());
-		solrFldMapTest.assertSolrFldValue(testFilePath, "dbMusicRecording", facetFldName, Format.DATABASE_ALL.toString());
-		solrFldMapTest.assertSolrFldValue(testFilePath, "mult999oneDb", facetFldName, Format.DATABASE_ALL.toString());  
-		solrFldMapTest.assertSolrFldValue(testFilePath, "two99oneShadowWasOther", facetFldName, Format.DATABASE_ALL.toString());
-		solrFldMapTest.assertSolrFldValue(testFilePath, "DBandMusicRecOne999", facetFldName, Format.DATABASE_ALL.toString());
-		solrFldMapTest.assertSolrFldValue(testFilePath, "otherBecomesDB", facetFldName, Format.DATABASE_ALL.toString());
-		solrFldMapTest.assertSolrFldValue(testFilePath, "dbOther", facetFldName, Format.DATABASE_ALL.toString());
-		solrFldMapTest.assertSolrFldValue(testFilePath, "nother", facetFldName, Format.DATABASE_ALL.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "one999db", facetFldName, dbAllVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "dbVideo", facetFldName, dbAllVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "dbMusicRecording", facetFldName, dbAllVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "mult999oneDb", facetFldName, dbAllVal);  
+		solrFldMapTest.assertSolrFldValue(testFilePath, "two99oneShadowWasOther", facetFldName, dbAllVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "DBandMusicRecOne999", facetFldName, dbAllVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "otherBecomesDB", facetFldName, dbAllVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "dbOther", facetFldName, dbAllVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "nother", facetFldName, dbAllVal);
 		
 		
-		solrFldMapTest.assertSolrFldValue(testFilePath, "6xxv", facetFldName, Format.DATABASE_ALL.toString());
-		solrFldMapTest.assertSolrFldValue(testFilePath, "6xxx", facetFldName, Format.DATABASE_ALL.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "6xxv", facetFldName, dbAllVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "6xxx", facetFldName, dbAllVal);
 		
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ldr07i_008-21d", facetFldName, Format.DATABASE_ALL.toString());
-		solrFldMapTest.assertSolrFldValue(testFilePath, "ldr07s_008-21d", facetFldName, Format.DATABASE_ALL.toString());
-		solrFldMapTest.assertSolrFldValue(testFilePath, "006-00s-04d", facetFldName, Format.DATABASE_ALL.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ldr07i_008-21d", facetFldName, dbAllVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ldr07s_008-21d", facetFldName, dbAllVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "006-00s-04d", facetFldName, dbAllVal);
 	}	
 	
 	
-	}
+}
