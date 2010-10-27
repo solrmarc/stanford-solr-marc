@@ -20,6 +20,7 @@ import edu.stanford.enumValues.Format;
 public class FormatTests extends AbstractStanfordBlacklightTest {
 	
 	private final String testDataFname = "formatTests.mrc";
+	String testFilePath = testDataParentPath + File.separator + "formatTests.mrc";
 	String displayFldName = "format";
 	String facetFldName = "format";
 
@@ -51,23 +52,27 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 	{
 		String fldVal = Format.BOOK.toString();
 		
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("leader06a07m");
-		docIds.add("leader06t07a");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06a07m", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06a07m", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06t07a", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06t07a", displayFldName, fldVal);
 		// monographic series
-		docIds.add("leader07s00821m");
-		docIds.add("5987319");
-		docIds.add("5598989");
-		docIds.add("223344");  // 006/00 s  and 006/04 m
-		docIds.add("5666387");
-		docIds.add("666");
-
-		assertFieldValues(displayFldName, fldVal, docIds);
-
-		assertSearchResults(facetFldName, fldVal, docIds);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07s00821m", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07s00821m", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5987319", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5987319", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5598989", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5598989", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "223344", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "223344", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5666387", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5666387", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "666", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "666", displayFldName, fldVal);
 
 		// formerly believed to be monographic series 
-		assertDocHasNoFieldValue("leader07b00600s00821m", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "leader07b00600s00821m", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "leader07b00600s00821m", displayFldName, fldVal);		
 	}
 
 
@@ -80,6 +85,24 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 			throws IOException, ParserConfigurationException, SAXException 
 	{
         String fldVal = "Journal";
+
+// FIXME:  mapping tests give false positives
+        
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "335577", facetFldName, fldVal);
+
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821p", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821p", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "335577", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "335577", displayFldName, fldVal);
+
+		// LCPER in 999w - but Serial Publication		
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "460947", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "460947", displayFldName, fldVal);
+
+		// 006/00 s but 006/04 blank  leader/07 b  008/21 p
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "leader07b00600s00821p", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "leader07b00600s00821p", displayFldName, fldVal);
+
 
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("leader07sNo00600821p");
@@ -105,7 +128,35 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 			throws IOException, ParserConfigurationException, SAXException 
 	{
         String fldVal = "Serial Publication";
+
+// FIXME:  mapping tests give false positives
+
+     	// leader/07 s 008/21 blank
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06a07s", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06a07s", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "4114632", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "4114632", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "123", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "123", displayFldName, fldVal);
+		// 006/00 s /04 blank
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821m", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821m", displayFldName, fldVal);
+		// 006/00 s /04 blank
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821p", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821p", displayFldName, fldVal);
+		// even though LCPER in 999 w
+		solrFldMapTest.assertSolrFldValue(testFilePath, "460947", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "460947", displayFldName, fldVal);
+		// even though DEWEYPER in 999 w
+		solrFldMapTest.assertSolrFldValue(testFilePath, "446688", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "446688", displayFldName, fldVal);
 		
+		// leader/07s 008/21 d   006/00 s  006/04 d -- other 
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "112233", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "112233", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "112233", displayFldName, fldVal);
+
+/*
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("leader06a07s"); // leader/07 s 008/21 blank
 		docIds.add("4114632");
@@ -122,6 +173,7 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 
 		// leader/07s 008/21 d   006/00 s  006/04 d -- other 
 		assertDocHasNoFieldValue("112233", displayFldName, fldVal);
+*/		
 	}
 
 
@@ -283,19 +335,22 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 
 	/**
 	 * test format population based on ALPHANUM field values from 999
-	 *  This must be LAST test against test index because it creates a new test index
 	 */
 @Test
 	public final void testFormatsFrom999()
 			throws IOException, ParserConfigurationException, SAXException
 	{
 		// test formats assigned by strings in ALPHANUM call numbers
-		createIxInitVars("callNumberTests.mrc");
+		String testFilePath = testDataParentPath + File.separator + "callNumberTests.mrc";
 		
+		String microVal = Format.MICROFORMAT.toString();
 		// 999 ALPHANUM starting with MFLIM
-		assertDocHasFieldValue("1261173", displayFldName, Format.MICROFORMAT.toString()); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1261173", displayFldName, microVal);
+		// 999 ALPHANUM starting with MFICHE
+		solrFldMapTest.assertSolrFldValue(testFilePath, "mfiche", displayFldName, microVal);
+
 		// 999 ALPHANUM starting with MCD
-		assertDocHasFieldValue("1234673", displayFldName, Format.MUSIC_RECORDING.toString()); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1234673", displayFldName, Format.MUSIC_RECORDING.toString());
 	}
 
 

@@ -262,7 +262,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		for (Item item : itemSet) {
 			if (item.getCallnumType() == CallNumberType.OTHER) {
 				String callnum = item.getCallnum();
-				if (callnum.startsWith("MFILM"))
+				if (callnum.startsWith("MFILM") || callnum.startsWith("MFICHE"))
 					formats.add(Format.MICROFORMAT.toString());
 				else if (callnum.startsWith("MCD"))
 					formats.add(Format.MUSIC_RECORDING.toString());
