@@ -62,4 +62,21 @@ public class DatabaseAZSubjectTests extends AbstractStanfordBlacklightTest {
 		solrFldMapTest.assertNoSolrFld(testFilePath, "otherdbW099", facetFldName);
 	}
 
+	/**
+	 * test that double assigned subject codes get both their values
+	 */
+@Test
+	public final void testDoubleAssigned()
+	{
+		// XM
+		solrFldMapTest.assertSolrFldValue(testFilePath, "6859025", facetFldName, "Government Information: United States");
+
+		// JK is assigned to both American History and Political Science
+		solrFldMapTest.assertSolrFldValue(testFilePath, "6859025", facetFldName, "American History");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "6859025", facetFldName, "Political Science");
+
+		solrFldMapTest.assertSolrFldHasNumValues(testFilePath, "6859025", facetFldName, 3);
+	}
+
+
 }
