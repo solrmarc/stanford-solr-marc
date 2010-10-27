@@ -98,6 +98,16 @@ public class FormatDatabaseTests extends AbstractStanfordBlacklightTest {
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "006-00s-04blank", facetFldName, dbOtherVal);
 		// 006/04 not "s" and 006/00 "d"
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "006-00m-04d", facetFldName, dbOtherVal);
+		
+		
+		String testFilePath = testDataParentPath + File.separator + "formatTests.mrc";
+		// leader/07 s 008/21 d, 006/00 s 006/04 d
+		solrFldMapTest.assertSolrFldValue(testFilePath, "112233", facetFldName, dbOtherVal);
+		// leader/07 s 008/21 d, 006/00 j 006/04 p
+		solrFldMapTest.assertSolrFldValue(testFilePath, "778899", facetFldName, dbOtherVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07s00600j00821d", facetFldName, dbOtherVal);
+		// 006/00 s  006/04 d
+		solrFldMapTest.assertSolrFldValue(testFilePath, "321", facetFldName, dbOtherVal);
 	}
 
 	/**

@@ -1,7 +1,6 @@
 package edu.stanford;
 
 import java.io.*;
-import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -26,9 +25,7 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 
 @Before
 	public final void setup() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars(testDataFname);
 		mappingTestInit();
 	}
 	
@@ -36,6 +33,7 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 	public final void testFormatFieldProperties() 
 		throws ParserConfigurationException, IOException, SAXException
 	{
+		createIxInitVars(testDataFname);
         assertStringFieldProperties(facetFldName);
         assertFieldIndexed(facetFldName);
         assertFieldStored(facetFldName);
@@ -43,12 +41,22 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 	}
 
 	/**
-	 * Test assignment of Book format
+	 * Audio Non-Music format tests
+	 */
+@Test
+	public final void testAudioNonMusic() 
+	{
+		String fldVal = Format.SOUND_RECORDING.toString();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06i", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06i", displayFldName, fldVal);
+	}
+	
+	/**
+	 * Book format tests
 	 *   includes monographic series
 	 */
 @Test
 	public final void testBookFormat() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldVal = Format.BOOK.toString();
 		
@@ -75,62 +83,57 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "leader07b00600s00821m", displayFldName, fldVal);		
 	}
 
-
 	/**
-	 * Test assignment of Journal format
+	 * Computer File format tests
 	 */
-//no longer using Journal, as of 2008-12-02
-//@Test
-	public final void testJournalFormat() 
-			throws IOException, ParserConfigurationException, SAXException 
+@Test
+	public final void testComputerFile() 
 	{
-        String fldVal = "Journal";
-
-// FIXME:  mapping tests give false positives
-        
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "335577", facetFldName, fldVal);
-
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821p", facetFldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821p", displayFldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "335577", facetFldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "335577", displayFldName, fldVal);
-
-		// LCPER in 999w - but Serial Publication		
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "460947", facetFldName, fldVal);
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "460947", displayFldName, fldVal);
-
-		// 006/00 s but 006/04 blank  leader/07 b  008/21 p
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "leader07b00600s00821p", facetFldName, fldVal);
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "leader07b00600s00821p", displayFldName, fldVal);
-
-
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("leader07sNo00600821p");
-		docIds.add("335577");
-		
-		assertFieldValues(displayFldName, fldVal, docIds);
-
-		assertSearchResults(facetFldName, fldVal, docIds);
-
-		// LCPER in 999w - but Serial Publication
-		assertDocHasNoFieldValue("460947", displayFldName, fldVal);
-		// 006/00 s but 006/04 blank  leader/07 b  008/21 p
-		assertDocHasNoFieldValue("leader07b00600s00821p", displayFldName, fldVal);
+		String fldVal = Format.COMPUTER_FILE.toString();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826a", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826a", displayFldName, fldVal);
 	}
 
+	/**
+	 * Conference Proceedings format tests
+	 */
+@Test
+	public final void testConferenceProceedings() 
+	{
+	    String fldVal = Format.CONFERENCE_PROCEEDINGS.toString();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5666387", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5666387", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "666", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "666", displayFldName, fldVal);
+	}
 
 	/**
-	 * Test assignment of Serial Publication format
+	 * Image format tests
 	 */
-//no longer using Serial Publication, as of 2008-12-02
-//@Test
-	public final void testSerialPubFormat() 
-			throws IOException, ParserConfigurationException, SAXException 
+@Test
+	public final void testImage() 
 	{
-        String fldVal = "Serial Publication";
+		String fldVal = Format.IMAGE.toString();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833i", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833i", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833k", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833k", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833p", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833p", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833s", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833s", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833t", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833t", displayFldName, fldVal);
+	}
 
-// FIXME:  mapping tests give false positives
-
+	/**
+	 * Journal/Periodical format tests
+	 */
+@Test
+	public final void testJournalPeriodicalFormat() 
+	{
+        String fldVal = "Journal/Periodical";
+		
      	// leader/07 s 008/21 blank
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06a07s", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06a07s", displayFldName, fldVal);
@@ -150,186 +153,171 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 		// even though DEWEYPER in 999 w
 		solrFldMapTest.assertSolrFldValue(testFilePath, "446688", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "446688", displayFldName, fldVal);
-		
+
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821p", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821p", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "335577", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "335577", displayFldName, fldVal);
+        
 		// leader/07s 008/21 d   006/00 s  006/04 d -- other 
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "112233", facetFldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "112233", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "112233", displayFldName, fldVal);
-
-/*
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("leader06a07s"); // leader/07 s 008/21 blank
-		docIds.add("4114632");
-		docIds.add("123");
-		docIds.add("leader07b00600s00821m"); // 006/00 s /04 blank
-		docIds.add("leader07b00600s00821p"); // 006/00 s /04 blank 
-		docIds.add("460947");  // even though LCPER in 999 w
-		docIds.add("446688");  // even though DEWEYPER in 999 w
-		
-		
-		assertFieldValues(displayFldName, fldVal, docIds);
-		
-		assertSearchResults(facetFldName, "\"" + fldVal + "\"", docIds);
-
-		// leader/07s 008/21 d   006/00 s  006/04 d -- other 
-		assertDocHasNoFieldValue("112233", displayFldName, fldVal);
-*/		
 	}
 
-
 	/**
-	 * Test assignment of Journal/Periodical format
+	 * Manuscript/Archive format tests
 	 */
 @Test
-	public final void testJournalPeriodicalFormat() 
-			throws IOException, ParserConfigurationException, SAXException 
+	public final void testManuscriptArchive() 
 	{
-        String fldVal = "Journal/Periodical";
-		
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("leader06a07s"); // leader/07 s 008/21 blank
-		docIds.add("4114632");
-		docIds.add("123");
-		docIds.add("leader07b00600s00821m"); // 006/00 s /04 blank
-		docIds.add("leader07b00600s00821p"); // 006/00 s /04 blank 
-		docIds.add("460947");  // even though LCPER in 999 w
-		docIds.add("446688");  // even though DEWEYPER in 999 w
-		docIds.add("leader07sNo00600821p");
-		docIds.add("335577");
-		
-		assertFieldValues(displayFldName, fldVal, docIds);
-		
-		assertSearchResults(facetFldName, "\"" + fldVal + "\"", docIds);
-	
-		// leader/07s 008/21 d   006/00 s  006/04 d -- other 
-		assertDocHasNoFieldValue("112233", displayFldName, fldVal);
+		String fldVal = Format.MANUSCRIPT_ARCHIVE.toString();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06b", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06b", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06p", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06p", displayFldName, fldVal);
 	}
-
-
+	
 	/**
-	 * Test assignment of Newspaper format
+	 * Map/Globe format tests
+	 */
+@Test
+	public final void testMapGlobe() 
+	{
+		String fldVal = Format.MAP_GLOBE.toString();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06e", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06e", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06f", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06f", displayFldName, fldVal);
+	}
+	
+	/**
+	 * Microformat format tests
+	 */
+@Test
+	public final void testMicroformat() 
+	{
+		String fldVal = Format.MICROFORMAT.toString();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "245hmicroform", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "245hmicroform", displayFldName, fldVal);
+	}
+	
+	/**
+	 * Music Recording format tests
+	 */
+@Test
+	public final void testMusicRecording() 
+	{
+		String fldVal = Format.MUSIC_RECORDING.toString();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06j", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06j", displayFldName, fldVal);
+	}
+	
+	/**
+	 * Music Score format tests
+	 */
+@Test
+	public final void testMusicScore() 
+	{
+		String fldVal = Format.MUSIC_SCORE.toString();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06c", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06c", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06d", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06d", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "245hmicroform", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "245hmicroform", displayFldName, fldVal);		
+	}
+	
+	/**
+	 * Newspaper format tests
 	 */
 @Test
 	public final void testNewspaper() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
         String fldVal = Format.NEWSPAPER.toString();
 		
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("newspaper");
-		docIds.add("leader07sNo00600821n");
-		docIds.add("334455");
-		
-		assertFieldValues(displayFldName, fldVal, docIds);
-		
-		assertSearchResults(facetFldName, fldVal, docIds);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "newspaper", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "newspaper", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821n", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821n", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "334455", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "334455", displayFldName, fldVal);
 		
 		// leader/07b 006/00s 008/21n - serial publication
-		assertDocHasNoFieldValue("leader07b00600s00821n", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "leader07b00600s00821n", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "leader07b00600s00821n", displayFldName, fldVal);
 	}
 
 	/**
-	 * Test assignment of Conference Proceedings format
-	 * @throws IOException 
-	 * @throws SAXException 
-	 * @throws ParserConfigurationException 
+	 * Thesis format tests
 	 */
 @Test
-	public final void testConferenceProceedings() 
-			throws ParserConfigurationException, SAXException, IOException
+	public final void testThesis() 
 	{
-        String fldVal = Format.CONFERENCE_PROCEEDINGS.toString();
-		
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("5666387");
-		docIds.add("666");
-		
-		assertFieldValues(displayFldName, fldVal, docIds);
-		
-		assertSearchResults(facetFldName, "\"" + fldVal + "\"", docIds);
+		String fldVal = Format.THESIS.toString();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "502", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "502", displayFldName, fldVal);
+	}	
+	
+	/**
+	 * Video format tests
+	 */
+@Test
+	public final void testVideo() 
+	{
+		String fldVal = Format.VIDEO.toString();
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06g00833m", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06g00833m", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06g00833v", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06g00833v", displayFldName, fldVal);
 	}
-
 
 	/**
 	 * Test assignment of Other format
 	 */
 @Test
 	public final void testOtherFormat() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
         String fldVal = Format.OTHER.toString();
-
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("leader06t07b");
-		docIds.add("leader06k00833w"); 
-		docIds.add("leader06g00833w"); 
-		docIds.add("leader06m00826u"); 
-		docIds.add("leader07b00600s00821n"); // 006/00 s /04 w
+        
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06t07b", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06t07b", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833w", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833w", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06g00833w", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06g00833w", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826u", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826u", displayFldName, fldVal);
+		// 006/00 s /04 w
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821n", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821n", displayFldName, fldVal);
 		// instructional kit 
-		docIds.add("leader06o"); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06o", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06o", displayFldName, fldVal);
 		// object 
-		docIds.add("leader06r"); 
-		// web site 
-		docIds.add("leader07sNo00600821w"); 
-		docIds.add("leader07b00600s00821w"); 
-		docIds.add("7117119"); // leader/07 s, 006/00 m, 008/21 |
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06r", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06r", displayFldName, fldVal);
+		// web site
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821w", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821w", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821w", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821w", displayFldName, fldVal);
+		// leader/07 s, 006/00 m, 008/21 |
+		solrFldMapTest.assertSolrFldValue(testFilePath, "7117119", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "7117119", displayFldName, fldVal);
+		
 		// as of 2010-10-03 008/21 d   means database if nothing else is assigned.
-//		docIds.add("112233");  // leader/07 s 008/21 d, 006/00 s 006/04 d
-//		docIds.add("778899");  // leader/07 s 008/21 d, 006/00 j 006/04 p
-//		docIds.add("leader07s00600j00821d"); 
-//		docIds.add("321");  // 006/00 s  006/04 d
-
-		
-		assertFieldValues(displayFldName, fldVal, docIds);
-		
-		assertSearchResults(facetFldName, fldVal, docIds);
-	}
-
-
-	/**
-	 * Test population of format field (values not in individual test methods)
-	 */
-@Test
-	public final void testRemainingFormats() 
-			throws IOException, ParserConfigurationException, SAXException 
-	{
-        // map/globe
-		assertDocHasFieldValue("leader06e", displayFldName, "Map/Globe"); 
-		assertDocHasFieldValue("leader06f", displayFldName, Format.MAP_GLOBE.toString()); 
-		// image
-		String imgVal = "Image";
-		assertDocHasFieldValue("leader06k00833i", displayFldName, imgVal); 
-		assertDocHasFieldValue("leader06k00833k", displayFldName, imgVal); 
-		assertDocHasFieldValue("leader06k00833p", displayFldName, imgVal); 
-		assertDocHasFieldValue("leader06k00833s", displayFldName, imgVal); 
-		assertDocHasFieldValue("leader06k00833t", displayFldName, imgVal); 
-		// video
-		assertDocHasFieldValue("leader06g00833m", displayFldName, "Video"); 
-		assertDocHasFieldValue("leader06g00833v", displayFldName, Format.VIDEO.toString()); 
-		// audio - non-music
-		assertDocHasFieldValue("leader06i", displayFldName, "Sound Recording"); 
-		// music - audio
-		assertDocHasFieldValue("leader06j", displayFldName, "Music - Recording"); 
-		// music - score
-		assertDocHasFieldValue("leader06c", displayFldName, "Music - Score"); 
-		assertDocHasFieldValue("leader06d", displayFldName, Format.MUSIC_SCORE.toString()); 
-		assertDocHasFieldValue("245hmicroform", displayFldName, Format.MUSIC_SCORE.toString()); 
-		// manuscript/archive
-		assertDocHasFieldValue("leader06b", displayFldName, "Manuscript/Archive"); 
-		assertDocHasFieldValue("leader06p", displayFldName, Format.MANUSCRIPT_ARCHIVE.toString()); 
-		// thesis
-		assertDocHasFieldValue("502", displayFldName, "Thesis"); 
-		// computer file
-		assertDocHasFieldValue("leader06m00826a", displayFldName, "Computer File"); 
-		// microfilm
-		assertDocHasFieldValue("245hmicroform", displayFldName, "Microformat"); 
-		
-		String scoreVal = "\"" + "Music - Score" + "\"";
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("leader06c");
-		docIds.add("leader06d");
-		docIds.add("245hmicroform");
-		assertSearchResults(facetFldName, scoreVal, docIds);		
+		//   See FormatDatabaseTests
+		// leader/07 s 008/21 d, 006/00 s 006/04 d
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "112233", facetFldName, fldVal);
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "112233", displayFldName, fldVal);
+		// leader/07 s 008/21 d, 006/00 j 006/04 p
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "778899", facetFldName, fldVal);
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "778899", displayFldName, fldVal);
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07s00600j00821d", facetFldName, fldVal);
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07s00600j00821d", displayFldName, fldVal);
+		// 006/00 s  006/04 d
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "321", facetFldName, fldVal);
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "321", displayFldName, fldVal);
 	}
 
 
@@ -338,9 +326,7 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testFormatsFrom999()
-			throws IOException, ParserConfigurationException, SAXException
 	{
-		// test formats assigned by strings in ALPHANUM call numbers
 		String testFilePath = testDataParentPath + File.separator + "callNumberTests.mrc";
 		
 		String microVal = Format.MICROFORMAT.toString();
@@ -352,6 +338,5 @@ public class FormatTests extends AbstractStanfordBlacklightTest {
 		// 999 ALPHANUM starting with MCD
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1234673", displayFldName, Format.MUSIC_RECORDING.toString());
 	}
-
 
 }
