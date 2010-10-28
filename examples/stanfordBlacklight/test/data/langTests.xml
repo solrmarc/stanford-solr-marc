@@ -140,5 +140,21 @@
       <subfield code="a">lang ita: 008 mis 041k ita</subfield>
     </datafield>
   </record>
+
+
+  <record>
+    <leader>01429cas a2200313 a 4500</leader>
+    <controlfield tag="001">a041aHas3</controlfield>
+    <controlfield tag="008">910830c19909999sp ar         0    0mul d</controlfield>
+    <datafield tag="041" ind1="0" ind2=" ">
+      <subfield code="a">catfrespa</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">041a has 3 lang codes smushed together</subfield>
+      <subfield code="b">https://jirasul.stanford.edu/jira/browse/SW-364</subfield>
+      <subfield code="c">from 1970880</subfield>
+    </datafield>
+  </record>
   
+
 </collection>

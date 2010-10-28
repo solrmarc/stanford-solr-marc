@@ -183,6 +183,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/**
 	 * Get local id for the Marc record.
+	 * @param record a marc4j Record object
 	 */
 	public String getId(final Record record) {
 		return id;
@@ -205,13 +206,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		}
 	}
 
-// Id Methods  -------------------- Begin --------------------------- Id Methods
+// Id Methods  --------------------- End ---------------------------- Id Methods
 
 
 // Format Methods  --------------- Begin ------------------------ Format Methods
 
 	/**
 	 * @return Set of strings containing format values for the resource
+	 * @param record a marc4j Record object
 	 */
 	public Set<String> getFormats(final Record record) 
 	{
@@ -338,7 +340,37 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		return subjectsSet;
 	}
 
-// Format Methods  --------------- Begin ------------------------ Format Methods
+// Format Methods  ---------------- End ------------------------- Format Methods
+
+// Language Methods ---------------- Begin -------------------- Language Methods
+	
+	/**
+	 * returns the language codes from the 008, 041a and 041d fields, splitting
+	 *  out separate lang codes from 041a if they are smushed together.
+	 * @param record a marc4j Record object
+	 * @return Set of strings containing three letter language codes
+	 */
+	public Set<String> getLanguages(final Record record) 
+	{
+		Set<String> langResultSet = getFieldList(record, "008[35-37]:041d");
+
+		Set<String> lang041a = getFieldList(record, "041a");
+		for (String langCodeStr : lang041a) {
+			int len = langCodeStr.length();
+			if (len == 3)
+				langResultSet.add(langCodeStr);
+			else if (len % 3 == 0) {
+				for (int startIx = 0; startIx < len; startIx += 3) {
+					langResultSet.add(langCodeStr.substring(startIx, startIx+3));
+				}
+			}
+		}
+		
+		return langResultSet;
+	}
+
+	
+// Language Methods ----------------- End --------------------- Language Methods
 
 // Standard Number Methods --------- Begin ------------- Standard Number Methods
 
@@ -346,7 +378,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * returns the ISBN(s) from a record for external lookups (such as Google
 	 * Book Search) (rather than the potentially larger set of ISBNs for the end
 	 * user to search our index)
-	 * @param record
+	 * @param record a marc4j Record object
 	 * @return Set of strings containing ISBN numbers
 	 */
 	public Set<String> getISBNs(final Record record) 
@@ -394,7 +426,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      *  MAY be multivalued, Naomi has decreed
      * This is a custom routine because we want multiple ISSNs only if they are 
      * subfield a.
-	 * @param record
+	 * @param record a marc4j Record object
 	 * @return Set of strings containing ISSN numbers
 	 */
     public Set<String> getISSNs(final Record record)
@@ -426,7 +458,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/**
 	 * returns the OCLC numbers from a record, if they exist. Note that this
 	 * method does NOT pad with leading zeros. (Who needs 'em?)
-	 * @param record
+	 * @param record a marc4j Record object
 	 * @return Set of Strings containing OCLC numbers. There could be none.
 	 */
     public Set<String> getOCLCNums(final Record record)
@@ -478,6 +510,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      *      as noted in 2nd indicator
      * followed by
      *  2.  the 245 title, not including non-filing chars as noted in ind 2
+     *  
+	 * @param record a marc4j Record object
 	 */
 	@SuppressWarnings("unchecked")
 	public String getSortTitle(final Record record) 
@@ -505,7 +539,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/**
 	 * Gets the value strings, but skips over 655a values when Lane is one of
 	 * the locations. Also ignores 650a with value "nomesh".
-	 * @param record
+	 * @param record a marc4j Record object
      * @param fieldSpec - which marc fields / subfields to use as values
 	 * @return Set of strings containing values without Lane 655a or 650a nomesh
 	 */
@@ -524,7 +558,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * characters indicated in regular expression, PLUS trailing period if it is
 	 * preceded by its regular expression.
 	 * 
-	 * @param record
+	 * @param record a marc4j Record object
      * @param fieldSpec - which marc fields / subfields to use as values
      * @param trailingCharsRegEx a regular expression of trailing chars to be
      *   replaced (see java Pattern class).  Note that the regular expression
@@ -558,7 +592,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/**
 	 * returns the access facet values for a record. A record can have multiple
 	 * values: online, on campus and upon request are not mutually exclusive.
-	 * @param record
+	 * @param record a marc4j Record object
 	 * @return Set of Strings containing access facet values.
 	 */
 	public Set<String> getAccessMethods(final Record record) 
@@ -587,6 +621,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     /**
      * returns a set of strings containing the sfx urls in a record.  Returns
      *   empty set if none.
+	 * @param record a marc4j Record object
      */
     public Set<String> getSFXUrls(final Record record)
     {
@@ -608,6 +643,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/**
 	 * returns the URLs for the full text of a resource described by the 856u
+	 * @param record a marc4j Record object
 	 */
 	public Set<String> getFullTextUrls(final Record record) 
 	{
@@ -617,6 +653,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/**
 	 * assign fullTextUrls to be the URLs for the full text of a resource as
 	 *  described by the 856u
+	 * @param record a marc4j Record object
 	 */
 	private void setFullTextUrls(final Record record) {
 		fullTextUrls.clear();
@@ -664,7 +701,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     
 	/**
 	 * Gets 260ab but ignore s.l in 260a and s.n. in 260b
-	 * @param record
+	 * @param record a marc4j Record object
 	 * @return Set of strings containing values in 260ab, without s.l in 260a 
 	 *  and without s.n. in 260b
 	 */
@@ -680,7 +717,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      *  4 digit year
      *   four digit years < 0500 trigger an attempt to get a 4 digit date from 260c
      * Side Effects:  errors in pub date are logged 
-	 * @param record
+	 * @param record a marc4j Record object
 	 * @return String containing publication date, or null if none
 	 */
 	public String getPubDate(final Record record) 
@@ -694,7 +731,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      *   a four digit year
      *   four digit years < 0500 trigger an attempt to get a 4 digit date from 260c
      *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
-	 * @param record
+	 * @param record a marc4j Record object
 	 * @return String containing publication date, or null if none
 	 */
 	public String getPubDateSort(final Record record) {
@@ -707,7 +744,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      *  than 0500 if it is a 4 digit year.
      *   four digit years < 0500 trigger an attempt to get a 4 digit date from 260c
      *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
-	 * @param record
+	 * @param record a marc4j Record object
 	 * @return Set of Strings containing the publication date groupings
 	 *         associated with the publish date
 	 */
@@ -763,6 +800,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	
 	/**
 	 * get buildings holding a copy of this resource
+	 * @param record a marc4j Record object
 	 */
 	public Set<String> getBuildings(final Record record) {
 		return buildings;
@@ -770,6 +808,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/**
 	 * set buildings from the 999 subfield m
+	 * @param record a marc4j Record object
 	 */
 	private void setBuildings(final Record record) 
 	{
@@ -791,6 +830,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 *   4.  if no LC or Dewey call numbers, select the item with the longest
 	 *     SUDOC call number.
 	 *   5.  otherwise, select the item with the longest call number.
+	 * @param record a marc4j Record object
 	 */
 	public String getPreferredItemBarcode(final Record record)
 	{
@@ -813,6 +853,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * for search results and record view displays:
 	 * @return set of fields containing individual item information 
 	 *  (callnums, lib, location, status ...)
+	 * @param record a marc4j Record object
 	 */
 	public Set<String> getItemDisplay(final Record record) 
 	{
@@ -845,6 +886,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/**
 	 * Get our local call numbers from subfield a in 999. Does not get call
 	 * number when item or callnum should be ignored, or for online items.
+	 * @param record a marc4j Record object
 	 */
 	public Set<String> getLocalCallNums(final Record record) 
 	{
@@ -865,6 +907,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 *   for LC, the first character + description
 	 *   for Dewey, DEWEY
 	 *   for Gov Doc, GOV_DOC_FACET_VAL
+	 * @param record a marc4j Record object
 	 */
 	public Set<String> getCallNumsLevel1(final Record record) 
 	{
@@ -888,6 +931,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * by call number. It looks at our local values in the 999 and returns the
 	 * secondary level category strings (for LC, the 1-3 letters at the
 	 * beginning)
+	 * @param record a marc4j Record object
 	 */
 	public Set<String> getLCCallNumCats(final Record record) {
 		Set<String> result = new HashSet<String>();
@@ -904,6 +948,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * This is for a facet field to enable discovery by subject, as designated
 	 * by call number. It looks at our local LC values in the 999 and returns
 	 * the Strings before the Cutters in the call numbers (LC only)
+	 * @param record a marc4j Record object
 	 */
 	public Set<String> getLCCallNumsB4Cutter(final Record record) {
 		Set<String> result = new HashSet<String>();
@@ -917,6 +962,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * This is a facet field to enable discovery by subject, as designated by
 	 * call number. It looks at our local values in the 999, and returns the
 	 * broad category strings ("x00s");
+	 * @param record a marc4j Record object
 	 */
 	@SuppressWarnings("unchecked")
 	public Set<String> getDeweyCallNumBroadCats(final Record record) {
@@ -932,6 +978,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * This is for a facet field to enable discovery by subject, as designated
 	 * by call number. It looks at our local values in the 999, and returns the
 	 * secondary level category strings (for Dewey, "xx0s")
+	 * @param record a marc4j Record object
 	 */
 	public Set<String> getDeweyCallNumCats(final Record record) {
 		Set<String> result = new HashSet<String>();
@@ -946,6 +993,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * This is for a facet field to enable discovery by subject, as designated
 	 * by call number. It looks at our local Dewey values in the 999 and returns
 	 * the Strings before the Cutters in the call numbers (Dewey only)
+	 * @param record a marc4j Record object
 	 */
 	public Set<String> getDeweyCallNumsB4Cutter(final Record record) {
 		Set<String> result = new HashSet<String>();
@@ -958,6 +1006,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	
 	/**
 	 * Get type(s) of government doc based on location.
+	 * @param record a marc4j Record object
 	 */
 	public Set<String> getGovDocCats(final Record record) {
 		return govDocCats;
@@ -968,6 +1017,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 *   callnumber scheme of SUDOC
 	 *   location in 999
 	 *   presence of 086 field (use all 99s that aren't to be skipped)
+	 * @param record a marc4j Record object
 	 */
 	private void setGovDocCats(final Record record) 
 	{
@@ -987,6 +1037,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/**
 	 * Get shelfkey versions of "lopped" call numbers (call numbers without
 	 * volume info).  Can access shelfkeys in lexigraphical order for browsing
+	 * @param record a marc4j Record object
 	 */
 	public Set<String> getShelfkeys(final Record record) {
 		if (shelfkeys == null || shelfkeys.size() == 0)
@@ -997,6 +1048,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/**
 	 * Assign shelfkeys to sortable versions of "lopped" call numbers (call 
 	 * numbers without volume info)
+	 * @param record a marc4j Record object
 	 */
 	private void setShelfkeys(final Record record) 
 	{
@@ -1008,6 +1060,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * Get reverse shelfkey versions of "lopped" call numbers (call numbers
 	 * without volume info). Can access in lexigraphical order for browsing
 	 * (used to get previous callnums ...)
+	 * @param record a marc4j Record object
 	 */
 	public Set<String> getReverseShelfkeys(final Record record) 
 	{
@@ -1024,6 +1077,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/**
 	 * Get the vernacular (880) field based which corresponds to the fieldSpec
 	 * in the subfield 6 linkage, handling multiple occurrences as indicated
+	 * @param record a marc4j Record object
      * @param fieldSpec - which marc fields / subfields need to be sought in 
      *  880 fields (via linkages)
      * @param multOccurs - "first", "join" or "all" indicating how to handle
@@ -1119,6 +1173,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/**
 	 * Get the vernacular (880) field based which corresponds to the fieldSpec
 	 * in the subfield 6 linkage, handling trailing punctuation as incidated
+	 * @param record a marc4j Record object
      * @param fieldSpec - which marc fields / subfields need to be sought in 
      *  880 fields (via linkages)
      * @param trailingCharsRegEx a regular expression of trailing chars to be
@@ -1155,7 +1210,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * Removes trailing characters indicated in regular expression, PLUS
 	 * trailing period if it is preceded by its regular expression.
 	 * 
-	 * @param record
+	 * @param record a marc4j Record object
      * @param fieldSpec - which marc fields / subfields to use as values
      * @param trailingCharsRegEx a regular expression of trailing chars to be
      *   replaced (see java Pattern class).  Note that the regular expression
