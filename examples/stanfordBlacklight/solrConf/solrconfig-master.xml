@@ -96,6 +96,7 @@
           <str name="facet.field">dewey_b4cutter_facet</str>
           <str name="facet.field">gov_doc_type_facet</str>
           <str name="facet.field">format</str>
+          <str name="facet.field">dbAZsubjects_facet</str>
           <str name="facet.field">language</str>
         </lst>
         <!-- single object query to populate filter cache -->
@@ -120,6 +121,7 @@
           <str name="facet.field">gov_doc_type_facet</str>
           <str name="facet.field">era_facet</str>
           <str name="facet.field">format</str>
+          <str name="facet.field">dbAZsubjects_facet</str>
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">language</str>
           <str name="facet.field">pub_date_group_facet</str>
@@ -151,6 +153,7 @@
           <str name="facet.field">dewey_b4cutter_facet</str>
           <str name="facet.field">gov_doc_type_facet</str>
           <str name="facet.field">format</str>
+          <str name="facet.field">dbAZsubjects_facet</str>
           <str name="facet.field">language</str>
         </lst>
         <!-- single object query to populate filter cache -->
@@ -175,6 +178,7 @@
           <str name="facet.field">gov_doc_type_facet</str>
           <str name="facet.field">era_facet</str>
           <str name="facet.field">format</str>
+          <str name="facet.field">dbAZsubjects_facet</str>
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">language</str>
           <str name="facet.field">pub_date_group_facet</str>
@@ -252,9 +256,11 @@
         topic_subx_unstem_search^29
         geographic_subz_unstem_search^29
         subject_other_subvy_unstem_search^29
+        subject_all_unstem_search^29
         topic_subx_search^25           vern_topic_subx_search^25
         geographic_subz_search^25      vern_geographic_subz_search^25
         subject_other_subvy_search^25  vern_subject_other_subvy_search^25
+        subject_all_search^10          vern_subject_all_search^10
 
         pub_date_search^10
         isbn_search^2
@@ -298,9 +304,11 @@
         topic_subx_unstem_search^50
         geographic_subz_unstem_search^50
         subject_other_subvy_unstem_search^50
+        subject_all_unstem_search^50
         topic_subx_search^25           vern_topic_subx_search^25
         geographic_subz_search^25      vern_geographic_subz_search^25
         subject_other_subvy_search^25  vern_subject_other_subvy_search^25
+        subject_all_search^25          vern_subject_all_search^25
         pub_date_search^2
         physical^2                     vern_physical^2
         all_search^2
@@ -324,6 +332,7 @@
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+      <str name="facet.field">dbAZsubjects_facet</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
       <str name="facet.field">pub_date_group_facet</str>
@@ -421,6 +430,7 @@
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+      <str name="facet.field">dbAZsubjects_facet</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
       <str name="facet.field">pub_date_group_facet</str>
@@ -505,6 +515,7 @@
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+      <str name="facet.field">dbAZsubjects_facet</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
       <str name="facet.field">pub_date_group_facet</str>
@@ -566,9 +577,11 @@
         topic_subx_unstem_search^10
         geographic_subz_unstem_search^10
         subject_other_subvy_unstem_search^10
+        subject_all_unstem_search^10
         topic_subx_search              vern_topic_subx_search
         geographic_subz_search         vern_geographic_subz_search
         subject_other_subvy_search     vern_subject_other_subvy_search
+        subject_all_search             vern_subject_all_search
       </str>
       <str name="pf">
         topic_unstem_search^5000
@@ -581,9 +594,11 @@
         topic_subx_unstem_search^25
         geographic_subz_unstem_search^25
         subject_other_subvy_unstem_search^25
+        subject_all_unstem_search^25
         topic_subx_search^20           vern_topic_subx_search^20
         geographic_subz_search^20      vern_geographic_subz_search^20
         subject_other_subvy_search^20  vern_subject_other_subvy_search^20
+        subject_all_search^20          vern_subject_all_search^20
       </str>
       
       <int name="ps">3</int>
@@ -605,6 +620,74 @@
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+      <str name="facet.field">dbAZsubjects_facet</str>
+      <str name="facet.field">geographic_facet</str>
+      <str name="facet.field">language</str>
+      <str name="facet.field">pub_date_group_facet</str>
+      <str name="facet.field">topic_facet</str>
+      
+      <str name="fl">
+        score,
+        id,
+        author_corp_display,
+        author_meeting_display,
+        author_person_display,
+        author_person_full_display,
+        format,
+        isbn_display,
+        item_display,
+        lccn,
+        oclc,
+        physical,
+        pub_date,
+        title_245a_display,
+        title_245c_display,
+        title_display,
+        title_full_display,
+        title_uniform_display,
+        url_fulltext,
+        url_suppl,
+        url_sfx,
+        vern_author_corp_display,
+        vern_author_meeting_display,
+        vern_author_person_display,
+        vern_author_person_full_display,
+        vern_physical,
+        vern_title_245a_display,
+        vern_title_245c_display,
+        vern_title_display,
+        vern_title_uniform_display
+      </str>
+    </lst>
+  </requestHandler>    
+  
+  <!-- subject search request handler -->  
+  <requestHandler name="search_callnum" class="solr.SearchHandler" >
+    <lst name="defaults">
+      <str name="echoParams">explicit</str>
+      <str name="rows">20</str> 
+      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
+      <str name="defType">lucene</str>
+      <str name="df">callnum_search</str> 
+      <str name="q.op">AND</str> 
+      
+      <str name="facet">true</str>
+      <str name="facet.mincount">1</str>
+      <str name="facet.limit">30</str> 
+      <str name="facet.field">access_facet</str>
+      <str name="facet.field">author_person_facet</str>
+      <str name="facet.field">author_other_facet</str>
+      <str name="facet.field">building_facet</str>
+      <str name="facet.field">callnum_top_facet</str>
+      <str name="facet.field">lc_alpha_facet</str>
+      <str name="facet.field">lc_b4cutter_facet</str>
+      <str name="facet.field">dewey_1digit_facet</str>
+      <str name="facet.field">dewey_2digit_facet</str>
+      <str name="facet.field">dewey_b4cutter_facet</str>
+      <str name="facet.field">gov_doc_type_facet</str>
+      <str name="facet.field">era_facet</str>
+      <str name="facet.field">format</str>
+      <str name="facet.field">dbAZsubjects_facet</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
       <str name="facet.field">pub_date_group_facet</str>
@@ -695,9 +778,11 @@
         topic_subx_unstem_search^29
         geographic_subz_unstem_search^29
         subject_other_subvy_unstem_search^29
+        subject_all_unstem_search^29
         topic_subx_search^25           vern_topic_subx_search^25
         geographic_subz_search^25      vern_geographic_subz_search^25
         subject_other_subvy_search^25  vern_subject_other_subvy_search^25
+        subject_all_search^10          vern_subject_all_search^10
         
         pub_date_search^10
         isbn_search^2
@@ -741,9 +826,11 @@
         topic_subx_unstem_search^50
         geographic_subz_unstem_search^50
         subject_other_subvy_unstem_search^50
+        subject_all_unstem_search^50
         topic_subx_search^25           vern_topic_subx_search^25
         geographic_subz_search^25      vern_geographic_subz_search^25
         subject_other_subvy_search^25  vern_subject_other_subvy_search^25
+        subject_all_search^25          vern_subject_all_search^25
         pub_date_search^2
         physical^2                     vern_physical^2
         all_search^2
@@ -806,9 +893,11 @@
         topic_subx_unstem_search^10
         geographic_subz_unstem_search^10
         subject_other_subvy_unstem_search^10
+        subject_all_unstem_search^10
         topic_subx_search              vern_topic_subx_search
         geographic_subz_search         vern_geographic_subz_search
         subject_other_subvy_search     vern_subject_other_subvy_search
+        subject_all_search             vern_subject_all_search
       </str>
       <str name="pf_subject">
         topic_unstem_search^5000
@@ -821,9 +910,11 @@
         topic_subx_unstem_search^25
         geographic_subz_unstem_search^25
         subject_other_subvy_unstem_search^25
+        subject_all_unstem_search^25
         topic_subx_search^20           vern_topic_subx_search^20
         geographic_subz_search^20      vern_geographic_subz_search^20
         subject_other_subvy_search^20  vern_subject_other_subvy_search^20
+        subject_all_search^20          vern_subject_all_search^20
       </str>
       
       <str name="facet">true</str>
@@ -842,6 +933,7 @@
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+      <str name="facet.field">dbAZsubjects_facet</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
       <str name="facet.field">pub_date_group_facet</str>
@@ -970,9 +1062,11 @@
         topic_subx_unstem_search^10
         geographic_subz_unstem_search^10
         subject_other_subvy_unstem_search^10
+        subject_all_unstem_search^10
         topic_subx_search              vern_topic_subx_search
         geographic_subz_search         vern_geographic_subz_search
         subject_other_subvy_search     vern_subject_other_subvy_search
+        subject_all_search^            vern_subject_all_search
       </str>
       <str name="pf_subject">
         topic_unstem_search^5000
@@ -985,9 +1079,11 @@
         topic_subx_unstem_search^25
         geographic_subz_unstem_search^25
         subject_other_subvy_unstem_search^25
+        subject_all_unstem_search^25
         topic_subx_search^20           vern_topic_subx_search^20
         geographic_subz_search^20      vern_geographic_subz_search^20
         subject_other_subvy_search^20  vern_subject_other_subvy_search^20
+        subject_all_search^20          vern_subject_all_search^20
       </str>
 
       <!-- for user query terms in publisher text box -->
@@ -1060,6 +1156,7 @@
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+      <str name="facet.field">dbAZsubjects_facet</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
       <str name="facet.field">pub_date_group_facet</str>
@@ -1174,9 +1271,11 @@
         topic_subx_unstem_search^10
         geographic_subz_unstem_search^10
         subject_other_subvy_unstem_search^10
+        subject_all_unstem_search^10
         topic_subx_search              vern_topic_subx_search
         geographic_subz_search         vern_geographic_subz_search
         subject_other_subvy_search     vern_subject_other_subvy_search
+        subject_all_search             vern_subject_all_search
       </str>
       <str name="pf_subject">
         topic_unstem_search^5000
@@ -1189,9 +1288,11 @@
         topic_subx_unstem_search^25
         geographic_subz_unstem_search^25
         subject_other_subvy_unstem_search^25
+        subject_all_unstem_search^25
         topic_subx_search^20           vern_topic_subx_search^20
         geographic_subz_search^20      vern_geographic_subz_search^20
         subject_other_subvy_search^20  vern_subject_other_subvy_search^20
+        subject_all_search^20          vern_subject_all_search^20
       </str>
       
       <!-- for user query terms in publisher text box -->
@@ -1264,6 +1365,7 @@
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+      <str name="facet.field">dbAZsubjects_facet</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
       <str name="facet.field">pub_date_group_facet</str>
@@ -1330,6 +1432,7 @@
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+      <str name="facet.field">dbAZsubjects_facet</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
       <str name="facet.field">pub_date_group_facet</str>

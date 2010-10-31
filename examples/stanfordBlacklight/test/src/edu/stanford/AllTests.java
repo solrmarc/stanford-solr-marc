@@ -15,10 +15,14 @@ import org.junit.runners.Suite;
         CallNumLoppingUnitTests.class,
         CallNumTopFacetTests.class,
         CallNumUtilsLoppingUnitTests.class,
+/*  not yet vetted  2010-10-30		
         DatabaseAZSubjectTests.class,
+*/
         DiacriticTests.class,
         FormatTests.class,
+/*  not yet vetted  2010-10-30		
         FormatDatabaseTests.class,
+*/
         IncrementalUpdateTests.class,
         ItemDisplayCallnumLoppingTests.class,
         ItemInfoTests.class,

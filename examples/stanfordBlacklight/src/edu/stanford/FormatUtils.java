@@ -94,7 +94,7 @@ public class FormatUtils {
 			break;
 		} // end switch
 
-		
+/* not yet vetted  2010-10-30					
 		// is it an updating database? (leader/07 = "s" or "i" and 008/21 = "d") OR (006/00 = "s" and 006/04 = "d") 
 		// (leader/07 = "s" and 008/21 = "d" handled by getSerialFormat()
 		// (006/00 = "s" and 006/04 = "d") is handled by getSerialFormat() which calls getSerialFormat006()
@@ -108,6 +108,7 @@ public class FormatUtils {
 					result.add(Format.DATABASE_OTHER.toString());
 			}
 		}
+*/
 		
 		return result;
 	}
@@ -181,8 +182,10 @@ public class FormatUtils {
 	private static String getSerialFormatFromChar(char ch) {
 		if (ch != '\u0000') 
 			switch (ch) {
+/* not yet vetted  2010-10-30	
 				case 'd': // updating database 
 					return Format.DATABASE_OTHER.toString();
+*/
 //				case 'l': // updating looseleaf (ignore)
 //					break;
 				case 'm': // monographic series
