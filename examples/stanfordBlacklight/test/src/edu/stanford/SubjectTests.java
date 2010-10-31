@@ -130,14 +130,14 @@ public class SubjectTests extends AbstractStanfordBlacklightTest {
 		assertZeroResults(fldName, "vern653y");
 		assertZeroResults(fldName, "vern653z");
 	
-		assertSingleResult("Vern654search", fldName, "654a");
-		assertSingleResult("Vern654search", fldName, "654b");
-		assertSingleResult("Vern654search", fldName, "654c");
-		assertSingleResult("Vern654search", fldName, "654e");		
-		assertZeroResults(fldName, "654v");
-		assertZeroResults(fldName, "654x");
-		assertZeroResults(fldName, "654y");
-		assertZeroResults(fldName, "654z");
+		assertSingleResult("Vern654search", fldName, "vern654a");
+		assertSingleResult("Vern654search", fldName, "vern654b");
+		assertSingleResult("Vern654search", fldName, "vern654c");
+		assertSingleResult("Vern654search", fldName, "vern654e");		
+		assertZeroResults(fldName, "vern654v");
+		assertZeroResults(fldName, "vern654x");
+		assertZeroResults(fldName, "vern654y");
+		assertZeroResults(fldName, "vern654z");
 	}
 
 

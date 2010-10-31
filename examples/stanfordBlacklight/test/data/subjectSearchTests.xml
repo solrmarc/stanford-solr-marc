@@ -128,6 +128,22 @@
             <subfield code="a">630 search subfields</subfield>
         </datafield>
     </record>
+    <!-- 648 search subfields-->
+    <record>
+        <leader>00880cam a2200217 i 4500</leader>
+        <controlfield tag="001">a648search</controlfield>
+        <controlfield tag="008">770207r19771901gw       b    001 0 ger d</controlfield>
+        <datafield tag="648" ind1="1" ind2=" ">
+            <subfield code="a">648a</subfield>
+            <subfield code="v">648v</subfield>
+            <subfield code="x">648x</subfield>
+            <subfield code="y">648y</subfield>
+            <subfield code="z">648z</subfield>
+        </datafield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">648 search subfields</subfield>
+        </datafield>
+    </record>
     <!-- 650 search subfields-->
     <record>
         <leader>00880cam a2200217 i 4500</leader>
@@ -259,6 +275,25 @@
         </datafield>
         <datafield tag="245" ind1="1" ind2="0">
             <subfield code="a">658 search subfields</subfield>
+        </datafield>
+    </record>
+    <!-- 662 search subfields-->
+    <record>
+        <leader>00880cam a2200217 i 4500</leader>
+        <controlfield tag="001">a662search</controlfield>
+        <controlfield tag="008">770207r19771901gw       b    001 0 ger d</controlfield>
+        <datafield tag="662" ind1="1" ind2=" ">
+            <subfield code="a">662a</subfield>
+            <subfield code="b">662b</subfield>
+            <subfield code="c">662c</subfield>
+            <subfield code="d">662d</subfield>
+            <subfield code="e">662e</subfield>
+            <subfield code="f">662f</subfield>
+            <subfield code="g">662g</subfield>
+            <subfield code="h">662h</subfield>
+        </datafield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">662 search subfields</subfield>
         </datafield>
     </record>
     <!-- 690 search subfields-->
@@ -439,9 +474,9 @@
         </datafield>
     </record>
 
+
 <!-- vernacular subject search fields ************************************** -->
-    
-    
+        
     <!-- 600 vernacular search subfields-->
     <record>
         <leader>00880cam a2200217 i 4500</leader>
@@ -588,6 +623,27 @@
         </datafield>
         <datafield tag="245" ind1="1" ind2="0">
             <subfield code="a">vernacular 630 search subfields</subfield>
+        </datafield>
+    </record>
+    <!-- 648 search subfields-->
+    <record>
+        <leader>00880cam a2200217 i 4500</leader>
+        <controlfield tag="001">aVern648search</controlfield>
+        <controlfield tag="008">770207r19771901gw       b    001 0 ger d</controlfield>
+        <datafield tag="648" ind1="1" ind2=" ">
+            <subfield code="6">880-01</subfield>
+            <subfield code="a">648a</subfield>
+        </datafield>   
+        <datafield tag="880" ind1="1" ind2=" ">
+            <subfield code="6">648-01</subfield>
+            <subfield code="a">vern648a</subfield>
+            <subfield code="v">vern648v</subfield>
+            <subfield code="x">vern648x</subfield>
+            <subfield code="y">vern648y</subfield>
+            <subfield code="z">vern648z</subfield>
+        </datafield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">vernacular 648 search subfields</subfield>
         </datafield>
     </record>
     <!-- 650 search subfields-->
@@ -761,6 +817,30 @@
         </datafield>
         <datafield tag="245" ind1="1" ind2="0">
             <subfield code="a">vernacular 658 search subfields</subfield>
+        </datafield>
+    </record>
+    <!-- 662 search subfields-->
+    <record>
+        <leader>00880cam a2200217 i 4500</leader>
+        <controlfield tag="001">aVern662search</controlfield>
+        <controlfield tag="008">770207r19771901gw       b    001 0 ger d</controlfield>
+        <datafield tag="662" ind1="1" ind2=" ">
+            <subfield code="6">880-01</subfield>
+            <subfield code="a">662a</subfield>
+        </datafield>   
+        <datafield tag="880" ind1="1" ind2=" ">
+            <subfield code="6">662-01</subfield>
+            <subfield code="a">vern662a</subfield>
+            <subfield code="b">vern662b</subfield>
+            <subfield code="c">vern662c</subfield>
+            <subfield code="d">vern662d</subfield>
+            <subfield code="d">vern662e</subfield>
+            <subfield code="d">vern662f</subfield>
+            <subfield code="d">vern662g</subfield>
+            <subfield code="d">vern662h</subfield>
+        </datafield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">vernacular 662 search subfields</subfield>
         </datafield>
     </record>
     <!-- 690 search subfields-->
