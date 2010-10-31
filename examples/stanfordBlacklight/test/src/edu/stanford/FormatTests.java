@@ -19,7 +19,7 @@ import edu.stanford.enumValues.Format;
 public class FormatTests extends AbstractStanfordBlacklightTest {
 	
 	private final String testDataFname = "formatTests.mrc";
-	String testFilePath = testDataParentPath + File.separator + "formatTests.mrc";
+	String testFilePath = testDataParentPath + File.separator + testDataFname;
 	String displayFldName = "format";
 	String facetFldName = "format";
 

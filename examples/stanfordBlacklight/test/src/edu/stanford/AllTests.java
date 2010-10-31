@@ -36,6 +36,7 @@ import org.junit.runners.Suite;
         PublicationTests.class,
         SeriesTests.class,
         StandardNumberTests.class,
+        SubjectSearchTests.class,
         SubjectTests.class,
         TableOfContentsTests.class,
         TitleSearchTests.class,
