@@ -29,7 +29,7 @@
         <filter class="solr.WordDelimiterFilterFactory" 
           splitOnCaseChange="1" generateWordParts="1" catenateWords="1" 
           splitOnNumerics="0" generateNumberParts="1" catenateNumbers="1" 
-          catenateAll="0" preserveOriginal="1" stemEnglishPossessive="1" />
+          catenateAll="0" preserveOriginal="0" stemEnglishPossessive="1" />
         <filter class="solr.LowerCaseFilterFactory" />
         <filter class="solr.EnglishPorterFilterFactory" protected="protwords.txt" />
         <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
@@ -42,12 +42,10 @@
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
         <filter class="schema.UnicodeNormalizationFilterFactory" version="icu4j" composed="false" remove_diacritics="true" remove_modifiers="true" fold="true" />
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
-<!--
         <filter class="solr.WordDelimiterFilterFactory" 
           splitOnCaseChange="1" generateWordParts="1" catenateWords="1" 
-          splitOnNumerics="0" generateNumberParts="1" catenateNumbers="0" 
-          catenateAll="0" preserveOriginal="1" stemEnglishPossessive="0" />
--->
+          splitOnNumerics="0" generateNumberParts="1" catenateNumbers="1" 
+          catenateAll="0" preserveOriginal="0" stemEnglishPossessive="0" />
         <filter class="solr.LowerCaseFilterFactory" />
         <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
       </analyzer>
