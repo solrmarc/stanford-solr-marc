@@ -96,7 +96,9 @@
           <str name="facet.field">dewey_b4cutter_facet</str>
           <str name="facet.field">gov_doc_type_facet</str>
           <str name="facet.field">format</str>
+<!-- 
           <str name="facet.field">dbAZsubjects_facet</str>
+-->
           <str name="facet.field">language</str>
         </lst>
         <!-- single object query to populate filter cache -->
@@ -121,7 +123,9 @@
           <str name="facet.field">gov_doc_type_facet</str>
           <str name="facet.field">era_facet</str>
           <str name="facet.field">format</str>
+<!--
           <str name="facet.field">dbAZsubjects_facet</str>
+-->
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">language</str>
           <str name="facet.field">pub_date_group_facet</str>
@@ -153,7 +157,9 @@
           <str name="facet.field">dewey_b4cutter_facet</str>
           <str name="facet.field">gov_doc_type_facet</str>
           <str name="facet.field">format</str>
+<!--           
           <str name="facet.field">dbAZsubjects_facet</str>
+-->
           <str name="facet.field">language</str>
         </lst>
         <!-- single object query to populate filter cache -->
@@ -178,7 +184,9 @@
           <str name="facet.field">gov_doc_type_facet</str>
           <str name="facet.field">era_facet</str>
           <str name="facet.field">format</str>
+<!-- 
           <str name="facet.field">dbAZsubjects_facet</str>
+-->
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">language</str>
           <str name="facet.field">pub_date_group_facet</str>
@@ -330,7 +338,9 @@
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+<!--
       <str name="facet.field">dbAZsubjects_facet</str>
+-->
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
       <str name="facet.field">pub_date_group_facet</str>
@@ -428,7 +438,9 @@
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+<!--
       <str name="facet.field">dbAZsubjects_facet</str>
+-->
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
       <str name="facet.field">pub_date_group_facet</str>
@@ -513,7 +525,9 @@
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+<!--      
       <str name="facet.field">dbAZsubjects_facet</str>
+-->
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
       <str name="facet.field">pub_date_group_facet</str>
@@ -618,7 +632,9 @@
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+<!--
       <str name="facet.field">dbAZsubjects_facet</str>
+-->
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
       <str name="facet.field">pub_date_group_facet</str>
@@ -685,7 +701,9 @@
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+<!--
       <str name="facet.field">dbAZsubjects_facet</str>
+-->
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
       <str name="facet.field">pub_date_group_facet</str>
@@ -931,7 +949,9 @@
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+<!--      
       <str name="facet.field">dbAZsubjects_facet</str>
+-->
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
       <str name="facet.field">pub_date_group_facet</str>
@@ -1154,7 +1174,9 @@
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+<!--
       <str name="facet.field">dbAZsubjects_facet</str>
+-->      
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
       <str name="facet.field">pub_date_group_facet</str>
@@ -1362,7 +1384,9 @@
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+<!--
       <str name="facet.field">dbAZsubjects_facet</str>
+-->      
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
       <str name="facet.field">pub_date_group_facet</str>
@@ -1429,7 +1453,9 @@
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+<!--
       <str name="facet.field">dbAZsubjects_facet</str>
+-->      
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
       <str name="facet.field">pub_date_group_facet</str>
