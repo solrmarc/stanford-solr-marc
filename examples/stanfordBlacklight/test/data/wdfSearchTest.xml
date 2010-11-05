@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+    <record>
+        <leader>00853cam a22002774a 4500</leader>
+        <controlfield tag="001">a5335304</controlfield>
+        <controlfield tag='008'>020207s2002    enk           000 f eng  </controlfield>
+        <datafield tag="015" ind1=" " ind2=" ">
+            <subfield code="a">GBA2-Y5481</subfield>
+        </datafield>
+        <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="a">0297607960</subfield>
+        </datafield>
+        <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="a">9780297607960</subfield>
+        </datafield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC-M)49205685</subfield>
+        </datafield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC-I)270282118</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">UKM</subfield>
+            <subfield code="c">UKM</subfield>
+            <subfield code="d">DAY</subfield>
+        </datafield>
+        <datafield tag="042" ind1=" " ind2=" ">
+            <subfield code="a">pcc</subfield>
+        </datafield>
+        <datafield tag="050" ind1=" " ind2="4">
+            <subfield code="a">PR9199.3.M6188</subfield>
+            <subfield code="b">.R42 2002</subfield>
+        </datafield>
+        <datafield tag="082" ind1="0" ind2="4">
+            <subfield code="a">823.914</subfield>
+            <subfield code="2">21</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Moore, Jeffrey.</subfield>
+        </datafield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">Red-rose chain /</subfield>
+            <subfield code="c">Jeffrey Moore.</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">London :</subfield>
+            <subfield code="b">Weidenfeld &amp; Nicolson,</subfield>
+            <subfield code="c">2002.</subfield>
+        </datafield>
+        <datafield tag="300" ind1=" " ind2=" ">
+            <subfield code="a">392 p. ;</subfield>
+            <subfield code="c">22 cm.</subfield>
+        </datafield>
+        <datafield tag="596" ind1=" " ind2=" ">
+            <subfield code="a">1</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Lecturers</subfield>
+            <subfield code="z">Québec (Province)</subfield>
+            <subfield code="z">Montréal</subfield>
+            <subfield code="v">Fiction.</subfield>
+        </datafield>
+        <datafield tag="655" ind1=" " ind2="7">
+            <subfield code="a">Satire.</subfield>
+            <subfield code="2">lcsh</subfield>
+        </datafield>
+        <datafield tag="994" ind1=" " ind2=" ">
+            <subfield code="a">Z0</subfield>
+            <subfield code="b">STF</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">PR9199.3 .M6188 .R42 2002</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105025987947</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="p">$22.69</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">3/26/2003</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+            <subfield code="o">.TECHSTAFF. c:eid 3/26/03</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00980aam a2200277 a 4500</leader>
+        <controlfield tag="001">a8702148</controlfield>
+        <controlfield tag="008">100409s2010    onc           000 f eng d</controlfield>
+        <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="a">9780143168218 (pbk.)</subfield>
+        </datafield>
+        <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="a">0143168215 (pbk.)</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">YDXCP</subfield>
+            <subfield code="c">YDXCP</subfield>
+            <subfield code="d">CDX</subfield>
+        </datafield>
+        <datafield tag="043" ind1=" " ind2=" ">
+            <subfield code="a">n-cn-qu</subfield>
+        </datafield>
+        <datafield tag="050" ind1=" " ind2="4">
+            <subfield code="a">PR9199.3.M6188</subfield>
+            <subfield code="b">P75 2010</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Moore, Jeffrey.</subfield>
+        </datafield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">Prisoner in a red-rose chain /</subfield>
+            <subfield code="c">Jeffrey Moore.</subfield>
+        </datafield>
+        <datafield tag="250" ind1=" " ind2=" ">
+            <subfield code="a">[New ed.].</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">Toronto ;</subfield>
+            <subfield code="a">New York :</subfield>
+            <subfield code="b">Penguin Canada,</subfield>
+            <subfield code="c">2010.</subfield>
+        </datafield>
+        <datafield tag="300" ind1=" " ind2=" ">
+            <subfield code="a">387 p. ;</subfield>
+            <subfield code="c">21 cm.</subfield>
+        </datafield>
+        <datafield tag="500" ind1=" " ind2=" ">
+            <subfield code="a">Originally published: Saskatoon, Saskatchewan, Canada : Thistledown Press, c1999.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Impostors and imposture</subfield>
+            <subfield code="v">Fiction.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">College teachers</subfield>
+            <subfield code="v">Fiction.</subfield>
+        </datafield>
+        <datafield tag="651" ind1=" " ind2="0">
+            <subfield code="a">Montréal (Québec)</subfield>
+            <subfield code="v">Fiction.</subfield>
+        </datafield>
+        <datafield tag="596" ind1=" " ind2=" ">
+            <subfield code="a">1</subfield>
+        </datafield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC-M)606215980</subfield>
+        </datafield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC-I)667873326</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">PR9199.3 .M6188 P75 2010</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105215367678</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="p">$18.00</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="u">9/21/2010</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+            <subfield code="o">.TECHSTAFF. EDI receipt</subfield>
+        </datafield>
+    </record>
+</collection>
