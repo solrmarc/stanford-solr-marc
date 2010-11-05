@@ -644,9 +644,8 @@ public final class Utils {
         // p13any matches a 13 digit isbn pattern without the correct prefix
         Pattern p13any = Pattern.compile("^\\d{12}[X\\d].*");
 
-        Iterator<String> iter = candidates.iterator();
-        while (iter.hasNext()) {
-            String value = (String)iter.next().trim();
+        for (String cand : candidates) {
+        	String value = cand.trim();
             // check we have the right pattern, and remove trailing text
             if (p13.matcher(value).matches()) 
                 isbnSet.add(value.substring(0, 13));
