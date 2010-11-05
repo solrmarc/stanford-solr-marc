@@ -80,11 +80,11 @@
       <arr name="queries">
         <!-- default query for all objects, front page facets -->
         <lst>
-          <str name="rows">0</str> 
+          <int name="rows">0</int> 
           <str name="fl">score</str>
-          <str name="facet">true</str>
-          <str name="facet.mincount">1</str>
-          <str name="facet.limit">30</str>
+          <bool name="facet">true</bool>
+          <int name="facet.mincount">1</int>
+          <int name="facet.limit">30</int>
           <str name="facet.field">access_facet</str>
           <str name="facet.field">building_facet</str>
           <str name="facet.field">callnum_top_facet</str>
@@ -105,11 +105,11 @@
         <lst>
           <str name="q">id:666</str>
           <str name="qt">standard</str>
-          <str name="rows">0</str>
+          <int name="rows">0</int>
           <str name="fl">score</str>
-          <str name="facet">true</str>
-          <str name="facet.mincount">1</str>
-          <str name="facet.limit">30</str>
+          <bool name="facet">true</bool>
+          <int name="facet.mincount">1</int>
+          <int name="facet.limit">30</int>
           <str name="facet.field">access_facet</str>
           <str name="facet.field">author_person_facet</str>
           <str name="facet.field">author_other_facet</str>
@@ -141,11 +141,11 @@
       <arr name="queries">
         <!-- default query for all objects, front page facets -->
         <lst>
-          <str name="rows">0</str> 
+          <int name="rows">0</int> 
           <str name="fl">score</str>
-          <str name="facet">true</str>
-          <str name="facet.mincount">1</str>
-          <str name="facet.limit">30</str>
+          <bool name="facet">true</bool>
+          <int name="facet.mincount">1</int>
+          <int name="facet.limit">30</int>
           <str name="facet.field">access_facet</str>
           <str name="facet.field">building_facet</str>
           <str name="facet.field">callnum_top_facet</str>
@@ -166,11 +166,11 @@
         <lst> 
           <str name="q">id:666</str>
           <str name="qt">standard</str>
-          <str name="rows">0</str>
+          <int name="rows">0</int>
           <str name="fl">score</str>
-          <str name="facet">true</str>
-          <str name="facet.mincount">1</str>
-          <str name="facet.limit">30</str>
+          <bool name="facet">true</bool>
+          <int name="facet.mincount">1</int>
+          <int name="facet.limit">30</int>
           <str name="facet.field">access_facet</str>
           <str name="facet.field">author_person_facet</str>
           <str name="facet.field">author_other_facet</str>
@@ -225,7 +225,7 @@
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
       <str name="mm">4&lt;-1 4&lt;90%</str>
-      <str name="qs">1</str>
+      <int name="qs">150</int>
       <str name="qf">
         title_245a_unstem_search^100000
         title_245a_search^75000        vern_title_245a_search^75000
@@ -326,9 +326,9 @@
       <int name="ps">3</int>
       <float name="tie">0.01</float>
       
-      <str name="facet">true</str>
-      <str name="facet.mincount">1</str>
-      <str name="facet.limit">30</str> 
+      <bool name="facet">true</bool>
+      <int name="facet.mincount">1</int>
+      <int name="facet.limit">30</int> 
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -394,7 +394,7 @@
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
       <str name="mm">4&lt;-1 4&lt;90%</str>
-      <str name="qs">1</str>
+      <int name="qs">150</int>
       <str name="qf">
         title_245a_unstem_search^50000
         title_245_unstem_search^25000
@@ -426,9 +426,9 @@
       <int name="ps">3</int>
       <float name="tie">0.01</float>
       
-      <str name="facet">true</str>
-      <str name="facet.mincount">1</str>
-      <str name="facet.limit">30</str>
+      <bool name="facet">true</bool>
+      <int name="facet.mincount">1</int>
+      <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -493,7 +493,7 @@
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
       <str name="mm">4&lt;-1 4&lt;90%</str>
-      <str name="qs">1</str>
+      <int name="qs">150</int>
       <str name="qf">
         author_1xx_unstem_search^200
         author_7xx_unstem_search^50
@@ -513,9 +513,9 @@
       <int name="ps">3</int>
       <float name="tie">0.01</float>
       
-      <str name="facet">true</str>
-      <str name="facet.mincount">1</str>
-      <str name="facet.limit">30</str> 
+      <bool name="facet">true</bool>
+      <int name="facet.mincount">1</int>
+      <int name="facet.limit">30</int> 
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -579,7 +579,7 @@
       <str name="echoParams">explicit</str>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
-      <str name="qs">1</str>
+      <int name="qs">150</int>
       <str name="mm">4&lt;-1 4&lt;90%</str>
 
       <str name="qf">
@@ -620,9 +620,9 @@
       <int name="ps">3</int>
       <float name="tie">0.01</float>
       
-      <str name="facet">true</str>
-      <str name="facet.mincount">1</str>
-      <str name="facet.limit">30</str> 
+      <bool name="facet">true</bool>
+      <int name="facet.mincount">1</int>
+      <int name="facet.limit">30</int> 
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -683,15 +683,15 @@
   <requestHandler name="search_callnum" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="echoParams">explicit</str>
-      <str name="rows">20</str> 
+      <int name="rows">20</int> 
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="defType">lucene</str>
       <str name="df">callnum_search</str> 
       <str name="q.op">AND</str> 
       
-      <str name="facet">true</str>
-      <str name="facet.mincount">1</str>
-      <str name="facet.limit">30</str> 
+      <bool name="facet">true</bool>
+      <int name="facet.mincount">1</int>
+      <int name="facet.limit">30</int> 
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -759,7 +759,7 @@
       <str name="mm">4&lt;-1 4&lt;90%</str>
       <int name="ps">3</int>
       <float name="tie">0.01</float>
-      <str name="qs">1</str>
+      <int name="qs">150</int>
       <str name="qf">
         title_245a_unstem_search^100000
         title_245a_search^75000        vern_title_245a_search^75000
@@ -937,9 +937,9 @@
         subject_all_search^20          vern_subject_all_search^20
       </str>
       
-      <str name="facet">true</str>
-      <str name="facet.mincount">1</str>
-      <str name="facet.limit">30</str> 
+      <bool name="facet">true</bool>
+      <int name="facet.mincount">1</int>
+      <int name="facet.limit">30</int> 
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -1004,7 +1004,7 @@
     <lst name="defaults">
       <str name="echoParams">explicit</str>
       <str name="fl">*</str>
-      <str name="rows">1</str>
+      <int name="rows">1</int>
       <str name="q">{!raw f=id v=$id}</str> <!-- use id=666 instead of q=id:666 -->
     </lst>
   </requestHandler>
@@ -1014,15 +1014,15 @@
     <lst name="defaults">
       <str name="defType">lucene</str>
       <str name="echoParams">explicit</str>
-      <str name="rows">20</str> 
+      <int name="rows">20</int> 
       <str name="df">all_search</str> 
       <str name="q.op">AND</str> 
-      <str name="qs">1</str>
+      <int name="qs">150</int>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
 
       <!-- used for dismax query parser -->
       <str name="mm">1</str> 
-      <str name="ps">3</str> 
+      <int name="ps">3</int> 
       <float name="tie">0.01</float>
       <!-- for user query terms in author text box -->
       <str name="qf_author">
@@ -1162,9 +1162,9 @@
       <str name="qf_description">all_search</str>
       <str name="pf_description">all_search^10</str>
 
-      <str name="facet">true</str>
-      <str name="facet.mincount">1</str>
-      <str name="facet.limit">30</str> 
+      <bool name="facet">true</bool>
+      <int name="facet.mincount">1</int>
+      <int name="facet.limit">30</int> 
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -1228,11 +1228,11 @@
       <str name="echoParams">explicit</str>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
-      <str name="qs">1</str>
-      <str name="rows">20</str> 
+      <int name="qs">150</int>
+      <int name="rows">20</int> 
       
       <str name="mm">1</str> <!-- set to 1 for advanced search -->
-      <str name="ps">3</str> 
+      <int name="ps">3</int> 
       <float name="tie">0.01</float>
 
       <!-- for user query terms in author text box -->
@@ -1373,9 +1373,9 @@
       <str name="qf_description">all_search</str>
       <str name="pf_description">all_search^10</str>
       
-      <str name="facet">true</str>
-      <str name="facet.mincount">1</str>
-      <str name="facet.limit">30</str> 
+      <bool name="facet">true</bool>
+      <int name="facet.mincount">1</int>
+      <int name="facet.limit">30</int> 
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -1438,13 +1438,13 @@
     <lst name="defaults">
       <str name="defType">lucene</str>
       <str name="echoParams">explicit</str>
-      <str name="rows">20</str> 
+      <int name="rows">20</int> 
       <str name="df">all_search</str> 
       <str name="q.op">AND</str> 
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
-      <str name="facet">true</str>
-      <str name="facet.mincount">1</str>
-      <str name="facet.limit">30</str> 
+      <bool name="facet">true</bool>
+      <int name="facet.mincount">1</int>
+      <int name="facet.limit">30</int> 
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -1516,8 +1516,8 @@
   <requestHandler name="/alphaTerms" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="echoParams">explicit</str>
-      <str name="terms">true</str>
-      <str name="terms.lower.incl">true</str> 
+      <bool name="terms">true</bool>
+      <bool name="terms.lower.incl">true</bool> 
     </lst>
     <arr name="components">
       <str>termsComp</str>
@@ -1533,6 +1533,7 @@
       <str name="q.alt">*:*</str>
       <str name="mm">4&lt;-1 4&lt;90%</str>
       <str name="qf">open_search</str>
+      <int name="qs">150</int>
       <str name="pf">open_search^10</str>
       <int name="ps">3</int>
       <float name="tie">0.01</float>
@@ -1553,6 +1554,19 @@
   </requestHandler>        
 
   <!-- there are other possible request handlers not included here -->
+  <searchComponent name="tvComponent" class="org.apache.solr.handler.component.TermVectorComponent"/>
+  <requestHandler name="tvrh" class="org.apache.solr.handler.component.SearchHandler">
+    <lst name="defaults">
+      <bool name="tv">true</bool>
+      <bool name="tv.all">true</bool>
+      <str name="defType">dismax</str>
+      <str name="q.alt">*:*</str>
+    </lst>
+    <arr name="last-components">
+      <str>tvComponent</str>
+    </arr>
+  </requestHandler>
+
 
   <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" startup="lazy"/>
   <requestHandler name="/update/javabin" class="solr.BinaryUpdateRequestHandler" startup="lazy"/>
@@ -1570,8 +1584,8 @@
   <requestHandler name="/debug/dump" class="solr.DumpRequestHandler" >
     <lst name="defaults">
       <str name="echoParams">explicit</str> <!-- for all params (including the default etc) use: 'all' -->
-      <str name="echoHandler">true</str>
-      <str name="debugQuery">true</str>
+      <bool name="echoHandler">true</bool>
+      <bool name="debugQuery">true</bool>
     </lst>
   </requestHandler>
     
