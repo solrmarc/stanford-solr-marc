@@ -48,7 +48,7 @@ import org.junit.runners.Suite;
         TitleTests.class,
         UrlTests.class,
         VernFieldsTests.class,
-        WordDelimiterTests.class,
+        WordDelimiterTests.class
         })
 
         
