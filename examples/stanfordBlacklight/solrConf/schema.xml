@@ -61,21 +61,6 @@
       </analyzer>
     </fieldtype>
     
-    <!-- Analyzed Text, whitespace token separation and lower case only -->
-    <!-- also stopwords so dismax doesn't look for stopwords in these fields -->
-    <!-- On client side, Lucene query parser breaks things up by whitespace *before* field analysis for dismax  -->
-    <!-- so some pattern matching to remove punctuation (& : ;) terms to allow results from other fields when these chars are surrounded by spaces in query -->
-    <fieldType name="text_wslc" class="solr.TextField" omitNorms="true">
-      <analyzer>
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="&amp;" replacement="and" replace="all" />
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[:;]" replacement="" replace="all" />
-        <tokenizer class="solr.WhitespaceTokenizerFactory" />
-        <filter class="schema.UnicodeNormalizationFilterFactory" version="icu4j" composed="false" remove_diacritics="true" remove_modifiers="true" fold="true" />
-        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
-        <filter class="solr.LowerCaseFilterFactory" />
-      </analyzer>
-    </fieldType>
-
     <!-- single token with stopwords removed so dismax doesn't look for stopwords in these fields-->
     <!-- On client side, Lucene query parser breaks things up by whitespace *before* field analysis for dismax  -->
     <!-- so some pattern matching to change punctuation (& : ;) into stopwords to allow results from other fields when these chars are surrounded by spaces in query -->
@@ -150,27 +135,27 @@
     <field name="language" type="string" indexed="true" stored="true" multiValued="true" />
 
     <!-- Standard Number Fields -->
-    <!-- allow end users to search our index by ISBN and ISSN; more values than
-        display isbn/issn.-->
-    <field name="isbn_search" type="text_wslc" indexed="true" stored="false" multiValued="true" omitNorms="true" />
+    <!-- allow end users to search our index by ISBN and ISSN; more values than display isbn/issn.-->
+    <!-- isbn_search is type text to accommodate hyphens that could be entered by end users -->
+    <field name="isbn_search" type="text" indexed="true" stored="false" multiValued="true" omitNorms="true" />
     <!-- text for issn to accommodate hyphen present or not -->
     <field name="issn_search" type="text" indexed="true" stored="false" multiValued="true" omitNorms="true"/>
     <!-- display fields to allow external lookups (e.g. Google book search, xISBN, xISSN ...) -->
     <field name="isbn_display" type="string" indexed="false" stored="true" multiValued="true" />
     <field name="issn_display" type="string" indexed="false" stored="true" multiValued="true" />
     <field name="lccn" type="string" indexed="false" stored="true" />
-    <field name="oclc" type="text_wslc" indexed="true" stored="true" multiValued="true" />
+    <field name="oclc" type="string_no_stop" indexed="true" stored="true" multiValued="true" />
 
     <!-- Title Search Fields -->
     <field name="title_245a_search" type="text" indexed="true" stored="false" />
     <field name="vern_title_245a_search" type="textNoStem" indexed="true" stored="false" />
-    <field name="title_245a_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
+    <field name="title_245a_unstem_search" type="textNoStem" indexed="true" stored="false" />
     <field name="title_245_search" type="text" indexed="true" stored="false" />
     <field name="vern_title_245_search" type="textNoStem" indexed="true" stored="false" />
-    <field name="title_245_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
+    <field name="title_245_unstem_search" type="textNoStem" indexed="true" stored="false" />
     <field name="title_uniform_search" type="text" indexed="true" stored="false" />
     <field name="vern_title_uniform_search" type="textNoStem" indexed="true" stored="false" />
-    <field name="title_uniform_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
+    <field name="title_uniform_unstem_search" type="textNoStem" indexed="true" stored="false" />
     <field name="title_variant_search" type="text" indexed="true" stored="false" multiValued="true" />
     <field name="vern_title_variant_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="title_variant_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
@@ -200,7 +185,7 @@
     <!-- Author Search Fields -->
     <field name="author_1xx_search" type="text" indexed="true" stored="false" />
     <field name="vern_author_1xx_search" type="textNoStem" indexed="true" stored="false" />
-    <field name="author_1xx_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
+    <field name="author_1xx_unstem_search" type="textNoStem" indexed="true" stored="false" />
     <field name="author_7xx_search" type="text" indexed="true" stored="false" multiValued="true" />
     <field name="vern_author_7xx_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="author_7xx_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
@@ -319,7 +304,7 @@
     <field name="shelfkey" type="alphaSort" indexed="true" stored="false" multiValued="true"/>
     <field name="reverse_shelfkey" type="alphaSort" indexed="true" stored="false" multiValued="true"/>
     
-    <field name="barcode_search" type="text_wslc" indexed="true" stored="false" multiValued="true" />
+    <field name="barcode_search" type="string_no_stop" indexed="true" stored="false" multiValued="true" />
     <field name="preferred_barcode" type="string" indexed="false" stored="true" />
     <field name="access_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <field name="building_facet" type="string" indexed="true" stored="false" multiValued="true" />
