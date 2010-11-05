@@ -223,7 +223,7 @@
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
       <str name="mm">4&lt;-1 4&lt;90%</str>
-      <int name="qs">150</int>
+      <int name="qs">1</int>
       <str name="qf">
         title_245a_unstem_search^100000
         title_245a_search^75000        vern_title_245a_search^75000
@@ -392,7 +392,7 @@
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
       <str name="mm">4&lt;-1 4&lt;90%</str>
-      <int name="qs">150</int>
+      <int name="qs">1</int>
       <str name="qf">
         title_245a_unstem_search^50000
         title_245_unstem_search^25000
@@ -491,7 +491,7 @@
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
       <str name="mm">4&lt;-1 4&lt;90%</str>
-      <int name="qs">150</int>
+      <int name="qs">1</int>
       <str name="qf">
         author_1xx_unstem_search^200
         author_7xx_unstem_search^50
@@ -577,7 +577,7 @@
       <str name="echoParams">explicit</str>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
-      <int name="qs">150</int>
+      <int name="qs">1</int>
       <str name="mm">4&lt;-1 4&lt;90%</str>
 
       <str name="qf">
@@ -757,7 +757,7 @@
       <str name="mm">4&lt;-1 4&lt;90%</str>
       <int name="ps">3</int>
       <float name="tie">0.01</float>
-      <int name="qs">150</int>
+      <int name="qs">1</int>
       <str name="qf">
         title_245a_unstem_search^100000
         title_245a_search^75000        vern_title_245a_search^75000
@@ -1015,7 +1015,7 @@
       <int name="rows">20</int> 
       <str name="df">all_search</str> 
       <str name="q.op">AND</str> 
-      <int name="qs">150</int>
+      <int name="qs">1</int>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
 
       <!-- used for dismax query parser -->
@@ -1226,7 +1226,7 @@
       <str name="echoParams">explicit</str>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
-      <int name="qs">150</int>
+      <int name="qs">1</int>
       <int name="rows">20</int> 
       
       <str name="mm">1</str> <!-- set to 1 for advanced search -->
@@ -1523,6 +1523,7 @@
   </requestHandler>
   
   <!-- OpenSearch request handler: as user types chars in UI, queries are sent to this -->  
+  <!-- FIXME:  this should be a lucene queryparser, no?  and they should be prefix searches (?) -->
   <requestHandler name="open_search" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">dismax</str>
@@ -1531,9 +1532,7 @@
       <str name="q.alt">*:*</str>
       <str name="mm">4&lt;-1 4&lt;90%</str>
       <str name="qf">open_search</str>
-      <int name="qs">150</int>
       <str name="pf">open_search^10</str>
-      <int name="ps">3</int>
       <float name="tie">0.01</float>
       <str name="fl">
         score,
