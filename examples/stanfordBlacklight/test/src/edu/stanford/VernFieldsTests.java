@@ -20,11 +20,13 @@ import org.xml.sax.SAXException;
  */
 public class VernFieldsTests extends AbstractStanfordBlacklightTest {
 
+	String unMatched880File = "unmatched880sTests.mrc";
+	String vernNonSearchTestFile = "vernacularNonSearchTests.mrc";
+    String unMatched800FilePath = testDataParentPath + File.separator + unMatched880File;
+
 @Before
 	public final void setup() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("vernacularNonSearchTests.mrc");
 		mappingTestInit();
 	}
 
@@ -36,6 +38,7 @@ public class VernFieldsTests extends AbstractStanfordBlacklightTest {
 	public final void testIgnored880() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
+		createIxInitVars(vernNonSearchTestFile);
 		assertSingleResult("allVern", "toc_search", "contents");
 		assertDocHasNoField("allVern", "vern_toc_search");
 		assertDocHasNoField("allVern", "vern_toc_display");
@@ -49,6 +52,8 @@ public class VernFieldsTests extends AbstractStanfordBlacklightTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_7xx_search";
+		createIxInitVars(vernNonSearchTestFile);
+
 		assertSingleResult("two700", fldName, "\"first 700\"");
 
 		fldName = "vern_author_7xx_search";
@@ -64,6 +69,8 @@ public class VernFieldsTests extends AbstractStanfordBlacklightTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_8xx_search";
+		createIxInitVars(vernNonSearchTestFile);
+
 		assertSingleResult("DupSubflds", fldName, "\"Wellington, New Zealand\"");
 		fldName = "vern_author_8xx_search";
 		assertSingleResult("DupSubflds", fldName, "\"Naomi in Wellington, in New Zealand\"");
@@ -76,7 +83,9 @@ public class VernFieldsTests extends AbstractStanfordBlacklightTest {
 	public final void testTrailingPunct() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		String fldName = "author_person_display";
+		String fldName = "author_person_display";		
+		createIxInitVars(vernNonSearchTestFile);
+		
 		assertDocHasFieldValue("trailingPunct", fldName, "internal colon : ending period");
 		assertDocHasNoFieldValue("trailingPunct", fldName, "internal colon : ending period.");
 		fldName = "vern_author_person_display";
@@ -100,7 +109,7 @@ public class VernFieldsTests extends AbstractStanfordBlacklightTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "vern_toc_search";
-	    createIxInitVars("unmatched880sTests.mrc");
+	    createIxInitVars(unMatched880File);
 
 	    Set<String> docIds = new HashSet<String>();
 		docIds.add("1");
@@ -119,12 +128,10 @@ public class VernFieldsTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testUnmatched880sVernacular() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "vern_title_uniform_display";
-	    String testFilePath = testDataParentPath + File.separator + "unmatched880sTests.mrc";
-		solrFldMapTest.assertSolrFldValue(testFilePath, "4", fldName, "vern130a");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "5", fldName, "vern240a");
+		solrFldMapTest.assertSolrFldValue(unMatched800FilePath, "4", fldName, "vern130a");
+		solrFldMapTest.assertSolrFldValue(unMatched800FilePath, "5", fldName, "vern240a");
 	}
 	
 	/**
@@ -132,11 +139,9 @@ public class VernFieldsTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testUnmatched880sVernAllAlphaExcept() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "vern_topic_search";
-	    String testFilePath = testDataParentPath + File.separator + "unmatched880sTests.mrc";
-		solrFldMapTest.assertSolrFldValue(testFilePath, "6", fldName, "vern650a");
+		solrFldMapTest.assertSolrFldValue(unMatched800FilePath, "6", fldName, "vern650a");
 	}
 	
 	/**
@@ -144,11 +149,9 @@ public class VernFieldsTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testUnmatched880sVernRemovePunct() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "vern_author_person_display";
-	    String testFilePath = testDataParentPath + File.separator + "unmatched880sTests.mrc";
-		solrFldMapTest.assertSolrFldValue(testFilePath, "7", fldName, "vern100a");
+		solrFldMapTest.assertSolrFldValue(unMatched800FilePath, "7", fldName, "vern100a");
 	}
 
 	/**
@@ -159,6 +162,8 @@ public class VernFieldsTests extends AbstractStanfordBlacklightTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_person_display";
+		createIxInitVars(vernNonSearchTestFile);
+		
 		assertDocHasFieldValue("4160530", fldName, "Xiao, Qian, 1910-");
 		fldName = "vern_author_person_display";
 		assertDocHasFieldValue("4160530", fldName, "萧乾, 1910-");
@@ -195,6 +200,8 @@ public class VernFieldsTests extends AbstractStanfordBlacklightTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "title_full_display";
+		createIxInitVars(vernNonSearchTestFile);
+
 		assertDocHasFieldValue("RtoL", fldName, "a is for alligator / c is for crocodile, 1980");
 		fldName = "vern_title_full_display";
 		assertDocHasFieldValue("RtoL", fldName, "1980 ,crocodile for is c / alligator for is a");
@@ -231,6 +238,8 @@ public class VernFieldsTests extends AbstractStanfordBlacklightTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "title_full_display";
+		createIxInitVars(vernNonSearchTestFile);
+
 		assertDocHasFieldValue("hebrew1", fldName, "Alef bet shel Yahadut.");
 		fldName = "vern_title_full_display";
 		
