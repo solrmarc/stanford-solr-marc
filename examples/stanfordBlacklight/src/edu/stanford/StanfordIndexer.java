@@ -536,6 +536,67 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 // Title Methods -------------------- End ------------------------ Title Methods    
 
+	/**
+	 * return a set of "author-title" strings derived from:
+	 *   100 + 240 if there is one;  100 + 245a if there is no 240
+	 *   ditto 110, 111
+	 *   700, 710, 711 fields
+	 *   (plus the same for 880 fields)
+	 * @param record a marc4j Record object
+	 */
+	public Set<String> getAuthorTitleSearch(final Record record)
+	{
+		Set<String> resultSet = new HashSet<String>(10);
+		
+		String one_xx_spec = "100abcdegjqu:110abcdegnu:111acdegjnqu";
+		String two40_spec = "240adfgklmnoprs";
+		String two45_spec = "245a";
+
+		// 1xx + 24x
+		String one_xx = getFirstFieldVal(record, one_xx_spec);
+		if (one_xx != null) {
+			String two4x = getFirstFieldVal(record, two40_spec);
+			if (two4x == null) {
+				two4x = getFirstFieldVal(record, two45_spec);
+			}
+			resultSet.add(one_xx + " " + two4x);
+		}
+				
+		// 880 version of 1xx + 24x
+		Set<String> vern_one_xx_set = getLinkedField(record, one_xx_spec);
+		String vern_one_xx = null;
+        Iterator<String> iter = vern_one_xx_set.iterator();
+        if (iter.hasNext()) {
+        	vern_one_xx = iter.next();
+        	// linked 240?
+        	Set<String> two40_set = getLinkedField(record, two40_spec);
+			String verntwo4x = null;
+	        iter = two40_set.iterator();
+	        if (iter.hasNext())
+	        	verntwo4x = iter.next();
+	        else {
+		        // linked 245?
+				Set<String> two45_set = getLinkedField(record, two45_spec);
+		        iter = two45_set.iterator();
+		        if (iter.hasNext())
+		        	verntwo4x = iter.next();
+		        else 
+					// see if there's a non-linked version of 240
+					verntwo4x = getFirstFieldVal(record, two40_spec);
+
+		        // take the non-linked 245a if nothing else avail
+		        if (verntwo4x == null)
+		        	verntwo4x = getFirstFieldVal(record, two45_spec);
+			}
+			resultSet.add(vern_one_xx + " " + verntwo4x);
+		}
+        
+		// get plain and linked version of 7xx fields
+		String seven_xx_spec = "700abcdefgjklmnopqrstu:710abcdefgklmnoprstu:711acdefgjklnpqstu";
+		resultSet.addAll(getLinkedFieldCombined(record, seven_xx_spec));
+		
+		return resultSet;
+	}
 
 // Subject Methods ----------------- Begin --------------------- Subject Methods    
 

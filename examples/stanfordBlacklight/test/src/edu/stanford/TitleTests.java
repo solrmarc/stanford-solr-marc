@@ -63,7 +63,6 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testTitle245aDisplay() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "title_245a_display";
 
@@ -83,7 +82,6 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testVernTitle245aDisplay() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "vern_title_245a_display";
 		String filePath = testDataParentPath + File.separator + "vernacularNonSearchTests.mrc";
@@ -99,7 +97,6 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 	 */
 	@Test
 	public final void testTitle245cDisplay() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "title_245c_display";
 	
@@ -117,7 +114,6 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testVernTitle245cDisplay() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "vern_title_245c_display";
 		String filePath = testDataParentPath + File.separator + "vernacularNonSearchTests.mrc";
@@ -132,7 +128,6 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testTitleDisplay() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "title_display";
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "245NoNorP", fldName, "245 no subfield n or p [electronic resource]");
@@ -156,7 +151,6 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testTitleDisplayNonFiling() 
-		throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "title_display";
 
@@ -196,7 +190,6 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testTitleFullDisplay() 
-			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "title_full_display";
 
@@ -219,7 +212,6 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testUniformTitleDisplay() 
-			throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "title_uniform_display";
 	
@@ -267,7 +259,6 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testUniformTitle() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String filePath = testDataParentPath + File.separator + "vernacularNonSearchTests.mrc";
 	
@@ -288,7 +279,6 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testTitleSortIncludedFields() 
-		throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "title_sort";
 		
@@ -376,7 +366,6 @@ public class TitleTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testTitleSortNumericSubflds() 
-		throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "title_sort";
 

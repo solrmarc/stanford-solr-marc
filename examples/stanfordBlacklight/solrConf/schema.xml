@@ -182,6 +182,9 @@
 
     <field name="title_sort" type="alphaSort" indexed="true" stored="true" />
 
+    <!-- Author Title Search Fields -->
+    <field name="author_title_search" type="text" indexed="true" stored="false" multiValued="true" />
+    
     <!-- Author Search Fields -->
     <field name="author_1xx_search" type="text" indexed="true" stored="false" />
     <field name="vern_author_1xx_search" type="textNoStem" indexed="true" stored="false" />
