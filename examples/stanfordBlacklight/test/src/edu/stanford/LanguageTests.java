@@ -23,24 +23,8 @@ public class LanguageTests extends AbstractStanfordBlacklightTest {
 
 @Before
 	public void setup() 
-		throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars(fileName);
 		mappingTestInit();
-	}
-
-
-	/**
-	 * Test language field properties
-	 */
-@Test
-	public void testLangFieldProps() 
-			throws ParserConfigurationException, IOException, SAXException 
-	{
-	    assertStringFieldProperties(fldName);
-	    assertFieldIndexed(fldName);
-	    assertFieldStored(fldName);
-		assertFieldMultiValued(fldName);
 	}
 
 	
@@ -51,6 +35,12 @@ public class LanguageTests extends AbstractStanfordBlacklightTest {
 	public void testLanguages() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
+		createIxInitVars(fileName);
+	    assertStringFieldProperties(fldName);
+	    assertFieldIndexed(fldName);
+	    assertFieldStored(fldName);
+		assertFieldMultiValued(fldName);
+
 		assertSingleResult("008mul041atha", fldName, "Thai"); 
 		assertSingleResult("008eng3041a", fldName, "German"); 
 		assertSingleResult("008eng3041a", fldName, "Russian");  // not 041h: id 008eng2041a041h 
@@ -76,26 +66,8 @@ public class LanguageTests extends AbstractStanfordBlacklightTest {
 	}
 
 	/**
-	 * Test that there is no field created when the map is missing
-	 *  the value to be mapped and when the map has value set to null
-	 */
-@Test
-	public void testMapMissingValue() 
-			throws ParserConfigurationException, IOException, SAXException 
-	{
-		assertZeroResults(fldName, "null");
-		assertZeroResults(fldName, "\\?\\?\\?");
-		assertZeroResults(fldName, "mis");     // 008mis041ak
-		assertZeroResults(fldName, "Miscellaneous languages");
-		assertZeroResults(fldName, "mul");     // 008mul041atha
-		assertZeroResults(fldName, "Multiple languages"); 
-		assertZeroResults(fldName, "und");
-		assertZeroResults(fldName, "zxx");
-	}
-
-	/**
 	 * when 041a contains multiple language codes smushed together, they should
-	 * be parsed out into separate language values.
+	 * be parsed out into separate language values.  SW-364
 	 */
 @Test
 	public void test041aMultMushed() 
@@ -106,5 +78,40 @@ public class LanguageTests extends AbstractStanfordBlacklightTest {
 		solrFldMapTest.assertSolrFldValue(testFilePath, "041aHas3", fldName, "French");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "041aHas3", fldName, "Spanish");
 	}
+
+
+	/**
+	 * lang facet should contain values in subfields a, d, e, j  of 041.  SW-392
+	 */
+@Test
+	public void test041includedSubfields() 
+	{
+		solrFldMapTest.assertSolrFldHasNumValues(testFilePath, "041subfields", fldName, 8);
+		// a
+		solrFldMapTest.assertSolrFldValue(testFilePath, "041subfields", fldName, "Afar");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "041subfields", fldName, "Abkhaz");
+		// b
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "041subfields", fldName, "Achinese");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "041subfields", fldName, "Acoli");
+		// d
+		solrFldMapTest.assertSolrFldValue(testFilePath, "041subfields", fldName, "Adangme");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "041subfields", fldName, "Adygei");
+		// e
+		solrFldMapTest.assertSolrFldValue(testFilePath, "041subfields", fldName, "Afrikaans");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "041subfields", fldName, "Ainu");
+		// f
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "041subfields", fldName, "Aljamia");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "041subfields", fldName, "Akan");
+		// g
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "041subfields", fldName, "Akkadian");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "041subfields", fldName, "Albanian");
+		// h
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "041subfields", fldName, "Aleut");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "041subfields", fldName, "Altai");
+		// j
+		solrFldMapTest.assertSolrFldValue(testFilePath, "041subfields", fldName, "Amharic");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "041subfields", fldName, "Angika");
+	}
+
 
 }

@@ -355,7 +355,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getLanguages(final Record record) 
 	{
-		Set<String> langResultSet = getFieldList(record, "008[35-37]:041d");
+		Set<String> langResultSet = getFieldList(record, "008[35-37]:041d:041e:041j");
 
 		Set<String> lang041a = getFieldList(record, "041a");
 		for (String langCodeStr : lang041a) {
