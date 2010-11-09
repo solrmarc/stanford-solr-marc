@@ -1,10 +1,12 @@
 package edu.stanford;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -14,6 +16,13 @@ import org.xml.sax.SAXException;
  * @author Naomi Dushay
  */
 public class StandardNumberTests extends AbstractStanfordBlacklightTest {
+
+@Before
+	public final void setup() 
+	{
+		mappingTestInit();
+	}	
+
 
 	/**
 	 * Test population of oclc field
@@ -107,67 +116,66 @@ public class StandardNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testISBNdisplay() 
-		throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "isbn_display";
-		createIxInitVars("isbnTests.mrc");
-		assertDisplayFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
-	
+		String testFilePath = testDataParentPath + File.separator + "isbnTests.mrc";
+
 		// no isbn
-		assertDocHasNoField("No020", fldName);
-		assertDocHasNoField("020noSubaOrz", fldName);
+	    solrFldMapTest.assertNoSolrFld(testFilePath, "No020", fldName);
+	    solrFldMapTest.assertNoSolrFld(testFilePath, "020noSubaOrz", fldName);
+
 		// 020 subfield a 10 digit varieties
-		assertDocHasFieldValue("020suba10digit", fldName, "1417559128"); 
-		assertDocHasFieldValue("020suba10endsX", fldName, "123456789X"); 
-		assertDocHasFieldValue("020suba10trailingText", fldName, "1234567890"); 
-		assertDocHasFieldValue("020suba10trailingText", fldName, "0123456789"); 
-		assertDocHasFieldValue("020suba10trailingText", fldName, "0521672694"); 
-		assertDocHasFieldValue("020suba10trailingText", fldName, "052185668X"); 
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020suba10digit", fldName, "1417559128");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020suba10endsX", fldName, "123456789X");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020suba10trailingText", fldName, "1234567890");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020suba10trailingText", fldName, "0123456789");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020suba10trailingText", fldName, "0521672694");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020suba10trailingText", fldName, "052185668X");
+		
 		// 020 subfield a 13 digit varieties
-		assertDocHasFieldValue("020suba13", fldName, "9780809424887"); 
-		assertDocHasFieldValue("020suba13endsX", fldName, "979123456789X"); 
-		assertDocHasNoField("020suba13bad", fldName);
-		assertDocHasNoFieldValue("020suba13bad", fldName, "000123456789X"); 
-		assertDocHasFieldValue("020suba13trailingText", fldName, "978185585039X"); 
-		assertDocHasFieldValue("020suba13trailingText", fldName, "9780809424887"); 
-		assertDocHasFieldValue("020suba13trailingText", fldName, "9780809424870"); 
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020suba13", fldName, "9780809424887");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020suba13endsX", fldName, "979123456789X");
+	    solrFldMapTest.assertNoSolrFld(testFilePath, "020suba13bad", fldName);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "020suba13bad", fldName, "000123456789X");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020suba13trailingText", fldName, "978185585039X");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020suba13trailingText", fldName, "9780809424887");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020suba13trailingText", fldName, "9780809424870");
 		// sub a mixed 10 and 13 digit
-		assertDocHasFieldValue("020subaMult", fldName, "0809424886"); 
-		assertDocHasFieldValue("020subaMult", fldName, "123456789X"); 
-		assertDocHasFieldValue("020subaMult", fldName, "1234567890"); 
-		assertDocHasFieldValue("020subaMult", fldName, "979123456789X"); 
-		assertDocHasFieldValue("020subaMult", fldName, "9780809424887"); 
-		assertDocHasFieldValue("020subaMult", fldName, "9781855850484"); 
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subaMult", fldName, "0809424886");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subaMult", fldName, "123456789X");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subaMult", fldName, "1234567890");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subaMult", fldName, "979123456789X");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subaMult", fldName, "9780809424887");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subaMult", fldName, "9781855850484");
 		// no subfield a in 020, but has subfield z 10 digit
-		assertDocHasFieldValue("020subz10digit", fldName, "9876543210"); 		
-		assertDocHasFieldValue("020subz10endsX", fldName, "123456789X"); 
-		assertDocHasFieldValue("020subz10trailingText", fldName, "1234567890"); 
-		assertDocHasFieldValue("020subz10trailingText", fldName, "0123456789"); 
-		assertDocHasFieldValue("020subz10trailingText", fldName, "0521672694"); 
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subz10digit", fldName, "9876543210");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subz10endsX", fldName, "123456789X");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subz10trailingText", fldName, "1234567890");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subz10trailingText", fldName, "0123456789");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subz10trailingText", fldName, "0521672694");
 		// no subfield a in 020, but has subfield z 13 digit		
-		assertDocHasFieldValue("020subz13digit", fldName, "9780809424887"); 		
-		assertDocHasFieldValue("020subz13endsX", fldName, "979123456789X"); 
-		assertDocHasFieldValue("020subz13trailingText", fldName, "978185585039X"); 
-		assertDocHasFieldValue("020subz13trailingText", fldName, "9780809424887"); 
-		assertDocHasFieldValue("020subz13trailingText", fldName, "9780809424870"); 
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subz13digit", fldName, "9780809424887");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subz13endsX", fldName, "979123456789X");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subz13trailingText", fldName, "978185585039X");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subz13trailingText", fldName, "9780809424887");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subz13trailingText", fldName, "9780809424870");
 		// mult subfield z in single 020
-		assertDocHasFieldValue("020multSubz", fldName, "9802311987");
-		assertDocHasFieldValue("020multSubz", fldName, "9802311995");
-		assertDocHasFieldValue("020multSubz", fldName, "9802312002");
-		assertDocHasFieldValue("020multSubz", fldName, "9876543210");
-		assertDocHasFieldValue("020multSubz", fldName, "123456789X");
-		assertDocHasFieldValue("020multSubz", fldName, "9780809424887");
-		assertDocHasFieldValue("020multSubz", fldName, "979123456789X");
-		assertDocHasFieldValue("020multSubz", fldName, "9780809424870");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020multSubz", fldName, "9802311987");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020multSubz", fldName, "9802311995");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020multSubz", fldName, "9802312002");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020multSubz", fldName, "9876543210");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020multSubz", fldName, "123456789X");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020multSubz", fldName, "9780809424887");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020multSubz", fldName, "979123456789X");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020multSubz", fldName, "9780809424870");
 	
 		// mult a and z - should only have a
-		assertDocHasFieldValue("020SubaAndz", fldName, "0123456789");
-		assertDocHasFieldValue("020SubaAndz", fldName, "0521672694");
-		assertDocHasNoFieldValue("020SubaAndz", fldName, "9802311987");
-		assertDocHasFieldValue("020SubaAndz", fldName, "052185668X");
-		assertDocHasNoFieldValue("020SubaAndz", fldName, "123456789X");
-		assertDocHasNoFieldValue("020SubaAndz", fldName, "9780809424887");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020SubaAndz", fldName, "0123456789");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020SubaAndz", fldName, "0521672694");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "020SubaAndz", fldName, "9802311987");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "020SubaAndz", fldName, "052185668X");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "020SubaAndz", fldName, "123456789X");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "020SubaAndz", fldName, "9780809424887");
 	}
 
 	/**
@@ -212,7 +220,7 @@ public class StandardNumberTests extends AbstractStanfordBlacklightTest {
 	 * isbn_search should be case insensitive
 	 */
 @Test
-	public final void testISBNCaseInsensitive() 
+	public final void testISBNSearchCaseInsensitive() 
 		throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "isbn_search";
@@ -231,33 +239,30 @@ public class StandardNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testISSNdisplay() 
-		throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "issn_display";
-		createIxInitVars("issnTests.mrc");
-		assertDisplayFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
+		String testFilePath = testDataParentPath + File.separator + "issnTests.mrc";
 	
 		// no issn
-		assertDocHasNoField("No022", fldName);
-		assertDocHasNoField("022subaNoHyphen", fldName); 
-		assertDocHasNoField("022subaTooManyChars", fldName); 
+	    solrFldMapTest.assertNoSolrFld(testFilePath, "No022", fldName);
+	    solrFldMapTest.assertNoSolrFld(testFilePath, "022subaNoHyphen", fldName);
+	    solrFldMapTest.assertNoSolrFld(testFilePath, "022subaTooManyChars", fldName);
 		// 022 single subfield 
-		assertDocHasFieldValue("022suba", fldName, "1047-2010"); 
-		assertDocHasFieldValue("022subaX", fldName, "1047-201X"); 
-		assertDocHasNoFieldValue("022subL", fldName, "0796-5621"); 
-		assertDocHasNoFieldValue("022subM", fldName, "0863-4564"); 
-		assertDocHasNoFieldValue("022subY", fldName, "0813-1964"); 
-		assertDocHasFieldValue("022subZ", fldName, "1144-585X"); 
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "022suba", fldName, "1047-2010");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "022subaX", fldName, "1047-201X");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "022subL", fldName, "0796-5621");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "022subM", fldName, "0863-4564");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "022subY", fldName, "0813-1964");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "022subZ", fldName, "1144-585X");
 		// 022 mult subfields
-		assertDocHasFieldValue("022subAandL", fldName, "0945-2419"); 
-		assertDocHasNoFieldValue("022subAandL", fldName, "0796-5621"); 
-		assertDocHasNoFieldValue("022subLandM", fldName, "0038-6073"); 
-		assertDocHasNoFieldValue("022subLandM", fldName, "0796-5621"); 
-		assertDocHasNoFieldValue("022subMandZ", fldName, "0103-8915"); 
-		assertDocHasFieldValue("022subMandZ", fldName, "1144-5858"); 
-		assertDocHasFieldValue("Two022a", fldName, "0666-7770"); 
-		assertDocHasFieldValue("Two022a", fldName, "1221-2112"); 
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "022subAandL", fldName, "0945-2419");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "022subAandL", fldName, "0796-5621");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "022subLandM", fldName, "0038-6073");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "022subLandM", fldName, "0796-5621");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "022subMandZ", fldName, "0103-8915");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "022subMandZ", fldName, "1144-5858");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "Two022a", fldName, "0666-7770");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "Two022a", fldName, "1221-2112");
 	}
 
 	/**
@@ -270,8 +275,8 @@ public class StandardNumberTests extends AbstractStanfordBlacklightTest {
 	{
 		String fldName = "issn_search";
 		createIxInitVars("issnTests.mrc");
-		// issn is now textTight, not string, to accommodate the hyphen
-		// single token, but tokenized nevertheless
+		// issn is now text, not string, to accommodate the hyphen
+		//    single token, but tokenized nevertheless
 		assertFieldTokenized(fldName);
 		assertFieldHasNoTermVectors(fldName);
 		assertFieldOmitsNorms(fldName);
@@ -307,7 +312,7 @@ public class StandardNumberTests extends AbstractStanfordBlacklightTest {
 	 * ISSNs should be searchable with or without the hyphen
 	 */
 @Test
-	public final void testISSNhyphens() 
+	public final void testISSNSearchHyphens() 
 		throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "issn_search";
@@ -324,7 +329,7 @@ public class StandardNumberTests extends AbstractStanfordBlacklightTest {
 	 * issn_search should be case insensitive
 	 */
 @Test
-	public final void testISSNCaseInsensitive() 
+	public final void testISSNSearchCaseInsensitive() 
 		throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "issn_search";
@@ -340,67 +345,35 @@ public class StandardNumberTests extends AbstractStanfordBlacklightTest {
 	 */
 @Test
 	public final void testLCCN() 
-			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "lccn";
-		createIxInitVars("lccnTests.mrc");
-        assertStringFieldProperties(fldName);
-        assertFieldNotIndexed(fldName);
-        assertFieldStored(fldName);
-		assertFieldNotMultiValued(fldName);		
+		String testFilePath = testDataParentPath + File.separator + "lccnTests.mrc";
 
 		// no lccn
-		assertDocHasNoField("No010", fldName);
+		solrFldMapTest.assertNoSolrFld(testFilePath, "No010", fldName);
 // TODO:  the 9 digit lccn passes.  I don't know why.  I no longer care.
-//		assertDocHasNoField("010bad", fldName); 
+//		solrFldMapTest.assertNoSolrFld(testFilePath, "010bad", fldName);
 		// 010 sub a only 
-		assertDocHasFieldValue("010suba8digit", fldName, "85153773"); 
-		assertDocHasFieldValue("010suba10digit", fldName, "2001627090");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "010suba8digit", fldName, "85153773");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "010suba10digit", fldName, "2001627090");
 		// prefix
-		assertDocHasFieldValue("010suba8digitPfx", fldName, "a  60123456"); 
-		assertDocHasFieldValue("010suba8digit2LetPfx", fldName, "bs 66654321"); 
-		assertDocHasFieldValue("010suba8digit3LetPfx", fldName, "cad77665544");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "010suba8digitPfx", fldName, "a  60123456");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "010suba8digit2LetPfx", fldName, "bs 66654321");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "010suba8digit3LetPfx", fldName, "cad77665544");
 		// according to loc marc doc, shouldn't have prefix for 10 digit, but
 		//  what the heck - let's test
-		assertDocHasFieldValue("010suba10digitPfx", fldName, "r 2001336783"); 
-		assertDocHasFieldValue("010suba10digit2LetPfx", fldName, "ne2001045944");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "010suba10digitPfx", fldName, "r 2001336783");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "010suba10digit2LetPfx", fldName, "ne2001045944");
 		// suffix
-		assertDocHasFieldValue("010suba8digitSfx", fldName, "79139101"); 
-		assertDocHasFieldValue("010suba10digitSfx", fldName, "2006002284"); 
-		assertDocHasFieldValue("010suba8digitSfx2", fldName, "73002284"); 
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "010suba8digitSfx", fldName, "79139101");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "010suba10digitSfx", fldName, "2006002284");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "010suba8digitSfx2", fldName, "73002284");
 		// sub z
-		assertDocHasFieldValue("010subz", fldName, "20072692384"); 
-		assertDocHasFieldValue("010subaAndZ", fldName, "76647633"); 
-		assertDocHasNoFieldValue("010subaAndZ", fldName, "76000587"); 
-		assertDocHasFieldValue("010multSubZ", fldName, "76647633"); 
-		assertDocHasNoFieldValue("010multSubZ", fldName, "2000123456"); 
-
-/*		
-		// search for them
-		// 010 sub a only 
-		assertSingleResult("010suba8digit", fldName, "85153773"); 
-		assertSingleResult("010suba10digit", fldName, "2001627090");
-		// prefix
-		assertSingleResult("010suba8digitPfx", fldName, "\"a  60123456\""); 
-		assertSingleResult("010suba8digit2LetPfx", fldName, "\"bs 66654321\""); 
-		assertSingleResult("010suba8digit3LetPfx", fldName, "cad77665544");
-		// according to loc marc doc, shouldn't have prefix for 10 digit, but
-		//  what the heck - let's test
-		assertSingleResult("010suba10digitPfx", fldName, "\"r 2001336783\""); 
-		assertSingleResult("010suba10digit2LetPfx", fldName, "ne2001045944");
-		// suffix
-		assertSingleResult("010suba8digitSfx", fldName, "79139101"); 
-		assertSingleResult("010suba10digitSfx", fldName, "2006002284"); 
-		assertSingleResult("010suba8digitSfx2", fldName, "73002284"); 
-		// sub z
-		assertSingleResult("010subz", fldName, "20072692384"); 
-		Set<String> docIds = new HashSet<String>();
-		docIds.add("010subaAndZ");
-		docIds.add("010multSubZ");
-		assertSearchResults(fldName, "76647633", docIds);
-		assertZeroResults(fldName, "76000587");
-		assertZeroResults(fldName, "2000123456");
-*/
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "010subz", fldName, "20072692384");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "010subaAndZ", fldName, "76647633");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "010subaAndZ", fldName, "76000587");
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "010multSubZ", fldName, "76647633");
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "010multSubZ", fldName, "2000123456");
 	}
 
 }
