@@ -187,17 +187,4 @@ public class MiscellaneousFieldTests extends AbstractStanfordBlacklightTest {
 		assertTrue("fields are NOT in the original order", ix650 < ix600);
 	}
 	
-
-	/**
-	 * Hokey horrible way to create a test index.
-	 */
-//@Test
-//    public final void makeBLIndex() 
-//			throws ParserConfigurationException, IOException, SAXException 
-//	{
-//		createIxInitVars("mult245Test.mrc");
-////		assertDocNotPresent("mult245");
-//		createIxInitVars("no001.mrc");
-//	}
-
 }
