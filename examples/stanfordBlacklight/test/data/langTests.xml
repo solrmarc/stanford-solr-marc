@@ -117,7 +117,7 @@
   <record>
     <leader>01952cim  2200457Ia 45í0</leader>
     <controlfield tag="001">a008nor041ad</controlfield>
-    <controlfield tag="008">041202s2000    mdunnn  s      f    nor d</controlfield>
+    <controlfield tag="008">041202s2000    mdunnn  s      f    mul d</controlfield>
     <datafield tag="041" ind1="0" ind2="7">
       <subfield code="a">nor</subfield>
       <subfield code="d">swe</subfield>
@@ -141,7 +141,7 @@
     </datafield>
   </record>
 
-
+  <!-- 041a has 3 lang codes smushed together -->
   <record>
     <leader>01429cas a2200313 a 4500</leader>
     <controlfield tag="001">a041aHas3</controlfield>
@@ -156,5 +156,32 @@
     </datafield>
   </record>
   
-
+  <record>
+    <leader>01429cas a2200313 a 4500</leader>
+    <controlfield tag="001">a041subfields</controlfield>
+    <controlfield tag="008">910830c19909999sp ar         0    0mul d</controlfield>
+    <datafield tag="041" ind1="0" ind2=" ">
+      <subfield code="a">aar</subfield>
+      <subfield code="a">abk</subfield>
+      <subfield code="b">ace</subfield>
+      <subfield code="b">ach</subfield>
+      <subfield code="d">ada</subfield>
+      <subfield code="d">ady</subfield>
+      <subfield code="e">afr</subfield>
+      <subfield code="e">ain</subfield>
+      <subfield code="f">ajm</subfield>
+      <subfield code="f">aka</subfield>
+      <subfield code="g">akk</subfield>
+      <subfield code="g">alb</subfield>
+      <subfield code="h">ale</subfield>
+      <subfield code="h">alt</subfield>
+      <subfield code="j">amh</subfield>
+      <subfield code="j">anp</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">all 041 subfields</subfield>
+      <subfield code="b">https://jirasul.stanford.edu/jira/browse/SW-392</subfield>
+    </datafield>
+  </record>
+  
 </collection>
