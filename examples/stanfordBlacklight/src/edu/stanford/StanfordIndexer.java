@@ -3,7 +3,7 @@ package edu.stanford;
 import java.io.*;
 import java.text.ParseException;
 import java.util.*;
-import java.util.regex.Pattern;
+import java.util.regex.*;
 
 import org.marc4j.marc.*;
 //could import static, but this seems clearer
@@ -538,18 +538,24 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/**
 	 * return a set of "author-title" strings derived from:
-	 *   100 + 240 if there is one;  100 + 245a if there is no 240
-	 *   ditto 110, 111
-	 *   700, 710, 711 fields
-	 *   (plus the same for 880 fields)
+	 *   100,110,111 - all alpha except e + 240[a-z] ; 1xx + 245a if no 240
+	 *   700,710,711 - if no subfield t, ignore
+	 *   	if there is a subfield t, all alpha except e, x
+	 *   800,810,811 - if no subfield t, ignore
+	 *   	if there is a subfield t, all alpha except e, v, w, x
+	 *   
+	 *   vern1xx all alpha except e + vern240; if no vern240, vern245a; if no vern240 and no vern 245a, then skip.
+	 *   vern7xx - as above
+	 *   vern8xx - as above 
+	 * 
 	 * @param record a marc4j Record object
 	 */
 	public Set<String> getAuthorTitleSearch(final Record record)
 	{
 		Set<String> resultSet = new HashSet<String>(10);
 		
-		String one_xx_spec = "100abcdegjqu:110abcdegnu:111acdegjnqu";
-		String two40_spec = "240adfgklmnoprs";
+		String one_xx_spec = "100[a-df-z]:110[a-df-z]:111[a-df-z]";
+		String two40_spec = "240[a-z]";
 		String two45_spec = "245a";
 
 		// 1xx + 24x
@@ -563,39 +569,89 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		}
 				
 		// 880 version of 1xx + 24x
+		// 	vern1xx all alpha except e + vern240; if no vern240, vern245a; if no vern240 and no vern 245a, then skip.
 		Set<String> vern_one_xx_set = getLinkedField(record, one_xx_spec);
-		String vern_one_xx = null;
-        Iterator<String> iter = vern_one_xx_set.iterator();
-        if (iter.hasNext()) {
-        	vern_one_xx = iter.next();
+		if (vern_one_xx_set.size() > 0) {
+        	String vern_one_xx = vern_one_xx_set.iterator().next();
         	// linked 240?
         	Set<String> two40_set = getLinkedField(record, two40_spec);
 			String verntwo4x = null;
-	        iter = two40_set.iterator();
-	        if (iter.hasNext())
-	        	verntwo4x = iter.next();
+			if (two40_set.size() > 0)
+				verntwo4x = two40_set.iterator().next();
 	        else {
 		        // linked 245?
 				Set<String> two45_set = getLinkedField(record, two45_spec);
-		        iter = two45_set.iterator();
-		        if (iter.hasNext())
-		        	verntwo4x = iter.next();
-		        else 
-					// see if there's a non-linked version of 240
-					verntwo4x = getFirstFieldVal(record, two40_spec);
-
-		        // take the non-linked 245a if nothing else avail
-		        if (verntwo4x == null)
-		        	verntwo4x = getFirstFieldVal(record, two45_spec);
-			}
-			resultSet.add(vern_one_xx + " " + verntwo4x);
+				if (two45_set.size() > 0)
+					verntwo4x = two45_set.iterator().next();
+	        }
+			if (verntwo4x != null)
+				resultSet.add(vern_one_xx + " " + verntwo4x);
 		}
-        
-		// get plain and linked version of 7xx fields
-		String seven_xx_spec = "700abcdefgjklmnopqrstu:710abcdefgklmnoprstu:711acdefgjklnpqstu";
-		resultSet.addAll(getLinkedFieldCombined(record, seven_xx_spec));
+
+		
+		String desiredTagFldSpec = "700:710:711:800:810:811";
+
+		List<VariableField> fieldList = MarcUtils.getVariableFields(record, desiredTagFldSpec);		
+		resultSet.addAll(getAuthTitleStringsFrom7xx8xx(fieldList, false));
+
+		// linked versions
+		fieldList = MarcUtils.getLinkedVariableFields(record, desiredTagFldSpec);
+		resultSet.addAll(getAuthTitleStringsFrom7xx8xx(fieldList, true));
 		
 		return resultSet;
+	}
+	
+	
+	/**
+	 * given a List of VariableField objects return a set of "author-title" 
+	 *  strings derived from:
+	 *   7xx - if no subfield t, ignore
+	 *   	if there is a subfield t, all alpha except e, x
+	 *   8xx - if no subfield t, ignore
+	 *   	if there is a subfield t, all alpha except e, v, w, x
+	 *   
+	 * @param fieldList - a List of VariableField objects containing 7xx and 
+	 *    8xx fields (or their linked versions) desired for author-title searching
+	 * @param linked - true if the field list is for linked fields (880 fields
+	 *    corresponding to 7xx and 8xx fields).
+	 */
+	@SuppressWarnings("unchecked")
+	private List<String> getAuthTitleStringsFrom7xx8xx(List<VariableField> fieldList, boolean linked) 
+	{
+		List<String> result = new ArrayList<String>();
+
+		Pattern sub7xxpattern = Pattern.compile("[a-df-hj-wyz]");
+		Pattern sub8xxpattern = Pattern.compile("[a-df-uyz]");
+		for (VariableField vf : fieldList) {
+			DataField df = (DataField) vf;
+			if (df.getSubfield('t') != null) {
+				String tag = null;
+				if (linked)
+					tag = df.getSubfield('6').getData();
+				else
+					tag = df.getTag();
+				// for THIS field, we need to get the appropriate subfields
+                List<Subfield> subfields = df.getSubfields();
+                StringBuilder buffer = new StringBuilder();
+                for (Subfield sf : subfields) {
+                	Matcher matcher = null;
+                	if (tag.startsWith("7"))
+                		matcher = sub7xxpattern.matcher(String.valueOf(sf.getCode()));
+                	else if (tag.startsWith("8"))
+                		matcher = sub8xxpattern.matcher(String.valueOf(sf.getCode()));
+                	if (matcher.matches()) {
+	                    if (buffer.length() > 0)
+	                        buffer.append(" " + sf.getData());
+	                    else
+	                        buffer.append(sf.getData());
+                    }
+                }
+                
+                if (buffer.length() > 0)
+                	result.add(buffer.toString());				
+			} // end if |t
+		}
+		return result;
 	}
 
 // Subject Methods ----------------- Begin --------------------- Subject Methods    
