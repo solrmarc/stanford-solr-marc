@@ -1,8 +1,11 @@
 package org.solrmarc.tools;
 
-import java.util.*;
+import org.solrmarc.index.SolrIndexer;
 
 import org.marc4j.marc.*;
+
+import java.util.*;
+import java.util.regex.Matcher;
 
 public class MarcUtils {
 
@@ -10,6 +13,69 @@ public class MarcUtils {
      * Default Constructor,  private, so it can't be instantiated by other objects
      */    
     private MarcUtils(){ }
+    
+    
+ // --------------------------- field methods ---------------------------------- 
+
+    /**
+     * Return a List of VariableField objects as indicated by fieldSpec. 
+     * 
+     * @param record - the marc record object
+     * @param fieldSpec - string containing which field(s) to retrieve.  This
+     *   string contains one or more:  marc "tags" (3 chars identifying a marc 
+     *   field, e.g. 245).  If more than one marc tag is desired, they need to
+     *   be separated by a colon (e.g. 100:110:111)
+     * @return a List of VariableFields corresponding to the marc field(s)
+     *   specified in the fieldSpec
+     */
+    @SuppressWarnings("unchecked")
+	public static List<VariableField> getVariableFields(Record record, String fieldSpec)
+    {
+        List<VariableField> result = new ArrayList<VariableField>();
+
+        String[] tags = fieldSpec.split(":");
+        for (String tag : tags)
+        {
+            // Check to ensure tag length is at least 3 characters
+            if (tag.length() < 3)
+            {
+                System.err.println("Invalid tag specified: " + tag);
+                continue;
+            }
+            
+            result.addAll(record.getVariableFields(tag));
+        }
+        return result;
+    }
+    
+    /**
+     * Return a List of VariableField objects corresponding to 880 fields linked
+     *  to the fields indicated by fieldSpec. 
+     * 
+     * @param record - the marc record object
+     * @param fieldSpec - string containing one or more marc "tags" for which 
+     *   linked 880 will be returned.  For example, 610 means return all 880
+     *   field(s) linked to any 610 field.  If more than one marc tag is 
+     *   desired, they need to be separated by a colon (e.g. 100:110:111)
+     * @return a List of VariableFields corresponding to 880 fields linked to 
+     *   the marc field(s) specified in the fieldSpec
+     */
+    public static List<VariableField> getLinkedVariableFields(final Record record, String fieldSpec)
+    {
+        List<VariableField> result = new ArrayList<VariableField>();
+
+        List<String> desiredTags = Arrays.asList(fieldSpec.split(":"));
+
+        List<VariableField> linkedFlds = getVariableFields(record, "880");        
+        for (VariableField lnkFld : linkedFlds) {
+			DataField df = (DataField) lnkFld;
+			Subfield sub6 = df.getSubfield('6');
+			if (sub6 != null && desiredTags.contains(sub6.getData().substring(0, 3))) 
+				result.add(lnkFld);
+        }
+        
+        return result;
+    }
 
     /**
      * Return an ordered list of marc4j DataField objects for the range of marc tags 
@@ -39,6 +105,8 @@ public class MarcUtils {
         return resultList;
     }
     
+
+// --------------------------- subfield methods --------------------------------    
     /**
      * return the ordered List of strings from the indicated subfields from the given
      *  set of marc DataField objects.
@@ -175,6 +243,10 @@ public class MarcUtils {
         return result;
     }
 
+    
+// -------------------------- indicator methods --------------------------------    
+
+    
     /**
      * @param df a DataField
      * @return the integer (0-9, 0 if blank or other) in the 2nd indicator
