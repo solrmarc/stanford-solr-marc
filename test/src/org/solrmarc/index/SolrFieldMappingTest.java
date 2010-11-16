@@ -144,6 +144,9 @@ public class SolrFieldMappingTest
         	fail("there is no document with id " + solrDocId);
 
         Object solrFldValObj = solrFldName2ValMap.get(expectedFldName);
+        if (solrFldValObj == null && expectedNumVals != 0)
+        	fail("Solr field "+ expectedFldName
+                    + " unexpectedly has no values; expected " + String.valueOf(expectedNumVals));
         if (solrFldValObj instanceof String) 
         {
         	if (expectedNumVals != 1) 
