@@ -201,7 +201,7 @@
             <subfield code="b">111 all subfields but no 240</subfield>
         </datafield>
     </record>
-    
+<!-- 7xx fields -->    
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
         <controlfield tag="001">a700</controlfield>
@@ -218,6 +218,7 @@
             <subfield code="f">700f</subfield>
             <subfield code="g">700g</subfield>
             <subfield code="h">700h</subfield>
+            <subfield code="i">700i</subfield>
             <subfield code="j">700j</subfield>
             <subfield code="k">700k</subfield>
             <subfield code="l">700l</subfield>
@@ -229,6 +230,37 @@
             <subfield code="r">700r</subfield>
             <subfield code="s">700s</subfield>
             <subfield code="t">700t</subfield>
+            <subfield code="u">700u</subfield>
+            <subfield code="x">700x</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a700nosubt</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">seven-oh-oh without subfield t</subfield>
+        </datafield>
+        <datafield tag="700" ind1=" " ind2=" ">
+            <subfield code="a">700a</subfield>
+            <subfield code="b">700b</subfield>
+            <subfield code="c">700c</subfield>
+            <subfield code="d">700d</subfield>
+            <subfield code="e">700e</subfield>
+            <subfield code="f">700f</subfield>
+            <subfield code="g">700g</subfield>
+            <subfield code="h">700h</subfield>
+            <subfield code="i">700i</subfield>
+            <subfield code="j">700j</subfield>
+            <subfield code="k">700k</subfield>
+            <subfield code="l">700l</subfield>
+            <subfield code="m">700m</subfield>
+            <subfield code="n">700n</subfield>
+            <subfield code="o">700o</subfield>
+            <subfield code="p">700p</subfield>
+            <subfield code="q">700q</subfield>
+            <subfield code="r">700r</subfield>
+            <subfield code="s">700s</subfield>
             <subfield code="u">700u</subfield>
             <subfield code="x">700x</subfield>
         </datafield>
@@ -249,6 +281,7 @@
             <subfield code="f">710f</subfield>
             <subfield code="g">710g</subfield>
             <subfield code="h">710h</subfield>
+            <subfield code="i">710i</subfield>
             <subfield code="k">710k</subfield>
             <subfield code="l">710l</subfield>
             <subfield code="m">710m</subfield>
@@ -258,6 +291,35 @@
             <subfield code="r">710r</subfield>
             <subfield code="s">710s</subfield>
             <subfield code="t">710t</subfield>
+            <subfield code="u">710u</subfield>
+            <subfield code="x">710x</subfield>
+        </datafield>
+    </record>  
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a710nosubt</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">seven-one-oh without subfield t</subfield>
+        </datafield>
+        <datafield tag="710" ind1=" " ind2=" ">
+            <subfield code="a">710a</subfield>
+            <subfield code="b">710b</subfield>
+            <subfield code="c">710c</subfield>
+            <subfield code="d">710d</subfield>
+            <subfield code="e">710e</subfield>
+            <subfield code="f">710f</subfield>
+            <subfield code="g">710g</subfield>
+            <subfield code="h">710h</subfield>
+            <subfield code="i">710i</subfield>
+            <subfield code="k">710k</subfield>
+            <subfield code="l">710l</subfield>
+            <subfield code="m">710m</subfield>
+            <subfield code="n">710n</subfield>
+            <subfield code="o">710o</subfield>
+            <subfield code="p">710p</subfield>
+            <subfield code="r">710r</subfield>
+            <subfield code="s">710s</subfield>
             <subfield code="u">710u</subfield>
             <subfield code="x">710x</subfield>
         </datafield>
@@ -277,6 +339,7 @@
             <subfield code="f">711f</subfield>
             <subfield code="g">711g</subfield>
             <subfield code="h">711h</subfield>
+            <subfield code="i">711i</subfield>
             <subfield code="j">711j</subfield>
             <subfield code="k">711k</subfield>
             <subfield code="l">711l</subfield>
@@ -289,6 +352,222 @@
             <subfield code="x">711x</subfield>
         </datafield>
     </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a711nosubt</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">seven-one-one without subfield t</subfield>
+        </datafield>
+        <datafield tag="711" ind1=" " ind2=" ">
+            <subfield code="a">711a</subfield>
+            <subfield code="c">711c</subfield>
+            <subfield code="d">711d</subfield>
+            <subfield code="e">711e</subfield>
+            <subfield code="f">711f</subfield>
+            <subfield code="g">711g</subfield>
+            <subfield code="h">711h</subfield>
+            <subfield code="i">711i</subfield>
+            <subfield code="j">711j</subfield>
+            <subfield code="k">711k</subfield>
+            <subfield code="l">711l</subfield>
+            <subfield code="n">711n</subfield>
+            <subfield code="p">711p</subfield>
+            <subfield code="q">711q</subfield>
+            <subfield code="s">711s</subfield>
+            <subfield code="u">711u</subfield>
+            <subfield code="x">711x</subfield>
+        </datafield>
+    </record>
+    
+<!-- 8xx fields -->
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a800</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">eight hundred</subfield>
+        </datafield>
+        <datafield tag="800" ind1=" " ind2=" ">
+            <subfield code="a">800a</subfield>
+            <subfield code="b">800b</subfield>
+            <subfield code="c">800c</subfield>
+            <subfield code="d">800d</subfield>
+            <subfield code="e">800e</subfield>
+            <subfield code="f">800f</subfield>
+            <subfield code="g">800g</subfield>
+            <subfield code="h">800h</subfield>
+            <subfield code="j">800j</subfield>
+            <subfield code="k">800k</subfield>
+            <subfield code="l">800l</subfield>
+            <subfield code="m">800m</subfield>
+            <subfield code="n">800n</subfield>
+            <subfield code="o">800o</subfield>
+            <subfield code="p">800p</subfield>
+            <subfield code="q">800q</subfield>
+            <subfield code="r">800r</subfield>
+            <subfield code="s">800s</subfield>
+            <subfield code="t">800t</subfield>
+            <subfield code="u">800u</subfield>
+            <subfield code="v">800v</subfield>
+            <subfield code="w">800w</subfield>
+            <subfield code="x">800x</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a800nosubt</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">eight hundred without subfield t</subfield>
+        </datafield>
+        <datafield tag="800" ind1=" " ind2=" ">
+            <subfield code="a">800a</subfield>
+            <subfield code="b">800b</subfield>
+            <subfield code="c">800c</subfield>
+            <subfield code="d">800d</subfield>
+            <subfield code="e">800e</subfield>
+            <subfield code="f">800f</subfield>
+            <subfield code="g">800g</subfield>
+            <subfield code="h">800h</subfield>
+            <subfield code="j">800j</subfield>
+            <subfield code="k">800k</subfield>
+            <subfield code="l">800l</subfield>
+            <subfield code="m">800m</subfield>
+            <subfield code="n">800n</subfield>
+            <subfield code="o">800o</subfield>
+            <subfield code="p">800p</subfield>
+            <subfield code="q">800q</subfield>
+            <subfield code="r">800r</subfield>
+            <subfield code="s">800s</subfield>
+            <subfield code="u">800u</subfield>
+            <subfield code="v">800v</subfield>
+            <subfield code="w">800w</subfield>
+            <subfield code="x">800x</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a810</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">eight ten</subfield>
+        </datafield>
+        <datafield tag="810" ind1=" " ind2=" ">
+            <subfield code="a">810a</subfield>
+            <subfield code="b">810b</subfield>
+            <subfield code="c">810c</subfield>
+            <subfield code="d">810d</subfield>
+            <subfield code="e">810e</subfield>
+            <subfield code="f">810f</subfield>
+            <subfield code="g">810g</subfield>
+            <subfield code="h">810h</subfield>
+            <subfield code="j">810j</subfield>
+            <subfield code="k">810k</subfield>
+            <subfield code="l">810l</subfield>
+            <subfield code="m">810m</subfield>
+            <subfield code="n">810n</subfield>
+            <subfield code="o">810o</subfield>
+            <subfield code="p">810p</subfield>
+            <subfield code="r">810r</subfield>
+            <subfield code="s">810s</subfield>
+            <subfield code="t">810t</subfield>
+            <subfield code="u">810u</subfield>
+            <subfield code="v">810v</subfield>
+            <subfield code="w">810w</subfield>
+            <subfield code="x">810x</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a810nosubt</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">eight ten without subfield t</subfield>
+        </datafield>
+        <datafield tag="810" ind1=" " ind2=" ">
+            <subfield code="a">810a</subfield>
+            <subfield code="b">810b</subfield>
+            <subfield code="c">810c</subfield>
+            <subfield code="d">810d</subfield>
+            <subfield code="e">810e</subfield>
+            <subfield code="f">810f</subfield>
+            <subfield code="g">810g</subfield>
+            <subfield code="h">810h</subfield>
+            <subfield code="j">810j</subfield>
+            <subfield code="k">810k</subfield>
+            <subfield code="l">810l</subfield>
+            <subfield code="m">810m</subfield>
+            <subfield code="n">810n</subfield>
+            <subfield code="o">810o</subfield>
+            <subfield code="p">810p</subfield>
+            <subfield code="r">810r</subfield>
+            <subfield code="s">810s</subfield>
+            <subfield code="u">810u</subfield>
+            <subfield code="v">810v</subfield>
+            <subfield code="w">810w</subfield>
+            <subfield code="x">810x</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a811</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">eight eleven</subfield>
+        </datafield>
+        <datafield tag="811" ind1=" " ind2=" ">
+            <subfield code="a">811a</subfield>
+            <subfield code="c">811c</subfield>
+            <subfield code="d">811d</subfield>
+            <subfield code="e">811e</subfield>
+            <subfield code="f">811f</subfield>
+            <subfield code="g">811g</subfield>
+            <subfield code="h">811h</subfield>
+            <subfield code="j">811j</subfield>
+            <subfield code="k">811k</subfield>
+            <subfield code="l">811l</subfield>
+            <subfield code="n">811n</subfield>
+            <subfield code="p">811p</subfield>
+            <subfield code="q">811q</subfield>
+            <subfield code="s">811s</subfield>
+            <subfield code="t">811t</subfield>
+            <subfield code="u">811u</subfield>
+            <subfield code="v">811v</subfield>
+            <subfield code="w">811w</subfield>
+            <subfield code="x">811x</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a811nosubt</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">eight eleven without subfield t</subfield>
+        </datafield>
+        <datafield tag="811" ind1=" " ind2=" ">
+            <subfield code="a">811a</subfield>
+            <subfield code="c">811c</subfield>
+            <subfield code="d">811d</subfield>
+            <subfield code="e">811e</subfield>
+            <subfield code="f">811f</subfield>
+            <subfield code="g">811g</subfield>
+            <subfield code="h">811h</subfield>
+            <subfield code="j">811j</subfield>
+            <subfield code="k">811k</subfield>
+            <subfield code="l">811l</subfield>
+            <subfield code="n">811n</subfield>
+            <subfield code="p">811p</subfield>
+            <subfield code="q">811q</subfield>
+            <subfield code="s">811s</subfield>
+            <subfield code="u">811u</subfield>
+            <subfield code="v">811v</subfield>
+            <subfield code="w">811w</subfield>
+            <subfield code="x">811x</subfield>
+        </datafield>
+    </record>
+    
+      
       
       
 <!-- 880 versions -->     
@@ -413,8 +692,6 @@
             <subfield code="u">vern100u</subfield>
         </datafield>
     </record>
-
-
 <!-- vern 100 plain 240-->
     <record>
         <leader>00880cam a2200217 i 4500</leader>
@@ -422,6 +699,7 @@
         <controlfield tag="008">770207r19771901gw       b    001 0 ger d</controlfield>
         <datafield tag="100" ind1="1" ind2=" ">
             <subfield code="6">880-01</subfield>
+            <subfield code="a">100a</subfield>
         </datafield>
         <datafield tag="240" ind1="1" ind2=" ">
             <subfield code="a">240a</subfield>
@@ -696,9 +974,7 @@
         </datafield>
     </record>
     
-
-
- <!-- vern 7xx -->   
+<!-- vern 7xx -->   
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
         <controlfield tag="001">avern700</controlfield>
@@ -731,6 +1007,41 @@
             <subfield code="r">vern700r</subfield>
             <subfield code="s">vern700s</subfield>
             <subfield code="t">vern700t</subfield>
+            <subfield code="u">vern700u</subfield>
+            <subfield code="x">vern700x</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">avern700nosubt</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">vern seven-oh-oh without subfield t</subfield>
+        </datafield>
+        <datafield tag="700" ind1=" " ind2=" ">
+            <subfield code="6">880-01</subfield>
+            <subfield code="a">700a</subfield>
+        </datafield>
+        <datafield tag="880" ind1=" " ind2=" ">
+            <subfield code="6">700-01</subfield>
+            <subfield code="a">vern700a</subfield>
+            <subfield code="b">vern700b</subfield>
+            <subfield code="c">vern700c</subfield>
+            <subfield code="d">vern700d</subfield>
+            <subfield code="e">vern700e</subfield>
+            <subfield code="f">vern700f</subfield>
+            <subfield code="g">vern700g</subfield>
+            <subfield code="h">vern700h</subfield>
+            <subfield code="j">vern700j</subfield>
+            <subfield code="k">vern700k</subfield>
+            <subfield code="l">vern700l</subfield>
+            <subfield code="m">vern700m</subfield>
+            <subfield code="n">vern700n</subfield>
+            <subfield code="o">vern700o</subfield>
+            <subfield code="p">vern700p</subfield>
+            <subfield code="q">vern700q</subfield>
+            <subfield code="r">vern700r</subfield>
+            <subfield code="s">vern700s</subfield>
             <subfield code="u">vern700u</subfield>
             <subfield code="x">vern700x</subfield>
         </datafield>
@@ -771,6 +1082,39 @@
     </record>  
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">avern710nosubt</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">vern seven-one-oh without subfield t</subfield>
+        </datafield>
+        <datafield tag="710" ind1=" " ind2=" ">
+            <subfield code="6">880-01</subfield>
+            <subfield code="a">710a</subfield>
+        </datafield>
+        <datafield tag="880" ind1=" " ind2=" ">
+            <subfield code="6">710-01</subfield>
+            <subfield code="a">vern710a</subfield>
+            <subfield code="b">vern710b</subfield>
+            <subfield code="c">vern710c</subfield>
+            <subfield code="d">vern710d</subfield>
+            <subfield code="e">vern710e</subfield>
+            <subfield code="f">vern710f</subfield>
+            <subfield code="g">vern710g</subfield>
+            <subfield code="h">vern710h</subfield>
+            <subfield code="k">vern710k</subfield>
+            <subfield code="l">vern710l</subfield>
+            <subfield code="m">vern710m</subfield>
+            <subfield code="n">vern710n</subfield>
+            <subfield code="o">vern710o</subfield>
+            <subfield code="p">vern710p</subfield>
+            <subfield code="r">vern710r</subfield>
+            <subfield code="s">vern710s</subfield>
+            <subfield code="u">vern710u</subfield>
+            <subfield code="x">vern710x</subfield>
+        </datafield>
+    </record>  
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
         <controlfield tag="001">avern711</controlfield>
         <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
         <datafield tag="245" ind1=" " ind2="0">
@@ -801,6 +1145,252 @@
             <subfield code="x">vern711x</subfield>
         </datafield>   
     </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">avern711nosubt</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">vern seven-one-one without subfield t</subfield>
+        </datafield>
+        <datafield tag="711" ind1=" " ind2=" ">
+            <subfield code="6">880-01</subfield>
+            <subfield code="a">711a</subfield>
+        </datafield>
+        <datafield tag="880" ind1="1" ind2=" ">
+            <subfield code="6">711-01</subfield>
+            <subfield code="a">vern711a</subfield>
+            <subfield code="c">vern711c</subfield>
+            <subfield code="d">vern711d</subfield>
+            <subfield code="e">vern711e</subfield>
+            <subfield code="f">vern711f</subfield>
+            <subfield code="g">vern711g</subfield>
+            <subfield code="h">vern711h</subfield>
+            <subfield code="j">vern711j</subfield>
+            <subfield code="k">vern711k</subfield>
+            <subfield code="l">vern711l</subfield>
+            <subfield code="n">vern711n</subfield>
+            <subfield code="p">vern711p</subfield>
+            <subfield code="q">vern711q</subfield>
+            <subfield code="s">vern711s</subfield>
+            <subfield code="u">vern711u</subfield>
+            <subfield code="x">vern711x</subfield>
+        </datafield>   
+    </record>
     
+<!-- vern 8xx -->   
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">avern800</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">vern eight-oh-oh</subfield>
+        </datafield>
+        <datafield tag="800" ind1=" " ind2=" ">
+            <subfield code="6">880-01</subfield>
+            <subfield code="a">800a</subfield>
+        </datafield>
+        <datafield tag="880" ind1=" " ind2=" ">
+            <subfield code="6">800-01</subfield>
+            <subfield code="a">vern800a</subfield>
+            <subfield code="b">vern800b</subfield>
+            <subfield code="c">vern800c</subfield>
+            <subfield code="d">vern800d</subfield>
+            <subfield code="e">vern800e</subfield>
+            <subfield code="f">vern800f</subfield>
+            <subfield code="g">vern800g</subfield>
+            <subfield code="h">vern800h</subfield>
+            <subfield code="j">vern800j</subfield>
+            <subfield code="k">vern800k</subfield>
+            <subfield code="l">vern800l</subfield>
+            <subfield code="m">vern800m</subfield>
+            <subfield code="n">vern800n</subfield>
+            <subfield code="o">vern800o</subfield>
+            <subfield code="p">vern800p</subfield>
+            <subfield code="q">vern800q</subfield>
+            <subfield code="r">vern800r</subfield>
+            <subfield code="s">vern800s</subfield>
+            <subfield code="t">vern800t</subfield>
+            <subfield code="u">vern800u</subfield>
+            <subfield code="v">vern800v</subfield>
+            <subfield code="w">vern800w</subfield>
+            <subfield code="x">vern800x</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">avern800nosubt</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">vern eight-oh-oh without subfield t</subfield>
+        </datafield>
+        <datafield tag="800" ind1=" " ind2=" ">
+            <subfield code="6">880-01</subfield>
+            <subfield code="a">800a</subfield>
+        </datafield>
+        <datafield tag="880" ind1=" " ind2=" ">
+            <subfield code="6">800-01</subfield>
+            <subfield code="a">vern800a</subfield>
+            <subfield code="b">vern800b</subfield>
+            <subfield code="c">vern800c</subfield>
+            <subfield code="d">vern800d</subfield>
+            <subfield code="e">vern800e</subfield>
+            <subfield code="f">vern800f</subfield>
+            <subfield code="g">vern800g</subfield>
+            <subfield code="h">vern800h</subfield>
+            <subfield code="j">vern800j</subfield>
+            <subfield code="k">vern800k</subfield>
+            <subfield code="l">vern800l</subfield>
+            <subfield code="m">vern800m</subfield>
+            <subfield code="n">vern800n</subfield>
+            <subfield code="o">vern800o</subfield>
+            <subfield code="p">vern800p</subfield>
+            <subfield code="q">vern800q</subfield>
+            <subfield code="r">vern800r</subfield>
+            <subfield code="s">vern800s</subfield>
+            <subfield code="u">vern800u</subfield>
+            <subfield code="v">vern800v</subfield>
+            <subfield code="w">vern800w</subfield>
+            <subfield code="x">vern800x</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">avern810</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">vern eight-one-oh</subfield>
+        </datafield>
+        <datafield tag="810" ind1=" " ind2=" ">
+            <subfield code="6">880-01</subfield>
+            <subfield code="a">810a</subfield>
+        </datafield>
+        <datafield tag="880" ind1=" " ind2=" ">
+            <subfield code="6">810-01</subfield>
+            <subfield code="a">vern810a</subfield>
+            <subfield code="b">vern810b</subfield>
+            <subfield code="c">vern810c</subfield>
+            <subfield code="d">vern810d</subfield>
+            <subfield code="e">vern810e</subfield>
+            <subfield code="f">vern810f</subfield>
+            <subfield code="g">vern810g</subfield>
+            <subfield code="h">vern810h</subfield>
+            <subfield code="k">vern810k</subfield>
+            <subfield code="l">vern810l</subfield>
+            <subfield code="m">vern810m</subfield>
+            <subfield code="n">vern810n</subfield>
+            <subfield code="o">vern810o</subfield>
+            <subfield code="p">vern810p</subfield>
+            <subfield code="r">vern810r</subfield>
+            <subfield code="s">vern810s</subfield>
+            <subfield code="t">vern810t</subfield>
+            <subfield code="u">vern810u</subfield>
+            <subfield code="v">vern810v</subfield>
+            <subfield code="w">vern810w</subfield>
+            <subfield code="x">vern810x</subfield>
+        </datafield>
+    </record>  
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">avern810nosubt</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">vern eight-one-oh without subfield t</subfield>
+        </datafield>
+        <datafield tag="810" ind1=" " ind2=" ">
+            <subfield code="6">880-01</subfield>
+            <subfield code="a">810a</subfield>
+        </datafield>
+        <datafield tag="880" ind1=" " ind2=" ">
+            <subfield code="6">810-01</subfield>
+            <subfield code="a">vern810a</subfield>
+            <subfield code="b">vern810b</subfield>
+            <subfield code="c">vern810c</subfield>
+            <subfield code="d">vern810d</subfield>
+            <subfield code="e">vern810e</subfield>
+            <subfield code="f">vern810f</subfield>
+            <subfield code="g">vern810g</subfield>
+            <subfield code="h">vern810h</subfield>
+            <subfield code="k">vern810k</subfield>
+            <subfield code="l">vern810l</subfield>
+            <subfield code="m">vern810m</subfield>
+            <subfield code="n">vern810n</subfield>
+            <subfield code="o">vern810o</subfield>
+            <subfield code="p">vern810p</subfield>
+            <subfield code="r">vern810r</subfield>
+            <subfield code="s">vern810s</subfield>
+            <subfield code="u">vern810u</subfield>
+            <subfield code="v">vern810v</subfield>
+            <subfield code="w">vern810w</subfield>
+            <subfield code="x">vern810x</subfield>
+        </datafield>
+    </record>  
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">avern811</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">vern eight-one-one</subfield>
+        </datafield>
+        <datafield tag="811" ind1=" " ind2=" ">
+            <subfield code="6">880-01</subfield>
+            <subfield code="a">811a</subfield>
+        </datafield>
+        <datafield tag="880" ind1="1" ind2=" ">
+            <subfield code="6">811-01</subfield>
+            <subfield code="a">vern811a</subfield>
+            <subfield code="c">vern811c</subfield>
+            <subfield code="d">vern811d</subfield>
+            <subfield code="e">vern811e</subfield>
+            <subfield code="f">vern811f</subfield>
+            <subfield code="g">vern811g</subfield>
+            <subfield code="h">vern811h</subfield>
+            <subfield code="j">vern811j</subfield>
+            <subfield code="k">vern811k</subfield>
+            <subfield code="l">vern811l</subfield>
+            <subfield code="n">vern811n</subfield>
+            <subfield code="p">vern811p</subfield>
+            <subfield code="q">vern811q</subfield>
+            <subfield code="s">vern811s</subfield>
+            <subfield code="t">vern811t</subfield>
+            <subfield code="u">vern811u</subfield>
+            <subfield code="v">vern811v</subfield>
+            <subfield code="w">vern811w</subfield>
+            <subfield code="x">vern811x</subfield>
+        </datafield>   
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">avern811nosubt</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2="0">
+            <subfield code="a">vern eight-one-one without subfield t</subfield>
+        </datafield>
+        <datafield tag="811" ind1=" " ind2=" ">
+            <subfield code="6">880-01</subfield>
+            <subfield code="a">811a</subfield>
+        </datafield>
+        <datafield tag="880" ind1="1" ind2=" ">
+            <subfield code="6">811-01</subfield>
+            <subfield code="a">vern811a</subfield>
+            <subfield code="c">vern811c</subfield>
+            <subfield code="d">vern811d</subfield>
+            <subfield code="e">vern811e</subfield>
+            <subfield code="f">vern811f</subfield>
+            <subfield code="g">vern811g</subfield>
+            <subfield code="h">vern811h</subfield>
+            <subfield code="j">vern811j</subfield>
+            <subfield code="k">vern811k</subfield>
+            <subfield code="l">vern811l</subfield>
+            <subfield code="n">vern811n</subfield>
+            <subfield code="p">vern811p</subfield>
+            <subfield code="q">vern811q</subfield>
+            <subfield code="s">vern811s</subfield>
+            <subfield code="u">vern811u</subfield>
+            <subfield code="v">vern811v</subfield>
+            <subfield code="w">vern811w</subfield>
+            <subfield code="x">vern811x</subfield>
+        </datafield>   
+    </record>
+
 </collection>  
     

@@ -14,6 +14,9 @@ import org.solrmarc.tools.*;
  */
 public class GenericUtils {
 	
+	
+// FIXME:  These should go into MarcUtils or Properties Utils I think ...	
+	
 	/**
 	 * Default Constructor: private, so it can't be instantiated by other objects
 	 */	
@@ -121,7 +124,7 @@ public class GenericUtils {
      * @param df - DataField from which to get the subfields
      * @param subfldsStr - the string containing the desired subfields
      * @param beginIx - the beginning index of the substring of the subfield value
-     * @param endIx - the endind index of the substring of the subfield value
+     * @param endIx - the end index of the substring of the subfield value
      * @param RTL - true if this is a right to left language.  In this case, 
      *  each subfield is prepended due to LTR and MARC end-of-subfield punctuation
      *  is moved from the last character to the first.
