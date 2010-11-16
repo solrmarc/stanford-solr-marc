@@ -683,7 +683,97 @@
     </lst>
   </requestHandler>    
   
-  <!-- subject search request handler -->  
+  <!-- series search request handler -->  
+  <requestHandler name="search_series" class="solr.SearchHandler" >
+    <lst name="defaults">
+      <str name="defType">dismax</str>
+      <str name="echoParams">explicit</str>
+      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
+      <str name="q.alt">*:*</str>
+      <int name="qs">1</int>
+      <str name="mm">4&lt;-1 4&lt;90%</str>
+      
+      <str name="qf">
+        series_title_search            vern_series_title_search
+        series_person_search           vern_series_person_search
+        series_org_search              vern_series_org_search
+        series_proc_search             vern_series_proc_search
+        series_anything_search         vern_series_anything_search
+        series_anything490_search      vern_series_anything490_search
+      </str>
+      <str name="pf">
+        series_title_search^20          vern_series_title_search^20
+        series_person_search^20         vern_series_person_search^20
+        series_org_search^20            vern_series_org_search^20
+        series_proc_search^20           vern_series_proc_search^20
+        series_anything_search^20       vern_series_anything_search^20
+        series_anything490_search^20    vern_series_anything490_search^20
+      </str>
+      
+      <int name="ps">3</int>
+      <float name="tie">0.01</float>
+      
+      <bool name="facet">true</bool>
+      <int name="facet.mincount">1</int>
+      <int name="facet.limit">30</int> 
+      <str name="facet.field">access_facet</str>
+      <str name="facet.field">author_person_facet</str>
+      <str name="facet.field">author_other_facet</str>
+      <str name="facet.field">building_facet</str>
+      <str name="facet.field">callnum_top_facet</str>
+      <str name="facet.field">lc_alpha_facet</str>
+      <str name="facet.field">lc_b4cutter_facet</str>
+      <str name="facet.field">dewey_1digit_facet</str>
+      <str name="facet.field">dewey_2digit_facet</str>
+      <str name="facet.field">dewey_b4cutter_facet</str>
+      <str name="facet.field">gov_doc_type_facet</str>
+      <str name="facet.field">era_facet</str>
+      <str name="facet.field">format</str>
+<!--
+      <str name="facet.field">dbAZsubjects_facet</str>
+-->
+      <str name="facet.field">geographic_facet</str>
+      <str name="facet.field">language</str>
+      <str name="facet.field">pub_date_group_facet</str>
+      <str name="facet.field">pub_date</str>
+      <str name="facet.field">topic_facet</str>
+      
+      <str name="fl">
+        score,
+        id,
+        author_corp_display,
+        author_meeting_display,
+        author_person_display,
+        author_person_full_display,
+        format,
+        isbn_display,
+        item_display,
+        lccn,
+        oclc,
+        physical,
+        pub_date,
+        title_245a_display,
+        title_245c_display,
+        title_display,
+        title_full_display,
+        title_uniform_display,
+        url_fulltext,
+        url_suppl,
+        url_sfx,
+        vern_author_corp_display,
+        vern_author_meeting_display,
+        vern_author_person_display,
+        vern_author_person_full_display,
+        vern_physical,
+        vern_title_245a_display,
+        vern_title_245c_display,
+        vern_title_display,
+        vern_title_uniform_display
+      </str>
+    </lst>
+  </requestHandler>    
+  
+  <!-- callnum search request handler -->  
   <requestHandler name="search_callnum" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="echoParams">explicit</str>
