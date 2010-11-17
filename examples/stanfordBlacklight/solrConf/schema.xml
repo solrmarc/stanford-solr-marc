@@ -83,6 +83,7 @@
         <!-- prepend yyyy to string so searches can be left anchored -->
         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^ *([^ ]{1})" replacement="yyyy$1"/>  
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
         <filter class="solr.LowerCaseFilterFactory" />
       </analyzer>
       <!-- Note that the query string could be a partial call number, so we can't combine all patterns -->
@@ -96,6 +97,7 @@
         <!-- prepend yyyy to string so searches can be left anchored -->
         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^ *([^ ]{1})" replacement="yyyy$1"/>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
         <filter class="solr.LowerCaseFilterFactory" />
       </analyzer>
     </fieldType>
