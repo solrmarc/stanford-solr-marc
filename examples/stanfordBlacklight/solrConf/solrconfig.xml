@@ -280,7 +280,9 @@
         id
         oclc
         barcode_search
+<!-- callnum_search removed so searches with stopwords can have matches
         callnum_search
+-->
       </str>
       <str name="pf">
         title_245a_unstem_search^300000
