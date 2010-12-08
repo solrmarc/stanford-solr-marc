@@ -1578,6 +1578,7 @@
         isbn_display,
         item_display,
         lccn,
+        marc21,
         oclc,
         physical,
         pub_date,
