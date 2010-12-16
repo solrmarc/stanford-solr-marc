@@ -330,7 +330,7 @@
       
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int> 
+      <int name="facet.limit">11</int> 
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -431,7 +431,7 @@
       
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int>
+      <int name="facet.limit">11</int>
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -519,7 +519,7 @@
       
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int> 
+      <int name="facet.limit">11</int> 
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -627,7 +627,7 @@
       
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int> 
+      <int name="facet.limit">11</int> 
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -717,7 +717,7 @@
       
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int> 
+      <int name="facet.limit">11</int> 
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -787,7 +787,7 @@
       
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int> 
+      <int name="facet.limit">11</int> 
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -1036,7 +1036,7 @@
       
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int> 
+      <int name="facet.limit">11</int> 
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -1262,7 +1262,7 @@
 
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int> 
+      <int name="facet.limit">11</int> 
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -1474,7 +1474,7 @@
       
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int> 
+      <int name="facet.limit">11</int> 
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -1544,7 +1544,7 @@
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int> 
+      <int name="facet.limit">11</int> 
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
