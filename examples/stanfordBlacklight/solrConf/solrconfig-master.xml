@@ -1119,7 +1119,7 @@
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
 
       <!-- used for dismax query parser -->
-      <str name="mm">1</str> 
+      <str name="mm">1</str> <!-- mm must be 1 to make all search terms "optional" -->
       <int name="ps">3</int> 
       <float name="tie">0.01</float>
       <!-- for user query terms in author text box -->
