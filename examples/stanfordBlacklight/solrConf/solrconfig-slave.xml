@@ -1262,7 +1262,7 @@
 
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">11</int> 
+      <int name="facet.limit">30</int>   <!-- language uses more than 11 in advanced search -->
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
