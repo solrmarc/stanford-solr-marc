@@ -849,7 +849,7 @@
   <!-- request handler for different searches in the pulldown menu for the single search box -->
   <requestHandler name="search_pulldown" class="solr.SearchHandler">
     <lst name="defaults">
-      <str name="defType">edismax</str>
+      <str name="defType">dismax</str>
       <str name="echoParams">explicit</str>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
@@ -909,7 +909,9 @@
         id
         oclc
         barcode_search
+<!-- callnum_search removed so searches with stopwords can have matches
         callnum_search
+-->
       </str>
       <str name="pf">
         title_245a_unstem_search^300000
