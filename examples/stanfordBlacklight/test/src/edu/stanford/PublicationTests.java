@@ -454,22 +454,22 @@ public class PublicationTests extends AbstractStanfordBlacklightTest
 		
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("pubDate2010");
-		docIds.add("z2009");
 		assertSearchResults(fldName, "\"" + PubDateGroup.THIS_YEAR.toString() + "\"", docIds);
+		docIds.add("z2009");
 		docIds.add("b2008");  
-		docIds.add("v2007");
 		assertSearchResults(fldName, "\"" + PubDateGroup.LAST_3_YEARS.toString() + "\"", docIds);
+		docIds.add("v2007");
 		docIds.add("z2006");
 		docIds.add("j2005");
 		docIds.add("q2001");
-		docIds.add("f2000");
-		docIds.add("firstDateOnly008"); //2000
 		docIds.add("x200u");
 		docIds.add("pubDate20uu");  
 		docIds.add("o20uu");
 		docIds.add("pubDate0059");  // 2005
 		docIds.add("pubDate0204");  // 2004
 		assertSearchResults(fldName, "\"" + PubDateGroup.LAST_10_YEARS.toString() + "\"", docIds);
+		docIds.add("f2000");
+		docIds.add("firstDateOnly008"); //2000
 		docIds.add("w1999");
 		docIds.add("c1998");
 		docIds.add("e1997");
