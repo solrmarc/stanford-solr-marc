@@ -271,10 +271,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				else if (callnum.startsWith("ZDVD") || callnum.startsWith("ADVD"))
 					formats.add(Format.VIDEO.toString());
 			}
-/*  not yet vetted  2010-10-30		
 			if (item.getType().equalsIgnoreCase("DATABASE"))				
 				formats.add(Format.DATABASE_A_Z.toString());
-*/
 		}
 
 		if (FormatUtils.isMicroformat(record))
@@ -282,18 +280,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			
 		if (FormatUtils.isThesis(record))
 			formats.add(Format.THESIS.toString());
-/*	not yet vetted  2010-10-30		
-		if (FormatUtils.isDatabasePer6xxSubvOrx(record))
-			formats.add(Format.DATABASE_OTHER.toString());
-		
-		if (formats.contains(Format.DATABASE_A_Z.toString()) || 
-				formats.contains(Format.DATABASE_OTHER.toString()))
-			formats.add(Format.DATABASE_ALL.toString());
-*/			
+			
 		// if we still don't have a format, it's an "other"
 		if (formats.isEmpty() || formats.size() == 0)
-			formats.add(Format.OTHER.toString());
-		
+			formats.add(Format.OTHER.toString());		
 	}
 
 	/**
@@ -306,7 +296,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	public Set<String> getDbAZSubjects(final Record record) 
 	{
 		Set<String> subjectsSet = new HashSet<String>();
-/*  not yet vetted  2010-10-30		
 		if (formats.contains(Format.DATABASE_A_Z.toString())) {
 			subjectsSet = getFieldList(record, "099a");
 		}
@@ -339,7 +328,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		if (subjectsSet.contains("PA"))
 			subjectsSet.add("PA2");
-*/				
+
 		return subjectsSet;
 	}
 
