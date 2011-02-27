@@ -9,8 +9,6 @@ public enum Format {
 	COMPUTER_FILE,
 	CONFERENCE_PROCEEDINGS,
 	DATABASE_A_Z,
-	DATABASE_ALL,
-	DATABASE_OTHER,
 	IMAGE,
 	JOURNAL_PERIODICAL,
 	MANUSCRIPT_ARCHIVE,
@@ -36,10 +34,6 @@ public enum Format {
 			return "Conference Proceedings";
 		case DATABASE_A_Z:
 			return "Database A-Z";
-		case DATABASE_ALL:
-			return "Database (All)";
-		case DATABASE_OTHER:
-			return "Database (Other)";
 		case JOURNAL_PERIODICAL:
 			return "Journal/Periodical";
 		case MANUSCRIPT_ARCHIVE:

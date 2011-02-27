@@ -224,21 +224,5 @@ public class FormatUtils {
 		else
 			return true;
 	}
-	
-	
-	/**
-	 * it's a database if 6xx |v or |x contains "databases."
-	 * @param record - marc4j record object
-	 * @return true if there is a  6xx |v or |x starts with "database", false otherwise
-	 */
-	static boolean isDatabasePer6xxSubvOrx(Record record) {
-		List<DataField> flds = MarcUtils.getDataFieldsInRange(record, "600", "699");
-		List<String> subfldStrings = MarcUtils.getSubfieldStrings(flds, "v");
-		subfldStrings.addAll(MarcUtils.getSubfieldStrings(flds, "x"));
-		for (String value : subfldStrings ) {
-			if (value.toLowerCase().startsWith("database"))
-				return true;
-		}
-		return false;
-	}
+		
 }
