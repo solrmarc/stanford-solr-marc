@@ -9,7 +9,6 @@ import org.xml.sax.SAXException;
 import static org.junit.Assert.fail;
 import org.solrmarc.index.IndexTest;
 import org.solrmarc.index.SolrFieldMappingTest;
-import org.solrmarc.tools.Utils;
 
 /**
  * Site Specific code used for testing the Stanford Blacklight index
@@ -39,7 +38,7 @@ public abstract class AbstractStanfordBlacklightTest extends IndexTest {
     		solrPath = ngdeDir + File.separator + "solr" + File.separator + "solr1.5";
             System.setProperty("solr.path", solrPath);
         }
-
+        
         String solrmarcPath = System.getProperty("solrmarc.path");
         if (solrmarcPath == null) {
             solrmarcPath = new File("lib" + File.separator + "solrmarc").getAbsolutePath();
