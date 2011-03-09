@@ -14,7 +14,7 @@ import org.junit.Test;
 public class DatabaseAZSubjectTests extends AbstractStanfordBlacklightTest {
 
 	String testFilePath = testDataParentPath + File.separator + "databasesAZsubjectTests.mrc";
-	String facetFldName = "dbAZsubjects_facet";
+	String facetFldName = "db_az_subject";
 
 @Before
 	public final void setup() 
