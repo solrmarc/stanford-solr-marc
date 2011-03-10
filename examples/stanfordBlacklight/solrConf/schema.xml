@@ -164,10 +164,11 @@
     <field name="vern_title_related_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="title_related_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
 
-<!-- TODO:  revisions to series search!!!! These old series search fields should go away. -->
+<!-- removed as of 2011-03-09  These are old series search fields 
     <field name="title_series_search" type="text" indexed="true" stored="false" multiValued="true" />
     <field name="vern_title_series_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="title_series_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
+-->
     
     <!-- Title Display fields -->
     <field name="title_display" type="string" indexed="false" stored="true" />
@@ -247,6 +248,7 @@
     <field name="era_facet" type="string" indexed="true" stored="false" multiValued="true" />
 
     <!-- Series Search Fields -->
+<!-- 2011-03-09 removed redundancy in series search fields
     <field name="series_title_search" type="text" indexed="true" stored="false" multiValued="true"/>
     <field name="vern_series_title_search" type="textNoStem" indexed="true" stored="false" multiValued="true"/>
     <field name="series_person_search" type="text" indexed="true" stored="false" multiValued="true" />
@@ -259,6 +261,9 @@
     <field name="vern_series_anything_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="series_anything490_search" type="text" indexed="true" stored="false" multiValued="true" />
     <field name="vern_series_anything490_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
+-->
+    <field name="series_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <field name="vern_series_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
 
     <!-- Publishing Fields -->
     <field name="pub_search" type="text" indexed="true" stored="false" omitNorms="true" multiValued="true"/>
@@ -332,7 +337,9 @@
   <copyField source="title_uniform_search" dest="title_uniform_unstem_search" />
   <copyField source="title_variant_search" dest="title_variant_unstem_search" />
   <copyField source="title_related_search" dest="title_related_unstem_search" />
+<!--
   <copyField source="title_series_search" dest="title_series_unstem_search" />
+-->
   <!-- unstemmed search fields: author -->  
   <copyField source="author_1xx_search" dest="author_1xx_unstem_search" />
   <copyField source="author_7xx_search" dest="author_7xx_unstem_search" />
@@ -356,7 +363,10 @@
   <copyField source="title_uniform_search" dest="open_search" />
   <copyField source="title_variant_search" dest="open_search" />
   <copyField source="title_related_search" dest="open_search" />
+<!--
   <copyField source="title_series_search" dest="open_search" />
+-->
+  <copyField source="series_search" dest="open_search" />
   <copyField source="author_1xx_search" dest="open_search" />
   <copyField source="author_7xx_search" dest="open_search" />
   <copyField source="author_8xx_search" dest="open_search" />
