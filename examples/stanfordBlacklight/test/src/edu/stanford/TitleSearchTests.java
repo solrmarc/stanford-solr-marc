@@ -491,11 +491,11 @@ public class TitleSearchTests extends AbstractStanfordBlacklightTest {
 	}
 
 
-// FIXME:  these should go away once Series searching fields are in place
+// these are superseded by series_search  and vern_series_search  2011-03-09
 	/**
 	 * Series Title Search: 440, 490
 	 */
-	@Test
+//	@Test
 	public final void testSeriesTitle440_490Search()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -514,7 +514,7 @@ public class TitleSearchTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * Series Title Search: 800
 	 */
-	@Test
+//	@Test
 	public final void testSeriesTitle800Search()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -541,7 +541,7 @@ public class TitleSearchTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * Series Title Search: 810
 	 */
-	@Test
+//	@Test
 	public final void testSeriesTitle810Search()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -567,7 +567,7 @@ public class TitleSearchTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * Series Title Search: 811
 	 */
-	@Test
+//	@Test
 	public final void testSeriesTitle811Search()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -589,7 +589,7 @@ public class TitleSearchTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * Series Title Search: 830
 	 */
-	@Test
+//	@Test
 	public final void testSeriesTitle830Search()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -616,7 +616,7 @@ public class TitleSearchTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * Series Title Search: 840
 	 */
-	@Test
+//	@Test
 	public final void testSeriesTitle840Search()
 		throws ParserConfigurationException, IOException, SAXException 
 	{

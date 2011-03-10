@@ -517,10 +517,11 @@ public class TitleSearchVernTests extends AbstractStanfordBlacklightTest {
 		assertZeroResults(fldName, "nope");
 	}
 
+// these are superseded by series_search  and vern_series_search  2011-03-09
 	/**
 	 * vern_title_series_search: 440, 490
 	 */
-	@Test
+//	@Test
 	public final void testVernSeriesTitle440_490Search()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -539,7 +540,7 @@ public class TitleSearchVernTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * vern_title_series_search: 800
 	 */
-	@Test
+//	@Test
 	public final void testVernSeriesTitle800Search()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -570,7 +571,7 @@ public class TitleSearchVernTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * vern_title_series_search: 810
 	 */
-	@Test
+//	@Test
 	public final void testVernSeriesTitle810Search()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -607,7 +608,7 @@ public class TitleSearchVernTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * vern_title_series_search: 811
 	 */
-	@Test
+//	@Test
 	public final void testVernSeriesTitle811Search()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -636,7 +637,7 @@ public class TitleSearchVernTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * vern_title_series_search: 830
 	 */
-	@Test
+//	@Test
 	public final void testVernSeriesTitle830Search()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -663,7 +664,7 @@ public class TitleSearchVernTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * vern_title_series_search: 840
 	 */
-	@Test
+//	@Test
 	public final void testVernSeriesTitle840Search()
 		throws ParserConfigurationException, IOException, SAXException 
 	{

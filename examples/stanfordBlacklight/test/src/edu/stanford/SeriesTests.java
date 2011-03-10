@@ -15,10 +15,12 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 
 	private String fileName = "seriesTests.mrc";
 
+// all but series_search  and vern_series_search  are no more as of 2011-03-09
+
 	/**
 	 * Series title (only) search field
 	 */
-@Test
+//@Test
 	public void testSeriesTitleOnly() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -37,7 +39,7 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * Series personal name (+title) search field
 	 */
-@Test
+//@Test
 	public void testSeriesPersonalNameSearch()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -56,7 +58,7 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * Series organization name (+ title) search field
 	 */
-@Test
+//@Test
 	public void testSeriesOrgName()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -77,7 +79,7 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * Series proceedings name (+title) search field
 	 */
-@Test
+//@Test
 	public void testSeriesProcSearch()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -97,7 +99,7 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * Series anything (w/o 490) search field
 	 */
-@Test
+//@Test
 	public void testSeriesAnything()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -124,7 +126,7 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * Series anything (including 490) search field
 	 */
-@Test
+//@Test
 	public void testSeriesAnything490()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -152,6 +154,38 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 	}
 
 
+	/**
+	 * Series search field
+	 */
+@Test
+	public void testSeriesSearch()
+		throws ParserConfigurationException, IOException, SAXException 
+	{
+		String fldName = "series_search";
+		createIxInitVars(fileName);
+		assertSearchFldMultValProps(fldName);
+		assert440search(fldName);
+		assert800search(fldName);
+		assert810search(fldName);
+		assert811search(fldName);
+		assert830search(fldName);
+	
+		assertSingleResult("490", fldName, "490a");
+		assertZeroResults(fldName, "490v");
+		// phrase in 490a only
+		Set<String> docIds = new HashSet<String>(2);
+		docIds.add("1943665");
+		docIds.add("1943753");
+		assertSearchResults(fldName, "\"Publications of the European Court of Human Rights. Series A, Judgments and decisions\"", docIds);
+		
+		assert440and800(fldName);
+		assert440and810(fldName);
+		assert440and811(fldName);
+		assert440and830(fldName);
+	}
+	
+
+
 // ----- vernacular series fields ----------------------------------------
 
 	private String vernFileName = "vernSeriesTests.mrc";
@@ -159,7 +193,7 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * Vernacular series title (only) search field
 	 */
-@Test
+//@Test
 	public void testVernSeriesTitleOnly() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -176,7 +210,7 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * Vernacular series personal name (+title) search field
 	 */
-@Test
+//@Test
 	public void testVernSeriesPersonalNameSearch()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -193,7 +227,7 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * Vernacular series organization name (+ title) search field
 	 */
-@Test
+//@Test
 	public void testVernSeriesOrgName()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -210,7 +244,7 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * Vernacular series proceedings name (+title) search field
 	 */
-@Test
+//@Test
 	public void testVernSeriesProcSearch()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -227,7 +261,7 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * Vernacular series anything (w/o 490) search field
 	 */
-@Test
+//@Test
 	public void testVernSeriesAnything()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -247,7 +281,7 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 	/**
 	 * Vernacular series anything (including 490) search field
 	 */
-@Test
+//@Test
 	public void testVernSeriesAnything490()
 		throws ParserConfigurationException, IOException, SAXException 
 	{
@@ -263,6 +297,27 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("vern490", fldName, "vern490a");
 		assertZeroResults(fldName, "vern490v");
 	}
+
+	/**
+	 * Vernacular series search field
+	 */
+@Test
+	public void testVernSeriesSearch()
+		throws ParserConfigurationException, IOException, SAXException 
+	{
+		String fldName = "vern_series_search";
+		createIxInitVars(vernFileName);
+		assertSearchFldMultValProps(fldName);
+		assertVern440search(fldName);
+		assertVern800search(fldName);
+		assertVern810search(fldName);
+		assertVern811search(fldName);
+		assertVern830search(fldName);
+	
+		assertSingleResult("vern490", fldName, "vern490a");
+		assertZeroResults(fldName, "vern490v");
+	}
+
 
 // --------------- private methods -----------------
 
