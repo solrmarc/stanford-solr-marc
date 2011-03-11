@@ -249,10 +249,7 @@
         toc_search^100                 vern_toc_search^100
 
         author_8xx_search^50           vern_author_8xx_search^50
-<!-- 
-        title_series_unstem_search^45
-        title_series_search^30         vern_title_series_search^30
--->
+
         series_search^30               vern_series_search^30
 
         topic_subx_unstem_search^29
@@ -303,10 +300,6 @@
         toc_search^250                 vern_toc_search^250
         author_8xx_unstem_search^200
         author_8xx_search^100          vern_author_8xx_search^100
-<!--
-        title_series_unstem_search^90
-        title_series_search^75         vern_title_series_search^75
--->
         series_search^75               vern_series_search^75
         topic_subx_unstem_search^50
         geographic_subz_unstem_search^50
@@ -353,6 +346,7 @@
         author_meeting_display,
         author_person_display,
         author_person_full_display,
+        db_az_subject,
         format,
         isbn_display,
         item_display,
@@ -402,10 +396,6 @@
         title_variant_search^50     vern_title_variant_search^50
         title_related_unstem_search^45
         title_related_search^5      vern_title_related_search^5
-<!--
-        title_series_unstem_search^4
-        title_series_search         vern_title_series_search
--->        
         series_search               vern_series_search
       </str>
       <str name="pf">
@@ -419,10 +409,6 @@
         title_variant_search^200      vern_title_variant_search^200
         title_related_unstem_search^175
         title_related_search^150      vern_title_related_search^150
-<!--
-        title_series_unstem_search^100
-        title_series_search^75        vern_title_series_search^75
--->
         series_search^75              vern_series_search^75
       </str>
       <int name="ps">3</int>
@@ -458,6 +444,7 @@
         author_meeting_display,
         author_person_display,
         author_person_full_display,
+        db_az_subject,
         format,
         isbn_display,
         item_display,
@@ -544,6 +531,7 @@
         author_meeting_display,
         author_person_display,
         author_person_full_display,
+        db_az_subject,
         format,
         isbn_display,
         item_display,
@@ -650,6 +638,7 @@
         author_meeting_display,
         author_person_display,
         author_person_full_display,
+        db_az_subject,
         format,
         isbn_display,
         item_display,
@@ -688,28 +677,8 @@
       <int name="qs">1</int>
       <str name="mm">4&lt;-1 4&lt;90%</str>
       
-      <str name="qf">
-        series_search               vern_series_search
-<!--
-        series_title_search            vern_series_title_search
-        series_person_search           vern_series_person_search
-        series_org_search              vern_series_org_search
-        series_proc_search             vern_series_proc_search
-        series_anything_search         vern_series_anything_search
-        series_anything490_search      vern_series_anything490_search
--->
-      </str>
-      <str name="pf">
-        series_search^20               vern_series_search^20
-<!--
-        series_title_search^20          vern_series_title_search^20
-        series_person_search^20         vern_series_person_search^20
-        series_org_search^20            vern_series_org_search^20
-        series_proc_search^20           vern_series_proc_search^20
-        series_anything_search^20       vern_series_anything_search^20
-        series_anything490_search^20    vern_series_anything490_search^20
--->
-      </str>
+      <str name="qf">series_search     vern_series_search</str>
+      <str name="pf">series_search^20  vern_series_search^20</str>
       
       <int name="ps">3</int>
       <float name="tie">0.01</float>
@@ -744,6 +713,7 @@
         author_meeting_display,
         author_person_display,
         author_person_full_display,
+        db_az_subject,
         format,
         isbn_display,
         item_display,
@@ -812,6 +782,7 @@
         author_meeting_display,
         author_person_display,
         author_person_full_display,
+        db_az_subject,
         format,
         isbn_display,
         item_display,
@@ -883,10 +854,7 @@
         toc_search^100                 vern_toc_search^100
         
         author_8xx_search^50           vern_author_8xx_search^50
-<!--        
-        title_series_unstem_search^45
-        title_series_search^30         vern_title_series_search^30
--->
+
         series_search^30               vern_series_search^30
         
         topic_subx_unstem_search^29
@@ -937,10 +905,6 @@
         toc_search^250                 vern_toc_search^250
         author_8xx_unstem_search^200
         author_8xx_search^100          vern_author_8xx_search^100
-<!--
-        title_series_unstem_search^90
-        title_series_search^75         vern_title_series_search^75
--->
         series_search^75               vern_series_search^75
         topic_subx_unstem_search^50
         geographic_subz_unstem_search^50
@@ -966,10 +930,6 @@
         title_variant_search^50     vern_title_variant_search^50
         title_related_unstem_search^45
         title_related_search^5      vern_title_related_search^5
-<!--
-        title_series_unstem_search^4
-        title_series_search         vern_title_series_search
--->
         series_search               vern_series_search
       </str>
       <str name="pf_title">
@@ -983,11 +943,7 @@
         title_variant_search^200      vern_title_variant_search^200
         title_related_unstem_search^175
         title_related_search^150      vern_title_related_search^150
-<!-- 
-        title_series_unstem_search^100
-        title_series_search^75        vern_title_series_search^75
--->
-        series_search^75               vern_series_search^75
+        series_search^75              vern_series_search^75
       </str>
       
       <str name="qf_author">
@@ -1042,28 +998,10 @@
         subject_all_search^20          vern_subject_all_search^20
       </str>
       
-      <str name="qf_series">
-        series_search               vern_series_search
-<!--
-        series_title_search            vern_series_title_search
-        series_person_search           vern_series_person_search
-        series_org_search              vern_series_org_search
-        series_proc_search             vern_series_proc_search
-        series_anything_search         vern_series_anything_search
-        series_anything490_search      vern_series_anything490_search
--->
-      </str>
-      <str name="pf_series">
-        series_search^20               vern_series_search^20
-<!--
-        series_title_search^20          vern_series_title_search^20
-        series_person_search^20         vern_series_person_search^20
-        series_org_search^20            vern_series_org_search^20
-        series_proc_search^20           vern_series_proc_search^20
-        series_anything_search^20       vern_series_anything_search^20
-        series_anything490_search^20    vern_series_anything490_search^20
--->
-      </str>
+      <str name="qf_series">series_search     vern_series_search</str>
+      <str name="pf_series">series_search^20  vern_series_search^20</str>
+
+      
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int> 
@@ -1094,6 +1032,7 @@
         author_meeting_display,
         author_person_display,
         author_person_full_display,
+        db_az_subject,
         format,
         isbn_display,
         item_display,
@@ -1180,10 +1119,6 @@
         title_variant_search^50     vern_title_variant_search^50
         title_related_unstem_search^45
         title_related_search^5      vern_title_related_search^5
-<!--
-        title_series_unstem_search^4
-        title_series_search         vern_title_series_search
--->
         series_search               vern_series_search
       </str>
       <str name="pf_title">
@@ -1197,11 +1132,7 @@
         title_variant_search^200      vern_title_variant_search^200
         title_related_unstem_search^175
         title_related_search^150      vern_title_related_search^150
-<!--
-        title_series_unstem_search^100
-        title_series_search^75        vern_title_series_search^75
--->
-        series_search^75               vern_series_search^75
+        series_search^75              vern_series_search^75
       </str>
 
       <!-- for user query terms in subject text box -->
@@ -1324,6 +1255,7 @@
         author_meeting_display,
         author_person_display,
         author_person_full_display,
+        db_az_subject,
         format,
         isbn_display,
         item_display,
@@ -1392,6 +1324,7 @@
         author_meeting_display,
         author_person_display,
         author_person_full_display,
+        db_az_subject,
         format,
         isbn_display,
         item_display,
