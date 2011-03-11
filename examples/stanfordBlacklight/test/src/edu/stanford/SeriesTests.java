@@ -15,145 +15,6 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 
 	private String fileName = "seriesTests.mrc";
 
-// all but series_search  and vern_series_search  are no more as of 2011-03-09
-
-	/**
-	 * Series title (only) search field
-	 */
-//@Test
-	public void testSeriesTitleOnly() 
-			throws ParserConfigurationException, IOException, SAXException 
-	{
-		String fldName = "series_title_search";
-		createIxInitVars(fileName);
-		assertSearchFldMultValProps(fldName);
-		assert440search(fldName);
-		assert830search(fldName);
-		assertZeroResults(fldName, "800a");
-		assertZeroResults(fldName, "810a");
-		assertZeroResults(fldName, "811a");
-		
-		assert440and830(fldName);
-	}
-
-	/**
-	 * Series personal name (+title) search field
-	 */
-//@Test
-	public void testSeriesPersonalNameSearch()
-		throws ParserConfigurationException, IOException, SAXException 
-	{
-		String fldName = "series_person_search";
-		createIxInitVars(fileName);
-		assertSearchFldMultValProps(fldName);
-		assert440search(fldName);
-		assert800search(fldName);
-		assertZeroResults(fldName, "810a");
-		assertZeroResults(fldName, "811a");
-		assertZeroResults(fldName, "830a");
-		
-		assert440and800(fldName);
-	}
-
-	/**
-	 * Series organization name (+ title) search field
-	 */
-//@Test
-	public void testSeriesOrgName()
-		throws ParserConfigurationException, IOException, SAXException 
-	{
-		String fldName = "series_org_search";
-		createIxInitVars(fileName);
-		assertSearchFldMultValProps(fldName);
-		assert440search(fldName);
-		assert810search(fldName);
-		assertZeroResults(fldName, "800a");
-		assertZeroResults(fldName, "811a");
-		assertZeroResults(fldName, "830a");
-
-		assert440and810(fldName);
-		// phrase in 490a only so not included
-		assertZeroResults(fldName, "\"Publications of the European Court of Human Rights. Series A, Judgments and decisions\"");
-	}
-
-	/**
-	 * Series proceedings name (+title) search field
-	 */
-//@Test
-	public void testSeriesProcSearch()
-		throws ParserConfigurationException, IOException, SAXException 
-	{
-		String fldName = "series_proc_search";
-		createIxInitVars(fileName);
-		assertSearchFldMultValProps(fldName);
-		assert440search(fldName);
-		assert811search(fldName);
-		assertZeroResults(fldName, "800a");
-		assertZeroResults(fldName, "810a");
-		assertZeroResults(fldName, "830a");
-		
-		assert440and811(fldName);
-	}
-
-
-	/**
-	 * Series anything (w/o 490) search field
-	 */
-//@Test
-	public void testSeriesAnything()
-		throws ParserConfigurationException, IOException, SAXException 
-	{
-		String fldName = "series_anything_search";
-		createIxInitVars(fileName);
-		assertSearchFldMultValProps(fldName);
-		assert440search(fldName);
-		assert800search(fldName);
-		assert810search(fldName);
-		assert811search(fldName);
-		assert830search(fldName);
-		
-		assertZeroResults(fldName, "490a");
-		assertZeroResults(fldName, "490v");
-		// phrase in 490a only so not included
-		assertZeroResults(fldName, "\"Publications of the European Court of Human Rights. Series A, Judgments and decisions\"");
-		
-		assert440and800(fldName);
-		assert440and810(fldName);
-		assert440and811(fldName);
-		assert440and830(fldName);
-	}
-
-	/**
-	 * Series anything (including 490) search field
-	 */
-//@Test
-	public void testSeriesAnything490()
-		throws ParserConfigurationException, IOException, SAXException 
-	{
-		String fldName = "series_anything490_search";
-		createIxInitVars(fileName);
-		assertSearchFldMultValProps(fldName);
-		assert440search(fldName);
-		assert800search(fldName);
-		assert810search(fldName);
-		assert811search(fldName);
-		assert830search(fldName);
-	
-		assertSingleResult("490", fldName, "490a");
-		assertZeroResults(fldName, "490v");
-		// phrase in 490a only
-		Set<String> docIds = new HashSet<String>(2);
-		docIds.add("1943665");
-		docIds.add("1943753");
-		assertSearchResults(fldName, "\"Publications of the European Court of Human Rights. Series A, Judgments and decisions\"", docIds);
-		
-		assert440and800(fldName);
-		assert440and810(fldName);
-		assert440and811(fldName);
-		assert440and830(fldName);
-	}
-
-
 	/**
 	 * Series search field
 	 */
@@ -171,7 +32,10 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 		assert830search(fldName);
 	
 		assertSingleResult("490", fldName, "490a");
-		assertZeroResults(fldName, "490v");
+//		assertZeroResults(fldName, "490v");
+		// include 490v  per Vitus email of 2011-03-10		
+		assertSingleResult("490", fldName, "490v");
+		
 		// phrase in 490a only
 		Set<String> docIds = new HashSet<String>(2);
 		docIds.add("1943665");
@@ -191,114 +55,6 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 	private String vernFileName = "vernSeriesTests.mrc";
 
 	/**
-	 * Vernacular series title (only) search field
-	 */
-//@Test
-	public void testVernSeriesTitleOnly() 
-			throws ParserConfigurationException, IOException, SAXException 
-	{
-		String fldName = "vern_series_title_search";
-		createIxInitVars(vernFileName);
-		assertSearchFldMultValProps(fldName);
-		assertVern440search(fldName);
-		assertVern830search(fldName);
-		assertZeroResults(fldName, "vern800a");
-		assertZeroResults(fldName, "vern810a");
-		assertZeroResults(fldName, "vern811a");
-	}
-	
-	/**
-	 * Vernacular series personal name (+title) search field
-	 */
-//@Test
-	public void testVernSeriesPersonalNameSearch()
-		throws ParserConfigurationException, IOException, SAXException 
-	{
-		String fldName = "vern_series_person_search";
-		createIxInitVars(vernFileName);
-		assertSearchFldMultValProps(fldName);
-		assertVern440search(fldName);
-		assertVern800search(fldName);
-		assertZeroResults(fldName, "vern810a");
-		assertZeroResults(fldName, "vern811a");
-		assertZeroResults(fldName, "vern830a");
-	}
-	
-	/**
-	 * Vernacular series organization name (+ title) search field
-	 */
-//@Test
-	public void testVernSeriesOrgName()
-		throws ParserConfigurationException, IOException, SAXException 
-	{
-		String fldName = "vern_series_org_search";
-		createIxInitVars(vernFileName);
-		assertSearchFldMultValProps(fldName);
-		assertVern440search(fldName);
-		assertVern810search(fldName);
-		assertZeroResults(fldName, "vern800a");
-		assertZeroResults(fldName, "vern811a");
-		assertZeroResults(fldName, "vern830a");
-	}
-	
-	/**
-	 * Vernacular series proceedings name (+title) search field
-	 */
-//@Test
-	public void testVernSeriesProcSearch()
-		throws ParserConfigurationException, IOException, SAXException 
-	{
-		String fldName = "vern_series_proc_search";
-		createIxInitVars(vernFileName);
-		assertSearchFldMultValProps(fldName);
-		assertVern440search(fldName);
-		assertVern811search(fldName);
-		assertZeroResults(fldName, "vern800a");
-		assertZeroResults(fldName, "vern810a");
-		assertZeroResults(fldName, "vern830a");
-	}
-	
-	/**
-	 * Vernacular series anything (w/o 490) search field
-	 */
-//@Test
-	public void testVernSeriesAnything()
-		throws ParserConfigurationException, IOException, SAXException 
-	{
-		String fldName = "vern_series_anything_search";
-		createIxInitVars(vernFileName);
-		assertSearchFldMultValProps(fldName);
-		assertVern440search(fldName);
-		assertVern800search(fldName);
-		assertVern810search(fldName);
-		assertVern811search(fldName);
-		assertVern830search(fldName);
-		
-		assertZeroResults(fldName, "vern490a");
-		assertZeroResults(fldName, "vern490v");
-	}
-	
-	/**
-	 * Vernacular series anything (including 490) search field
-	 */
-//@Test
-	public void testVernSeriesAnything490()
-		throws ParserConfigurationException, IOException, SAXException 
-	{
-		String fldName = "vern_series_anything490_search";
-		createIxInitVars(vernFileName);
-		assertSearchFldMultValProps(fldName);
-		assertVern440search(fldName);
-		assertVern800search(fldName);
-		assertVern810search(fldName);
-		assertVern811search(fldName);
-		assertVern830search(fldName);
-	
-		assertSingleResult("vern490", fldName, "vern490a");
-		assertZeroResults(fldName, "vern490v");
-	}
-
-	/**
 	 * Vernacular series search field
 	 */
 @Test
@@ -315,7 +71,9 @@ public class SeriesTests extends AbstractStanfordBlacklightTest {
 		assertVern830search(fldName);
 	
 		assertSingleResult("vern490", fldName, "vern490a");
-		assertZeroResults(fldName, "vern490v");
+//		assertZeroResults(fldName, "vern490v");
+		// include 490v  per Vitus email of 2011-03-10		
+		assertSingleResult("vern490", fldName, "vern490v");
 	}
 
 
