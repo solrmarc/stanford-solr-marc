@@ -50,7 +50,7 @@ public class ItemInfoTests extends AbstractStanfordBlacklightTest {
 	    assertSingleResult("1732616", fldName, "\"Mathematics & Statistics\"");
 	    assertSingleResult("1849258", fldName, "Engineering");
 	    assertSingleResult("2099904", fldName, "\"Jonsson (Government Documents)\"");
-	    assertSingleResult("2678655", fldName, "\"Jackson (Business)\"");
+	    assertSingleResult("2678655", fldName, "Business");
 	    assertSingleResult("3027805", fldName, "\"Miller (Hopkins Marine Station)\"");
 	    assertSingleResult("3142611", fldName, "Physics");
 	    assertSingleResult("4258089", fldName, "\"Special Collections & Archives\"");
