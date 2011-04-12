@@ -195,7 +195,7 @@ public class ItemUtils {
 	 */
 	static Set<String> getItemDisplay(Set<Item> itemSet, boolean isSerial, String id) 
 	{
-		Set<String> result = new HashSet<String>();
+		Set<String> result = new LinkedHashSet<String>();
 
 		// itemSet contains all non-skipped items
 		for (Item item : itemSet) {
