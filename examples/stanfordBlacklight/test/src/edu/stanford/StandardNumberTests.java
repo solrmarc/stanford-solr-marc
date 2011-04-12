@@ -214,6 +214,8 @@ public class StandardNumberTests extends AbstractStanfordBlacklightTest {
 		docIds.add("020multSubz");
 		docIds.add("020SubaAndz");
 		assertSearchResults(fldName, "9780809424887", docIds);
+		
+		assertSingleResult("774z", fldName, "0001112223");
 	}
 
 	/**
@@ -306,6 +308,8 @@ public class StandardNumberTests extends AbstractStanfordBlacklightTest {
 		// without hyphen:
 		assertSingleResult("022subM", fldName, "08634564");
 		assertSingleResult("022subZ", fldName, "1144585X");
+		
+		assertSingleResult("785x", fldName, "8750-2836");
 	}
 
 	/**
