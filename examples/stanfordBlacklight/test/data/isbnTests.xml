@@ -263,4 +263,27 @@
       <subfield code="a">020 a and z</subfield>
     </datafield>
   </record>
+  <!-- 77x, 78x -->
+  <record>
+    <leader>01952cim  2200457Ia 45í0</leader>
+    <controlfield tag="001">a774z</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="774" ind1=" " ind2=" ">
+      <subfield code="z">0001112223</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">774 sub z</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>01952cim  2200457Ia 45í0</leader>
+    <controlfield tag="001">a785x</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="785" ind1=" " ind2=" ">
+      <subfield code="x">8750-2836</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">785 sub x</subfield>
+    </datafield>
+  </record>
 </collection>

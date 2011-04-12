@@ -404,12 +404,17 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     	// 1. all 020 subfield a starting with 10 or 13 digits (last "digit" may be X). Ignore following text.
 		// AND
 		// 2. all 020 subfield z starting with 10 or 13 digits (last "digit" may be X). Ignore following text.
+		
+		// per SW-522
+		//  77x-78x subfield z
 
 		Set<String> isbnSet = new HashSet<String>();
 
-		Set<String> aAndz = new HashSet<String>(f020suba);
-		aAndz.addAll(f020subz);
-		isbnSet.addAll(Utils.returnValidISBNs(aAndz));
+		Set<String> allCandidates = new HashSet<String>(f020suba);
+		allCandidates.addAll(f020subz);
+		allCandidates.addAll(getFieldList(record, "770z:771z:772z:773z:774z:775z:776z:777z:778z:779z"));
+		allCandidates.addAll(getFieldList(record, "780z:781z:782z:783z:784z:785z:786z:787z:788z:789z"));
+		isbnSet.addAll(Utils.returnValidISBNs(allCandidates));
 		return isbnSet;
 	}
 
