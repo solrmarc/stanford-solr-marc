@@ -61,13 +61,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         SHELBY_LOCS = GenericUtils.loadPropertiesSet(propertyDirs, "locations_shelby_list.properties");
         SKIPPED_CALLNUMS = GenericUtils.loadPropertiesSet(propertyDirs, "callnums_skipped_list.properties");
         // try to reuse HashSet, etc. objects instead of creating fresh each time
-        formats = new HashSet<String>();
-    	sfxUrls = new HashSet<String>();
-    	fullTextUrls = new HashSet<String>();
+        formats = new LinkedHashSet<String>();
+    	sfxUrls = new LinkedHashSet<String>();
+    	fullTextUrls = new LinkedHashSet<String>();
     	buildings = new HashSet<String>();
     	shelfkeys = new HashSet<String>();
     	govDocCats = new HashSet<String>();
-    	itemSet = new HashSet<Item>();
+    	itemSet = new LinkedHashSet<Item>();
 	}
 
 	// variables used in more than one method
@@ -295,7 +295,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getDbAZSubjects(final Record record) 
 	{
-		Set<String> subjectsSet = new HashSet<String>();
+		Set<String> subjectsSet = new LinkedHashSet<String>();
 		if (formats.contains(Format.DATABASE_A_Z.toString())) {
 			subjectsSet = getFieldList(record, "099a");
 		}
@@ -381,7 +381,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		// 
     	// NOTE BENE: there is no way to ensure field order in the retrieved lucene document
 
-		Set<String> isbnSet = new HashSet<String>();
+		Set<String> isbnSet = new LinkedHashSet<String>();
 		if (!f020suba.isEmpty())
 			isbnSet.addAll(Utils.returnValidISBNs(f020suba));
 
@@ -464,7 +464,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     	// 3. if no "(OCoLC-M)" 035 subfield a and no "ocm" or "ocn" 079 field subfield a, 
 		// use 035 subfield a, value prefixed "(OCoLC)" - remove prefix
 
-		Set<String> oclcSet = new HashSet<String>();
+		Set<String> oclcSet = new LinkedHashSet<String>();
 
 		Set<String> set035a = getFieldList(record, "035a");
 		oclcSet = Utils.getPrefixedVals(set035a, "(OCoLC-M)");
@@ -966,7 +966,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getItemDisplay(final Record record) 
 	{
-		Set<String> result = new HashSet<String>();
+		Set<String> result = new LinkedHashSet<String>();
 
 		// if there are no 999s, then it's on order
 		if (!has999s) {
@@ -1210,7 +1210,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					resultBuf.append(' ');
 				resultBuf.append(r);
 			}
-			Set<String> resultAsSet = new HashSet<String>();
+			Set<String> resultAsSet = new LinkedHashSet<String>();
 			resultAsSet.add(resultBuf.toString());
 			return resultAsSet;
 		}
@@ -1338,7 +1338,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
     public Set<String> removeTrailingPunct(final Record record, final String fieldSpec, String charsToReplaceRegEx, String charsB4periodRegEx) 
     {
-		Set<String> resultSet = new HashSet<String>();
+		Set<String> resultSet = new LinkedHashSet<String>();
 		for (String val : getFieldList(record, fieldSpec)) {
     		String result = Utils.removeAllTrailingCharAndPeriod(val, "(" + charsToReplaceRegEx + ")+", charsB4periodRegEx);
 			resultSet.add(result);
