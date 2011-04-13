@@ -378,9 +378,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		// ISBN algorithm
 		// 1. all 020 subfield a starting with 10 or 13 digits (last "digit" may be X). Ignore following text.
 		// 2. if no ISBN from any 020 subfield a "yields a search result", use all 020 subfield z starting with 10 or 13 digits (last "digit" may be X). Ignore following text.
-		// 
-    	// NOTE BENE: there is no way to ensure field order in the retrieved lucene document
-
 		Set<String> isbnSet = new LinkedHashSet<String>();
 		if (!f020suba.isEmpty())
 			isbnSet.addAll(Utils.returnValidISBNs(f020suba));
