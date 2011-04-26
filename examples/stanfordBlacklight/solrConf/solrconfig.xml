@@ -119,6 +119,7 @@
           <str name="facet.field">dewey_b4cutter_facet</str>
           <str name="facet.field">gov_doc_type_facet</str>
           <str name="facet.field">db_az_subject</str>
+          <str name="f.db_az_subject.facet.sort">false</str>
           <str name="facet.field">era_facet</str>
           <str name="facet.field">format</str>
           <str name="facet.field">geographic_facet</str>
@@ -176,6 +177,7 @@
           <str name="facet.field">dewey_b4cutter_facet</str>
           <str name="facet.field">gov_doc_type_facet</str>
           <str name="facet.field">db_az_subject</str>
+          <str name="f.db_az_subject.facet.sort">false</str>
           <str name="facet.field">era_facet</str>
           <str name="facet.field">format</str>
           <str name="facet.field">geographic_facet</str>
@@ -331,6 +333,7 @@
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">db_az_subject</str>
+      <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -429,6 +432,7 @@
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">db_az_subject</str>
+      <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -516,6 +520,7 @@
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">db_az_subject</str>
+      <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -623,6 +628,7 @@
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">db_az_subject</str>
+      <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -698,6 +704,7 @@
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">db_az_subject</str>
+      <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -767,6 +774,7 @@
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">db_az_subject</str>
+      <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -1017,6 +1025,7 @@
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">db_az_subject</str>
+      <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -1240,6 +1249,7 @@
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">db_az_subject</str>
+      <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -1309,6 +1319,7 @@
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">db_az_subject</str>
+      <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
