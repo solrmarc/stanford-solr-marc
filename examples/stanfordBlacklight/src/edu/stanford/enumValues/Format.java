@@ -33,7 +33,7 @@ public enum Format {
 		case CONFERENCE_PROCEEDINGS:
 			return "Conference Proceedings";
 		case DATABASE_A_Z:
-			return "Database A-Z";
+			return "Database";
 		case JOURNAL_PERIODICAL:
 			return "Journal/Periodical";
 		case MANUSCRIPT_ARCHIVE:
