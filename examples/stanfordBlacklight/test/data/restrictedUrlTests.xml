@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+  <record>
+      <leader>01541cai a2200349Ia 4500</leader>
+      <controlfield tag="001">arestrictedUrl1</controlfield>
+      <controlfield tag="008">040727c20049999nyuuu dss     0    2eng d</controlfield>
+      <datafield tag="245" ind1="0" ind2="0">
+          <subfield code="a">restricted url (full text)</subfield>
+      </datafield>
+      <datafield tag="856" ind1="4" ind2="0">
+        <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+        <subfield code="u">http://restricted.org</subfield>
+      </datafield>
+  </record>
+  
+  <record>
+    <leader>01541cai a2200349Ia 4500</leader>
+    <controlfield tag="001">arestrictedUrl2</controlfield>
+    <controlfield tag="008">040727c20049999nyuuu dss     0    2eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">restricted url 2 (like supplemental)</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="1">
+      <subfield code="z">Available to Stanford-affiliated users at:</subfield>
+      <subfield code="z">ebrary</subfield>
+      <subfield code="u">http://restricted.org</subfield>
+      <subfield code="x">eLoaderURL</subfield>
+      <subfield code="x">eb4</subfield>
+      <subfield code="x">ebebr10019096</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01952cam  2200457Ia 45í0</leader>
+    <controlfield tag="001">afulltextUrl</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">full text url</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="1">
+      <subfield code="u">http://www.fulltext.org/</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01952cam  2200457Ia 45í0</leader>
+    <controlfield tag="001">asupplUrl</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">supplementary url</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="2">
+      <subfield code="u">http://www.suppl.com</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01952cam  2200457Ia 45í0</leader>
+    <controlfield tag="001">asupplUrlRestricted</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">restricted supplementary url</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="2">
+      <subfield code="u">http://www.suppl.com/restricted</subfield>
+      <subfield code="z">Online table of contents from PCI available to Stanford-affiliated users:</subfield>
+    </datafield>
+  </record>
+    
+  <record>
+    <leader>01952cam  2200457Ia 45í0</leader>
+    <controlfield tag="001">afulltextAndRestricted1</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">full text AND restricted urls</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="u">http://www.fulltext.org/</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01952cam  2200457Ia 45í0</leader>
+    <controlfield tag="001">afulltextAndRestricted2</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">full text AND restricted urls</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="u">http://www.fulltext.org/</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01952cam  2200457Ia 45í0</leader>
+    <controlfield tag="001">asupplAndRestricted1</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">supplementary AND restricted urls</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="2">
+      <subfield code="u">http://www.suppl.com</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01952cam  2200457Ia 45í0</leader>
+    <controlfield tag="001">asupplAndRestricted2</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">supplementary AND restricted urls</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="2">
+      <subfield code="u">http://www.suppl.com</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01952cam  2200457Ia 45í0</leader>
+    <controlfield tag="001">arestrictedFullTextAndSuppl</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">restricted supplementary AND restricted full text urls</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="2">
+      <subfield code="u">http://www.suppl.com/restricted</subfield>
+      <subfield code="z">Online table of contents from PCI available to Stanford-affiliated users:</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org</subfield>
+    </datafield>
+  </record>
+
+</collection>    

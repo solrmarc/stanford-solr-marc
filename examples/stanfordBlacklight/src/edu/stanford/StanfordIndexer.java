@@ -797,6 +797,66 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		}
 	}
 
+
+	/**
+	 * returns the URLs for restricted full text of a resource described 
+	 *  by the 856u.  Restricted is determined by matching a string against
+	 *  the 856z.  ("available to stanford-affiliated users at:")
+	 * @param record a marc4j Record object
+	 */
+	@SuppressWarnings("unchecked")
+	public Set<String> getRestrictedUrls(final Record record) 
+	{
+		// get full text urls from 856, then check for restricted access clause
+        Set<String> resultSet = new LinkedHashSet<String>();
+
+    	Pattern RESTRICTED_PATTERN = Pattern.compile("available to stanford-affiliated users at:", Pattern.CASE_INSENSITIVE);
+
+        List<VariableField> list856 = record.getVariableFields("856");
+        for (VariableField vf : list856)
+        {
+            DataField df = (DataField) vf;
+            List<String> subzs = MarcUtils.getSubfieldStrings(df, 'z');
+            if (subzs.size() > 0) 
+            {
+            	boolean restricted = false;
+            	for (String subz : subzs) 
+            	{
+        			Matcher matcher = RESTRICTED_PATTERN.matcher(subz);
+        			if (matcher.find()) 
+        			{
+        				restricted = true;
+        				break;
+        			}        			
+            	}
+
+            	if (restricted) 
+            	{
+                    List<String> possUrls = MarcUtils.getSubfieldStrings(df, 'u');
+                    if (possUrls.size() > 0)
+                    {
+                        char ind2 = df.getIndicator2();
+                        switch (ind2)
+                        {
+                            case '0':
+                            	resultSet.addAll(possUrls);
+                                break;
+                            case '2':
+                                break;
+                            default:
+                                if (!isSupplementalUrl(df))
+                                	resultSet.addAll(possUrls);
+                                break;
+                        }
+                    }
+            	}
+            }
+        }
+
+		return resultSet;
+	}
+
+	
 	private boolean isSFXUrl(String urlStr) {
     	if (urlStr.startsWith("http://caslon.stanford.edu:3210/sfxlcl3?") ||
         	 urlStr.startsWith("http://library.stanford.edu/sfx?") )
