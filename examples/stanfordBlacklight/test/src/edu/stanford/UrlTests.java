@@ -131,6 +131,52 @@ public class UrlTests extends AbstractStanfordBlacklightTest {
 		assertDocHasNoField("mult856and956", fldName); 
 	}
 
+
+
+	/**
+	 * Test url_restricted field contents - should contain only full text urls
+	 *  for restricted content
+	 * Test method for {@link edu.stanford.StanfordIndexer#getRestrictedUrls(org.marc4j.marc.Record)}.
+	 */
+@Test
+	public final void testRestrictedUrls() 
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+		createIxInitVars("restrictedUrlTests.mrc");
+		String fldName = "url_restricted";
+		assertFieldMultiValued(fldName);
+		assertStringFieldProperties(fldName);
+		assertFieldNotIndexed(fldName);
+		assertFieldStored(fldName);
+			
+		assertDocHasFieldValue("restrictedUrl1", fldName, "http://restricted.org"); 
+		assertDocHasFieldValue("restrictedUrl2", fldName, "http://restricted.org"); 
+		assertDocHasFieldValue("fulltextAndRestricted1", fldName, "http://restricted.org"); 
+		assertDocHasFieldValue("fulltextAndRestricted2", fldName, "http://restricted.org"); 
+		assertDocHasFieldValue("supplAndRestricted1", fldName, "http://restricted.org"); 
+		assertDocHasFieldValue("supplAndRestricted2", fldName, "http://restricted.org"); 
+		assertDocHasFieldValue("restrictedFullTextAndSuppl", fldName, "http://restricted.org"); 
+		
+		assertDocHasNoField("fulltextUrl", fldName); 
+		assertDocHasNoField("supplUrl", fldName); 
+		assertDocHasNoField("supplUrlRestricted", fldName); 
+
+		// retain unrestricted fulltext urls
+		String fullTextFldName = "url_fulltext";
+		assertDocHasFieldValue("fulltextUrl", fullTextFldName, "http://www.fulltext.org/"); 
+		assertDocHasFieldValue("fulltextAndRestricted1", fullTextFldName, "http://www.fulltext.org/"); 
+		assertDocHasFieldValue("fulltextAndRestricted2", fullTextFldName, "http://www.fulltext.org/"); 
+
+		// retain any sort of suppl urls (do not included restriced supplemental urls in url_restricted field.
+		String supplFldName = "url_suppl";
+		assertDocHasFieldValue("supplUrl", supplFldName, "http://www.suppl.com"); 
+		assertDocHasFieldValue("supplUrlRestricted", supplFldName, "http://www.suppl.com/restricted"); 
+		assertDocHasFieldValue("supplAndRestricted1", supplFldName, "http://www.suppl.com"); 
+		assertDocHasFieldValue("supplAndRestricted2", supplFldName, "http://www.suppl.com"); 
+		assertDocHasFieldValue("restrictedFullTextAndSuppl", supplFldName, "http://www.suppl.com/restricted"); 
+	}
+
+
 	/**
 	 * url display fields should have appropriate properties.
 	 */
