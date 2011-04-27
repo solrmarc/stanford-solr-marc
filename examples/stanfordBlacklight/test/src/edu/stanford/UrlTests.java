@@ -1,5 +1,7 @@
 package edu.stanford;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -7,6 +9,7 @@ import java.util.Set;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.*;
+import org.solrmarc.solr.DocumentProxy;
 import org.xml.sax.SAXException;
 
 
@@ -195,4 +198,80 @@ public class UrlTests extends AbstractStanfordBlacklightTest {
 		}
 	}
 
+	/**
+	 * test preservation of field ordering from marc21 input to marc21 stored in record
+	 */
+@Test
+	public final void testFieldOrdering() 
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+		createIxInitVars("urlOrderingTests.mrc");
+		int solrDocNum = getSingleDocNum(docIDfname, "fulltextOnly");
+		DocumentProxy doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
+		assertFieldOrder(doc.getValuesForField("url_fulltext"));
+		
+		solrDocNum = getSingleDocNum(docIDfname, "fulltextAndRestricted1");
+		doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
+		assertFieldOrder(doc.getValuesForField("url_restricted"));
+		assertFulltextUrlFieldOrder(doc.getValuesForField("url_fulltext"));
+
+		solrDocNum = getSingleDocNum(docIDfname, "fulltextAndRestricted2");
+		doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
+		assertFieldOrder(doc.getValuesForField("url_restricted"));
+		assertFulltextUrlFieldOrder(doc.getValuesForField("url_fulltext"));
+
+		solrDocNum = getSingleDocNum(docIDfname, "fulltextAndRestricted3");
+		doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
+		assertFieldOrder(doc.getValuesForField("url_restricted"));
+		assertFulltextUrlFieldOrder(doc.getValuesForField("url_fulltext"));
+
+		solrDocNum = getSingleDocNum(docIDfname, "fulltextAndRestricted4");
+		doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
+		assertFieldOrder(doc.getValuesForField("url_restricted"));
+		assertFulltextUrlFieldOrder(doc.getValuesForField("url_fulltext"));
+		
+		solrDocNum = getSingleDocNum(docIDfname, "fulltextAndSuppl1");
+		doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
+		assertFieldOrder(doc.getValuesForField("url_restricted"));
+		assertFulltextUrlFieldOrder(doc.getValuesForField("url_fulltext"));
+		assertFieldOrder(doc.getValuesForField("url_suppl"));
+
+		solrDocNum = getSingleDocNum(docIDfname, "fulltextAndSuppl2");
+		doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
+		assertFieldOrder(doc.getValuesForField("url_restricted"));
+		assertFulltextUrlFieldOrder(doc.getValuesForField("url_fulltext"));
+		assertFieldOrder(doc.getValuesForField("url_suppl"));
+
+		solrDocNum = getSingleDocNum(docIDfname, "fulltextAndSuppl3");
+		doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
+		assertFieldOrder(doc.getValuesForField("url_restricted"));
+		assertFulltextUrlFieldOrder(doc.getValuesForField("url_fulltext"));
+		assertFieldOrder(doc.getValuesForField("url_suppl"));
+
+		solrDocNum = getSingleDocNum(docIDfname, "fulltextAndSuppl4");
+		doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
+		assertFieldOrder(doc.getValuesForField("url_restricted"));
+		assertFulltextUrlFieldOrder(doc.getValuesForField("url_fulltext"));
+		assertFieldOrder(doc.getValuesForField("url_suppl"));
+
+	}
+
+	private void assertFieldOrder(String[] urls) {
+		assertTrue("urls are NOT in the original order: " + urls[0] + " should be first url.", urls[0].indexOf("first") > 1);
+		assertTrue("urls are NOT in the original order: " + urls[1] + " should be second url.", urls[1].indexOf("second") > 1);
+	}
+
+	private void assertFulltextUrlFieldOrder(String[] urls) {
+		String firstUrl = urls[0];
+		String secondUrl = urls[1];
+		if (urls.length == 2) {
+			assertTrue("urls are NOT in the original order: " + firstUrl + " should be first url.", firstUrl.indexOf("first") > 1);
+			assertTrue("urls are NOT in the original order: " + secondUrl + " should be second url.", secondUrl.indexOf("second") > 1);
+		}
+		if (urls.length == 4) {
+			assertTrue("urls are NOT in the original order: " + firstUrl + " should be first url.", firstUrl.indexOf("first") > 1);
+			String lastUrl = urls[3];
+			assertTrue("urls are NOT in the original order: " + lastUrl + " should be a second url.", lastUrl.indexOf("second") > 1);
+		}
+	}
 }

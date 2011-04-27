@@ -1497,7 +1497,7 @@ public class SolrIndexer
     @SuppressWarnings("unchecked")
     public Set<String> getFullTextUrls(final Record record)
     {
-        Set<String> resultSet = new HashSet<String>();
+        Set<String> resultSet = new LinkedHashSet<String>();
 
         List<VariableField> list856 = record.getVariableFields("856");
         for (VariableField vf : list856)
@@ -1535,7 +1535,7 @@ public class SolrIndexer
     @SuppressWarnings("unchecked")
     public Set<String> getSupplUrls(final Record record)
     {
-        Set<String> resultSet = new HashSet<String>();
+        Set<String> resultSet = new LinkedHashSet<String>();
 
         List<VariableField> list856 = record.getVariableFields("856");
         for (VariableField vf : list856)
