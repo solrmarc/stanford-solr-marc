@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+  <record>
+      <leader>01541cai a2200349Ia 4500</leader>
+      <controlfield tag="001">afulltextOnly</controlfield>
+      <controlfield tag="008">040727c20049999nyuuu dss     0    2eng d</controlfield>
+      <datafield tag="245" ind1="0" ind2="0">
+          <subfield code="a">multiple urls (full text)</subfield>
+      </datafield>
+      <datafield tag="856" ind1="4" ind2="0">
+        <subfield code="u">http://first.org</subfield>
+      </datafield>
+      <datafield tag="856" ind1="4" ind2="0">
+        <subfield code="u">http://second.org</subfield>
+      </datafield>
+  </record>
+  
+  <record>
+    <leader>01541cai a2200349Ia 4500</leader>
+    <controlfield tag="001">afulltextAndRestricted1</controlfield>
+    <controlfield tag="008">040727c20049999nyuuu dss     0    2eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">multiple urls (full text and restricted)</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="u">http://first.org</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="u">http://second.org</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org/first</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org/second</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01541cai a2200349Ia 4500</leader>
+    <controlfield tag="001">afulltextAndRestricted2</controlfield>
+    <controlfield tag="008">040727c20049999nyuuu dss     0    2eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">multiple urls (full text and restricted)</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="u">http://first.org</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org/first</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="u">http://second.org</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org/second</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01541cai a2200349Ia 4500</leader>
+    <controlfield tag="001">afulltextAndRestricted3</controlfield>
+    <controlfield tag="008">040727c20049999nyuuu dss     0    2eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">multiple urls (full text and restricted)</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org/first</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="u">http://first.org</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="u">http://second.org</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org/second</subfield>
+    </datafield>
+  </record>
+      
+
+  <record>
+    <leader>01541cai a2200349Ia 4500</leader>
+    <controlfield tag="001">afulltextAndRestricted4</controlfield>
+    <controlfield tag="008">040727c20049999nyuuu dss     0    2eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">multiple urls (full text and restricted)</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="u">http://first.org</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org/first</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org/second</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="u">http://second.org</subfield>
+    </datafield>
+  </record>
+    
+    
+  <record>
+    <leader>01952cam  2200457Ia 45í0</leader>
+    <controlfield tag="001">afulltextAndSuppl1</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">full text and supplementary and restricted urls</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="2">
+      <subfield code="u">http://www.suppl.com/first</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="2">
+      <subfield code="u">http://www.suppl.com/second</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="1">
+      <subfield code="u">http://www.fulltext.org/first</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="1">
+      <subfield code="u">http://www.fulltext.org/second</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org/first</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org/second</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01952cam  2200457Ia 45í0</leader>
+    <controlfield tag="001">afulltextAndSuppl2</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">full text and supplementary and restricted urls</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="2">
+      <subfield code="u">http://www.suppl.com/first</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org/first</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="2">
+      <subfield code="u">http://www.suppl.com/second</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="1">
+      <subfield code="u">http://www.fulltext.org/first</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="1">
+      <subfield code="u">http://www.fulltext.org/second</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org/second</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01952cam  2200457Ia 45í0</leader>
+    <controlfield tag="001">afulltextAndSuppl3</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">full text and supplementary and restricted urls</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="2">
+      <subfield code="u">http://www.suppl.com/first</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="1">
+      <subfield code="u">http://www.fulltext.org/first</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="2">
+      <subfield code="u">http://www.suppl.com/second</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org/first</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="1">
+      <subfield code="u">http://www.fulltext.org/second</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org/second</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>01952cam  2200457Ia 45í0</leader>
+    <controlfield tag="001">afulltextAndSuppl4</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">full text and supplementary and restricted urls</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org/first</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="0">
+      <subfield code="z">Searchable database available to Stanford-affiliated users at: </subfield>
+      <subfield code="u">http://restricted.org/second</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="1">
+      <subfield code="u">http://www.fulltext.org/first</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="2">
+      <subfield code="u">http://www.suppl.com/first</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="1">
+      <subfield code="u">http://www.fulltext.org/second</subfield>
+    </datafield>
+    <datafield tag="856" ind1="4" ind2="2">
+      <subfield code="u">http://www.suppl.com/second</subfield>
+    </datafield>
+  </record>
+
+</collection>    
