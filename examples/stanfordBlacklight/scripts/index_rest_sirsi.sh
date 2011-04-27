@@ -55,6 +55,8 @@ mkdir $LOG_DIR
 #nohup java -Xmx16g -Xms16g -Dsolr.data.dir=$SOLR_DATA_DIR -cp $CP -jar $CORE_JAR $RAW_DATA_DIR/uni_07000000_07499999.marc &>$LOG_DIR/log700-749.txt
 #nohup java -Xmx16g -Xms16g -Dsolr.data.dir=$SOLR_DATA_DIR -cp $CP -jar $CORE_JAR $RAW_DATA_DIR/uni_07500000_07999999.marc &>$LOG_DIR/log750-799.txt
 #nohup java -Xmx16g -Xms16g -Dsolr.data.dir=$SOLR_DATA_DIR -cp $CP -jar $CORE_JAR $RAW_DATA_DIR/uni_08000000_08499999.marc &>$LOG_DIR/log800-849.txt
-nohup java -Xmx16g -Xms16g -Dsolr.data.dir=$SOLR_DATA_DIR -Dsolr.optimize_at_end="true" -cp $CP -jar $CORE_JAR $RAW_DATA_DIR/uni_08500000_08999999.marc &>$LOG_DIR/log850-899.txt
+#nohup java -Xmx16g -Xms16g -Dsolr.data.dir=$SOLR_DATA_DIR -cp $CP -jar $CORE_JAR $RAW_DATA_DIR/uni_08500000_08999999.marc &>$LOG_DIR/log800-849.txt
+#nohup java -Xmx16g -Xms16g -Dsolr.data.dir=$SOLR_DATA_DIR -cp $CP -jar $CORE_JAR $RAW_DATA_DIR/uni_09000000_09499999.marc &>$LOG_DIR/log900-949.txt
+nohup java -Xmx16g -Xms16g -Dsolr.data.dir=$SOLR_DATA_DIR -Dsolr.optimize_at_end="true" -cp $CP -jar $CORE_JAR $RAW_DATA_DIR/uni_09000000_09499999.marc &>$LOG_DIR/log900-949.txt
 
 exit 0
