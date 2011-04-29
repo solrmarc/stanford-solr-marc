@@ -37,11 +37,11 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 
 		String fldName = "author_person_display";
 		assertDisplayFieldProperties(fldName);
-		assertFieldNotMultiValued(fldName);
+//		assertFieldNotMultiValued(fldName);   // it is multivalued for image collections.
 		
 		fldName = "author_person_full_display";
 		assertDisplayFieldProperties(fldName);
-		assertFieldNotMultiValued(fldName);
+//		assertFieldNotMultiValued(fldName);  // it is multivalued for image collections.
 
 		fldName = "author_corp_display";
 		assertDisplayFieldProperties(fldName);

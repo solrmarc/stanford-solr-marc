@@ -95,6 +95,7 @@
           <str name="facet.field">dewey_2digit_facet</str>
           <str name="facet.field">dewey_b4cutter_facet</str>
           <str name="facet.field">gov_doc_type_facet</str>
+          <str name="facet.field">collection</str>
           <str name="facet.field">format</str>
           <str name="facet.field">language</str>
         </lst>
@@ -118,12 +119,14 @@
           <str name="facet.field">dewey_2digit_facet</str>
           <str name="facet.field">dewey_b4cutter_facet</str>
           <str name="facet.field">gov_doc_type_facet</str>
+          <str name="facet.field">collection</str>
           <str name="facet.field">db_az_subject</str>
           <str name="f.db_az_subject.facet.sort">false</str>
           <str name="facet.field">era_facet</str>
           <str name="facet.field">format</str>
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">language</str>
+          <str name="facet.field">medium</str>
           <str name="facet.field">pub_date_group_facet</str>
           <str name="facet.field">pub_date</str>
           <str name="facet.field">topic_facet</str>
@@ -153,6 +156,7 @@
           <str name="facet.field">dewey_2digit_facet</str>
           <str name="facet.field">dewey_b4cutter_facet</str>
           <str name="facet.field">gov_doc_type_facet</str>
+          <str name="facet.field">collection</str>
           <str name="facet.field">format</str>
           <str name="facet.field">language</str>
         </lst>
@@ -176,12 +180,14 @@
           <str name="facet.field">dewey_2digit_facet</str>
           <str name="facet.field">dewey_b4cutter_facet</str>
           <str name="facet.field">gov_doc_type_facet</str>
+          <str name="facet.field">collection</str>
           <str name="facet.field">db_az_subject</str>
           <str name="f.db_az_subject.facet.sort">false</str>
           <str name="facet.field">era_facet</str>
           <str name="facet.field">format</str>
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">language</str>
+          <str name="facet.field">medium</str>
           <str name="facet.field">pub_date_group_facet</str>
           <str name="facet.field">pub_date</str>
           <str name="facet.field">topic_facet</str>
@@ -269,6 +275,8 @@
         id
         oclc
         barcode_search
+        collection
+        medium
 <!-- callnum_search removed so searches with stopwords can have matches
         callnum_search
 -->
@@ -312,6 +320,8 @@
         pub_date_search^2
         physical^2                     vern_physical^2
         all_search^2
+        collection^20
+        medium^20
       </str>
       <int name="ps">3</int>
       <float name="tie">0.01</float>
@@ -330,12 +340,14 @@
       <str name="facet.field">dewey_2digit_facet</str>
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
+      <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
+      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
@@ -347,8 +359,10 @@
         author_meeting_display,
         author_person_display,
         author_person_full_display,
+        collection,
         db_az_subject,
         format,
+        img_info,
         isbn_display,
         item_display,
         lccn,
@@ -430,12 +444,14 @@
       <str name="facet.field">dewey_2digit_facet</str>
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
+      <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
+      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
@@ -447,8 +463,10 @@
         author_meeting_display,
         author_person_display,
         author_person_full_display,
+        collection,
         db_az_subject,
         format,
+        img_info,
         isbn_display,
         item_display,
         lccn,
@@ -519,12 +537,14 @@
       <str name="facet.field">dewey_2digit_facet</str>
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
+      <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
+      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
@@ -536,8 +556,10 @@
         author_meeting_display,
         author_person_display,
         author_person_full_display,
+        collection,
         db_az_subject,
         format,
+        img_info,
         isbn_display,
         item_display,
         lccn,
@@ -628,12 +650,14 @@
       <str name="facet.field">dewey_2digit_facet</str>
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
+      <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
+      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
@@ -645,8 +669,10 @@
         author_meeting_display,
         author_person_display,
         author_person_full_display,
+        collection,
         db_az_subject,
         format,
+        img_info,
         isbn_display,
         item_display,
         lccn,
@@ -705,12 +731,14 @@
       <str name="facet.field">dewey_2digit_facet</str>
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
+      <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
+      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
@@ -722,8 +750,10 @@
         author_meeting_display,
         author_person_display,
         author_person_full_display,
+        collection,
         db_az_subject,
         format,
+        img_info,
         isbn_display,
         item_display,
         lccn,
@@ -776,12 +806,14 @@
       <str name="facet.field">dewey_2digit_facet</str>
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
+      <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
+      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
@@ -792,9 +824,11 @@
         author_corp_display,
         author_meeting_display,
         author_person_display,
-        author_person_full_display,
+        author_person_full_display
+        collection,
         db_az_subject,
         format,
+        img_info,
         isbn_display,
         item_display,
         lccn,
@@ -1028,12 +1062,14 @@
       <str name="facet.field">dewey_2digit_facet</str>
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
+      <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
+      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
@@ -1045,8 +1081,10 @@
         author_meeting_display,
         author_person_display,
         author_person_full_display,
+        collection,
         db_az_subject,
         format,
+        img_info,
         isbn_display,
         item_display,
         lccn,
@@ -1253,12 +1291,14 @@
       <str name="facet.field">dewey_2digit_facet</str>
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
+      <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
+      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
@@ -1270,8 +1310,10 @@
         author_meeting_display,
         author_person_display,
         author_person_full_display,
+        collection,
         db_az_subject,
         format,
+        img_info,
         isbn_display,
         item_display,
         lccn,
@@ -1324,12 +1366,14 @@
       <str name="facet.field">dewey_2digit_facet</str>
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
+      <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
+      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
@@ -1341,8 +1385,10 @@
         author_meeting_display,
         author_person_display,
         author_person_full_display,
+        collection,
         db_az_subject,
         format,
+        img_info,
         isbn_display,
         item_display,
         lccn,
@@ -1440,6 +1486,7 @@
 
   <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" startup="lazy"/>
   <requestHandler name="/update/javabin" class="solr.BinaryUpdateRequestHandler" startup="lazy"/>
+  <requestHandler name="/update/csv" class="solr.CSVRequestHandler" startup="lazy" />
   <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" />
   <requestHandler name="/admin/ping" class="PingRequestHandler">
     <lst name="defaults">
