@@ -124,7 +124,7 @@
     <!-- entire marc bib record -->
     <field name="marc21" type="string" indexed="false" stored="true" />
     <!-- collection: allow searching within collections for aggr. colls, also used for get all docs -->
-    <field name="collection" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
+    <field name="collection" type="string_no_stop" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <field name="all_search" type="text" indexed="true" stored="false" />
     <!-- for OpenSearch string completion; requires a stored field -->
     <field name="open_search" type="text" indexed="true" stored="true" multiValued="true"/>
@@ -175,6 +175,7 @@
     <field name="vern_title_full_display" type="string" indexed="false" stored="true" />
     <field name="title_uniform_display" type="string" indexed="false" stored="true" />
     <field name="vern_title_uniform_display" type="string" indexed="false" stored="true" />
+    <field name="title_variant_display" type="string" indexed="false" stored="true" multiValued="true" />
 
     <field name="title_sort" type="alphaSort" indexed="true" stored="true" />
 
@@ -205,9 +206,9 @@
     <field name="author_sort" type="alphaSort" indexed="true" stored="false" />
 
     <!-- Author Display Fields -->
-    <field name="author_person_display" type="string" indexed="false" stored="true" />
+    <field name="author_person_display" type="string" indexed="false" stored="true" multiValued="true" />
     <field name="vern_author_person_display" type="string" indexed="false" stored="true" />
-    <field name="author_person_full_display" type="string" indexed="false" stored="true" />
+    <field name="author_person_full_display" type="string" indexed="false" stored="true" multiValued="true" />
     <field name="vern_author_person_full_display" type="string" indexed="false" stored="true" />
     <field name="author_corp_display" type="string" indexed="false" stored="true" />
     <field name="vern_author_corp_display" type="string" indexed="false" stored="true" />
@@ -245,6 +246,10 @@
     <field name="geographic_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <field name="era_facet" type="string" indexed="true" stored="false" multiValued="true" />
 
+    <!-- Subject Display Fields -->
+    <field name="topic_display" type="string" indexed="false" stored="true" multiValued="true" />
+    <field name="subject_other_display" type="string" indexed="false" stored="true" multiValued="true" />
+    
     <!-- Publishing Fields -->
     <field name="pub_search" type="text" indexed="true" stored="false" omitNorms="true" multiValued="true"/>
     <field name="vern_pub_search" type="textNoStem" indexed="true" stored="false" omitNorms="true" multiValued="true"/>
@@ -256,6 +261,7 @@
     <field name="pub_date_group_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <!-- pub_date is facet and display -->
     <field name="pub_date" type="string" indexed="true" stored="true" />
+    <field name="pub_display" type="string" indexed="false" stored="true" multiValued="true"/>
     
     <!-- URL Fields -->
     <field name="url_fulltext" type="string" indexed="false" stored="true" multiValued="true"/>
@@ -280,6 +286,7 @@
     <field name="summary_search" type="text" indexed="true" stored="false" multiValued="true" />
     <field name="vern_summary_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="summary_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
+    <field name="summary_display" type="string" indexed="false" stored="true" multiValued="true" />
     
     <!-- Item Info Fields (derived from 999) -->
     <!-- Call Number Fields -->
@@ -303,6 +310,26 @@
     <field name="building_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <!-- barcode -|- lib -|- location -|- lopped_callnum -|- shelfkey -|- reverse_shelfkey -|- full_callnum -|- callnum_show_sort  -->
     <field name="item_display" type="string" indexed="false" stored="true" multiValued="true" />
+    
+    
+    <!-- *************** additional fields for Image collections  ****************** -->
+
+    <field name="rights" type="string" indexed="false" stored="true"/>    
+    
+    <!-- to get to images for display, including thumbnail -->
+    <field name="img_info" type="string" indexed="false" stored="true" multiValued="true"/>    
+    
+    <!-- Medium, Media (what is original object made of), how is it physically supported -->
+    <field name="medium_search" type="text" indexed="true" stored="false" multiValued="true" />      
+    <field name="medium" type="string_no_stop" indexed="true" stored="true" multiValued="true" />  <!-- facet and display -->
+    
+    <!-- for Reid Dennis -->
+    <field name="possessor" type="text" indexed="true" stored="true"/> <!-- search and display -->    
+    
+    <!-- possibly unnecessary -->
+    <field name="ig_id" type="string" indexed="true" stored="true" omitNorms="true" />
+    
+    <field name="parent_coll_ckey" type="string" indexed="true" stored="true" omitNorms="true"></field>
     
   </fields>
 
@@ -335,6 +362,14 @@
   <copyField source="toc_search" dest="toc_unstem_search" />
   <copyField source="context_search" dest="context_unstem_search" />
   <copyField source="summary_search" dest="summary_unstem_search" />
+  
+  <!-- image fields -->
+  <copyField source="medium" dest="medium_search" />
+  <copyField source="topic_search" dest="topic_display" />
+  <copyField source="subject_other_search" dest="subject_other_display" />
+  <copyField source="title_variant_search" dest="title_variant_display" />
+  <copyField source="summary_search" dest="summary_display" />
+  <copyField source="pub_search" dest="pub_display" />
   
   <!-- field to populate OpenSearch queries -->
   <copyField source="title_245_search" dest="open_search" />
