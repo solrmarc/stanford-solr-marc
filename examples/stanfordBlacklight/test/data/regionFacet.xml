@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+  <record>
+    <leader>00880cam a2200217 i 4500</leader>
+    <controlfield tag="001">a651only</controlfield>
+    <controlfield tag="008">770207r19771901gw b 001 0 ger d</controlfield>
+    <datafield tag="651" ind1="1" ind2=" ">
+      <subfield code="a">651a</subfield>
+      <subfield code="z">651z</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">651 only, single sub a</subfield>
+    </datafield>
+  </record>
+
+  <record>
+    <leader>00880cam a2200217 i 4500</leader>
+    <controlfield tag="001">a651twoa</controlfield>
+    <controlfield tag="008">770207r19771901gw b 001 0 ger d</controlfield>
+    <datafield tag="651" ind1="1" ind2=" ">
+      <subfield code="a">651a1</subfield>
+      <subfield code="a">651a2</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">651 only, two sub a2</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>00880cam a2200217 i 4500</leader>
+    <controlfield tag="001">ano651twoz600</controlfield>
+    <controlfield tag="008">770207r19771901gw b 001 0 ger d</controlfield>
+    <datafield tag="600" ind1="1" ind2=" ">
+      <subfield code="a">600a</subfield>
+      <subfield code="z">600z1</subfield>
+      <subfield code="z">600z2</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">no 651 but 600 with two |z</subfield>
+    </datafield>
+  </record>
+
+  <record>
+    <leader>00880cam a2200217 i 4500</leader>
+    <controlfield tag="001">a610twoz651twoa</controlfield>
+    <controlfield tag="008">770207r19771901gw b 001 0 ger d</controlfield>
+    <datafield tag="610" ind1="1" ind2=" ">
+      <subfield code="z">610z1</subfield>
+      <subfield code="a">610a</subfield>
+      <subfield code="z">610z2</subfield>
+    </datafield>
+    <datafield tag="651" ind1="1" ind2=" ">
+      <subfield code="a">651a1</subfield>
+      <subfield code="a">651a2</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">610 with two sub z and 651 with two sub a</subfield>
+    </datafield>
+  </record>
+
+  <record>
+    <leader>00880cam a2200217 i 4500</leader>
+    <controlfield tag="001">a651a630twoz</controlfield>
+    <controlfield tag="008">770207r19771901gw b 001 0 ger d</controlfield>
+    <datafield tag="651" ind1="1" ind2=" ">
+      <subfield code="a">651a</subfield>
+    </datafield>
+    <datafield tag="630" ind1="1" ind2=" ">
+      <subfield code="z">630z1</subfield>
+      <subfield code="a">630z2</subfield>
+      <subfield code="a">630a</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">651 one sub a and 630 two sub z</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>00880cam a2200217 i 4500</leader>
+    <controlfield tag="001">atwo648fields</controlfield>
+    <controlfield tag="008">770207r19771901gw b 001 0 ger d</controlfield>
+    <datafield tag="648" ind1="1" ind2=" ">
+      <subfield code="a">648a</subfield>
+      <subfield code="z">6481z</subfield>
+    </datafield>
+    <datafield tag="648" ind1="1" ind2=" ">
+      <subfield code="a">648a</subfield>
+      <subfield code="z">6482z</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">two 648 each with one sub z</subfield>
+    </datafield>
+  </record>
+
+  <record>
+    <leader>00880cam a2200217 i 4500</leader>
+    <controlfield tag="001">atwo650flds651</controlfield>
+    <controlfield tag="008">770207r19771901gw b 001 0 ger d</controlfield>
+    <datafield tag="650" ind1="1" ind2=" ">
+      <subfield code="a">650a</subfield>
+      <subfield code="z">65011z</subfield>
+      <subfield code="z">65012z</subfield>
+    </datafield>
+    <datafield tag="651" ind1="1" ind2=" ">
+      <subfield code="a">651a1</subfield>
+      <subfield code="a">651a2</subfield>
+    </datafield>
+    <datafield tag="650" ind1="1" ind2=" ">
+      <subfield code="a">650a</subfield>
+      <subfield code="z">65021z</subfield>
+      <subfield code="z">65022z</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">two 650 with two sub z each and 651 with two a</subfield>
+    </datafield>
+  </record>
+
+  <record>
+    <leader>00880cam a2200217 i 4500</leader>
+    <controlfield tag="001">a6xx</controlfield>
+    <controlfield tag="008">770207r19771901gw b 001 0 ger d</controlfield>
+    <datafield tag="655" ind1="1" ind2=" ">
+      <subfield code="a">655a</subfield>
+      <subfield code="z">655z</subfield>
+    </datafield>
+    <datafield tag="651" ind1="1" ind2=" ">
+      <subfield code="a">651a</subfield>
+      <subfield code="z">651z</subfield>
+    </datafield>
+    <datafield tag="690" ind1="1" ind2=" ">
+      <subfield code="a">690a</subfield>
+      <subfield code="z">6901z</subfield>
+    </datafield>
+    <datafield tag="654" ind1="1" ind2=" ">
+      <subfield code="a">654a</subfield>
+      <subfield code="z">654z</subfield>
+    </datafield>
+    <datafield tag="690" ind1="1" ind2=" ">
+      <subfield code="z">6902z</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">various 6xx</subfield>
+    </datafield>
+  </record>
+
+  <record>
+    <leader>00880cam a2200217 i 4500</leader>
+    <controlfield tag="001">a656</controlfield>
+    <controlfield tag="008">770207r19771901gw b 001 0 ger d</controlfield>
+    <datafield tag="656" ind1="1" ind2=" ">
+      <subfield code="a">656a</subfield>
+      <subfield code="z">656z</subfield>
+    </datafield>
+    <datafield tag="710" ind1="1" ind2=" ">
+      <subfield code="a">710a</subfield>
+      <subfield code="z">710z</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">656 field</subfield>
+    </datafield>
+  </record>
+
+  <record>
+    <leader>00880cam a2200217 i 4500</leader>
+    <controlfield tag="001">a657</controlfield>
+    <controlfield tag="008">770207r19771901gw b 001 0 ger d</controlfield>
+    <datafield tag="657" ind1="1" ind2=" ">
+      <subfield code="a">657a</subfield>
+      <subfield code="z">657z</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">657 subfield</subfield>
+    </datafield>
+  </record>
+
+  <!-- 690 included above  -->
+
+  <record>
+    <leader>00880cam a2200217 i 4500</leader>
+    <controlfield tag="001">a691</controlfield>
+    <controlfield tag="008">770207r19771901gw b 001 0 ger d</controlfield>
+    <datafield tag="691" ind1="1" ind2=" ">
+      <subfield code="a">691a</subfield>
+      <subfield code="z">691z</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">691 field</subfield>
+    </datafield>
+  </record>
+
+  <record>
+    <leader>00880cam a2200217 i 4500</leader>
+    <controlfield tag="001">a696</controlfield>
+    <controlfield tag="008">770207r19771901gw b 001 0 ger d</controlfield>
+    <datafield tag="696" ind1="1" ind2=" ">
+      <subfield code="a">696a</subfield>
+      <subfield code="z">696z</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">696 field</subfield>
+    </datafield>
+  </record>
+
+  <record>
+    <leader>00880cam a2200217 i 4500</leader>
+    <controlfield tag="001">a697</controlfield>
+    <controlfield tag="008">770207r19771901gw b 001 0 ger d</controlfield>
+    <datafield tag="697" ind1="1" ind2=" ">
+      <subfield code="a">697a</subfield>
+      <subfield code="z">697z</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">697 field</subfield>
+    </datafield>
+  </record>
+
+  <record>
+    <leader>00880cam a2200217 i 4500</leader>
+    <controlfield tag="001">a698</controlfield>
+    <controlfield tag="008">770207r19771901gw b 001 0 ger d</controlfield>
+    <datafield tag="698" ind1="1" ind2=" ">
+      <subfield code="a">698a</subfield>
+      <subfield code="z">698z</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">698 field</subfield>
+    </datafield>
+  </record>
+
+  <record>
+    <leader>00880cam a2200217 i 4500</leader>
+    <controlfield tag="001">a699</controlfield>
+    <controlfield tag="008">770207r19771901gw b 001 0 ger d</controlfield>
+    <datafield tag="699" ind1="1" ind2=" ">
+      <subfield code="a">699a</subfield>
+      <subfield code="z">699z</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">699 subfield</subfield>
+    </datafield>
+  </record>
+
+</collection>

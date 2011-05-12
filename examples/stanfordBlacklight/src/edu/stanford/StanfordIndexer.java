@@ -285,53 +285,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (formats.isEmpty() || formats.size() == 0)
 			formats.add(Format.OTHER.toString());		
 	}
-
-	/**
-	 * given that there is a Format.DATABASE_A_Z assigned to the record,
-	 *  look in the 099a for subject codes.  Some subject codes are mapped
-	 *  to multiple values -- for these we must assign a second code value
-	 * @param record - marc4j Record object
-	 * @return Set of strings database A-Z subject codes from 099a
-	 */
-	public Set<String> getDbAZSubjects(final Record record) 
-	{
-		Set<String> subjectsSet = new LinkedHashSet<String>();
-		if (formats.contains(Format.DATABASE_A_Z.toString())) {
-			subjectsSet = getFieldList(record, "099a");
-		}
-		// add second value for those codes mapping to two values
-		if (subjectsSet.contains("BP"))
-			subjectsSet.add("BP2");
-		if (subjectsSet.contains("BQ"))
-			subjectsSet.add("BQ2");
-		
-		if (subjectsSet.contains("GF"))
-			subjectsSet.add("GF2");
-
-		if (subjectsSet.contains("JK"))
-			subjectsSet.add("JK2");
-		if (subjectsSet.contains("JX"))
-			subjectsSet.add("JX2");
-
-		if (subjectsSet.contains("KJV"))
-			subjectsSet.add("KJV2");
-		if (subjectsSet.contains("KJW"))
-			subjectsSet.add("KJW2");
-		if (subjectsSet.contains("KK"))
-			subjectsSet.add("KK2");
-		if (subjectsSet.contains("KKA"))
-			subjectsSet.add("KKA2");
-		if (subjectsSet.contains("KKB"))
-			subjectsSet.add("KKB2");
-		if (subjectsSet.contains("KKC"))
-			subjectsSet.add("KKC2");
-
-		if (subjectsSet.contains("PA"))
-			subjectsSet.add("PA2");
-
-		return subjectsSet;
-	}
-
 // Format Methods  ---------------- End ------------------------- Format Methods
 
 // Language Methods ---------------- Begin -------------------- Language Methods
@@ -693,6 +646,96 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			resultSet.removeAll(f655suba);
 		resultSet.remove("nomesh");
 		return resultSet;
+	}
+
+	/**
+	 * Returns all 651a and the first subfield z in any 6xx field
+	 * @param record a marc4j Record object
+     * @param trailingCharsRegEx a regular expression of trailing chars to be
+     *   replaced (see java Pattern class).  Note that the regular expression
+     *   should NOT have '$' at the end.
+     *   (e.g. " *[,/;:]" replaces any commas, slashes, semicolons or colons
+     *     at the end of the string, and these chars may optionally be preceded
+     *     by a space)
+     * @param charsB4periodRegEx a regular expression that must immediately 
+     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED. 
+     *  Note that the regular expression will NOT have the period or '$' at 
+     *  the end. 
+     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately 
+     *   precede the period for it to be removed.) 
+	 * 
+	 * @return Set of strings containing geographic_facet values without trailing chars
+	 */
+    @SuppressWarnings("unchecked")
+	public Set<String> getGeographicFacet(final Record record, String charsToReplaceRegEx, String charsB4periodRegEx) 
+    {
+		Set<String> values = getFieldList(record, "651a");
+		
+		// look for first subfield z in 6xx
+		List<DataField> dfList = (List<DataField>) record.getDataFields();
+		for (DataField df : dfList) {
+			if (df.getTag().startsWith("6")) {
+				List<String> subList = MarcUtils.getSubfieldStrings(df, 'z');
+				if (subList.size() > 0)
+					values.add(subList.get(0));
+			}
+		}
+		
+		// remove trailing punctuataion
+		Set<String> resultSet = new LinkedHashSet<String>();
+		for (String val : values) {
+    		String result = Utils.removeAllTrailingCharAndPeriod(val, "(" + charsToReplaceRegEx + ")+", charsB4periodRegEx);
+			resultSet.add(result);
+		}
+
+		return resultSet;
+	}
+
+
+	/**
+	 * given that there is a Format.DATABASE_A_Z assigned to the record,
+	 *  look in the 099a for subject codes.  Some subject codes are mapped
+	 *  to multiple values -- for these we must assign a second code value
+	 * @param record - marc4j Record object
+	 * @return Set of strings database A-Z subject codes from 099a
+	 */
+	public Set<String> getDbAZSubjects(final Record record) 
+	{
+		Set<String> subjectsSet = new LinkedHashSet<String>();
+		if (formats.contains(Format.DATABASE_A_Z.toString())) {
+			subjectsSet = getFieldList(record, "099a");
+		}
+		// add second value for those codes mapping to two values
+		if (subjectsSet.contains("BP"))
+			subjectsSet.add("BP2");
+		if (subjectsSet.contains("BQ"))
+			subjectsSet.add("BQ2");
+		
+		if (subjectsSet.contains("GF"))
+			subjectsSet.add("GF2");
+
+		if (subjectsSet.contains("JK"))
+			subjectsSet.add("JK2");
+		if (subjectsSet.contains("JX"))
+			subjectsSet.add("JX2");
+
+		if (subjectsSet.contains("KJV"))
+			subjectsSet.add("KJV2");
+		if (subjectsSet.contains("KJW"))
+			subjectsSet.add("KJW2");
+		if (subjectsSet.contains("KK"))
+			subjectsSet.add("KK2");
+		if (subjectsSet.contains("KKA"))
+			subjectsSet.add("KKA2");
+		if (subjectsSet.contains("KKB"))
+			subjectsSet.add("KKB2");
+		if (subjectsSet.contains("KKC"))
+			subjectsSet.add("KKC2");
+
+		if (subjectsSet.contains("PA"))
+			subjectsSet.add("PA2");
+
+		return subjectsSet;
 	}
 
 
