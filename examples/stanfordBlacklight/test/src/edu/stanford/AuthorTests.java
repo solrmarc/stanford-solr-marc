@@ -403,7 +403,6 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("100search", fldName, "100b");
 		assertSingleResult("100search", fldName, "100c");
 		assertSingleResult("100search", fldName, "100d");
-		assertSingleResult("100search", fldName, "100e");
 		assertSingleResult("100search", fldName, "100g");
 		assertSingleResult("100search", fldName, "100j");
 		assertSingleResult("100search", fldName, "100q");
@@ -413,7 +412,6 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("110search", fldName, "110b");
 		assertSingleResult("110search", fldName, "110c");
 		assertSingleResult("110search", fldName, "110d");
-		assertSingleResult("110search", fldName, "110e");
 		assertSingleResult("110search", fldName, "110g");
 		assertSingleResult("110search", fldName, "110n");
 		assertSingleResult("110search", fldName, "110u");
@@ -428,8 +426,11 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("111search", fldName, "111q");
 		assertSingleResult("111search", fldName, "111u");
 		
+		assertZeroResults(fldName, "100e");
+		assertZeroResults(fldName, "110e");
 		assertZeroResults(fldName, "110f");
 		assertZeroResults(fldName, "110k");
+		assertZeroResults(fldName, "111i");
 		assertZeroResults(fldName, "none");
 	}
 
@@ -448,7 +449,6 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("100VernSearch", fldName, "vern100b");
 		assertSingleResult("100VernSearch", fldName, "vern100c");
 		assertSingleResult("100VernSearch", fldName, "vern100d");
-		assertSingleResult("100VernSearch", fldName, "vern100e");
 		assertSingleResult("100VernSearch", fldName, "vern100g");
 		assertSingleResult("100VernSearch", fldName, "vern100j");
 		assertSingleResult("100VernSearch", fldName, "vern100q");
@@ -458,7 +458,6 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("110VernSearch", fldName, "vern110b");
 		assertSingleResult("110VernSearch", fldName, "vern110c");
 		assertSingleResult("110VernSearch", fldName, "vern110d");
-		assertSingleResult("110VernSearch", fldName, "vern110e");
 		assertSingleResult("110VernSearch", fldName, "vern110g");
 		assertSingleResult("110VernSearch", fldName, "vern110n");
 		assertSingleResult("110VernSearch", fldName, "vern110u");
@@ -473,8 +472,11 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("111VernSearch", fldName, "vern111q");
 		assertSingleResult("111VernSearch", fldName, "vern111u");
 	
+		assertZeroResults(fldName, "vern100e");
+		assertZeroResults(fldName, "vern110e");
 		assertZeroResults(fldName, "vern110f");
 		assertZeroResults(fldName, "vern110k");
+		assertZeroResults(fldName, "vern111i");
 		assertZeroResults(fldName, "none");
 	}
 
