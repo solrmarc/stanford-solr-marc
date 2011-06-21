@@ -495,7 +495,6 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("7xxPersonSearch", fldName, "700b");
 		assertSingleResult("7xxPersonSearch", fldName, "700c");
 		assertSingleResult("7xxPersonSearch", fldName, "700d");
-		assertSingleResult("7xxPersonSearch", fldName, "700e");
 		assertSingleResult("7xxPersonSearch", fldName, "700g");
 		assertSingleResult("7xxPersonSearch", fldName, "700j");
 		assertSingleResult("7xxPersonSearch", fldName, "700q");
@@ -508,12 +507,13 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("7xxPersonSearch", fldName, "796b");
 		assertSingleResult("7xxPersonSearch", fldName, "796c");
 		assertSingleResult("7xxPersonSearch", fldName, "796d");
-		assertSingleResult("7xxPersonSearch", fldName, "796e");
 		assertSingleResult("7xxPersonSearch", fldName, "796g");
 		assertSingleResult("7xxPersonSearch", fldName, "796j");
 		assertSingleResult("7xxPersonSearch", fldName, "796q");
 		assertSingleResult("7xxPersonSearch", fldName, "796u");
 
+		assertZeroResults(fldName, "700e");
+		assertZeroResults(fldName, "796e");
 		assertZeroResults(fldName, "none");
 	}
 
@@ -532,7 +532,6 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("7xxVernPersonSearch", fldName, "vern700b");
 		assertSingleResult("7xxVernPersonSearch", fldName, "vern700c");
 		assertSingleResult("7xxVernPersonSearch", fldName, "vern700d");
-		assertSingleResult("7xxVernPersonSearch", fldName, "vern700e");
 		assertSingleResult("7xxVernPersonSearch", fldName, "vern700q");
 		assertSingleResult("7xxVernPersonSearch", fldName, "vern700u");
 			
@@ -551,7 +550,6 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("7xxVernPersonSearch", fldName, "vern796b");
 		assertSingleResult("7xxVernPersonSearch", fldName, "vern796c");
 		assertSingleResult("7xxVernPersonSearch", fldName, "vern796d");
-		assertSingleResult("7xxVernPersonSearch", fldName, "vern796e");
 		assertSingleResult("7xxVernPersonSearch", fldName, "vern796q");
 		assertSingleResult("7xxVernPersonSearch", fldName, "vern796u");
 		
@@ -561,7 +559,9 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSearchResults(fldName, "vern796g", docIds); 
 		// used to be in title
 		assertSearchResults(fldName, "vern796j", docIds);
-		
+
+		assertZeroResults(fldName, "vern700e"); // removed per RDA and phrase searching
+		assertZeroResults(fldName, "vern796e"); // removed per RDA and phrase searching
 		assertZeroResults(fldName, "none");
 	}
 
@@ -581,7 +581,6 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("7xxCorpSearch", fldName, "710b");
 		assertSingleResult("7xxCorpSearch", fldName, "710c");
 		assertSingleResult("7xxCorpSearch", fldName, "710d");
-		assertSingleResult("7xxCorpSearch", fldName, "710e");
 		assertSingleResult("7xxCorpSearch", fldName, "710g");
 		assertSingleResult("7xxCorpSearch", fldName, "710n");
 		assertSingleResult("7xxCorpSearch", fldName, "710u");
@@ -590,13 +589,14 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("7xxCorpSearch", fldName, "797b");
 		assertSingleResult("7xxCorpSearch", fldName, "797c");
 		assertSingleResult("7xxCorpSearch", fldName, "797d");
-		assertSingleResult("7xxCorpSearch", fldName, "797e");
 		assertSingleResult("7xxCorpSearch", fldName, "797g");
 		assertSingleResult("7xxCorpSearch", fldName, "797n");
 		assertSingleResult("7xxCorpSearch", fldName, "797u");
 		
+		assertZeroResults(fldName, "710e");
 		assertZeroResults(fldName, "710f");
 		assertZeroResults(fldName, "710k");
+		assertZeroResults(fldName, "797e");
 		assertZeroResults(fldName, "797f");
 		assertZeroResults(fldName, "797k");
 		assertZeroResults(fldName, "none");
@@ -617,7 +617,6 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("7xxVernCorpSearch", fldName, "vern710a");
 		assertSingleResult("7xxVernCorpSearch", fldName, "vern710b");
 		assertSingleResult("7xxVernCorpSearch", fldName, "vern710c");
-		assertSingleResult("7xxVernCorpSearch", fldName, "vern710e");
 		assertSingleResult("7xxVernCorpSearch", fldName, "vern710u");
 	
 		Set<String> docIds = new HashSet<String>();
@@ -631,7 +630,6 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("7xxVernCorpSearch", fldName, "vern797a");
 		assertSingleResult("7xxVernCorpSearch", fldName, "vern797b");
 		assertSingleResult("7xxVernCorpSearch", fldName, "vern797c");
-		assertSingleResult("7xxVernCorpSearch", fldName, "vern797e");
 		assertSingleResult("7xxVernCorpSearch", fldName, "vern797u");
 		
 		docIds.remove("7xxLowVernSearch");
@@ -641,8 +639,10 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSearchResults(fldName, "vern797g", docIds); 
 		assertSearchResults(fldName, "vern797n", docIds);
 		
+		assertZeroResults(fldName, "vern710e");
 		assertZeroResults(fldName, "vern710f");
 		assertZeroResults(fldName, "vern710k");
+		assertZeroResults(fldName, "vern797e");
 		assertZeroResults(fldName, "vern797f");
 		assertZeroResults(fldName, "vern797k");
 		assertZeroResults(fldName, "none");
@@ -681,6 +681,8 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("7xxMeetingSearch", fldName, "798q");
 		assertSingleResult("7xxMeetingSearch", fldName, "798u");
 
+		assertZeroResults(fldName, "711i");
+		assertZeroResults(fldName, "798i");
 		assertZeroResults(fldName, "none");
 	}
 
@@ -714,7 +716,6 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("7xxVernMeetingSearch", fldName, "vern798a");
 		assertSingleResult("7xxVernMeetingSearch", fldName, "vern798c");
 		assertSingleResult("7xxVernMeetingSearch", fldName, "vern798d");
-		assertSingleResult("7xxVernMeetingSearch", fldName, "vern798e");
 		assertSingleResult("7xxVernMeetingSearch", fldName, "vern798j");
 		assertSingleResult("7xxVernMeetingSearch", fldName, "vern798q");
 		assertSingleResult("7xxVernMeetingSearch", fldName, "vern798u");
@@ -724,7 +725,10 @@ public class AuthorTests extends AbstractStanfordBlacklightTest {
 		// overlap title
 		assertSearchResults(fldName, "vern798g", docIds); 
 		assertSearchResults(fldName, "vern798n", docIds);
+		assertSearchResults(fldName, "vern798e", docIds);
 		
+		assertZeroResults(fldName, "711i"); 
+		assertZeroResults(fldName, "vern798i"); 
 		assertZeroResults(fldName, "none");
 	}
 

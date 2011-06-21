@@ -564,6 +564,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	{
 		List<String> result = new ArrayList<String>();
 
+		Pattern sub711pattern = Pattern.compile("[a-hj-wyz]");
 		Pattern sub7xxpattern = Pattern.compile("[a-df-hj-wyz]");
 		Pattern sub8xxpattern = Pattern.compile("[a-df-uyz]");
 		for (VariableField vf : fieldList) {
@@ -579,7 +580,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
                 StringBuilder buffer = new StringBuilder();
                 for (Subfield sf : subfields) {
                 	Matcher matcher = null;
-                	if (tag.startsWith("7"))
+                	if (tag.startsWith("711"))
+                		matcher = sub711pattern.matcher(String.valueOf(sf.getCode()));
+                	else if (tag.startsWith("7"))
                 		matcher = sub7xxpattern.matcher(String.valueOf(sf.getCode()));
                 	else if (tag.startsWith("8"))
                 		matcher = sub8xxpattern.matcher(String.valueOf(sf.getCode()));

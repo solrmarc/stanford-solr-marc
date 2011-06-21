@@ -64,7 +64,7 @@ public class AuthorTitleMappingTests extends AbstractStanfordBlacklightTest {
 	    String search710value = sub710b4t + " 710t 710u";
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "710", fldName, search710value);
 	    
-	    String sub711b4t = "711a 711c 711d 711f 711g 711h 711j 711k 711l 711n 711p 711q 711s";
+	    String sub711b4t = "711a 711c 711d 711e 711f 711g 711h 711j 711k 711l 711n 711p 711q 711s";
 	    String search711value = sub711b4t + " 711t 711u";
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "711", fldName, search711value);   
 	    
@@ -184,7 +184,7 @@ public class AuthorTitleMappingTests extends AbstractStanfordBlacklightTest {
 	    String vern710value = vernSub710b4t + " vern710t vern710u";
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "vern710", fldName, vern710value);
     
-	    String vernSub711b4t = "vern711a vern711c vern711d vern711f vern711g vern711h vern711j vern711k vern711l vern711n vern711p vern711q vern711s";
+	    String vernSub711b4t = "vern711a vern711c vern711d vern711e vern711f vern711g vern711h vern711j vern711k vern711l vern711n vern711p vern711q vern711s";
 	    String search711value = vernSub711b4t + " vern711t vern711u";
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "vern711", fldName, search711value);   
 	    

@@ -226,6 +226,7 @@
         </datafield>   
         <datafield tag="880" ind1="1" ind2=" ">
             <subfield code="6">700-01</subfield>
+            <subfield code="e">vern700e</subfield>
             <subfield code="f">vern700f</subfield>
             <subfield code="g">vern700g</subfield>
             <subfield code="h">nope</subfield>
@@ -245,6 +246,7 @@
         <datafield tag="880" ind1="1" ind2=" ">
             <subfield code="6">710-02</subfield>
             <subfield code="d">vern710d</subfield>
+            <subfield code="e">vern710e</subfield>
             <subfield code="f">vern710f</subfield>
             <subfield code="g">vern710g</subfield>
             <subfield code="h">nope</subfield>
@@ -265,6 +267,7 @@
             <subfield code="6">711-03</subfield>
             <subfield code="f">vern711f</subfield>
             <subfield code="g">vern711g</subfield>
+            <subfield code="i">vern711i</subfield>
             <subfield code="j">nope</subfield>
             <subfield code="k">vern711k</subfield>
             <subfield code="l">vern711l</subfield>
@@ -506,6 +509,7 @@
         </datafield>   
         <datafield tag="880" ind1="1" ind2=" ">
             <subfield code="6">796-01</subfield>
+            <subfield code="e">vern796e</subfield>
             <subfield code="f">vern796f</subfield>
             <subfield code="g">vern796g</subfield>
             <subfield code="h">nope</subfield>
@@ -525,6 +529,7 @@
         <datafield tag="880" ind1="1" ind2=" ">
             <subfield code="6">797-02</subfield>
             <subfield code="d">vern797d</subfield>
+            <subfield code="e">vern797e</subfield>
             <subfield code="f">vern797f</subfield>
             <subfield code="g">vern797g</subfield>
             <subfield code="j">nope</subfield>
@@ -542,8 +547,10 @@
         </datafield>   
         <datafield tag="880" ind1="1" ind2=" ">
             <subfield code="6">798-03</subfield>
+            <subfield code="e">vern798e</subfield>
             <subfield code="f">vern798f</subfield>
             <subfield code="g">vern798g</subfield>
+            <subfield code="i">vern798i</subfield>
             <subfield code="j">nope</subfield>
             <subfield code="k">vern798k</subfield>
             <subfield code="l">vern798l</subfield>
@@ -758,6 +765,7 @@
             <subfield code="e">vern111e</subfield>
             <subfield code="f">none</subfield>
             <subfield code="g">vern111g</subfield>
+            <subfield code="i">vern111i</subfield>
             <subfield code="j">vern111j</subfield>
             <subfield code="n">vern111n</subfield>
             <subfield code="q">vern111q</subfield>
@@ -885,8 +893,9 @@
             <subfield code="c">vern711c</subfield>
             <subfield code="d">vern711d</subfield>
             <subfield code="e">vern711e</subfield>
-            <subfield code="g">vern711g</subfield>
             <subfield code="f">none</subfield>
+            <subfield code="g">vern711g</subfield>
+            <subfield code="i">vern711i</subfield>
             <subfield code="j">vern711j</subfield>
             <subfield code="n">vern711n</subfield>
             <subfield code="q">vern711q</subfield>
@@ -901,6 +910,7 @@
             <subfield code="e">vern798e</subfield>
             <subfield code="f">none</subfield>
             <subfield code="g">vern798g</subfield>
+            <subfield code="i">vern798i</subfield>
             <subfield code="j">vern798j</subfield>
             <subfield code="n">vern798n</subfield>
             <subfield code="q">vern798q</subfield>
