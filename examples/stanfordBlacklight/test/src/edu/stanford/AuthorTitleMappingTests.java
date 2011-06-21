@@ -41,7 +41,7 @@ public class AuthorTitleMappingTests extends AbstractStanfordBlacklightTest {
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "110240", fldName, search110value + search240value);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "110no240", fldName, search110value + search245value);
 		
-	    String search111value = "111a 111c 111d 111f 111g 111j 111k 111l 111n 111p 111q 111t 111u";
+	    String search111value = "111a 111c 111d 111e 111f 111g 111j 111k 111l 111n 111p 111q 111t 111u";
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "111240", fldName, search111value + search240value);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "111no240", fldName, search111value + search245value);
 	}
@@ -155,7 +155,7 @@ public class AuthorTitleMappingTests extends AbstractStanfordBlacklightTest {
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "vern110no240", fldName, "110a"  + plain245a);
 
 	    
-	    String vern111value = "vern111a vern111c vern111d vern111f vern111g vern111j vern111k vern111l vern111n vern111p vern111q vern111t vern111u";
+	    String vern111value = "vern111a vern111c vern111d vern111e vern111f vern111g vern111j vern111k vern111l vern111n vern111p vern111q vern111t vern111u";
 	    
 		solrFldMapTest.assertSolrFldValue(testFilePath, "vern111vern240", fldName, vern111value + vern240value);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "vern111vern245", fldName, vern111value + vern245value);

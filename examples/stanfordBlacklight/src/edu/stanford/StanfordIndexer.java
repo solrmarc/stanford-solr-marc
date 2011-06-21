@@ -498,7 +498,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	{
 		Set<String> resultSet = new HashSet<String>(10);
 		
-		String one_xx_spec = "100[a-df-z]:110[a-df-z]:111[a-df-z]";
+		String one_xx_spec = "100[a-df-z]:110[a-df-z]:111[a-hj-z]";
 		String two40_spec = "240[a-z]";
 		String two45_spec = "245a";
 
