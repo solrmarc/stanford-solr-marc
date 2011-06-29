@@ -22,7 +22,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.*;
 import java.util.*;
-import java.util.logging.Level;
 import java.util.regex.PatternSyntaxException;
 
 import org.apache.log4j.*;
@@ -36,7 +35,7 @@ import org.solrmarc.tools.*;
 
 /**
  * @author Wayne Graham (wsgrah@wm.edu)
- * @version $Id: MarcImporter.java 1229 2010-08-12 15:45:47Z rh9ec@virginia.edu $
+ * @version $Id: MarcImporter.java 1397 2011-01-18 20:15:34Z rh9ec@virginia.edu $
  *
  */
 public class MarcImporter extends MarcHandler 
@@ -52,6 +51,7 @@ public class MarcImporter extends MarcHandler
     private String deleteRecordIDMapper = null;
     private String solrHostURL;
     private String solrHostUpdateURL;
+    protected boolean commitAtEnd = true;
     protected boolean optimizeAtEnd = false;
     protected boolean shuttingDown = false;
     protected boolean isShutDown = false;
@@ -95,7 +95,7 @@ public class MarcImporter extends MarcHandler
         
         // Ths URL of the currently running Solr server
         solrHostUpdateURL = PropertiesUtils.getProperty(configProps, "solr.updateurl");
-        if (solrHostUpdateURL == null && solrHostURL != null) 
+        if (solrHostUpdateURL == null && solrHostURL != null && solrHostURL.length() > 0) 
         {
             if (solrHostURL.endsWith("/update"))
                 solrHostUpdateURL = solrHostURL;
@@ -105,21 +105,34 @@ public class MarcImporter extends MarcHandler
         
         String solrLogLevel = PropertiesUtils.getProperty(configProps, "solr.log.level");
         
-        Level level = Level.WARNING;
+        java.util.logging.Level solrLevel = java.util.logging.Level.WARNING;
         if (solrLogLevel != null)
         {
-            if (solrLogLevel.equals("OFF"))     level = Level.OFF;
-            if (solrLogLevel.equals("SEVERE"))  level = Level.SEVERE;
-            if (solrLogLevel.equals("WARNING")) level = Level.WARNING;
-            if (solrLogLevel.equals("INFO"))    level = Level.INFO;
-            if (solrLogLevel.equals("FINE"))    level = Level.FINE;
-            if (solrLogLevel.equals("FINER"))   level = Level.FINER;
-            if (solrLogLevel.equals("FINEST"))  level = Level.FINEST;
-            if (solrLogLevel.equals("ALL"))     level = Level.ALL;
+            if (solrLogLevel.equals("OFF"))     solrLevel = java.util.logging.Level.OFF;
+            if (solrLogLevel.equals("SEVERE"))  solrLevel = java.util.logging.Level.SEVERE;
+            if (solrLogLevel.equals("WARNING")) solrLevel = java.util.logging.Level.WARNING;
+            if (solrLogLevel.equals("INFO"))    solrLevel = java.util.logging.Level.INFO;
+            if (solrLogLevel.equals("FINE"))    solrLevel = java.util.logging.Level.FINE;
+            if (solrLogLevel.equals("FINER"))   solrLevel = java.util.logging.Level.FINER;
+            if (solrLogLevel.equals("FINEST"))  solrLevel = java.util.logging.Level.FINEST;
+            if (solrLogLevel.equals("ALL"))     solrLevel = java.util.logging.Level.ALL;
         }
         
-        java.util.logging.Logger.getLogger("org.apache.solr").setLevel(level);
+        java.util.logging.Logger.getLogger("org.apache.solr").setLevel(solrLevel);
 
+        String solrmarcLogLevel = PropertiesUtils.getProperty(configProps, "solrmarc.log.level");
+        Level solrmarcLevel = Level.WARN;
+        if (solrmarcLogLevel != null)
+        {
+            if (solrLogLevel.equals("OFF"))     solrmarcLevel = Level.OFF;
+            if (solrLogLevel.equals("FATAL"))   solrmarcLevel = Level.FATAL;
+            if (solrLogLevel.equals("WARN"))    solrmarcLevel = Level.WARN;
+            if (solrLogLevel.equals("INFO"))    solrmarcLevel = Level.INFO;
+            if (solrLogLevel.equals("DEBUG"))   solrmarcLevel = Level.DEBUG;
+            if (solrLogLevel.equals("ALL"))     solrmarcLevel = Level.ALL;
+            logger.setLevel(solrmarcLevel);
+        }
+        
         // Specification of how to modify the entries in the delete record file
         // before passing the id onto Solr.   Based on syntax of String.replaceAll
         //  To prepend a 'u' specify the following:  "(.*)->u$1"
@@ -151,9 +164,21 @@ public class MarcImporter extends MarcHandler
         
         justIndexDontAdd = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "marc.just_index_dont_add"));
         if (justIndexDontAdd)
+        {
             Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
+            optimizeAtEnd = false;
+            commitAtEnd = false;
+        }
+        else
+        {
+            optimizeAtEnd = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "solr.optimize_at_end"));
+            if (optimizeAtEnd) commitAtEnd = true;
+            if (PropertiesUtils.getProperty(configProps, "solr.commit_at_end") != null)
+            {
+                commitAtEnd = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "solr.commit_at_end"));
+            }
+        }
         deleteRecordListFilename = PropertiesUtils.getProperty(configProps, "marc.ids_to_delete");
-        optimizeAtEnd = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "solr.optimize_at_end"));
         
         // Set up Solr core
         boolean useSolrServerProxy = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "solrmarc.use_solr_server_proxy"));
@@ -191,10 +216,19 @@ public class MarcImporter extends MarcHandler
                 mapReplace = parts[1];
             }
         }
-        File delFile = new File(deleteRecordListFilename);
+        BufferedReader is = null;
+        File delFile = null;
         try
         {
-            BufferedReader is = new BufferedReader(new FileReader(delFile));
+            if (deleteRecordListFilename.equals("stdin"))
+            {
+                is = new BufferedReader(new InputStreamReader(System.in)); 
+            }
+            else
+            {
+                delFile = new File(deleteRecordListFilename);
+                is = new BufferedReader(new FileReader(delFile));
+            }
             String line;
             boolean fromCommitted = true;
             boolean fromPending = true;
@@ -209,17 +243,22 @@ public class MarcImporter extends MarcHandler
                 }                
                 String id = line;
                 idsToDeleteCounter++;
+                if (verbose) 
+                {
+                    System.out.println("Deleting record with id :"+ id);
+                    logger.info("Deleting record with id :"+ id);
+                }
                 solrProxy.delete(id, fromCommitted, fromPending);
                 recsDeletedCounter++;
             }            
         }
         catch (FileNotFoundException fnfe)
         {
-            logger.error("Error: unable to find and open delete-record-id-list: " + delFile, fnfe);
+            logger.error("Error: unable to find and open delete-record-id-list: " + deleteRecordListFilename, fnfe);
         }
         catch (IOException ioe)
         {
-            logger.error("Error: reading from delete-record-id-list: " + delFile, ioe);
+            logger.error("Error: reading from delete-record-id-list: " + deleteRecordListFilename, ioe);
         }
         return recsDeletedCounter;
     }
@@ -404,16 +443,19 @@ public class MarcImporter extends MarcHandler
      */
     public void finish()
     {
-        try {
-            //System.out.println("Calling commit");
-            logger.info("Calling commit");
-            solrProxy.commit(shuttingDown ? false : optimizeAtEnd);
-        } 
-        catch (IOException ioe) {
-            //System.err.println("Final commit and optmization failed");
-            logger.error("Final commit and optimization failed: " + ioe.getMessage());
-            logger.debug(ioe);
-            //e.printStackTrace();
+        if (commitAtEnd)
+        {
+            try {
+                //System.out.println("Calling commit");
+                logger.info("Calling commit");
+                solrProxy.commit(shuttingDown ? false : optimizeAtEnd);
+            } 
+            catch (IOException ioe) {
+                //System.err.println("Final commit and optmization failed");
+                logger.error("Final commit and optimization failed: " + ioe.getMessage());
+                logger.debug(ioe);
+                //e.printStackTrace();
+            }
         }
         
         //System.out.println("Done with commit, closing Solr");
@@ -438,7 +480,7 @@ public class MarcImporter extends MarcHandler
     
     protected void signalServer()
     {
-        if (shuttingDown) return;
+        if (shuttingDown || !commitAtEnd) return;
         // if solrCoreDir == null  and  solrHostUpdateURL != null  then we are talking to a remote 
         // solr server during the main program, so there is no need to separately contact
         // server to tell it to commit,  therefore merely return.
@@ -801,6 +843,8 @@ public class MarcImporter extends MarcHandler
         }
         
         int exitCode = importer.handleAll();
+      //  System.clearProperty("marc.path");
+      //  System.clearProperty("marc.source");
         System.exit(exitCode);
     }
 }

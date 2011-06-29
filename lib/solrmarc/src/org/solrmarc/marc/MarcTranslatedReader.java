@@ -34,12 +34,16 @@ import org.marc4j.marc.VariableField;
 
 import org.apache.log4j.Logger;
 
-import com.ibm.icu.text.Normalizer;
+// Note this class references a trimmed down, version of the icu4j library,
+// that has been "re-homed" from com.ibm.icu.text to com.solrmarc.icu.text
+// This was done top prevent ClassNotFoundExceptions when solr libraries are 
+// included and the solr code references and includes the full icu4j jar.
+import com.solrmarc.icu.text.Normalizer;
 
 /**
  * 
  * @author Robert Haschart
- * @version $Id: MarcTranslatedReader.java 1153 2010-04-28 22:47:30Z rh9ec@virginia.edu $
+ * @version $Id: MarcTranslatedReader.java 1478 2011-04-29 21:12:17Z rh9ec@virginia.edu $
  *
  */
 public class MarcTranslatedReader implements MarcReader

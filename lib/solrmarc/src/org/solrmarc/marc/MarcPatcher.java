@@ -17,15 +17,35 @@ package org.solrmarc.marc;
  */
 
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
 import java.util.regex.PatternSyntaxException;
 
 import org.apache.log4j.Logger;
 
-import org.marc4j.*;
-import org.marc4j.marc.*;
-import org.marc4j.marc.impl.*;
+import org.marc4j.MarcException;
+import org.marc4j.MarcStreamWriter;
+import org.marc4j.MarcWriter;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.Record;
+import org.marc4j.marc.Subfield;
+import org.marc4j.marc.VariableField;
+import org.marc4j.marc.impl.DataFieldImpl;
+import org.marc4j.marc.impl.SubfieldImpl;
+import org.marc4j.marc.impl.VariableFieldImpl;
+
 import org.solrmarc.marcoverride.MarcSplitStreamWriter;
 import org.solrmarc.tools.*;
 
@@ -204,12 +224,17 @@ public class MarcPatcher extends MarcHandler
         BufferedReader locationReader = null;
         try
         {
-            locationReader = new BufferedReader(new InputStreamReader( new FileInputStream(new File(locationFileName))));
+            locationReader = new BufferedReader(new InputStreamReader( new FileInputStream(new File(locationFileName)), "ISO-8859-1"));
         }
         catch (FileNotFoundException e1)
         {
             // TODO Auto-generated catch block
             e1.printStackTrace();
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
         BufferedReader changedLocationReader = null;
         if (changedLocationFileName != null)
@@ -340,9 +365,14 @@ public class MarcPatcher extends MarcHandler
                 e.printStackTrace();
             }
             if (line == null) return(null);
-            result = line.split("\\|");
+            result = new String[8];
+            String first[] = line.split("\\|", 2);
+            result[0] = first[0];
+            result[1] = first[1].substring(0,16);
+            String rest[] = first[1].substring(17).split("\\|");
+            System.arraycopy(rest, 0, result, 2, 6);
             if (changedLocationReader == null) break;
-            if (currentLocationID == null || compare.compare(currentLocationID, result[0]) < 0)
+            while (currentLocationID == null || compare.compare(currentLocationID, result[0]) < 0)
             {
                 try
                 {
@@ -375,18 +405,25 @@ public class MarcPatcher extends MarcHandler
             if ((multi_i = df999.getSubfields('i')).size() > 1)
             {
                 // patch to fix problem with multiple 'i' subfields problem
-                // Subfield first_i = (Subfield)multi_i.get(0);
+                Subfield first_i = (Subfield)multi_i.get(0);
                 Subfield second_i = (Subfield)multi_i.get(1);
                 Subfield loc_k = df999.getSubfield('k');
-                if (loc_k.getData().equals(second_i.getData()))
+                if (loc_k != null)
                 {
-                    df999.removeSubfield(second_i);
+                    if (loc_k.getData().equals(second_i.getData()))
+                    {
+                        df999.removeSubfield(second_i);
+                    }
+                    else if (first_i.getData().equals(locationFileLine2[1]))
+                    {
+                        second_i.setCode('k');
+                    }
+                    loc_k.setCode('l');
                 }
-                else
+                else if (second_i.getData().equals(locationFileLine2[1]))
                 {
-                    second_i.setCode('k');
+                    df999.removeSubfield(first_i);
                 }
-                loc_k.setCode('l');
                 changed = true;
             }
             Subfield barcode = df999.getSubfield('i');
@@ -609,6 +646,8 @@ public class MarcPatcher extends MarcHandler
         int exitCode = marcPatcher.handleAll();
         if (pOut != null) pOut.flush();
         System.exit(exitCode);
+//        System.clearProperty("marc.path");
+//        System.clearProperty("marc.source");
     }
 
 
