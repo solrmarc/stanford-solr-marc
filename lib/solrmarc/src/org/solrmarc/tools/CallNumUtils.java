@@ -352,7 +352,10 @@ public final class CallNumUtils {
 	    	//  a period.
 	    	// look for period before second cutter
 	    	regex = LC_CLASS_N_CUTTER + " *((" + NOT_CUTTER + ")*.*)\\." + CUTTER_REGEX; 
-	        pattern = Pattern.compile(regex);
+            String afterLCclassNCutter = rawLCcallnum.replaceFirst(LC_CLASS_N_CUTTER + " *", "");
+            String cutterRegex = LC_CLASS_N_CUTTER + " *(.*)\\." + CUTTER_REGEX; 
+//	        pattern = Pattern.compile(regex);
+	        pattern = Pattern.compile(cutterRegex);
 	        matcher = pattern.matcher(rawLCcallnum);
 	
 	        if (matcher.find() && matcher.groupCount() > 5 
@@ -361,7 +364,7 @@ public final class CallNumUtils {
 	        	result = matcher.group(6).trim();
 	        else {
 	        	// is string after first cutter ellipsis?
-		    	regex = LC_CLASS_N_CUTTER + " ...$"; 
+		    	regex = LC_CLASS_N_CUTTER + " \\.\\.\\.$"; 
 		        pattern = Pattern.compile(regex);
 		        matcher = pattern.matcher(rawLCcallnum);
 		        if (matcher.find())
