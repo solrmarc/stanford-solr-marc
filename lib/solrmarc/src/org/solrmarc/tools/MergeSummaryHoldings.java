@@ -1,21 +1,11 @@
 package org.solrmarc.tools;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Comparator;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
-import org.marc4j.MarcReader;
-import org.marc4j.MarcStreamWriter;
-import org.marc4j.MarcWriter;
-import org.marc4j.marc.Record;
-import org.marc4j.marc.VariableField;
-import org.solrmarc.marc.MarcCombiningReader;
-import org.solrmarc.marc.RawRecordReader;
+import org.marc4j.*;
+import org.marc4j.marc.*;
+import org.solrmarc.marc.*;
 import org.solrmarc.marcoverride.MarcSplitStreamWriter;
 
 
@@ -158,7 +148,7 @@ public class MergeSummaryHoldings implements MarcReader
             System.err.println("Usage: MergeSummaryHoldings [-v] [-a] -s summaryHoldingsFile.mrc  normalMarcFile.mrc");
             System.err.println("   or: cat normalMarcFile.mrc | MergeSummaryHoldings [-v] [-a] -s summaryHoldingsFile.mrc ");
         }
-        while (args[argoffset].startsWith("-"))
+        while (argoffset < args.length && args[argoffset].startsWith("-"))
         {
             if (args[argoffset].equals("-v"))
             {
@@ -201,12 +191,13 @@ public class MergeSummaryHoldings implements MarcReader
         }
         System.setProperty("org.marc4j.marc.MarcFactory", "org.solrmarc.marcoverride.NoSortMarcFactoryImpl");
         processMergeSummaryHoldings(input0, summaryHoldingsMarcFileName);
+        System.exit(0);
     }
     
     
     private static void processMergeSummaryHoldings(RawRecordReader input0, String summaryHoldingsMarcFileName)
     {
-        String fieldsToMerge = "852|866|867|863|853";
+        String fieldsToMerge = "852|866|867|863|853|868";
         MergeSummaryHoldings merger = new MergeSummaryHoldings(input0,  true, false, true, "MARC8", 
                                                                summaryHoldingsMarcFileName, fieldsToMerge);
         RawRecord rec0 = null;
@@ -220,17 +211,24 @@ public class MergeSummaryHoldings implements MarcReader
                 if (rec1 != null)
                 {
                     Record record0 = rec0.getAsRecord(true, false, "999", "MARC8");
+                    Record record0_orig = null;
+                    boolean removedField = false;
                     List<VariableField> lvf = (List<VariableField>)record0.getVariableFields(fieldsToMerge.split("[|]"));
                     for (VariableField vf : lvf)
                     {
                         record0.removeVariableField(vf);
+                        removedField = true;
                     }
+                    if (removedField) record0_orig = rec0.getAsRecord(true, false, "999", "MARC8");
                     Record record1 = rec1.getAsRecord(true, false, fieldsToMerge, "MARC8");
-                    record0 = MarcCombiningReader.combineRecords(record0, record1, fieldsToMerge);
-                    writer.write(record0);
-                    System.out.flush();
+                    record0 = MarcCombiningReader.combineRecords(record0, record1, fieldsToMerge, "999");
+                    if (allRecords == true || !removedField || !record0_orig.toString().equals(record0.toString()))
+                    {
+                        writer.write(record0);
+                        System.out.flush();
+                    }
                 }
-                else if (allRecords != false)
+                else if (allRecords == true)
                 {
                     System.out.write(rec0.getRecordBytes());
                     System.out.flush();
