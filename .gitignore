@@ -3,7 +3,7 @@ bin/*
 .classpath
 dist/*
 local_build/*
-*.log
+*.log*
 test/build/*
 lib/solrmarc/build/*
 lib/solrmarc/dist/*
