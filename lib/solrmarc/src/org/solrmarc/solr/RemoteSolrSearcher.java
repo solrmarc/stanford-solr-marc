@@ -25,8 +25,6 @@ import org.marc4j.MarcStreamWriter;
 import org.marc4j.MarcXmlReader;
 import org.marc4j.marc.Record;
 
-import com.ibm.icu.text.Normalizer;
-
 public class RemoteSolrSearcher
 {
     static boolean verbose = false;
@@ -141,6 +139,7 @@ public class RemoteSolrSearcher
                     {
                         result = line.replaceFirst("[^:]*:\"", "");
                         result = result.replaceFirst("\"}]$", "");
+                        result = result.replaceAll("\\\\\"", "\"");
                         result = normalizeUnicode(result);
                     }
                 }
@@ -180,7 +179,7 @@ public class RemoteSolrSearcher
         int charNum;
         if (charCodePoint.startsWith("\\u"))
         {
-            charNum = Integer.parseInt(charCodePoint.substring(1), 16);
+            charNum = Integer.parseInt(charCodePoint.substring(2), 16);
         }
         else
         {
@@ -459,6 +458,6 @@ public class RemoteSolrSearcher
         }
         RemoteSolrSearcher searcher = new RemoteSolrSearcher(baseURLStr, query, field);
         searcher.handleAll();
-        
+        System.exit(0);
     }
 }
