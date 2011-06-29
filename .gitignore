@@ -1,3 +1,9 @@
 bin/*
 .project
 .classpath
+dist/*
+local_build/*
+*.log
+test/build/*
+lib/solrmarc/build/*
+lib/solrmarc/dist/*

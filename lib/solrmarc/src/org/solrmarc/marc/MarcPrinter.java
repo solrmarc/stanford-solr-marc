@@ -39,7 +39,7 @@ import org.solrmarc.tools.*;
  *   translate - ??
  *   
  * @author Robert Haschart
- * @version $Id: MarcPrinter.java 1221 2010-08-10 14:14:44Z rh9ec@virginia.edu $
+ * @version $Id: MarcPrinter.java 1378 2010-10-26 15:56:08Z rh9ec@virginia.edu $
  *
  */
 public class MarcPrinter extends MarcHandler
@@ -63,11 +63,19 @@ public class MarcPrinter extends MarcHandler
     {
         for (String arg : addnlArgs)
         {
-            if (arg.equals("print") || arg.equals("index") || arg.equals("to_xml") || arg.equals("translate") || arg.equals("untranslate"))
+            if (arg.equals("-v")) 
+            {
+                verbose = true;
+            }
+            else if (arg.equals("print") || arg.equals("index") || arg.equals("to_xml") || arg.equals("translate") || arg.equals("untranslate"))
             {
                 mode = arg;
             }
-            else if (mode.equals("index") || mode.equals("print"))
+            else if (mode.equals("index"))
+            {
+                indexkeyprefix = arg.replaceAll("\\*", ".*").replaceAll("\\?", ".?");
+            }
+            else if (mode.equals("print"))
             {
                 indexkeyprefix = arg.replaceAll("\\*", ".*").replaceAll("\\?", ".?");
             }
@@ -140,8 +148,8 @@ public class MarcPrinter extends MarcHandler
                     {
                         writer = new MarcStreamWriter(System.out, "ISO8859_1", true);
                         writer.setConverter(new UnicodeToAnsel());
-                        record.getLeader().setCharCodingScheme(' ');
                     }
+                    record.getLeader().setCharCodingScheme(' ');
                     writer.write(record);
                 }
                 else if (mode.equals("index"))

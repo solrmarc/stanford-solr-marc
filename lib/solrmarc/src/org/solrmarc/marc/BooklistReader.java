@@ -28,7 +28,7 @@ import org.solrmarc.tools.Utils;
  * 
  * 
  * @author Robert Haschart 
- * @version $Id: BooklistReader.java 1221 2010-08-10 14:14:44Z rh9ec@virginia.edu $
+ * @version $Id: BooklistReader.java 1378 2010-10-26 15:56:08Z rh9ec@virginia.edu $
  *
  */
 public class BooklistReader extends SolrReIndexer
@@ -111,7 +111,15 @@ public class BooklistReader extends SolrReIndexer
             }
             else        
             {
-                input = new FileReader(new File(filename));
+                String fileNameAll = filename;
+                try {
+                    fileNameAll = new File(filename).getCanonicalPath();
+                }
+                catch (IOException e)
+                {
+                    fileNameAll = new File(filename).getAbsolutePath();
+                }
+                input = new FileReader(new File(fileNameAll));
             }
             BufferedReader reader = new BufferedReader(input);
             String line;
@@ -168,7 +176,6 @@ public class BooklistReader extends SolrReIndexer
         }
         catch (IOException e)
         {
-            // e.printStackTrace();
         	logger.info(e.getMessage());
         	logger.error(e.getCause());
         }
