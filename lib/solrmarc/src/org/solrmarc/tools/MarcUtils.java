@@ -70,7 +70,7 @@ public class MarcUtils {
         for (VariableField lnkFld : linkedFlds) {
 			DataField df = (DataField) lnkFld;
 			Subfield sub6 = df.getSubfield('6');
-			if (sub6 != null && desiredTags.contains(sub6.getData().substring(0, 3))) 
+			if (sub6 != null && sub6.getData().length() >= 3 && desiredTags.contains(sub6.getData().substring(0, 3))) 
 				result.add(lnkFld);
         }
         

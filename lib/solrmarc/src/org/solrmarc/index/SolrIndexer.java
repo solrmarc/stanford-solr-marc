@@ -213,6 +213,18 @@ public class SolrIndexer
                         fieldDef[2] = values[0];
                         fieldDef[3] = values.length > 1 ? values[1].trim() : null;
                         // NOTE: assuming no translation map here
+                        if (fieldDef[2].equals("era") && fieldDef[3] != null)
+                        {
+                            try
+                            {
+                                fieldDef[3] = loadTranslationMap(props, fieldDef[3]);
+                            }
+                            catch (IllegalArgumentException e)
+                            {
+                                logger.error("Unable to find file containing specified translation map (" + fieldDef[3] + ")");
+                                throw new IllegalArgumentException("Error: Problems reading specified translation map (" + fieldDef[3] + ")");
+                            }
+                        }
                     }
                     else if (values[0].equalsIgnoreCase("FullRecordAsXML") ||
                              values[0].equalsIgnoreCase("FullRecordAsMARC") ||
@@ -338,12 +350,26 @@ public class SolrIndexer
                     parmClasses[i + 1] = String.class;
                 }
                 method = getClass().getMethod(functionName, parmClasses);
-                customMethodMap.put(functionName, method);
+                if (customMethodMap.containsKey(functionName))
+                {
+                    customMethodMap.put(functionName, null);
+                }
+                else
+                {
+                    customMethodMap.put(functionName, method);
+                }
             }
             else
             {    
                 method = getClass().getMethod(indexParm, new Class[] { Record.class });
-                customMethodMap.put(indexParm, method);
+                if (customMethodMap.containsKey(indexParm))
+                {
+                    customMethodMap.put(indexParm, null);
+                }
+                else
+                {
+                    customMethodMap.put(indexParm, method);
+                }
             }
             Class<?> retval = method.getReturnType();
             // if (!method.isAccessible())
@@ -661,6 +687,11 @@ public class SolrIndexer
     {
         Object retval = null;
         Class<?> returnType = null;
+        String recCntlNum = null;
+        try {
+        	recCntlNum = record.getControlNumber();
+        }
+        catch (NullPointerException npe) { /* ignore */ }
         try
         {
             Method method;
@@ -697,22 +728,26 @@ public class SolrIndexer
         catch (SecurityException e)
         {
             // e.printStackTrace();
-            logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
+//            logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
+            logger.error("Error while indexing " + indexField + " for record " + (recCntlNum != null ? recCntlNum : "") + " -- " + e.getCause());
         }
         catch (NoSuchMethodException e)
         {
             // e.printStackTrace();
-            logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
+//            logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
+            logger.error("Error while indexing " + indexField + " for record " + (recCntlNum != null ? recCntlNum : "") + " -- " + e.getCause());
         }
         catch (IllegalArgumentException e)
         {
         	// e.printStackTrace();
-            logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
+//            logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
+            logger.error("Error while indexing " + indexField + " for record " + (recCntlNum != null ? recCntlNum : "") + " -- " + e.getCause());
         }
         catch (IllegalAccessException e)
         {
             // e.printStackTrace();
-            logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
+//            logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
+            logger.error("Error while indexing " + indexField + " for record " + (recCntlNum != null ? recCntlNum : "") + " -- " + e.getCause());
         }
         catch (InvocationTargetException e)
         {
@@ -720,8 +755,9 @@ public class SolrIndexer
             {
                 throw((SolrMarcIndexerException)e.getTargetException());
             }
-            //e.printStackTrace();
-            logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
+            e.printStackTrace();   // DEBUG
+//            logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
+            logger.error("Error while indexing " + indexField + " for record " + (recCntlNum != null ? recCntlNum : "") + " -- " + e.getCause());
         }
         boolean deleteIfEmpty = false;
         if (indexType.equals("customDeleteRecordIfFieldEmpty")) 
@@ -1206,6 +1242,8 @@ public class SolrIndexer
          } else if ( option.length() > 17 &&
                      option.substring(0, 17).equals("combineSubfields=")) {
           combineSubfieldsJoin = option.substring(17, option.length());
+          if (combineSubfieldsJoin.length() > 2 && combineSubfieldsJoin.startsWith("\"") && combineSubfieldsJoin.endsWith("\""))
+              combineSubfieldsJoin = combineSubfieldsJoin.substring(1, combineSubfieldsJoin.length() - 1);
          }
       }
       

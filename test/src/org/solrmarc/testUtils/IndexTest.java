@@ -1,7 +1,6 @@
-package org.solrmarc.index;
+package org.solrmarc.testUtils;
 
 import static org.junit.Assert.*;
-
 import org.junit.After;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -58,16 +57,15 @@ public abstract class IndexTest {
             logger.info("Calling Delete All Docs");
             importer.getSolrProxy().deleteAllDocs();
         }
-
 		setupMarcImporter(configPropFilename, testDataParentPath + File.separator + testDataFname);
-        
 		int numImported = importer.importRecords();       
-        importer.finish();
+		importer.finish();
  
         solrCoreProxy = (SolrCoreProxy)importer.getSolrProxy();
         solrCoreProxy.commit(false);
 		searcherProxy = new SolrSearcherProxy(solrCoreProxy);
 	}
+	
 
     /**
      * Given the paths to a marc file to be indexed, the solr directory, and
@@ -165,9 +163,9 @@ public abstract class IndexTest {
 
 	protected SolrSearcherProxy getSearcherProxy()
 	{
-	    while (searcherProxy == null)
+	    if (searcherProxy == null)
 	    {
-	        searcherProxy = new SolrSearcherProxy(solrCoreProxy);
+	    	searcherProxy = new SolrSearcherProxy(solrCoreProxy);
 	    }
 	    return(searcherProxy);
 	}
@@ -177,49 +175,32 @@ public abstract class IndexTest {
 	 */
 @After
 	public void tearDown()
-	{
-	    // avoid "already closed" exception
+	{	
+		// avoid "already closed" exception
 	    logger.info("Calling teardown to close importer");
-	    if (searcherProxy != null) 
-        {
-            logger.info("Closing searcher");
-            searcherProxy.close();
-            searcherProxy = null;
-        }
-        if (solrCoreProxy != null)
-        {
-            logger.info("Closing solr");
-            solrCoreProxy.close();
-            solrCoreProxy = null;
-        }
+	    try {
+		    if (searcherProxy != null) 
+	        {
+	            logger.info("Closing searcher");
+	            searcherProxy.close();
+	            searcherProxy = null;
+	        }
+	        if (solrCoreProxy != null)
+	        {
+	            logger.info("Closing solr");
+	            solrCoreProxy.close();
+	            solrCoreProxy = null;
+	        }
+	    }
+	    catch (Exception e) {
+	    	//ignore problems during testing?
+	    	e.printStackTrace();
+	    }
 	    
-	//    importer.finish();
+//	    importer.finish();
 	    importer = null;
 	}
 	
-//	/**
-//	 * The import code expects to find these system properties populated.
-//	 * 
-//	 * set the properties used by Solr indexer.  If they are not already set
-//	 *  as system properties, then use the passed parameters.  (This allows 
-//	 *  testing within eclipse as well as testing on linux boxes using ant)
-//	 */
-//	protected static final void setImportSystemProps(String marc21FilePath, String solrPath,
-//			String solrDataDir, String solrmarcPath, String siteSpecificPath) 
-//	{
-//		// crucial to set solr.path and marc.path properties
-//        System.setProperty("marc.path", marc21FilePath);
-//        System.setProperty("marc.source", "FILE");
-//		System.setProperty("solr.path", solrPath);
-//		System.setProperty("solr.data.dir", solrDataDir);
-//		System.setProperty("solrmarc.path", solrmarcPath);
-//		System.setProperty("solrmarc.site.path", siteSpecificPath);
-//		
-//		System.setProperty("marc.to_utf_8", "true");
-//		System.setProperty("marc.default_encoding", "MARC8");
-////		System.setProperty("marc.permissive", "true");
-//	}
-
 	
 	/**
 	 * delete the directory indicated by the argument.
@@ -304,7 +285,7 @@ public abstract class IndexTest {
 			throws ParserConfigurationException, SAXException, IOException 
 	{
         int solrDocNums[] = getSearcherProxy().getDocSet(docIDfname, doc_id);
-        assertTrue("Found document with id \"" + doc_id + "\"", solrDocNums.length == 0);
+        assertTrue("Unexpectedly found document with id \"" + doc_id + "\"", solrDocNums.length == 0);
 	}
 
 //	/**
@@ -436,8 +417,8 @@ public abstract class IndexTest {
 		//  TODO: check for single occurrence of field value, even for repeatable field
 		int solrDocNum = getSingleDocNum(docIDfname, doc_id);
 		DocumentProxy doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
-		if (!doc.hasFieldWithValue(fldName, fldVal)) 
-			fail("Field " + fldName + " did not contain value \"" + fldVal + "\" in doc " + doc_id);
+		if (doc.hasFieldWithValue(fldName, fldVal)) return;
+		fail("Field " + fldName + " did not contain value \"" + fldVal + "\" in doc " + doc_id);
 	}
 
 	public final void assertDocHasNoFieldValue(String doc_id, String fldName, String fldVal)
@@ -576,7 +557,8 @@ public abstract class IndexTest {
 	    }
 	    return docList;
 	}
-	
+
+
 	/**
 	 * return the number of docs that match the implied term query
 	 * @param fld - the name of the field to be searched in the lucene index
@@ -621,8 +603,7 @@ public abstract class IndexTest {
         int solrDocNums[] = getSearcherProxy().getDescSortDocNums(fld, value, sortfld);
         return getDocProxiesFromDocNums(solrDocNums);
 	}
-	
-	
+		
 	/**
 	 * Given an index field name and value, return a list of Lucene Documents
 	 *  numbers that match the term query sent to the index, sorted in ascending
@@ -714,7 +695,7 @@ public abstract class IndexTest {
   //      assertFieldStored(fldName);
         assertFieldHasNoTermVectors(fldName);
     }
-    
+
     /**
      * search fields are tokenized, indexed, not stored, and have norms
      */
