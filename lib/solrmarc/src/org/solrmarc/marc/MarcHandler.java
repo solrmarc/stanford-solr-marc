@@ -482,7 +482,7 @@ public abstract class MarcHandler {
 	 */
 	public void loadIndexer(String indexerName, String indexerProps) 
 	{
-	    // Setup the SolrMarc Indexer
+		// Setup the SolrMarc Indexer
         Class<?> indexerClass = null;
 
         try {

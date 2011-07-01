@@ -1,4 +1,4 @@
-package org.solrmarc.index;
+package org.solrmarc.tools;
 
 import static org.solrmarc.tools.CallNumUtils.*;
 import static org.junit.Assert.*;
@@ -369,6 +369,10 @@ public class CallNumberUnitTests
         // suffix starts with a slash
         callnum = "HE5.215 .N9/PT.A"; // slash
         // assertEquals("PT.A", getFirstLCcutterSuffix(callnum));
+        
+        // test for wacky endless recursion bug
+        callnum = "D400.H23 A35 Hamilton Frederick Spencer Lord 1856"; 
+        assertEquals(null, getFirstLCcutterSuffix(callnum));
     }
 
     /**
@@ -445,6 +449,8 @@ public class CallNumberUnitTests
         assertEquals("U5", getSecondLCcutter(callnum));
         callnum = "G3824 .G3 S5 1863 .W5 2002"; // suffix after second cutter
         assertEquals("W5", getSecondLCcutter(callnum));
+        callnum = "D400.H23 A35 Hamilton Frederick Spencer Lord 1856"; 
+        assertEquals("A35", getSecondLCcutter(callnum));
     }
 
     /**
@@ -708,7 +714,6 @@ public class CallNumberUnitTests
         callnum = "323 .A778 ED.2"; // suffix ed
         assertEquals("A778", getDeweyCutter(callnum));
     }
-
 
     /**
      * unit test for getting the cutter for Dewey call numbers
@@ -1348,12 +1353,14 @@ public class CallNumberUnitTests
         callnum = "AP20 .P3 NO.1-4 1961/1962";
         assertEquals("AP20 .P3", removeLCVolSuffix(callnum));
 
-// FIXME: because "ANO" ends in "NO", there is a problem."should get this - colon? leftmost? rightmost?
+// FIXME: because "ANO" (and "ANNO") ends in "NO", there is a problem."should get this - colon? leftmost? rightmost?
+        // ANO
         callnum = "F2646 .A2 F35 FF ANO 1:NO.1 2006:ABR";
-//        assertEquals("F2646 .A2 F35 FF ANO 1", removeLCVolSuffix(callnum));
+//      assertEquals("F2646 .A2 F35 FF ANO 1", removeLCVolSuffix(callnum));
         assertEquals("F2646 .A2 F35 FF A", removeLCVolSuffix(callnum));
         callnum = "Z809 .T47 B57 ANNO.7-8:NO.25-31 1990-91";
-//        assertEquals("Z809 .T47 B57 ANNO.7-8", removeLCVolSuffix(callnum));
+        // ANNO
+//      assertEquals("Z809 .T47 B57 ANNO.7-8", removeLCVolSuffix(callnum));
         assertEquals("Z809 .T47 B57 AN", removeLCVolSuffix(callnum));
 
         // NS

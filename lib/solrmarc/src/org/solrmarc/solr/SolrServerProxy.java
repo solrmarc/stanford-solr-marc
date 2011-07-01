@@ -1,6 +1,7 @@
 package org.solrmarc.solr;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -59,7 +60,7 @@ public class SolrServerProxy implements SolrProxy
 
     public void close()
     {
-        // do nothing
+    	// do nothing
     }
 
     public void commit(boolean optimize) throws IOException
