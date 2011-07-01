@@ -204,7 +204,7 @@ public class SolrCoreProxy implements SolrProxy
     {
        	try
         {
-           	if (solrCore != null && !((org.apache.solr.core.SolrCore) solrCore).isClosed()) 
+          	if (solrCore != null) 
         	{
 	        	// close SolrCore
 	            Method closeSolrCoreMethod = solrCore.getClass().getMethod("close");
