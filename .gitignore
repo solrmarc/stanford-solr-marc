@@ -7,3 +7,5 @@ local_build/*
 test/build/*
 lib/solrmarc/build/*
 lib/solrmarc/dist/*
+.DS_Store
+nohup.out
