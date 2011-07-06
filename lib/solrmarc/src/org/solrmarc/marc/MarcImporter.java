@@ -23,7 +23,6 @@ import java.lang.reflect.Method;
 import java.net.*;
 import java.util.*;
 import java.util.regex.PatternSyntaxException;
-import java.util.logging.Level;
 
 import org.apache.log4j.*;
 import org.apache.solr.client.solrj.SolrServer;
@@ -104,8 +103,8 @@ public class MarcImporter extends MarcHandler
                 solrHostUpdateURL = solrHostURL+"/update";
         }
 
-        String solrLogLevel = PropertiesUtils.getProperty(configProps, "solr.log.level");
-/*        
+        // set solrLogLevel
+        String solrLogLevel = PropertiesUtils.getProperty(configProps, "solr.log.level");       
         java.util.logging.Level solrLevel = java.util.logging.Level.WARNING;
         if (solrLogLevel != null)
         {
@@ -117,10 +116,10 @@ public class MarcImporter extends MarcHandler
             if (solrLogLevel.equals("FINER"))   solrLevel = java.util.logging.Level.FINER;
             if (solrLogLevel.equals("FINEST"))  solrLevel = java.util.logging.Level.FINEST;
             if (solrLogLevel.equals("ALL"))     solrLevel = java.util.logging.Level.ALL;
-        }
-        
+        }        
         java.util.logging.Logger.getLogger("org.apache.solr").setLevel(solrLevel);
 
+        // Set solrmarc log level
         String solrmarcLogLevel = PropertiesUtils.getProperty(configProps, "solrmarc.log.level");
         Level solrmarcLevel = Level.WARN;
         if (solrmarcLogLevel != null)
@@ -133,25 +132,6 @@ public class MarcImporter extends MarcHandler
             if (solrLogLevel.equals("ALL"))     solrmarcLevel = Level.ALL;
             logger.setLevel(solrmarcLevel);
         }
-*/
-        
-        Level level = Level.WARNING;
-        if (solrLogLevel != null)
-        {
-            if (solrLogLevel.equals("OFF"))     level = Level.OFF;
-            if (solrLogLevel.equals("SEVERE"))  level = Level.SEVERE;
-            if (solrLogLevel.equals("WARNING")) level = Level.WARNING;
-            if (solrLogLevel.equals("INFO"))    level = Level.INFO;
-            if (solrLogLevel.equals("FINE"))    level = Level.FINE;
-            if (solrLogLevel.equals("FINER"))   level = Level.FINER;
-            if (solrLogLevel.equals("FINEST"))  level = Level.FINEST;
-            if (solrLogLevel.equals("ALL"))     level = Level.ALL;
-        }
-        
-        java.util.logging.Logger.getLogger("org.apache.solr").setLevel(level);
-
-        
-        
         
         // Specification of how to modify the entries in the delete record file
         // before passing the id onto Solr.   Based on syntax of String.replaceAll
