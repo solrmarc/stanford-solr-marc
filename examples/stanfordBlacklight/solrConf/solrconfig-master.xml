@@ -46,19 +46,12 @@
 
   <query>
     <maxBooleanClauses>1024</maxBooleanClauses>
-<!-- TODO:  decrease size??? -->
-    <filterCache class="solr.FastLRUCache"
-      size="100000" initialSize="5120" minSize="65000" acceptableSize="75000" autowarmCount="1280" cleanupThread="true"/>
+<!-- no filterCache or query cache for (indexing) master -->
 
     <!-- The fieldValueCache is created by default even if not configured here.
     -->
     <fieldValueCache class="solr.FastLRUCache"
         size="25" initialSize="25" minSize="17" autowarmCount="25" showItems="64"/>
-
-<!-- turned off due to hit ratio < 20%
-    <queryResultCache class="solr.LRUCache"
-      size="102400" initialSize="8192" autowarmCount="1024"/>
--->
 
 <!-- TODO:  decrease size??? -->
     <documentCache class="solr.LRUCache"
@@ -74,129 +67,9 @@
 
     <HashDocSet maxSize="200000" loadFactor="0.75"/>
 
-    <!-- a newSearcher event is fired whenever a new searcher is being prepared
-         and there is a current searcher handling requests (aka registered). -->
-    <listener event="newSearcher" class="solr.QuerySenderListener">
-      <arr name="queries">
-        <!-- default query for all objects, front page facets -->
-        <lst>
-          <int name="rows">0</int> 
-          <str name="fl">score</str>
-          <bool name="facet">true</bool>
-          <int name="facet.mincount">1</int>
-          <int name="facet.limit">30</int>
-          <str name="facet.field">access_facet</str>
-          <str name="facet.field">building_facet</str>
-          <str name="facet.field">callnum_top_facet</str>
-          <str name="f.callnum_top_facet.facet.sort">false</str>
-          <str name="facet.field">lc_alpha_facet</str>
-          <str name="facet.field">lc_b4cutter_facet</str>
-          <str name="facet.field">dewey_1digit_facet</str>
-          <str name="facet.field">dewey_2digit_facet</str>
-          <str name="facet.field">dewey_b4cutter_facet</str>
-          <str name="facet.field">gov_doc_type_facet</str>
-          <str name="facet.field">collection</str>
-          <str name="facet.field">format</str>
-          <str name="facet.field">language</str>
-        </lst>
-        <!-- single object query to populate filter cache -->
-        <lst>
-          <str name="q">id:666</str>
-          <str name="qt">standard</str>
-          <int name="rows">0</int>
-          <str name="fl">score</str>
-          <bool name="facet">true</bool>
-          <int name="facet.mincount">1</int>
-          <int name="facet.limit">30</int>
-          <str name="facet.field">access_facet</str>
-          <str name="facet.field">author_person_facet</str>
-          <str name="facet.field">author_other_facet</str>
-          <str name="facet.field">building_facet</str>
-          <str name="facet.field">callnum_top_facet</str>
-          <str name="facet.field">lc_alpha_facet</str>
-          <str name="facet.field">lc_b4cutter_facet</str>
-          <str name="facet.field">dewey_1digit_facet</str>
-          <str name="facet.field">dewey_2digit_facet</str>
-          <str name="facet.field">dewey_b4cutter_facet</str>
-          <str name="facet.field">gov_doc_type_facet</str>
-          <str name="facet.field">collection</str>
-          <str name="facet.field">db_az_subject</str>
-          <str name="f.db_az_subject.facet.sort">false</str>
-          <str name="facet.field">era_facet</str>
-          <str name="facet.field">format</str>
-          <str name="facet.field">geographic_facet</str>
-          <str name="facet.field">language</str>
-          <str name="facet.field">medium</str>
-          <str name="facet.field">pub_date_group_facet</str>
-          <str name="facet.field">pub_date</str>
-          <str name="facet.field">topic_facet</str>
-        </lst>
-      </arr>
-    </listener>
-
-    <!-- a firstSearcher event is fired whenever a new searcher is being
-         prepared but there is no current registered searcher to handle
-         requests or to gain autowarming data from. ("fast warmup") -->
-    <listener event="firstSearcher" class="solr.QuerySenderListener">
-      <arr name="queries">
-        <!-- default query for all objects, front page facets -->
-        <lst>
-          <int name="rows">0</int> 
-          <str name="fl">score</str>
-          <bool name="facet">true</bool>
-          <int name="facet.mincount">1</int>
-          <int name="facet.limit">30</int>
-          <str name="facet.field">access_facet</str>
-          <str name="facet.field">building_facet</str>
-          <str name="facet.field">callnum_top_facet</str>
-          <str name="f.callnum_top_facet.facet.sort">false</str>
-          <str name="facet.field">lc_alpha_facet</str>
-          <str name="facet.field">lc_b4cutter_facet</str>
-          <str name="facet.field">dewey_1digit_facet</str>
-          <str name="facet.field">dewey_2digit_facet</str>
-          <str name="facet.field">dewey_b4cutter_facet</str>
-          <str name="facet.field">gov_doc_type_facet</str>
-          <str name="facet.field">collection</str>
-          <str name="facet.field">format</str>
-          <str name="facet.field">language</str>
-        </lst>
-        <!-- single object query to populate filter cache -->
-        <lst> 
-          <str name="q">id:666</str>
-          <str name="qt">standard</str>
-          <int name="rows">0</int>
-          <str name="fl">score</str>
-          <bool name="facet">true</bool>
-          <int name="facet.mincount">1</int>
-          <int name="facet.limit">30</int>
-          <str name="facet.field">access_facet</str>
-          <str name="facet.field">author_person_facet</str>
-          <str name="facet.field">author_other_facet</str>
-          <str name="facet.field">building_facet</str>
-          <str name="facet.field">callnum_top_facet</str>
-          <str name="facet.field">lc_alpha_facet</str>
-          <str name="facet.field">lc_b4cutter_facet</str>
-          <str name="facet.field">dewey_1digit_facet</str>
-          <str name="facet.field">dewey_2digit_facet</str>
-          <str name="facet.field">dewey_b4cutter_facet</str>
-          <str name="facet.field">gov_doc_type_facet</str>
-          <str name="facet.field">collection</str>
-          <str name="facet.field">db_az_subject</str>
-          <str name="f.db_az_subject.facet.sort">false</str>
-          <str name="facet.field">era_facet</str>
-          <str name="facet.field">format</str>
-          <str name="facet.field">geographic_facet</str>
-          <str name="facet.field">language</str>
-          <str name="facet.field">medium</str>
-          <str name="facet.field">pub_date_group_facet</str>
-          <str name="facet.field">pub_date</str>
-          <str name="facet.field">topic_facet</str>
-        </lst>
-      </arr>
-    </listener>
-    
+<!-- no warm up queries for (indexing) master -->
     <useColdSearcher>true</useColdSearcher>
-    <maxWarmingSearchers>2</maxWarmingSearchers>
+    <maxWarmingSearchers>0</maxWarmingSearchers>
   </query>
 
   <!-- Let the dispatch filter handler /select?qt=XXX -->
