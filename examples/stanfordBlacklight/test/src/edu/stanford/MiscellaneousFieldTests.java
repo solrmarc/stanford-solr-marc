@@ -52,7 +52,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordBlacklightTest {
 	
 
 	/**
-	 * Test that there is no field created when the map is missing
+	 * Test that there is no field created when the translation map is missing
 	 *  the value to be mapped and when the map has value set to null
 	 */
 @Test
@@ -126,6 +126,27 @@ public class MiscellaneousFieldTests extends AbstractStanfordBlacklightTest {
 	    assertDisplayFieldProperties(fldName);
 	    assertFieldNotMultiValued(fldName);
 	}
+
+
+	
+	/**
+	 * display_type is supposed to be a sort of "hidden" facet to allow UI
+	 *  to look at appropriate types of records for different "views" 
+	 *  (e.g.  Images, Maps, Book Reader ...)
+	 */
+@Test
+	public final void testDisplayTypeField() 
+	    throws ParserConfigurationException, IOException, SAXException
+	{
+		createIxInitVars("idTests.mrc");
+	    String fldName = "display_type";
+	    assertFacetFieldProperties(fldName);
+	    assertFieldMultiValued(fldName);
+	    
+	    // all MARC records from Symphony
+        assertEquals("docs aren't all display_type sirsi", 3, getNumMatchingDocs(fldName, "sirsi"));
+	}
+	
 
 
 	/**

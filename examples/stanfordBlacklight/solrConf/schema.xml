@@ -123,8 +123,11 @@
     <field name="last_updated" type="date" indexed="true" stored="true" default="NOW/SECOND" />
     <!-- entire marc bib record -->
     <field name="marc21" type="string" indexed="false" stored="true" />
-    <!-- collection: allow searching within collections for aggr. colls, also used for get all docs -->
+    <!-- collection: allow searching within collections for aggr. colls -->
     <field name="collection" type="string_no_stop" indexed="true" stored="true" multiValued="true" omitNorms="true" />
+    <!-- display_type is a hidden facet for "views" e.g. Images, Maps ... -->
+    <field name="display_type" type="string" indexed="true" stored="false" multiValued="true" omitNorms="true" />
+    <!-- the catch-all field for all text -->
     <field name="all_search" type="text" indexed="true" stored="false" />
     <!-- for OpenSearch string completion; requires a stored field -->
     <field name="open_search" type="text" indexed="true" stored="true" multiValued="true"/>
