@@ -146,6 +146,7 @@
         isbn_search^2
         issn_search^2
         physical                       vern_physical
+        award_search
         all_search
         id
         oclc
@@ -194,6 +195,7 @@
         subject_all_search^25          vern_subject_all_search^25
         pub_date_search^2
         physical^2                     vern_physical^2
+        award_search^20
         all_search^2
         collection^20
         medium^20
@@ -201,7 +203,7 @@
       <int name="ps">3</int>
       <float name="tie">0.01</float>
       
-      <bool name="facet">true</bool>
+      <bool name="facet">false</bool>
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int> 
       <str name="facet.field">access_facet</str>
@@ -218,6 +220,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -226,44 +229,6 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
-      <str name="fl">
-        score,
-        id,
-        author_corp_display,
-        author_meeting_display,
-        author_person_display,
-        author_person_full_display,
-        collection,
-        db_az_subject,
-        format,
-        img_info,
-        isbn_display,
-        item_display,
-        lccn,
-        oclc,
-        physical,
-        pub_date,
-        title_245a_display,
-        title_245c_display,
-        title_display,
-        title_full_display,
-        title_uniform_display,
-        url_fulltext,
-        url_restricted,
-        url_suppl,
-        url_sfx,
-        vern_author_corp_display,
-        vern_author_meeting_display,
-        vern_author_person_display,
-        vern_author_person_full_display,
-        vern_physical,
-        vern_title_245a_display,
-        vern_title_245c_display,
-        vern_title_display,
-        vern_title_uniform_display
-      </str>
-      
     </lst>
   </requestHandler>  
   
@@ -305,7 +270,7 @@
       <int name="ps">3</int>
       <float name="tie">0.01</float>
       
-      <bool name="facet">true</bool>
+      <bool name="facet">false</bool>
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
@@ -322,6 +287,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -330,43 +296,6 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
-      <str name="fl">
-        score,
-        id,
-        author_corp_display,
-        author_meeting_display,
-        author_person_display,
-        author_person_full_display,
-        collection,
-        db_az_subject,
-        format,
-        img_info,
-        isbn_display,
-        item_display,
-        lccn,
-        oclc,
-        physical,
-        pub_date,
-        title_245a_display,
-        title_245c_display,
-        title_display,
-        title_full_display,
-        title_uniform_display,
-        url_fulltext,
-        url_restricted,
-        url_suppl,
-        url_sfx,
-        vern_author_corp_display,
-        vern_author_meeting_display,
-        vern_author_person_display,
-        vern_author_person_full_display,
-        vern_physical,
-        vern_title_245a_display,
-        vern_title_245c_display,
-        vern_title_display,
-        vern_title_uniform_display
-      </str>
     </lst>
   </requestHandler>
   
@@ -398,7 +327,7 @@
       <int name="ps">3</int>
       <float name="tie">0.01</float>
       
-      <bool name="facet">true</bool>
+      <bool name="facet">false</bool>
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int> 
       <str name="facet.field">access_facet</str>
@@ -415,6 +344,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -423,43 +353,6 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
-      <str name="fl">
-        score,
-        id,
-        author_corp_display,
-        author_meeting_display,
-        author_person_display,
-        author_person_full_display,
-        collection,
-        db_az_subject,
-        format,
-        img_info,
-        isbn_display,
-        item_display,
-        lccn,
-        oclc,
-        physical,
-        pub_date,
-        title_245a_display,
-        title_245c_display,
-        title_display,
-        title_full_display,
-        title_uniform_display,
-        url_fulltext,
-        url_restricted,
-        url_suppl,
-        url_sfx,
-        vern_author_corp_display,
-        vern_author_meeting_display,
-        vern_author_person_display,
-        vern_author_person_full_display,
-        vern_physical,
-        vern_title_245a_display,
-        vern_title_245c_display,
-        vern_title_display,
-        vern_title_uniform_display
-      </str>
     </lst>
   </requestHandler>    
   
@@ -511,7 +404,7 @@
       <int name="ps">3</int>
       <float name="tie">0.01</float>
       
-      <bool name="facet">true</bool>
+      <bool name="facet">false</bool>
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int> 
       <str name="facet.field">access_facet</str>
@@ -528,6 +421,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -536,43 +430,6 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
-      <str name="fl">
-        score,
-        id,
-        author_corp_display,
-        author_meeting_display,
-        author_person_display,
-        author_person_full_display,
-        collection,
-        db_az_subject,
-        format,
-        img_info,
-        isbn_display,
-        item_display,
-        lccn,
-        oclc,
-        physical,
-        pub_date,
-        title_245a_display,
-        title_245c_display,
-        title_display,
-        title_full_display,
-        title_uniform_display,
-        url_fulltext,
-        url_restricted,
-        url_suppl,
-        url_sfx,
-        vern_author_corp_display,
-        vern_author_meeting_display,
-        vern_author_person_display,
-        vern_author_person_full_display,
-        vern_physical,
-        vern_title_245a_display,
-        vern_title_245c_display,
-        vern_title_display,
-        vern_title_uniform_display
-      </str>
     </lst>
   </requestHandler>    
   
@@ -592,7 +449,7 @@
       <int name="ps">3</int>
       <float name="tie">0.01</float>
       
-      <bool name="facet">true</bool>
+      <bool name="facet">false</bool>
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int> 
       <str name="facet.field">access_facet</str>
@@ -609,6 +466,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -617,43 +475,6 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
-      <str name="fl">
-        score,
-        id,
-        author_corp_display,
-        author_meeting_display,
-        author_person_display,
-        author_person_full_display,
-        collection,
-        db_az_subject,
-        format,
-        img_info,
-        isbn_display,
-        item_display,
-        lccn,
-        oclc,
-        physical,
-        pub_date,
-        title_245a_display,
-        title_245c_display,
-        title_display,
-        title_full_display,
-        title_uniform_display,
-        url_fulltext,
-        url_restricted,
-        url_suppl,
-        url_sfx,
-        vern_author_corp_display,
-        vern_author_meeting_display,
-        vern_author_person_display,
-        vern_author_person_full_display,
-        vern_physical,
-        vern_title_245a_display,
-        vern_title_245c_display,
-        vern_title_display,
-        vern_title_uniform_display
-      </str>
     </lst>
   </requestHandler>    
   
@@ -667,7 +488,7 @@
       <str name="df">callnum_search</str> 
       <str name="q.op">AND</str> 
       
-      <bool name="facet">true</bool>
+      <bool name="facet">false</bool>
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int> 
       <str name="facet.field">access_facet</str>
@@ -684,6 +505,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -692,43 +514,6 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
-      <str name="fl">
-        score,
-        id,
-        author_corp_display,
-        author_meeting_display,
-        author_person_display,
-        author_person_full_display
-        collection,
-        db_az_subject,
-        format,
-        img_info,
-        isbn_display,
-        item_display,
-        lccn,
-        oclc,
-        physical,
-        pub_date,
-        title_245a_display,
-        title_245c_display,
-        title_display,
-        title_full_display,
-        title_uniform_display,
-        url_fulltext,
-        url_restricted,
-        url_suppl,
-        url_sfx,
-        vern_author_corp_display,
-        vern_author_meeting_display,
-        vern_author_person_display,
-        vern_author_person_full_display,
-        vern_physical,
-        vern_title_245a_display,
-        vern_title_245c_display,
-        vern_title_display,
-        vern_title_uniform_display
-      </str>
     </lst>
   </requestHandler>    
   
@@ -791,6 +576,7 @@
         isbn_search^2
         issn_search^2
         physical                       vern_physical
+        award_search
         all_search
         id
         oclc
@@ -837,6 +623,7 @@
         subject_all_search^25          vern_subject_all_search^25
         pub_date_search^2
         physical^2                     vern_physical^2
+        award_search^20
         all_search^2
       </str>
       
@@ -923,7 +710,7 @@
       <str name="pf_series">series_search^20  vern_series_search^20</str>
 
       
-      <bool name="facet">true</bool>
+      <bool name="facet">false</bool>
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int> 
       <str name="facet.field">access_facet</str>
@@ -940,6 +727,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -948,44 +736,6 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
-      <str name="fl">
-        score,
-        id,
-        author_corp_display,
-        author_meeting_display,
-        author_person_display,
-        author_person_full_display,
-        collection,
-        db_az_subject,
-        format,
-        img_info,
-        isbn_display,
-        item_display,
-        lccn,
-        oclc,
-        physical,
-        pub_date,
-        title_245a_display,
-        title_245c_display,
-        title_display,
-        title_full_display,
-        title_uniform_display,
-        url_fulltext,
-        url_restricted,
-        url_suppl,
-        url_sfx,
-        vern_author_corp_display,
-        vern_author_meeting_display,
-        vern_author_person_display,
-        vern_author_person_full_display,
-        vern_physical,
-        vern_title_245a_display,
-        vern_title_245c_display,
-        vern_title_display,
-        vern_title_uniform_display
-      </str>
-      
     </lst>
   </requestHandler>  
   
@@ -1152,7 +902,7 @@
       <str name="qf_description">all_search</str>
       <str name="pf_description">all_search^10</str>
 
-      <bool name="facet">true</bool>
+      <bool name="facet">false</bool>
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int>   <!-- language uses more than 11 in advanced search -->
       <str name="facet.field">access_facet</str>
@@ -1169,6 +919,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -1177,43 +928,6 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
-      <str name="fl">
-        score,
-        id,
-        author_corp_display,
-        author_meeting_display,
-        author_person_display,
-        author_person_full_display,
-        collection,
-        db_az_subject,
-        format,
-        img_info,
-        isbn_display,
-        item_display,
-        lccn,
-        oclc,
-        physical,
-        pub_date,
-        title_245a_display,
-        title_245c_display,
-        title_display,
-        title_full_display,
-        title_uniform_display,
-        url_fulltext,
-        url_restricted,
-        url_suppl,
-        url_sfx,
-        vern_author_corp_display,
-        vern_author_meeting_display,
-        vern_author_person_display,
-        vern_author_person_full_display,
-        vern_physical,
-        vern_title_245a_display,
-        vern_title_245c_display,
-        vern_title_display,
-        vern_title_uniform_display
-      </str>
     </lst>
   </requestHandler>
   
@@ -1227,7 +941,7 @@
       <str name="df">all_search</str> 
       <str name="q.op">AND</str> 
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
-      <bool name="facet">true</bool>
+      <bool name="facet">false</bool>
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int> 
       <str name="facet.field">access_facet</str>
@@ -1244,6 +958,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -1252,44 +967,6 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
-      <str name="fl">
-        score,
-        id,
-        author_corp_display,
-        author_meeting_display,
-        author_person_display,
-        author_person_full_display,
-        collection,
-        db_az_subject,
-        format,
-        img_info,
-        isbn_display,
-        item_display,
-        lccn,
-        marc21,
-        oclc,
-        physical,
-        pub_date,
-        title_245a_display,
-        title_245c_display,
-        title_display,
-        title_full_display,
-        title_uniform_display,
-        url_fulltext,
-        url_restricted,
-        url_suppl,
-        url_sfx,
-        vern_author_corp_display,
-        vern_author_meeting_display,
-        vern_author_person_display,
-        vern_author_person_full_display,
-        vern_physical,
-        vern_title_245a_display,
-        vern_title_245c_display,
-        vern_title_display,
-        vern_title_uniform_display
-      </str>
     </lst>
   </requestHandler>
   

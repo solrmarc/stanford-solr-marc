@@ -96,6 +96,7 @@
           <str name="facet.field">dewey_b4cutter_facet</str>
           <str name="facet.field">gov_doc_type_facet</str>
           <str name="facet.field">collection</str>
+          <str name="facet.field">display_type</str>
           <str name="facet.field">format</str>
           <str name="facet.field">language</str>
         </lst>
@@ -122,6 +123,7 @@
           <str name="facet.field">collection</str>
           <str name="facet.field">db_az_subject</str>
           <str name="f.db_az_subject.facet.sort">false</str>
+          <str name="facet.field">display_type</str>
           <str name="facet.field">era_facet</str>
           <str name="facet.field">format</str>
           <str name="facet.field">geographic_facet</str>
@@ -157,6 +159,7 @@
           <str name="facet.field">dewey_b4cutter_facet</str>
           <str name="facet.field">gov_doc_type_facet</str>
           <str name="facet.field">collection</str>
+          <str name="facet.field">display_type</str>
           <str name="facet.field">format</str>
           <str name="facet.field">language</str>
         </lst>
@@ -183,6 +186,7 @@
           <str name="facet.field">collection</str>
           <str name="facet.field">db_az_subject</str>
           <str name="f.db_az_subject.facet.sort">false</str>
+          <str name="facet.field">display_type</str>
           <str name="facet.field">era_facet</str>
           <str name="facet.field">format</str>
           <str name="facet.field">geographic_facet</str>
@@ -271,6 +275,7 @@
         isbn_search^2
         issn_search^2
         physical                       vern_physical
+        award_search
         all_search
         id
         oclc
@@ -319,6 +324,7 @@
         subject_all_search^25          vern_subject_all_search^25
         pub_date_search^2
         physical^2                     vern_physical^2
+        award_search^20
         all_search^2
         collection^20
         medium^20
@@ -343,6 +349,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -447,6 +454,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -540,6 +548,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -653,6 +662,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -734,6 +744,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -809,6 +820,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -916,6 +928,7 @@
         isbn_search^2
         issn_search^2
         physical                       vern_physical
+        award_search
         all_search
         id
         oclc
@@ -962,6 +975,7 @@
         subject_all_search^25          vern_subject_all_search^25
         pub_date_search^2
         physical^2                     vern_physical^2
+        award_search^20
         all_search^2
       </str>
       
@@ -1065,6 +1079,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -1294,6 +1309,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>
@@ -1369,6 +1385,7 @@
       <str name="facet.field">collection</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
+      <str name="facet.field">display_type</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
       <str name="facet.field">geographic_facet</str>

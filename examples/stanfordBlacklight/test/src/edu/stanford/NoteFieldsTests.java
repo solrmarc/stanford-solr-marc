@@ -1,6 +1,8 @@
 package edu.stanford;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -13,7 +15,7 @@ import org.xml.sax.SAXException;
  * 
  * @author Naomi Dushay
  */
-public class TableOfContentsTests extends AbstractStanfordBlacklightTest {
+public class NoteFieldsTests extends AbstractStanfordBlacklightTest {
 	
     /**
      * test population of table of contents search field
@@ -51,6 +53,35 @@ public class TableOfContentsTests extends AbstractStanfordBlacklightTest {
 		assertZeroResults(fldName, "nope");
 	}
 
+	/**
+	 * Nielsen data is in the 905;  we want to use Nielsen data if it exists
+	 */
+@Test
+	public final void nielsenTOCSearchField() 
+	    throws ParserConfigurationException, IOException, SAXException
+	{
+	    String fldName = "toc_search";
+	    createIxInitVars("nielsenTests.mrc");
+	    assertSearchFldMultValProps(fldName);
+	    
+	    assertSingleResult("505", fldName, "505a");
+	    assertSingleResult("505", fldName, "505r");
+	    assertSingleResult("505", fldName, "505t");
+	    
+		Set<String> docIds = new HashSet<String>();
+		docIds.add("905");
+		docIds.add("bothx05");
+		assertSearchResults(fldName, "905a", docIds);
+		assertSearchResults(fldName, "905r", docIds);
+		assertSearchResults(fldName, "905t", docIds);
+
+	    // don't index subfields g or u
+		assertZeroResults(fldName, "505g");
+		assertZeroResults(fldName, "505u");
+		assertZeroResults(fldName, "905g");
+		assertZeroResults(fldName, "905u");
+	}
+
 
 	/**
 	 * test population of context search field
@@ -84,7 +115,6 @@ public class TableOfContentsTests extends AbstractStanfordBlacklightTest {
 		assertZeroResults(fldName, "nope");
 	}
 	
-	
 	/**
 	 * test population of summary search field
 	 */
@@ -117,6 +147,50 @@ public class TableOfContentsTests extends AbstractStanfordBlacklightTest {
 		assertSingleResult("520", fldName, "vern520b");
 
 		assertZeroResults(fldName, "nope");
+	}
+
+	/**
+	 * Nielsen data is in the 920;  we want to use Nielsen data if it exists
+	 */
+@Test
+	public final void nielsenSummarySearchField() 
+	    throws ParserConfigurationException, IOException, SAXException
+	{
+	    String fldName = "summary_search";
+	    createIxInitVars("nielsenTests.mrc");
+	    assertSearchFldMultValProps(fldName);
+	    
+	    assertSingleResult("520", fldName, "520a");
+	    assertSingleResult("520", fldName, "520b");
+	    
+		Set<String> docIds = new HashSet<String>();
+		docIds.add("920");
+		docIds.add("bothx20");
+		assertSearchResults(fldName, "920a", docIds);
+		assertSearchResults(fldName, "920b", docIds);
+	
+	    // don't index subfields g or u
+		assertZeroResults(fldName, "520c");
+		assertZeroResults(fldName, "520u");
+		assertZeroResults(fldName, "920c");
+		assertZeroResults(fldName, "920u");
+	}
+
+
+	/**
+	 * Nielsen data is in the 986;  we want to use Nielsen data if it exists
+	 */
+@Test
+	public final void nielsenAwardSearchField() 
+	    throws ParserConfigurationException, IOException, SAXException
+	{
+	    String fldName = "award_search";
+	    createIxInitVars("nielsenTests.mrc");
+	    assertSearchFldMultValProps(fldName);
+	    
+	    assertSingleResult("586", fldName, "New Zealand Post book awards winner");
+	    assertSingleResult("986", fldName, "Shortlisted for Montana New Zealand Book Awards\\: History Category 2006.");
+	    assertSingleResult("bothx86", fldName, "986 award");
 	}
 
 }

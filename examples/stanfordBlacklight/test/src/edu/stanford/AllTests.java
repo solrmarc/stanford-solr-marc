@@ -41,7 +41,7 @@ import org.junit.runners.Suite;
         StandardNumberTests.class,
         SubjectSearchTests.class,
         SubjectTests.class,
-        TableOfContentsTests.class,
+        NoteFieldsTests.class,
         TitleSearchTests.class,
         TitleSearchVernTests.class,
         TitleTests.class,
