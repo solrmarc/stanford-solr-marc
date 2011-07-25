@@ -290,6 +290,8 @@
     <field name="vern_summary_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="summary_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="summary_display" type="string" indexed="false" stored="true" multiValued="true" />
+    <!-- Award -->
+    <field name="award_search" type="text" indexed="true" stored="false" multiValued="true" />
     
     <!-- Item Info Fields (derived from 999) -->
     <!-- Call Number Fields -->
