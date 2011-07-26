@@ -5,7 +5,7 @@
 #  Naomi Dushay 2008-10-12
 
 BLACKLIGHT_HOMEDIR=/home/blacklight
-SOLRMARC_BASEDIR=$BLACKLIGHT_HOMEDIR/solrmarc
+SOLRMARC_BASEDIR=$BLACKLIGHT_HOMEDIR/solrmarc-sw
 
 RAW_DATA_DIR=/data/sirsi/latest
 

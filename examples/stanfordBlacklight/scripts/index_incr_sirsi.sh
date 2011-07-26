@@ -27,7 +27,7 @@ JAVA_HOME=/usr/lib/jvm/java
 
 # set up the classpath
 BLACKLIGHT_HOMEDIR=/home/blacklight
-SOLRMARC_BASEDIR=$BLACKLIGHT_HOMEDIR/solrmarc
+SOLRMARC_BASEDIR=$BLACKLIGHT_HOMEDIR/solrmarc-sw
 DIST_DIR=$SOLRMARC_BASEDIR/dist
 SITE_JAR=$DIST_DIR/StanfordIndexer.jar
 CORE_JAR=$DIST_DIR/SolrMarc.jar
