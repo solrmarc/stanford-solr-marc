@@ -51,7 +51,7 @@
     <!-- The fieldValueCache is created by default even if not configured here.
     -->
     <fieldValueCache class="solr.FastLRUCache"
-        size="25" initialSize="25" minSize="17" autowarmCount="25" showItems="64"/>
+        size="25" initialSize="25" minSize="17" autowarmCount="0" showItems="64"/>
 
 <!-- TODO:  decrease size??? -->
     <documentCache class="solr.LRUCache"
