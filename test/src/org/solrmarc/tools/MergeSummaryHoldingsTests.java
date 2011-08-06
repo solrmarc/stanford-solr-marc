@@ -319,31 +319,16 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
 	    // call the code for mhldfile summaryHld_1-1000.mrc  and bibfile u335.mrc
 	    CommandLineUtils.runCommandLineUtil(mrgMhldClassName, mainMethodName, inStr, resultMrcOutStream, mergeMhldArgs);
 	
-	    // take the resulting MARC bib rec with the MHLD fields and get it in a format for comparison with fixture data
-	    ByteArrayInputStream mergedMarcBibRecAsInStream = new ByteArrayInputStream(resultMrcOutStream.toByteArray());
-	    
-	    ByteArrayOutputStream marcPrinterOutputOfMergedBibRec = new ByteArrayOutputStream();
-	    ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
-	    String[] marcPrintArgs = new String[]{testConfigFile, "print"};
-	    CommandLineUtils.runCommandLineUtil(mrcPrntrClassName, mainMethodName, mergedMarcBibRecAsInStream, marcPrinterOutputOfMergedBibRec, errorStream, marcPrintArgs); 
-	
-	    // did the resulting merged record contain the expected output?
-	    assertMarcRecsEqual(mergedSummaryHoldingsOutput, new ByteArrayInputStream(marcPrinterOutputOfMergedBibRec.toByteArray()));
-	
+	    assertMarcRecsEqual(mergedSummaryHoldingsOutput, resultMrcOutStream);
 	    
 	    // Now merge record again to test the deleting of existing summary holdings info
+	    ByteArrayInputStream mergedMarcBibRecAsInStream = new ByteArrayInputStream(resultMrcOutStream.toByteArray());
 	    resultMrcOutStream.close();
 	    resultMrcOutStream = new ByteArrayOutputStream();
 	    //  do the merge by piping the bib record in to the merge class
 	    CommandLineUtils.runCommandLineUtil(mrgMhldClassName, mainMethodName, mergedMarcBibRecAsInStream, resultMrcOutStream, new String[]{"-s", mhldRecFileName } );
 	    
-	    mergedMarcBibRecAsInStream.close();
-	    mergedMarcBibRecAsInStream = new ByteArrayInputStream(resultMrcOutStream.toByteArray());
-	    marcPrinterOutputOfMergedBibRec.close();
-	    marcPrinterOutputOfMergedBibRec = new ByteArrayOutputStream();
-	    CommandLineUtils.runCommandLineUtil(mrcPrntrClassName, mainMethodName, mergedMarcBibRecAsInStream, marcPrinterOutputOfMergedBibRec, marcPrintArgs); 
-	
-	    assertMarcRecsEqual(mergedSummaryHoldingsOutput, new ByteArrayInputStream(marcPrinterOutputOfMergedBibRec.toByteArray()));
+	    assertMarcRecsEqual(mergedSummaryHoldingsOutput, resultMrcOutStream);
 	}
 
 
@@ -380,22 +365,10 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
 		ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
 		PrintStream sysMsgs = new PrintStream(sysBAOS);
 		System.setOut(sysMsgs);
-	
-	    MergeSummaryHoldings.mergeMhldRecsIntoBibRecsAsStdOut2(bibRecFileName, mhldRecFileName);
+
+		MergeSummaryHoldings.mergeMhldRecsIntoBibRecsAsStdOut2(bibRecFileName, mhldRecFileName);
 	
 	    assertMarcRecsEqual(mergedSummaryHoldingsOutput, sysBAOS);
-	    
-	    // the following is one weird assertTrue based on trapped sysout
-	    
-	    // take the resulting MARC bib rec with the MHLD fields and get it in a format for comparison with fixture data
-	    ByteArrayInputStream mergedMarcBibRecAsInStream = new ByteArrayInputStream(sysBAOS.toByteArray());
-	    ByteArrayOutputStream marcPrinterOutputOfMergedBibRec = new ByteArrayOutputStream();
-	    ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
-	    String[] marcPrintArgs = new String[]{testConfigFile, "print"};
-	    CommandLineUtils.runCommandLineUtil(mrcPrntrClassName, mainMethodName, mergedMarcBibRecAsInStream, marcPrinterOutputOfMergedBibRec, errorStream, marcPrintArgs); 
-	
-	    // did the resulting merged record contain the expected output?
-	    assertMarcRecsEqual(mergedSummaryHoldingsOutput, new ByteArrayInputStream(marcPrinterOutputOfMergedBibRec.toByteArray()));
 	}
 
 
@@ -403,6 +376,13 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
 //two RawRecord
 //two Record
 //xml string to RawRecord
+	
+	public void testRawRecordEqualsTest()
+	{
+	    String mhldRecFileName = testDataParentPath + File.separator + "summaryHld_1-1000.mrc";
+	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
+		
+	}
 
 
 
@@ -454,7 +434,6 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
             String actualLine = null;
             while ((actualLine = actualAsBuffRdr.readLine()) != null)
             {
-//System.err.println("DEBUG have non-null line");
                 if (actualLine.length() == 0) 
                 {
                 	// do nothing;
