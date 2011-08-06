@@ -18,7 +18,7 @@ import org.solrmarc.marcoverride.MarcSplitStreamWriter;
  * Note that the MHLD file must have records in StringNaturalCompare ascending
  *  order.
  *  
- * @author naomi
+ * @author Bob Haschart, revised by Naomi Dushay
  *
  */
 public class MergeSummaryHoldings implements MarcReader
@@ -93,16 +93,7 @@ public class MergeSummaryHoldings implements MarcReader
     {
         this (bibRecsRawRecRdr, true, false, "MARC8", mhldRecsFileName, mhldFldsToMerge);
     }
-    
-    public MergeSummaryHoldings(MarcReader bibRecsRawRecRdr, String mhldRecsFileName, String mhldFldsToMerge)
-    {
-        this.bibRecsRawRecRdr = null;
-        this.mhldRecsFileName = mhldRecsFileName;
-        this.mhldFldsToMerge = mhldFldsToMerge;
-        System.setProperty("org.marc4j.marc.MarcFactory", "org.solrmarc.marcoverride.NoSortMarcFactoryImpl");
-        readMhldFileFromBeginning(mhldRecsFileName);
-    }
-    
+        
     
     /**
      * create a new RawRecordReader for the MHLD records file, and reset
@@ -156,10 +147,7 @@ public class MergeSummaryHoldings implements MarcReader
         
         RawRecord matchingRawMhldRec = getMatchingMhldRawRec(rawBibRec.getRecordId());
         if (matchingRawMhldRec != null) 
-        {
-            Record matchingMhldRec = matchingRawMhldRec.getAsRecord(true, false, DEFAULT_MHLD_FLDS_TO_MERGE, "MARC8");
             addMhldFieldsToBibRec(bibRec, matchingRawMhldRec);
-        }
         
         return(bibRec);
     }
@@ -182,17 +170,13 @@ public class MergeSummaryHoldings implements MarcReader
     	// if the id before the last read MHLD id is bigger than the bib id to be 
     	//   matched, then start over in the mhld file
         if (prevMhldRecID != null && comparator.compare(prevMhldRecID, bibRecID) > 0)
-        {
         	readMhldFileFromBeginning(mhldRecsFileName);
-        }
         
         // if the most recent MHLD record read was a match, or we have started MHLD file from beginning
         //    (we have no unmatching last retrieved mhld record)
         // then get the next record in the MHLD file before entering loop
         if (unmatchedPrevMhldRec == null && mhldRawRecRdr != null && mhldRawRecRdr.hasNext() )
-        {
             unmatchedPrevMhldRec = mhldRawRecRdr.next();
-        }
         
         // look for an MHLD record that matches the bib rec id, up until the MHLD record id comes after the bib record id;  
         // also keep track of the prior MHLD rec id while searching 
@@ -213,8 +197,7 @@ public class MergeSummaryHoldings implements MarcReader
             return(matchingMhldRec);
         }
         
-        // booby prize
-        return(null);
+        return(null);		// booby prize
     }
     
     /**
@@ -447,7 +430,6 @@ public class MergeSummaryHoldings implements MarcReader
             }
             catch (FileNotFoundException e)
             {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 System.exit(1);
             }
