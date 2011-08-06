@@ -162,7 +162,8 @@ public class MergeSummaryHoldings implements MarcReader
             bibRec = bibRecsMarcReader.next();
         }
         RawRecord matchingRawMhldRec = getMatchingMhldRawRec(bibRec.getControlNumber());
-        bibRec = addMhldFieldsToBibRec(bibRec, matchingRawMhldRec);
+        Record matchingMhldRec = matchingRawMhldRec.getAsRecord(true, false, DEFAULT_MHLD_FLDS_TO_MERGE, "MARC8");
+        bibRec = MarcCombiningReader.combineRecords(bibRec, matchingMhldRec, DEFAULT_MHLD_FLDS_TO_MERGE, "999");
         return(bibRec);
     }
 
@@ -219,29 +220,6 @@ public class MergeSummaryHoldings implements MarcReader
         return(null);
     }
     
-    /**
-     * NOTE: not used by main() - only used by next()
-     * 
-     * given a MARC bib record as a Record object, and a MARC MHLD record as
-     *  a RawRecord object, merge the MHLD fields indicated in class var
-     *  mhldFldsToMerge into the bib record, first removing any of those fields
-     *  already existing in the bib record.
-     * @param bibRecord
-     * @param rawMhldRecord
-     * @return the bib record with the MHLD fields merged in
-     */
-    private Record addMhldFieldsToBibRec(Record bibRecord, RawRecord rawMhldRecord)
-    {
-        Record mhldRecord = rawMhldRecord.getAsRecord(permissive, toUtf8, null, defaultEncoding);
-        List<VariableField> lvf = (List<VariableField>) bibRecord.getVariableFields(mhldFldsToMerge.split("[|]"));
-        for (VariableField vf : lvf)
-        {
-            bibRecord.removeVariableField(vf);
-        }
-        bibRecord = MarcCombiningReader.combineRecords(bibRecord, mhldRecord, mhldFldsToMerge);
-        return(bibRecord);
-    }
-
     /**
      * basically for testing 
      * for each bib record in the bib rec file 

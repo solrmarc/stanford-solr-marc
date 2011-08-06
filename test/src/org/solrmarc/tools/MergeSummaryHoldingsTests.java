@@ -6,7 +6,8 @@ import java.io.*;
 import java.util.*;
 
 import org.junit.*;
-import org.marc4j.marc.Record;
+import org.marc4j.marc.*;
+import org.marc4j.marc.impl.RecordImpl;
 import org.solrmarc.marc.RawRecordReader;
 import org.solrmarc.testUtils.CommandLineUtils;
 
@@ -22,10 +23,13 @@ public class MergeSummaryHoldingsTests
     String testDataParentPath =  testDir + File.separator + "data";
     String smokeTestDir = testDataParentPath + File.separator + "smoketest";
     String testConfigFile = smokeTestDir + File.separator + "test_config.properties";
+
+    String localDir = ".." + File.separator + ".." + File.separator + "examples" + File.separator + "stanfordBlacklight";
+    String localTestDataParentPath = localDir + File.separator + testDataParentPath;
+
     String mrgMhldClassName = "org.solrmarc.tools.MergeSummaryHoldings";
     String mrcPrntrClassName = "org.solrmarc.marc.MarcPrinter";
     String mainMethodName = "main";
-    // "Usage: MergeSummaryHoldings [-v] [-a] -s marcMhldFile.mrc  marcBibsFile.mrc";
     
     
 
@@ -46,6 +50,8 @@ public class MergeSummaryHoldingsTests
     public void testNoMatches() 
     {
     	//bib46, mhld235
+		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeTestMatchingBibs46.xml";
+		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeTestMatchingMhlds235.xml";
 
 		// ensure no error message was printed
 		ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
@@ -53,14 +59,12 @@ public class MergeSummaryHoldingsTests
 		System.setErr(sysMsgs);
 		System.setOut(sysMsgs);
 	
-		ByteArrayOutputStream mergedAsByteArrayOutStream = mergeBibAndMhldFiles("mhldMergeTestMatchingBibs46.xml", "mhldMergeTestMatchingMhlds235.xml");
+		ByteArrayOutputStream mergedAsByteArrayOutStream = mergeBibAndMhldFiles(bibFilePath, mhldFilePath);
 		// extract each record and determine it is present and there was no merge
 
 		// ensure no error message was printed
 		assertTrue("Output messages unexpectedly written: " + sysBAOS.toString(),  sysBAOS.size() == 0);
 
-		
-		
 		
 		fail("Implement me");
     }
@@ -255,6 +259,47 @@ String mergedSummaryHoldingsOutput[] = {
         "999   $aAP30 .T75 Nr.23-24 1998-1999$wLCPER$c1$iX006166304$d4/5/2007$e3/13/2007$lALD-STKS$mALDERMAN$rY$sY$tBOUND-JRNL$u3/12/2007$xADD",
         };
 
+String mergedSummaryHoldingsOutputNoUmlaut[] = {
+        "LEADER 02429nas a2200481 a 4500",
+        "001 u335",
+        "003 SIRSI",
+        "008 840508c19799999gw fu p       0uuub0ger d",
+        "035   $a(Sirsi) o10701458",
+        "035   $a(OCoLC)10701458",
+        "040   $aVA@$cVA@",
+        "049   $aVAS@",
+        "090   $aAP30$b.T75$mVAS@$qALDERMAN",
+        "245 00$aTumult.",
+        "246 13$aZeitschrift fèur Verkehrswissenschaft",
+        "260   $aBerlin :$bMerve Verlag,$c1979-",
+        "300   $av. :$bill. ;$c24 cm.",
+        "310   $aSemiannual",
+        "362 0 $a1-",
+        "500   $aTitle from cover; imprint varies.",
+        "599   $a2$b(YR.) 2008 NO. 34;$b(YR.) 2008 NO. 33;$bNR. 32 2007;",
+        "596   $a2",
+        "515   $aNone published 1980-1981.",
+        "852   $bALDERMAN$cALD-STKS$xpat#169090$x2x$xbind 4N=2 or 3yrs$xex.:  Nr. 15-18 1988-93$xindex ?$xuse copyright year for dating$zCURRENT ISSUES HELD IN THE PERIODICALS ROOM $x5071",
+        "853 2 $82$anr.",
+        "853 2 $83$anr.$i(year)$j(unit)",
+        "853 2 $84$a(yr.)$bno.$u2$vc",
+        "866  0$81$aNr.1-28  (1979-2004)$zIn stacks",
+        "863  1$83.6$a29$i2005$j.",
+        "863  1$83.7$a30$i2005$j.",
+        "863  1$83.8$a31$i2006$j.",
+        "863  1$83.9$a32$i2007",
+        "863  1$84.1$a2008$b33",
+        "863  1$84.2$a2008$b34",
+        "999   $aAP30 .T75 Nr.7-10 1983-87$wLCPER$c1$iX001614137$d5/9/2008$lALD-STKS$mALDERMAN$n2$q3$rY$sY$tBOUND-JRNL$u6/28/1996$xH-NOTIS",
+        "999   $aAP30 .T75 Nr.1-3 1979-82$wLCPER$c1$iX000769605$d4/8/2009$lALD-STKS$mALDERMAN$q2$rY$sY$tBOUND-JRNL$u6/28/1996$xH-NOTIS",
+        "999   $aAP30 .T75 Nr.4-6 1982-83$wLCPER$c1$iX000764174$d5/21/2002$lALD-STKS$mALDERMAN$q5$rY$sY$tBOUND-JRNL$u6/28/1996$xH-NOTIS",
+        "999   $aAP30 .T75 Nr.11-14 1988-90$wLCPER$c1$iX002128357$d1/27/2010$lALD-STKS$mALDERMAN$n1$q1$rY$sY$tBOUND-JRNL$u6/28/1996$xH-NOTIS",
+        "999   $aAP30 .T75 Nr.15-18 1991-93$wLCPER$c1$iX002509913$d11/11/1994$lALD-STKS$mALDERMAN$n1$rY$sY$tBOUND-JRNL$u6/28/1996$xH-NOTIS",
+        "999   $aAP30 .T75 Periodical order-001$wLCPER$c1$i335-6001$d1/11/1999$lALD-STKS$mALDERMAN$rY$sY$tBOUND-JRNL$u12/18/1996",
+        "999   $aAP30 .T75 Nr.19-22 1994-96$wLCPER$c1$iX006060933$d7/23/1998$e5/26/1998$lALD-STKS$mALDERMAN$n1$rY$sY$tBOUND-JRNL$u5/26/1998$xADD",
+        "999   $aAP30 .T75 Nr.25-28 2001-2004$wLCPER$c1$iX030047292$d2/12/2007$e1/23/2007$lALD-STKS$mALDERMAN$q1$rY$sY$tBOUND-JRNL$u1/22/2007$xADD",
+        "999   $aAP30 .T75 Nr.23-24 1998-1999$wLCPER$c1$iX006166304$d4/5/2007$e3/13/2007$lALD-STKS$mALDERMAN$rY$sY$tBOUND-JRNL$u3/12/2007$xADD",
+        };
 
 /**
  */
@@ -311,15 +356,13 @@ public void testGettingOutputAsMapOfRecords()
     String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
 
     Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibRecFileName, mhldRecFileName);
-    assertEquals("results should have 1 record", 1, mergedRecs.size());
+    junit.framework.Assert.assertEquals("results should have 1 record", 1, mergedRecs.size());
     String expId = "335";
     assertTrue("Record with id " + expId + " should be in results", mergedRecs.containsKey(expId));
     
-//    System.err.print(mergedRecs.get(expId).toString());
-//    fail("need way to compare records");
+    Record resultRec = mergedRecs.get(expId);
+	assertEqualsIgnoreLeader(mergedSummaryHoldingsOutputNoUmlaut, resultRec);
 }
-
-
 
 
 /**
@@ -333,7 +376,7 @@ public void testGettingOutputAsListOfRecords()
     String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
 
     List<Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsList(bibRecFileName, mhldRecFileName);
-    assertEquals("results should have 1 record", 1, mergedRecs.size());
+    junit.framework.Assert.assertEquals("results should have 1 record", 1, mergedRecs.size());
     
 //    System.err.print(mergedRecs.get(0).toString());
 //    fail("need way to compare records");
@@ -425,7 +468,7 @@ public void testMergeToStdOut2()
                         continue;   // skip this line and don't even count it.  I don't know where these "Flushing Results..." lines are coming from.
 
                     String expectedLine = expectedAsLines[lineCnt];
-                    assertEquals("output line ["+ actualLine + "]  doesn't match expected [" + expectedLine + "]", expectedLine, actualLine);
+                    junit.framework.Assert.assertEquals("output line ["+ actualLine + "]  doesn't match expected [" + expectedLine + "]", expectedLine, actualLine);
                 }
                 lineCnt++;
             }
@@ -472,6 +515,30 @@ public void testMergeToStdOut2()
             	return rec.getAsRecord(true, false, "999", "MARC8");
         }
         return null;
+    }
+    
+    private void assertEqualsIgnoreLeader(String expectedAsXML, Record actual) 
+    {
+    }
+
+    private void assertEqualsIgnoreLeader(Record expected, Record actual) 
+    {
+    	assertTrue("Records weren't equal", actual.equals(expected));
+    }
+
+    private void assertEqualsIgnoreLeader(String[] expected, Record actual) 
+    {
+    	String actualStr = actual.toString();
+     	// removing leader is removing "LEADER " and the 24 char leader and the newline
+    	String actualCompareStr = actualStr.substring(32);
+
+     	StringBuffer buf = new StringBuffer();
+    	for (int i = 1; i < expected.length; i++) {
+    		buf.append(expected[i] + "\n");
+    	}
+    	
+    	junit.framework.Assert.assertEquals("Records weren't equal", buf.toString(), actualCompareStr);
+//    	junit.framework.Assert.assertEquals("Records weren't equal", buf.toString(), actualStr);
     }
     
 }
