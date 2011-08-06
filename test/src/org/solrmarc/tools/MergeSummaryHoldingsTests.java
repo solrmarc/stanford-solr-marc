@@ -46,7 +46,7 @@ public class MergeSummaryHoldingsTests
     /**
      * code should end smoothly if it encounters no matches between bib and mhld
      */
-//@Test
+@Test
     public void testNoMatches() 
     {
     	//bib46, mhld235
@@ -64,7 +64,6 @@ public class MergeSummaryHoldingsTests
 
 		// ensure no error message was printed
 		assertTrue("Output messages unexpectedly written: " + sysBAOS.toString(),  sysBAOS.size() == 0);
-
 		
 		fail("Implement me");
     }
@@ -365,23 +364,6 @@ public void testGettingOutputAsMapOfRecords()
 }
 
 
-/**
- * test just getting list of records and no sysout shit
- */
-@Test
-public void testGettingOutputAsListOfRecords() 
-        throws IOException
-{
-    String mhldRecFileName = testDataParentPath + File.separator + "summaryHld_1-1000.mrc";
-    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
-
-    List<Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsList(bibRecFileName, mhldRecFileName);
-    junit.framework.Assert.assertEquals("results should have 1 record", 1, mergedRecs.size());
-    
-//    System.err.print(mergedRecs.get(0).toString());
-//    fail("need way to compare records");
-}
-
 
 /**
  */
@@ -526,6 +508,13 @@ public void testMergeToStdOut2()
     	assertTrue("Records weren't equal", actual.equals(expected));
     }
 
+    /**
+     * compare two marc records;  the expected result is represented as
+     *  an array of strings.  The leaders don't match; not sure why or if it
+     *  matters.
+     * @param expected
+     * @param actual
+     */
     private void assertEqualsIgnoreLeader(String[] expected, Record actual) 
     {
     	String actualStr = actual.toString();
@@ -538,7 +527,13 @@ public void testMergeToStdOut2()
     	}
     	
     	junit.framework.Assert.assertEquals("Records weren't equal", buf.toString(), actualCompareStr);
-//    	junit.framework.Assert.assertEquals("Records weren't equal", buf.toString(), actualStr);
+/*
+    	buf = new StringBuffer();
+    	for (int i = 0; i < expected.length; i++) {
+    		buf.append(expected[i] + "\n");
+    	}
+    	junit.framework.Assert.assertEquals("Records weren't equal", buf.toString(), actualStr);
+*/  
     }
     
 }
