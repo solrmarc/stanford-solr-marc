@@ -7,6 +7,7 @@ import java.util.*;
 
 import org.junit.*;
 import org.marc4j.marc.*;
+import org.solrmarc.marc.RawRecordReader;
 import org.solrmarc.testUtils.CommandLineUtils;
 import org.solrmarc.testUtils.RecordTestingUtils;
 
@@ -49,10 +50,30 @@ public class MergeSummaryHoldingsTests
     public void testNoMatches() 
     		throws IOException 
     {
-    	//bib46, mhld235
+		//bib46, mhld235
+		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs46.mrc";
+		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds235.mrc";
+	    Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    Set<String> mergedRecIds = mergedRecs.keySet();
+	    assertEquals(2, mergedRecIds.size());
+
+	    // result bibs should match the bib input because there was no merge
+        RawRecordReader rawRecRdr = new RawRecordReader(new FileInputStream(new File(bibFilePath)));
+        while (rawRecRdr.hasNext())
+        {
+        	RawRecord rawRec = rawRecRdr.next();
+        	Record rec = rawRec.getAsRecord(true, false, "999", "MARC8");
+        	String id = MergeSummaryHoldings.getRecordIdFrom001(rec);
+        	assertTrue(mergedRecIds.contains(id));
+        	RecordTestingUtils.assertEquals(rec, mergedRecs.get(id));
+        }
+
+
+// FIXME: split into separate method        
+
 		String commandLinePathPrefix = ".." + File.separator + ".." + File.separator;
-		String bibFilePath = commandLinePathPrefix + localTestDataParentPath + File.separator + "mhldMergeBibs46.mrc";
-		String mhldFilePath = commandLinePathPrefix + localTestDataParentPath + File.separator + "mhldMergeMhlds235.mrc";
+		bibFilePath = commandLinePathPrefix + bibFilePath;
+		mhldFilePath = commandLinePathPrefix + mhldFilePath;
 
 		// ensure no error message was printed
 		ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
@@ -65,19 +86,7 @@ public class MergeSummaryHoldingsTests
 		// ensure no error message was printed
 		assertTrue("Output messages unexpectedly written: " + sysBAOS.toString(),  sysBAOS.size() == 0);
 
-		// extract each record and determine it is present and there was no merge
 
-		
-		// results should be bibs 4 and 6 and they should match as input
-		bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs46.mrc";
-		mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds235.mrc";
-	    Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
-	    Set<String> mergedRecIds = mergedRecs.keySet();
-	    assertEquals(2, mergedRecIds.size());
-	    assertTrue(mergedRecIds.contains("4"));
-	    assertTrue(mergedRecIds.contains("6"));
-	    
-	    
 	    
     }
     
