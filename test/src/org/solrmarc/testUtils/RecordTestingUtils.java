@@ -161,11 +161,31 @@ public class RecordTestingUtils
 	}
 
 	/**
+	 * convert a Record object to a RawRecord object.  
+	 * Uses MarcSplitStreamWriter to output the record so it can be read in again.
+	 */
+	public static RawRecord convertToRawRecord(Record record)
+	{
+	    // prepare to trap MarcWriter output stream 
+		ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
+		PrintStream sysMsgs = new PrintStream(sysBAOS);
+		System.setOut(sysMsgs);
+		
+		MarcWriter writer = new MarcSplitStreamWriter(System.out, "ISO-8859-1", 70000, "999");
+	    writer.write(record);
+	    System.out.flush();
+		
+		ByteArrayInputStream recAsInStream = new ByteArrayInputStream(sysBAOS.toByteArray());
+		
+		return new RawRecord(new DataInputStream((InputStream) recAsInStream));
+	}
+	
+	/**
 	 * given a file of records as a ByteArrayOutputStream and a record id,
 	 *  look for that record.  If it is found, return it as a RawRecord object,
 	 *  otherwise, return null
 	 */
-// FIXME: used?
+// FIXME: not used? tested, even?
 	public static RawRecord extractRecord(ByteArrayOutputStream recsFileAsBAOutStream, String recId)
 	{
 	    ByteArrayInputStream fileAsInputStream = new ByteArrayInputStream(recsFileAsBAOutStream.toByteArray());
@@ -205,19 +225,7 @@ public class RecordTestingUtils
   	  	        Record rec2 = rawRec2.getAsRecord(true, false, "999", "MARC8");
   	  	        DataField dataFld = new DataFieldImpl("333", ' ', ' ');
   	  	        rec2.addVariableField(dataFld);
-  	  	        
-	  	  		ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
-	  			PrintStream sysMsgs = new PrintStream(sysBAOS);
-	  			System.setOut(sysMsgs);
-	
-  	  	        MarcWriter writer = new MarcSplitStreamWriter(System.out, "ISO-8859-1", 70000, "999");
-  	            writer.write(rec2);
-  	            System.out.flush();
-  	  	    
-  	            ByteArrayInputStream rec2AsInStream = new ByteArrayInputStream(sysBAOS.toByteArray());
-  	            RawRecord rawRec3 = new RawRecord(new DataInputStream((InputStream) rec2AsInStream));
-  	  	        
-  	  	        assertNotEqual(rawRec1, rawRec3, "MARC8");
+  	  	        assertNotEqual(rawRec1, convertToRawRecord(rec2), "MARC8");
   	        }
   	  	    else
   	            fail("shouldn't get here");
