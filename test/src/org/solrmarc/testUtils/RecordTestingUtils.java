@@ -34,6 +34,7 @@ public class RecordTestingUtils
 	{
 		String actualId = actual.getControlNumber();
 		String errmsg = "Record " + actualId + " wasn't as expected";
+	    
 	    if ( actualId.equals(expected.getControlNumber()) )
 	    	assertTrue(errmsg, expected.toString().equals(actual.toString()) );
 	    else
@@ -50,6 +51,32 @@ public class RecordTestingUtils
 	    	return;
 	
 	    assertFalse("Records unexpectedly the same: " + actualId, expected.toString().equals(actual.toString()) );
+	}
+
+	/**
+	 * assert two Record objects are equal by comparing them as strings, skipping over the leader
+	 */
+	public static void assertEqualsIgnoreLeader(Record expected, Record actual)
+	{
+		String actualId = actual.getControlNumber();
+		String errmsg = "Record " + actualId + " wasn't as expected";
+	    
+	    if ( actualId.equals(expected.getControlNumber()) )
+	    	assertTrue(errmsg, expected.toString().substring(24).equals(actual.toString().substring(24)) );
+	    else
+	    	fail(errmsg);
+	}
+
+	/**
+	 * assert two Record objects are not equal by comparing them as strings, skipping over the leader
+	 */
+	public static void assertNotEqualIgnoreLeader(Record expected, Record actual)
+	{
+		String actualId = actual.getControlNumber();
+	    if ( !actualId.equals(expected.getControlNumber()) )
+	    	return;
+
+	    assertFalse("Records unexpectedly the same: " + actualId, expected.toString().substring(24).equals(actual.toString().substring(24)) );
 	}
 
 	/**
@@ -268,5 +295,59 @@ public class RecordTestingUtils
   	    else
             fail("shouldn't get here");
   	}
+
+	/**
+	 * ensure that the assertEquals and assertNotEqual methods work for 
+	 *  Record objects
+	 */
+@Test  	
+	public void testRecordAssertEqualsIgnoreLeaderAndNot()
+	  		throws IOException
+	{
+	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
+
+	    RawRecordReader bibsRawRecRdr = new RawRecordReader(new FileInputStream(new File(bibRecFileName)));
+	    if (bibsRawRecRdr.hasNext()) 
+	    {
+	        RawRecord rawRec1 = bibsRawRecRdr.next();
+	        Record rec1 = rawRec1.getAsRecord(true, false, "999", "MARC8");
+
+	        assertEqualsIgnoreLeader(rec1, rec1);
+	        
+	        RawRecordReader bibsRawRecRdr2 = new RawRecordReader(new FileInputStream(new File(bibRecFileName)));
+	        if (bibsRawRecRdr2.hasNext())
+	        {
+	  	        RawRecord rawRec2 = bibsRawRecRdr2.next();
+	  	        Record rec2 = rawRec2.getAsRecord(true, false, "999", "MARC8");
+	  	        DataField dataFld = new DataFieldImpl("333", ' ', ' ');
+	  	        rec2.addVariableField(dataFld);
+
+	  	        assertNotEqualIgnoreLeader(rec1, rec2);
+	        }
+	  	    else
+	            fail("shouldn't get here");
+	    }
+	    else
+        fail("shouldn't get here");
+	}
+
+	/**
+	 * Assign id of record to be the ckey. Our ckeys are in 001 subfield a. 
+	 * Marc4j is unhappy with subfields in a control field so this is a kludge 
+	 * work around.
+	 */
+	public static String getRecordIdFrom001(Record record)
+	{
+		String id = null;
+		ControlField fld = (ControlField) record.getVariableField("001");
+		if (fld != null && fld.getData() != null) 
+		{
+			String rawVal = fld.getData();
+			// 'u' is for testing
+			if (rawVal.startsWith("a") || rawVal.startsWith("u"))
+				id = rawVal.substring(1);
+		}
+		return id;
+	}
 
 }
