@@ -19,18 +19,51 @@ import org.solrmarc.testUtils.RecordTestingUtils;
  */
 public class MergeSummaryHoldingsTests
 {
-    String testDir = "test";
-    String testDataParentPath =  testDir + File.separator + "data";
-    String smokeTestDir = testDataParentPath + File.separator + "smoketest";
-    String testConfigFile = smokeTestDir + File.separator + "test_config.properties";
+    static String testDir = "test";
+    static String testDataParentPath =  testDir + File.separator + "data";
+    static String smokeTestDir = testDataParentPath + File.separator + "smoketest";
+    static String testConfigFile = smokeTestDir + File.separator + "test_config.properties";
 
-    String localDir = "examples" + File.separator + "stanfordBlacklight";
-    String localTestDataParentPath = localDir + File.separator + testDataParentPath;
+    static String localDir = "examples" + File.separator + "stanfordBlacklight";
+    static String localTestDataParentPath = localDir + File.separator + testDataParentPath;
 
-    String mrgMhldClassName = "org.solrmarc.tools.MergeSummaryHoldings";
-    String mrcPrntrClassName = "org.solrmarc.marc.MarcPrinter";
-    String mainMethodName = "main";
+    static String MERGE_MHLD_CLASS_NAME = "org.solrmarc.tools.MergeSummaryHoldings";
+    static String MARC_PRINTER_CLASS_NAME = "org.solrmarc.marc.MarcPrinter";
+    static String MAIN_METHOD_NAME = "main";
     
+    // for vetting results - no point in loading these constants for each test
+    static Map<String, Record> ALL_MERGED_BIB_RESULTS = new HashMap<String, Record>();
+    static Map<String, Record> ALL_UNMERGED_BIBS = new HashMap<String, Record>();
+    static
+    {
+		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs1346.mrc";
+		try {
+			RawRecordReader rawRecRdr = new RawRecordReader(new FileInputStream(new File(bibFilePath)));
+	        while (rawRecRdr.hasNext())
+	        {
+	        	RawRecord rawRec = rawRecRdr.next();
+	        	Record rec = rawRec.getAsRecord(true, false, "999", "MARC8");
+	        	String id = RecordTestingUtils.getRecordIdFrom001(rec);
+	        	ALL_UNMERGED_BIBS.put(id, rec);
+	        }
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		bibFilePath = localTestDataParentPath + File.separator + "mhldMerged1346.mrc";
+		try {
+			RawRecordReader rawRecRdr = new RawRecordReader(new FileInputStream(new File(bibFilePath)));
+	        while (rawRecRdr.hasNext())
+	        {
+	        	RawRecord rawRec = rawRecRdr.next();
+	        	Record rec = rawRec.getAsRecord(true, false, "999", "MARC8");
+	        	String id = RecordTestingUtils.getRecordIdFrom001(rec);
+	        	ALL_MERGED_BIB_RESULTS.put(id, rec);
+	        }
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+    }
     
 
 @Before
@@ -58,15 +91,10 @@ public class MergeSummaryHoldingsTests
 	    assertEquals(2, mergedRecIds.size());
 
 	    // result bibs should match the bib input because there was no merge
-        RawRecordReader rawRecRdr = new RawRecordReader(new FileInputStream(new File(bibFilePath)));
-        while (rawRecRdr.hasNext())
-        {
-        	RawRecord rawRec = rawRecRdr.next();
-        	Record rec = rawRec.getAsRecord(true, false, "999", "MARC8");
-        	String id = MergeSummaryHoldings.getRecordIdFrom001(rec);
-        	assertTrue(mergedRecIds.contains(id));
-        	RecordTestingUtils.assertEquals(rec, mergedRecs.get(id));
-        }
+	    String id = "4";
+       	RecordTestingUtils.assertEquals(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
+	    id = "6";
+       	RecordTestingUtils.assertEquals(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
     }
     
 	/**
@@ -90,21 +118,36 @@ public class MergeSummaryHoldingsTests
 	
 		// ensure no error message was printed
 		assertTrue("Output messages unexpectedly written: " + sysBAOS.toString(),  sysBAOS.size() == 0);
+		System.setOut(System.out);
+		System.setErr(System.err);
 	}
 
 
-// first record matching tests    
+// first record in file tests ----------    
     /**
      * code should find a match when first bib matches first mhld
      */
-//@Test
-    public void testBothFirstRecsMatch() 
+@Test
+	public void testBothFirstRecsMatch() 
+    		throws IOException 
     {
-    	// bib346, mhld345
-		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs346.xml";
-		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds345.xml";
-		
-    	fail("Implement me");
+    	// bib346, mhld34
+		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs346.mrc";
+		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds34.mrc";
+	    Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    
+	    // there should be 3 results
+	    Set<String> mergedRecIds = mergedRecs.keySet();
+	    assertEquals(3, mergedRecIds.size());
+
+	    // result bibs 3, 4 should have the mhld fields
+	    String id = "3";
+       	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
+       	id = "4";
+       	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
+       	// result bib 6 should not be changed
+	    id = "6";
+       	RecordTestingUtils.assertEquals(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
     }
 
     /**
@@ -326,7 +369,7 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
 	    String[] mergeMhldArgs = new String[]{"-s", mhldRecFileName, bibRecFileName };
 	
 	    // call the code for mhldfile summaryHld_1-1000.mrc  and bibfile u335.mrc
-	    CommandLineUtils.runCommandLineUtil(mrgMhldClassName, mainMethodName, inStr, resultMrcOutStream, mergeMhldArgs);
+	    CommandLineUtils.runCommandLineUtil(MERGE_MHLD_CLASS_NAME, MAIN_METHOD_NAME, inStr, resultMrcOutStream, mergeMhldArgs);
 	
 	    RecordTestingUtils.assertMarcRecsEqual(mergedSummaryHoldingsOutput, resultMrcOutStream);
 	    
@@ -335,7 +378,7 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
 	    resultMrcOutStream.close();
 	    resultMrcOutStream = new ByteArrayOutputStream();
 	    //  do the merge by piping the bib record in to the merge class
-	    CommandLineUtils.runCommandLineUtil(mrgMhldClassName, mainMethodName, mergedMarcBibRecAsInStream, resultMrcOutStream, new String[]{"-s", mhldRecFileName } );
+	    CommandLineUtils.runCommandLineUtil(MERGE_MHLD_CLASS_NAME, MAIN_METHOD_NAME, mergedMarcBibRecAsInStream, resultMrcOutStream, new String[]{"-s", mhldRecFileName } );
 	    
 	    RecordTestingUtils.assertMarcRecsEqual(mergedSummaryHoldingsOutput, resultMrcOutStream);
 	}
@@ -400,7 +443,7 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
         String[] mergeMhldArgs = new String[]{"-s", fullMhldRecsFileName, fullBibRecsFileName };
 
         // call the MergeSummaryHoldings code from the command line
-        CommandLineUtils.runCommandLineUtil(mrgMhldClassName, mainMethodName, inStr, resultMrcOutStream, mergeMhldArgs);
+        CommandLineUtils.runCommandLineUtil(MERGE_MHLD_CLASS_NAME, MAIN_METHOD_NAME, inStr, resultMrcOutStream, mergeMhldArgs);
         return resultMrcOutStream;
     }
     

@@ -7,6 +7,7 @@ import org.marc4j.*;
 import org.marc4j.marc.*;
 import org.solrmarc.marc.*;
 import org.solrmarc.marcoverride.MarcSplitStreamWriter;
+import org.solrmarc.testUtils.RecordTestingUtils;
 
 
 /**
@@ -251,33 +252,13 @@ public class MergeSummaryHoldings implements MarcReader
         while (merger.hasNext()) 
         {
         	Record bibRecWithPossChanges = merger.next();
-        	results.put(getRecordIdFrom001(bibRecWithPossChanges), bibRecWithPossChanges);
+        	results.put(RecordTestingUtils.getRecordIdFrom001(bibRecWithPossChanges), bibRecWithPossChanges);
         }
         return results;
     }
 
     
 	/**
-	 * Assign id of record to be the ckey. Our ckeys are in 001 subfield a. 
-	 * Marc4j is unhappy with subfields in a control field so this is a kludge 
-	 * work around.
-	 */
-    public static String getRecordIdFrom001(Record record)
-    {
-    	String id = null;
-   		ControlField fld = (ControlField) record.getVariableField("001");
-   		if (fld != null && fld.getData() != null) 
-   		{
-   			String rawVal = fld.getData();
-   			// 'u' is for testing
-   			if (rawVal.startsWith("a") || rawVal.startsWith("u"))
-   				id = rawVal.substring(1);
-   		}
-   		return id;
-   	}
-
-    
-    /**
      * for each bib record in the bib rec file 
      *  look for a corresponding mhld record.  If a match is found, 
      *    1) remove any existing fields in the bib record that duplicate the mhld fields to be merged into the bib record
