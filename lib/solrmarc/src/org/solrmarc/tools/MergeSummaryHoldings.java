@@ -262,7 +262,7 @@ public class MergeSummaryHoldings implements MarcReader
 	 * Marc4j is unhappy with subfields in a control field so this is a kludge 
 	 * work around.
 	 */
-    private static String getRecordIdFrom001(Record record)
+    public static String getRecordIdFrom001(Record record)
     {
     	String id = null;
    		ControlField fld = (ControlField) record.getVariableField("001");
