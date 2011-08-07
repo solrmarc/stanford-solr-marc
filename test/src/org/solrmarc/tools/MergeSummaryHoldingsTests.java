@@ -7,7 +7,6 @@ import java.util.*;
 
 import org.junit.*;
 import org.marc4j.marc.*;
-import org.marc4j.marc.impl.*;
 import org.solrmarc.testUtils.CommandLineUtils;
 import org.solrmarc.testUtils.RecordTestingUtils;
 
@@ -24,7 +23,7 @@ public class MergeSummaryHoldingsTests
     String smokeTestDir = testDataParentPath + File.separator + "smoketest";
     String testConfigFile = smokeTestDir + File.separator + "test_config.properties";
 
-    String localDir = ".." + File.separator + ".." + File.separator + "examples" + File.separator + "stanfordBlacklight";
+    String localDir = "examples" + File.separator + "stanfordBlacklight";
     String localTestDataParentPath = localDir + File.separator + testDataParentPath;
 
     String mrgMhldClassName = "org.solrmarc.tools.MergeSummaryHoldings";
@@ -48,10 +47,12 @@ public class MergeSummaryHoldingsTests
      */
 @Test
     public void testNoMatches() 
+    		throws IOException 
     {
     	//bib46, mhld235
-		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs46.xml";
-		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds235.xml";
+		String commandLinePathPrefix = ".." + File.separator + ".." + File.separator;
+		String bibFilePath = commandLinePathPrefix + localTestDataParentPath + File.separator + "mhldMergeBibs46.mrc";
+		String mhldFilePath = commandLinePathPrefix + localTestDataParentPath + File.separator + "mhldMergeMhlds235.mrc";
 
 		// ensure no error message was printed
 		ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
@@ -60,32 +61,26 @@ public class MergeSummaryHoldingsTests
 		System.setOut(sysMsgs);
 	
 		ByteArrayOutputStream mergedAsByteArrayOutStream = mergeBibAndMhldFiles(bibFilePath, mhldFilePath);
-		// extract each record and determine it is present and there was no merge
 
 		// ensure no error message was printed
 		assertTrue("Output messages unexpectedly written: " + sysBAOS.toString(),  sysBAOS.size() == 0);
+
+		// extract each record and determine it is present and there was no merge
+
 		
-		fail("Implement me");
+		// results should be bibs 4 and 6 and they should match as input
+		bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs46.mrc";
+		mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds235.mrc";
+	    Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    Set<String> mergedRecIds = mergedRecs.keySet();
+	    assertEquals(2, mergedRecIds.size());
+	    assertTrue(mergedRecIds.contains("4"));
+	    assertTrue(mergedRecIds.contains("6"));
+	    
+	    
+	    
     }
     
-    /**
-     * code should smoothly continue if it encounters a bib with no MHLD
-     */
-//@Test
-    public void testUnmatchedMHLD() 
-    {
-    	//bib46, mhld235
-    	fail("Implement me");
-    }
-    
-    /**
-     * code should smoothly continue if it encounters a bib with no MHLD
-     */
-//@Test
-    public void testUnmatchedBib() 
-    {
-    	fail("Implement me");
-    }
 
 // first record matching tests    
     /**
@@ -95,6 +90,9 @@ public class MergeSummaryHoldingsTests
     public void testBothFirstRecsMatch() 
     {
     	// bib346, mhld345
+		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs346.xml";
+		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds345.xml";
+		
     	fail("Implement me");
     }
 
@@ -343,6 +341,7 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
 	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
 	
 	    Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibRecFileName, mhldRecFileName);
+
 	    junit.framework.Assert.assertEquals("results should have 1 record", 1, mergedRecs.size());
 	    String expId = "335";
 	    assertTrue("Record with id " + expId + " should be in results", mergedRecs.containsKey(expId));
@@ -378,7 +377,7 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
      * 
      * @param bibRecsFileName name of the file containing Bib records, relative to the testDataParentPath
      * @param mhldRecsFileName name of the file containing MHLD records, relative to the testDataParentPath
-     * @return the resulting merged file as a ByteArrayOutputStream
+     * @return the resulting merged bib file as a ByteArrayOutputStream
      */
     private ByteArrayOutputStream mergeBibAndMhldFiles(String bibRecsFileName, String mhldRecsFileName) 
     {
@@ -393,6 +392,5 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
         CommandLineUtils.runCommandLineUtil(mrgMhldClassName, mainMethodName, inStr, resultMrcOutStream, mergeMhldArgs);
         return resultMrcOutStream;
     }
-
     
 }
