@@ -8,8 +8,8 @@ import java.util.*;
 import org.junit.*;
 import org.marc4j.marc.*;
 import org.marc4j.marc.impl.*;
-import org.solrmarc.marc.RawRecordReader;
 import org.solrmarc.testUtils.CommandLineUtils;
+import org.solrmarc.testUtils.RecordTestingUtils;
 
 /**
  * Note that actual use of MergeSummaryHoldings is a call to main() from a 
@@ -215,6 +215,7 @@ public class MergeSummaryHoldingsTests
     }
     
 
+// Tests for very basic functionality of code, including Bob's original test (with some modifications to run as a more typical junit test)    
 
 String mergedSummaryHoldingsOutput[] = {
         "LEADER 02429nas a2200481 a 4500",
@@ -318,7 +319,7 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
 	    // call the code for mhldfile summaryHld_1-1000.mrc  and bibfile u335.mrc
 	    CommandLineUtils.runCommandLineUtil(mrgMhldClassName, mainMethodName, inStr, resultMrcOutStream, mergeMhldArgs);
 	
-	    assertMarcRecsEqual(mergedSummaryHoldingsOutput, resultMrcOutStream);
+	    RecordTestingUtils.assertMarcRecsEqual(mergedSummaryHoldingsOutput, resultMrcOutStream);
 	    
 	    // Now merge record again to test the deleting of existing summary holdings info
 	    ByteArrayInputStream mergedMarcBibRecAsInStream = new ByteArrayInputStream(resultMrcOutStream.toByteArray());
@@ -327,12 +328,12 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
 	    //  do the merge by piping the bib record in to the merge class
 	    CommandLineUtils.runCommandLineUtil(mrgMhldClassName, mainMethodName, mergedMarcBibRecAsInStream, resultMrcOutStream, new String[]{"-s", mhldRecFileName } );
 	    
-	    assertMarcRecsEqual(mergedSummaryHoldingsOutput, resultMrcOutStream);
+	    RecordTestingUtils.assertMarcRecsEqual(mergedSummaryHoldingsOutput, resultMrcOutStream);
 	}
 
 
 	/**
-	 * test just getting map of ids to Records and no sysout stuff
+	 * test methods that return Map of ids to Records and no sysout stuff
 	 */
 @Test
 	public void testGettingOutputAsMapOfRecords() 
@@ -347,7 +348,7 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
 	    assertTrue("Record with id " + expId + " should be in results", mergedRecs.containsKey(expId));
 	    
 	    Record resultRec = mergedRecs.get(expId);
-		assertEqualsIgnoreLeader(mergedSummaryHoldingsOutputNoUmlaut, resultRec);		
+	    RecordTestingUtils.assertEqualsIgnoreLeader(mergedSummaryHoldingsOutputNoUmlaut, resultRec);		
 	}
 
 
@@ -367,80 +368,13 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
 
 		MergeSummaryHoldings.mergeMhldRecsIntoBibRecsAsStdOut2(bibRecFileName, mhldRecFileName);
 	
-	    assertMarcRecsEqual(mergedSummaryHoldingsOutput, sysBAOS);
+		RecordTestingUtils.assertMarcRecsEqual(mergedSummaryHoldingsOutput, sysBAOS);
 	}
 
+
+// supporting methods for testing ----------------------------------------------
 
 	/**
-	 * Given an expected marc record as an Array of strings corresponding to 
-	 *  the lines in the output of MarcPrinter and 
-	 * given the actual marc record as a ByteArrayOutputStream,
-	 *  assert they are equal
-	 */
-	private void assertMarcRecsEqual(String[] expectedAsLines, ByteArrayOutputStream actualAsBAIS)
-	{
-	    // convert actual record into an array of strings from MarcPrinter output
-	    ByteArrayInputStream mergedMarcBibRecAsInStream = new ByteArrayInputStream(actualAsBAIS.toByteArray());
-	    ByteArrayOutputStream marcPrinterOutputOfMergedBibRec = new ByteArrayOutputStream();
-	    ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
-	    String[] marcPrintArgs = new String[]{testConfigFile, "print"};
-	    CommandLineUtils.runCommandLineUtil(mrcPrntrClassName, mainMethodName, mergedMarcBibRecAsInStream, marcPrinterOutputOfMergedBibRec, errorStream, marcPrintArgs); 
-
-	    // did the resulting merged record contain the expected output?
-	    assertMarcRecsEqual(expectedAsLines, new ByteArrayInputStream(marcPrinterOutputOfMergedBibRec.toByteArray()));
-	}
-    
-    
-    /**
-     * Given an expected marc record as an Array of strings corresponding to 
-     *  the lines in the output of MarcPrinter and given the actual marc record as an InputStream,
-     *  assert they are equal
-     */
-    private void assertMarcRecsEqual(String[] expectedAsLines, InputStream actualAsInputStream) 
-    {
-        BufferedReader actualAsBuffRdr = null;
-        try
-        {
-            actualAsBuffRdr = new BufferedReader(new InputStreamReader(actualAsInputStream, "UTF-8"));
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            e.printStackTrace();
-            fail("couldn't read record to be tested from InputStream");
-        }
-
-        int numExpectedLines = expectedAsLines.length;
-
-        try
-        {
-            int lineCnt = 0;
-            String actualLine = null;
-            while ((actualLine = actualAsBuffRdr.readLine()) != null)
-            {
-                if (actualLine.length() == 0) 
-                {
-                	// do nothing;
-                }
-                else if (numExpectedLines > 0 && lineCnt < numExpectedLines) 
-                {
-                    if (actualLine.equals("Flushing results...") || actualLine.equals("Flushing results done") || actualLine.startsWith("Cobertura:"))
-                        continue;   // skip this line and don't even count it.  I don't know where these "Flushing Results..." lines are coming from.
-
-                    String expectedLine = expectedAsLines[lineCnt];
-                    junit.framework.Assert.assertEquals("output line ["+ actualLine + "]  doesn't match expected [" + expectedLine + "]", expectedLine, actualLine);
-                }
-                lineCnt++;
-            }
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            fail("couldn't compare records");
-        }
-    }
-        
-
-    /**
      * 
      * @param bibRecsFileName name of the file containing Bib records, relative to the testDataParentPath
      * @param mhldRecsFileName name of the file containing MHLD records, relative to the testDataParentPath
@@ -459,227 +393,6 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
         CommandLineUtils.runCommandLineUtil(mrgMhldClassName, mainMethodName, inStr, resultMrcOutStream, mergeMhldArgs);
         return resultMrcOutStream;
     }
-
-    
-// FIXME: don't understand why the leader is not matching ...    
-    /**
-     * compare two marc records;  the expected result is represented as
-     *  an array of strings.  The leaders don't match; not sure why or if it
-     *  matters.
-     * @param expected
-     * @param actual
-     */
-    private void assertEqualsIgnoreLeader(String[] expected, Record actual) 
-    {
-    	String actualAsStr = actual.toString();
-     	// removing leader is removing "LEADER " and the 24 char leader and the newline
-    	String actualAsStrWithoutLdr = actualAsStr.substring(32);
-
-     	StringBuffer buf = new StringBuffer();
-    	for (int i = 1; i < expected.length; i++) {
-    		buf.append(expected[i] + "\n");
-    	}
-    	
-    	junit.framework.Assert.assertEquals("Records weren't equal", buf.toString(), actualAsStrWithoutLdr);
-/*
-    	buf = new StringBuffer();
-    	for (int i = 0; i < expected.length; i++) {
-    		buf.append(expected[i] + "\n");
-    	}
-    	junit.framework.Assert.assertEquals("Records weren't equal", buf.toString(), actualStr);
-*/  
-    }
-
-    
-    /**
-     * assert two RawRecord objects are equal by comparing them as byte[]
-     */
-    private static void assertEquals(RawRecord expected, RawRecord actual)
-    {
-    	String actualId = actual.getRecordId();
-    	String expectedId = expected.getRecordId();
-        assertTrue("Record ids didn't match: " + actualId + " " + expectedId, actualId.equals(expectedId));
-
-    	byte expBytes[] = expected.getRecordBytes();
-        byte actualBytes[] = actual.getRecordBytes();
-        assertTrue("Records " + expectedId + " didn't match", java.util.Arrays.equals(expBytes, actualBytes));
-    }
-
-    /**
-     * assert two RawRecord objects are not equal by comparing them as byte[]
-     */
-    private static void assertNotEqual(RawRecord expected, RawRecord actual)
-    {
-    	String actualId = actual.getRecordId();
-    	String expectedId = expected.getRecordId();
-        if ( !actualId.equals(expected.getRecordId()) )
-        	return;
-
-    	byte expBytes[] = expected.getRecordBytes();
-        byte actualBytes[] = actual.getRecordBytes();
-        assertFalse("Records " + expectedId + " matched", java.util.Arrays.equals(expBytes, actualBytes));
-    }
- 
-    /**
-     * vetted!
-     * assert two Record objects are equal by comparing them as strings
-     */
-    private static void assertEquals(Record expected, Record actual)
-    {
-    	String actualId = actual.getControlNumber();
-    	String errmsg = "Record " + actualId + " wasn't as expected";
-        if ( actualId.equals(expected.getControlNumber()) )
-        	assertTrue(errmsg, expected.toString().equals(actual.toString()) );
-        else
-        	fail(errmsg);
-    }
-    
-    /**
-     * vetted!
-     * assert two Record objects aren't equal by comparing them as strings
-     */
-    private static void assertNotEqual(Record expected, Record actual)
-    {
-    	String actualId = actual.getControlNumber();
-        if ( !actualId.equals(expected.getControlNumber()) )
-        	return;
-
-        assertFalse("Records unexpectedly the same: " + actualId, expected.toString().equals(actual.toString()) );
-    }
-    
-    /**
-     * compare two marc records as XML strings
-     * FIXME:  this is going to be messy with whitespace ...
-     * @param expectedAsXMLStr
-     * @param actual
-     */
-    private void assertEqualsAsXml(String expectedAsXMLStr, RawRecord actual) 
-    {
-    	String actualAsXMLStr = convertRawRecordToXml(actual);
-    	String actualId = actual.getRecordId();
-        assertTrue("Record id " + actualId + " wasn't as expected", expectedAsXMLStr.equals(actualAsXMLStr) );
-    }
-
-
-    /**
-     * given a RawRecord object, convert it to XML and return the XML as a string
-     */
-    private String convertRawRecordToXml(RawRecord rawRec) 
-    {
-        ByteArrayInputStream recAsInStream = new ByteArrayInputStream(rawRec.getRecordBytes());
-        ByteArrayOutputStream resultAsOutStream = new ByteArrayOutputStream();
-    	String className = "org.marc4j.util.MarcXmlDriver";
-    	CommandLineUtils.runCommandLineUtil(className, "main", recAsInStream, resultAsOutStream, new String[]{});
-    	return resultAsOutStream.toString();
-    }
-    
-    /**
-     * given a file of records as a ByteArrayOutputStream and a record id,
-     *  look for that record.  If it is found, return it as a RawRecord object,
-     *  otherwise, return null
-     */
-    private RawRecord extractRecord(ByteArrayOutputStream recsFileAsBAOutStream, String recId)
-    {
-        ByteArrayInputStream fileAsInputStream = new ByteArrayInputStream(recsFileAsBAOutStream.toByteArray());
-    	RawRecordReader fileRawRecReader = new RawRecordReader(fileAsInputStream);    	
-        while (fileRawRecReader.hasNext())
-        {
-            RawRecord rawRec = fileRawRecReader.next();
-            if (recId == rawRec.getRecordId())
-            	return rawRec;
-        }
-        return null;
-    }
-    
-@Test
-    public void testRawRecordAssertEqualsAndNot()
-  		throws IOException
-  	{
-  	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
-
-  	    RawRecordReader bibsRawRecRdr = new RawRecordReader(new FileInputStream(new File(bibRecFileName)));
-  	    if (bibsRawRecRdr.hasNext()) {
-  	    	
-  	        RawRecord rawRec1 = bibsRawRecRdr.next();
-  	        assertEquals(rawRec1, rawRec1);
-  	        
-  	        RawRecordReader bibsRawRecRdr2 = new RawRecordReader(new FileInputStream(new File(bibRecFileName)));
-  	        if (bibsRawRecRdr2.hasNext()) {
-  	  	        RawRecord rawRec2 = bibsRawRecRdr2.next();
-  	  	        Record rec2 = rawRec2.getAsRecord(true, false, "999", "MARC8");
-  	  	        DataField dataFld = new DataFieldImpl("333", ' ', ' ');
-  	  	        rec2.addVariableField(dataFld);
-  	  	        
-  	  	        
-
-// TODO: changing rec2 didn't affect rawrec  	  	        
-  	  	        
-  	  	        assertNotEqual(rawRec1,rawRec2);
-  	        }
-  	  	    else
-  	            fail("shouldn't get here");
-  	    }
-  	    else
-            fail("shouldn't get here");
-  	}
-
-
-	/**
-	 * ensure that the assertEquals and assertNotEqual methods work for 
-	 *  Record objects
-	 */
-@Test  	
-  	public void testRecordAssertEqualsAndNot()
-  	  		throws IOException
-  	{
-  	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
-
-  	    RawRecordReader bibsRawRecRdr = new RawRecordReader(new FileInputStream(new File(bibRecFileName)));
-  	    if (bibsRawRecRdr.hasNext()) 
-  	    {
-  	        RawRecord rawRec1 = bibsRawRecRdr.next();
-  	        Record rec1 = rawRec1.getAsRecord(true, false, "999", "MARC8");
-
-  	        assertEquals(rec1, rec1);
-  	        
-  	        RawRecordReader bibsRawRecRdr2 = new RawRecordReader(new FileInputStream(new File(bibRecFileName)));
-  	        if (bibsRawRecRdr2.hasNext())
-  	        {
-  	  	        RawRecord rawRec2 = bibsRawRecRdr2.next();
-  	  	        Record rec2 = rawRec2.getAsRecord(true, false, "999", "MARC8");
-  	  	        DataField dataFld = new DataFieldImpl("333", ' ', ' ');
-  	  	        rec2.addVariableField(dataFld);
-
-  	  	        assertNotEqual(rec1, rec2);
-  	        }
-  	  	    else
-  	            fail("shouldn't get here");
-  	    }
-  	    else
-            fail("shouldn't get here");
-  	}
-
-
-@Test  	
-	public void testRecordXMLAssertEquals()
-	  		throws IOException
-	{
-	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
-
-	    RawRecordReader bibsRawRecRdr = new RawRecordReader(new FileInputStream(new File(bibRecFileName)));
-	    if (bibsRawRecRdr.hasNext())
-	    {
-		    RawRecord rawRec1 = bibsRawRecRdr.next();
-		    String rec1AsXml = convertRawRecordToXml(rawRec1);
-		    assertEqualsAsXml(rec1AsXml, rawRec1);
-
-		    String notRec1AsXml = rec1AsXml.replace('a', '2');
-		    assertEqualsAsXml(notRec1AsXml, rawRec1);
-	        fail("shouldn't get here");
-	    }
-	    else
-	    	fail("shouldn't get here");
-	}
 
     
 }
