@@ -14,7 +14,7 @@ import org.solrmarc.testUtils.RecordTestingUtils;
 /**
  * Note that actual use of MergeSummaryHoldings is a call to main() from a 
  *  shell script, so these tests must use the CommandLineUtils
- * @author naomi
+ * @author Naomi Dushay
  *
  */
 public class MergeSummaryHoldingsTests
@@ -153,20 +153,52 @@ public class MergeSummaryHoldingsTests
     /**
      * code should find a match when first bib matches non-first mhld
      */
-//@Test
+@Test
     public void testFirstBibMatchesNonFirstMhld() 
+			throws IOException
     {
     	//bib346, mhld235
-    	fail("Implement me");
+		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs346.mrc";
+		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds235.mrc";
+	    Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    
+	    // there should be 3 results
+	    Set<String> mergedRecIds = mergedRecs.keySet();
+	    assertEquals(3, mergedRecIds.size());
+	
+	    // result bibs 3 only should have the mhld fields
+	    String id = "3";
+	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
+	   	id = "4";
+	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
+	   	// result bib 6 should not be changed
+	    id = "6";
+	   	RecordTestingUtils.assertEquals(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
     }
 
     /**
      * code should find a match when non-first bib matches first mhld
      */
-//@Test
+@Test
     public void testNonFirstBibMatchesFirstMhld() 
+    		throws IOException
     {
     	//bib134, mhld345
+		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs134.mrc";
+		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds345.mrc";
+	    Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    
+	    // there should be 3 results
+	    Set<String> mergedRecIds = mergedRecs.keySet();
+	    assertEquals(3, mergedRecIds.size());
+	
+	    // result bibs 3 and 4 only should have the mhld fields
+	    String id = "1";
+	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
+	    id = "3";
+	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
+	   	id = "4";
+	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
     	fail("Implement me");
     }
 
