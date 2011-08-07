@@ -7,8 +7,7 @@ import java.util.*;
 
 import org.junit.*;
 import org.marc4j.marc.*;
-import org.marc4j.marc.impl.RecordImpl;
-import org.marc4j.util.*;
+import org.marc4j.marc.impl.*;
 import org.solrmarc.marc.RawRecordReader;
 import org.solrmarc.testUtils.CommandLineUtils;
 
@@ -51,8 +50,8 @@ public class MergeSummaryHoldingsTests
     public void testNoMatches() 
     {
     	//bib46, mhld235
-		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeTestMatchingBibs46.xml";
-		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeTestMatchingMhlds235.xml";
+		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs46.xml";
+		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds235.xml";
 
 		// ensure no error message was printed
 		ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
@@ -372,22 +371,6 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
 	}
 
 
-//test:
-//two RawRecord
-//two Record
-//xml string to RawRecord
-	
-	public void testRawRecordEqualsTest()
-	{
-	    String mhldRecFileName = testDataParentPath + File.separator + "summaryHld_1-1000.mrc";
-	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
-		
-	}
-
-
-
-
-
 	/**
 	 * Given an expected marc record as an Array of strings corresponding to 
 	 *  the lines in the output of MarcPrinter and 
@@ -511,33 +494,57 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
     /**
      * assert two RawRecord objects are equal by comparing them as byte[]
      */
-    private void assertEquals(RawRecord expected, RawRecord actual)
+    private static void assertEquals(RawRecord expected, RawRecord actual)
     {
     	String actualId = actual.getRecordId();
-    	String errmsg = "Record id " + actualId + " wasn't as expected";
-        if ( actualId.equals(expected.getRecordId()) )
-        {
-            byte expBytes[] = expected.getRecordBytes();
-            byte actualBytes[] = actual.getRecordBytes();
-            if (!java.util.Arrays.equals(expBytes, actualBytes))
-            	fail(errmsg);
-        }
-        else
-        	fail(errmsg);
+    	String expectedId = expected.getRecordId();
+        assertTrue("Record ids didn't match: " + actualId + " " + expectedId, actualId.equals(expectedId));
+
+    	byte expBytes[] = expected.getRecordBytes();
+        byte actualBytes[] = actual.getRecordBytes();
+        assertTrue("Records " + expectedId + " didn't match", java.util.Arrays.equals(expBytes, actualBytes));
     }
 
-
     /**
+     * assert two RawRecord objects are not equal by comparing them as byte[]
+     */
+    private static void assertNotEqual(RawRecord expected, RawRecord actual)
+    {
+    	String actualId = actual.getRecordId();
+    	String expectedId = expected.getRecordId();
+        if ( !actualId.equals(expected.getRecordId()) )
+        	return;
+
+    	byte expBytes[] = expected.getRecordBytes();
+        byte actualBytes[] = actual.getRecordBytes();
+        assertFalse("Records " + expectedId + " matched", java.util.Arrays.equals(expBytes, actualBytes));
+    }
+ 
+    /**
+     * vetted!
      * assert two Record objects are equal by comparing them as strings
      */
-    private void assertEquals(Record expected, Record actual)
+    private static void assertEquals(Record expected, Record actual)
     {
     	String actualId = actual.getControlNumber();
-    	String errmsg = "Record id " + actualId + " wasn't as expected";
+    	String errmsg = "Record " + actualId + " wasn't as expected";
         if ( actualId.equals(expected.getControlNumber()) )
         	assertTrue(errmsg, expected.toString().equals(actual.toString()) );
         else
         	fail(errmsg);
+    }
+    
+    /**
+     * vetted!
+     * assert two Record objects aren't equal by comparing them as strings
+     */
+    private static void assertNotEqual(Record expected, Record actual)
+    {
+    	String actualId = actual.getControlNumber();
+        if ( !actualId.equals(expected.getControlNumber()) )
+        	return;
+
+        assertFalse("Records unexpectedly the same: " + actualId, expected.toString().equals(actual.toString()) );
     }
     
     /**
@@ -583,5 +590,96 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
         }
         return null;
     }
+    
+@Test
+    public void testRawRecordAssertEqualsAndNot()
+  		throws IOException
+  	{
+  	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
 
+  	    RawRecordReader bibsRawRecRdr = new RawRecordReader(new FileInputStream(new File(bibRecFileName)));
+  	    if (bibsRawRecRdr.hasNext()) {
+  	    	
+  	        RawRecord rawRec1 = bibsRawRecRdr.next();
+  	        assertEquals(rawRec1, rawRec1);
+  	        
+  	        RawRecordReader bibsRawRecRdr2 = new RawRecordReader(new FileInputStream(new File(bibRecFileName)));
+  	        if (bibsRawRecRdr2.hasNext()) {
+  	  	        RawRecord rawRec2 = bibsRawRecRdr2.next();
+  	  	        Record rec2 = rawRec2.getAsRecord(true, false, "999", "MARC8");
+  	  	        DataField dataFld = new DataFieldImpl("333", ' ', ' ');
+  	  	        rec2.addVariableField(dataFld);
+  	  	        
+  	  	        
+
+// TODO: changing rec2 didn't affect rawrec  	  	        
+  	  	        
+  	  	        assertNotEqual(rawRec1,rawRec2);
+  	        }
+  	  	    else
+  	            fail("shouldn't get here");
+  	    }
+  	    else
+            fail("shouldn't get here");
+  	}
+
+
+	/**
+	 * ensure that the assertEquals and assertNotEqual methods work for 
+	 *  Record objects
+	 */
+@Test  	
+  	public void testRecordAssertEqualsAndNot()
+  	  		throws IOException
+  	{
+  	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
+
+  	    RawRecordReader bibsRawRecRdr = new RawRecordReader(new FileInputStream(new File(bibRecFileName)));
+  	    if (bibsRawRecRdr.hasNext()) 
+  	    {
+  	        RawRecord rawRec1 = bibsRawRecRdr.next();
+  	        Record rec1 = rawRec1.getAsRecord(true, false, "999", "MARC8");
+
+  	        assertEquals(rec1, rec1);
+  	        
+  	        RawRecordReader bibsRawRecRdr2 = new RawRecordReader(new FileInputStream(new File(bibRecFileName)));
+  	        if (bibsRawRecRdr2.hasNext())
+  	        {
+  	  	        RawRecord rawRec2 = bibsRawRecRdr2.next();
+  	  	        Record rec2 = rawRec2.getAsRecord(true, false, "999", "MARC8");
+  	  	        DataField dataFld = new DataFieldImpl("333", ' ', ' ');
+  	  	        rec2.addVariableField(dataFld);
+
+  	  	        assertNotEqual(rec1, rec2);
+  	        }
+  	  	    else
+  	            fail("shouldn't get here");
+  	    }
+  	    else
+            fail("shouldn't get here");
+  	}
+
+
+@Test  	
+	public void testRecordXMLAssertEquals()
+	  		throws IOException
+	{
+	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
+
+	    RawRecordReader bibsRawRecRdr = new RawRecordReader(new FileInputStream(new File(bibRecFileName)));
+	    if (bibsRawRecRdr.hasNext())
+	    {
+		    RawRecord rawRec1 = bibsRawRecRdr.next();
+		    String rec1AsXml = convertRawRecordToXml(rawRec1);
+		    assertEqualsAsXml(rec1AsXml, rawRec1);
+
+		    String notRec1AsXml = rec1AsXml.replace('a', '2');
+		    assertEqualsAsXml(notRec1AsXml, rawRec1);
+	        fail("shouldn't get here");
+	    }
+	    else
+	    	fail("shouldn't get here");
+	}
+
+    
 }
