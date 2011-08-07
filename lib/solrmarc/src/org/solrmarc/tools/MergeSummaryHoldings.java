@@ -120,8 +120,8 @@ public class MergeSummaryHoldings implements MarcReader
      */
     public boolean hasNext()
     {
-        if (bibRecsRawRecRdr != null) 
-        	return(bibRecsRawRecRdr.hasNext());
+    	if (bibRecsRawRecRdr != null)
+        	return (bibRecsRawRecRdr.hasNext());
         return(false);
     }
     
@@ -139,19 +139,20 @@ public class MergeSummaryHoldings implements MarcReader
     {
         RawRecord rawBibRec = null;
         Record bibRec = null;
-        if (bibRecsRawRecRdr != null) 
+        if (bibRecsRawRecRdr != null && bibRecsRawRecRdr.hasNext()) 
         {
             rawBibRec = bibRecsRawRecRdr.next();
             bibRec = rawBibRec.getAsRecord(permissive, toUtf8, "999", defaultEncoding);
+            if (bibRec != null)
+            {
+                RawRecord matchingRawMhldRec = getMatchingMhldRawRec(rawBibRec.getRecordId());
+                if (matchingRawMhldRec != null) 
+                    bibRec = addMhldFieldsToBibRec(bibRec, matchingRawMhldRec);
+            }
         }
-        
-        RawRecord matchingRawMhldRec = getMatchingMhldRawRec(rawBibRec.getRecordId());
-        if (matchingRawMhldRec != null) 
-            addMhldFieldsToBibRec(bibRec, matchingRawMhldRec);
         
         return(bibRec);
     }
-
     
     
     /**
@@ -239,7 +240,6 @@ public class MergeSummaryHoldings implements MarcReader
     	throws IOException
     {
     	Map<String, Record> results = new HashMap<String, Record>();
-    	
         RawRecordReader bibsRawRecRdr = new RawRecordReader(new FileInputStream(new File(bibRecsFileName)));
 
         boolean permissive = true;
@@ -291,7 +291,7 @@ public class MergeSummaryHoldings implements MarcReader
     	throws IOException
     {
         RawRecordReader bibsRawRecRdr = new RawRecordReader(new FileInputStream(new File(bibRecsFileName)));
-
+        
         boolean permissive = true;
         boolean toUtf8 = false;
         MergeSummaryHoldings merger = new MergeSummaryHoldings(bibsRawRecRdr, permissive, toUtf8, "MARC8", 
