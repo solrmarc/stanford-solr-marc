@@ -33,7 +33,7 @@ public class MergeSummaryHoldingsTests
     
     
 
-    @Before
+@Before
     public void setUp()
     {
         if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
@@ -44,7 +44,7 @@ public class MergeSummaryHoldingsTests
     }
         
     /**
-     * code should end smoothly if it encounters no matches between bib and mhld
+     * code should output the unchanged bib records if no mhlds match
      */
 @Test
     public void testNoMatches() 
@@ -67,14 +67,19 @@ public class MergeSummaryHoldingsTests
         	assertTrue(mergedRecIds.contains(id));
         	RecordTestingUtils.assertEquals(rec, mergedRecs.get(id));
         }
-
-
-// FIXME: split into separate method        
-
+    }
+    
+	/**
+	 * code should end smoothly if it encounters no matches between bib and mhld
+	 */
+@Test
+	public void testNoOutputMessagesWhenNoMatches() 
+			throws IOException 
+	{
 		String commandLinePathPrefix = ".." + File.separator + ".." + File.separator;
-		bibFilePath = commandLinePathPrefix + bibFilePath;
-		mhldFilePath = commandLinePathPrefix + mhldFilePath;
-
+		String bibFilePath =  commandLinePathPrefix + localTestDataParentPath + File.separator + "mhldMergeBibs46.mrc";
+		String mhldFilePath =  commandLinePathPrefix + localTestDataParentPath + File.separator + "mhldMergeMhlds235.mrc";
+	
 		// ensure no error message was printed
 		ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
 		PrintStream sysMsgs = new PrintStream(sysBAOS);
@@ -82,14 +87,11 @@ public class MergeSummaryHoldingsTests
 		System.setOut(sysMsgs);
 	
 		ByteArrayOutputStream mergedAsByteArrayOutStream = mergeBibAndMhldFiles(bibFilePath, mhldFilePath);
-
+	
 		// ensure no error message was printed
 		assertTrue("Output messages unexpectedly written: " + sysBAOS.toString(),  sysBAOS.size() == 0);
+	}
 
-
-	    
-    }
-    
 
 // first record matching tests    
     /**
