@@ -103,12 +103,13 @@ public class MergeSummaryHoldings implements MarcReader
      */
     private void readMhldFileFromBeginning(String mhldRecsFileName)
     {
-        try
+    	try
         {
         	mhldRawRecRdr = new RawRecordReader(new FileInputStream(new File(mhldRecsFileName)));
         }
         catch (FileNotFoundException e)
         {
+			System.err.println("No file found at " + mhldRecsFileName);
         	mhldRawRecRdr = null;           
         }
         prevMhldRecID = null;
