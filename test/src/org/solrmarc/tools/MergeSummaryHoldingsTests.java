@@ -228,21 +228,49 @@ public class MergeSummaryHoldingsTests
     /**
      * code should find a match when last bib matches non-last mhld
      */
-//@Test
+@Test
     public void testLastBibMatchesNonLastMhld() 
+		throws IOException
     {
-    	//bib134, mhld345
-    	fail("Implement me");
+		//bib134, mhld345
+		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs134.mrc";
+		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds345.mrc";
+	    Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    
+	    // there should be 3 results
+	    Set<String> mergedRecIds = mergedRecs.keySet();
+	    assertEquals(3, mergedRecIds.size());
+	
+	    // result bibs 3 and 4 only should have the mhld fields
+	    String id = "1";
+	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
+	    id = "3";
+	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
+	   	id = "4";
+	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
     }
 
     /**
      * code should find a match when non-last bib matches last mhld
      */
-//@Test
+@Test
     public void testNonLastBibMatchesLastMhld() 
-    {
+			throws IOException
+	{
     	//bib46, mhld34
-    	fail("Implement me");
+		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs46.mrc";
+		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds34.mrc";
+	    Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    
+	    // there should be 2 results
+	    Set<String> mergedRecIds = mergedRecs.keySet();
+	    assertEquals(2, mergedRecIds.size());
+	
+	    // result bib 6 only should have the mhld fields
+	    String id = "4";
+	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
+	    id = "6";
+	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
     }
 
     
