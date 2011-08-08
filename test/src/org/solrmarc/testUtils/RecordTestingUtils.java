@@ -3,6 +3,10 @@ package org.solrmarc.testUtils;
 import static org.junit.Assert.*;
 
 import java.io.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 import org.marc4j.MarcWriter;
@@ -187,6 +191,32 @@ public class RecordTestingUtils
 	    }
 	}
 
+	/**
+	 * Assert that each instance of the subfield is in the expected values
+	 *  and that the number of instances match.
+	 */
+	public static void assertSubfieldHasExpectedValues(Record record, String fieldTag, char subfieldCode, Set<String> expectedVals)
+	{
+		int count = 0;
+	    List<VariableField> vfList = record.getVariableFields(fieldTag);
+	    Iterator iter = vfList.iterator();
+	    while (iter.hasNext()) 
+	    {
+	    	DataField df = (DataField) iter.next();
+	    	List<Subfield> sfList = df.getSubfields(subfieldCode);
+	    	Iterator iter2 = sfList.iterator();
+	    	while (iter2.hasNext()) 
+	    	{
+	    		Subfield sf = (Subfield) iter2.next();
+	    		String val = sf.getData();
+	    		count = count + 1;
+    			assertTrue("Got unexpected value " + val, expectedVals.contains(val));
+	    	}
+	    }
+	    org.junit.Assert.assertEquals("Number of values doesn't match", expectedVals.size(), count);
+	}
+	
+	
 	/**
 	 * convert a Record object to a RawRecord object.  
 	 * Uses MarcSplitStreamWriter to output the record so it can be read in again.

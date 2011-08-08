@@ -277,10 +277,29 @@ public class MergeSummaryHoldingsTests
     /**
      * need to ensure all the MHLD data is included, not just the first record
      */
-//@Test
-    public void testMultMHLDsWithSameID() 
+@Test
+    public void testMultMHLDsWithSameID()
+			throws IOException
     {
     	//bib134, multMhlds1    	
+		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs134.mrc";
+		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds1Mult.mrc";
+	    Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    
+	    Record mergedRec = mergedRecs.get("1");
+	    assertEquals("Expected two 852", 2, mergedRec.getVariableFields("852").size());
+	    Set<String> expectedVals = new HashSet<String>();
+	    expectedVals.add("Location1");
+	    expectedVals.add("Location2");
+	    RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "852", 'b', expectedVals);
+
+	    expectedVals.clear();
+	    expectedVals.add("(month)");
+	    expectedVals.add("(season)");
+	    RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "853", 'b', expectedVals);
+	    
+	    assertEquals("Expected one 863", 1, mergedRec.getVariableFields("863").size());
+	    assertEquals("Expected one 866", 1, mergedRec.getVariableFields("866").size());
     	fail("Implement me");
     }
     
