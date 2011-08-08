@@ -166,12 +166,12 @@ public class MergeSummaryHoldingsTests
 	    Set<String> mergedRecIds = mergedRecs.keySet();
 	    assertEquals(3, mergedRecIds.size());
 	
-	    // result bibs 3 only should have the mhld fields
+	    // result bib 3 only should have the mhld fields
 	    String id = "3";
 	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
+	   	// result bibs 4 and 6 should not be changed
 	   	id = "4";
 	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
-	   	// result bib 6 should not be changed
 	    id = "6";
 	   	RecordTestingUtils.assertEquals(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
     }
@@ -201,15 +201,28 @@ public class MergeSummaryHoldingsTests
 	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
     }
 
-// last record matching tests
+// last record in file tests ------------
     /**
      * code should find a match when last bib matches last mhld
      */
-//@Test
+@Test
     public void testBothLastRecsMatch() 
+			throws IOException
     {
     	//bib46, mhld236
-    	fail("Implement me");
+		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs46.mrc";
+		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds236.mrc";
+	    Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    
+	    // there should be 2 results
+	    Set<String> mergedRecIds = mergedRecs.keySet();
+	    assertEquals(2, mergedRecIds.size());
+	
+	    // result bib 6 only should have the mhld fields
+	    String id = "4";
+	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
+	    id = "6";
+	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
     }
 
     /**
