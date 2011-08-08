@@ -83,7 +83,7 @@ public class MergeSummaryHoldingsTests
     public void testNoMatches() 
     		throws IOException 
     {
-		//bib46, mhld235
+		// bib46, mhld235
 		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs46.mrc";
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds235.mrc";
 	    Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
@@ -104,6 +104,7 @@ public class MergeSummaryHoldingsTests
 	public void testNoOutputMessagesWhenNoMatches() 
 			throws IOException 
 	{
+		// bib46, mhld235
 		String commandLinePathPrefix = ".." + File.separator + ".." + File.separator;
 		String bibFilePath =  commandLinePathPrefix + localTestDataParentPath + File.separator + "mhldMergeBibs46.mrc";
 		String mhldFilePath =  commandLinePathPrefix + localTestDataParentPath + File.separator + "mhldMergeMhlds235.mrc";
