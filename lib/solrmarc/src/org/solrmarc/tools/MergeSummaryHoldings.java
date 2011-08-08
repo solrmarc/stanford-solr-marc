@@ -19,6 +19,12 @@ import org.solrmarc.testUtils.RecordTestingUtils;
  * Note that the MHLD file must have records in StringNaturalCompare ascending
  *  order.
  *  
+ * Note that Naomi worked with this code to make it more testable; see
+ *  org.solrmarc.tools.MergeSummaryHoldingsTests
+ *  
+ * But she forked this class for her own use,  ultimately, and did not
+ *  continue all the way down this path.
+ *  
  * @author Bob Haschart, revised by Naomi Dushay
  *
  */
@@ -121,8 +127,8 @@ public class MergeSummaryHoldings implements MarcReader
 			System.err.println("No file found at " + mhldRecsFileName);
         	mhldRawRecRdr = null;           
         }
-//        prevMhldRecID = null;
-//        unmatchedPrevMhldRec = null;
+        prevMhldRecID = null;
+        unmatchedPrevMhldRec = null;
     	currentMhldRec = getNextMhld();
     }
     
@@ -138,7 +144,7 @@ public class MergeSummaryHoldings implements MarcReader
     }
     
     /**
-     * NOTE: not used by main()
+     * NOTE: not used by main(); rewritten by Naomi Dushay 
      * Get the next bib record from the file of MARC bib records, then look 
      *  for a matching MARC MHLD record in the MHLD recs file, and if found, 
      *  merge the MHLD fields specified in mhldFldsToMerge into the bib 
@@ -148,18 +154,13 @@ public class MergeSummaryHoldings implements MarcReader
      */
     public Record next()
     {
-        RawRecord rawBibRec = null;
         Record bibRec = null;
         if (bibRecsRawRecRdr != null && bibRecsRawRecRdr.hasNext()) 
         {
-            rawBibRec = bibRecsRawRecRdr.next();
+        	RawRecord rawBibRec = bibRecsRawRecRdr.next();
             bibRec = rawBibRec.getAsRecord(permissive, toUtf8, "999", defaultEncoding);
-//System.err.println("DEBUG: have BIB " + bibRec.getControlNumber());
             if (bibRec != null)
             {
-//                RawRecord matchingRawMhldRec = getMatchingMhldRawRec(rawBibRec.getRecordId());
-//                if (matchingRawMhldRec != null) 
-//                    bibRec = addMhldFieldsToBibRec(bibRec, matchingRawMhldRec);
             	Set<RawRecord> matchingRawMhldRecs = getMatchingMhldRawRecs(rawBibRec.getRecordId());
             	for (Iterator iter = matchingRawMhldRecs.iterator(); iter.hasNext();) 
             	{
@@ -175,6 +176,8 @@ public class MergeSummaryHoldings implements MarcReader
     
 
     /**
+     * FIXME:  doesn't work:  mhld reader needs to be a (non-existent) RawRecordCombiningReader
+     * NOTE: not used by main(); new method by Naomi Dushay 
      * Look for records in the MHLD file that match the bibId, returning all
      *  matching records as a Set of RawRecord objects.  Not that "matching"
      *  means the Ids match, where id is from RawRecord.getRecordId.
@@ -188,34 +191,17 @@ public class MergeSummaryHoldings implements MarcReader
     	Set<RawRecord> result = new LinkedHashSet<RawRecord>();
     	
     	int compareResult = ID_COMPARATOR.compare(currentMhldRec.getRecordId(), bibRecID);
-
+    	
     	if (compareResult > 0)
     		// MHLD id is after bib id:  we're done and we do not advance in MHLD file
     		return result;
     	else
     	{
         	if (compareResult == 0)
-        	{
             	// current MHLD matches the bibRec: keep it and look for more matches
         		result.add(currentMhldRec);
-//	    		if (mhldRawRecRdr.hasNext())
-//	    		{
-//		    		currentMhldRec = getNextMhld();
-//	    			result.addAll(getMatchingMhldRawRecs(bibRecID));
-//	    		}
-	    		// if this is the last mhld in the file, then we're done
-        	}
-//        	else // compareResult < 0 so MHLD id is before bib id
-//        	{
-//        		if (mhldRawRecRdr.hasNext())
-//        		{
-//    	    		currentMhldRec = getNextMhld();
-//    	    		result.addAll(getMatchingMhldRawRecs(bibRecID));
-//        		}
-//        		// if this is the last mhld in the file, then we're done.
-//        	}
 
-    		// proceed to next MHLD record and look for another match
+        	// proceed to next MHLD record and look for another match
         	//  but only if it's not the last MHLD in the file
         	// NOTE:  THIS is where the assumption that the bib file is in ascending ID order is made
     		if (mhldRawRecRdr.hasNext())
@@ -230,6 +216,7 @@ public class MergeSummaryHoldings implements MarcReader
 
     
     /**
+     * NOTE: not used by main(); new method by Naomi Dushay 
      * NOTE: only call this method if:
      *  1) you are sure there is a next record in the file
      *    OR
@@ -248,7 +235,6 @@ public class MergeSummaryHoldings implements MarcReader
         	else
         		readMhldFileFromBeginning(mhldRecsFileName); // sets currentMhldRec
 
-//System.err.println("DEBUG: mhld read is " + currentMhldRec.getRecordId());        	
         	return currentMhldRec;
     	}
 
@@ -325,7 +311,8 @@ public class MergeSummaryHoldings implements MarcReader
     }
     
     /**
-     * basically for testing 
+	 * this is a Naomi Dushay rewrite method, not called by main(), written
+     *   basically for testing 
      * for each bib record in the bib rec file 
      *  look for a corresponding mhld record.  If a match is found, 
      *    1) remove any existing fields in the bib record that duplicate the mhld fields to be merged into the bib record
@@ -357,6 +344,7 @@ public class MergeSummaryHoldings implements MarcReader
 
     
 	/**
+	 * this is a Naomi Dushay rewrite method, not called by main()
      * for each bib record in the bib rec file 
      *  look for a corresponding mhld record.  If a match is found, 
      *    1) remove any existing fields in the bib record that duplicate the mhld fields to be merged into the bib record
@@ -520,13 +508,6 @@ public class MergeSummaryHoldings implements MarcReader
         
         System.setProperty("org.marc4j.marc.MarcFactory", "org.solrmarc.marcoverride.NoSortMarcFactoryImpl");
         mergeMhldsIntoBibRecsAsStdOut(bibsRawRecRdr, mhldRecsFileName, outputAllBibs);
-// throws error!        
-//        try {
-//			mergeMhldRecsIntoBibRecsAsStdOut2(args[argoffset], mhldRecsFileName);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			System.exit(1);
-//		}
         System.exit(0);
     }
     
