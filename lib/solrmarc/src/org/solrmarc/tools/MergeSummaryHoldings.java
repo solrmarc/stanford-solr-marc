@@ -30,6 +30,23 @@ public class MergeSummaryHoldings implements MarcReader
     static boolean verbose = false;
     static boolean veryverbose = false;
 
+    /** true if we want to attempt to use marc records if they are invalid in ways we can safely ignore 
+     * used when reading bib and mhld records */
+    private boolean permissive;
+
+    /** true if records should be converted to UTF-8 when they become Record objects
+    * used when reading bib and mhld records */
+    private boolean toUtf8;
+    
+    /** the encoding to use as a default for reading the records; usually MARC8
+    * used when reading bib and mhld records */
+    private String defaultEncoding = null;
+
+    /** list of MHLD fields to be merged into the bib record, separated by '|' char */
+    private String mhldFldsToMerge = null;
+
+
+
     /** for the file of MARC bib records */
     private RawRecordReader bibRecsRawRecRdr = null;
     
@@ -59,22 +76,6 @@ public class MergeSummaryHoldings implements MarcReader
      * if we don't have a matching MHLD record, this is set to the id of the MHLD record previous to the last mhld record read (unmatchedPrevMhldRec)
      * */
     private String prevMhldRecID = null;
-
-    /** true if we want to attempt to use marc records if they are invalid in ways we can safely ignore 
-     * used when reading bib and mhld records */
-    private boolean permissive;
-
-    /** true if records should be converted to UTF-8 when they become Record objects
-    * used when reading bib and mhld records */
-    private boolean toUtf8;
-    
-    /** the encoding to use as a default for reading the records; usually MARC8
-    * used when reading bib and mhld records */
-    private String defaultEncoding = null;
-
-    /** list of MHLD fields to be merged into the bib record, separated by '|' char */
-    private String mhldFldsToMerge = null;
-
 
     
     public MergeSummaryHoldings(RawRecordReader bibRecsRawRecRdr, boolean permissive, boolean toUtf8, String defaultEncoding, 
