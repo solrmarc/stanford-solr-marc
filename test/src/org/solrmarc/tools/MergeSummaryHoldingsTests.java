@@ -199,7 +199,6 @@ public class MergeSummaryHoldingsTests
 	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
 	   	id = "4";
 	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
-    	fail("Implement me");
     }
 
 // last record matching tests
