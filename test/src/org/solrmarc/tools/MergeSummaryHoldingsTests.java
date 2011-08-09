@@ -11,6 +11,8 @@ import org.solrmarc.marc.RawRecordReader;
 import org.solrmarc.testUtils.CommandLineUtils;
 import org.solrmarc.testUtils.RecordTestingUtils;
 
+import edu.stanford.GenericUtils;
+
 /**
  * Note that actual use of MergeSummaryHoldings is a call to main() from a 
  *  shell script, so these tests must use the CommandLineUtils
@@ -43,7 +45,7 @@ public class MergeSummaryHoldingsTests
 	        {
 	        	RawRecord rawRec = rawRecRdr.next();
 	        	Record rec = rawRec.getAsRecord(true, false, "999", "MARC8");
-	        	String id = RecordTestingUtils.getRecordIdFrom001(rec);
+	        	String id = GenericUtils.getRecordIdFrom001(rec);
 	        	ALL_UNMERGED_BIBS.put(id, rec);
 	        }
 		} catch (FileNotFoundException e) {
@@ -57,7 +59,7 @@ public class MergeSummaryHoldingsTests
 	        {
 	        	RawRecord rawRec = rawRecRdr.next();
 	        	Record rec = rawRec.getAsRecord(true, false, "999", "MARC8");
-	        	String id = RecordTestingUtils.getRecordIdFrom001(rec);
+	        	String id = GenericUtils.getRecordIdFrom001(rec);
 	        	ALL_MERGED_BIB_RESULTS.put(id, rec);
 	        }
 		} catch (FileNotFoundException e) {

@@ -43,7 +43,7 @@ public class MergeMhldFldsIntoBibsTests
 	        {
 	        	RawRecord rawRec = rawRecRdr.next();
 	        	Record rec = rawRec.getAsRecord(true, false, "999", "MARC8");
-	        	String id = RecordTestingUtils.getRecordIdFrom001(rec);
+	        	String id = GenericUtils.getRecordIdFrom001(rec);
 	        	ALL_UNMERGED_BIBS.put(id, rec);
 	        }
 		} catch (FileNotFoundException e) {
@@ -57,7 +57,7 @@ public class MergeMhldFldsIntoBibsTests
 	        {
 	        	RawRecord rawRec = rawRecRdr.next();
 	        	Record rec = rawRec.getAsRecord(true, false, "999", "MARC8");
-	        	String id = RecordTestingUtils.getRecordIdFrom001(rec);
+	        	String id = GenericUtils.getRecordIdFrom001(rec);
 	        	ALL_MERGED_BIB_RESULTS.put(id, rec);
 	        }
 		} catch (FileNotFoundException e) {
@@ -314,9 +314,36 @@ public class MergeMhldFldsIntoBibsTests
      * Or it's probably ok if they are in each bib, as they should be removed from the bib after processing?
      */
 //@Test
-    public void testMultBibsWithSameID() 
+    public void testMultBibsWithSameID()
+    		throws IOException
     {
     	// multBibs4, mhld 34
+/*
+    	String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs4Mult.mrc";
+		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds34.mrc";
+	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    
+	    Record mergedRec = mergedRecs.get("1");
+	    assertEquals("Expected three 852s ", 3, mergedRec.getVariableFields("852").size());
+	    Set<String> expectedVals = new HashSet<String>();
+	    expectedVals.add("Location1");
+	    expectedVals.add("Location2");
+	    RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "852", 'b', expectedVals);
+
+	    assertEquals("Expected three 853s ", 3, mergedRec.getVariableFields("853").size());
+	    expectedVals.clear();
+	    expectedVals.add("(month)");
+	    expectedVals.add("(season)");
+	    RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "853", 'b', expectedVals);
+	    
+	    assertEquals("Expected two 863s ", 2, mergedRec.getVariableFields("863").size());
+	    expectedVals.clear();
+	    expectedVals.add("1.1");
+	    expectedVals.add("2.1");
+	    RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "863", '8', expectedVals);
+	    
+	    assertEquals("Expected one 866", 1, mergedRec.getVariableFields("866").size());
+*/	    
     	fail("Implement me");
     }
     
