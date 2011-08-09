@@ -31,18 +31,6 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
     static boolean verbose = false;
     static boolean veryverbose = false;
 
-    /** true if we want to attempt to use marc records if they are invalid in ways we can safely ignore 
-     * used when reading bib and mhld records */
-    private boolean permissive;
-
-    /** true if records should be converted to UTF-8 when they become Record objects
-    * used when reading bib and mhld records */
-    private boolean toUtf8;
-    
-    /** the encoding to use as a default for reading the records; usually MARC8
-    * used when reading bib and mhld records */
-    private String defaultEncoding = null;
-
     /** list of MHLD fields to be merged into the bib record, separated by '|' char */
     private String mhldFldsToMerge = null;
 
@@ -70,13 +58,11 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
     public MergeMhldFldsIntoBibs(String bibRecsFileName, boolean permissive, boolean toUtf8, String defaultEncoding, 
             String mhldRecsFileName, String mhldFldsToMerge)
 	{
-		this.permissive = permissive;
-		this.toUtf8 = toUtf8;
         String idField = "001";
         String bibFldsToMerge = "999";
 		try
 		{
-	        MarcReader mrcRdr = new MarcPermissiveStreamReader(new FileInputStream(new File(bibRecsFileName)), permissive, toUtf8, "MARC8");
+	        MarcReader mrcRdr = new MarcPermissiveStreamReader(new FileInputStream(new File(bibRecsFileName)), permissive, toUtf8, defaultEncoding);
 	        this.bibRecsCombiningRdr = new MarcCombiningReader(mrcRdr, bibFldsToMerge, idField, idField);
 		}
 		catch (IOException e)
@@ -86,7 +72,6 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
 		}
 
         this.mhldRecsFileName = mhldRecsFileName;
-		this.defaultEncoding = defaultEncoding;
 		this.mhldFldsToMerge = mhldFldsToMerge;
 		System.setProperty("org.marc4j.marc.MarcFactory", "org.solrmarc.marcoverride.NoSortMarcFactoryImpl");
 		readMhldFileFromBeginning(mhldRecsFileName);
@@ -259,7 +244,8 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
 
     	boolean permissive = true;
         boolean toUtf8 = false;
-        MergeMhldFldsIntoBibs merger = new MergeMhldFldsIntoBibs(bibRecsFileName, permissive, toUtf8, "MARC8", 
+        String defaultEncoding = "MARC8";
+        MergeMhldFldsIntoBibs merger = new MergeMhldFldsIntoBibs(bibRecsFileName, permissive, toUtf8, defaultEncoding, 
                                                                mhldRecsFileName, DEFAULT_MHLD_FLDS_TO_MERGE);
 
         verbose = true;
@@ -288,7 +274,8 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
     {
         boolean permissive = true;
         boolean toUtf8 = false;
-        MergeMhldFldsIntoBibs merger = new MergeMhldFldsIntoBibs(bibRecsFileName, permissive, toUtf8, "MARC8", 
+        String defaultEncoding = "MARC8";
+        MergeMhldFldsIntoBibs merger = new MergeMhldFldsIntoBibs(bibRecsFileName, permissive, toUtf8, defaultEncoding, 
                                                                mhldRecsFileName, DEFAULT_MHLD_FLDS_TO_MERGE);
         verbose = true;
         veryverbose = true;
