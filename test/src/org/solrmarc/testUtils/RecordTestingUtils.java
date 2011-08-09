@@ -13,8 +13,6 @@ import org.solrmarc.marc.RawRecordReader;
 import org.solrmarc.marcoverride.MarcSplitStreamWriter;
 import org.solrmarc.tools.RawRecord;
 
-import edu.stanford.GenericUtils;
-
 /**
  * Methods to assert when Record objects are equal or not, etc.
  * @author naomi
