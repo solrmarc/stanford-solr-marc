@@ -34,6 +34,7 @@ import org.junit.runners.Suite;
         ItemsSplitTests.class,
         ItemUtilsUnitTests.class,
         LanguageTests.class,
+        MergeMhldFldsIntoBibsTests.class,
         MiscellaneousFieldTests.class,
         PhysicalTests.class,
         PublicationTests.class,

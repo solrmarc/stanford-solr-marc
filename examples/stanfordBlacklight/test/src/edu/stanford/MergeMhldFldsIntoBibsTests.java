@@ -288,20 +288,25 @@ public class MergeMhldFldsIntoBibsTests
 	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
 	    
 	    Record mergedRec = mergedRecs.get("1");
-	    assertEquals("Expected two 852", 2, mergedRec.getVariableFields("852").size());
+	    assertEquals("Expected three 852s ", 3, mergedRec.getVariableFields("852").size());
 	    Set<String> expectedVals = new HashSet<String>();
 	    expectedVals.add("Location1");
 	    expectedVals.add("Location2");
 	    RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "852", 'b', expectedVals);
 
+	    assertEquals("Expected three 853s ", 3, mergedRec.getVariableFields("853").size());
 	    expectedVals.clear();
 	    expectedVals.add("(month)");
 	    expectedVals.add("(season)");
 	    RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "853", 'b', expectedVals);
 	    
-	    assertEquals("Expected one 863", 1, mergedRec.getVariableFields("863").size());
+	    assertEquals("Expected two 863s ", 2, mergedRec.getVariableFields("863").size());
+	    expectedVals.clear();
+	    expectedVals.add("1.1");
+	    expectedVals.add("2.1");
+	    RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "863", '8', expectedVals);
+	    
 	    assertEquals("Expected one 866", 1, mergedRec.getVariableFields("866").size());
-    	fail("Implement me");
     }
     
     /**
