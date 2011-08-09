@@ -331,9 +331,38 @@ public class MergeMhldFldsIntoBibsTests
     /**
      * need to ensure all the MHLD data is included, not just the first record
      */
-    public void testMultBothWithSameID() 
+@Test
+	public void testMultBothWithSameID() 
+    		throws IOException
     {
+    	String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs4Mult.mrc";
+		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds4Mult.mrc";
+	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
     	
+	    Record mergedRec = mergedRecs.get("4");
+	    // bib flds merged in
+	    assertEquals("Wrong number of 999s ", 5, mergedRec.getVariableFields("999").size());
+	    
+	    // mhld flds merged in
+	    assertEquals("Wrong number of 852s ", 3, mergedRec.getVariableFields("852").size());
+	    Set<String> expectedVals = new HashSet<String>();
+	    expectedVals.add("Location1");
+	    expectedVals.add("Location2");
+	    RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "852", 'b', expectedVals);
+
+	    assertEquals("Wrong number of 853s ", 3, mergedRec.getVariableFields("853").size());
+	    expectedVals.clear();
+	    expectedVals.add("(month)");
+	    expectedVals.add("(season)");
+	    RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "853", 'b', expectedVals);
+	    
+	    assertEquals("Wrong number of 863s ", 2, mergedRec.getVariableFields("863").size());
+	    expectedVals.clear();
+	    expectedVals.add("1.1");
+	    expectedVals.add("2.1");
+	    RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "863", '8', expectedVals);
+	    
+	    assertEquals("Wrong number of 866s", 1, mergedRec.getVariableFields("866").size());
     }
     
     
