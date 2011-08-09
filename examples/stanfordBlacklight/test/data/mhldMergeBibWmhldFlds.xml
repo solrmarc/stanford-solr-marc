@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+  <record>
+    <leader>24020cas a2202137   4500</leader>
+    <controlfield tag="001">aallMhldFlds</controlfield>
+    <controlfield tag="008">790219c18979999enkwr p       0    1eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">bib with all MHLD fields</subfield>
+    </datafield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">bibLoc</subfield>
+      <subfield code="c">CURRENTPER</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">COUNTRY LIFE INTERNATIONAL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL</subfield>
+    </datafield>
+    
+    <datafield tag="853" ind1="2" ind2=" ">
+      <subfield code="8">1</subfield>
+      <subfield code="a">bib853a</subfield>
+      <subfield code="b">no.</subfield>
+      <subfield code="u">52</subfield>
+      <subfield code="v">r</subfield>
+      <subfield code="i">(year)</subfield>
+      <subfield code="j">(month)</subfield>
+      <subfield code="k">(day)</subfield>
+    </datafield>
+    
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.1</subfield>
+      <subfield code="a">bib863a</subfield>
+      <subfield code="b">3</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    
+    <datafield tag="866" ind1="3" ind2="1">
+      <subfield code="8">1</subfield>
+      <subfield code="a">bib866a</subfield>
+    </datafield>
+    
+    <datafield tag="867" ind1=" " ind2="0">
+      <subfield code="8">1</subfield>
+      <subfield code="a">bib867a</subfield>
+    </datafield>
+    
+    <datafield tag="867" ind1=" " ind2="0">
+      <subfield code="8">1</subfield>
+      <subfield code="a">bib867a2</subfield>
+    </datafield>
+    
+    <datafield tag="868" ind1=" " ind2="0">
+      <subfield code="8">6</subfield>
+      <subfield code="a">bib868a</subfield>
+    </datafield>
+    
+    <datafield tag="901" ind1=" " ind2=" ">
+      <subfield code="a">bib901a</subfield>
+    </datafield>
+  </record>
+</collection>
