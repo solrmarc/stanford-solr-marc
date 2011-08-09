@@ -67,19 +67,6 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
     private Record currentMhldRec = null;
     
     
-    public MergeMhldFldsIntoBibs(MarcCombiningReader bibRecsCombiningRdr, boolean permissive, boolean toUtf8, String defaultEncoding, 
-                                String mhldRecsFileName, String mhldFldsToMerge)
-    {
-        this.bibRecsCombiningRdr = bibRecsCombiningRdr;
-        this.mhldRecsFileName = mhldRecsFileName;
-        this.permissive = permissive;
-        this.toUtf8 = toUtf8;
-        this.defaultEncoding = defaultEncoding;
-        this.mhldFldsToMerge = mhldFldsToMerge;
-        System.setProperty("org.marc4j.marc.MarcFactory", "org.solrmarc.marcoverride.NoSortMarcFactoryImpl");
-        readMhldFileFromBeginning(mhldRecsFileName);
-    }
-    
     public MergeMhldFldsIntoBibs(String bibRecsFileName, boolean permissive, boolean toUtf8, String defaultEncoding, 
             String mhldRecsFileName, String mhldFldsToMerge)
 	{
@@ -105,9 +92,9 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
 		readMhldFileFromBeginning(mhldRecsFileName);
 	}
 
-    public MergeMhldFldsIntoBibs(MarcCombiningReader bibRecsCombiningRdr, String mhldRecsFileName, String mhldFldsToMerge)
+    public MergeMhldFldsIntoBibs(String bibRecsFileName, String mhldRecsFileName, String mhldFldsToMerge)
     {
-        this (bibRecsCombiningRdr, true, false, "MARC8", mhldRecsFileName, mhldFldsToMerge);
+        this (bibRecsFileName, true, false, "MARC8", mhldRecsFileName, mhldFldsToMerge);
     }
         
     
