@@ -56,12 +56,12 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
     private String mhldRecsFileName;
     
     /** for the file of MARC MHLD records */
-    private RawRecordReader mhldRawRecRdr = null;
+    private MarcCombiningReader mhldRecRdr = null;
 
     /**
      * the last mhld record read, but not yet compared with a bib record
      */
-    private RawRecord currentMhldRec = null;
+    private Record currentMhldRec = null;
     
     
     public MergeMhldFldsIntoBibs(RawRecordReader bibRecsRawRecRdr, boolean permissive, boolean toUtf8, String defaultEncoding, 
@@ -92,12 +92,14 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
     {
     	try
         {
-        	mhldRawRecRdr = new RawRecordReader(new FileInputStream(new File(mhldRecsFileName)));
+    		// mhld's must be read so they combine based on 001 fields
+            MarcReader mrcRdr = new MarcPermissiveStreamReader(new FileInputStream(new File(mhldRecsFileName)), true, false, "MARC8");
+        	mhldRecRdr = new MarcCombiningReader(mrcRdr, mhldFldsToMerge, "001", "001");
         }
         catch (FileNotFoundException e)
         {
 			System.err.println("No file found at " + mhldRecsFileName);
-        	mhldRawRecRdr = null;           
+        	mhldRecRdr = null;           
         }
     	currentMhldRec = getNextMhld();
     }
@@ -128,14 +130,13 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
         {
             rawBibRec = bibRecsRawRecRdr.next();
             bibRec = rawBibRec.getAsRecord(permissive, toUtf8, "999", defaultEncoding);
-System.err.println("DEBUG: have BIB " + bibRec.getControlNumber());
             if (bibRec != null)
             {
-            	Set<RawRecord> matchingRawMhldRecs = getMatchingMhldRawRecs(rawBibRec.getRecordId());
-            	for (Iterator iter = matchingRawMhldRecs.iterator(); iter.hasNext();) 
+            	Set<Record> matchingMhldRecs = getMatchingMhldRecs(bibRec.getControlNumber());
+            	for (Iterator iter = matchingMhldRecs.iterator(); iter.hasNext();) 
             	{
-					RawRecord matchingRawMhldRec = (RawRecord) iter.next();
-                    bibRec = addMhldFieldsToBibRec(bibRec, matchingRawMhldRec);
+					Record matchingMhldRec = (Record) iter.next();
+                    bibRec = addMhldFieldsToBibRec(bibRec, matchingMhldRec);
 				}
             }
         }
@@ -149,17 +150,19 @@ System.err.println("DEBUG: have BIB " + bibRec.getControlNumber());
      *  matching records as a Set of RawRecord objects.  Not that "matching"
      *  means the Ids match, where id is from RawRecord.getRecordId.
      *  
+     * FIXME:  this will actually return one record due to combining reader, i think.
+     *  
      * @param bibRecID - the id to match
      * @return Set of RawRecord objects corresponding to MHLD records that match
      *  the bibId
      */
-    private Set<RawRecord> getMatchingMhldRawRecs(String bibRecID)
+    private Set<Record> getMatchingMhldRecs(String bibRecID)
     {
-    	Set<RawRecord> result = new LinkedHashSet<RawRecord>();
+    	Set<Record> result = new LinkedHashSet<Record>();
     	
-    	int compareResult = ID_COMPARATOR.compare(currentMhldRec.getRecordId(), bibRecID);
+    	int compareResult = ID_COMPARATOR.compare(currentMhldRec.getControlNumber(), bibRecID);
 
-String currMhldId = currentMhldRec.getRecordId();    	
+// String currMhldId = currentMhldRec.getControlNumber();   // useful for Debugging
     	
     	if (compareResult > 0)
     		// MHLD id is after bib id:  we're done and we do not advance in MHLD file
@@ -167,33 +170,16 @@ String currMhldId = currentMhldRec.getRecordId();
     	else
     	{
         	if (compareResult == 0)
-        	{
             	// current MHLD matches the bibRec: keep it and look for more matches
         		result.add(currentMhldRec);
-//	    		if (mhldRawRecRdr.hasNext())
-//	    		{
-//		    		currentMhldRec = getNextMhld();
-//	    			result.addAll(getMatchingMhldRawRecs(bibRecID));
-//	    		}
-	    		// if this is the last mhld in the file, then we're done
-        	}
-//        	else // compareResult < 0 so MHLD id is before bib id
-//        	{
-//        		if (mhldRawRecRdr.hasNext())
-//        		{
-//    	    		currentMhldRec = getNextMhld();
-//    	    		result.addAll(getMatchingMhldRawRecs(bibRecID));
-//        		}
-//        		// if this is the last mhld in the file, then we're done.
-//        	}
 
     		// proceed to next MHLD record and look for another match
         	//  but only if it's not the last MHLD in the file
         	// NOTE:  THIS is where the assumption that the bib file is in ascending ID order is made
-    		if (mhldRawRecRdr.hasNext())
+    		if (mhldRecRdr.hasNext())
     		{
 	    		currentMhldRec = getNextMhld();
-	    		result.addAll(getMatchingMhldRawRecs(bibRecID));
+	    		result.addAll(getMatchingMhldRecs(bibRecID));
     		}
     	}
 
@@ -210,17 +196,16 @@ String currMhldId = currentMhldRec.getRecordId();
      * @return the next record in the MHLD file, if there is one.  Otherwise
      *  start reading the mhld file from the beginning, and return the first record.
      */
-    private RawRecord getNextMhld()
+    private Record getNextMhld()
     {
-    	if (mhldRawRecRdr != null)
+    	if (mhldRecRdr != null)
     	{
-        	if (mhldRawRecRdr.hasNext())
+        	if (mhldRecRdr.hasNext())
         		// there is another record
-                currentMhldRec = mhldRawRecRdr.next(); 
+                currentMhldRec = mhldRecRdr.next(); 
         	else
         		readMhldFileFromBeginning(mhldRecsFileName); // sets currentMhldRec
 
-System.err.println("DEBUG: mhld read is " + currentMhldRec.getRecordId());        	
         	return currentMhldRec;
     	}
 
@@ -232,17 +217,15 @@ System.err.println("DEBUG: mhld read is " + currentMhldRec.getRecordId());
      * NOTE: not used by main() - only used by next()
      * 
      * given a MARC bib record as a Record object, and a MARC MHLD record as
-     *  a RawRecord object, merge the MHLD fields indicated in class var
-     *  mhldFldsToMerge into the bib record, first removing any of those fields
+     *  a Record object, merge the MHLD fields (indicated in class var
+     *  mhldFldsToMerge) into the bib record, first removing any of those fields
      *  already existing in the bib record.
      * @param bibRecord
-     * @param rawMhldRecord
+     * @param mhldRecord
      * @return the bib record with the MHLD fields merged in prior to the 999
      */
-    private Record addMhldFieldsToBibRec(Record bibRecord, RawRecord rawMhldRecord)
+    private Record addMhldFieldsToBibRec(Record bibRecord, Record mhldRecord)
     {
-        Record mhldRecord = rawMhldRecord.getAsRecord(permissive, toUtf8, null, defaultEncoding);
-
         List<VariableField> lvf = (List<VariableField>) bibRecord.getVariableFields(mhldFldsToMerge.split("[|]"));
         for (VariableField vf : lvf)
         {
@@ -271,7 +254,7 @@ System.err.println("DEBUG: mhld read is " + currentMhldRec.getRecordId());
 
         boolean permissive = true;
         boolean toUtf8 = false;
-        MergeSummaryHoldings merger = new MergeSummaryHoldings(bibsRawRecRdr, permissive, toUtf8, "MARC8", 
+        MergeMhldFldsIntoBibs merger = new MergeMhldFldsIntoBibs(bibsRawRecRdr, permissive, toUtf8, "MARC8", 
                                                                mhldRecsFileName, DEFAULT_MHLD_FLDS_TO_MERGE);
         verbose = true;
         veryverbose = true;
@@ -297,12 +280,11 @@ System.err.println("DEBUG: mhld read is " + currentMhldRec.getRecordId());
     public static void mergeMhldRecsIntoBibRecsAsStdOut(String bibRecsFileName, String mhldRecsFileName)
     	throws IOException
     {
-System.err.println("DEBUG: bib file is " + bibRecsFileName);    	
         RawRecordReader bibsRawRecRdr = new RawRecordReader(new FileInputStream(new File(bibRecsFileName)));
         
         boolean permissive = true;
         boolean toUtf8 = false;
-        MergeSummaryHoldings merger = new MergeSummaryHoldings(bibsRawRecRdr, permissive, toUtf8, "MARC8", 
+        MergeMhldFldsIntoBibs merger = new MergeMhldFldsIntoBibs(bibsRawRecRdr, permissive, toUtf8, "MARC8", 
                                                                mhldRecsFileName, DEFAULT_MHLD_FLDS_TO_MERGE);
         verbose = true;
         veryverbose = true;

@@ -190,7 +190,6 @@ public class RecordTestingUtils
 
 	/**
 	 * Assert that each instance of the subfield is in the expected values
-	 *  and that the number of instances match.
 	 */
 	public static void assertSubfieldHasExpectedValues(Record record, String fieldTag, char subfieldCode, Set<String> expectedVals)
 	{
@@ -208,7 +207,6 @@ public class RecordTestingUtils
     			assertTrue("Got unexpected value " + val, expectedVals.contains(val));
 			}
 	    }
-	    org.junit.Assert.assertEquals("Number of values doesn't match", expectedVals.size(), count);
 	}
 	
 	
