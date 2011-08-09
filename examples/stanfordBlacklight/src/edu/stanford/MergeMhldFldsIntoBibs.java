@@ -7,7 +7,6 @@ import org.marc4j.*;
 import org.marc4j.marc.*;
 import org.solrmarc.marc.*;
 import org.solrmarc.marcoverride.MarcSplitStreamWriter;
-import org.solrmarc.testUtils.RecordTestingUtils;
 import org.solrmarc.tools.*;
 
 /**
@@ -261,7 +260,7 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
         while (merger.hasNext()) 
         {
         	Record bibRecWithPossChanges = merger.next();
-        	results.put(RecordTestingUtils.getRecordIdFrom001(bibRecWithPossChanges), bibRecWithPossChanges);
+        	results.put(GenericUtils.getRecordIdFrom001(bibRecWithPossChanges), bibRecWithPossChanges);
         }
         return results;
     }
