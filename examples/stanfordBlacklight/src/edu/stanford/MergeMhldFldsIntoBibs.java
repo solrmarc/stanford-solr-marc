@@ -131,12 +131,9 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
             bibRec = rawBibRec.getAsRecord(permissive, toUtf8, "999", defaultEncoding);
             if (bibRec != null)
             {
-            	Set<Record> matchingMhldRecs = getMatchingMhldRecs(bibRec.getControlNumber());
-            	for (Iterator iter = matchingMhldRecs.iterator(); iter.hasNext();) 
-            	{
-					Record matchingMhldRec = (Record) iter.next();
+        		Record matchingMhldRec = getMatchingMhldRec(bibRec.getControlNumber());
+        		if (matchingMhldRec != null)
                     bibRec = addMhldFieldsToBibRec(bibRec, matchingMhldRec);
-				}
             }
         }
         
@@ -145,16 +142,75 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
     
     
     /**
-     * Look for records in the MHLD file that match the bibId, returning all
-     *  matching records as a Set of RawRecord objects.  Not that "matching"
-     *  means the Ids match, where id is from RawRecord.getRecordId.
-     *  
-     * FIXME:  this will actually return one record due to combining reader, i think.
+     * Look for a record in the MHLD file that matches the bibId.  Note that "matching"
+     *  means the ids match, where id is from Record.getControlNumber()
      *  
      * @param bibRecID - the id to match
      * @return Set of RawRecord objects corresponding to MHLD records that match
      *  the bibId
      */
+    private Record getMatchingMhldRec(String bibRecID)
+    {
+    	Record result = null;
+    	
+    	int compareResult = ID_COMPARATOR.compare(currentMhldRec.getControlNumber(), bibRecID);
+
+// String currMhldId = currentMhldRec.getControlNumber();   // useful for Debugging
+    	
+    	if (compareResult > 0)
+    		// MHLD id is after bib id:  we're done and we do not advance in MHLD file
+    		return result;
+    	else
+    	{
+        	if (compareResult == 0)
+            	// current MHLD matches the bibRec - we're done
+        		return currentMhldRec;
+
+    		// proceed to next MHLD record if it's not the last MHLD in the file
+        	// NOTE:  THIS is where the assumption that the bib file is in ascending ID order is made
+    		if (mhldRecRdr.hasNext())
+    		{
+	    		currentMhldRec = getNextMhld();
+	    		return getMatchingMhldRec(bibRecID);
+    		}
+    	}
+
+    	return result;
+    }
+
+
+/*
+    NOTE:  the following method would be useful if we were using a MarcReader
+    that could give us multiple records with the same id.
+
+Then next() method would have
+
+        if (bibRecsRawRecRdr != null && bibRecsRawRecRdr.hasNext()) 
+        {
+            rawBibRec = bibRecsRawRecRdr.next();
+            bibRec = rawBibRec.getAsRecord(permissive, toUtf8, "999", defaultEncoding);
+            if (bibRec != null)
+            {
+            	Set<Record> matchingMhldRecs = getMatchingMhldRecs(bibRec.getControlNumber());
+            	for (Iterator iter = matchingMhldRecs.iterator(); iter.hasNext();) 
+            	{
+					Record matchingMhldRec = (Record) iter.next();
+                    bibRec = addMhldFieldsToBibRec(bibRec, matchingMhldRec);
+				}
+            }
+        }
+
+ */
+    /**
+     * Look for records in the MHLD file that match the bibId, returning all
+     *  matching records as a Set of Record objects.  Note that "matching"
+     *  means the Ids match, where id is from Record.getControlNumber().
+     *  
+     * @param bibRecID - the id to match
+     * @return Set of RawRecord objects corresponding to MHLD records that match
+     *  the bibId
+     */
+/*    
     private Set<Record> getMatchingMhldRecs(String bibRecID)
     {
     	Set<Record> result = new LinkedHashSet<Record>();
@@ -184,7 +240,7 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
 
     	return result;
     }
-
+*/
     
     /**
      * NOTE: only call this method if:
