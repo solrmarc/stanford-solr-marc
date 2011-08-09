@@ -47,15 +47,19 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
     private String mhldFldsToMerge = null;
 
 
-    /** for the file of MARC bib records */
-    private RawRecordReader bibRecsRawRecRdr = null;
+    /** for the file of MARC bib records - it will combine bib recs with the 
+     * same id, using the first bib in a set but adding 999s from any 
+     * immediately following records with the same id */
+    private MarcCombiningReader bibRecsCombiningRdr = null;
     
     /** the name of the file containing MHLD records.  It must be a class variable
      * because the file may need to be read multiple times to match bib records */
     private String mhldRecsFileName;
     
-    /** for the file of MARC MHLD records */
-    private MarcCombiningReader mhldRecRdr = null;
+    /** for the file of MARC MHLD records - it will combine mhld recs with the
+     * same id, using the first mhld in a set and adding mhldFldsToMerge from
+     * any immediately following records with the same id */
+    private MarcCombiningReader mhldRecCombiningRdr = null;
 
     /**
      * the last mhld record read, but not yet compared with a bib record
@@ -63,10 +67,10 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
     private Record currentMhldRec = null;
     
     
-    public MergeMhldFldsIntoBibs(RawRecordReader bibRecsRawRecRdr, boolean permissive, boolean toUtf8, String defaultEncoding, 
+    public MergeMhldFldsIntoBibs(MarcCombiningReader bibRecsCombiningRdr, boolean permissive, boolean toUtf8, String defaultEncoding, 
                                 String mhldRecsFileName, String mhldFldsToMerge)
     {
-        this.bibRecsRawRecRdr = bibRecsRawRecRdr;
+        this.bibRecsCombiningRdr = bibRecsCombiningRdr;
         this.mhldRecsFileName = mhldRecsFileName;
         this.permissive = permissive;
         this.toUtf8 = toUtf8;
@@ -76,9 +80,9 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
         readMhldFileFromBeginning(mhldRecsFileName);
     }
     
-    public MergeMhldFldsIntoBibs(RawRecordReader bibRecsRawRecRdr, String mhldRecsFileName, String mhldFldsToMerge)
+    public MergeMhldFldsIntoBibs(MarcCombiningReader bibRecsCombiningRdr, String mhldRecsFileName, String mhldFldsToMerge)
     {
-        this (bibRecsRawRecRdr, true, false, "MARC8", mhldRecsFileName, mhldFldsToMerge);
+        this (bibRecsCombiningRdr, true, false, "MARC8", mhldRecsFileName, mhldFldsToMerge);
     }
         
     
@@ -91,14 +95,14 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
     {
     	try
         {
-    		// mhld's must be read so they combine based on 001 fields
+    		// mhld's must be read in a way that they combine based on 001 fields
             MarcReader mrcRdr = new MarcPermissiveStreamReader(new FileInputStream(new File(mhldRecsFileName)), true, false, "MARC8");
-        	mhldRecRdr = new MarcCombiningReader(mrcRdr, mhldFldsToMerge, "001", "001");
+        	mhldRecCombiningRdr = new MarcCombiningReader(mrcRdr, mhldFldsToMerge, "001", "001");
         }
         catch (FileNotFoundException e)
         {
 			System.err.println("No file found at " + mhldRecsFileName);
-        	mhldRecRdr = null;           
+        	mhldRecCombiningRdr = null;           
         }
     	currentMhldRec = getNextMhld();
     }
@@ -108,8 +112,8 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
      */
     public boolean hasNext()
     {
-    	if (bibRecsRawRecRdr != null)
-        	return (bibRecsRawRecRdr.hasNext());
+    	if (bibRecsCombiningRdr != null)
+        	return (bibRecsCombiningRdr.hasNext());
         return(false);
     }
     
@@ -123,12 +127,13 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
      */
     public Record next()
     {
-        RawRecord rawBibRec = null;
+//        RawRecord rawBibRec = null;
         Record bibRec = null;
-        if (bibRecsRawRecRdr != null && bibRecsRawRecRdr.hasNext()) 
+        if (bibRecsCombiningRdr != null && bibRecsCombiningRdr.hasNext()) 
         {
-            rawBibRec = bibRecsRawRecRdr.next();
-            bibRec = rawBibRec.getAsRecord(permissive, toUtf8, "999", defaultEncoding);
+//            rawBibRec = bibRecsCombiningRdr.next();
+//            bibRec = rawBibRec.getAsRecord(permissive, toUtf8, "999", defaultEncoding);
+            bibRec = bibRecsCombiningRdr.next();
             if (bibRec != null)
             {
         		Record matchingMhldRec = getMatchingMhldRec(bibRec.getControlNumber());
@@ -168,7 +173,7 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
 
     		// proceed to next MHLD record if it's not the last MHLD in the file
         	// NOTE:  THIS is where the assumption that the bib file is in ascending ID order is made
-    		if (mhldRecRdr.hasNext())
+    		if (mhldRecCombiningRdr.hasNext())
     		{
 	    		currentMhldRec = getNextMhld();
 	    		return getMatchingMhldRec(bibRecID);
@@ -253,11 +258,11 @@ Then next() method would have
      */
     private Record getNextMhld()
     {
-    	if (mhldRecRdr != null)
+    	if (mhldRecCombiningRdr != null)
     	{
-        	if (mhldRecRdr.hasNext())
+        	if (mhldRecCombiningRdr.hasNext())
         		// there is another record
-                currentMhldRec = mhldRecRdr.next(); 
+                currentMhldRec = mhldRecCombiningRdr.next(); 
         	else
         		readMhldFileFromBeginning(mhldRecsFileName); // sets currentMhldRec
 
@@ -309,7 +314,12 @@ Then next() method would have
 
         boolean permissive = true;
         boolean toUtf8 = false;
-        MergeMhldFldsIntoBibs merger = new MergeMhldFldsIntoBibs(bibsRawRecRdr, permissive, toUtf8, "MARC8", 
+        MarcReader mrcRdr = new MarcPermissiveStreamReader(new FileInputStream(new File(bibRecsFileName)), permissive, toUtf8, "MARC8");
+        String idField = "001";
+        String bibFldsToMerge = "999";
+        MarcCombiningReader bibsCombiningRdr = new MarcCombiningReader(mrcRdr, bibFldsToMerge, idField, idField);
+
+        MergeMhldFldsIntoBibs merger = new MergeMhldFldsIntoBibs(bibsCombiningRdr, permissive, toUtf8, "MARC8", 
                                                                mhldRecsFileName, DEFAULT_MHLD_FLDS_TO_MERGE);
         verbose = true;
         veryverbose = true;
@@ -335,11 +345,16 @@ Then next() method would have
     public static void mergeMhldRecsIntoBibRecsAsStdOut(String bibRecsFileName, String mhldRecsFileName)
     	throws IOException
     {
-        RawRecordReader bibsRawRecRdr = new RawRecordReader(new FileInputStream(new File(bibRecsFileName)));
+//        RawRecordReader bibsRawRecRdr = new RawRecordReader(new FileInputStream(new File(bibRecsFileName)));
         
         boolean permissive = true;
         boolean toUtf8 = false;
-        MergeMhldFldsIntoBibs merger = new MergeMhldFldsIntoBibs(bibsRawRecRdr, permissive, toUtf8, "MARC8", 
+        MarcReader mrcRdr = new MarcPermissiveStreamReader(new FileInputStream(new File(bibRecsFileName)), permissive, toUtf8, "MARC8");
+        String idField = "001";
+        String bibFldsToMerge = "999";
+        MarcCombiningReader bibsCombiningRdr = new MarcCombiningReader(mrcRdr, bibFldsToMerge, idField, idField);
+        
+        MergeMhldFldsIntoBibs merger = new MergeMhldFldsIntoBibs(bibsCombiningRdr, permissive, toUtf8, "MARC8", 
                                                                mhldRecsFileName, DEFAULT_MHLD_FLDS_TO_MERGE);
         verbose = true;
         veryverbose = true;
