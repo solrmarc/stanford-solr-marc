@@ -343,7 +343,7 @@ public class MergeSummaryHoldings implements MarcReader
 
     
 	/**
-	 * FIXME: this method certainly doesn't belong here ...
+	 * NOTE: this method is used for TESTING only
 	 * Assign id of record to be the ckey. Our ckeys are in 001 subfield a. 
 	 * Marc4j is unhappy with subfields in a control field so this is a kludge 
 	 * work around.

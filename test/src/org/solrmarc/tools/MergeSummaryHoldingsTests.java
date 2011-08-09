@@ -11,8 +11,6 @@ import org.solrmarc.marc.RawRecordReader;
 import org.solrmarc.testUtils.CommandLineUtils;
 import org.solrmarc.testUtils.RecordTestingUtils;
 
-import edu.stanford.GenericUtils;
-
 /**
  * Note that actual use of MergeSummaryHoldings is a call to main() from a 
  *  shell script, so these tests must use the CommandLineUtils
@@ -45,7 +43,7 @@ public class MergeSummaryHoldingsTests
 	        {
 	        	RawRecord rawRec = rawRecRdr.next();
 	        	Record rec = rawRec.getAsRecord(true, false, "999", "MARC8");
-	        	String id = GenericUtils.getRecordIdFrom001(rec);
+	        	String id = getRecordIdFrom001(rec);
 	        	ALL_UNMERGED_BIBS.put(id, rec);
 	        }
 		} catch (FileNotFoundException e) {
@@ -59,7 +57,7 @@ public class MergeSummaryHoldingsTests
 	        {
 	        	RawRecord rawRec = rawRecRdr.next();
 	        	Record rec = rawRec.getAsRecord(true, false, "999", "MARC8");
-	        	String id = GenericUtils.getRecordIdFrom001(rec);
+	        	String id = getRecordIdFrom001(rec);
 	        	ALL_MERGED_BIB_RESULTS.put(id, rec);
 	        }
 		} catch (FileNotFoundException e) {
@@ -67,6 +65,28 @@ public class MergeSummaryHoldingsTests
 		}
     }
     
+	/**
+	 * NOTE: this method is used for TESTING only
+	 * Assign id of record to be the ckey. Our ckeys are in 001 subfield a. 
+	 * Marc4j is unhappy with subfields in a control field so this is a kludge 
+	 * work around.
+	 */
+	private static String getRecordIdFrom001(Record record)
+	{
+		String id = null;
+		ControlField fld = (ControlField) record.getVariableField("001");
+		if (fld != null && fld.getData() != null) 
+		{
+			String rawVal = fld.getData();
+			// 'u' is for testing
+			if (rawVal.startsWith("a") || rawVal.startsWith("u"))
+				id = rawVal.substring(1);
+		}
+		return id;
+	}
+    
+    
+
 
 @Before
     public void setUp()
