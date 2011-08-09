@@ -288,63 +288,44 @@ public class MergeMhldFldsIntoBibsTests
 	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
 	    
 	    Record mergedRec = mergedRecs.get("1");
-	    assertEquals("Expected three 852s ", 3, mergedRec.getVariableFields("852").size());
+	    assertEquals("Wrong number of 852s ", 3, mergedRec.getVariableFields("852").size());
 	    Set<String> expectedVals = new HashSet<String>();
 	    expectedVals.add("Location1");
 	    expectedVals.add("Location2");
 	    RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "852", 'b', expectedVals);
 
-	    assertEquals("Expected three 853s ", 3, mergedRec.getVariableFields("853").size());
+	    assertEquals("Wrong number of 853s ", 3, mergedRec.getVariableFields("853").size());
 	    expectedVals.clear();
 	    expectedVals.add("(month)");
 	    expectedVals.add("(season)");
 	    RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "853", 'b', expectedVals);
 	    
-	    assertEquals("Expected two 863s ", 2, mergedRec.getVariableFields("863").size());
+	    assertEquals("Wrong number of 863s ", 2, mergedRec.getVariableFields("863").size());
 	    expectedVals.clear();
 	    expectedVals.add("1.1");
 	    expectedVals.add("2.1");
 	    RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "863", '8', expectedVals);
 	    
-	    assertEquals("Expected one 866", 1, mergedRec.getVariableFields("866").size());
+	    assertEquals("Wrong number of 866s", 1, mergedRec.getVariableFields("866").size());
     }
     
     /**
      * the MHLD fields should only be merged into ONE of the bibs, if the bibs will be combined?
      * Or it's probably ok if they are in each bib, as they should be removed from the bib after processing?
      */
-//@Test
+@Test
     public void testMultBibsWithSameID()
     		throws IOException
     {
     	// multBibs4, mhld 34
-/*
     	String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs4Mult.mrc";
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds34.mrc";
 	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
 	    
-	    Record mergedRec = mergedRecs.get("1");
-	    assertEquals("Expected three 852s ", 3, mergedRec.getVariableFields("852").size());
-	    Set<String> expectedVals = new HashSet<String>();
-	    expectedVals.add("Location1");
-	    expectedVals.add("Location2");
-	    RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "852", 'b', expectedVals);
-
-	    assertEquals("Expected three 853s ", 3, mergedRec.getVariableFields("853").size());
-	    expectedVals.clear();
-	    expectedVals.add("(month)");
-	    expectedVals.add("(season)");
-	    RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "853", 'b', expectedVals);
+	    Record mergedRec = mergedRecs.get("4");
+	    assertEquals("Wrong number of 852 ", 1, mergedRec.getVariableFields("852").size());
 	    
-	    assertEquals("Expected two 863s ", 2, mergedRec.getVariableFields("863").size());
-	    expectedVals.clear();
-	    expectedVals.add("1.1");
-	    expectedVals.add("2.1");
-	    RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "863", '8', expectedVals);
-	    
-	    assertEquals("Expected one 866", 1, mergedRec.getVariableFields("866").size());
-*/	    
-    	fail("Implement me");
+	    assertEquals("Wrong number of 999s ", 5, mergedRec.getVariableFields("999").size());
     }
     
     /**

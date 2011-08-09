@@ -15,8 +15,8 @@ import org.solrmarc.tools.*;
  *  merge the desired fields from the MHLD record into the bib record, first
  *  removing any existing fields in the bib rec matching a desired field tag.
  *  
- * Note that the MHLD file must have records in StringNaturalCompare ascending
- *  order.
+ * Note that the Bib and MHLD file must have records in StringNaturalCompare 
+ *  ascending order.
  *  
  * @author Naomi Dushay, based on org.solrmarc.tools.MergeSummaryHoldings by Bob Haschart
  *

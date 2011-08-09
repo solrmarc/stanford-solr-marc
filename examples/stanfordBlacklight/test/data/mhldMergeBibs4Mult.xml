@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+  <record>
+    <leader>24020cas a2202137   4500</leader>
+    <controlfield tag="001">a4</controlfield>
+    <controlfield tag="008">790219c18979999enkwr p       0    1eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">bib4</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">052 .C855 V.178 1985:DEC</subfield>
+      <subfield code="w">DEWEYPER</subfield>
+      <subfield code="i">36105005433300</subfield>
+      <subfield code="l">STACKS</subfield>
+      <subfield code="m">SAL</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">052 .C855 V.182 1988:MAR</subfield>
+      <subfield code="w">DEWEYPER</subfield>
+      <subfield code="i">36105005433052</subfield>
+      <subfield code="l">STACKS</subfield>
+      <subfield code="m">SAL</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">052 .C855 V.204 2010:DEC.+SUPPL.</subfield>
+      <subfield code="w">DEWEYPER</subfield>
+      <subfield code="i">36105134095194</subfield>
+      <subfield code="k">SUL-BIND</subfield>
+      <subfield code="l">STACKS</subfield>
+      <subfield code="m">SAL</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>24020cas a2202137   4500</leader>
+    <controlfield tag="001">a4</controlfield>
+    <controlfield tag="008">790219c18979999enkwr p       0    1eng d</controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">bib4</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">Z5055 .U5 A53 SER.B V.60:NO.6 1999:DEC.</subfield>
+      <subfield code="w">LCPER</subfield>
+      <subfield code="i">36105029530271</subfield>
+      <subfield code="l">STACKS</subfield>
+      <subfield code="m">SAL</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">INTERNET RESOURCE</subfield>
+      <subfield code="w">ASIS</subfield>
+      <subfield code="i">4244164-2001</subfield>
+      <subfield code="l">STACKS</subfield>
+      <subfield code="m">SUL</subfield>
+    </datafield>
+  </record>
+</collection>
