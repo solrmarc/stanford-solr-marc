@@ -13,6 +13,8 @@ import org.solrmarc.marc.RawRecordReader;
 import org.solrmarc.marcoverride.MarcSplitStreamWriter;
 import org.solrmarc.tools.RawRecord;
 
+import edu.stanford.GenericUtils;
+
 /**
  * Methods to assert when Record objects are equal or not, etc.
  * @author naomi
@@ -352,25 +354,6 @@ public class RecordTestingUtils
 	    }
 	    else
         fail("shouldn't get here");
-	}
-
-	/**
-	 * Assign id of record to be the ckey. Our ckeys are in 001 subfield a. 
-	 * Marc4j is unhappy with subfields in a control field so this is a kludge 
-	 * work around.
-	 */
-	public static String getRecordIdFrom001(Record record)
-	{
-		String id = null;
-		ControlField fld = (ControlField) record.getVariableField("001");
-		if (fld != null && fld.getData() != null) 
-		{
-			String rawVal = fld.getData();
-			// 'u' is for testing
-			if (rawVal.startsWith("a") || rawVal.startsWith("u"))
-				id = rawVal.substring(1);
-		}
-		return id;
 	}
 
 }
