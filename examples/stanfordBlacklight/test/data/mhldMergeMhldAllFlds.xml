@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+  <record>
+    <leader>00677cy  a22002413  4500</leader>
+    <controlfield tag="001">aallMhldFlds</controlfield>
+    <controlfield tag="008">090716                eng 110531        </controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">mhldLoc</subfield>
+      <subfield code="c">CURRENTPER</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">COUNTRY LIFE INTERNATIONAL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL</subfield>
+    </datafield>
+    
+    <datafield tag="853" ind1="2" ind2=" ">
+      <subfield code="8">1</subfield>
+      <subfield code="a">mhld853a</subfield>
+      <subfield code="b">no.</subfield>
+      <subfield code="u">52</subfield>
+      <subfield code="v">r</subfield>
+      <subfield code="i">(year)</subfield>
+      <subfield code="j">(month)</subfield>
+      <subfield code="k">(day)</subfield>
+    </datafield>
+  
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.1</subfield>
+      <subfield code="a">mhld863a</subfield>
+      <subfield code="b">3</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    
+    <datafield tag="866" ind1=" " ind2="0">
+      <subfield code="8">5</subfield>
+      <subfield code="a">V. 417 NO. 1A (JAN 2011)</subfield>
+      <subfield code="a">mhld866a ind1 blank ind2 0</subfield>
+    </datafield>
+    <datafield tag="866" ind1="3" ind2="1">
+      <subfield code="8">1</subfield>
+      <subfield code="a">2009-</subfield>
+      <subfield code="a">mhld866a ind1 3 ind2 1</subfield>
+    </datafield>
+    <datafield tag="866" ind1="4" ind2="1">
+      <subfield code="8">1</subfield>
+      <subfield code="a">mhld866a ind1 4 ind2 1</subfield>
+    </datafield>
+    
+    <datafield tag="867" ind1=" " ind2="0">
+      <subfield code="8">1</subfield>
+      <subfield code="a">mhld867a ind1 blank ind2 0</subfield>
+    </datafield>
+    
+    <datafield tag="868" ind1=" " ind2="0">
+      <subfield code="8">5</subfield>
+      <subfield code="a">mhld868a ind1 blank ind2 0</subfield>
+    </datafield>
+    <datafield tag="868" ind1="3" ind2="1">
+      <subfield code="8">8</subfield>
+      <subfield code="a">mhld868a ind1 3 ind2 1</subfield>
+    </datafield>
+    <datafield tag="868" ind1="4" ind2="1">
+      <subfield code="8">8</subfield>
+      <subfield code="a">1957-1993, 1995-1998</subfield>
+      <subfield code="a">mhld868a ind1 4 ind2 1</subfield>
+    </datafield>
+    
+    <datafield tag="901" ind1=" " ind2=" ">
+      <subfield code="a">mhld901a</subfield>
+    </datafield>
+  </record>
+</collection>
