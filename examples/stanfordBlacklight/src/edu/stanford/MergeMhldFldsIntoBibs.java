@@ -10,6 +10,9 @@ import org.solrmarc.marcoverride.MarcSplitStreamWriter;
 import org.solrmarc.tools.*;
 
 /**
+ * Note that this will work for any two files of MARC records that share
+ *  a common string in a field to be used for comparison.
+ * 
  * Given a file of MARC bib records and another file of MARC (MHLD) records,
  *  read through the bib file and look for matching MHLD records.  If found,
  *  merge the desired fields from the MHLD record into the bib record, first
