@@ -21,7 +21,7 @@ GenericVuFind - used to create a basic index for VuFind (http://vufind.org)
 stanfordVuFind - an example of a richly populated Solr index created for the
 original Stanford VuFind implementation.
 
-stanfordBlacklight - an example of a richly populated Solr index created for
+stanford - an example of a richly populated Solr index created for
 Stanford's Blacklight implementation (http://searchworks.stanford.edu/)
 
 UvaBlacklight - an example of the indexing used for the University of Virginia's

@@ -24,7 +24,7 @@ public class MergeSummaryHoldingsTests
     static String smokeTestDir = testDataParentPath + File.separator + "smoketest";
     static String testConfigFile = smokeTestDir + File.separator + "test_config.properties";
 
-    static String localDir = "examples" + File.separator + "stanfordBlacklight";
+    static String localDir = "examples" + File.separator + "stanford";
     static String localTestDataParentPath = localDir + File.separator + testDataParentPath;
 
     static String MERGE_MHLD_CLASS_NAME = "org.solrmarc.tools.MergeSummaryHoldings";

@@ -18,7 +18,7 @@ LOG_SUBDIR=$1
 
 # create new dist jar and other files
 rm -rf $SOLRMARC_BASEDIR/local_build
-ant -buildfile $SOLRMARC_BASEDIR/build.xml -Dexample.configuration=stanfordBlacklight -Dinput.continue.processing.with.not.uptodate=c dist
+ant -buildfile $SOLRMARC_BASEDIR/build.xml -Dexample.configuration=stanford -Dinput.continue.processing.with.not.uptodate=c dist
 
 # set up the classpath
 DIST_DIR=$SOLRMARC_BASEDIR/dist
