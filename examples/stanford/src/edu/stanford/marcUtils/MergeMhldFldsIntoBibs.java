@@ -1,4 +1,4 @@
-package edu.stanford;
+package edu.stanford.marcUtils;
 
 import java.io.*;
 import java.util.*;
@@ -8,6 +8,8 @@ import org.marc4j.marc.*;
 import org.solrmarc.marc.*;
 import org.solrmarc.marcoverride.MarcSplitStreamWriter;
 import org.solrmarc.tools.*;
+
+import edu.stanford.GenericUtils;
 
 /**
  * Note that this will work for any two files of MARC records that share
