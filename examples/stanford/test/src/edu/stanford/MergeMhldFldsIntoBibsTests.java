@@ -11,6 +11,8 @@ import org.solrmarc.marc.RawRecordReader;
 import org.solrmarc.testUtils.*;
 import org.solrmarc.tools.*;
 
+import edu.stanford.marcUtils.MergeMhldFldsIntoBibs;
+
 /**
  * Note that actual use of MergeMhldFldsIntoBibs is generally a call to main() 
  *  but most of these tests use mergeMhldsIntoBibRecordsAsMap() for convenience
