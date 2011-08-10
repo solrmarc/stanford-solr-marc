@@ -1,4 +1,4 @@
-The stanfordBlacklight example is the code used to index MaRC data for 
+The Stanford example is the code used to index MaRC data for 
 Stanford's Blacklight implementation, which can be seen at
 
   http://searchworks.stanford.edu

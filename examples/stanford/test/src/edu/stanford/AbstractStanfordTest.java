@@ -47,7 +47,7 @@ public abstract class AbstractStanfordTest extends IndexTest {
 		
 		String solrmarcSitePath = System.getProperty("solrmarc.site.path");
 		if (solrmarcSitePath == null) {
-			solrmarcSitePath = new File("examples" + File.separator + "stanfordBlacklight").getAbsolutePath(); 
+			solrmarcSitePath = new File("examples" + File.separator + "stanford").getAbsolutePath(); 
             System.setProperty("solrmarc.site.path", solrmarcSitePath);
 		}
 		
@@ -67,7 +67,7 @@ public abstract class AbstractStanfordTest extends IndexTest {
             testDataParentPath = System.getProperty("test.data.parent.path");
             if (testDataParentPath == null)
                 testDataParentPath = "examples" + File.separator
-                        + "stanfordBlacklight" + File.separator + "test"
+                        + "stanford" + File.separator + "test"
                         + File.separator + "data";
             // testDir = "test";
             // testDataParentPath = testDir + File.separator + "data";
@@ -85,7 +85,7 @@ public abstract class AbstractStanfordTest extends IndexTest {
 	public void mappingTestInit() 
 	{
 		docIDfname = "id";		
-		String siteDir = "examples" + File.separator + "stanfordBlacklight";
+		String siteDir = "examples" + File.separator + "stanford";
 
 		String anyTestFile = null;
 		String testDataParentPath = System.getProperty("test.data.path");
