@@ -13,7 +13,7 @@ import org.xml.sax.SAXException;
  * junit4 tests for Stanford University access_facet field
  * @author Naomi Dushay
  */
-public class SortTests extends AbstractStanfordBlacklightTest {
+public class SortTests extends AbstractStanfordTest {
 	
 	private final String testDataFname = "sortTests.mrc";
 

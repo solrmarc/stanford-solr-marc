@@ -12,7 +12,7 @@ import edu.stanford.enumValues.CallNumberType;
  *   cope properly with strange call numbers from Lane and Jackson
  * @author Naomi Dushay
  */
-public class CallNumLaneJacksonTests extends AbstractStanfordBlacklightTest {
+public class CallNumLaneJacksonTests extends AbstractStanfordTest {
 
 	private String fileName = "callNumLaneJackTests.mrc";
     private String testFilePath = testDataParentPath + File.separator + fileName;

@@ -15,7 +15,7 @@ import edu.stanford.enumValues.Access;
  * junit4 tests for Stanford University access_facet field
  * @author Naomi Dushay
  */
-public class AccessTests extends AbstractStanfordBlacklightTest {
+public class AccessTests extends AbstractStanfordTest {
 	
 	private String fldName = "access_facet";
     private final String onlineFldVal = Access.ONLINE.toString();

@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
  * junit4 tests for Stanford University's url fields
  * @author Naomi Dushay
  */
-public class UrlTests extends AbstractStanfordBlacklightTest {
+public class UrlTests extends AbstractStanfordTest {
 
 	private final String testDataFname = "onlineFormat.mrc";
 

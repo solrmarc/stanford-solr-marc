@@ -11,7 +11,7 @@ import edu.stanford.enumValues.CallNumberType;
  *   cope properly with missing/lost items - display, discoverable  SW-234
  * @author Naomi Dushay
  */
-public class ItemMissingTests extends AbstractStanfordBlacklightTest {
+public class ItemMissingTests extends AbstractStanfordTest {
 
 	private String fileName = "missingItems.mrc";
     private String testFilePath = testDataParentPath + File.separator + fileName;

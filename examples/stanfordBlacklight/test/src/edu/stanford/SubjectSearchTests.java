@@ -5,7 +5,7 @@ import java.io.File;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SubjectSearchTests extends AbstractStanfordBlacklightTest {
+public class SubjectSearchTests extends AbstractStanfordTest {
 
 	private final String testDataFname = "subjectSearchTests.mrc";
 	String testFilePath = testDataParentPath + File.separator + testDataFname;

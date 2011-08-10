@@ -14,7 +14,7 @@ import org.junit.*;
  * junit4 tests for Stanford University revisions to solrmarc
  * @author Naomi Dushay
  */
-public class IncrementalUpdateTests extends AbstractStanfordBlacklightTest {
+public class IncrementalUpdateTests extends AbstractStanfordTest {
 	
 	
 	/**

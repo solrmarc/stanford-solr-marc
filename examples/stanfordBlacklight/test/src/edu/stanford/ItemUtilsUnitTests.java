@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
-import edu.stanford.AbstractStanfordBlacklightTest;
+import edu.stanford.AbstractStanfordTest;
 import edu.stanford.enumValues.CallNumberType;
 
 import org.junit.*;
@@ -13,7 +13,7 @@ import org.junit.*;
  * unit tests for edu.stanford.ItemUtils methods
  * @author Naomi Dushay
  */
-public class ItemUtilsUnitTests extends AbstractStanfordBlacklightTest {
+public class ItemUtilsUnitTests extends AbstractStanfordTest {
 
 	private static final boolean isSerial = true;
 

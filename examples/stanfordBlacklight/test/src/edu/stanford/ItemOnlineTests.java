@@ -11,7 +11,7 @@ import edu.stanford.enumValues.CallNumberType;
  *   cope properly with online items - display, discoverable  SW-232
  * @author Naomi Dushay
  */
-public class ItemOnlineTests extends AbstractStanfordBlacklightTest {
+public class ItemOnlineTests extends AbstractStanfordTest {
 
 	private String fileName = "onlineItems.mrc";
     private String testFilePath = testDataParentPath + File.separator + fileName;

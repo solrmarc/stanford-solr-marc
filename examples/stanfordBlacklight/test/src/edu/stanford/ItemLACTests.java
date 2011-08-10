@@ -12,7 +12,7 @@ import edu.stanford.enumValues.CallNumberType;
  *   cope properly with items with current location LAC  SW-314
  * @author Naomi Dushay
  */
-public class ItemLACTests extends AbstractStanfordBlacklightTest {
+public class ItemLACTests extends AbstractStanfordTest {
 
 	private String fileName = "itemLACcurrentLoc.mrc";
     private String testFilePath = testDataParentPath + File.separator + fileName;

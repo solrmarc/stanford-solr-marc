@@ -13,7 +13,7 @@ import org.xml.sax.SAXException;
  * junit4 tests for Stanford University top level call number facet field
  * @author Naomi Dushay
  */
-public class CallNumTopFacetTests extends AbstractStanfordBlacklightTest {
+public class CallNumTopFacetTests extends AbstractStanfordTest {
 
 	private final String fldName = "callnum_top_facet";
 	private String fileName = "callNumberOddityTests.mrc";

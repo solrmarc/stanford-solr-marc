@@ -15,7 +15,7 @@ import org.xml.sax.SAXException;
  * 
  * @author Naomi Dushay
  */
-public class NoteFieldsTests extends AbstractStanfordBlacklightTest {
+public class NoteFieldsTests extends AbstractStanfordTest {
 	
     /**
      * test population of table of contents search field

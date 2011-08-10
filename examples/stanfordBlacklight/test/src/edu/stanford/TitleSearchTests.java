@@ -12,7 +12,7 @@ import org.xml.sax.SAXException;
  * junit4 tests for Stanford University's title fields
  * @author Naomi Dushay
  */
-public class TitleSearchTests extends AbstractStanfordBlacklightTest {
+public class TitleSearchTests extends AbstractStanfordTest {
 	
 @Before
 	public final void setup() 

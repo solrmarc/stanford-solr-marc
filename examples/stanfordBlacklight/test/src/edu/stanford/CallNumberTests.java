@@ -20,7 +20,7 @@ import edu.stanford.enumValues.CallNumberType;
  * junit4 tests for Stanford University call number fields for blacklight index
  * @author Naomi Dushay
  */
-public class CallNumberTests extends AbstractStanfordBlacklightTest {
+public class CallNumberTests extends AbstractStanfordTest {
 
 	private final String govDocStr = "Government Document";
 	private final boolean isSerial = true;

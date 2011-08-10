@@ -15,7 +15,7 @@ import org.xml.sax.SAXException;
  *   (it doesn't stop indexing when it hits a bad record)
  * @author Naomi Dushay
  */
-public class CombineRecordsTests extends AbstractStanfordBlacklightTest {
+public class CombineRecordsTests extends AbstractStanfordTest {
 
 @Before
 	public final void setup() 

@@ -11,7 +11,7 @@ import edu.stanford.enumValues.CallNumberType;
  *   cope properly with items with call number "NO CALL NUMBER" - display, discoverable  SW-231
  * @author Naomi Dushay
  */
-public class ItemNoCallNumberTests extends AbstractStanfordBlacklightTest {
+public class ItemNoCallNumberTests extends AbstractStanfordTest {
 
 	private String fileName = "itemNoCallNumber.mrc";
     private String testFilePath = testDataParentPath + File.separator + fileName;
