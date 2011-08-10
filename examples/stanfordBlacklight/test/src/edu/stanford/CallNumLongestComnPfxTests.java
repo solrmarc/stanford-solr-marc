@@ -12,7 +12,7 @@ import edu.stanford.enumValues.CallNumberType;
  *   prefix
  * @author Naomi Dushay
  */
-public class CallNumLongestComnPfxTests extends AbstractStanfordBlacklightTest {
+public class CallNumLongestComnPfxTests extends AbstractStanfordTest {
 
 	private String fldName = "shelfkey";
 	private String fileName = "callnumLongCommPfxTests.mrc";

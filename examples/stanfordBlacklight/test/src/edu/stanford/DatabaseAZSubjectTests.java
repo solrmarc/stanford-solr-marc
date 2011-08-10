@@ -11,7 +11,7 @@ import org.junit.Test;
  * 
  * @author Naomi Dushay
  */
-public class DatabaseAZSubjectTests extends AbstractStanfordBlacklightTest {
+public class DatabaseAZSubjectTests extends AbstractStanfordTest {
 
 	String testFilePath = testDataParentPath + File.separator + "databasesAZsubjectTests.mrc";
 	String facetFldName = "db_az_subject";

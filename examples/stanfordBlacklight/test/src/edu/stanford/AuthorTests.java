@@ -16,7 +16,7 @@ import org.xml.sax.SAXException;
  * junit4 tests for Stanford University author fields for blacklight index
  * @author Naomi Dushay
  */
-public class AuthorTests extends AbstractStanfordBlacklightTest {
+public class AuthorTests extends AbstractStanfordTest {
 
 @Before
 	public final void setup() 

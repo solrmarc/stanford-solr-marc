@@ -16,7 +16,7 @@ import edu.stanford.enumValues.Format;
  * Database formats are tested separately in FormatDatabaseTests
  * @author Naomi Dushay
  */
-public class FormatTests extends AbstractStanfordBlacklightTest {
+public class FormatTests extends AbstractStanfordTest {
 	
 	private final String testDataFname = "formatTests.mrc";
 	String testFilePath = testDataParentPath + File.separator + testDataFname;

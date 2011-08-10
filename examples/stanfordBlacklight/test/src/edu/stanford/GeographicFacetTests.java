@@ -5,7 +5,7 @@ import java.io.File;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GeographicFacetTests  extends AbstractStanfordBlacklightTest {
+public class GeographicFacetTests  extends AbstractStanfordTest {
 
 	private final String testDataFname = "regionFacet.mrc";
 	String testFilePath = testDataParentPath + File.separator + testDataFname;

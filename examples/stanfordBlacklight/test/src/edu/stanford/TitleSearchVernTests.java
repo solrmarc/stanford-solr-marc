@@ -13,7 +13,7 @@ import org.xml.sax.SAXException;
  * junit4 tests for Stanford University's vernacular title searching fields
  * @author Naomi Dushay
  */
-public class TitleSearchVernTests extends AbstractStanfordBlacklightTest {
+public class TitleSearchVernTests extends AbstractStanfordTest {
 	
 @Before
 	public final void setup() 

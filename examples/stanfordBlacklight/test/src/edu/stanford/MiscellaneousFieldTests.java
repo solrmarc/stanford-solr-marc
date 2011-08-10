@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
  * junit4 tests for Stanford University revisions to solrmarc
  * @author Naomi Dushay
  */
-public class MiscellaneousFieldTests extends AbstractStanfordBlacklightTest {
+public class MiscellaneousFieldTests extends AbstractStanfordTest {
 	
 	/**
 	 * Test correct document id - the id is from 001 with an a in front

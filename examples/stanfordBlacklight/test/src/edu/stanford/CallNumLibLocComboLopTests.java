@@ -17,7 +17,7 @@ import edu.stanford.enumValues.CallNumberType;
 *  combination.
 * @author Naomi Dushay
 */
-public class CallNumLibLocComboLopTests extends AbstractStanfordBlacklightTest {
+public class CallNumLibLocComboLopTests extends AbstractStanfordTest {
 
 	private String fldName = "shelfkey";
 	private String fileName = "callNumLibLocVolLopTests.mrc";

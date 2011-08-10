@@ -12,7 +12,7 @@ import org.xml.sax.SAXException;
  * junit4 tests for WordDelimiterFilter settings
  * @author Naomi Dushay
  */
-public class WordDelimiterTests extends AbstractStanfordBlacklightTest 
+public class WordDelimiterTests extends AbstractStanfordTest 
 {
 
 	/**

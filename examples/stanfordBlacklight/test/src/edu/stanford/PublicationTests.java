@@ -21,7 +21,7 @@ import edu.stanford.enumValues.PubDateGroup;
  * junit4 tests for Stanford University publication fields for blacklight index
  * @author Naomi Dushay
  */
-public class PublicationTests extends AbstractStanfordBlacklightTest 
+public class PublicationTests extends AbstractStanfordTest 
 {
 @Before
 	public final void setup() 

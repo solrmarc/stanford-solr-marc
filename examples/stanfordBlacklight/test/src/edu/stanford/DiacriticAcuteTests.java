@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
  * 
  * @author Naomi Dushay
  */
-public class DiacriticAcuteTests extends AbstractStanfordBlacklightTest {
+public class DiacriticAcuteTests extends AbstractStanfordTest {
 
 	// contains the diacritics in our test data
 	private String fldName = "author_person_search";

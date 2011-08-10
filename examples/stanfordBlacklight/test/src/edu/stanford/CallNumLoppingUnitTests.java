@@ -11,7 +11,7 @@ import edu.stanford.enumValues.CallNumberType;
  * unit tests for edu.stanford.CallNumberUtils lopping methods
  * @author Naomi Dushay
  */
-public class CallNumLoppingUnitTests extends AbstractStanfordBlacklightTest {
+public class CallNumLoppingUnitTests extends AbstractStanfordTest {
 
 	/**
 	 * test that T is not lopped when it shouldn't be

@@ -14,7 +14,7 @@ import edu.stanford.enumValues.Format;
  * junit4 tests for Stanford University format field for blacklight index
  * @author Naomi Dushay
  */
-public class FormatDatabaseTests extends AbstractStanfordBlacklightTest {
+public class FormatDatabaseTests extends AbstractStanfordTest {
 	
 	String testFilePath = testDataParentPath + File.separator + "formatDatabaseTests.mrc";
 	String facetFldName = "format";

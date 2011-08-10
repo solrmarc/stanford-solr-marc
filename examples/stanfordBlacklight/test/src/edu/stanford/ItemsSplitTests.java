@@ -16,7 +16,7 @@ import edu.stanford.enumValues.CallNumberType;
  * @author naomi
  *
  */
-public class ItemsSplitTests extends AbstractStanfordBlacklightTest {
+public class ItemsSplitTests extends AbstractStanfordTest {
 
 	static String fldName = "item_display";
 	static String SEP = " -|- ";

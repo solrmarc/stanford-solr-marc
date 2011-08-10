@@ -18,7 +18,7 @@ import org.xml.sax.SAXException;
  * 
  * @author Naomi Dushay
  */
-public class VernFieldsTests extends AbstractStanfordBlacklightTest {
+public class VernFieldsTests extends AbstractStanfordTest {
 
 	String unMatched880File = "unmatched880sTests.mrc";
 	String vernNonSearchTestFile = "vernacularNonSearchTests.mrc";

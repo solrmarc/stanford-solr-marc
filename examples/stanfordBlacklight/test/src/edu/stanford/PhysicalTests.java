@@ -13,7 +13,7 @@ import org.junit.*;
  * junit4 tests for Stanford University physical fields for blacklight index
  * @author Naomi Dushay
  */
-public class PhysicalTests extends AbstractStanfordBlacklightTest {
+public class PhysicalTests extends AbstractStanfordTest {
 	
 @Before
 	public final void setup() 

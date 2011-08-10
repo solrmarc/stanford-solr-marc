@@ -19,7 +19,7 @@ import edu.stanford.enumValues.CallNumberType;
  * etc.)
  * @author Naomi Dushay
  */
-public class ItemInfoTests extends AbstractStanfordBlacklightTest {
+public class ItemInfoTests extends AbstractStanfordTest {
 	
 @Before
 	public final void setup() 

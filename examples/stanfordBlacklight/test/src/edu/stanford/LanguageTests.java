@@ -15,7 +15,7 @@ import org.junit.*;
  * junit4 tests for Stanford University revisions to solrmarc
  * @author Naomi Dushay
  */
-public class LanguageTests extends AbstractStanfordBlacklightTest {
+public class LanguageTests extends AbstractStanfordTest {
 	
 	String fldName = "language";
 	String fileName = "langTests.mrc";
