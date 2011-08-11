@@ -9,6 +9,7 @@ import org.marc4j.marc.Record;
 
 import org.solrmarc.index.*;
 import org.solrmarc.marc.MarcHandler;
+import org.solrmarc.tools.MarcUtils;
 import org.solrmarc.tools.SolrMarcIndexerException;
 
 /**
@@ -179,7 +180,7 @@ public class MarcMappingOnly extends MarcHandler
                 }
                 if (fieldSpec.matches("^[0-9].*") || fieldSpec.matches("^LNK[0-9].*")) // if it is a standard 245a type field spec
                 {
-                    result = SolrIndexer.getFieldList(record, fieldSpec);
+                    result = MarcUtils.getFieldList(record, fieldSpec);
                     if (translationMap != null)
                     {
                         Properties indexingProps = new Properties();

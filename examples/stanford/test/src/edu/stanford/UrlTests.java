@@ -97,7 +97,7 @@ public class UrlTests extends AbstractStanfordTest {
 
 	/**
 	 * Test url_suppl_display field contents
-	 * Test method for {@link edu.stanford.StanfordIndexer#getSupplUrls(org.marc4j.marc.Record)}.
+	 * Test method for {@link org.solrmarc.tools.MarcUtils#getSupplUrls(org.marc4j.marc.Record)}.
 	 */
 @Test
 	public final void testSupplmentaryUrls() 
