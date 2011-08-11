@@ -141,4 +141,43 @@ public class MarcUtilsUnitTests {
 		rec.setLeader(leader);
 		assertTrue("Record type y should be recognized as MHLD", MarcUtils.isMHLDRecord(rec));
 	}
+
+
+	/**
+	 * unit test for org.solrmarc.tools.MarcUtils.getControlFieldData
+	 */
+@Test
+	public void testGetControlFieldData()
+	{
+		Record rec = new NoSortRecordImpl();
+		ControlField cntlFld001 = new ControlFieldImpl("001", "control001");
+		rec.addVariableField(cntlFld001);
+		assertEquals("Control Field 001 did not have correct data ", "control001", MarcUtils.getControlFieldData(rec, "001"));
+
+		// add another control field
+		ControlField cntlFld009 = new ControlFieldImpl("009", "control009");
+		rec.addVariableField(cntlFld009);
+		assertEquals("Control Field 001 did not have correct data ", "control001", MarcUtils.getControlFieldData(rec, "001"));
+		assertEquals("Control Field 009 did not have correct data ", "control009", MarcUtils.getControlFieldData(rec, "009"));
+
+		// add data field as a control field 
+		ControlField cntlFld666 = new ControlFieldImpl("666", "control666");
+		rec.addVariableField(cntlFld666);
+		assertEquals("Control Field 666 did not have correct data ", "control666", MarcUtils.getControlFieldData(rec, "666"));
+
+		// add data field as data field and retrieve as control field
+		DataField dataFld777 = new DataFieldImpl("777", ' ', ' ');
+		Subfield suba = new SubfieldImpl('a', "777suba");
+		Subfield subb = new SubfieldImpl('b', "777subb");
+		dataFld777.addSubfield(suba);
+		dataFld777.addSubfield(subb);
+		rec.addVariableField(dataFld777);
+		
+		// method comments:  
+		// If the field is a DataField, return the contents of the specified subfield, or, if unspecified, of subfield 'a'
+		assertEquals("Data Field 777 sub a did not have correct data ", "777suba", MarcUtils.getControlFieldData(rec, "777"));
+		assertEquals("Data Field 777 sub a did not have correct data ", "777suba", MarcUtils.getControlFieldData(rec, "777a"));
+		assertEquals("Data Field 777 sub b did not have correct data ", "777subb", MarcUtils.getControlFieldData(rec, "777b"));
+	}
+
 }

@@ -411,7 +411,7 @@ public class MarcUtils {
 		            {
 		                char subfieldtag = 'a';
 		                if (tag.length() > 3) 
-		                	subfieldtag = tag.charAt(4);
+		                	subfieldtag = tag.charAt(3);
 		                Subfield sf = df.getSubfield(subfieldtag);
 		                if (sf != null) 
 		                	return(sf.getData());
