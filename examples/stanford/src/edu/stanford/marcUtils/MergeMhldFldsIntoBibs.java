@@ -227,7 +227,7 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
         {
             bibRecord.removeVariableField(vf);
         }
-        bibRecord = MarcCombiningReader.combineRecords(bibRecord, mhldRecord, mhldFldsToMerge, "999");
+        bibRecord = MarcUtils.combineRecords(bibRecord, mhldRecord, mhldFldsToMerge, "999");
         return(bibRecord);
     }
     
