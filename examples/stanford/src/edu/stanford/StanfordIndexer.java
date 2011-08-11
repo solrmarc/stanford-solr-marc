@@ -231,7 +231,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		formats.clear();
 
 		// assign formats based on leader chars 06, 07 and chars in 008
-		String leaderStr = record.getLeader().toString();
+		String leaderStr = record.getLeader().marshal();
 		formats.addAll(FormatUtils.getFormatsPerLdrAnd008(leaderStr, cf008));
 		
 		if (formats.isEmpty()) {
