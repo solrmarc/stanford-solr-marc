@@ -227,7 +227,7 @@ public class MarcUtils {
 	    // Process Leader
 	    if (fldTag.equals("000"))
 	    {
-	        resultSet.add(record.getLeader().toString());
+	        resultSet.add(record.getLeader().marshal());
 	        return resultSet;
 	    }
 	
@@ -296,7 +296,7 @@ public class MarcUtils {
 	    // Process Leader
 	    if (fldTag.equals("000"))
 	    {
-	        resultSet.add(record.getLeader().toString().substring(beginIx, endIx));
+	        resultSet.add(record.getLeader().marshal().substring(beginIx, endIx));
 	        return resultSet;
 	    }
 	
@@ -513,8 +513,9 @@ public class MarcUtils {
 	 */
 	public static boolean isMHLDRecord(Record record)
 	{
-		char leaderChar06 = record.getLeader().toString().charAt(6);
-		switch (leaderChar06)
+		// this should be the same as record.getLeader().marshal().charAt(6);
+		char typeOfRec = record.getLeader().getTypeOfRecord();
+		switch (typeOfRec)
 		{
 			case 'u':
 			case 'v':

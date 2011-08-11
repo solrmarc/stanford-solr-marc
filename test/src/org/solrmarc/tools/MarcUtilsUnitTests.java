@@ -115,4 +115,30 @@ public class MarcUtilsUnitTests {
 		assertTrue("There should not be any subfield b in ac list", !subacList.contains("contents of 650b"));
 	}
 
+
+	/**
+	 * unit test for org.solrmarc.tools.MarcUtils.isMHLDRecord
+	 */
+@Test
+	public void testIsMhldRecord()
+	{
+		String sampleLdrStr = "02429nas a2200481 a 4500";
+		Record rec = new NoSortRecordImpl();
+		Leader leader = new LeaderImpl(sampleLdrStr);
+		rec.setLeader(leader);
+		assertFalse("Record type a should be not be recognized as MHLD", MarcUtils.isMHLDRecord(rec));
+
+		leader.setTypeOfRecord('u');
+		rec.setLeader(leader);
+		assertTrue("Record type u should be recognized as MHLD", MarcUtils.isMHLDRecord(rec));
+		leader.setTypeOfRecord('v');
+		rec.setLeader(leader);
+		assertTrue("Record type v should be recognized as MHLD", MarcUtils.isMHLDRecord(rec));
+		leader.setTypeOfRecord('x');
+		rec.setLeader(leader);
+		assertTrue("Record type x should be recognized as MHLD", MarcUtils.isMHLDRecord(rec));
+		leader.setTypeOfRecord('y');
+		rec.setLeader(leader);
+		assertTrue("Record type y should be recognized as MHLD", MarcUtils.isMHLDRecord(rec));
+	}
 }
