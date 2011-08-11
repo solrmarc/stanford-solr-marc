@@ -1,11 +1,8 @@
 package org.solrmarc.tools;
 
-import org.solrmarc.index.SolrIndexer;
-
 import org.marc4j.marc.*;
 
 import java.util.*;
-import java.util.regex.Matcher;
 
 public class MarcUtils {
 
@@ -244,6 +241,127 @@ public class MarcUtils {
     }
 
     
+	/**
+	 * find the first instance of the control field within a record and return 
+	 * its contents as a string. If the field is a DataField, return the 
+	 *  contents of the specified subfield, or, if unspecified, of subfield 'a'
+	 * @param record - record to search
+	 * @param tag - tag number to search for
+	 */
+	public static String getControlFieldData(Record record, String tag)
+	{
+		if (tag != null && tag.length() >= 3)
+		{
+		    String fieldTag = tag.substring(0,3);
+		    List<VariableField> vfList = record.getVariableFields(fieldTag);
+		    for (VariableField vf : vfList)
+		    {
+		        if (vf instanceof ControlField)
+		        {
+		            ControlField cf = (ControlField) vf;
+		            if (cf.getTag().matches(fieldTag))
+		                return((String)cf.getData());
+		        }
+		        else if (vf instanceof DataField)
+		        {
+		            DataField df = (DataField)vf;
+		            if (df.getTag().matches(fieldTag))
+		            {
+		                char subfieldtag = 'a';
+		                if (tag.length() > 3) 
+		                	subfieldtag = tag.charAt(4);
+		                Subfield sf = df.getSubfield(subfieldtag);
+		                if (sf != null) 
+		                	return(sf.getData());
+		            }
+		        }
+		    }
+		}
+	    return(null);
+	}
+
+
+	/**
+	 * merge the given fields from nextRecord into resultRecord
+	 * @param resultRecord the record recordToCopyFrom receive more fields
+	 * @param recordToCopyFrom the record from which to copy fields
+	 * @param fieldsToCopy the fields to be copied, as a regular expression (e.g. "852|866|867")
+	 * @return the currentRecord with the matching fields added from the nextRecord
+	 */
+	public static Record combineRecords(Record resultRecord, Record recordToCopyFrom, String fieldsToCopy)
+	{
+	    List<VariableField> recToCopyFromAllFields = recordToCopyFrom.getVariableFields();
+	    for (VariableField vf : recToCopyFromAllFields)
+	    {
+	        if (vf.getTag().matches(fieldsToCopy))
+	            resultRecord.addVariableField(vf);
+	    }
+	    return(resultRecord);
+	}
+
+
+	/**
+	 * merge the given fields from nextRecord into resultRecord
+	 * @param resultRecord the record recordToCopyFrom receive more fields
+	 * @param recordToCopyFrom the record from which to copy fields
+	 * @param fieldsToCopy the fields to be copied, as a regular expression (e.g. "852|866|867")
+	 * @param fieldToInsertBefore fields(ToMerge) from recordToCopyFrom should be inserted before occurrences of this field in resultRecord
+	 * @return the currentRecord with the matching fields added from the nextRecord
+	 */
+	public static Record combineRecords(Record resultRecord, Record recordToCopyFrom, String fieldsToCopy, String fieldToInsertBefore)
+	{
+	    List<VariableField> postInsertFields = new ArrayList<VariableField>();
+
+	    if (fieldToInsertBefore != null && fieldToInsertBefore.length() == 3)
+		{
+		    // remove existing postInsertFields (temporarily)
+		    List<VariableField> resultRecAllFields = resultRecord.getVariableFields();
+		    for (VariableField vf : resultRecAllFields)
+		    {
+		        if (vf.getTag().matches(fieldToInsertBefore))
+		        {
+		            postInsertFields.add(vf);
+		            resultRecord.removeVariableField(vf);
+		        }
+		    }
+		}
+	
+	    // copy desired fields to resultRecord
+	    resultRecord = combineRecords(resultRecord, recordToCopyFrom, fieldsToCopy);
+	    
+	    // add back the temporarily removed fields
+	    for (VariableField vf : postInsertFields)
+	    {
+	        resultRecord.addVariableField(vf);
+	    }
+
+	    return(resultRecord);
+	}
+	
+	
+	/**
+	 * An MHLD record is identified by the Leader/06 value. If leader/06 is any of these:
+	 *	u - Unknown
+	 *	v - Multipart item holdings
+	 *	x - Single-part item holdings
+	 *	y - Serial item holdings
+	 *	
+	 *	then the record is a MHLD record.
+	 */
+	public static boolean isMHLDRecord(Record record)
+	{
+		char leaderChar06 = record.getLeader().toString().charAt(6);
+		switch (leaderChar06)
+		{
+			case 'u':
+			case 'v':
+			case 'x':
+			case 'y':
+				return true;
+		}
+		return false;
+	}
+ 
 // -------------------------- indicator methods --------------------------------    
 
     
@@ -259,5 +377,6 @@ public class MarcUtils {
             result = Integer.valueOf(String.valueOf(ind2char));
         return result;
     }
- 
+
+	
 }
