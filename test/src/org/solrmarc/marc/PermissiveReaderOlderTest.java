@@ -1,4 +1,4 @@
-package org.solrmarc.tools;
+package org.solrmarc.marc;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,7 +18,7 @@ import org.marc4j.MarcStreamWriter;
 import org.marc4j.MarcWriter;
 import org.marc4j.marc.Record;
 
-public class PermissiveReaderTest
+public class PermissiveReaderOlderTest
 {
 
     /**

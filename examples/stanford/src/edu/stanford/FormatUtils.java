@@ -32,7 +32,6 @@ public class FormatUtils {
 	 * @param cf008 - the 008 field as a ControlField object
 	 * @param Set of Strings containing Format enum values per the given data
 	 */
-	@SuppressWarnings("unchecked")
 	static Set<String> getFormatsPerLdrAnd008(String leaderStr, ControlField cf008) 
 	{
 		Set<String> result = new HashSet<String>();
@@ -125,7 +124,6 @@ public class FormatUtils {
 	 * @param cf008 - the 008 field as a ControlField object
 	 * @param Set of Strings containing Format enum values per the given data
 	 */
-	@SuppressWarnings("unchecked")
 	static String getSerialFormat(char leaderChar07, ControlField cf008, VariableField f006) 
 	{
 		String result = null;

@@ -24,7 +24,6 @@ public class DiacriticTests extends AbstractStanfordTest {
 	// 100 field contains the diacritics in our test data
 	private String fldName = "author_1xx_search";
 	
-	@SuppressWarnings("unused")
 @Before
 	public final void initVars() 
 			throws ParserConfigurationException, IOException, SAXException 

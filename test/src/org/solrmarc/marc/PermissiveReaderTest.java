@@ -42,11 +42,11 @@ public class PermissiveReaderTest
         }
         boolean verbose = Boolean.parseBoolean(System.getProperty("marc.verbose"));
         boolean veryverbose = Boolean.parseBoolean(System.getProperty("marc.verbose"));
-        boolean usemap = false;
+//        boolean usemap = false;
         LinkedHashMap<Character,String> map = null;
         if (args[0].equals("-m")) 
         {
-            usemap = true;
+//            usemap = true;
             String newArgs[] = new String[args.length-1];
             System.arraycopy(args, 1, newArgs, 0, args.length-1);
             args = newArgs;
@@ -93,7 +93,7 @@ public class PermissiveReaderTest
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        boolean done = false;
+//        boolean done = false;
         if (args.length > 1)
         {
             try
@@ -190,7 +190,7 @@ public class PermissiveReaderTest
                     {
                         int index1 = 0; 
                         int index2 = 0;
-                        boolean showLines = false;
+//                        boolean showLines = false;
                         while (index1 < normLines[i].length() && index2 < permLines[i].length())
                         {
                             while (index1 < normLines[i].length() && index2 < permLines[i].length() &&
@@ -204,7 +204,7 @@ public class PermissiveReaderTest
                                 {
                                     Character key = permLines[i].charAt(index2);
                                     map.put(key, normLines[i] + "@@" +  permLines[i]);
-                                    showLines = true; 
+//                                    showLines = true; 
                                     out.println(" "+key+" : " + normLines[i]);
                                     out.println(" "+key+" : " + permLines[i]);                    
 

@@ -1,18 +1,8 @@
 package org.solrmarc.tools;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.Comparator;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
-import org.marc4j.ErrorHandler;
-import org.marc4j.MarcPermissiveStreamReader;
-import org.marc4j.MarcReader;
-import org.marc4j.MarcWriter;
 import org.marc4j.marc.Record;
 import org.solrmarc.marc.RawRecordReader;
 

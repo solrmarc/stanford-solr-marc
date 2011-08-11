@@ -1278,7 +1278,7 @@ public class SolrIndexer
        //first only?       
        if ( results.size() > 0 && first) {
          Iterator<String> iter = results.iterator();
-         Set newResults = new LinkedHashSet<String>();
+         Set<String> newResults = new LinkedHashSet<String>();
          newResults.add(iter.next());
          results = newResults;
        }
@@ -1296,7 +1296,7 @@ public class SolrIndexer
        
        //removeTrailingPunct?
        if ( removeTrailingPunct ) {
-         Set newResults = new LinkedHashSet<String>();
+         Set<String> newResults = new LinkedHashSet<String>();
          for (String s : results)
          {
             newResults.add(Utils.cleanData(s));
@@ -1388,7 +1388,7 @@ public class SolrIndexer
      * @param record - the marc record object
      * @return 245a, b, and k values concatenated in order found, with trailing punct removed. Returns empty string if no suitable title found. 
      */
-    public String getTitle(Record record)
+    public static String getTitle(Record record)
     {
         DataField titleField = (DataField) record.getVariableField("245");
         if ( titleField == null) {
@@ -1419,7 +1419,7 @@ public class SolrIndexer
      * 
      * @see org.solrmarc.index.SolrIndexer.getTitle()
      */
-    public String getSortableTitle(Record record)
+    public static String getSortableTitle(Record record)
     {
         DataField titleField = (DataField) record.getVariableField("245");
         if (titleField == null)
@@ -1450,8 +1450,7 @@ public class SolrIndexer
      * followed by
      *  3.  the 245 title, not including non-filing chars as noted in ind 2
      */
-    @SuppressWarnings("unchecked")
-    public String getSortableAuthor(final Record record)
+    public static String getSortableAuthor(final Record record)
     {
         StringBuilder resultBuf = new StringBuilder();
 
@@ -1509,7 +1508,7 @@ public class SolrIndexer
      * @param record - the marc record object
      * @return 260c, "cleaned" per org.solrmarc.tools.Utils.cleanDate()
      */
-    public String getPublicationDate(final Record record)
+    public static String getPublicationDate(final Record record)
     {
         return(getDate(record));
     }
@@ -1571,7 +1570,7 @@ public class SolrIndexer
      *         none
      */
     @SuppressWarnings("unchecked")
-    public Set<String> getSupplUrls(final Record record)
+    public static Set<String> getSupplUrls(final Record record)
     {
         Set<String> resultSet = new LinkedHashSet<String>();
 
@@ -1603,7 +1602,7 @@ public class SolrIndexer
      * text" string (ignoring case) in subfield 3 or z. Note: Called only when
      * second indicator is not 0 or 2.
      */
-    protected boolean isSupplementalUrl(DataField f856)
+    protected static boolean isSupplementalUrl(DataField f856)
     {
         boolean supplmntl = false;
         List<String> list3z = MarcUtils.getSubfieldStrings(f856, '3');
@@ -1847,7 +1846,7 @@ public class SolrIndexer
      * @return Set of strings containing the field values with trailing
      *         punctuation removed
      */
-    public Set<String> removeTrailingPunct(Record record, String fieldSpec)
+    public static Set<String> removeTrailingPunct(Record record, String fieldSpec)
     {
         Set<String> result = getFieldList(record, fieldSpec);
         Set<String> newResult = new LinkedHashSet<String>();
@@ -1937,7 +1936,7 @@ public class SolrIndexer
      *         all the alphabetic subfields.
      */
     @SuppressWarnings("unchecked")
-    public Set<String> getAllAlphaSubfields(final Record record, String fieldSpec) 
+    public static Set<String> getAllAlphaSubfields(final Record record, String fieldSpec) 
     {
         Set<String> resultSet = new LinkedHashSet<String>();
 
@@ -1998,8 +1997,7 @@ public class SolrIndexer
      * @return a set of strings, where each string is the concatenated values of
      *         all the alphabetic subfields.
      */
-    @SuppressWarnings("unchecked")
-    public final Set<String> getAllAlphaSubfields(final Record record, String fieldSpec, String multOccurs) 
+    public static final Set<String> getAllAlphaSubfields(final Record record, String fieldSpec, String multOccurs) 
     {
         Set<String> result = getAllAlphaSubfields(record, fieldSpec);
         
@@ -2046,7 +2044,7 @@ public class SolrIndexer
      *         all the alphabetic subfields.
      */
     @SuppressWarnings("unchecked")
-    public Set<String> getAllAlphaExcept(final Record record, String fieldSpec)
+    public static Set<String> getAllAlphaExcept(final Record record, String fieldSpec)
     {
         Set<String> resultSet = new LinkedHashSet<String>();
         String[] fldTags = fieldSpec.split(":");
@@ -2253,7 +2251,7 @@ public class SolrIndexer
      * @return a string containing ALL subfields of ALL marc fields within the
      *         range indicated by the bound string arguments.
      */
-    public String getAllSearchableFields(final Record record, String lowerBoundStr, String upperBoundStr)
+    public static String getAllSearchableFields(final Record record, String lowerBoundStr, String upperBoundStr)
     {
         StringBuilder buffer = new StringBuilder("");
         int lowerBound = Utils.parseIntNoNFE(lowerBoundStr, 100);
@@ -2328,37 +2326,5 @@ public class SolrIndexer
         }
     }
 
-    /**
-     * given a field spec that is assured to be for a single marc tag, return
-     * the marc tag (the three character designation, such as 245, 650, etc.)
-     * and the designated subfields string
-     * 
-     * @param singleFieldSpec -
-     *            a field spec for a single tag only
-     * @return a 2 element array of Strings, where the first element is the
-     *         field tag and the second element is the list of subfields. Either
-     *         element may be null: in the first element, null means the field
-     *         tag was not 3 chars; in the second element, null means there were
-     *         no subfields indicated.
-     */
-    private String[] parseSinglefieldSpec(String singleFieldSpec)
-    {
-        String[] result = new String[2];
-        // Check to ensure tag length is at least 3 characters
-        if (singleFieldSpec.length() < 3)
-        {
-            System.err.println("Invalid tag specified: " + singleFieldSpec);
-            result[0] = null;
-        }
-        else
-            result[0] = singleFieldSpec.substring(0, 3);
-
-        // subfields
-        if (singleFieldSpec.length() >= 3)
-            result[1] = singleFieldSpec.substring(3);
-        else
-            result[1] = null;
-        return result;
-    }
-
+ 
 }

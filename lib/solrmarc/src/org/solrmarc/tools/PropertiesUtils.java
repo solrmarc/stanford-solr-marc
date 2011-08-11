@@ -190,10 +190,6 @@ public class PropertiesUtils {
                     throw new IllegalArgumentException(errmsg);
                 }
             }
-            else
-            {
-                throw new IllegalArgumentException(errmsg);
-            }
         }
         return(in);
     }
