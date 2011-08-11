@@ -161,9 +161,8 @@ public class MergeSummaryHoldings implements MarcReader
             if (bibRec != null)
             {
             	Set<RawRecord> matchingRawMhldRecs = getMatchingMhldRawRecs(rawBibRec.getRecordId());
-            	for (Iterator iter = matchingRawMhldRecs.iterator(); iter.hasNext();) 
+            	for (RawRecord matchingRawMhldRec : matchingRawMhldRecs) 
             	{
-					RawRecord matchingRawMhldRec = (RawRecord) iter.next();
                     bibRec = addMhldFieldsToBibRec(bibRec, matchingRawMhldRec);
 				}
             }
@@ -305,7 +304,7 @@ public class MergeSummaryHoldings implements MarcReader
         {
             bibRecord.removeVariableField(vf);
         }
-        bibRecord = MarcCombiningReader.combineRecords(bibRecord, mhldRecord, mhldFldsToMerge, "999");
+        bibRecord = MarcUtils.combineRecords(bibRecord, mhldRecord, mhldFldsToMerge, "999");
         return(bibRecord);
     }
     
@@ -441,7 +440,7 @@ public class MergeSummaryHoldings implements MarcReader
                     Record matchingMhldRec = matchingRawMhldRec.getAsRecord(true, false, DEFAULT_MHLD_FLDS_TO_MERGE, "MARC8");
                     
                     // prepare the merged record
-                    bibRecWithChanges = MarcCombiningReader.combineRecords(bibRecWithChanges, matchingMhldRec, DEFAULT_MHLD_FLDS_TO_MERGE, "999");
+                    bibRecWithChanges = MarcUtils.combineRecords(bibRecWithChanges, matchingMhldRec, DEFAULT_MHLD_FLDS_TO_MERGE, "999");
                     
                     // only keep the merged record if it is different from the original record, or if we are retaining all bibs
                     if (outputAllBibs == true || !removedField || !bibRecWithoutChanges.toString().equals(bibRecWithChanges.toString()))

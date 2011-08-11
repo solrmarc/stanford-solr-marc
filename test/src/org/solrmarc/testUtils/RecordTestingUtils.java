@@ -195,13 +195,12 @@ public class RecordTestingUtils
 	{
 		int count = 0;
 	    List<VariableField> vfList = record.getVariableFields(fieldTag);
-	    for (Iterator iter = vfList.iterator(); iter.hasNext();)
+	    for (VariableField vf : vfList)
 	    {
-	    	DataField df = (DataField) iter.next();
+	    	DataField df = (DataField) vf;
 	    	List<Subfield> sfList = df.getSubfields(subfieldCode);
-	    	for (Iterator iter2 = sfList.iterator(); iter2.hasNext();) 
+	    	for (Subfield sf : sfList) 
 	    	{
-	    		Subfield sf = (Subfield) iter2.next();
 	    		String val = sf.getData();
 	    		count = count + 1;
     			assertTrue("Got unexpected value " + val, expectedVals.contains(val));
@@ -216,13 +215,12 @@ public class RecordTestingUtils
 	{
 		int count = 0;
 	    List<VariableField> vfList = record.getVariableFields(fieldTag);
-	    for (Iterator iter = vfList.iterator(); iter.hasNext();)
+	    for (VariableField vf : vfList)
 	    {
-	    	DataField df = (DataField) iter.next();
+	    	DataField df = (DataField) vf;
 	    	List<Subfield> sfList = df.getSubfields(subfieldCode);
-	    	for (Iterator iter2 = sfList.iterator(); iter2.hasNext();) 
+	    	for (Subfield sf : sfList) 
 	    	{
-	    		Subfield sf = (Subfield) iter2.next();
 	    		String val = sf.getData();
 	    		count = count + 1;
     			assertFalse("Got unexpected value " + val, unexpectedVals.contains(val));
