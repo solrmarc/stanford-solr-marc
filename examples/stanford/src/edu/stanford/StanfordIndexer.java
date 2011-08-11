@@ -7,7 +7,6 @@ import java.util.regex.*;
 
 import org.marc4j.marc.*;
 //could import static, but this seems clearer
-import org.solrmarc.index.SolrIndexer;
 import org.solrmarc.tools.*;
 
 import edu.stanford.enumValues.*;
@@ -129,11 +128,11 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			date008 = cf008.getData().substring(7, 11);
 		else
 			date008 = null;
-		date260c = SolrIndexer.getDate(record);
-		f020suba = getFieldList(record, "020a");
-		f020subz = getFieldList(record, "020z");
-		f655suba = getFieldList(record, "655a");
-		f956subu = getFieldList(record, "956u");
+		date260c = MarcUtils.getDate(record);
+		f020suba = MarcUtils.getFieldList(record, "020a");
+		f020subz = MarcUtils.getFieldList(record, "020z");
+		f655suba = MarcUtils.getFieldList(record, "655a");
+		f956subu = MarcUtils.getFieldList(record, "956u");
 		
 		List<DataField> list999df = (List<DataField>) record.getVariableFields("999");
 		has999s = !list999df.isEmpty();
@@ -297,9 +296,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getLanguages(final Record record) 
 	{
-		Set<String> langResultSet = getFieldList(record, "008[35-37]:041d:041e:041j");
+		Set<String> langResultSet = MarcUtils.getFieldList(record, "008[35-37]:041d:041e:041j");
 
-		Set<String> lang041a = getFieldList(record, "041a");
+		Set<String> lang041a = MarcUtils.getFieldList(record, "041a");
 		for (String langCodeStr : lang041a) {
 			int len = langCodeStr.length();
 			if (len == 3)
@@ -362,8 +361,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		Set<String> allCandidates = new HashSet<String>(f020suba);
 		allCandidates.addAll(f020subz);
-		allCandidates.addAll(getFieldList(record, "770z:771z:772z:773z:774z:775z:776z:777z:778z:779z"));
-		allCandidates.addAll(getFieldList(record, "780z:781z:782z:783z:784z:785z:786z:787z:788z:789z"));
+		allCandidates.addAll(MarcUtils.getFieldList(record, "770z:771z:772z:773z:774z:775z:776z:777z:778z:779z"));
+		allCandidates.addAll(MarcUtils.getFieldList(record, "780z:781z:782z:783z:784z:785z:786z:787z:788z:789z"));
 		isbnSet.addAll(Utils.returnValidISBNs(allCandidates));
 		return isbnSet;
 	}
@@ -387,9 +386,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		Set<String> issnSet = new HashSet<String>();
 
-		Set<String> set = getFieldList(record, "022a");
+		Set<String> set = MarcUtils.getFieldList(record, "022a");
 		if (set.isEmpty())
-			set.addAll(getFieldList(record, "022z"));
+			set.addAll(MarcUtils.getFieldList(record, "022z"));
 
 		Pattern p = Pattern.compile("^\\d{4}-\\d{3}[X\\d]$");
 		Iterator<String> iter = set.iterator();
@@ -421,12 +420,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		Set<String> oclcSet = new LinkedHashSet<String>();
 
-		Set<String> set035a = getFieldList(record, "035a");
+		Set<String> set035a = MarcUtils.getFieldList(record, "035a");
 		oclcSet = Utils.getPrefixedVals(set035a, "(OCoLC-M)");
 		if (oclcSet.isEmpty()) {
 			// check for 079 prefixed "ocm" or "ocn"
 			// 079 is not repeatable
-			String val = getFirstFieldVal(record, "079a");
+			String val = MarcUtils.getFirstFieldVal(record, "079a");
 			if (val != null && val.length() != 0) 
 			{
 				String good = null;
@@ -502,28 +501,28 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		String two45_spec = "245a";
 
 		// 1xx + 24x
-		String one_xx = getFirstFieldVal(record, one_xx_spec);
+		String one_xx = MarcUtils.getFirstFieldVal(record, one_xx_spec);
 		if (one_xx != null) {
-			String two4x = getFirstFieldVal(record, two40_spec);
+			String two4x = MarcUtils.getFirstFieldVal(record, two40_spec);
 			if (two4x == null) {
-				two4x = getFirstFieldVal(record, two45_spec);
+				two4x = MarcUtils.getFirstFieldVal(record, two45_spec);
 			}
 			resultSet.add(one_xx + " " + two4x);
 		}
 				
 		// 880 version of 1xx + 24x
 		// 	vern1xx all alpha except e + vern240; if no vern240, vern245a; if no vern240 and no vern 245a, then skip.
-		Set<String> vern_one_xx_set = getLinkedField(record, one_xx_spec);
+		Set<String> vern_one_xx_set = MarcUtils.getLinkedField(record, one_xx_spec);
 		if (vern_one_xx_set.size() > 0) {
         	String vern_one_xx = vern_one_xx_set.iterator().next();
         	// linked 240?
-        	Set<String> two40_set = getLinkedField(record, two40_spec);
+        	Set<String> two40_set = MarcUtils.getLinkedField(record, two40_spec);
 			String verntwo4x = null;
 			if (two40_set.size() > 0)
 				verntwo4x = two40_set.iterator().next();
 	        else {
 		        // linked 245?
-				Set<String> two45_set = getLinkedField(record, two45_spec);
+				Set<String> two45_set = MarcUtils.getLinkedField(record, two45_spec);
 				if (two45_set.size() > 0)
 					verntwo4x = two45_set.iterator().next();
 	        }
@@ -611,7 +610,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
     public Set<String> getTopicAllAlphaExcept(final Record record, final String fieldSpec) 
     {
-		Set<String> resultSet = getAllAlphaExcept(record, fieldSpec);
+		Set<String> resultSet = MarcUtils.getAllAlphaExcept(record, fieldSpec);
 		if (buildings.contains("LANE-MED"))
 			resultSet.removeAll(f655suba);
 		resultSet.remove("nomesh");
@@ -671,7 +670,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     @SuppressWarnings("unchecked")
 	public Set<String> getGeographicFacet(final Record record, String charsToReplaceRegEx, String charsB4periodRegEx) 
     {
-		Set<String> values = getFieldList(record, "651a");
+		Set<String> values = MarcUtils.getFieldList(record, "651a");
 		
 		// look for first subfield z in 6xx
 		List<DataField> dfList = (List<DataField>) record.getDataFields();
@@ -705,7 +704,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	{
 		Set<String> subjectsSet = new LinkedHashSet<String>();
 		if (formats.contains(Format.DATABASE_A_Z.toString())) {
-			subjectsSet = getFieldList(record, "099a");
+			subjectsSet = MarcUtils.getFieldList(record, "099a");
 		}
 		// add second value for those codes mapping to two values
 		if (subjectsSet.contains("BP"))
@@ -889,7 +888,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
                             case '2':
                                 break;
                             default:
-                                if (!isSupplementalUrl(df))
+                                if (!MarcUtils.isSupplementalUrl(df))
                                 	resultSet.addAll(possUrls);
                                 break;
                         }
@@ -1300,7 +1299,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public final Set<String> getVernacular(final Record record, String fieldSpec, String multOccurs) 
 	{
-		Set<String> result = getLinkedField(record, fieldSpec);
+		Set<String> result = MarcUtils.getLinkedField(record, fieldSpec);
 
 		if (multOccurs.equals("first")) {
 			Set<String> first = new HashSet<String>();
@@ -1405,7 +1404,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public final Set<String> vernRemoveTrailingPunc(final Record record, String fieldSpec, String charsToReplaceRegEx, String charsB4periodRegEx) 
 	{
-		Set<String> origVals = getLinkedField(record, fieldSpec);
+		Set<String> origVals = MarcUtils.getLinkedField(record, fieldSpec);
 		Set<String> result = new LinkedHashSet<String>();
 
 		for (String val : origVals) {
@@ -1443,7 +1442,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     public Set<String> removeTrailingPunct(final Record record, final String fieldSpec, String charsToReplaceRegEx, String charsB4periodRegEx) 
     {
 		Set<String> resultSet = new LinkedHashSet<String>();
-		for (String val : getFieldList(record, fieldSpec)) {
+		for (String val : MarcUtils.getFieldList(record, fieldSpec)) {
     		String result = Utils.removeAllTrailingCharAndPeriod(val, "(" + charsToReplaceRegEx + ")+", charsB4periodRegEx);
 			resultSet.add(result);
 		}

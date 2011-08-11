@@ -22,7 +22,7 @@ import org.marc4j.marc.DataField;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
 import org.marc4j.marc.VariableField;
-import org.solrmarc.index.SolrIndexer;
+import org.solrmarc.tools.MarcUtils;
 import org.solrmarc.tools.SolrMarcException;
 import org.solrmarc.tools.Utils;
 
@@ -153,7 +153,7 @@ public class MarcFilteredReader implements MarcReader
             }
             if (rec != null && includeRecordIfFieldPresent != null)
             {
-                Set<String> fields = SolrIndexer.getFieldList(rec, includeRecordIfFieldPresent);
+                Set<String> fields = MarcUtils.getFieldList(rec, includeRecordIfFieldPresent);
                 if (fields.size() != 0)
                 {
                     if (includeRecordIfFieldContains == null || Utils.setItemContains(fields, includeRecordIfFieldContains))
@@ -165,7 +165,7 @@ public class MarcFilteredReader implements MarcReader
            
             if (rec != null && includeRecordIfFieldMissing != null)
             {
-                Set<String> fields = SolrIndexer.getFieldList(rec, includeRecordIfFieldMissing);
+                Set<String> fields = MarcUtils.getFieldList(rec, includeRecordIfFieldMissing);
                 if ((fields.size() == 0 && includeRecordIfFieldDoesntContain == null) ||
                     (fields.size() != 0 && includeRecordIfFieldDoesntContain != null && !Utils.setItemContains(fields, includeRecordIfFieldDoesntContain)))
                 {

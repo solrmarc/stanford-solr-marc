@@ -277,7 +277,7 @@ public class RecordTestingUtils
 	 *  RawRecord objects
 	 */
 @Test
-    public void testRawRecordAssertEqualsAndNot()
+    public static void testRawRecordAssertEqualsAndNot()
   		throws IOException
   	{
   	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
@@ -308,7 +308,7 @@ public class RecordTestingUtils
 	 *  Record objects
 	 */
 @Test  	
-  	public void testRecordAssertEqualsAndNot()
+  	public static void testRecordAssertEqualsAndNot()
   	  		throws IOException
   	{
   	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
@@ -343,7 +343,7 @@ public class RecordTestingUtils
 	 *  Record objects
 	 */
 @Test  	
-	public void testRecordAssertEqualsIgnoreLeaderAndNot()
+	public static void testRecordAssertEqualsIgnoreLeaderAndNot()
 	  		throws IOException
 	{
 	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";

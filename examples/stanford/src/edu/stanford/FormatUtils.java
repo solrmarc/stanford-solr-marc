@@ -3,7 +3,6 @@ package edu.stanford;
 import java.util.*;
 
 import org.marc4j.marc.*;
-import org.solrmarc.index.SolrIndexer;
 import org.solrmarc.tools.*;
 
 import edu.stanford.enumValues.Format;
@@ -204,7 +203,7 @@ public class FormatUtils {
 	 *  false otherwise
 	 */
 	static boolean isMicroformat(Record record) {
-		Set<String> titleH = SolrIndexer.getSubfieldDataAsSet(record, "245", "h", " ");
+		Set<String> titleH = MarcUtils.getSubfieldDataAsSet(record, "245", "h", " ");
 		if (Utils.setItemContains(titleH, "microform"))
 			return true;
 		else
