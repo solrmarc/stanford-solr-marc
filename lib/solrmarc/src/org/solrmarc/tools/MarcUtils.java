@@ -463,10 +463,10 @@ public class MarcUtils {
 
 	/**
 	 * merge the given fields from nextRecord into resultRecord
-	 * @param resultRecord the record recordToCopyFrom receive more fields
-	 * @param recordToCopyFrom the record from which to copy fields
+	 * @param resultRecord - receives the fields from recordToCopyFrom 
+	 * @param recordToCopyFrom - the record from which to copy fields
 	 * @param fieldsToCopy the fields to be copied, as a regular expression (e.g. "852|866|867")
-	 * @param fieldToInsertBefore fields(ToMerge) from recordToCopyFrom should be inserted before occurrences of this field in resultRecord
+	 * @param fieldToInsertBefore fields(ToMerge) from recordToCopyFrom should be inserted before the first occurrence of this field in resultRecord
 	 * @return the currentRecord with the matching fields added from the nextRecord
 	 */
 	public static Record combineRecords(Record resultRecord, Record recordToCopyFrom, String fieldsToCopy, String fieldToInsertBefore)
