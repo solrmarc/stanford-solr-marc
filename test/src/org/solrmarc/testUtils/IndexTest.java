@@ -442,7 +442,6 @@ public abstract class IndexTest {
 		return results[0];
 	}
 
-	@SuppressWarnings("unchecked")
 	public final void assertDocHasNoField(String doc_id, String fldName) 
 			throws ParserConfigurationException, IOException, SAXException 
 	{

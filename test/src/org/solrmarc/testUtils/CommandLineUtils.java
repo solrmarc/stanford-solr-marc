@@ -3,24 +3,11 @@ package org.solrmarc.testUtils;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.Permission;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 public class CommandLineUtils
 {
@@ -161,7 +148,6 @@ public class CommandLineUtils
             PrintStream origErr = System.err;
             Class clazz;
             Method method;
-            if (methodName == null) methodName = "main";
             Map<String, String> backupProps = new LinkedHashMap<String, String>();
             Map<String, String> allOrigProps = new LinkedHashMap<String, String>();
             SecurityManager savedSecurityManager = System.getSecurityManager();

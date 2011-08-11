@@ -1,28 +1,15 @@
 package org.solrmarc.marc;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 import org.apache.log4j.Logger;
-//import org.apache.lucene.document.Document;
-import org.solrmarc.marc.MarcImporter.MyShutdownThread;
 import org.solrmarc.tools.SolrMarcIndexerException;
-import org.solrmarc.tools.Utils;
 
 /**
  * 

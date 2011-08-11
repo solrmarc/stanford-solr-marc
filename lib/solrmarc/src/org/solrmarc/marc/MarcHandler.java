@@ -3,8 +3,6 @@ package org.solrmarc.marc;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.util.*;
-import java.util.jar.*;
-import java.util.zip.ZipEntry;
 
 import org.apache.log4j.Logger;
 import org.marc4j.*;

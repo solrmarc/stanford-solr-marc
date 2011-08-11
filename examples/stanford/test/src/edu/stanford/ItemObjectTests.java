@@ -1,13 +1,9 @@
 package edu.stanford;
 
 import java.io.File;
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
 import edu.stanford.enumValues.CallNumberType;
 

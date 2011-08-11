@@ -1,7 +1,6 @@
 package org.solrmarc.solr;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -9,7 +8,6 @@ import java.util.Map;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
-import org.apache.solr.common.SolrInputField;
 
 public class SolrServerProxy implements SolrProxy
 {

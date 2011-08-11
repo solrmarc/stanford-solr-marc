@@ -3,7 +3,6 @@ package edu.stanford;
 import java.util.*;
 
 import org.solrmarc.tools.Utils;
-import org.marc4j.marc.Record;
 
 import edu.stanford.enumValues.CallNumberType;
 

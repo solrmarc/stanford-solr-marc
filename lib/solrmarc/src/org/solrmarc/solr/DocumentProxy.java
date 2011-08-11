@@ -1,7 +1,5 @@
 package org.solrmarc.solr;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class DocumentProxy
 {
     Object docObj;

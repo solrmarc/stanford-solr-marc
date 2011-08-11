@@ -1,16 +1,8 @@
 package org.marc4j.marc.impl;
 
+import java.util.*;
 
-import java.util.ArrayList;
-//import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
-import org.marc4j.marc.ControlField;
-import org.marc4j.marc.IllegalAddException;
-import org.marc4j.marc.Leader;
-import org.marc4j.marc.Record;
-import org.marc4j.marc.VariableField;
+import org.marc4j.marc.*;
 
 /**
  * Represents a MARC record - but without the sorting of the marc fields.
@@ -24,9 +16,9 @@ public class RecordImplRenamed implements Record {
 
     private Leader leader;
 
-    private List controlFields;
+    private List<ControlField> controlFields;
 
-    private List dataFields;
+    private List<DataField> dataFields;
 
     private String type;
 
@@ -34,8 +26,8 @@ public class RecordImplRenamed implements Record {
      * Creates a new <code>Record</code>.
      */
     public RecordImplRenamed() {
-        controlFields = new ArrayList();
-        dataFields = new ArrayList();
+        controlFields = new ArrayList<ControlField>();
+        dataFields = new ArrayList<DataField>();
     }
 
     public void setType(String type) {
@@ -75,15 +67,15 @@ public class RecordImplRenamed implements Record {
         String tag = field.getTag();
         if (Verifier.isControlNumberField(tag)) {
             if (Verifier.hasControlNumberField(controlFields))
-                controlFields.set(0, field);
+                controlFields.set(0, (ControlField) field);
             else
-                controlFields.add(0, field);
+                controlFields.add(0, (ControlField) field);
 //            Collections.sort(controlFields);
         } else if (Verifier.isControlField(tag)) {
-            controlFields.add(field);
+            controlFields.add((ControlField) field);
 //            Collections.sort(controlFields);
         } else {
-            dataFields.add(field);
+            dataFields.add((DataField) field);
 //            Collections.sort(dataFields);
         }
 
@@ -110,11 +102,11 @@ public class RecordImplRenamed implements Record {
             return null;
     }
 
-    public List getControlFields() {
+    public List<ControlField> getControlFields() {
         return controlFields;
     }
 
-    public List getDataFields() {
+    public List<DataField> getDataFields() {
         return dataFields;
     }
 
@@ -132,8 +124,8 @@ public class RecordImplRenamed implements Record {
         return null;
     }
 
-    public List getVariableFields(String tag) {
-        List fields = new ArrayList();
+    public List<VariableField> getVariableFields(String tag) {
+        List<VariableField> fields = new ArrayList<VariableField>();
         Iterator i;
         if (Verifier.isControlField(tag))
             i = controlFields.iterator();
@@ -147,15 +139,15 @@ public class RecordImplRenamed implements Record {
         return fields;
     }
 
-    public List getVariableFields() {
-        List fields = new ArrayList();
-        Iterator i;
-        i = controlFields.iterator();
-        while (i.hasNext())
-            fields.add(i.next());
-        i = dataFields.iterator();
-        while (i.hasNext())
-            fields.add(i.next());
+    public List<VariableField> getVariableFields() {
+        List<VariableField> fields = new ArrayList<VariableField>();
+        Iterator<ControlField> icf = controlFields.iterator();
+        while (icf.hasNext())
+            fields.add((VariableField) icf.next());
+        
+        Iterator<DataField> idf = dataFields.iterator();
+        while (idf.hasNext())
+            fields.add((VariableField) idf.next());
         return fields;
     }
 
@@ -163,11 +155,11 @@ public class RecordImplRenamed implements Record {
         return new String(getControlNumberField().getData());
     }
 
-    public List getVariableFields(String[] tags) {
-        List list = new ArrayList();
+    public List<VariableField> getVariableFields(String[] tags) {
+        List<VariableField> list = new ArrayList<VariableField>();
         for (int i = 0; i < tags.length; i++) {
             String tag = tags[i];
-            List fields = getVariableFields(tag);
+            List<VariableField> fields = getVariableFields(tag);
             if (fields.size() > 0)
                 list.addAll(fields);
         }
@@ -207,7 +199,7 @@ public class RecordImplRenamed implements Record {
         sb.append("LEADER ");
         sb.append(getLeader().toString());
         sb.append('\n');
-        Iterator i = getVariableFields().iterator();
+        Iterator<VariableField> i = getVariableFields().iterator();
         while (i.hasNext()) {
             VariableField field = (VariableField) i.next();
             sb.append(field.toString());
@@ -216,15 +208,26 @@ public class RecordImplRenamed implements Record {
         return sb.toString();
     }
 
-    public List find(String pattern) {
-        List result = new ArrayList();
-        Iterator i = controlFields.iterator();
-        while (i.hasNext()) {
-            VariableField field = (VariableField) i.next();
+    public List<VariableField> find(String pattern) {
+        List<VariableField> result = new ArrayList<VariableField>();
+        Iterator<ControlField> icf = controlFields.iterator();
+        while (icf.hasNext()) {
+            VariableField field = (VariableField) icf.next();
             if (field.find(pattern))
                 result.add(field);
         }
-        i = dataFields.iterator();
+        Iterator<DataField> idf = dataFields.iterator();
+        while (idf.hasNext()) {
+            VariableField field = (VariableField) idf.next();
+            if (field.find(pattern))
+                result.add(field);
+        }
+        return result;
+    }
+
+    public List<VariableField> find(String tag, String pattern) {
+        List<VariableField> result = new ArrayList<VariableField>();
+        Iterator<VariableField> i = getVariableFields(tag).iterator();
         while (i.hasNext()) {
             VariableField field = (VariableField) i.next();
             if (field.find(pattern))
@@ -233,20 +236,9 @@ public class RecordImplRenamed implements Record {
         return result;
     }
 
-    public List find(String tag, String pattern) {
-        List result = new ArrayList();
-        Iterator i = getVariableFields(tag).iterator();
-        while (i.hasNext()) {
-            VariableField field = (VariableField) i.next();
-            if (field.find(pattern))
-                result.add(field);
-        }
-        return result;
-    }
-
-    public List find(String[] tag, String pattern) {
-        List result = new ArrayList();
-        Iterator i = getVariableFields(tag).iterator();
+    public List<VariableField> find(String[] tag, String pattern) {
+        List<VariableField> result = new ArrayList<VariableField>();
+        Iterator<VariableField> i = getVariableFields(tag).iterator();
         while (i.hasNext()) {
             VariableField field = (VariableField) i.next();
             if (field.find(pattern))

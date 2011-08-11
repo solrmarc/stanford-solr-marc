@@ -17,34 +17,15 @@ package org.solrmarc.marc;
  */
 
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
+import java.io.*;
+import java.util.*;
 import java.util.regex.PatternSyntaxException;
 
 import org.apache.log4j.Logger;
 
-import org.marc4j.MarcException;
-import org.marc4j.MarcStreamWriter;
-import org.marc4j.MarcWriter;
-import org.marc4j.marc.DataField;
-import org.marc4j.marc.Record;
-import org.marc4j.marc.Subfield;
-import org.marc4j.marc.VariableField;
-import org.marc4j.marc.impl.DataFieldImpl;
-import org.marc4j.marc.impl.SubfieldImpl;
-import org.marc4j.marc.impl.VariableFieldImpl;
+import org.marc4j.*;
+import org.marc4j.marc.*;
+import org.marc4j.marc.impl.*;
 
 import org.solrmarc.marcoverride.MarcSplitStreamWriter;
 import org.solrmarc.tools.*;

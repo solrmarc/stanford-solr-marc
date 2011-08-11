@@ -460,7 +460,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      *  
 	 * @param record a marc4j Record object
 	 */
-	@SuppressWarnings("unchecked")
 	public String getSortTitle(final Record record) 
     {
 		StringBuilder resultBuf = new StringBuilder();
@@ -1181,7 +1180,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * broad category strings ("x00s");
 	 * @param record a marc4j Record object
 	 */
-	@SuppressWarnings("unchecked")
 	public Set<String> getDeweyCallNumBroadCats(final Record record) {
 		Set<String> result = new HashSet<String>();
 		for (String callnum : deweyCallnums) {
@@ -1300,7 +1298,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      * @param multOccurs - "first", "join" or "all" indicating how to handle
      *  multiple occurrences of field values
 	 */
-	@SuppressWarnings("unchecked")
 	public final Set<String> getVernacular(final Record record, String fieldSpec, String multOccurs) 
 	{
 		Set<String> result = getLinkedField(record, fieldSpec);
@@ -1406,7 +1403,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately 
      *   precede the period for it to be removed.) 
 	 */
-	@SuppressWarnings("unchecked")
 	public final Set<String> vernRemoveTrailingPunc(final Record record, String fieldSpec, String charsToReplaceRegEx, String charsB4periodRegEx) 
 	{
 		Set<String> origVals = getLinkedField(record, fieldSpec);

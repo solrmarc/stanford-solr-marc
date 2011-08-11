@@ -280,6 +280,25 @@ public class MarcUtils {
 	    return(null);
 	}
 
+	 
+// -------------------------- indicator methods --------------------------------    
+	    
+	    /**
+	     * @param df a DataField
+	     * @return the integer (0-9, 0 if blank or other) in the 2nd indicator
+	     */
+	    public static int getInd2AsInt(DataField df)
+	    {
+	        char ind2char = df.getIndicator2();
+	        int result = 0;
+	        if (Character.isDigit(ind2char))
+	            result = Integer.valueOf(String.valueOf(ind2char));
+	        return result;
+	    }
+
+	    
+// ----------------- combining record methods ---------------------------------- 
+
 
 	/**
 	 * merge the given fields from nextRecord into resultRecord
@@ -338,6 +357,8 @@ public class MarcUtils {
 	    return(resultRecord);
 	}
 	
+
+// -------------------------- general methods ---------------------------------- 
 	
 	/**
 	 * An MHLD record is identified by the Leader/06 value. If leader/06 is any of these:
@@ -361,22 +382,5 @@ public class MarcUtils {
 		}
 		return false;
 	}
- 
-// -------------------------- indicator methods --------------------------------    
-
-    
-    /**
-     * @param df a DataField
-     * @return the integer (0-9, 0 if blank or other) in the 2nd indicator
-     */
-    public static int getInd2AsInt(DataField df)
-    {
-        char ind2char = df.getIndicator2();
-        int result = 0;
-        if (Character.isDigit(ind2char))
-            result = Integer.valueOf(String.valueOf(ind2char));
-        return result;
-    }
-
 	
 }

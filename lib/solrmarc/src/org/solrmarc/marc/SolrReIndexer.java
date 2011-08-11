@@ -1,15 +1,12 @@
 package org.solrmarc.marc;
 
 import java.io.*;
-import java.lang.reflect.Constructor;
-import java.text.ParseException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.marc4j.*;
 import org.marc4j.marc.Record;
-import org.solrmarc.index.SolrIndexer;
 
 import org.solrmarc.solr.*;
 import org.solrmarc.tools.*;

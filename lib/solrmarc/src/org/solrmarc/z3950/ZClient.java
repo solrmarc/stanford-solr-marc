@@ -56,7 +56,7 @@ public class ZClient extends SynchronousOriginBean
     public static final char ISO2709_FS = 036;
     public static final char ISO2709_IDFS = 037;
     private static final String PREFIX_QUERY_TYPE = "PREFIX";
-    private static final String CCL_QUERY_TYPE = "CCL";
+//    private static final String CCL_QUERY_TYPE = "CCL";
     
     boolean verbose = false;
     

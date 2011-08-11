@@ -19,7 +19,6 @@ package org.solrmarc.marc;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.*;
 import java.util.*;
 import java.util.regex.PatternSyntaxException;
