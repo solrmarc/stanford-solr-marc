@@ -206,7 +206,7 @@ public class CombineMultBibsMhldsReader implements MarcReader
 			}
 			catch (Exception e)
 			{
-			    logger.error("Couldn't read record after " + idToMatch + " -- " + e.toString(), e);
+			    logger.error("Skipping record:  couldn't read record after " + idToMatch + " -- " + e.toString(), e);
 			}
 		}
 		
