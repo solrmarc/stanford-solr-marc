@@ -198,42 +198,21 @@ public class MarcUtilsUnitTests {
 @Test
 	public void testCombineRecords3Args()
 	{
-		Record bibRec1 = new NoSortRecordImpl();
-		DataField dataFld = new DataFieldImpl("199", ' ', ' ');
-		Subfield suba = new SubfieldImpl('a', "199suba");
-		dataFld.addSubfield(suba);
-		bibRec1.addVariableField(dataFld);
-		dataFld = new DataFieldImpl("111", ' ', ' ');
-		suba = new SubfieldImpl('a', "111suba");
-		dataFld.addSubfield(suba);
-		bibRec1.addVariableField(dataFld);
-		
-		Record bibRec2 = new NoSortRecordImpl();
-		dataFld = new DataFieldImpl("177", ' ', ' ');
-		suba = new SubfieldImpl('a', "177suba");
-		dataFld.addSubfield(suba);
-		bibRec2.addVariableField(dataFld);
-		dataFld = new DataFieldImpl("122", ' ', ' ');
-		suba = new SubfieldImpl('b', "122subb");
-		dataFld.addSubfield(suba);
-		bibRec2.addVariableField(dataFld);
-		dataFld = new DataFieldImpl("122", ' ', ' ');
-		suba = new SubfieldImpl('a', "122suba");
-		dataFld.addSubfield(suba);
-		bibRec2.addVariableField(dataFld);
+		Record bibRec1 = createRecordW199a_111a();
+		Record bibRec2 = createRecordW177a_122b_122a();
 
 		// test:  no matching fields in rec2
 		Record resultRec = MarcUtils.combineRecords(bibRec1, bibRec2, "222");
-		
 		// bibRec1 should still have 2 fields
 		assertEquals("Wrong number of fields in record after merge ", 2, bibRec1.getVariableFields().size());
 		// resultRec should have 199 and 111 fields, in that order
 		List<VariableField> vfList = resultRec.getVariableFields();
 		assertEquals("Wrong number of fields in record after merge ", 2, vfList.size());
+		// are first rec fields in order?
 		assertEquals("Incorrect field or field order after merge ", "199", vfList.get(0).getTag());
 		assertEquals("Incorrect field or field order after merge ", "111", vfList.get(1).getTag());
 		
-		// test:  only merge 
+		// test:  only merge one field
 		resultRec = MarcUtils.combineRecords(bibRec1, bibRec2, "122");
 		vfList = resultRec.getVariableFields();
 		assertEquals("Wrong number of fields in record after merge ", 4, vfList.size());
@@ -241,24 +220,50 @@ public class MarcUtilsUnitTests {
 		assertEquals("Incorrect field or field order after merge ", "111", vfList.get(1).getTag());
 		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(2).getTag());
 		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(3).getTag());
+		// are first rec fields in order?
+		assertEquals("Incorrect field or field order after merge ", "199", vfList.get(0).getTag());
+		assertEquals("Incorrect field or field order after merge ", "111", vfList.get(1).getTag());
+		// are 122 fields in right order?
 		List<Subfield> sfList = ((DataField) vfList.get(2)).getSubfields();
 		assertEquals("Incorrect field order for mult occurrences ", "122subb", sfList.get(0).getData());
 		sfList = ((DataField) vfList.get(3)).getSubfields();
 		assertEquals("Incorrect field order for mult occurrences ", "122suba", sfList.get(0).getData());
 		
+		// test:  merge both fields
+		bibRec1 = createRecordW199a_111a();
+		resultRec = MarcUtils.combineRecords(bibRec1, bibRec2, "122|177");
+		vfList = resultRec.getVariableFields();
+		assertEquals("Wrong number of fields in record after merge ", 5, vfList.size());
+		assertEquals("Incorrect field or field order after merge ", "199", vfList.get(0).getTag());
+		assertEquals("Incorrect field or field order after merge ", "111", vfList.get(1).getTag());
+		assertEquals("Incorrect field or field order after merge ", "177", vfList.get(2).getTag());
+		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(3).getTag());
+		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(4).getTag());
+		// are 122 fields in right order?
+		sfList = ((DataField) vfList.get(3)).getSubfields();
+		assertEquals("Incorrect field order for mult occurrences ", "122subb", sfList.get(0).getData());
+		sfList = ((DataField) vfList.get(4)).getSubfields();
+		assertEquals("Incorrect field order for mult occurrences ", "122suba", sfList.get(0).getData());
 		
-		
-		
-		
-		Record mhldRec = new NoSortRecordImpl();
+		// next rec is an mhld
+		bibRec1 = createRecordW199a_111a();
+		Record mhldRec = createMhldRecordW133a_111a();
+		resultRec = MarcUtils.combineRecords(bibRec1, mhldRec, "133|111");
+		vfList = resultRec.getVariableFields();
+		assertEquals("Wrong number of fields in record after merge ", 4, vfList.size());
+		assertEquals("Incorrect field or field order after merge ", "199", vfList.get(0).getTag());
+		assertEquals("Incorrect field or field order after merge ", "111", vfList.get(1).getTag());
+		assertEquals("Incorrect field or field order after merge ", "133", vfList.get(2).getTag());
+		assertEquals("Incorrect field or field order after merge ", "111", vfList.get(3).getTag());
+		// are 111 fields in right order?
+		sfList = ((DataField) vfList.get(1)).getSubfields();
+		assertEquals("Incorrect field order for mult occurrences ", "111suba", sfList.get(0).getData());
+		sfList = ((DataField) vfList.get(3)).getSubfields();
+		assertEquals("Incorrect field order for mult occurrences ", "mhld111suba", sfList.get(0).getData());
 
 		
 				
-		// fields are added at end of record
 		
-		// next rec is a bib
-		
-		// next rec is an mhld
 		
 		// next rec's fields are scattered throughout
 		
@@ -270,7 +275,7 @@ public class MarcUtilsUnitTests {
 		// field spec has subfields
 		// field spec has two char fields
 	}
-	
+
 	
 	public void testCombineRecords4Args()
 	{
@@ -285,5 +290,80 @@ public class MarcUtilsUnitTests {
 		// mult non-conseq occurrences of field in receiving record
 		
 	}
+	
+	
+	/**
+	 * @return a Record object with:
+	 *   199 field with subfield a
+	 *   111 field with subfield a
+	 */
+	private Record createRecordW199a_111a()
+	{
+		Record result = new NoSortRecordImpl();
+		DataField dataFld = new DataFieldImpl("199", ' ', ' ');
+		Subfield suba = new SubfieldImpl('a', "199suba");
+		dataFld.addSubfield(suba);
+		result.addVariableField(dataFld);
+		dataFld = new DataFieldImpl("111", ' ', ' ');
+		suba = new SubfieldImpl('a', "111suba");
+		dataFld.addSubfield(suba);
+		result.addVariableField(dataFld);
+		return result;
+	}
+		
+	
+	/**
+	 * @return a Record object with:
+	 *   177 field with subfield a
+	 *   122 field with subfield b
+	 *   122 field with subfield a
+	 */
+	private Record createRecordW177a_122b_122a()
+	{
+		Record result = new NoSortRecordImpl();
+		DataField df = new DataFieldImpl("177", ' ', ' ');
+		Subfield suba = new SubfieldImpl('a', "177suba");
+		df.addSubfield(suba);
+		result.addVariableField(df);
+		DataField df122b = new DataFieldImpl("122", ' ', ' ');
+		suba = new SubfieldImpl('b', "122subb");
+		df122b.addSubfield(suba);
+		result.addVariableField(df122b);
+		DataField df122a = new DataFieldImpl("122", ' ', ' ');
+		suba = new SubfieldImpl('a', "122suba");
+		df122a.addSubfield(suba);
+		result.addVariableField(df122a);
+		return result;
+	}
+		
+	
+	/**
+	 * @return a Record object with:
+	 *   177 field with subfield a
+	 *   122 field with subfield b
+	 *   122 field with subfield a
+	 */
+	private Record createMhldRecordW133a_111a()
+	{
+		Record mhldRec = new NoSortRecordImpl();
+		String sampleLdrStr = "02429nas a2200481 a 4500";
+		Leader leader = new LeaderImpl(sampleLdrStr);
+		leader.setTypeOfRecord('u');
+		mhldRec.setLeader(leader);
+		DataField mhldFld133 = new DataFieldImpl("133", ' ', ' ');
+		Subfield suba = new SubfieldImpl('a', "133suba");
+		mhldFld133.addSubfield(suba);
+		mhldRec.addVariableField(mhldFld133);
+		DataField mhldFld111 = new DataFieldImpl("111", ' ', ' ');
+		suba = new SubfieldImpl('a', "mhld111suba");
+		mhldFld111.addSubfield(suba);
+		mhldRec.addVariableField(mhldFld111);
+		return mhldRec;
+	}
+		
+	
+
+	
+
 
 }
