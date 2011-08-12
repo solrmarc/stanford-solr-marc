@@ -53,12 +53,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			e.printStackTrace();
 		}
         
-        SKIPPED_LOCS = GenericUtils.loadPropertiesSet(propertyDirs, "locations_skipped_list.properties");
-        MISSING_LOCS = GenericUtils.loadPropertiesSet(propertyDirs, "locations_missing_list.properties");
-        ONLINE_LOCS = GenericUtils.loadPropertiesSet(propertyDirs, "locations_online_list.properties");
-        GOV_DOC_LOCS = GenericUtils.loadPropertiesSet(propertyDirs, "gov_doc_location_list.properties");
-        SHELBY_LOCS = GenericUtils.loadPropertiesSet(propertyDirs, "locations_shelby_list.properties");
-        SKIPPED_CALLNUMS = GenericUtils.loadPropertiesSet(propertyDirs, "callnums_skipped_list.properties");
+        SKIPPED_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_skipped_list.properties");
+        MISSING_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_missing_list.properties");
+        ONLINE_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_online_list.properties");
+        GOV_DOC_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "gov_doc_location_list.properties");
+        SHELBY_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_shelby_list.properties");
+        SKIPPED_CALLNUMS = PropertiesUtils.loadPropertiesSet(propertyDirs, "callnums_skipped_list.properties");
         // try to reuse HashSet, etc. objects instead of creating fresh each time
         formats = new LinkedHashSet<String>();
     	sfxUrls = new LinkedHashSet<String>();
@@ -1354,7 +1354,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 			String tabooSubfldTags = fldTags[i].substring(3);
 
-			Set<VariableField> vernFlds = GenericUtils.getVernacularFields(record, fldTag);
+			Set<VariableField> vernFlds = MarcUtils.getVernacularFields(record, fldTag);
 
 			for (VariableField vf : vernFlds) 
 			{

@@ -9,8 +9,6 @@ import org.solrmarc.marc.*;
 import org.solrmarc.marcoverride.MarcSplitStreamWriter;
 import org.solrmarc.tools.*;
 
-import edu.stanford.GenericUtils;
-
 /**
  * Note that this will work for any two files of MARC records that share
  *  a common string in a field to be used for comparison.
@@ -258,7 +256,7 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
         while (merger.hasNext()) 
         {
         	Record bibRecWithPossChanges = merger.next();
-        	results.put(GenericUtils.getRecordIdFrom001(bibRecWithPossChanges), bibRecWithPossChanges);
+        	results.put(MarcUtils.getControlFieldData(bibRecWithPossChanges, "001"), bibRecWithPossChanges);
         }
         return results;
     }
