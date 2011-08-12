@@ -11,7 +11,7 @@ import org.xml.sax.SAXException;
 
 
 /**
- * tests for table of contents fields
+ * tests for Notes fields, such as TOC, Summary, Context, Awards ...
  * 
  * @author Naomi Dushay
  */
