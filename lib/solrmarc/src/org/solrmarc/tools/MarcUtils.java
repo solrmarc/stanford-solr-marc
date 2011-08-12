@@ -1041,6 +1041,8 @@ public class MarcUtils {
 	/**
 	 * merge the given fields from nextRecord into resultRecord
 	 * 
+	 * FIXME:  the following can be changed if there's a utility to copy
+	 *  record objects
 	 * Side Effect:
 	 *   NOTE:  the method changes the first param's value in addition to 
 	 *   providing the result (which is the same object as the first param's new value)	
@@ -1055,6 +1057,7 @@ public class MarcUtils {
 	    List<VariableField> recToCopyFromAllFields = recordToCopyFrom.getVariableFields();
 	    for (VariableField vf : recToCopyFromAllFields)
 	    {
+	    	// FIXME:  it would be good to have some error checking on the fieldsToCopy expression passed in
 	        if (vf.getTag().matches(fieldsToCopy))
 	            resultRecord.addVariableField(vf);
 	    }
@@ -1085,6 +1088,7 @@ public class MarcUtils {
 		    List<VariableField> resultRecAllFields = resultRecord.getVariableFields();
 		    for (VariableField vf : resultRecAllFields)
 		    {
+		    	// FIXME:  it would be good to have some error checking on the fieldsToCopy expression passed in
 		        if (vf.getTag().matches(fieldToInsertBefore))
 		        {
 		            postInsertFields.add(vf);
