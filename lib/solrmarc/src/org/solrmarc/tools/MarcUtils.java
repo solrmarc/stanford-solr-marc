@@ -2,6 +2,7 @@ package org.solrmarc.tools;
 
 import org.marc4j.marc.*;
 
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -105,7 +106,300 @@ public class MarcUtils {
     }
     
 
-// --------------------------- subfield methods --------------------------------    
+/**
+	 * For each occurrence of a marc field in the fieldSpec list, extract the
+	 * contents of all subfields except the ones specified, concatenate the
+	 * subfield contents with a space separator and add the string to the result
+	 * set.
+	 * 
+	 * @param record -
+	 *            the marc record
+	 * @param fieldSpec -
+	 *            the marc fields (e.g. 600:655) in which we will grab the
+	 *            alphabetic subfield contents for the result set. The field may
+	 *            not be a control field (must be 010 or greater)
+	 * @return a set of strings, where each string is the concatenated values of
+	 *         all the alphabetic subfields.
+	 */
+	@SuppressWarnings("unchecked")
+	public static Set<String> getAllAlphaExcept(final Record record, String fieldSpec)
+	{
+	    Set<String> resultSet = new LinkedHashSet<String>();
+	    String[] fldTags = fieldSpec.split(":");
+	    for (int i = 0; i < fldTags.length; i++)
+	    {
+	        String fldTag = fldTags[i].substring(0, 3);
+	        if (fldTag.length() < 3 || Integer.parseInt(fldTag) < 10)
+	        {
+	            System.err.println("Invalid marc field specified for getAllAlphaExcept: " + fldTag);
+	            continue;
+	        }
+	
+	        String tabooSubfldTags = fldTags[i].substring(3);
+	
+	        List<VariableField> varFlds = record.getVariableFields(fldTag);
+	        for (VariableField vf : varFlds)
+	        {
+	
+	            StringBuilder buffer = new StringBuilder(500);
+	            DataField df = (DataField) vf;
+	            if (df != null)
+	            {
+	
+	                List<Subfield> subfields = df.getSubfields();
+	
+	                for (Subfield sf : subfields)
+	                {
+	                    if (Character.isLetter(sf.getCode())
+	                            && tabooSubfldTags.indexOf(sf.getCode()) == -1)
+	                    {
+	                        if (buffer.length() > 0)
+	                            buffer.append(' ' + sf.getData().trim());
+	                        else
+	                            buffer.append(sf.getData().trim());
+	                    }
+	                }
+	                if (buffer.length() > 0)
+	                    resultSet.add(buffer.toString());
+	            }
+	        }
+	    }
+	
+	    return resultSet;
+	}
+
+
+	/**
+	 * Loops through all datafields and creates a field for "all fields"
+	 * searching. Shameless stolen from Vufind Indexer Custom Code
+	 * 
+	 * @param record
+	 *            marc record object
+	 * @param lowerBoundStr -
+	 *            the "lowest" marc field to include (e.g. 100). defaults to 100
+	 *            if value passed doesn't parse as an integer
+	 * @param upperBoundStr -
+	 *            one more than the "highest" marc field to include (e.g. 900
+	 *            will include up to 899). Defaults to 900 if value passed
+	 *            doesn't parse as an integer
+	 * @return a string containing ALL subfields of ALL marc fields within the
+	 *         range indicated by the bound string arguments.
+	 */
+	public static String getAllSearchableFields(final Record record, String lowerBoundStr, String upperBoundStr)
+	{
+	    StringBuilder buffer = new StringBuilder("");
+	    int lowerBound = Utils.parseIntNoNFE(lowerBoundStr, 100);
+	    int upperBound = Utils.parseIntNoNFE(upperBoundStr, 900);
+	
+	    List<DataField> fields = record.getDataFields();
+	    for (DataField field : fields)
+	    {
+	        // This will ignore any "code" fields and only use textual fields
+	        int tag = Utils.parseIntNoNFE(field.getTag(), -1);
+	        if ((tag >= lowerBound) && (tag < upperBound))
+	        {
+	            // Loop through subfields
+	            List<Subfield> subfields = field.getSubfields();
+	            for (Subfield subfield : subfields)
+	            {
+	                if (buffer.length() > 0)
+	                    buffer.append(" ");
+	                buffer.append(subfield.getData());
+	            }
+	        }
+	    }
+	    return buffer.toString();
+	}
+
+
+	/**
+	 * Given a fieldSpec, get any linked 880 fields and include the appropriate
+	 * subfields as a String value in the result set.
+	 * 
+	 * @param record
+	 *            marc record object
+	 * @param fieldSpec -
+	 *            the marc field(s)/subfield(s) for which 880s are sought.
+	 *            Separator of colon indicates a separate value, rather than
+	 *            concatenation. 008[5-7] denotes bytes 5-7 of the linked 008
+	 *            field (0 based counting) 100[a-cf-z] denotes the bracket
+	 *            pattern is a regular expression indicating which subfields to
+	 *            include from the linked 880. Note: if the characters in the
+	 *            brackets are digits, it will be interpreted as particular
+	 *            bytes, NOT a pattern 100abcd denotes subfields a, b, c, d are
+	 *            desired from the linked 880.
+	 * 
+	 * @return set of Strings containing the values of the designated 880
+	 *         field(s)/subfield(s)
+	 */
+	public static Set<String> getLinkedField(final Record record, String fieldSpec)
+	{
+	    Set<String> set = getFieldList(record, "8806");
+	
+	    if (set.isEmpty())
+	        return set;
+	
+	    String[] tags = fieldSpec.split(":");
+	    Set<String> result = new LinkedHashSet<String>();
+	    for (int i = 0; i < tags.length; i++)
+	    {
+	        // Check to ensure tag length is at least 3 characters
+	        if (tags[i].length() < 3)
+	        {
+	            System.err.println("Invalid tag specified: " + tags[i]);
+	            continue;
+	        }
+	
+	        // Get Field Tag
+	        String tag = tags[i].substring(0, 3);
+	
+	        // Process Subfields
+	        String subfield = tags[i].substring(3);
+	
+	        String separator = null;
+	        if (subfield.indexOf('\'') != -1)
+	        {
+	            separator = subfield.substring(subfield.indexOf('\'') + 1, subfield.length() - 1);
+	            subfield = subfield.substring(0, subfield.indexOf('\''));
+	        }
+	
+	        result.addAll(getLinkedFieldValue(record, tag, subfield, separator));
+	    }
+	    return result;
+	}
+
+
+	/**
+	 * Given a tag for a field, and a list (or regex) of one or more subfields
+	 * get any linked 880 fields and include the appropriate subfields as a String value 
+	 * in the result set.
+	 * 
+	 * @param record - marc record object
+	 * @param tag -  the marc field for which 880s are sought.
+	 * @param subfield -
+	 *           The subfield(s) within the 880 linked field that should be returned
+	 *            [a-cf-z] denotes the bracket pattern is a regular expression indicating 
+	 *            which subfields to include from the linked 880. Note: if the characters 
+	 *            in the brackets are digits, it will be interpreted as particular
+	 *            bytes, NOT a pattern 100abcd denotes subfields a, b, c, d are
+	 *            desired from the linked 880.
+	 * @param separator - the separator string to insert between subfield items (if null, a " " will be used)
+	 * 
+	 * @return set of Strings containing the values of the designated 880 field(s)/subfield(s)
+	 */
+	public static Set<String> getLinkedFieldValue(final Record record, String tag, String subfield, String separator)
+	{
+	    // assume brackets expression is a pattern such as [a-z]
+	    Set<String> result = new LinkedHashSet<String>();
+	    boolean havePattern = false;
+	    Pattern subfieldPattern = null;
+	    if (subfield.indexOf('[') != -1)
+	    {
+	        havePattern = true;
+	        subfieldPattern = Pattern.compile(subfield);
+	    }
+	    List<VariableField> fields = record.getVariableFields("880");
+	    for (VariableField vf : fields)
+	    {
+	        DataField dfield = (DataField) vf;
+	        Subfield link = dfield.getSubfield('6');
+	        if (link != null && link.getData().startsWith(tag))
+	        {
+	            List<Subfield> subList = dfield.getSubfields();
+	            StringBuilder buf = new StringBuilder("");
+	            for (Subfield subF : subList)
+	            {
+	                boolean addIt = false;
+	                if (havePattern)
+	                {
+	                    Matcher matcher = subfieldPattern.matcher("" + subF.getCode());
+	                    // matcher needs a string, hence concat with empty
+	                    // string
+	                    if (matcher.matches())
+	                        addIt = true;
+	                }
+	                else
+	                // a list a subfields
+	                {
+	                    if (subfield.indexOf(subF.getCode()) != -1)
+	                        addIt = true;
+	                }
+	                if (addIt)
+	                {
+	                    if (buf.length() > 0)
+	                        buf.append(separator != null ? separator : " ");
+	                    buf.append(subF.getData().trim());
+	                }
+	            }
+	            if (buf.length() > 0) 
+	                result.add(Utils.cleanData(buf.toString()));
+	        }
+	    }
+	    return(result);
+	}
+
+
+	/**
+	 * Given a fieldSpec, get the field(s)/subfield(s) values, PLUS any linked
+	 * 880 fields and return these values as a set.
+	 * @param record marc record object
+	 * @param fieldSpec - the marc field(s)/subfield(s) 
+	 * @return set of Strings containing the values of the indicated field(s)/
+	 *         subfields(s) plus linked 880 field(s)/subfield(s)
+	 */
+	public static Set<String> getLinkedFieldCombined(final Record record, String fieldSpec)
+	{
+	    Set<String> result1 = getLinkedField(record, fieldSpec);
+	    Set<String> result2 = getFieldList(record, fieldSpec);
+	
+	    if (result1 != null)
+	        result2.addAll(result1);
+	    return result2;
+	}
+
+
+	/**
+	 * Get the vernacular (880) fields which corresponds to the marc field
+	 *  in the 880 subfield 6 linkage 
+	 * @param marcField - which field to be matched by 880 fields 
+	 */
+	@SuppressWarnings("unchecked")
+	public
+	static Set<VariableField> getVernacularFields(final Record record, String marcField) 
+	{
+		if (marcField.length() != 3)
+	        System.err.println("marc field tag must be three characters: " + marcField);
+	
+		Set<VariableField> resultSet = new LinkedHashSet<VariableField>();
+	
+		List<VariableField> list880s = record.getVariableFields("880");
+		if (list880s == null || list880s.size() == 0)
+			return resultSet;
+	
+		// we know which 880s we're looking for by matching the marc field and
+		// subfield 6 (linkage info) in the 880
+		for (VariableField vf : list880s) {
+			DataField df880 = (DataField) vf;
+			String sub6 = MarcUtils.getSubfieldTrimmed(df880, '6');
+			int dashIx = sub6.indexOf('-');
+			if ((dashIx == 3) && marcField.equals(sub6.substring(0, 3)))
+				resultSet.add(df880);
+		}
+		return (resultSet);
+	}
+
+
+	protected static boolean isControlField(String fieldTag)
+	{
+	    if (fieldTag.matches("00[0-9]"))
+	    {
+	        return (true);
+	    }
+	    return (false);
+	}
+
+
+	// --------------------------- subfield methods --------------------------------    
     /**
      * return the ordered List of strings from the indicated subfields from the given
      *  set of marc DataField objects.
@@ -348,6 +642,284 @@ public class MarcUtils {
 
 
     /**
+	     * Get the specified subfields from the MARC data field, returned as
+	     *  a string
+	     * @param df - DataField from which to get the subfields
+	     * @param subfldsStr - the string containing the desired subfields
+	     * @param RTL - true if this is a right to left language.  In this case, 
+	     *  each subfield is prepended due to LTR and MARC end-of-subfield punctuation
+	     *  is moved from the last character to the first.
+	     * @returns a set of strings of desired subfields concatenated with space separator
+		 */
+		@SuppressWarnings("unchecked")
+		static Set<String> getSubfieldsAsSet(DataField df, String subfldsStr, boolean RTL) 
+	    {
+			Set<String> resultSet = new LinkedHashSet<String>();
+	
+			if (subfldsStr.length() > 1) {
+				// concatenate desired subfields with space separator
+				StringBuilder buffer = new StringBuilder();
+				List<Subfield> subFlds = df.getSubfields();
+				for (Subfield sf : subFlds) {
+					if (subfldsStr.contains(String.valueOf(sf.getCode()))) {
+	// TODO:  clean this up, if this works, or find a way to test it            		
+	//            		if (RTL) { // right to left language, but this is LTR field+
+	//	                    if (buffer.length() > 0)
+	//	                        buffer.insert(0, ' ');
+	//	                    buffer.insert(0, sf.getData().trim());
+	//            		} else { // left to right language
+						if (buffer.length() > 0)
+							buffer.append(' ');
+						buffer.append(sf.getData().trim());
+	//            		}
+					}
+				}
+				resultSet.add(buffer.toString());
+			} else {
+	        	// for single subfield, each occurrence is separate field in lucene doc
+				List<Subfield> subFlds = df.getSubfields(subfldsStr.charAt(0));
+				for (Subfield sf : subFlds) {
+					resultSet.add(sf.getData().trim());
+				}
+			}
+			return resultSet;
+		}
+
+
+	/**
+	     * Get the specified subfields from the MARC data field, returned as
+	     *  a string
+	     * @param df - DataField from which to get the subfields
+	     * @param subfldsStr - the string containing the desired subfields
+	     * @param beginIx - the beginning index of the substring of the subfield value
+	     * @param endIx - the end index of the substring of the subfield value
+	     * @param RTL - true if this is a right to left language.  In this case, 
+	     *  each subfield is prepended due to LTR and MARC end-of-subfield punctuation
+	     *  is moved from the last character to the first.
+	     * @returns a set of strings of desired subfields concatenated with space separator
+		 */
+		@SuppressWarnings("unchecked")
+		static Set<String> getSubfieldsAsSet(DataField df, String subfldsStr, int beginIx, int endIx, boolean RTL) 
+	    {
+			Set<String> resultSet = new LinkedHashSet<String>();
+			if (subfldsStr.length() > 1) {
+				// concatenate desired subfields with space separator
+				StringBuilder buffer = new StringBuilder();
+				List<Subfield> subFlds = df.getSubfields();
+				for (Subfield sf : subFlds) {
+					if (subfldsStr.contains(String.valueOf(sf.getCode()))) {
+						if (sf.getData().length() >= endIx) {
+	// TODO:  clean this up, if this works, or find a way to test it            		
+							// if (RTL) { // right to left language
+							// if (buffer.length() > 0)
+							// buffer.insert(0, ' ');
+	//                            buffer.insert(0, sf.getData().trim().substring(beginIx, endIx));
+							// } else { // left to right language
+							if (buffer.length() > 0)
+								buffer.append(' ');
+	                            buffer.append(sf.getData().trim().substring(beginIx, endIx));
+							// }
+						}
+					}
+				}
+				resultSet.add(buffer.toString());
+			} else {
+	        	// for single subfield, each occurrence is separate field in lucene doc
+				List<Subfield> subFlds = df.getSubfields(subfldsStr.charAt(0));
+				for (Subfield sf : subFlds) {
+					if (sf.getData().length() >= endIx)
+	            		resultSet.add(sf.getData().trim().substring(beginIx, endIx));
+				}
+			}
+			return resultSet;
+		}
+
+
+	/**
+	 * return the value of a subfield, trimmed, or empty string if there is no 
+	 *  subfield value.
+	 */
+	public static String getSubfieldTrimmed(DataField df, char subcode) {
+		String result = getSubfieldData(df, subcode);
+		if (result != null)
+			return result.trim();
+		else
+			return "";
+	}
+
+
+	/**
+	 * extract all the subfields requested in requested marc fields. Each
+	 * instance of each marc field will be put in a separate result (but the
+	 * subfields will be concatenated into a single value for each marc field)
+	 * 
+	 * @param record
+	 *            marc record object
+	 * @param fieldSpec -
+	 *            the desired marc fields and subfields as given in the
+	 *            xxx_index.properties file
+	 * @param separator -
+	 *            the character to use between subfield values in the solr field
+	 *            contents
+	 * @return Set of values (as strings) for solr field
+	 */
+	public static Set<String> getAllSubfields(final Record record, String fieldSpec, String separator)
+	{
+	    Set<String> result = new LinkedHashSet<String>();
+	
+	    String[] fldTags = fieldSpec.split(":");
+	    for (int i = 0; i < fldTags.length; i++)
+	    {
+	        // Check to ensure tag length is at least 3 characters
+	        if (fldTags[i].length() < 3)
+	        {
+	            System.err.println("Invalid tag specified: " + fldTags[i]);
+	            continue;
+	        }
+	
+	        String fldTag = fldTags[i].substring(0, 3);
+	
+	        String subfldTags = fldTags[i].substring(3);
+	
+	        List<VariableField> marcFieldList = record.getVariableFields(fldTag);
+	        if (!marcFieldList.isEmpty())
+	        {
+	            Pattern subfieldPattern = Pattern.compile(subfldTags.length() == 0 ? "." : subfldTags);
+	            for (VariableField vf : marcFieldList)
+	            {
+	                DataField marcField = (DataField) vf;
+	                StringBuilder buffer = new StringBuilder("");
+	                List<Subfield> subfields = marcField.getSubfields();
+	                for (Subfield subfield : subfields)
+	                {
+	                    Matcher matcher = subfieldPattern.matcher("" + subfield.getCode());
+	                    if (matcher.matches())
+	                    {
+	                        if (buffer.length() > 0)
+	                            buffer.append(separator != null ? separator : " ");
+	                        buffer.append(subfield.getData().trim());
+	                    }
+	                }
+	                if (buffer.length() > 0)
+	                    result.add(Utils.cleanData(buffer.toString()));
+	            }
+	        }
+	    }
+	
+	    return result;
+	}
+
+
+	/**
+	 * For each occurrence of a marc field in the fieldSpec list, extract the
+	 * contents of all alphabetical subfields, concatenate them with a space
+	 * separator and add the string to the result set. Each instance of each
+	 * marc field will be put in a separate result.
+	 * 
+	 * @param record - the marc record
+	 * @param fieldSpec -
+	 *            the marc fields (e.g. 600:655) in which we will grab the
+	 *            alphabetic subfield contents for the result set. The field may
+	 *            not be a control field (must be 010 or greater)
+	 * @return a set of strings, where each string is the concatenated values of
+	 *         all the alphabetic subfields.
+	 */
+	@SuppressWarnings("unchecked")
+	public static Set<String> getAllAlphaSubfields(final Record record, String fieldSpec) 
+	{
+	    Set<String> resultSet = new LinkedHashSet<String>();
+	
+	    String[] fldTags = fieldSpec.split(":");
+	    for (int i = 0; i < fldTags.length; i++)
+	    {
+	        String fldTag = fldTags[i];
+	        if (fldTag.length() < 3 || Integer.parseInt(fldTag) < 10)
+	        {
+	            System.err.println("Invalid marc field specified for getAllAlphaSubfields: " + fldTag);
+	            continue;
+	        }
+	
+	        List<VariableField> varFlds = record.getVariableFields(fldTag);
+	        for (VariableField vf : varFlds)
+	        {
+	
+	            StringBuilder buffer = new StringBuilder(500);
+	
+	            DataField df = (DataField) vf;
+	            if (df != null)
+	            {
+	                List<Subfield> subfields = df.getSubfields();
+	                for (Subfield sf : subfields)
+	                {
+	                    if (Character.isLetter(sf.getCode()))
+	                    {
+	                        if (buffer.length() > 0) {
+	                            buffer.append(" " + sf.getData().trim());
+	                        } else {
+	                            buffer.append(sf.getData().trim());
+	                        }
+	                    }
+	                }
+	            }
+	            if (buffer.length() > 0)
+	                resultSet.add(buffer.toString());
+	        }
+	    }
+	
+	    return resultSet;
+	}
+
+
+	/**
+	 * For each occurrence of a marc field in the fieldSpec list, extract the
+	 * contents of all alphabetical subfields, concatenate them with a space
+	 * separator and add the string to the result set, handling multiple
+	 * occurrences as indicated
+	 * 
+	 * @param record - the marc record
+	 * @param fieldSpec -
+	 *            the marc fields (e.g. 600:655) in which we will grab the
+	 *            alphabetic subfield contents for the result set. The field may
+	 *            not be a control field (must be 010 or greater)
+	 * @param multOccurs -
+	 *            "first", "join" or "all" indicating how to handle multiple
+	 *            occurrences of field values
+	 * @return a set of strings, where each string is the concatenated values of
+	 *         all the alphabetic subfields.
+	 */
+	public static final Set<String> getAllAlphaSubfields(final Record record, String fieldSpec, String multOccurs) 
+	{
+	    Set<String> result = getAllAlphaSubfields(record, fieldSpec);
+	    
+	    if (multOccurs.equals("first"))
+	    {
+	        Set<String> first = new HashSet<String>();
+	        for (String r : result)
+	        {
+	            first.add(r);
+	            return first;
+	        }
+	    }
+	    else if (multOccurs.equals("join"))
+	    {
+	        StringBuilder resultBuf = new StringBuilder();
+	        for (String r : result)
+	        {
+	            if (resultBuf.length() > 0)
+	                resultBuf.append(' ');
+	            resultBuf.append(r);
+	        }
+	        Set<String> resultAsSet = new HashSet<String>();
+	        resultAsSet.add(resultBuf.toString());
+	        return resultAsSet;
+	    }
+	    // "all" is default
+	
+	    return result;
+	}
+
+
+	/**
      * treats indicator 2 as the number of non-filing indicators to exclude,
      * removes ascii punctuation
      * @param DataField with ind2 containing # non-filing chars, or has value ' '
@@ -426,17 +998,41 @@ public class MarcUtils {
 // -------------------------- indicator methods --------------------------------    
 	    
 	    /**
-	     * @param df a DataField
-	     * @return the integer (0-9, 0 if blank or other) in the 2nd indicator
-	     */
-	    public static int getInd2AsInt(DataField df)
+	 * @param df a DataField
+	 * @return the integer (0-9, 0 if blank or other) in the 2nd indicator
+	 */
+	public static int getInd2AsInt(DataField df)
+	{
+	    char ind2char = df.getIndicator2();
+	    int result = 0;
+	    if (Character.isDigit(ind2char))
+	        result = Integer.valueOf(String.valueOf(ind2char));
+	    return result;
+	}
+
+
+		/**
+	 * remove trailing punctuation (default trailing characters to be removed)
+	 *    See org.solrmarc.tools.Utils.cleanData() for details on the 
+	 *     punctuation removal
+	 * @param record marc record object
+	 * @param fieldSpec - the field to have trailing punctuation removed
+	 * @return Set of strings containing the field values with trailing
+	 *         punctuation removed
+	 */
+	public static Set<String> removeTrailingPunct(Record record, String fieldSpec)
+	{
+	    Set<String> result = getFieldList(record, fieldSpec);
+	    Set<String> newResult = new LinkedHashSet<String>();
+	    for (String s : result)
 	    {
-	        char ind2char = df.getIndicator2();
-	        int result = 0;
-	        if (Character.isDigit(ind2char))
-	            result = Integer.valueOf(String.valueOf(ind2char));
-	        return result;
+	        newResult.add(Utils.cleanData(s));
 	    }
+	    return newResult;
+	}
+
+
+		
 
 	    
 // ----------------- combining record methods ---------------------------------- 
@@ -444,6 +1040,11 @@ public class MarcUtils {
 
 	/**
 	 * merge the given fields from nextRecord into resultRecord
+	 * 
+	 * Side Effect:
+	 *   NOTE:  the method changes the first param's value in addition to 
+	 *   providing the result (which is the same object as the first param's new value)	
+	 * 
 	 * @param resultRecord the record recordToCopyFrom receive more fields
 	 * @param recordToCopyFrom the record from which to copy fields
 	 * @param fieldsToCopy the fields to be copied, as a regular expression (e.g. "852|866|867")
@@ -463,6 +1064,11 @@ public class MarcUtils {
 
 	/**
 	 * merge the given fields from nextRecord into resultRecord
+	 * 
+	 * Side Effect:
+	 *   NOTE:  the method changes the first param's value in addition to 
+	 *   providing the result (which is the same object as the first param's new value)	
+	 * 
 	 * @param resultRecord - receives the fields from recordToCopyFrom 
 	 * @param recordToCopyFrom - the record from which to copy fields
 	 * @param fieldsToCopy the fields to be copied, as a regular expression (e.g. "852|866|867")
@@ -963,460 +1569,6 @@ public class MarcUtils {
 	            supplmntl = true;
 	    }
 	    return supplmntl;
-	}
-
-
-	protected static boolean isControlField(String fieldTag)
-	{
-	    if (fieldTag.matches("00[0-9]"))
-	    {
-	        return (true);
-	    }
-	    return (false);
-	}
-
-
-	/**
-	 * remove trailing punctuation (default trailing characters to be removed)
-	 *    See org.solrmarc.tools.Utils.cleanData() for details on the 
-	 *     punctuation removal
-	 * @param record marc record object
-	 * @param fieldSpec - the field to have trailing punctuation removed
-	 * @return Set of strings containing the field values with trailing
-	 *         punctuation removed
-	 */
-	public static Set<String> removeTrailingPunct(Record record, String fieldSpec)
-	{
-	    Set<String> result = getFieldList(record, fieldSpec);
-	    Set<String> newResult = new LinkedHashSet<String>();
-	    for (String s : result)
-	    {
-	        newResult.add(Utils.cleanData(s));
-	    }
-	    return newResult;
-	}
-
-
-	/**
-	 * extract all the subfields requested in requested marc fields. Each
-	 * instance of each marc field will be put in a separate result (but the
-	 * subfields will be concatenated into a single value for each marc field)
-	 * 
-	 * @param record
-	 *            marc record object
-	 * @param fieldSpec -
-	 *            the desired marc fields and subfields as given in the
-	 *            xxx_index.properties file
-	 * @param separator -
-	 *            the character to use between subfield values in the solr field
-	 *            contents
-	 * @return Set of values (as strings) for solr field
-	 */
-	public static Set<String> getAllSubfields(final Record record, String fieldSpec, String separator)
-	{
-	    Set<String> result = new LinkedHashSet<String>();
-	
-	    String[] fldTags = fieldSpec.split(":");
-	    for (int i = 0; i < fldTags.length; i++)
-	    {
-	        // Check to ensure tag length is at least 3 characters
-	        if (fldTags[i].length() < 3)
-	        {
-	            System.err.println("Invalid tag specified: " + fldTags[i]);
-	            continue;
-	        }
-	
-	        String fldTag = fldTags[i].substring(0, 3);
-	
-	        String subfldTags = fldTags[i].substring(3);
-	
-	        List<VariableField> marcFieldList = record.getVariableFields(fldTag);
-	        if (!marcFieldList.isEmpty())
-	        {
-	            Pattern subfieldPattern = Pattern.compile(subfldTags.length() == 0 ? "." : subfldTags);
-	            for (VariableField vf : marcFieldList)
-	            {
-	                DataField marcField = (DataField) vf;
-	                StringBuilder buffer = new StringBuilder("");
-	                List<Subfield> subfields = marcField.getSubfields();
-	                for (Subfield subfield : subfields)
-	                {
-	                    Matcher matcher = subfieldPattern.matcher("" + subfield.getCode());
-	                    if (matcher.matches())
-	                    {
-	                        if (buffer.length() > 0)
-	                            buffer.append(separator != null ? separator : " ");
-	                        buffer.append(subfield.getData().trim());
-	                    }
-	                }
-	                if (buffer.length() > 0)
-	                    result.add(Utils.cleanData(buffer.toString()));
-	            }
-	        }
-	    }
-	
-	    return result;
-	}
-
-
-	/**
-	 * For each occurrence of a marc field in the fieldSpec list, extract the
-	 * contents of all alphabetical subfields, concatenate them with a space
-	 * separator and add the string to the result set. Each instance of each
-	 * marc field will be put in a separate result.
-	 * 
-	 * @param record - the marc record
-	 * @param fieldSpec -
-	 *            the marc fields (e.g. 600:655) in which we will grab the
-	 *            alphabetic subfield contents for the result set. The field may
-	 *            not be a control field (must be 010 or greater)
-	 * @return a set of strings, where each string is the concatenated values of
-	 *         all the alphabetic subfields.
-	 */
-	@SuppressWarnings("unchecked")
-	public static Set<String> getAllAlphaSubfields(final Record record, String fieldSpec) 
-	{
-	    Set<String> resultSet = new LinkedHashSet<String>();
-	
-	    String[] fldTags = fieldSpec.split(":");
-	    for (int i = 0; i < fldTags.length; i++)
-	    {
-	        String fldTag = fldTags[i];
-	        if (fldTag.length() < 3 || Integer.parseInt(fldTag) < 10)
-	        {
-	            System.err.println("Invalid marc field specified for getAllAlphaSubfields: " + fldTag);
-	            continue;
-	        }
-	
-	        List<VariableField> varFlds = record.getVariableFields(fldTag);
-	        for (VariableField vf : varFlds)
-	        {
-	
-	            StringBuilder buffer = new StringBuilder(500);
-	
-	            DataField df = (DataField) vf;
-	            if (df != null)
-	            {
-	                List<Subfield> subfields = df.getSubfields();
-	                for (Subfield sf : subfields)
-	                {
-	                    if (Character.isLetter(sf.getCode()))
-	                    {
-	                        if (buffer.length() > 0) {
-	                            buffer.append(" " + sf.getData().trim());
-	                        } else {
-	                            buffer.append(sf.getData().trim());
-	                        }
-	                    }
-	                }
-	            }
-	            if (buffer.length() > 0)
-	                resultSet.add(buffer.toString());
-	        }
-	    }
-	
-	    return resultSet;
-	}
-
-
-	/**
-	 * For each occurrence of a marc field in the fieldSpec list, extract the
-	 * contents of all alphabetical subfields, concatenate them with a space
-	 * separator and add the string to the result set, handling multiple
-	 * occurrences as indicated
-	 * 
-	 * @param record - the marc record
-	 * @param fieldSpec -
-	 *            the marc fields (e.g. 600:655) in which we will grab the
-	 *            alphabetic subfield contents for the result set. The field may
-	 *            not be a control field (must be 010 or greater)
-	 * @param multOccurs -
-	 *            "first", "join" or "all" indicating how to handle multiple
-	 *            occurrences of field values
-	 * @return a set of strings, where each string is the concatenated values of
-	 *         all the alphabetic subfields.
-	 */
-	public static final Set<String> getAllAlphaSubfields(final Record record, String fieldSpec, String multOccurs) 
-	{
-	    Set<String> result = getAllAlphaSubfields(record, fieldSpec);
-	    
-	    if (multOccurs.equals("first"))
-	    {
-	        Set<String> first = new HashSet<String>();
-	        for (String r : result)
-	        {
-	            first.add(r);
-	            return first;
-	        }
-	    }
-	    else if (multOccurs.equals("join"))
-	    {
-	        StringBuilder resultBuf = new StringBuilder();
-	        for (String r : result)
-	        {
-	            if (resultBuf.length() > 0)
-	                resultBuf.append(' ');
-	            resultBuf.append(r);
-	        }
-	        Set<String> resultAsSet = new HashSet<String>();
-	        resultAsSet.add(resultBuf.toString());
-	        return resultAsSet;
-	    }
-	    // "all" is default
-	
-	    return result;
-	}
-
-
-	/**
-	 * For each occurrence of a marc field in the fieldSpec list, extract the
-	 * contents of all subfields except the ones specified, concatenate the
-	 * subfield contents with a space separator and add the string to the result
-	 * set.
-	 * 
-	 * @param record -
-	 *            the marc record
-	 * @param fieldSpec -
-	 *            the marc fields (e.g. 600:655) in which we will grab the
-	 *            alphabetic subfield contents for the result set. The field may
-	 *            not be a control field (must be 010 or greater)
-	 * @return a set of strings, where each string is the concatenated values of
-	 *         all the alphabetic subfields.
-	 */
-	@SuppressWarnings("unchecked")
-	public static Set<String> getAllAlphaExcept(final Record record, String fieldSpec)
-	{
-	    Set<String> resultSet = new LinkedHashSet<String>();
-	    String[] fldTags = fieldSpec.split(":");
-	    for (int i = 0; i < fldTags.length; i++)
-	    {
-	        String fldTag = fldTags[i].substring(0, 3);
-	        if (fldTag.length() < 3 || Integer.parseInt(fldTag) < 10)
-	        {
-	            System.err.println("Invalid marc field specified for getAllAlphaExcept: " + fldTag);
-	            continue;
-	        }
-	
-	        String tabooSubfldTags = fldTags[i].substring(3);
-	
-	        List<VariableField> varFlds = record.getVariableFields(fldTag);
-	        for (VariableField vf : varFlds)
-	        {
-	
-	            StringBuilder buffer = new StringBuilder(500);
-	            DataField df = (DataField) vf;
-	            if (df != null)
-	            {
-	
-	                List<Subfield> subfields = df.getSubfields();
-	
-	                for (Subfield sf : subfields)
-	                {
-	                    if (Character.isLetter(sf.getCode())
-	                            && tabooSubfldTags.indexOf(sf.getCode()) == -1)
-	                    {
-	                        if (buffer.length() > 0)
-	                            buffer.append(' ' + sf.getData().trim());
-	                        else
-	                            buffer.append(sf.getData().trim());
-	                    }
-	                }
-	                if (buffer.length() > 0)
-	                    resultSet.add(buffer.toString());
-	            }
-	        }
-	    }
-	
-	    return resultSet;
-	}
-
-
-	/**
-	 * Given a fieldSpec, get any linked 880 fields and include the appropriate
-	 * subfields as a String value in the result set.
-	 * 
-	 * @param record
-	 *            marc record object
-	 * @param fieldSpec -
-	 *            the marc field(s)/subfield(s) for which 880s are sought.
-	 *            Separator of colon indicates a separate value, rather than
-	 *            concatenation. 008[5-7] denotes bytes 5-7 of the linked 008
-	 *            field (0 based counting) 100[a-cf-z] denotes the bracket
-	 *            pattern is a regular expression indicating which subfields to
-	 *            include from the linked 880. Note: if the characters in the
-	 *            brackets are digits, it will be interpreted as particular
-	 *            bytes, NOT a pattern 100abcd denotes subfields a, b, c, d are
-	 *            desired from the linked 880.
-	 * 
-	 * @return set of Strings containing the values of the designated 880
-	 *         field(s)/subfield(s)
-	 */
-	public static Set<String> getLinkedField(final Record record, String fieldSpec)
-	{
-	    Set<String> set = getFieldList(record, "8806");
-	
-	    if (set.isEmpty())
-	        return set;
-	
-	    String[] tags = fieldSpec.split(":");
-	    Set<String> result = new LinkedHashSet<String>();
-	    for (int i = 0; i < tags.length; i++)
-	    {
-	        // Check to ensure tag length is at least 3 characters
-	        if (tags[i].length() < 3)
-	        {
-	            System.err.println("Invalid tag specified: " + tags[i]);
-	            continue;
-	        }
-	
-	        // Get Field Tag
-	        String tag = tags[i].substring(0, 3);
-	
-	        // Process Subfields
-	        String subfield = tags[i].substring(3);
-	
-	        String separator = null;
-	        if (subfield.indexOf('\'') != -1)
-	        {
-	            separator = subfield.substring(subfield.indexOf('\'') + 1, subfield.length() - 1);
-	            subfield = subfield.substring(0, subfield.indexOf('\''));
-	        }
-	
-	        result.addAll(getLinkedFieldValue(record, tag, subfield, separator));
-	    }
-	    return result;
-	}
-
-
-	/**
-	 * Given a tag for a field, and a list (or regex) of one or more subfields
-	 * get any linked 880 fields and include the appropriate subfields as a String value 
-	 * in the result set.
-	 * 
-	 * @param record - marc record object
-	 * @param tag -  the marc field for which 880s are sought.
-	 * @param subfield -
-	 *           The subfield(s) within the 880 linked field that should be returned
-	 *            [a-cf-z] denotes the bracket pattern is a regular expression indicating 
-	 *            which subfields to include from the linked 880. Note: if the characters 
-	 *            in the brackets are digits, it will be interpreted as particular
-	 *            bytes, NOT a pattern 100abcd denotes subfields a, b, c, d are
-	 *            desired from the linked 880.
-	 * @param separator - the separator string to insert between subfield items (if null, a " " will be used)
-	 * 
-	 * @return set of Strings containing the values of the designated 880 field(s)/subfield(s)
-	 */
-	public static Set<String> getLinkedFieldValue(final Record record, String tag, String subfield, String separator)
-	{
-	    // assume brackets expression is a pattern such as [a-z]
-	    Set<String> result = new LinkedHashSet<String>();
-	    boolean havePattern = false;
-	    Pattern subfieldPattern = null;
-	    if (subfield.indexOf('[') != -1)
-	    {
-	        havePattern = true;
-	        subfieldPattern = Pattern.compile(subfield);
-	    }
-	    List<VariableField> fields = record.getVariableFields("880");
-	    for (VariableField vf : fields)
-	    {
-	        DataField dfield = (DataField) vf;
-	        Subfield link = dfield.getSubfield('6');
-	        if (link != null && link.getData().startsWith(tag))
-	        {
-	            List<Subfield> subList = dfield.getSubfields();
-	            StringBuilder buf = new StringBuilder("");
-	            for (Subfield subF : subList)
-	            {
-	                boolean addIt = false;
-	                if (havePattern)
-	                {
-	                    Matcher matcher = subfieldPattern.matcher("" + subF.getCode());
-	                    // matcher needs a string, hence concat with empty
-	                    // string
-	                    if (matcher.matches())
-	                        addIt = true;
-	                }
-	                else
-	                // a list a subfields
-	                {
-	                    if (subfield.indexOf(subF.getCode()) != -1)
-	                        addIt = true;
-	                }
-	                if (addIt)
-	                {
-	                    if (buf.length() > 0)
-	                        buf.append(separator != null ? separator : " ");
-	                    buf.append(subF.getData().trim());
-	                }
-	            }
-	            if (buf.length() > 0) 
-	                result.add(Utils.cleanData(buf.toString()));
-	        }
-	    }
-	    return(result);
-	}
-
-
-	/**
-	 * Given a fieldSpec, get the field(s)/subfield(s) values, PLUS any linked
-	 * 880 fields and return these values as a set.
-	 * @param record marc record object
-	 * @param fieldSpec - the marc field(s)/subfield(s) 
-	 * @return set of Strings containing the values of the indicated field(s)/
-	 *         subfields(s) plus linked 880 field(s)/subfield(s)
-	 */
-	public static Set<String> getLinkedFieldCombined(final Record record, String fieldSpec)
-	{
-	    Set<String> result1 = getLinkedField(record, fieldSpec);
-	    Set<String> result2 = getFieldList(record, fieldSpec);
-	
-	    if (result1 != null)
-	        result2.addAll(result1);
-	    return result2;
-	}
-
-
-	/**
-	 * Loops through all datafields and creates a field for "all fields"
-	 * searching. Shameless stolen from Vufind Indexer Custom Code
-	 * 
-	 * @param record
-	 *            marc record object
-	 * @param lowerBoundStr -
-	 *            the "lowest" marc field to include (e.g. 100). defaults to 100
-	 *            if value passed doesn't parse as an integer
-	 * @param upperBoundStr -
-	 *            one more than the "highest" marc field to include (e.g. 900
-	 *            will include up to 899). Defaults to 900 if value passed
-	 *            doesn't parse as an integer
-	 * @return a string containing ALL subfields of ALL marc fields within the
-	 *         range indicated by the bound string arguments.
-	 */
-	public static String getAllSearchableFields(final Record record, String lowerBoundStr, String upperBoundStr)
-	{
-	    StringBuilder buffer = new StringBuilder("");
-	    int lowerBound = Utils.parseIntNoNFE(lowerBoundStr, 100);
-	    int upperBound = Utils.parseIntNoNFE(upperBoundStr, 900);
-	
-	    List<DataField> fields = record.getDataFields();
-	    for (DataField field : fields)
-	    {
-	        // This will ignore any "code" fields and only use textual fields
-	        int tag = Utils.parseIntNoNFE(field.getTag(), -1);
-	        if ((tag >= lowerBound) && (tag < upperBound))
-	        {
-	            // Loop through subfields
-	            List<Subfield> subfields = field.getSubfields();
-	            for (Subfield subfield : subfields)
-	            {
-	                if (buffer.length() > 0)
-	                    buffer.append(" ");
-	                buffer.append(subfield.getData());
-	            }
-	        }
-	    }
-	    return buffer.toString();
 	}
 	
 }

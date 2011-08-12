@@ -29,7 +29,7 @@ public class MergeMhldFldsIntoBibsTests
     static String localDir = "examples" + File.separator + "stanford";
     static String localTestDataParentPath = localDir + File.separator + testDataParentPath;
 
-    static String MERGE_MHLD_CLASS_NAME = "edu.stanford.MergeMhldFldsIntoBibs";
+    static String MERGE_MHLD_CLASS_NAME = "edu.stanford.marcUtils.MergeMhldFldsIntoBibs";
     static String MARC_PRINTER_CLASS_NAME = "org.solrmarc.marc.MarcPrinter";
     static String MAIN_METHOD_NAME = "main";
     
@@ -45,7 +45,7 @@ public class MergeMhldFldsIntoBibsTests
 	        {
 	        	RawRecord rawRec = rawRecRdr.next();
 	        	Record rec = rawRec.getAsRecord(true, false, "999", "MARC8");
-	        	String id = GenericUtils.getRecordIdFrom001(rec);
+	        	String id = MarcUtils.getControlFieldData(rec, "001");
 	        	ALL_UNMERGED_BIBS.put(id, rec);
 	        }
 		} catch (FileNotFoundException e) {
@@ -59,7 +59,7 @@ public class MergeMhldFldsIntoBibsTests
 	        {
 	        	RawRecord rawRec = rawRecRdr.next();
 	        	Record rec = rawRec.getAsRecord(true, false, "999", "MARC8");
-	        	String id = GenericUtils.getRecordIdFrom001(rec);
+	        	String id = MarcUtils.getControlFieldData(rec, "001");
 	        	ALL_MERGED_BIB_RESULTS.put(id, rec);
 	        }
 		} catch (FileNotFoundException e) {
@@ -93,9 +93,9 @@ public class MergeMhldFldsIntoBibsTests
 	    assertEquals(2, mergedRecIds.size());
 
 	    // result bibs should match the bib input because there was no merge
-	    String id = "4";
+	    String id = "a4";
        	RecordTestingUtils.assertEquals(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
-	    id = "6";
+	    id = "a6";
        	RecordTestingUtils.assertEquals(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
     }
     
@@ -144,12 +144,12 @@ public class MergeMhldFldsIntoBibsTests
 	    assertEquals(3, mergedRecIds.size());
 
 	    // result bibs 3, 4 should have the mhld fields
-	    String id = "3";
+	    String id = "a3";
        	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
-       	id = "4";
+       	id = "a4";
        	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
        	// result bib 6 should not be changed
-	    id = "6";
+	    id = "a6";
        	RecordTestingUtils.assertEquals(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
     }
 
@@ -170,12 +170,12 @@ public class MergeMhldFldsIntoBibsTests
 	    assertEquals(3, mergedRecIds.size());
 	
 	    // result bib 3 only should have the mhld fields
-	    String id = "3";
+	    String id = "a3";
 	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
 	   	// result bibs 4 and 6 should not be changed
-	   	id = "4";
+	   	id = "a4";
 	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
-	    id = "6";
+	    id = "a6";
 	   	RecordTestingUtils.assertEquals(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
     }
 
@@ -196,11 +196,11 @@ public class MergeMhldFldsIntoBibsTests
 	    assertEquals(3, mergedRecIds.size());
 	
 	    // result bibs 3 and 4 only should have the mhld fields
-	    String id = "1";
+	    String id = "a1";
 	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
-	    id = "3";
+	    id = "a3";
 	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
-	   	id = "4";
+	   	id = "a4";
 	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
     }
 
@@ -222,9 +222,9 @@ public class MergeMhldFldsIntoBibsTests
 	    assertEquals(2, mergedRecIds.size());
 	
 	    // result bib 6 only should have the mhld fields
-	    String id = "4";
+	    String id = "a4";
 	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
-	    id = "6";
+	    id = "a6";
 	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
     }
 
@@ -245,11 +245,11 @@ public class MergeMhldFldsIntoBibsTests
 	    assertEquals(3, mergedRecIds.size());
 	
 	    // result bibs 3 and 4 only should have the mhld fields
-	    String id = "1";
+	    String id = "a1";
 	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
-	    id = "3";
+	    id = "a3";
 	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
-	   	id = "4";
+	   	id = "a4";
 	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
     }
 
@@ -270,9 +270,9 @@ public class MergeMhldFldsIntoBibsTests
 	    assertEquals(2, mergedRecIds.size());
 	
 	    // result bib 6 only should have the mhld fields
-	    String id = "4";
+	    String id = "a4";
 	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
-	    id = "6";
+	    id = "a6";
 	   	RecordTestingUtils.assertEqualsIgnoreLeader(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
     }
 
@@ -289,7 +289,7 @@ public class MergeMhldFldsIntoBibsTests
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds1Mult.mrc";
 	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
 	    
-	    Record mergedRec = mergedRecs.get("1");
+	    Record mergedRec = mergedRecs.get("a1");
 	    assertEquals("Wrong number of 852s ", 3, mergedRec.getVariableFields("852").size());
 	    Set<String> expectedVals = new HashSet<String>();
 	    expectedVals.add("Location1");
@@ -324,7 +324,7 @@ public class MergeMhldFldsIntoBibsTests
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds34.mrc";
 	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
 	    
-	    Record mergedRec = mergedRecs.get("4");
+	    Record mergedRec = mergedRecs.get("a4");
 	    assertEquals("Wrong number of 852 ", 1, mergedRec.getVariableFields("852").size());
 	    
 	    assertEquals("Wrong number of 999s ", 5, mergedRec.getVariableFields("999").size());
@@ -341,7 +341,7 @@ public class MergeMhldFldsIntoBibsTests
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds4Mult.mrc";
 	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
     	
-	    Record mergedRec = mergedRecs.get("4");
+	    Record mergedRec = mergedRecs.get("a4");
 	    // bib flds merged in
 	    assertEquals("Wrong number of 999s ", 5, mergedRec.getVariableFields("999").size());
 	    
@@ -381,7 +381,7 @@ public class MergeMhldFldsIntoBibsTests
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhldAllFlds.mrc";
 	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
 		
-	    Record mergedRec = mergedRecs.get("allMhldFlds");
+	    Record mergedRec = mergedRecs.get("aallMhldFlds");
 	    
 	    // mhld flds merged in
 	    assertEquals("Wrong number of 852s ", 1, mergedRec.getVariableFields("852").size());
@@ -434,7 +434,7 @@ public class MergeMhldFldsIntoBibsTests
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhldAllFlds.mrc";
 	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
     	
-	    Record mergedRec = mergedRecs.get("allMhldFlds");
+	    Record mergedRec = mergedRecs.get("aallMhldFlds");
 	    
 	    // 901 should not be merged
 	    assertEquals("Wrong number of 901s ", 1, mergedRec.getVariableFields("901").size());
@@ -470,7 +470,7 @@ public class MergeMhldFldsIntoBibsTests
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhldAllFlds.mrc";
 	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
     	
-	    Record mergedRec = mergedRecs.get("allMhldFlds");
+	    Record mergedRec = mergedRecs.get("aallMhldFlds");
 	    
 	    Set<String> unexpectedVals = new HashSet<String>();
 	    unexpectedVals.add("bibLoc");
@@ -598,7 +598,7 @@ String mergedBib335outputNoUmlaut[] = {
 	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibRecFileName, mhldRecFileName);
 
 	    junit.framework.Assert.assertEquals("results should have 1 record", 1, mergedRecs.size());
-	    String expId = "335";
+	    String expId = "u335";
 	    assertTrue("Record with id " + expId + " should be in results", mergedRecs.containsKey(expId));
 	    
 	    Record resultRec = mergedRecs.get(expId);

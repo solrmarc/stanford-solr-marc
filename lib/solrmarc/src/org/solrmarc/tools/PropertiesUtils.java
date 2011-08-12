@@ -2,7 +2,7 @@ package org.solrmarc.tools;
 
 import java.io.*;
 import java.net.URL;
-import java.util.Properties;
+import java.util.*;
 
 import org.apache.log4j.*;
 
@@ -193,6 +193,36 @@ public class PropertiesUtils {
         }
         return(in);
     }
+
+	/**
+	 * load list contained in the file.  list file should contain a series of 
+	 * values (one per line);  comments are preceded by a '#' character
+	 * @param listFilename the name of the file containing the data
+	 * @param possiblePaths array of paths in which to seek the list file
+	 * @return a List of the values read from the file
+	 */
+	public static Set<String> loadPropertiesSet(String[] possiblePaths, String listFilename)   {
+		Set<String> result = new LinkedHashSet<String>();
+	    InputStream propFileIS = getPropertyFileInputStream(possiblePaths, listFilename);
+	    BufferedReader propFileBR = new BufferedReader(new InputStreamReader(propFileIS));
+	    String line;
+	    try
+	    {
+	        while ((line = propFileBR.readLine()) != null)
+	        {
+	            String linePieces[] = line.split("#");
+	            String value = linePieces[0].trim();
+	            if (value.length() > 0)
+	            	result.add(value);
+	        }
+	    }
+	    catch (IOException e)
+	    {
+	    	System.err.println("error reading " + listFilename);
+	        e.printStackTrace();
+	    }
+	    return result;
+	}
     
     
 }

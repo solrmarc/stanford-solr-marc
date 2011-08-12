@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 
 import org.marc4j.marc.DataField;
 import org.solrmarc.tools.CallNumUtils;
+import org.solrmarc.tools.MarcUtils;
 
 import edu.stanford.enumValues.CallNumberType;
 
@@ -76,13 +77,13 @@ public class Item {
 	public Item(DataField f999, String recId) {
 		// set all the immutable variables
 		this.recId = recId;
-		barcode = GenericUtils.getSubfieldTrimmed(f999, 'i');
-		currLoc = GenericUtils.getSubfieldTrimmed(f999, 'k');
-		homeLoc = GenericUtils.getSubfieldTrimmed(f999, 'l');
-		library = GenericUtils.getSubfieldTrimmed(f999, 'm');
-		itemType = GenericUtils.getSubfieldTrimmed(f999, 't');
-		String scheme = GenericUtils.getSubfieldTrimmed(f999, 'w');
-		String rawCallnum = GenericUtils.getSubfieldTrimmed(f999, 'a');
+		barcode = MarcUtils.getSubfieldTrimmed(f999, 'i');
+		currLoc = MarcUtils.getSubfieldTrimmed(f999, 'k');
+		homeLoc = MarcUtils.getSubfieldTrimmed(f999, 'l');
+		library = MarcUtils.getSubfieldTrimmed(f999, 'm');
+		itemType = MarcUtils.getSubfieldTrimmed(f999, 't');
+		String scheme = MarcUtils.getSubfieldTrimmed(f999, 'w');
+		String rawCallnum = MarcUtils.getSubfieldTrimmed(f999, 'a');
 				
 		if (StanfordIndexer.SKIPPED_LOCS.contains(currLoc)
 					|| StanfordIndexer.SKIPPED_LOCS.contains(homeLoc) 
