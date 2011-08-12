@@ -1087,11 +1087,13 @@ public class MarcUtils {
 		{
 		    // remove existing postInsertFields (temporarily)
 		    List<VariableField> resultRecAllFields = resultRecord.getVariableFields();
+		    boolean foundMatch = false;
 		    for (VariableField vf : resultRecAllFields)
 		    {
 		    	// FIXME:  it would be good to have some error checking on the fieldsToCopy expression passed in
-		        if (vf.getTag().matches(fieldToInsertBefore))
+		        if (foundMatch || vf.getTag().matches(fieldToInsertBefore))
 		        {
+		        	foundMatch = true;
 		            postInsertFields.add(vf);
 		            resultRecord.removeVariableField(vf);
 		        }
