@@ -1,7 +1,7 @@
 package org.solrmarc.tools;
 
+import org.apache.log4j.Logger;
 import org.marc4j.marc.*;
-
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 public class MarcUtils {
 
+    static Logger logger = Logger.getLogger(MarcUtils.class.getName());
     /**
      * Default Constructor,  private, so it can't be instantiated by other objects
      */    
@@ -1075,7 +1076,7 @@ public class MarcUtils {
 	 * @param resultRecord - receives the fields from recordToCopyFrom 
 	 * @param recordToCopyFrom - the record from which to copy fields
 	 * @param fieldsToCopy the fields to be copied, as a regular expression (e.g. "852|866|867")
-	 * @param fieldToInsertBefore fields(ToMerge) from recordToCopyFrom should be inserted before the first occurrence of this field in resultRecord
+	 * @param fieldToInsertBefore the recordToCopyFrom fields should be inserted before the first occurrence of this field in resultRecord.  Must be a tag as a 3 character String or null.
 	 * @return the currentRecord with the matching fields added from the nextRecord
 	 */
 	public static Record combineRecords(Record resultRecord, Record recordToCopyFrom, String fieldsToCopy, String fieldToInsertBefore)
@@ -1096,6 +1097,8 @@ public class MarcUtils {
 		        }
 		    }
 		}
+	    else
+		    logger.info("fieldToInsertBefore argument not usable; will put record2's fields at end of record1");
 	
 	    // copy desired fields to resultRecord
 	    resultRecord = combineRecords(resultRecord, recordToCopyFrom, fieldsToCopy);
