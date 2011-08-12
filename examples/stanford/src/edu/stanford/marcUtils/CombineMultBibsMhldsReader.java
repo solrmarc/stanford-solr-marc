@@ -2,7 +2,6 @@ package edu.stanford.marcUtils;
 
 import java.io.*;
 import java.util.Comparator;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.marc4j.*;

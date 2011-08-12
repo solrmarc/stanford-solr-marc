@@ -495,7 +495,7 @@ public class MarcUtils {
     @SuppressWarnings("unchecked")
     public static List<String> getSubfieldStrings(DataField df, char code) {
         List<Subfield> listSubcode = df.getSubfields(code);
-        List<String> vals = new ArrayList(listSubcode.size());
+        List<String> vals = new ArrayList<String>(listSubcode.size());
         for (Subfield s : listSubcode) {
             vals.add(s.getData());
         }
