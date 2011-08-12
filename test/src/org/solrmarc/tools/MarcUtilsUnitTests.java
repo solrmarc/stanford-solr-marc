@@ -285,26 +285,114 @@ public class MarcUtilsUnitTests {
 		assertEquals("Incorrect field or field order after merge ", "133", vfList.get(3).getTag());
 		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(4).getTag());
 
-		// add error checkiing to field spec
-		
-		// field spec  has colons
-		// field spec has subfields
-		// field spec has two char fields
+		// FIXME would be nice if method had error checking for field regex
 	}
 
 	
+    /*
+     * unit test for org.solrmarc.tools.MarcUtils.combineRecords(record, record, fieldspec)
+     */
+@Test
 	public void testCombineRecords4Args()
 	{
 		// last field in receiving record
+		Record bibRec1 = createRecordW199a_111a();
+		Record bibRec2 = createRecordW177a_122b_122a();
+
+		// fieldToInsertBefore argument set to null
+		Record resultRec = MarcUtils.combineRecords(bibRec1, bibRec2, "122|177", null);
+		List<VariableField> vfList = resultRec.getVariableFields();
+		assertEquals("Wrong number of fields in record after merge ", 5, vfList.size());
+		assertEquals("Incorrect field or field order after merge ", "199", vfList.get(0).getTag());
+		assertEquals("Incorrect field or field order after merge ", "111", vfList.get(1).getTag());
+		assertEquals("Incorrect field or field order after merge ", "177", vfList.get(2).getTag());
+		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(3).getTag());
+		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(4).getTag());
+		// are 122 fields in right order?
+		List<Subfield> sfList = ((DataField) vfList.get(3)).getSubfields();
+		assertEquals("Incorrect field order for mult occurrences ", "122subb", sfList.get(0).getData());
+		sfList = ((DataField) vfList.get(4)).getSubfields();
+		assertEquals("Incorrect field order for mult occurrences ", "122suba", sfList.get(0).getData());
+
+		// fieldToInsertBefore bad argument value
+		bibRec1 = createRecordW199a_111a();
+		resultRec = MarcUtils.combineRecords(bibRec1, bibRec2, "122|177", "6666");
+		vfList = resultRec.getVariableFields();
+		assertEquals("Wrong number of fields in record after merge ", 5, vfList.size());
+		assertEquals("Incorrect field or field order after merge ", "199", vfList.get(0).getTag());
+		assertEquals("Incorrect field or field order after merge ", "111", vfList.get(1).getTag());
+		assertEquals("Incorrect field or field order after merge ", "177", vfList.get(2).getTag());
+		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(3).getTag());
+		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(4).getTag());
+
+		// fieldToInsertBefore non-existent field in first record
+		bibRec1 = createRecordW199a_111a();
+		resultRec = MarcUtils.combineRecords(bibRec1, bibRec2, "122|177", "666");
+		vfList = resultRec.getVariableFields();
+		assertEquals("Wrong number of fields in record after merge ", 5, vfList.size());
+		assertEquals("Incorrect field or field order after merge ", "199", vfList.get(0).getTag());
+		assertEquals("Incorrect field or field order after merge ", "111", vfList.get(1).getTag());
+		assertEquals("Incorrect field or field order after merge ", "177", vfList.get(2).getTag());
+		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(3).getTag());
+		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(4).getTag());
 		
-		// multiple (last) fields in receiving record
+		// fieldToInsertBefore last field in first record
+		bibRec1 = createRecordW199a_111a();
+		resultRec = MarcUtils.combineRecords(bibRec1, bibRec2, "122|177", "111");
+		vfList = resultRec.getVariableFields();
+		assertEquals("Wrong number of fields in record after merge ", 5, vfList.size());
+		assertEquals("Incorrect field or field order after merge ", "199", vfList.get(0).getTag());
+		assertEquals("Incorrect field or field order after merge ", "177", vfList.get(1).getTag());
+		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(2).getTag());
+		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(3).getTag());
+		assertEquals("Incorrect field or field order after merge ", "111", vfList.get(4).getTag());
+		// are 122 fields in right order?
+		sfList = ((DataField) vfList.get(2)).getSubfields();
+		assertEquals("Incorrect field order for mult occurrences ", "122subb", sfList.get(0).getData());
+		sfList = ((DataField) vfList.get(3)).getSubfields();
+		assertEquals("Incorrect field order for mult occurrences ", "122suba", sfList.get(0).getData());
+
+		// fieldToInsertBefore multiple (last) fields in receiving record
+		bibRec1 = createRecordW199a_111a();
+		resultRec = MarcUtils.combineRecords(bibRec2, bibRec1, "111|199", "122");
+		vfList = resultRec.getVariableFields();
+		assertEquals("Wrong number of fields in record after merge ", 5, vfList.size());
+		assertEquals("Incorrect field or field order after merge ", "177", vfList.get(0).getTag());
+		assertEquals("Incorrect field or field order after merge ", "199", vfList.get(1).getTag());
+		assertEquals("Incorrect field or field order after merge ", "111", vfList.get(2).getTag());
+		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(3).getTag());
+		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(4).getTag());
+		// are 122 fields in right order?
+		sfList = ((DataField) vfList.get(3)).getSubfields();
+		assertEquals("Incorrect field order for mult occurrences ", "122subb", sfList.get(0).getData());
+		sfList = ((DataField) vfList.get(4)).getSubfields();
+		assertEquals("Incorrect field order for mult occurrences ", "122suba", sfList.get(0).getData());
 		
-		//  middle field in receiving record
+		// fieldToInsertBefore middle field in receiving record
+		bibRec2 = createRecordW177a_122b_122a();
+		DataField df = new DataFieldImpl("133", ' ', ' ');
+		Subfield suba = new SubfieldImpl('a', "133suba");
+		df.addSubfield(suba);
+		bibRec2.addVariableField(df);
+		df = new DataFieldImpl("188", ' ', ' ');
+		suba = new SubfieldImpl('a', "188suba");
+		df.addSubfield(suba);
+		bibRec2.addVariableField(df);
+		resultRec = MarcUtils.combineRecords(bibRec2, bibRec1, "199", "133");
+		vfList = resultRec.getVariableFields();
+		assertEquals("Wrong number of fields in record after merge ", 6, vfList.size());
+		assertEquals("Incorrect field or field order after merge ", "177", vfList.get(0).getTag());
+		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(1).getTag());
+		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(2).getTag());
+//		assertEquals("Incorrect field or field order after merge ", "199", vfList.get(3).getTag());
+//		assertEquals("Incorrect field or field order after merge ", "133", vfList.get(4).getTag());
+//		assertEquals("Incorrect field or field order after merge ", "188", vfList.get(5).getTag());
 		
 		//  mult conseq occurrences of middle field in receiving record
 		
 		// mult non-conseq occurrences of field in receiving record
 		
+		// bad field (not 3 char string)
 	}
 	
 	
