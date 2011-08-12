@@ -229,7 +229,7 @@ public class MarcUtilsUnitTests {
 		sfList = ((DataField) vfList.get(3)).getSubfields();
 		assertEquals("Incorrect field order for mult occurrences ", "122suba", sfList.get(0).getData());
 		
-		// test:  merge both fields
+		// test:  merge both fields - maintains field order of second record
 		bibRec1 = createRecordW199a_111a();
 		resultRec = MarcUtils.combineRecords(bibRec1, bibRec2, "122|177");
 		vfList = resultRec.getVariableFields();
@@ -260,16 +260,32 @@ public class MarcUtilsUnitTests {
 		assertEquals("Incorrect field order for mult occurrences ", "111suba", sfList.get(0).getData());
 		sfList = ((DataField) vfList.get(3)).getSubfields();
 		assertEquals("Incorrect field order for mult occurrences ", "mhld111suba", sfList.get(0).getData());
-
-		
-				
-		
-		
+	
 		// next rec's fields are scattered throughout
-		
-		// maintains field order of receiving record
-		
-		// maintains field order of other record
+		//  add more fields to mhld record
+		DataField df = new DataFieldImpl("133", ' ', ' ');
+		Subfield suba = new SubfieldImpl('a', "133suba");
+		df.addSubfield(suba);
+		mhldRec.addVariableField(df);
+		df = new DataFieldImpl("122", ' ', ' ');
+		suba = new SubfieldImpl('b', "122subb");
+		df.addSubfield(suba);
+		mhldRec.addVariableField(df);
+		df = new DataFieldImpl("111", ' ', ' ');
+		suba = new SubfieldImpl('a', "111suba");
+		df.addSubfield(suba);
+		mhldRec.addVariableField(df);
+		bibRec1 = createRecordW199a_111a();
+		resultRec = MarcUtils.combineRecords(bibRec1, mhldRec, "133|122");
+		vfList = resultRec.getVariableFields();
+		assertEquals("Wrong number of fields in record after merge ", 5, vfList.size());
+		assertEquals("Incorrect field or field order after merge ", "199", vfList.get(0).getTag());
+		assertEquals("Incorrect field or field order after merge ", "111", vfList.get(1).getTag());
+		assertEquals("Incorrect field or field order after merge ", "133", vfList.get(2).getTag());
+		assertEquals("Incorrect field or field order after merge ", "133", vfList.get(3).getTag());
+		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(4).getTag());
+
+		// add error checkiing to field spec
 		
 		// field spec  has colons
 		// field spec has subfields
@@ -350,20 +366,15 @@ public class MarcUtilsUnitTests {
 		Leader leader = new LeaderImpl(sampleLdrStr);
 		leader.setTypeOfRecord('u');
 		mhldRec.setLeader(leader);
-		DataField mhldFld133 = new DataFieldImpl("133", ' ', ' ');
+		DataField df = new DataFieldImpl("133", ' ', ' ');
 		Subfield suba = new SubfieldImpl('a', "133suba");
-		mhldFld133.addSubfield(suba);
-		mhldRec.addVariableField(mhldFld133);
-		DataField mhldFld111 = new DataFieldImpl("111", ' ', ' ');
+		df.addSubfield(suba);
+		mhldRec.addVariableField(df);
+		df = new DataFieldImpl("111", ' ', ' ');
 		suba = new SubfieldImpl('a', "mhld111suba");
-		mhldFld111.addSubfield(suba);
-		mhldRec.addVariableField(mhldFld111);
+		df.addSubfield(suba);
+		mhldRec.addVariableField(df);
 		return mhldRec;
 	}
-		
-	
-
-	
-
 
 }
