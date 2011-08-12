@@ -11,7 +11,7 @@ import org.solrmarc.marc.RawRecordReader;
 import org.solrmarc.testUtils.*;
 import org.solrmarc.tools.*;
 
-import edu.stanford.marcUtils.MergeMhldFldsIntoBibs;
+import edu.stanford.marcUtils.MergeMhldFldsIntoBibsReader;
 
 /**
  * Note that actual use of MergeMhldFldsIntoBibs is generally a call to main() 
@@ -19,7 +19,7 @@ import edu.stanford.marcUtils.MergeMhldFldsIntoBibs;
  * @author Naomi Dushay
  *
  */
-public class MergeMhldFldsIntoBibsTests 
+public class MergeMhldFldsIntoBibsReaderTests 
 {
     static String testDir = "test";
     static String testDataParentPath =  testDir + File.separator + "data";
@@ -88,7 +88,7 @@ public class MergeMhldFldsIntoBibsTests
 		// bib46, mhld235
 		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs46.mrc";
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds235.mrc";
-	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    Map<String, Record> mergedRecs = mergeRecordsAsMap(bibFilePath, mhldFilePath);
 	    Set<String> mergedRecIds = mergedRecs.keySet();
 	    assertEquals(2, mergedRecIds.size());
 
@@ -137,7 +137,7 @@ public class MergeMhldFldsIntoBibsTests
     	// bib346, mhld34
 		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs346.mrc";
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds34.mrc";
-	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    Map<String, Record> mergedRecs = mergeRecordsAsMap(bibFilePath, mhldFilePath);
 	    
 	    // there should be 3 results
 	    Set<String> mergedRecIds = mergedRecs.keySet();
@@ -163,7 +163,7 @@ public class MergeMhldFldsIntoBibsTests
     	//bib346, mhld235
 		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs346.mrc";
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds235.mrc";
-	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    Map<String, Record> mergedRecs = mergeRecordsAsMap(bibFilePath, mhldFilePath);
 	    
 	    // there should be 3 results
 	    Set<String> mergedRecIds = mergedRecs.keySet();
@@ -189,7 +189,7 @@ public class MergeMhldFldsIntoBibsTests
     	//bib134, mhld345
 		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs134.mrc";
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds345.mrc";
-	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    Map<String, Record> mergedRecs = mergeRecordsAsMap(bibFilePath, mhldFilePath);
 	    
 	    // there should be 3 results
 	    Set<String> mergedRecIds = mergedRecs.keySet();
@@ -215,7 +215,7 @@ public class MergeMhldFldsIntoBibsTests
     	//bib46, mhld236
 		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs46.mrc";
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds236.mrc";
-	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    Map<String, Record> mergedRecs = mergeRecordsAsMap(bibFilePath, mhldFilePath);
 	    
 	    // there should be 2 results
 	    Set<String> mergedRecIds = mergedRecs.keySet();
@@ -238,7 +238,7 @@ public class MergeMhldFldsIntoBibsTests
 		//bib134, mhld345
 		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs134.mrc";
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds345.mrc";
-	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    Map<String, Record> mergedRecs = mergeRecordsAsMap(bibFilePath, mhldFilePath);
 	    
 	    // there should be 3 results
 	    Set<String> mergedRecIds = mergedRecs.keySet();
@@ -263,7 +263,7 @@ public class MergeMhldFldsIntoBibsTests
     	//bib46, mhld34
 		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs46.mrc";
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds34.mrc";
-	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    Map<String, Record> mergedRecs = mergeRecordsAsMap(bibFilePath, mhldFilePath);
 	    
 	    // there should be 2 results
 	    Set<String> mergedRecIds = mergedRecs.keySet();
@@ -287,7 +287,7 @@ public class MergeMhldFldsIntoBibsTests
     	//bib134, multMhlds1    	
 		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs134.mrc";
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds1Mult.mrc";
-	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    Map<String, Record> mergedRecs = mergeRecordsAsMap(bibFilePath, mhldFilePath);
 	    
 	    Record mergedRec = mergedRecs.get("a1");
 	    assertEquals("Wrong number of 852s ", 3, mergedRec.getVariableFields("852").size());
@@ -322,7 +322,7 @@ public class MergeMhldFldsIntoBibsTests
     	// multBibs4, mhld 34
     	String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs4Mult.mrc";
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds34.mrc";
-	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    Map<String, Record> mergedRecs = mergeRecordsAsMap(bibFilePath, mhldFilePath);
 	    
 	    Record mergedRec = mergedRecs.get("a4");
 	    assertEquals("Wrong number of 852 ", 1, mergedRec.getVariableFields("852").size());
@@ -339,7 +339,7 @@ public class MergeMhldFldsIntoBibsTests
     {
     	String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibs4Mult.mrc";
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhlds4Mult.mrc";
-	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    Map<String, Record> mergedRecs = mergeRecordsAsMap(bibFilePath, mhldFilePath);
     	
 	    Record mergedRec = mergedRecs.get("a4");
 	    // bib flds merged in
@@ -379,7 +379,7 @@ public class MergeMhldFldsIntoBibsTests
 		// mhldMergeBibWmhldFlds, mhldMergeMhldAllFlds
 		String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibWmhldFlds.mrc";
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhldAllFlds.mrc";
-	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    Map<String, Record> mergedRecs = mergeRecordsAsMap(bibFilePath, mhldFilePath);
 		
 	    Record mergedRec = mergedRecs.get("aallMhldFlds");
 	    
@@ -432,7 +432,7 @@ public class MergeMhldFldsIntoBibsTests
     	// mhldMergeBibWmhldFlds, mhldMergeMhldAllFlds
     	String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibWmhldFlds.mrc";
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhldAllFlds.mrc";
-	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    Map<String, Record> mergedRecs = mergeRecordsAsMap(bibFilePath, mhldFilePath);
     	
 	    Record mergedRec = mergedRecs.get("aallMhldFlds");
 	    
@@ -468,7 +468,7 @@ public class MergeMhldFldsIntoBibsTests
     	// mhldMergeBibWmhldFlds, mhldMergeMhldAllFlds
     	String bibFilePath = localTestDataParentPath + File.separator + "mhldMergeBibWmhldFlds.mrc";
 		String mhldFilePath = localTestDataParentPath + File.separator + "mhldMergeMhldAllFlds.mrc";
-	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
+	    Map<String, Record> mergedRecs = mergeRecordsAsMap(bibFilePath, mhldFilePath);
     	
 	    Record mergedRec = mergedRecs.get("aallMhldFlds");
 	    
@@ -595,7 +595,7 @@ String mergedBib335outputNoUmlaut[] = {
 	    String mhldRecFileName = testDataParentPath + File.separator + "summaryHld_1-1000.mrc";
 	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
 	
-	    Map<String, Record> mergedRecs = MergeMhldFldsIntoBibs.mergeMhldsIntoBibRecordsAsMap(bibRecFileName, mhldRecFileName);
+	    Map<String, Record> mergedRecs = mergeRecordsAsMap(bibRecFileName, mhldRecFileName);
 
 	    junit.framework.Assert.assertEquals("results should have 1 record", 1, mergedRecs.size());
 	    String expId = "u335";
@@ -620,7 +620,7 @@ String mergedBib335outputNoUmlaut[] = {
 		PrintStream sysMsgs = new PrintStream(sysBAOS);
 		System.setOut(sysMsgs);
 
-		MergeMhldFldsIntoBibs.mergeMhldRecsIntoBibRecsAsStdOut(bibRecFileName, mhldRecFileName);
+		MergeMhldFldsIntoBibsReader.mergeMhldRecsIntoBibRecsAsStdOut(bibRecFileName, mhldRecFileName);
 	
 		RecordTestingUtils.assertMarcRecsEqual(mergedBib335output, sysBAOS);
 	}
@@ -647,6 +647,36 @@ String mergedBib335outputNoUmlaut[] = {
         CommandLineUtils.runCommandLineUtil(MERGE_MHLD_CLASS_NAME, MAIN_METHOD_NAME, inStr, resultMrcOutStream, mergeMhldArgs);
         return resultMrcOutStream;
     }
+
+	/**
+	 * basically for testing 
+	 * for each bib record in the bib rec file 
+	 *  look for a corresponding mhld record.  If a match is found, 
+	 *    1) remove any existing fields in the bib record that duplicate the mhld fields to be merged into the bib record
+	 *    2) merge the mhld fields into the bib record
+	 * then add the bib record (whether it had a match or not) to the List of records
+	 * @param bibRecsFileName - the name of the file containing MARC Bibliographic records
+	 * @param mhldRecsFileName - the name of the file containing MARC MHLD records
+	 * @return Map of ids -> Record objects for the bib records, which will include mhld fields if a match was found
+	 */
+	public static Map<String, Record> mergeRecordsAsMap(String bibRecsFileName, String mhldRecsFileName)
+		throws IOException
+	{
+		Map<String, Record> results = new HashMap<String, Record>();
+	
+		boolean permissive = true;
+	    boolean toUtf8 = false;
+	    String defaultEncoding = "MARC8";
+	    MergeMhldFldsIntoBibsReader merger = new MergeMhldFldsIntoBibsReader(bibRecsFileName, permissive, toUtf8, defaultEncoding, 
+	                                                           mhldRecsFileName, MergeMhldFldsIntoBibsReader.DEFAULT_MHLD_FLDS_TO_MERGE);
+	
+	    while (merger.hasNext()) 
+	    {
+	    	Record bibRecWithPossChanges = merger.next();
+	    	results.put(MarcUtils.getControlFieldData(bibRecWithPossChanges, "001"), bibRecWithPossChanges);
+	    }
+	    return results;
+	}
     
 
 }

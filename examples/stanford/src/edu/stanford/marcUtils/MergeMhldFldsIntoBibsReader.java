@@ -24,15 +24,12 @@ import org.solrmarc.tools.*;
  * @author Naomi Dushay, based on org.solrmarc.tools.MergeSummaryHoldings by Bob Haschart
  *
  */
-public class MergeMhldFldsIntoBibs  implements MarcReader
+public class MergeMhldFldsIntoBibsReader  implements MarcReader
 {
     /** default list of MHLD fields to be merged into the bib record, separated by '|' char */
     public static String DEFAULT_MHLD_FLDS_TO_MERGE = "852|853|863|866|867|868";
     
     public static Comparator ID_COMPARATOR = new StringNaturalCompare();
-
-    static boolean verbose = false;
-    static boolean veryverbose = false;
 
     /** list of MHLD fields to be merged into the bib record, separated by '|' char */
     private String mhldFldsToMerge = null;
@@ -58,7 +55,7 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
     private Record currentMhldRec = null;
     
     
-    public MergeMhldFldsIntoBibs(String bibRecsFileName, boolean permissive, boolean toUtf8, String defaultEncoding, 
+    public MergeMhldFldsIntoBibsReader(String bibRecsFileName, boolean permissive, boolean toUtf8, String defaultEncoding, 
             String mhldRecsFileName, String mhldFldsToMerge)
 	{
         String idField = "001";
@@ -80,7 +77,7 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
 		readMhldFileFromBeginning(mhldRecsFileName);
 	}
 
-    public MergeMhldFldsIntoBibs(String bibRecsFileName, String mhldRecsFileName, String mhldFldsToMerge)
+    public MergeMhldFldsIntoBibsReader(String bibRecsFileName, String mhldRecsFileName, String mhldFldsToMerge)
     {
         this (bibRecsFileName, true, false, "MARC8", mhldRecsFileName, mhldFldsToMerge);
     }
@@ -230,39 +227,6 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
     }
     
     /**
-     * basically for testing 
-     * for each bib record in the bib rec file 
-     *  look for a corresponding mhld record.  If a match is found, 
-     *    1) remove any existing fields in the bib record that duplicate the mhld fields to be merged into the bib record
-     *    2) merge the mhld fields into the bib record
-     * then add the bib record (whether it had a match or not) to the List of records
-     * @param bibRecsFileName - the name of the file containing MARC Bibliographic records
-     * @param mhldRecsFileName - the name of the file containing MARC MHLD records
-     * @return Map of ids -> Record objects for the bib records, which will include mhld fields if a match was found
-     */
-    public static Map<String, Record> mergeMhldsIntoBibRecordsAsMap(String bibRecsFileName, String mhldRecsFileName)
-    	throws IOException
-    {
-    	Map<String, Record> results = new HashMap<String, Record>();
-
-    	boolean permissive = true;
-        boolean toUtf8 = false;
-        String defaultEncoding = "MARC8";
-        MergeMhldFldsIntoBibs merger = new MergeMhldFldsIntoBibs(bibRecsFileName, permissive, toUtf8, defaultEncoding, 
-                                                               mhldRecsFileName, DEFAULT_MHLD_FLDS_TO_MERGE);
-
-        verbose = true;
-        veryverbose = true;
-        while (merger.hasNext()) 
-        {
-        	Record bibRecWithPossChanges = merger.next();
-        	results.put(MarcUtils.getControlFieldData(bibRecWithPossChanges, "001"), bibRecWithPossChanges);
-        }
-        return results;
-    }
-
-    
-	/**
      * for each bib record in the bib rec file 
      *  look for a corresponding mhld record.  If a match is found, 
      *    1) remove any existing fields in the bib record that duplicate the mhld fields to be merged into the bib record
@@ -278,10 +242,8 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
         boolean permissive = true;
         boolean toUtf8 = false;
         String defaultEncoding = "MARC8";
-        MergeMhldFldsIntoBibs merger = new MergeMhldFldsIntoBibs(bibRecsFileName, permissive, toUtf8, defaultEncoding, 
+        MergeMhldFldsIntoBibsReader merger = new MergeMhldFldsIntoBibsReader(bibRecsFileName, permissive, toUtf8, defaultEncoding, 
                                                                mhldRecsFileName, DEFAULT_MHLD_FLDS_TO_MERGE);
-        verbose = true;
-        veryverbose = true;
         MarcWriter writer = new MarcSplitStreamWriter(System.out, "ISO-8859-1", 70000, "999");
         while (merger.hasNext()) 
         {
@@ -309,21 +271,10 @@ public class MergeMhldFldsIntoBibs  implements MarcReader
         int argoffset = 0;
         if (args.length == 0)
         {
-            System.err.println("Usage: edu.stanford.MergeMhldFldsIntoBibs [-v] [-vv] -s marcMhldFile.mrc  marcBibsFile.mrc");
+            System.err.println("Usage: edu.stanford.MergeMhldFldsIntoBibs  -s marcMhldFile.mrc  marcBibsFile.mrc");
         }
         while (argoffset < args.length && args[argoffset].startsWith("-"))
         {
-            if (args[argoffset].equals("-v"))
-            {
-                verbose = true;
-                argoffset++;
-            }
-            if (args[argoffset].equals("-vv"))
-            {
-                verbose = true;
-                veryverbose = true;
-                argoffset++;
-            }
             if (args[argoffset].equals("-s"))
             {
                 mhldRecsFileName = args[1+argoffset];
