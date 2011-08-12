@@ -384,15 +384,11 @@ public class MarcUtilsUnitTests {
 		assertEquals("Incorrect field or field order after merge ", "177", vfList.get(0).getTag());
 		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(1).getTag());
 		assertEquals("Incorrect field or field order after merge ", "122", vfList.get(2).getTag());
-//		assertEquals("Incorrect field or field order after merge ", "199", vfList.get(3).getTag());
-//		assertEquals("Incorrect field or field order after merge ", "133", vfList.get(4).getTag());
-//		assertEquals("Incorrect field or field order after merge ", "188", vfList.get(5).getTag());
+		assertEquals("Incorrect field or field order after merge ", "199", vfList.get(3).getTag());
+		assertEquals("Incorrect field or field order after merge ", "133", vfList.get(4).getTag());
+		assertEquals("Incorrect field or field order after merge ", "188", vfList.get(5).getTag());
 		
-		//  mult conseq occurrences of middle field in receiving record
-		
-		// mult non-conseq occurrences of field in receiving record
-		
-		// bad field (not 3 char string)
+		// could/should test bad argument for fieldToInsertBefore - look for logger message ...
 	}
 	
 	
