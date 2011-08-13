@@ -35,41 +35,13 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
 
 	    // result bibs should match the bib input because there was no merge
 	    String id = "a4";
-//       	RecordTestingUtils.assertEquals(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
-//	    id = "a6";
-//       	RecordTestingUtils.assertEquals(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
+       	RecordTestingUtils.assertEquals(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
+	    id = "a6";
+       	RecordTestingUtils.assertEquals(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
     }
 
 
-	// single bib
-	// mult bibs
-	// one bib and one mhld
-	// one bib and mult mhlds
-	// mult bibs and mult mhlds 
 
-	// test crashing bib fields removed
-
-
-	// first record
-	// last record
-	// middle record
-
-	// errors:
-	//  records out of order
-	//  unreadable record 
-	//    first bib
-	//      followed by bibs, mhlds, and both
-	//    subsequent bib
-	//	  first mhld
-	//    subsequent mhld
-	//   first, last, middle record group in file
-
-
-	// fields to merge:  bib, mhld
-	//   present, missing
-	// fields not to merge
-	//   present
-	
 
 // supporting methods for testing ---------------------------------------------
 	

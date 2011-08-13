@@ -117,7 +117,7 @@ public class MergeMhldFldsIntoBibsReaderTests
 		System.setErr(sysMsgs);
 		System.setOut(sysMsgs);
 	
-		ByteArrayOutputStream mergedAsByteArrayOutStream = mergeAsBAOutputStream(bibFilePath, mhldFilePath);
+		ByteArrayOutputStream mergedAsByteArrayOutStream = mergeBibAndMhldFiles(bibFilePath, mhldFilePath);
 	
 		// ensure no error message was printed
 		assertTrue("Output messages unexpectedly written: " + sysBAOS.toString(),  sysBAOS.size() == 0);
@@ -634,7 +634,7 @@ String mergedBib335outputNoUmlaut[] = {
      * @param mhldRecsFileName name of the file containing MHLD records, relative to the testDataParentPath
      * @return the resulting merged bib file as a ByteArrayOutputStream
      */
-    private ByteArrayOutputStream mergeAsBAOutputStream(String bibRecsFileName, String mhldRecsFileName) 
+    private ByteArrayOutputStream mergeBibAndMhldFiles(String bibRecsFileName, String mhldRecsFileName) 
     {
         String fullBibRecsFileName = testDataParentPath + File.separator + bibRecsFileName;
         String fullMhldRecsFileName = testDataParentPath + File.separator + mhldRecsFileName;
