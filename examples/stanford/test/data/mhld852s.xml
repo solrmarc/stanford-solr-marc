@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+  <record>
+    <leader>00684cy  a22002413  4500</leader>
+    <controlfield tag="001">a358041</controlfield>
+    <controlfield tag="008">090716                eng 110531        </controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">GREEN</subfield>
+      <subfield code="c">CURRENTPER</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">COUNTRY LIFE INTERNATIONAL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL</subfield>
+      <subfield code="=">56343</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00197cy  a22000853  4500</leader>
+    <controlfield tag="001">a358041</controlfield>
+    <controlfield tag="008">081027                eng 081027        </controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">SAL3</subfield>
+      <subfield code="c">STACKS</subfield>
+      <subfield code="t">1</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00303ny  a22000973  4500</leader>
+    <controlfield tag="001">a358041</controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">SAL</subfield>
+      <subfield code="c">STACKS</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>26433cy  a22071533  4500</leader>
+    <controlfield tag="001">a358041</controlfield>
+    <controlfield tag="007">t</controlfield>
+    <controlfield tag="008">000214                eng 110725        </controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">GREEN</subfield>
+      <subfield code="c">CURRENTPER</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL</subfield>
+      <subfield code="=">14974</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00798cy  a22002774  4500</leader>
+    <controlfield tag="001">a358041</controlfield>
+    <controlfield tag="007">t</controlfield>
+    <controlfield tag="008">030605                eng 110104        </controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">GREEN</subfield>
+      <subfield code="c">CURRENTPER</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">COUNTRY LIFE TRAVEL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL</subfield>
+      <subfield code="=">39228</subfield>
+    </datafield>
+  </record>
+    
+  
+  <record>
+    <leader>00408cy  a22001454  4500</leader>
+    <controlfield tag="001">a362573</controlfield>
+    <controlfield tag="008">070227                eng 071120        </controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">GREEN</subfield>
+      <subfield code="c">MEDIA-MTXT</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">CDs and DVDs</subfield>
+      <subfield code="=">48577</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00199cy  a22000853  4500</leader>
+    <controlfield tag="001">a362573</controlfield>
+    <controlfield tag="003">SIRSI</controlfield>
+    <controlfield tag="008">070124                eng 090326        </controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">SAL3</subfield>
+      <subfield code="c">STACKS</subfield>
+      <subfield code="t">1</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>71039ny  a22184573  4500</leader>
+    <controlfield tag="001">a362573</controlfield>
+    <controlfield tag="003">SIRSI</controlfield>
+    <controlfield tag="008">061116                eng 110808        </controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">GREEN</subfield>
+      <subfield code="c">CURRENTPER</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in STACKS</subfield>
+      <subfield code="=">1326</subfield>
+    </datafield>
+  </record>
+  
+  
+  
+  <record>
+    <leader>02443cy  a22007933  4500</leader>
+    <controlfield tag="001">a3974376</controlfield>
+    <controlfield tag="007">t</controlfield>
+    <controlfield tag="008">990713                eng 110623        </controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">GREEN</subfield>
+      <subfield code="c">STACKS</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">All holdings transferred to SAL3</subfield>
+    </datafield>
+  </record>
+    
+</collection>
