@@ -1,0 +1,4942 @@
+<?xml version="1.0" encoding="UTF-8"?><collection xmlns="http://www.loc.gov/MARC21/slim">
+  <record>
+    <leader>00684cy  a22002413  4500</leader>
+    <controlfield tag="001">a358041</controlfield>
+    <controlfield tag="003">SIRSI</controlfield>
+    <controlfield tag="008">090716                eng 110531        </controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">GREEN</subfield>
+      <subfield code="c">CURRENTPER</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">COUNTRY LIFE INTERNATIONAL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL</subfield>
+      <subfield code="=">56343</subfield>
+    </datafield>
+    <datafield tag="853" ind1="2" ind2=" ">
+      <subfield code="8">2</subfield>
+      <subfield code="a">(year)</subfield>
+      <subfield code="b">(month)</subfield>
+    </datafield>
+    <datafield tag="853" ind1="2" ind2=" ">
+      <subfield code="8">3</subfield>
+      <subfield code="a">(year)</subfield>
+      <subfield code="b">(season)</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">2.1</subfield>
+      <subfield code="a">2007</subfield>
+      <subfield code="b">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">2.2</subfield>
+      <subfield code="a">2007</subfield>
+      <subfield code="b">23/24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">2.3</subfield>
+      <subfield code="a">2008</subfield>
+      <subfield code="b">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">2.4</subfield>
+      <subfield code="a">2009</subfield>
+      <subfield code="b">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">2.5</subfield>
+      <subfield code="a">2009</subfield>
+      <subfield code="b">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">2.6</subfield>
+      <subfield code="a">2009</subfield>
+      <subfield code="b">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">3.1</subfield>
+      <subfield code="a">2010</subfield>
+      <subfield code="b">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">3.2</subfield>
+      <subfield code="a">2010</subfield>
+      <subfield code="b">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">3.3</subfield>
+      <subfield code="a">2010</subfield>
+      <subfield code="b">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">3.4</subfield>
+      <subfield code="a">2011</subfield>
+      <subfield code="b">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">3.5</subfield>
+      <subfield code="a">2011</subfield>
+      <subfield code="b">22</subfield>
+    </datafield>
+    <datafield tag="866" ind1="3" ind2="1">
+      <subfield code="8">1</subfield>
+      <subfield code="a">2009-</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00197cy  a22000853  4500</leader>
+    <controlfield tag="001">a358041</controlfield>
+    <controlfield tag="003">SIRSI</controlfield>
+    <controlfield tag="008">081027                eng 081027        </controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">SAL3</subfield>
+      <subfield code="c">STACKS</subfield>
+      <subfield code="t">1</subfield>
+    </datafield>
+    <datafield tag="866" ind1="3" ind2="1">
+      <subfield code="8">1</subfield>
+      <subfield code="a">v.151(1972)-v.152(1972)</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00303ny  a22000973  4500</leader>
+    <controlfield tag="001">a358041</controlfield>
+    <controlfield tag="003">SIRSI</controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">SAL</subfield>
+      <subfield code="c">STACKS</subfield>
+    </datafield>
+    <datafield tag="866" ind1="3" ind2="1">
+      <subfield code="8">1</subfield>
+      <subfield code="a">1953; v.143(1968)-v.144(1968),v.153(1973)-v.154(1973),v.164(1978),v.166(1979),v.175(1984),v.178(1985),v.182(1988)-v.183(1989),v.194(2000)-</subfield>
+    </datafield>
+    <datafield tag="901" ind1=" " ind2=" ">
+      <subfield code="a">ABV0065</subfield>
+    </datafield>
+    <datafield tag="901" ind1=" " ind2=" ">
+      <subfield code="a">a358041</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>26433cy  a22071533  4500</leader>
+    <controlfield tag="001">a358041</controlfield>
+    <controlfield tag="003">SIRSI</controlfield>
+    <controlfield tag="007">t</controlfield>
+    <controlfield tag="008">000214                eng 110725        </controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">GREEN</subfield>
+      <subfield code="c">CURRENTPER</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL</subfield>
+      <subfield code="=">14974</subfield>
+    </datafield>
+    <datafield tag="853" ind1="2" ind2=" ">
+      <subfield code="8">1</subfield>
+      <subfield code="a">v.</subfield>
+      <subfield code="b">no.</subfield>
+      <subfield code="u">52</subfield>
+      <subfield code="v">r</subfield>
+      <subfield code="i">(year)</subfield>
+      <subfield code="j">(month)</subfield>
+      <subfield code="k">(day)</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.1</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">3</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.2</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">4</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.3</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">5</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.4</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">6</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.5</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">7</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.6</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">8</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.7</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">9</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.8</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">10</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.9</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">11</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">16</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.10</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">12</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.11</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">13</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">30</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.12</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">14</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.13</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">15</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.14</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">16</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.15</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">17</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.16</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">18</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.17</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">19</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.18</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">20</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.19</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">21</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.20</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">22</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.21</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">23</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.22</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">24</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.23</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">25</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.24</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">26</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.25</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">27</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.26</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">28</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.27</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">29</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.28</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">30</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.29</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">31</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.30</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">32</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.31</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">33</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.32</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">34</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.33</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">35</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">31</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.34</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">36</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.35</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">37</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.36</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">38</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.37</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">39</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.38</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">40</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">5</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.39</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">41</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">12</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.40</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">42</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">19</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.41</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">43</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">26</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.42</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">44</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.43</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">45</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.44</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">46</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">16</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.45</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">47</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.46</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">48</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">30</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.47</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">49</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.48</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">50</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.49</subfield>
+      <subfield code="a">194</subfield>
+      <subfield code="b">51/52</subfield>
+      <subfield code="i">2000</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">21/28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.50</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">1</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.51</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">2</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.52</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">3</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.53</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">4</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.54</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">5</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.55</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">6</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.56</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">7</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.57</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">8</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.58</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">9</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.59</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">10</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.60</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">11</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.61</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">12</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.62</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">13</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.63</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">14</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">5</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.64</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">15</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">12</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.65</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">16</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">19</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.66</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">17</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">26</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.67</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">18</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.68</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">19</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.69</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">20</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.70</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">21</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.71</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">22</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">31</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.72</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">23</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.73</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">24</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.74</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">25</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.75</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">26</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.76</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">27</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">5</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.77</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">28</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">12</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.78</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">29</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">19</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.79</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">30</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">26</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.80</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">31</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.81</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">32</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.82</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">33</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">16</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.83</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">34</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.84</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">35</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">30</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.85</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">36</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.86</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">37</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.87</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">38</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.88</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">39</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.89</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">40</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.90</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">41</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.91</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">42</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.92</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">43</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.93</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">44</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.94</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">45</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.95</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">46</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.96</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">47</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.97</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">48</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.98</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">49</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.99</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">50</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.100</subfield>
+      <subfield code="a">195</subfield>
+      <subfield code="b">51/52</subfield>
+      <subfield code="i">2001</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">20/27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.101</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">1</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.102</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">2</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.103</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">3</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.104</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">4</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.105</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">5</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">31</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.106</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">6</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.107</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">7</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.108</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">8</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.109</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">9</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.110</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">10</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.111</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">11</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.112</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">12</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.113</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">13</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.114</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">14</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.115</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">15</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.116</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">16</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.117</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">17</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.118</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">18</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.119</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">19</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.120</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">20</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">16</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.121</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">21</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.122</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">22</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">30</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.123</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">23</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.124</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">24</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.125</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">25</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.126</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">26</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.127</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">27</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.128</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">28</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.129</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">29</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.130</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">30</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.131</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">31</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.132</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">32</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.133</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">33</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.134</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">34</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.135</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">35</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.136</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">36</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">5</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.137</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">37</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">12</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.138</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">38</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">19</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.139</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">39</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">26</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.140</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">40</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.141</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">41</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.142</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">42</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.143</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">43</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.144</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">44</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">31</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.145</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">45</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.146</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">46</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.147</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">47</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.148</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">48</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.149</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">49</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">5</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.150</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">50</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">12</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.151</subfield>
+      <subfield code="a">196</subfield>
+      <subfield code="b">51/52</subfield>
+      <subfield code="i">2002</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">19/26</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.152</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">1</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.153</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">2</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.154</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">3</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">16</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.155</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">4</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.156</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">5</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">30</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.157</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">6</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.158</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">7</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.159</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">8</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.160</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">9</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.161</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">10</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.162</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">11</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.163</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">12</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.164</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">13</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.165</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">14</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.166</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">15</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.167</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">16</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.168</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">17</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.169</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">18</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.170</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">19</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.171</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">20</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.172</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">21</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.173</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">22</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.174</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">23</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">5</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.175</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">24</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">12</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.176</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">25</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">19</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.177</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">26</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">26</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.178</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">27</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.179</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">28</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.180</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">29</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.181</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">30</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.182</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">31</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">31</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.183</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">32</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.184</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">33</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.185</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">34</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.186</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">35</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.187</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">36</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.188</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">37</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.189</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">38</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.190</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">39</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.191</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">40</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.192</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">41</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.193</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">42</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">16</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.194</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">43</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.195</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">44</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">30</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.196</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">45</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.197</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">46</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.198</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">47</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.199</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">48</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.200</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">49</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.201</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">50</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.202</subfield>
+      <subfield code="a">197</subfield>
+      <subfield code="b">51/52</subfield>
+      <subfield code="i">2003</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">18/25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.203</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">1</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.204</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">2</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.205</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">3</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.206</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">4</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.207</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">5</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.208</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">6</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">5</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.209</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">7</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">12</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.210</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">8</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">19</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.211</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">9</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">26</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.212</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">10</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.213</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">11</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.214</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">12</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.215</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">13</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.216</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">14</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.217</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">15</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.218</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">16</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.219</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">17</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.220</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">18</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.221</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">19</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.222</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">20</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.223</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">21</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.224</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">22</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.225</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">23</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.226</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">24</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.227</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">25</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.228</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">26</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.229</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">27</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.230</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">28</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.231</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">29</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.232</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">30</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.233</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">31</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.234</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">32</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">5</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.235</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">33</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">12</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.236</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">34</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">19</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.237</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">35</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">26</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.238</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">36</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.239</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">37</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.240</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">38</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">16</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.241</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">39</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.242</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">40</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">30</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.243</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">41</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.244</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">42</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.245</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">43</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.246</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">44</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.247</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">45</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.248</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">46</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.249</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">47</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.250</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">48</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.251</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">49</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.252</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">50</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.253</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">51/52</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">16/23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.254</subfield>
+      <subfield code="a">198</subfield>
+      <subfield code="b">53</subfield>
+      <subfield code="i">2004</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">30</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.255</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">1</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.256</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">2</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.257</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">3</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.258</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">4</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.259</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">5</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.260</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">6</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.261</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">7</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.262</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">8</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.263</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">9</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.264</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">10</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.265</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">11</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.266</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">12</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.267</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">13</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">31</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.268</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">14</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.269</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">15</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.270</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">16</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.271</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">17</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.272</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">18</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">5</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.273</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">19</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">12</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.274</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">20</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">19</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.275</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">21</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">26</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.276</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">22</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.277</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">23</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.278</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">24</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">16</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.279</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">25</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.280</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">26</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">30</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.281</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">27</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.282</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">28</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.283</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">29</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.284</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">30</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.285</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">31</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.286</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">33</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.287</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">34</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.288</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">35</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.289</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">36</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.290</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">37</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.291</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">38</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.292</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">39</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.293</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">40</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.294</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">41</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.295</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">42</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.296</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">43</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.297</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">44</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.298</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">45</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.299</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">46</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.300</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">47</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.301</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">48</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.302</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">49</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.303</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">50</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.304</subfield>
+      <subfield code="a">199</subfield>
+      <subfield code="b">51</subfield>
+      <subfield code="i">2005</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">22/29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.305</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">1</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">5</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.306</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">2</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">12</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.307</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">3</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">19</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.308</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">4</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">26</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.309</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">5</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.310</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">6</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.311</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">7</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">16</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.312</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">8</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.313</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">9</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.314</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">10</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.315</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">11</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">16</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.316</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">12</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.317</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">13</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">30</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.318</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">14</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.319</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">15</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.320</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">16</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.321</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">17</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.322</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">18</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.323</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">19</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.324</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">20</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.325</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">21</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.326</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">22</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.327</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">23</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.328</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">24</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.329</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">25</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.330</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">26</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.331</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">27</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.332</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">28</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.333</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">29</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.334</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">30</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.335</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">31</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.336</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">32</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.337</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">33</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.338</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">34</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.339</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">35</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">31</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.340</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">36</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.341</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">37</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.342</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">38</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.343</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">39</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.344</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">40</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">5</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.345</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">41</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">12</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.346</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">42</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">19</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.347</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">43</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">26</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.348</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">44</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.349</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">45</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.350</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">46</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">16</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.351</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">47</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.352</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">48</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">30</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.353</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">49</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.354</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">50</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.355</subfield>
+      <subfield code="a">200</subfield>
+      <subfield code="b">51</subfield>
+      <subfield code="i">2006</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">21/28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.356</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">1</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.357</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">2</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.358</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">3</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.359</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">4</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.360</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">5</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.361</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">6</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.362</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">7</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.363</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">8</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.364</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">9</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.365</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">10</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.366</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">11</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.367</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">12</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.368</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">13</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.369</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">14</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">5</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.370</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">15</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">12</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.371</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">16</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">19</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.372</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">17</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">26</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.373</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">18</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.374</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">19</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.375</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">20</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.376</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">21</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.377</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">22</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">31</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.378</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">23</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.379</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">24</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.380</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">25</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.381</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">26</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.382</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">27</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">5</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.383</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">28</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">12</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.384</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">29</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">19</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.385</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">30</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">26</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.386</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">31</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.387</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">32</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.388</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">33</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">16</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.389</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">34</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.390</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">35</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">30</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.391</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">36</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.392</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">37</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.393</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">38</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.394</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">39</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.395</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">40</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.396</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">41</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.397</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">42</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.398</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">43</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.399</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">44</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.400</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">45</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.401</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">46</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.402</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">47</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.403</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">48</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.404</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">49</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.405</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">50</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.406</subfield>
+      <subfield code="a">201</subfield>
+      <subfield code="b">51</subfield>
+      <subfield code="i">2007</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">20/27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.407</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">1</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.408</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">2</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.409</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">3</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.410</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">4</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.411</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">5</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">31</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.412</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">6</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.413</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">7</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.414</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">8</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.415</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">9</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.416</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">10</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.417</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">11</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.418</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">12</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.419</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">13</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.420</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">14</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.421</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">15</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.422</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">16</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.423</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">17</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.424</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">18</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.425</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">19</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.426</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">20</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.427</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">21</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.428</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">22</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.429</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">24</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.430</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">25</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.431</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">26</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.432</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">27</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.433</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">28</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.434</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">29</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">16</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.435</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">30</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.436</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">31</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">30</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.437</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">32</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.438</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">33</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.439</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">34</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.440</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">35</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.441</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">36</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.442</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">37</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.443</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">38</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.444</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">39</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.445</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">40</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.446</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">41</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.447</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">42</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.448</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">43</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.449</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">44</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.450</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">45</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">5</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.451</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">46</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">12</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.452</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">47</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">19</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.453</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">48</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">26</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.454</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">49</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.455</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">50</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.456</subfield>
+      <subfield code="a">202</subfield>
+      <subfield code="b">51</subfield>
+      <subfield code="i">2008</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.457</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">1</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.458</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">2</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.459</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">3</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.460</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">4</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.461</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">5</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.462</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">6</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.463</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">7</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.464</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">8</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.465</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">9</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.466</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">10</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.467</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">11</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.468</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">12</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.469</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">13</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.470</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">14</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.471</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">15</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.472</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">16</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.473</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">17</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.474</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">18</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.475</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">19</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.476</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">20</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.477</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">21</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.478</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">22</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.479</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">23</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.480</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">24</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.481</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">25</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.482</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">26</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.483</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">27</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.484</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">28</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.485</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">29</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.486</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">30</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.487</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">31</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">5</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.488</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">32</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">12</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.489</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">33</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">19</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.490</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">34</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">26</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.491</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">35</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.492</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">36</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.493</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">37</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">16</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.494</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">38</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.495</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">39</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">30</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.496</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">40</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.497</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">41</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.498</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">42</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.499</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">43</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.500</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">44</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.501</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">45</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.502</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">46</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.503</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">47</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.504</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">48</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.505</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">49</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.506</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">50</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">16/23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.507</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">51</subfield>
+      <subfield code="i">2009</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">30</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.508</subfield>
+      <subfield code="a">203</subfield>
+      <subfield code="b">52</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.509</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">1</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.510</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">2</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.511</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">3</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.512</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">4</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.513</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">5</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.514</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">6</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.515</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">7</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.516</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">8</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.517</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">9</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.518</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">10</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.519</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">11</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.520</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">12</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.521</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">13</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">31</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.522</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">14</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.523</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">15</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.524</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">16</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.525</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">17</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.526</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">18</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">5</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.527</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">19</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">12</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.528</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">20</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">19</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.529</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">21</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">26</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.530</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">22</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.531</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">23</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.532</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">24</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">16</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.533</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">25</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.534</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">26</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">30</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.535</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">27</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">7</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.536</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">28</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">14</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.537</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">29</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">21</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.538</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">30</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">28</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.539</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">31</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.540</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">32</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.541</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">33</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.542</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">34</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">08</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.543</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">35</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.544</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">36</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.545</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">37</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.546</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">38</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.547</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">39</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">09</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.548</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">40</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.549</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">41</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.550</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">42</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.551</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">43</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">10</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.552</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">44</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">3</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.553</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">45</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">10</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.554</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">46</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">17</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.555</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">47</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">11</subfield>
+      <subfield code="k">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.556</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">48</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.557</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">49</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.558</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">50</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">15/22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.559</subfield>
+      <subfield code="a">204</subfield>
+      <subfield code="b">51</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">12</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.560</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">1</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">5</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.561</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">2</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">12</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.562</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">3</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">19</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.563</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">4</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">01</subfield>
+      <subfield code="k">26</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.564</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">5</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.565</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">6</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.566</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">7</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">16</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.567</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">8</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">02</subfield>
+      <subfield code="k">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.568</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">9</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">2</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.569</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">10</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.570</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">11</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">16</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.571</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">12</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">23</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.572</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">13</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">30</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.573</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">14</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.574</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">15</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.575</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">16</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">20</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.576</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">17</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">04</subfield>
+      <subfield code="k">27</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.577</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">18</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">4</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.578</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">19</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">11</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.579</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">20</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">18</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.580</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">21</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">05</subfield>
+      <subfield code="k">25</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.581</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">22</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.582</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">23</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">8</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.583</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">24</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">15</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.584</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">25</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">22</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.585</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">26</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">29</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.586</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">27</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">6</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.587</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">28</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">07</subfield>
+      <subfield code="k">13</subfield>
+    </datafield>
+    <datafield tag="867" ind1=" " ind2="0">
+      <subfield code="8">4</subfield>
+      <subfield code="a">COUNTRY LIFE ABROAD (WIN 2001), (JUL 14, 2005)</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00798cy  a22002774  4500</leader>
+    <controlfield tag="001">a358041</controlfield>
+    <controlfield tag="003">SIRSI</controlfield>
+    <controlfield tag="007">t</controlfield>
+    <controlfield tag="008">030605                eng 110104        </controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">GREEN</subfield>
+      <subfield code="c">CURRENTPER</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">COUNTRY LIFE TRAVEL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL</subfield>
+      <subfield code="=">39228</subfield>
+    </datafield>
+    <datafield tag="853" ind1="2" ind2=" ">
+      <subfield code="8">1</subfield>
+      <subfield code="a">(year)</subfield>
+      <subfield code="b">(season)</subfield>
+    </datafield>
+    <datafield tag="853" ind1="2" ind2=" ">
+      <subfield code="8">2</subfield>
+      <subfield code="a">(year)</subfield>
+      <subfield code="b">(month)</subfield>
+    </datafield>
+    <datafield tag="853" ind1="2" ind2=" ">
+      <subfield code="8">3</subfield>
+      <subfield code="a"></subfield>
+      <subfield code="i">(year)</subfield>
+      <subfield code="j">(month)</subfield>
+    </datafield>
+    <datafield tag="853" ind1="2" ind2=" ">
+      <subfield code="8">4</subfield>
+      <subfield code="a">(year)</subfield>
+      <subfield code="b">(month)</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.1</subfield>
+      <subfield code="a">2001</subfield>
+      <subfield code="b">SPR</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.2</subfield>
+      <subfield code="a">2001</subfield>
+      <subfield code="b">WIN</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.3</subfield>
+      <subfield code="a">2002</subfield>
+      <subfield code="b">SPR</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.4</subfield>
+      <subfield code="a">2002</subfield>
+      <subfield code="b">WIN</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.5</subfield>
+      <subfield code="a">2003</subfield>
+      <subfield code="b">SPR</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.6</subfield>
+      <subfield code="a">2003/2004</subfield>
+      <subfield code="b">WIN</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.7</subfield>
+      <subfield code="a">2004</subfield>
+      <subfield code="b">SPR</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.8</subfield>
+      <subfield code="a">2006</subfield>
+      <subfield code="b">MAR</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">4.1</subfield>
+      <subfield code="a">2007/2008</subfield>
+      <subfield code="b">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">4.2</subfield>
+      <subfield code="a">2008/2009</subfield>
+      <subfield code="b">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">4.3</subfield>
+      <subfield code="a">2009/2010</subfield>
+      <subfield code="b">24</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">4.4</subfield>
+      <subfield code="a">2010/2011</subfield>
+      <subfield code="b">24</subfield>
+    </datafield>
+  </record>
+</collection>
