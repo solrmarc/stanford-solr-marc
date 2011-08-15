@@ -68,17 +68,61 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
 
 	    // result 1 should have the mhld fields
 	    String id = "a1";
-//       	RecordTestingUtils.assertEqualsIgnoreLeader(MERGED_RECORDS.get(id), mergedRecs.get(id));
        	RecordTestingUtils.assertEqualsIgnoreLeader(MERGED_RECORDS.get(id), mergedRecs.get(id));
 
        	// results 2 and 3 should be unchanged
        	id = "a2";
        	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
-       	// result bib 6 should not be changed
 	    id = "a3";
        	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
     }
 
+
+    /**
+     * a middle record in the file has a bib and an mhld
+     */
+@Test
+    public void middleBibHasMhld() 
+    		throws IOException 
+    {
+    	String filePath = testDataParentPath + File.separator + "combineBibMhld_b1b2m2b3.mrc";
+        Map<String, Record> mergedRecs = combineFileRecordsAsMap(filePath);
+        Set<String> mergedRecIds = mergedRecs.keySet();
+        assertEquals(3, mergedRecIds.size());
+    
+        // result 2 should have the mhld fields
+        String id = "a2";
+       	RecordTestingUtils.assertEqualsIgnoreLeader(MERGED_RECORDS.get(id), mergedRecs.get(id));
+    
+       	// results 1 and 3 should be unchanged
+       	id = "a1";
+       	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
+        id = "a3";
+       	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
+    }
+    
+    /**
+     * the last record in the file has a bib and an mhld
+     */
+@Test
+    public void lastBibHasMhld() 
+    		throws IOException 
+    {
+    	String filePath = testDataParentPath + File.separator + "combineBibMhld_b1b2b3m3.mrc";
+        Map<String, Record> mergedRecs = combineFileRecordsAsMap(filePath);
+        Set<String> mergedRecIds = mergedRecs.keySet();
+        assertEquals(3, mergedRecIds.size());
+    
+        // result 3 should have the mhld fields
+        String id = "a3";
+       	RecordTestingUtils.assertEqualsIgnoreLeader(MERGED_RECORDS.get(id), mergedRecs.get(id));
+    
+       	// results 2 and 3 should be unchanged
+       	id = "a1";
+       	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
+        id = "a2";
+       	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
+    }
 
 
 	// single bib
