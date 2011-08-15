@@ -79,7 +79,7 @@ public class CombineMultBibsMhldsReader implements MarcReader
     /** the most recent bib Record read with a new id */
     Record currentFirstBibRecord = null;
 
-    /** the last record that has been read (so far) in the marc file */
+    /** the last record that has been read (so far) in the marc file. Set to null before first record is read and after last record is read. */
     Record lastRecordRead = null;
 
     
@@ -220,7 +220,8 @@ public class CombineMultBibsMhldsReader implements MarcReader
      *   
      *  Side Effects:
      *    marcReader is moved to the next record
-     *    lastRecordRead is set to the next bib record that does NOT match the current first bib id
+     *    lastRecordRead is set to the next bib record that does NOT match the current first bib id,
+     *      or to null, if there are no more records to be read.
      *    currentFirstBibRecord can get more fields
      *  
      * @param idToMatch - the id to match the next bib or mhld 
@@ -234,9 +235,17 @@ public class CombineMultBibsMhldsReader implements MarcReader
     	boolean stillLooking = true;
     	boolean mergedSome = false;
     	lastRecordRead = null;
-		while (stillLooking && hasNext())
+		while (stillLooking)
 		{
-    		lastRecordRead = marcReader.next();
+			if (marcReader.hasNext())
+				lastRecordRead = marcReader.next();
+			else
+			{
+				// if we already read the last record in the file and we're still
+				//  looking, then we're done
+				lastRecordRead = null;  
+				break;
+			}
     		if (MarcUtils.isMHLDRecord(lastRecordRead)) 
     		{
     			String mhldMatchId = MarcUtils.getControlFieldData(lastRecordRead, mhldFldToMatch);
