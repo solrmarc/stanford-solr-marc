@@ -2,17 +2,17 @@ package edu.stanford;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 import org.junit.Test;
 import org.marc4j.marc.Record;
+import org.solrmarc.marc.RawRecordReader;
 import org.solrmarc.testUtils.RecordTestingUtils;
 import org.solrmarc.tools.MarcUtils;
+import org.solrmarc.tools.RawRecord;
 
 import edu.stanford.marcUtils.CombineMultBibsMhldsReader;
-import edu.stanford.marcUtils.MergeMhldFldsIntoBibsReader;
 
 /**
  * tests for edu.stanford.marcUtils.CombineMultBibsMultMhldsReader
@@ -21,24 +21,64 @@ import edu.stanford.marcUtils.MergeMhldFldsIntoBibsReader;
 public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
 {
 	
+    private Map<String, Record> UNMERGED_FIRST_BIBS = new HashMap<String, Record>();
+    private Map<String, Record> MERGED_RECORDS = new HashMap<String, Record>();
+    {
+		String filePath = testDataParentPath + File.separator + "combineBibMhld_b1b2b3.mrc";
+		try {
+			RawRecordReader rawRecRdr = new RawRecordReader(new FileInputStream(new File(filePath)));
+	        while (rawRecRdr.hasNext())
+	        {
+	        	RawRecord rawRec = rawRecRdr.next();
+	        	Record rec = rawRec.getAsRecord(true, false, "999", "MARC8");
+	        	String id = MarcUtils.getControlFieldData(rec, "001");
+	        	UNMERGED_FIRST_BIBS.put(id, rec);
+	        }
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		filePath = testDataParentPath + File.separator + "combineBibMhld_merged123.mrc";
+		try {
+			RawRecordReader rawRecRdr = new RawRecordReader(new FileInputStream(new File(filePath)));
+	        while (rawRecRdr.hasNext())
+	        {
+	        	RawRecord rawRec = rawRecRdr.next();
+	        	Record rec = rawRec.getAsRecord(true, false, "999", "MARC8");
+	        	String id = MarcUtils.getControlFieldData(rec, "001");
+	        	MERGED_RECORDS.put(id, rec);
+	        }
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+    }
+
+	
+	
     /**
-     * code should output the unchanged bib records if no mhlds match
+     * the first record in the file has a bib and an mhld
      */
 @Test
-    public void testNoMatches() 
+    public void firstBibHasMhld() 
     		throws IOException 
     {
-		String marcRecFilePath = testDataParentPath + File.separator + "mhldMergeBibs46.mrc";
-	    Map<String, Record> mergedRecs = combineFileRecordsAsMap(marcRecFilePath);
+		String filePath = testDataParentPath + File.separator + "combineBibMhld_b1m1b2b3.mrc";
+	    Map<String, Record> mergedRecs = combineFileRecordsAsMap(filePath);
 	    Set<String> mergedRecIds = mergedRecs.keySet();
-	    assertEquals(2, mergedRecIds.size());
+	    assertEquals(3, mergedRecIds.size());
 
-	    // result bibs should match the bib input because there was no merge
-	    String id = "a4";
-//       	RecordTestingUtils.assertEquals(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
-//	    id = "a6";
-//       	RecordTestingUtils.assertEquals(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
+	    // result 1 should have the mhld fields
+	    String id = "a1";
+//       	RecordTestingUtils.assertEqualsIgnoreLeader(MERGED_RECORDS.get(id), mergedRecs.get(id));
+       	RecordTestingUtils.assertEqualsIgnoreLeader(MERGED_RECORDS.get(id), mergedRecs.get(id));
+
+       	// results 2 and 3 should be unchanged
+       	id = "a2";
+       	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
+       	// result bib 6 should not be changed
+	    id = "a3";
+       	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
     }
+
 
 
 	// single bib
@@ -55,7 +95,8 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
 	// middle record
 
 	// errors:
-	//  records out of order
+	//  records out of order (bib)
+	//  mhld that doesn't match
 	//  unreadable record 
 	//    first bib
 	//      followed by bibs, mhlds, and both
