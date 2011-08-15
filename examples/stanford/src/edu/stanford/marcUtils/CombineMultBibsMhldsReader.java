@@ -23,6 +23,8 @@ import org.solrmarc.tools.*;
  *      a single lib/loc combo has lots of holdings, there may be mult mhld 
  *      records for that single lib/loc combo.
  *
+ * e.g. :    bib1 bib2 mhld2 mhld2 bib3 bib4 bib4 mhld4 mhld4 bib5 ...
+ *
  * If any of the desired MHLD fields clash with any existing bib fields, the
  * bib fields are removed before the MHLD fields are added to the record. 
  * 
@@ -80,10 +82,6 @@ public class CombineMultBibsMhldsReader implements MarcReader
     /** the last record that has been read (so far) in the marc file */
     Record lastRecordRead = null;
 
-    
-    boolean verbose = false;
-    boolean veryverbose = false;
-    
     
 	/**
 	 * 
@@ -167,7 +165,7 @@ public class CombineMultBibsMhldsReader implements MarcReader
 	public boolean hasNext()
 	{
     	if (marcReader != null)
-        	return (marcReader.hasNext());
+        	return (lastRecordRead != null || marcReader.hasNext());
         return(false);
     }
 
@@ -222,7 +220,7 @@ public class CombineMultBibsMhldsReader implements MarcReader
      *   
      *  Side Effects:
      *    marcReader is moved to the next record
-     *    lookAheadRecord is set to the next bib record that does NOT match the current first bib id
+     *    lastRecordRead is set to the next bib record that does NOT match the current first bib id
      *    currentFirstBibRecord can get more fields
      *  
      * @param idToMatch - the id to match the next bib or mhld 
@@ -235,7 +233,8 @@ public class CombineMultBibsMhldsReader implements MarcReader
     {
     	boolean stillLooking = true;
     	boolean mergedSome = false;
-		if (stillLooking && hasNext())
+    	lastRecordRead = null;
+		while (stillLooking && hasNext())
 		{
     		lastRecordRead = marcReader.next();
     		if (MarcUtils.isMHLDRecord(lastRecordRead)) 
