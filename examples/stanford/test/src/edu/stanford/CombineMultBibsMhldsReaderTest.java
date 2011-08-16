@@ -1,6 +1,7 @@
 package edu.stanford;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.*;
 import java.util.*;
@@ -286,13 +287,41 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
 
 
 	// single bib
-	// mult bibs
 	// one bib and one mhld
+	// mult bibs
 	// mult bibs and mult mhlds 
 
     // one bib and mult mhlds
 	// mult bibs and one mhld
 
+    
+// test for errors in raw record file ------------------------------------------
+    
+    /**
+     * the last bib record in the file has an id before the previous record
+     */
+@Test
+    public void lastBibNotLast() 
+    		throws IOException 
+    {
+    	// grab error message  (should check logs too?)
+    	ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
+    	PrintStream sysMsgs = new PrintStream(sysBAOS);
+    	System.setErr(sysMsgs);
+    	System.setOut(sysMsgs);
+
+	    Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b3b2.mrc");
+
+		// ensure correct error message was printed
+		assertTrue("Output message not as expected: " + sysBAOS.toString(),  
+				sysBAOS.toString().startsWith("Bib record a2 came after bib record a3: file isn't sorted.  Cannot read file further."));
+		System.setOut(System.out);
+		System.setErr(System.err);
+    }
+
+
+
+    
 
     // errors:
 	//  records out of order (bib)
@@ -305,8 +334,8 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
 	//    subsequent mhld
 	//   first, last, middle record group in file
 
-	//test crashing bib fields removed
-
+    // FIELD-wise testing
+	// test crashing bib fields removed
 	// fields to merge:  bib, mhld
 	//   present, missing
 	// fields not to merge

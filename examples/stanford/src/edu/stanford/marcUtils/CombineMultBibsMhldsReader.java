@@ -3,6 +3,7 @@ package edu.stanford.marcUtils;
 import java.io.*;
 import java.util.Comparator;
 
+
 import org.apache.log4j.Logger;
 import org.marc4j.*;
 import org.marc4j.marc.*;
@@ -196,13 +197,14 @@ public class CombineMultBibsMhldsReader implements MarcReader
 			}
 			catch (SolrMarcException e)
 			{
-				e.printStackTrace();
 			    logger.error("STOPPING PROCESSING.");
+			    System.err.println(e.getMessage());
 			    System.err.println("STOPPING PROCESSING.");
-				System.exit(1);
+//				e.printStackTrace();  // causes stack overflow in eclipse when running junit test
 			}
 			catch (Exception e)
 			{
+				// record error we can recover from
 			    logger.error("Skipping record:  couldn't read record after " + idToMatch + " -- " + e.toString(), e);
 			}
 		}
@@ -286,8 +288,8 @@ public class CombineMultBibsMhldsReader implements MarcReader
                 	{
     				    String errmsg = "Bib record " + lookAheadBibRecId + " came after bib record " + idToMatch + ": file isn't sorted.  Cannot read file further.";
     				    logger.error(errmsg);
+    				    System.err.println(errmsg);
     				    throw new SolrMarcException(errmsg);
-
                 	}
             	}    			
     		}
