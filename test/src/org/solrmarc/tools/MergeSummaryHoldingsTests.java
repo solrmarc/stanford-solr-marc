@@ -8,8 +8,7 @@ import java.util.*;
 import org.junit.*;
 import org.marc4j.marc.*;
 import org.solrmarc.marc.RawRecordReader;
-import org.solrmarc.testUtils.CommandLineUtils;
-import org.solrmarc.testUtils.RecordTestingUtils;
+import org.solrmarc.testUtils.*;
 
 /**
  * Note that actual use of MergeSummaryHoldings is a call to main() from a 
@@ -132,14 +131,8 @@ public class MergeSummaryHoldingsTests
 		String mhldFilePath =  commandLinePathPrefix + localTestDataParentPath + File.separator + "mhldMergeMhlds235.mrc";
 	
 		// ensure no error message was printed
-		ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
-		PrintStream sysMsgs = new PrintStream(sysBAOS);
-		System.setErr(sysMsgs);
-		System.setOut(sysMsgs);
-	
+		ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
 		ByteArrayOutputStream mergedAsByteArrayOutStream = mergeBibAndMhldFiles(bibFilePath, mhldFilePath);
-	
-		// ensure no error message was printed
 		assertTrue("Output messages unexpectedly written: " + sysBAOS.toString(),  sysBAOS.size() == 0);
 		System.setOut(System.out);
 		System.setErr(System.err);
@@ -530,12 +523,8 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
 	    String mhldRecFileName = testDataParentPath + File.separator + "summaryHld_1-1000.mrc";
 	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
 	
-		ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
-		PrintStream sysMsgs = new PrintStream(sysBAOS);
-		System.setOut(sysMsgs);
-
+		ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
 		MergeSummaryHoldings.mergeMhldRecsIntoBibRecsAsStdOut2(bibRecFileName, mhldRecFileName);
-	
 		RecordTestingUtils.assertMarcRecsEqual(mergedSummaryHoldingsOutput, sysBAOS);
 	}
 

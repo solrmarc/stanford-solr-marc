@@ -3,6 +3,8 @@ package edu.stanford;
 import java.io.*;
 
 import org.junit.*;
+import org.solrmarc.testUtils.TestingUtil;
+
 import static org.junit.Assert.*;
 
 import edu.stanford.enumValues.CallNumberType;
@@ -40,10 +42,7 @@ public class CallNumLaneJacksonTests extends AbstractStanfordTest {
 @Test
 	public final void testNoErrorMessages() 
 	{
-		ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
-		PrintStream sysMsgs = new PrintStream(sysBAOS);
-		System.setErr(sysMsgs);
-		System.setOut(sysMsgs);
+		ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
 		
 		String fldName = "preferred_barcode";
 		solrFldMapTest.assertNoSolrFld(testFilePath, "letterY", fldName);
