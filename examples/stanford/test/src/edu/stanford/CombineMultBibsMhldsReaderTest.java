@@ -24,6 +24,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     private Map<String, Record> UNMERGED_FIRST_BIBS = new HashMap<String, Record>();
     private Map<String, Record> MERGED_BIB_MHLD_RECORDS = new HashMap<String, Record>();
     private Map<String, Record> MERGED_MULT_BIBS_RECORDS = new HashMap<String, Record>();
+    private Map<String, Record> MERGED_MULT_BOTH_RECORDS = new HashMap<String, Record>();
     
     {
 		try {
@@ -57,6 +58,16 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
 	        	MERGED_MULT_BIBS_RECORDS.put(id, rec);
 	        }
 
+			filePath = testDataParentPath + File.separator + "combineBibMhld_mergedMultBoth123.mrc";
+			rawRecRdr = new RawRecordReader(new FileInputStream(new File(filePath)));
+	        while (rawRecRdr.hasNext())
+	        {
+	        	RawRecord rawRec = rawRecRdr.next();
+	        	Record rec = rawRec.getAsRecord(true, false, "999", "MARC8");
+	        	String id = MarcUtils.getControlFieldData(rec, "001");
+	        	MERGED_MULT_BOTH_RECORDS.put(id, rec);
+	        }
+	        
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -137,7 +148,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
      * the first record in the file has multiple bibs (and no mhld)
      */
 @Test
-    public void firstBibHasMultipleBibs() 
+    public void firstHasMultipleBibs() 
     		throws IOException 
     {
 	    Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b1b2b3.mrc");
@@ -160,7 +171,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
      * a middle record in the file has multiple bibs (and no mhld)
      */
 @Test
-    public void middleBibHasMultipleBibs() 
+    public void middleHasMultipleBibs() 
     		throws IOException 
     {
 	    Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2b2b3.mrc");
@@ -182,7 +193,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
      * the last record in the file has multiple bibs (and no mhld)
      */
 @Test
-    public void lastBibHasMultipleBibs() 
+    public void lastHasMultipleBibs() 
     		throws IOException 
     {
 	    Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2b3b3.mrc");
@@ -201,23 +212,89 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     }
     
 
+    /**
+     * the first record in the file has multiple bibs and multiple mhlds
+     */
+@Test
+    public void firstHasMultipleBibsAndMhlds() 
+    		throws IOException 
+    {
+        Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b1m1m1b2b3.mrc");
+        Set<String> mergedRecIds = mergedRecs.keySet();
+        assertEquals(3, mergedRecIds.size());
+    
+        // result 1 should have the mhld fields
+        String id = "a1";
+       	RecordTestingUtils.assertEqualsIgnoreLeader(MERGED_MULT_BOTH_RECORDS.get(id), mergedRecs.get(id));
+    
+       	// results 2 and 3 should be unchanged
+       	id = "a2";
+       	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
+        id = "a3";
+       	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
+    }
+    
+    
+    /**
+     * a middle record in the file has multiple bibs and multiple mhlds
+     */
+@Test
+    public void middleHasMultipleBibsAndMhlds() 
+    		throws IOException 
+    {
+        Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2b2m2m2b3.mrc");
+        Set<String> mergedRecIds = mergedRecs.keySet();
+        assertEquals(3, mergedRecIds.size());
+    
+        // result 2 should have the mhld fields
+        String id = "a2";
+       	RecordTestingUtils.assertEqualsIgnoreLeader(MERGED_MULT_BOTH_RECORDS.get(id), mergedRecs.get(id));
+    
+       	// results 1 and 3 should be unchanged
+       	id = "a1";
+       	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
+        id = "a3";
+       	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
+    }
+    
+    /**
+     * the last record in the file has multiple bibs and multiple mhlds
+     */
+    @Test
+    public void lastHasMultipleBibsAndMhlds() 
+    		throws IOException 
+    {
+        Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2b3b3m3m3.mrc");
+        Set<String> mergedRecIds = mergedRecs.keySet();
+        assertEquals(3, mergedRecIds.size());
+    
+        // result 3 should have the mhld fields
+        String id = "a3";
+       	RecordTestingUtils.assertEqualsIgnoreLeader(MERGED_MULT_BOTH_RECORDS.get(id), mergedRecs.get(id));
+    
+       	// results 2 and 3 should be unchanged
+       	id = "a1";
+       	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
+        id = "a2";
+       	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
+    }
+    
+    
+
+
+
 
 
 	// single bib
 	// mult bibs
 	// one bib and one mhld
-	// one bib and mult mhlds
 	// mult bibs and mult mhlds 
 
-	// test crashing bib fields removed
+    // one bib and mult mhlds
+	// mult bibs and one mhld
 
 
-	// for multiple bibs, mult mhlds
-	// first record matches
-	// last record matches
-	// middle record matches
-
-	// errors:
+    // errors:
 	//  records out of order (bib)
 	//  mhld that doesn't match
 	//  unreadable record 
@@ -228,6 +305,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
 	//    subsequent mhld
 	//   first, last, middle record group in file
 
+	//test crashing bib fields removed
 
 	// fields to merge:  bib, mhld
 	//   present, missing
