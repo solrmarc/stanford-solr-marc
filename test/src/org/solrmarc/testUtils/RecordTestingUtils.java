@@ -236,9 +236,7 @@ public class RecordTestingUtils
 	public static RawRecord convertToRawRecord(Record record)
 	{
 	    // prepare to trap MarcWriter output stream 
-		ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
-		PrintStream sysMsgs = new PrintStream(sysBAOS);
-		System.setOut(sysMsgs);
+		ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
 		
 		MarcWriter writer = new MarcSplitStreamWriter(System.out, "ISO-8859-1", 70000, "999");
 	    writer.write(record);

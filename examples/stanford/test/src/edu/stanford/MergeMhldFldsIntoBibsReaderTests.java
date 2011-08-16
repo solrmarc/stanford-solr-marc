@@ -29,7 +29,7 @@ public class MergeMhldFldsIntoBibsReaderTests
     static String localDir = "examples" + File.separator + "stanford";
     static String localTestDataParentPath = localDir + File.separator + testDataParentPath;
 
-    static String MERGE_MHLD_CLASS_NAME = "edu.stanford.marcUtils.MergeMhldFldsIntoBibs";
+    static String MERGE_MHLD_CLASS_NAME = "edu.stanford.marcUtils.MergeMhldFldsIntoBibsReader";
     static String MARC_PRINTER_CLASS_NAME = "org.solrmarc.marc.MarcPrinter";
     static String MAIN_METHOD_NAME = "main";
     
@@ -112,17 +112,9 @@ public class MergeMhldFldsIntoBibsReaderTests
 		String mhldFilePath =  commandLinePathPrefix + localTestDataParentPath + File.separator + "mhldMergeMhlds235.mrc";
 	
 		// ensure no error message was printed
-		ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
-		PrintStream sysMsgs = new PrintStream(sysBAOS);
-		System.setErr(sysMsgs);
-		System.setOut(sysMsgs);
-	
-		ByteArrayOutputStream mergedAsByteArrayOutStream = mergeAsBAOutputStream(bibFilePath, mhldFilePath);
-	
-		// ensure no error message was printed
+		ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
+		ByteArrayOutputStream mergedRecordsAsByteArrayOutStream = mergeAsBAOutputStream(bibFilePath, mhldFilePath);
 		assertTrue("Output messages unexpectedly written: " + sysBAOS.toString(),  sysBAOS.size() == 0);
-		System.setOut(System.out);
-		System.setErr(System.err);
 	}
 
 
@@ -616,12 +608,8 @@ String mergedBib335outputNoUmlaut[] = {
 	    String mhldRecFileName = testDataParentPath + File.separator + "summaryHld_1-1000.mrc";
 	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
 	
-		ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
-		PrintStream sysMsgs = new PrintStream(sysBAOS);
-		System.setOut(sysMsgs);
-
+		ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
 		MergeMhldFldsIntoBibsReader.mergeMhldRecsIntoBibRecsAsStdOut(bibRecFileName, mhldRecFileName);
-	
 		RecordTestingUtils.assertMarcRecsEqual(mergedBib335output, sysBAOS);
 	}
 
@@ -640,7 +628,7 @@ String mergedBib335outputNoUmlaut[] = {
         String fullMhldRecsFileName = testDataParentPath + File.separator + mhldRecsFileName;
 
         InputStream inStr = null;
-        ByteArrayOutputStream resultMrcOutStream = new ByteArrayOutputStream();
+		ByteArrayOutputStream resultMrcOutStream = TestingUtil.getSysMsgsBAOS();
         String[] mergeMhldArgs = new String[]{"-s", fullMhldRecsFileName, fullBibRecsFileName };
 
         // call the MergeMhldFldsIntoBibs code from the command line

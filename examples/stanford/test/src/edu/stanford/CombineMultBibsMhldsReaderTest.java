@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.marc4j.marc.Record;
 import org.solrmarc.marc.RawRecordReader;
 import org.solrmarc.testUtils.RecordTestingUtils;
+import org.solrmarc.testUtils.TestingUtil;
 import org.solrmarc.tools.MarcUtils;
 import org.solrmarc.tools.RawRecord;
 
@@ -301,49 +302,60 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
      * the last bib record in the file has an id before the previous record
      */
 @Test
-    public void lastBibOutOfOrder() 
+    public void lastBibOutOfOrderError() 
     		throws IOException 
     {
-    	// grab error message  (should check logs too?)
-    	ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
-    	PrintStream sysMsgs = new PrintStream(sysBAOS);
-    	System.setErr(sysMsgs);
-    	System.setOut(sysMsgs);
-
+		ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
 	    Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b3b2.mrc");
-
-		// ensure correct error message was printed
 		assertTrue("Output message not as expected: " + sysBAOS.toString(),  
 				sysBAOS.toString().startsWith("Bib record a2 came after bib record a3: file isn't sorted.  Cannot read file further."));
-		System.setOut(System.out);
-		System.setErr(System.err);
     }
 
+    
+    /**
+     * as test lastBibOutOfOrderError() except second to last bib record is followed by a matching mhld
+     */
+@Test
+    public void lastBibOutOfOrderErrorAfterMhld() 
+    		throws IOException 
+    {
+    	ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
+        Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b3m3b2.mrc");
+    	assertTrue("Output message not as expected: " + sysBAOS.toString(),  
+    			sysBAOS.toString().startsWith("Bib record a2 came after bib record a3: file isn't sorted.  Cannot read file further."));
+    }
+    
 
     /**
      * the first record in the file that can be out of order is the second 
-     * record.  This tests when teh second bib record in the file has an id 
+     * record.  This tests when the second bib record in the file has an id 
      * before the previous record
      */
 @Test
-    public void secondBibOutOfOrder() 
+    public void secondBibOutOfOrderError() 
     		throws IOException 
     {
-    	// grab error message  (should check logs too?)
-    	ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
-    	PrintStream sysMsgs = new PrintStream(sysBAOS);
-    	System.setErr(sysMsgs);
-    	System.setOut(sysMsgs);
-    
+		ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
         Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b2b1b3.mrc");
-    
-    	// ensure correct error message was printed
     	assertTrue("Output message not as expected: " + sysBAOS.toString(),  
     			sysBAOS.toString().startsWith("Bib record a1 came after bib record a2: file isn't sorted.  Cannot read file further."));
-    	System.setOut(System.out);
-    	System.setErr(System.err);
     }
     
+
+    /**
+     * as test secondBibOutOfOrderError() except first bib record is followed
+     *  by a matching mhld
+     */
+@Test
+    public void secondBibOutOfOrderErrorAfterMhld() 
+    		throws IOException 
+    {
+		ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
+        Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b2m2b1b3.mrc");
+    	assertTrue("Output message not as expected: " + sysBAOS.toString(),  
+    			sysBAOS.toString().startsWith("Bib record a1 came after bib record a2: file isn't sorted.  Cannot read file further."));
+    }
+
 
     
 
@@ -410,5 +422,5 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
         return combineFileRecordsAsMap(filePath);
     }
 
-
+    
 }
