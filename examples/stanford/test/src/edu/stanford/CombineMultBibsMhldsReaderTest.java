@@ -71,8 +71,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     public void firstBibHasMhld() 
     		throws IOException 
     {
-		String filePath = testDataParentPath + File.separator + "combineBibMhld_b1m1b2b3.mrc";
-	    Map<String, Record> mergedRecs = combineFileRecordsAsMap(filePath);
+	    Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1m1b2b3.mrc");
 	    Set<String> mergedRecIds = mergedRecs.keySet();
 	    assertEquals(3, mergedRecIds.size());
 
@@ -95,8 +94,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     public void middleBibHasMhld() 
     		throws IOException 
     {
-    	String filePath = testDataParentPath + File.separator + "combineBibMhld_b1b2m2b3.mrc";
-        Map<String, Record> mergedRecs = combineFileRecordsAsMap(filePath);
+	    Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2m2b3.mrc");
         Set<String> mergedRecIds = mergedRecs.keySet();
         assertEquals(3, mergedRecIds.size());
     
@@ -118,8 +116,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     public void lastBibHasMhld() 
     		throws IOException 
     {
-    	String filePath = testDataParentPath + File.separator + "combineBibMhld_b1b2b3m3.mrc";
-        Map<String, Record> mergedRecs = combineFileRecordsAsMap(filePath);
+	    Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2b3m3.mrc");
         Set<String> mergedRecIds = mergedRecs.keySet();
         assertEquals(3, mergedRecIds.size());
     
@@ -143,8 +140,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     public void firstBibHasMultipleBibs() 
     		throws IOException 
     {
-    	String filePath = testDataParentPath + File.separator + "combineBibMhld_b1b1b2b3.mrc";
-        Map<String, Record> mergedRecs = combineFileRecordsAsMap(filePath);
+	    Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b1b2b3.mrc");
         Set<String> mergedRecIds = mergedRecs.keySet();
         assertEquals(3, mergedRecIds.size());
     
@@ -167,8 +163,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     public void middleBibHasMultipleBibs() 
     		throws IOException 
     {
-    	String filePath = testDataParentPath + File.separator + "combineBibMhld_b1b2b2b3.mrc";
-        Map<String, Record> mergedRecs = combineFileRecordsAsMap(filePath);
+	    Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2b2b3.mrc");
         Set<String> mergedRecIds = mergedRecs.keySet();
         assertEquals(3, mergedRecIds.size());
     
@@ -190,8 +185,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     public void lastBibHasMultipleBibs() 
     		throws IOException 
     {
-    	String filePath = testDataParentPath + File.separator + "combineBibMhld_b1b2b3b3.mrc";
-        Map<String, Record> mergedRecs = combineFileRecordsAsMap(filePath);
+	    Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2b3b3.mrc");
         Set<String> mergedRecIds = mergedRecs.keySet();
         assertEquals(3, mergedRecIds.size());
     
@@ -276,5 +270,14 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
         }
         return results;
     }
+    
+    
+    private Map<String, Record> readIntoRecordMap(String filename) 
+    		throws IOException 
+    {
+    	String filePath = testDataParentPath + File.separator + filename;
+        return combineFileRecordsAsMap(filePath);
+    }
+
 
 }
