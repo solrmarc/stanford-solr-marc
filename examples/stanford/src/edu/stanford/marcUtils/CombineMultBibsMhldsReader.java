@@ -188,25 +188,10 @@ public class CombineMultBibsMhldsReader implements MarcReader
 
             // look for following bib or mhld records that need to be merged in
 			String idToMatch = MarcUtils.getControlFieldData(currentFirstBibRecord, firstBibFldToMatch);
-			try
-			{
-				mergeFollowingRecs(idToMatch);
-				    //    marcReader is moved to the next record
-				    //    lastRecordRead gets a new value
-				    //    currentFirstBibRecord can get more fields merged in
-			}
-			catch (SolrMarcException e)
-			{
-			    logger.error("STOPPING PROCESSING.");
-			    System.err.println(e.getMessage());
-			    System.err.println("STOPPING PROCESSING.");
-//				e.printStackTrace();  // causes stack overflow in eclipse when running junit test
-			}
-			catch (Exception e)
-			{
-				// record error we can recover from
-			    logger.error("Skipping record:  couldn't read record after " + idToMatch + " -- " + e.toString(), e);
-			}
+			mergeFollowingRecs(idToMatch);
+				//    marcReader is moved to the next record
+				//    lastRecordRead gets a new value
+				//    currentFirstBibRecord can get more fields merged in
 		}
 		
 		return currentFirstBibRecord;
@@ -228,11 +213,10 @@ public class CombineMultBibsMhldsReader implements MarcReader
      *  
      * @param idToMatch - the id to match the next bib or mhld 
      * @return true if we found matches and merged the appropriate fields into currentFirstBibRecord; false if we found no matches
-     * @throws SolrMarcException - if file records aren't in ascending ID order, 
+     * @throws SolrMarcRuntimeException - if file records aren't in ascending ID order, 
      *  where ID is determined from the firstBibFldToMatch, the lookAheadBibFldToMatch and the mhldFldToMatch
      */
     private boolean mergeFollowingRecs(String idToMatch)
-    		throws SolrMarcException
     {
     	boolean stillLooking = true;
     	boolean mergedSome = false;
@@ -261,9 +245,10 @@ public class CombineMultBibsMhldsReader implements MarcReader
             	}
             	else 
                	{
-   				    String errmsg = "Mhld record " + mhldMatchId + " came after bib record " + idToMatch + ": file isn't sorted.  Cannot read file further.";
+   				    String errmsg = "CombineMultBibsMhldsReader: mhld record " + mhldMatchId + " came after bib record " + idToMatch + ": file isn't sorted.  \nCannot read file further.  STOPPING PROCESSING.";
    				    logger.error(errmsg);
-   				    throw new SolrMarcException(errmsg);
+				    System.err.println(errmsg);
+   				    throw new SolrMarcRuntimeException(errmsg);
                	}
     			
     		}
@@ -286,10 +271,10 @@ public class CombineMultBibsMhldsReader implements MarcReader
                 	}
                 	else // the new bib id sorts before the current one - the records in the file aren't ordered
                 	{
-    				    String errmsg = "Bib record " + lookAheadBibRecId + " came after bib record " + idToMatch + ": file isn't sorted.  Cannot read file further.";
+    				    String errmsg = "CombineMultBibsMhldsReader: bib record " + lookAheadBibRecId + " came after bib record " + idToMatch + ": file isn't sorted.  \nCannot read file further.  STOPPING PROCESSING.";
     				    logger.error(errmsg);
     				    System.err.println(errmsg);
-    				    throw new SolrMarcException(errmsg);
+       				    throw new SolrMarcRuntimeException(errmsg);
                 	}
             	}    			
     		}
