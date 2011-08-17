@@ -46,7 +46,6 @@ public class MarcFilteredReader implements MarcReader
     String deleteSubfieldsSpec = null;
     Record currentRecord = null;
     MarcReader reader;
-    SolrMarcException exception;
     
     // Initialize logging category
     static Logger logger = Logger.getLogger(MarcFilteredReader.class.getName());

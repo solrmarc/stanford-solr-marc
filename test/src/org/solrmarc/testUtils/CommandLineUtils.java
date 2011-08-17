@@ -6,7 +6,6 @@ import static org.junit.Assert.fail;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.security.Permission;
 import java.util.*;
 
 public class CommandLineUtils
@@ -70,41 +69,6 @@ public class CommandLineUtils
         compareUtilOutputLines(stdin, outputLinesExpected, 0, outputLinesExpected.length);
     }
     
-    private static class ExitException extends SecurityException 
-    {
-        private static final long serialVersionUID = -1982617086752946683L;
-        public final int status;
-
-        public ExitException(int status) 
-        {
-            super("There is no escape!");
-            this.status = status;
-        }
-    }
-
-    private static class NoExitSecurityManager extends SecurityManager 
-    {
-        @Override
-        public void checkPermission(Permission perm) 
-        {
-            // allow anything.
-        }
-
-        @Override
-        public void checkPermission(Permission perm, Object context) 
-        {
-            // allow anything.
-        }
-
-        @Override
-        public void checkExit(int status) 
-        {
-            super.checkExit(status);
-            throw new ExitException(status);
-        }
-    }
-
-
     public static void runCommandLineUtil(String className, String methodName, InputStream stdin, OutputStream stdout, 
                                           OutputStream stderr, String[] args, Map<String, String> addnlProps)
     {
@@ -151,7 +115,7 @@ public class CommandLineUtils
             Map<String, String> backupProps = new LinkedHashMap<String, String>();
             Map<String, String> allOrigProps = new LinkedHashMap<String, String>();
             SecurityManager savedSecurityManager = System.getSecurityManager();
-            System.setSecurityManager(new NoExitSecurityManager());
+            System.setSecurityManager(new TestingUtil.NoExitSecurityManager());
             checkpointProps(allOrigProps);
             addProps(addnlProps, backupProps);
             try
@@ -163,7 +127,7 @@ public class CommandLineUtils
                 if (stderr != null) System.setErr(new PrintStream(stderr));
                 method.invoke(null, (Object)args);
             }
-            catch (ExitException e)
+            catch (TestingUtil.ExitException e)
             {
                 System.setOut(origOut);
                 System.setErr(origErr);
@@ -193,7 +157,7 @@ public class CommandLineUtils
             {
                 System.setOut(origOut);
                 System.setErr(origErr);
-                if (e.getTargetException() instanceof ExitException)
+                if (e.getTargetException() instanceof TestingUtil.ExitException)
                 {
 //                    System.out.println("class "+ className +" called System.exit("+((ExitException)(e.getTargetException())).status+")" );
                 }
