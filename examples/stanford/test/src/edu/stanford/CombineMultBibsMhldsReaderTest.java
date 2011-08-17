@@ -10,9 +10,7 @@ import org.junit.Test;
 import org.marc4j.marc.Record;
 import org.solrmarc.marc.RawRecordReader;
 import org.solrmarc.testUtils.RecordTestingUtils;
-import org.solrmarc.testUtils.TestingUtil;
-import org.solrmarc.tools.MarcUtils;
-import org.solrmarc.tools.RawRecord;
+import org.solrmarc.tools.*;
 
 import edu.stanford.marcUtils.CombineMultBibsMhldsReader;
 
@@ -86,7 +84,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     {
 	    Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1m1b2b3.mrc");
 	    Set<String> mergedRecIds = mergedRecs.keySet();
-	    assertEquals(3, mergedRecIds.size());
+	    assertEquals("Wrong number of read records: ", 3, mergedRecIds.size());
 
 	    // result 1 should have the mhld fields
 	    String id = "a1";
@@ -109,7 +107,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     {
 	    Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2m2b3.mrc");
         Set<String> mergedRecIds = mergedRecs.keySet();
-        assertEquals(3, mergedRecIds.size());
+        assertEquals("Wrong number of read records: ", 3, mergedRecIds.size());
     
         // result 2 should have the mhld fields
         String id = "a2";
@@ -131,7 +129,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     {
 	    Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2b3m3.mrc");
         Set<String> mergedRecIds = mergedRecs.keySet();
-        assertEquals(3, mergedRecIds.size());
+        assertEquals("Wrong number of read records: ", 3, mergedRecIds.size());
     
         // result 3 should have the mhld fields
         String id = "a3";
@@ -155,7 +153,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     {
 	    Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b1b2b3.mrc");
         Set<String> mergedRecIds = mergedRecs.keySet();
-        assertEquals(3, mergedRecIds.size());
+        assertEquals("Wrong number of read records: ", 3, mergedRecIds.size());
     
         // result 1 should have the mhld fields
         String id = "a1";
@@ -178,7 +176,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     {
 	    Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2b2b3.mrc");
         Set<String> mergedRecIds = mergedRecs.keySet();
-        assertEquals(3, mergedRecIds.size());
+        assertEquals("Wrong number of read records: ", 3, mergedRecIds.size());
     
         // result 2 should have the mhld fields
         String id = "a2";
@@ -200,7 +198,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     {
 	    Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2b3b3.mrc");
         Set<String> mergedRecIds = mergedRecs.keySet();
-        assertEquals(3, mergedRecIds.size());
+        assertEquals("Wrong number of read records: ", 3, mergedRecIds.size());
     
         // result 3 should have the mhld fields
         String id = "a3";
@@ -223,7 +221,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     {
         Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b1m1m1b2b3.mrc");
         Set<String> mergedRecIds = mergedRecs.keySet();
-        assertEquals(3, mergedRecIds.size());
+        assertEquals("Wrong number of read records: ", 3, mergedRecIds.size());
     
         // result 1 should have the mhld fields
         String id = "a1";
@@ -246,7 +244,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     {
         Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2b2m2m2b3.mrc");
         Set<String> mergedRecIds = mergedRecs.keySet();
-        assertEquals(3, mergedRecIds.size());
+        assertEquals("Wrong number of read records: ", 3, mergedRecIds.size());
     
         // result 2 should have the mhld fields
         String id = "a2";
@@ -268,7 +266,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     {
         Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2b3b3m3m3.mrc");
         Set<String> mergedRecIds = mergedRecs.keySet();
-        assertEquals(3, mergedRecIds.size());
+        assertEquals("Wrong number of read records: ", 3, mergedRecIds.size());
     
         // result 3 should have the mhld fields
         String id = "a3";
@@ -282,10 +280,6 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     }
     
     
-
-
-
-
 
 	// single bib
 	// one bib and one mhld
@@ -305,10 +299,17 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     public void lastBibOutOfOrderError() 
     		throws IOException 
     {
-		ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
-	    readIntoRecordMap("combineBibMhld_b1b3b2.mrc");
-		assertTrue("Output message not as expected: " + sysBAOS.toString(),  
-				sysBAOS.toString().startsWith("Bib record a2 came after bib record a3: file isn't sorted.  Cannot read file further."));
+		try
+		{
+			readIntoRecordMap("combineBibMhld_b1b3b2.mrc");
+		}
+		catch (SolrMarcRuntimeException e)
+		{
+			assertTrue("Exception message not as expected: " + e.getMessage(),  
+					e.getMessage().startsWith("CombineMultBibsMhldsReader: bib record a2 came after bib record a3: file isn't sorted."));
+			assertTrue("Exception message not as expected: " + e.getMessage(),  
+					e.getMessage().endsWith("STOPPING PROCESSING."));
+		}
     }
     
     /**
@@ -318,10 +319,17 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     public void lastBibOutOfOrderErrorAfterMhld() 
     		throws IOException 
     {
-    	ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
-        readIntoRecordMap("combineBibMhld_b1b3m3b2.mrc");
-    	assertTrue("Output message not as expected: " + sysBAOS.toString(),  
-    			sysBAOS.toString().startsWith("Bib record a2 came after bib record a3: file isn't sorted.  Cannot read file further."));
+		try
+		{
+	    	readIntoRecordMap("combineBibMhld_b1b3m3b2.mrc");
+		}
+		catch (SolrMarcRuntimeException e)
+		{
+			assertTrue("Exception message not as expected: " + e.getMessage(),  
+					e.getMessage().startsWith("CombineMultBibsMhldsReader: bib record a2 came after bib record a3: file isn't sorted."));
+			assertTrue("Exception message not as expected: " + e.getMessage(),  
+					e.getMessage().endsWith("STOPPING PROCESSING."));
+		}
     }
     
     /**
@@ -333,10 +341,18 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     public void secondBibOutOfOrderError() 
     		throws IOException 
     {
-		ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
-        readIntoRecordMap("combineBibMhld_b2b1b3.mrc");
-    	assertTrue("Output message not as expected: " + sysBAOS.toString(),  
-    			sysBAOS.toString().startsWith("Bib record a1 came after bib record a2: file isn't sorted.  Cannot read file further."));
+		try
+		{
+			readIntoRecordMap("combineBibMhld_b2b1b3.mrc");
+		}
+		catch (SolrMarcRuntimeException e)
+		{
+        	assertTrue("Output message not as expected: " + e.getMessage(),  
+        			e.getMessage().startsWith("CombineMultBibsMhldsReader: bib record a1 came after bib record a2: file isn't sorted."));
+        	assertTrue("Output message not as expected: " + e.getMessage(),  
+        			e.getMessage().endsWith("STOPPING PROCESSING."));
+		}
+    	
     }
 
     /**
@@ -347,39 +363,78 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     public void secondBibOutOfOrderErrorAfterMhld() 
     		throws IOException 
     {
-		ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
-        readIntoRecordMap("combineBibMhld_b2m2b1b3.mrc");
-    	assertTrue("Output message not as expected: " + sysBAOS.toString(),  
-    			sysBAOS.toString().startsWith("Bib record a1 came after bib record a2: file isn't sorted.  Cannot read file further."));
+		try
+		{
+			readIntoRecordMap("combineBibMhld_b2m2b1b3.mrc");
+		}
+		catch (SolrMarcRuntimeException e)
+		{
+	    	assertTrue("Output message not as expected: " + e.getMessage(),  
+	    			e.getMessage().startsWith("CombineMultBibsMhldsReader: bib record a1 came after bib record a2: file isn't sorted."));
+	    	assertTrue("Output message not as expected: " + e.getMessage(),  
+	    			e.getMessage().endsWith("STOPPING PROCESSING."));
+		}
     }
 
 
     /**
      * mhld doesn't match previous bib record
      */
-    @Test
+@Test
     public void mhldDoesntMatchError() 
     		throws IOException 
     {
-    	ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
-        readIntoRecordMap("combineBibMhld_b1m2b2.mrc");
-    	assertTrue("Output message not as expected: " + sysBAOS.toString(),  
-    			sysBAOS.toString().startsWith("Mhld record a2 came after bib record a1: file isn't sorted.  Cannot read file further."));
+		try
+		{
+	    	readIntoRecordMap("combineBibMhld_b1m2b2.mrc");
+		}
+		catch (SolrMarcRuntimeException e)
+		{
+	    	assertTrue("Output message not as expected: " + e.getMessage(),  
+	    			e.getMessage().startsWith("CombineMultBibsMhldsReader: mhld record a2 came after bib record a1: file isn't sorted."));
+	    	assertTrue("Output message not as expected: " + e.getMessage(),  
+	    			e.getMessage().endsWith("STOPPING PROCESSING."));
+		}
     }
     
     
     /**
      * last mhld doesn't match last bib record
      */
-    @Test
+@Test
     public void lastMhldDoesntMatchError() 
     		throws IOException 
     {
-    	ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
-        readIntoRecordMap("combineBibMhld_b1b2m1.mrc");
-    	assertTrue("Output message not as expected: " + sysBAOS.toString(),  
-    			sysBAOS.toString().startsWith("Mhld record a1 came after bib record a2: file isn't sorted.  Cannot read file further."));
+		try
+		{
+	    	readIntoRecordMap("combineBibMhld_b1b2m1.mrc");
+		}
+		catch (SolrMarcRuntimeException e)
+		{
+	    	assertTrue("Output message not as expected: " + e.getMessage(),  
+	    			e.getMessage().startsWith("CombineMultBibsMhldsReader: mhld record a1 came after bib record a2: file isn't sorted."));
+	    	assertTrue("Output message not as expected: " + e.getMessage(),  
+	    			e.getMessage().endsWith("STOPPING PROCESSING."));
+		}
     }
+
+
+    /**
+     * first bib bad rec
+     */
+//@Test
+//    public void unreadableFirstBibError() 
+//    		throws IOException 
+//    {
+//    	ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
+//        testDataParentPath = "test" + File.separator + "data";
+//        Map<String, Record> mergedRecs = readIntoRecordMap("WPUbadrecords.mrc");
+//        Set<String> mergedRecIds = mergedRecs.keySet();
+//        assertEquals("Wrong number of read records: ", 3, mergedRecIds.size());
+//    	assertTrue("Output message not as expected: " + sysBAOS.toString(),  
+//    			sysBAOS.toString().startsWith("CombineMultBibsMhldsReader: mhld record a1 came after bib record a2: file isn't sorted."));
+//    }
+//    
     
     
 
@@ -415,8 +470,6 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     {
     	Map<String, Record> results = new HashMap<String, Record>();
 
-        CombineMultBibsMhldsReader merger = new CombineMultBibsMhldsReader(marcRecsFilename);
-        
         String idField = "001";
         String bibFldsToMerge = "999";
         String mhldFldsToMerge = null;  // use default
@@ -425,7 +478,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
         boolean toUtf8 = true;
         String defaultEncoding = "MARC8";
         
-        merger = new CombineMultBibsMhldsReader(marcRecsFilename, 
+        CombineMultBibsMhldsReader merger = new CombineMultBibsMhldsReader(marcRecsFilename, 
         		idField, idField, idField, 
         		bibFldsToMerge, mhldFldsToMerge, insertMhldB4bibFld, 
         		permissive, defaultEncoding, toUtf8);
@@ -440,7 +493,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     
     
     private Map<String, Record> readIntoRecordMap(String filename) 
-    		throws IOException 
+    		throws IOException
     {
     	String filePath = testDataParentPath + File.separator + filename;
         return combineFileRecordsAsMap(filePath);
