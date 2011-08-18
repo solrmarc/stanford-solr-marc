@@ -276,6 +276,7 @@ public class MarcImporter extends MarcHandler
         {
             if (shuttingDown) break;
             
+            // read next record
             Record record = null;
             try {
                 record = reader.next();
@@ -283,16 +284,31 @@ public class MarcImporter extends MarcHandler
             }
             catch (Exception e) 
             {
-                logger.error("Error reading record: " + e.getMessage(), e);
-                continue;
+                String recCntlNum = null;
+                try {  recCntlNum = record.getControlNumber(); }
+                catch (NullPointerException npe) { /* ignore */ }
+
+                if (e instanceof SolrMarcRuntimeException)
+            	{
+                    // stop reading
+            		String errmsg = "Unable to read record " + (recCntlNum != null ? recCntlNum : "") + " (record count "+ recsReadCounter +  ") -- " + e.getMessage();
+            		logger.error(errmsg);
+                    logger.error("******** Halting indexing! ********");
+                    throw (SolrMarcRuntimeException) e;
+            	}
+                else
+                {
+                    // keep reading
+                    logger.error("Error reading record: " + (recCntlNum != null ? recCntlNum : "") + " (record count "+ recsReadCounter +  ") -- " + e.getMessage(), e);
+                    continue;
+                }
             }
                 
             String recCntlNum = null;
-            try {
-            	recCntlNum = record.getControlNumber();
-            }
+            try {  recCntlNum = record.getControlNumber(); }
             catch (NullPointerException npe) { /* ignore */ }
 
+            // index the record
             try {
                 boolean added = addToIndex(record);
                 if (added)
@@ -301,21 +317,15 @@ public class MarcImporter extends MarcHandler
                     logger.info("Added record " + recsReadCounter + " read from file: " + recCntlNum);
                 }
                 else
-                {
                     logger.info("Deleted record " + recsReadCounter + " read from file: " + recCntlNum);                        
-                }
             }
             catch (Exception e)
             {
                 Throwable cause = null;
                 if (e instanceof SolrRuntimeException) 
-                {
                     cause = e.getCause();
-                }
                 if (cause != null && cause instanceof InvocationTargetException)
-                {
                     cause = ((InvocationTargetException)cause).getTargetException();
-                }
                 
                 if (cause instanceof Exception && solrProxy.isSolrException((Exception)cause)) 
                 {
@@ -338,26 +348,30 @@ public class MarcImporter extends MarcHandler
                 {
                     SolrMarcIndexerException smie = (SolrMarcIndexerException)e;
                     if (smie.getLevel() == SolrMarcIndexerException.IGNORE)
-                    {
+                        // skip record, but keep indexing
            	            logger.info("Ignored record " + (recCntlNum != null ? recCntlNum : "") + " (record count " + recsReadCounter + ")");
-                    }
                     else if (smie.getLevel() == SolrMarcIndexerException.DELETE)
-                    {            
+                        // skip record, but keep indexing
            	            logger.info("Deleted record " + (recCntlNum != null ? recCntlNum : "") + " (record count " + recsReadCounter + ")");
-                    }
                     else if (smie.getLevel() == SolrMarcIndexerException.EXIT)
                     {
+                        // stop indexing
            	            logger.info("Serious Error flagged in record " + (recCntlNum != null ? recCntlNum : "") + " (record count " + recsReadCounter + ")");
+	                    logger.error("******** Halting indexing! ********");
                         throw(smie);
                     }
                 }
                 else
                 {
+                    // stop indexing
             	    logger.error("Unable to index record " + (recCntlNum != null ? recCntlNum : "") + " (record count "+ recsReadCounter +  ") -- " + e.getMessage(), e);
                     // this error should (might?) only be thrown if we can't write to the index
                     //   therefore, continuing to index would be pointless.
-                    logger.error("******** Halting indexing! ********");
-                    if (e instanceof SolrRuntimeException) throw ((SolrRuntimeException)e);
+                    if (e instanceof SolrRuntimeException) 
+                    {
+                        logger.error("******** Halting indexing! ********");
+                    	throw (SolrRuntimeException) e;
+                    }
                 }
             }
         }
