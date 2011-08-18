@@ -23,7 +23,7 @@ import org.solrmarc.tools.*;
  *  - there may be multiple mhld records - one for each lib-loc combo, and if
  *      a single lib/loc combo has lots of holdings, there may be mult mhld 
  *      records for that single lib/loc combo.
- *
+ *      
  * e.g. :    bib1 bib2 mhld2 mhld2 bib3 bib4 bib4 mhld4 mhld4 bib5 ...
  *
  * If any of the desired MHLD fields clash with any existing bib fields, the
@@ -82,7 +82,6 @@ public class CombineMultBibsMhldsReader implements MarcReader
 
     /** the last record that has been read (so far) in the marc file. Set to null before first record is read and after last record is read. */
     Record lastRecordRead = null;
-
     
 	/**
 	 * 
