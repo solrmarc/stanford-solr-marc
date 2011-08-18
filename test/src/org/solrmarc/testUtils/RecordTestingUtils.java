@@ -140,12 +140,22 @@ public class RecordTestingUtils
 	    assertMarcRecsEqual(expectedAsLines, new ByteArrayInputStream(marcPrinterOutputOfMergedBibRec.toByteArray()));
 	}
 
+	public static void assertMarcRecsEqual(String[] expectedAsLines, ByteArrayOutputStream actualAsBAOS, boolean ignoreLeader)
+	{
+		assertMarcRecsEqual(expectedAsLines, actualAsBAOS, ignoreLeader);
+	}
+
+	public static void assertMarcRecsEqual(String[] expectedAsLines, InputStream actualAsInputStream)
+	{
+		assertMarcRecsEqual(expectedAsLines, actualAsInputStream, false);
+	}
+	
 	/**
 	 * Given an expected marc record as an Array of strings corresponding to 
 	 *  the lines in the output of MarcPrinter and given the actual marc record as an InputStream,
 	 *  assert they are equal
 	 */
-	public static void assertMarcRecsEqual(String[] expectedAsLines, InputStream actualAsInputStream) 
+	public static void assertMarcRecsEqual(String[] expectedAsLines, InputStream actualAsInputStream, boolean ignoreLeader) 
 	{
 	    BufferedReader actualAsBuffRdr = null;
 	    try
@@ -174,6 +184,9 @@ public class RecordTestingUtils
 	            {
 	                if (actualLine.equals("Flushing results...") || actualLine.equals("Flushing results done") || actualLine.startsWith("Cobertura:"))
 	                    continue;   // skip this line and don't even count it.  I don't know where these "Flushing Results..." lines are coming from.
+	                
+	                if (ignoreLeader && lineCnt == 0)
+	                	continue;
 	
 	                String expectedLine = expectedAsLines[lineCnt];
 	                junit.framework.Assert.assertEquals("output line ["+ actualLine + "]  doesn't match expected [" + expectedLine + "]", expectedLine, actualLine);
