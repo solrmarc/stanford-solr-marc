@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.*;
 import java.util.*;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.marc4j.marc.Record;
 import org.solrmarc.marc.RawRecordReader;
@@ -422,31 +423,62 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     /**
      * first bib bad rec
      */
-//@Test
-//    public void unreadableFirstBibError() 
-//    		throws IOException 
-//    {
-//    	ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
-//        testDataParentPath = "test" + File.separator + "data";
-//        Map<String, Record> mergedRecs = readIntoRecordMap("WPUbadrecords.mrc");
-//        Set<String> mergedRecIds = mergedRecs.keySet();
-//        assertEquals("Wrong number of read records: ", 3, mergedRecIds.size());
-//    	assertTrue("Output message not as expected: " + sysBAOS.toString(),  
-//    			sysBAOS.toString().startsWith("CombineMultBibsMhldsReader: mhld record a1 came after bib record a2: file isn't sorted."));
-//    }
-//    
+@Test
+    public void unreadableFirstBibError() 
+    		throws IOException 
+    {
+        LoggerAppender4Testing appender = new LoggerAppender4Testing();
+    	CombineMultBibsMhldsReader.logger.addAppender(appender);
+        try 
+        {
+            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test");
+    		Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_badb1b2b3.mrc");
+            Set<String> mergedRecIds = mergedRecs.keySet();
+            assertEquals("Wrong number of read records: ", 3, mergedRecIds.size());
+            // message goes to logger ...
+            appender.assertLogContains("Skipping record; Couldn't read it:");
+        }
+        finally 
+        {
+        	CombineMultBibsMhldsReader.logger.removeAppender(appender);
+        }
+    }
+
+    /**
+     * last bib bad rec
+     */
+@Test
+    public void unreadableLastBibError() 
+    		throws IOException 
+    {
+        LoggerAppender4Testing appender = new LoggerAppender4Testing();
+    	CombineMultBibsMhldsReader.logger.addAppender(appender);
+        try 
+        {
+            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test");
+        	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2b3bad.mrc");
+            Set<String> mergedRecIds = mergedRecs.keySet();
+            assertEquals("Wrong number of read records: ", 3, mergedRecIds.size());
+            // message goes to logger ...
+            appender.assertLogContains("Skipping record after a3; Couldn't read it:");
+        }
+        finally 
+        {
+        	CombineMultBibsMhldsReader.logger.removeAppender(appender);
+        }
+    }
     
     
 
     // errors:
-	//  records out of order (bib)
-	//  mhld that doesn't match
 	//  unreadable record 
 	//    first bib
 	//      followed by bibs, mhlds, and both
 	//    subsequent bib
+	//    last bib
 	//	  first mhld
 	//    subsequent mhld
+	//    last mhld
 	//   first, last, middle record group in file
 
     // FIELD-wise testing
@@ -465,7 +497,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
      *    bib1 bib2 mhld2 mhld2 bib3 bib4 bib4 mhld4 mhld4 bib5 ... 
      * @return Map of ids -> Record objects for a single bib record comprising desired fields of multiple bibs and of following mhlds
      */
-    public static Map<String, Record> combineFileRecordsAsMap(String marcRecsFilename)
+    public static Map<String, Record> combineFileRecordsAsMap(String marcRecsFilename, boolean permissive)
     	throws IOException
     {
     	Map<String, Record> results = new HashMap<String, Record>();
@@ -474,7 +506,6 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
         String bibFldsToMerge = "999";
         String mhldFldsToMerge = null;  // use default
         String insertMhldB4bibFld = "999";
-    	boolean permissive = true;
         boolean toUtf8 = true;
         String defaultEncoding = "MARC8";
         
@@ -486,18 +517,30 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
         while (merger.hasNext()) 
         {
         	Record bibRecWithPossChanges = merger.next();
-        	results.put(MarcUtils.getControlFieldData(bibRecWithPossChanges, "001"), bibRecWithPossChanges);
+        	
+            String id = null;
+            try {  id = MarcUtils.getControlFieldData(bibRecWithPossChanges, "001"); }
+            catch (NullPointerException npe) { /* ignore */ }
+
+			if (id != null)
+				results.put(MarcUtils.getControlFieldData(bibRecWithPossChanges, "001"), bibRecWithPossChanges);
         }
         return results;
     }
     
     
+    private Map<String, Record> readIntoRecordMap(String filename, boolean permissive) 
+    		throws IOException
+    {
+    	String filePath = testDataParentPath + File.separator + filename;
+        return combineFileRecordsAsMap(filePath, permissive);
+    }
+
     private Map<String, Record> readIntoRecordMap(String filename) 
     		throws IOException
     {
     	String filePath = testDataParentPath + File.separator + filename;
-        return combineFileRecordsAsMap(filePath);
+        return combineFileRecordsAsMap(filePath, true);
     }
-
     
 }

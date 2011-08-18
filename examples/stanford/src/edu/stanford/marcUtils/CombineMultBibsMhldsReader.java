@@ -52,7 +52,7 @@ public class CombineMultBibsMhldsReader implements MarcReader
     /** used to determine if the match field values are equal */
     static Comparator<String> MATCH_FIELD_COMPARATOR = new StringNaturalCompare();
 
-    static Logger logger = Logger.getLogger(CombineMultBibsMhldsReader.class.getName());
+    public static Logger logger = Logger.getLogger(CombineMultBibsMhldsReader.class.getName());
 
 
     /** the field in the first bib rec of a possible set of records to use for matching purposes */
@@ -177,21 +177,41 @@ public class CombineMultBibsMhldsReader implements MarcReader
      */
 	public Record next()
     {
-		if (hasNext())
-		{
-			if (lastRecordRead == null && currentFirstBibRecord == null)
-				// we are at the beginning of the file
-				lastRecordRead = marcReader.next();
-
-            currentFirstBibRecord = lastRecordRead; 
-
-            // look for following bib or mhld records that need to be merged in
-			String idToMatch = MarcUtils.getControlFieldData(currentFirstBibRecord, firstBibFldToMatch);
-			mergeFollowingRecs(idToMatch);
-				//    marcReader is moved to the next record
-				//    lastRecordRead gets a new value
-				//    currentFirstBibRecord can get more fields merged in
-		}
+        try
+        {
+    		if (hasNext())
+    		{
+    			if (lastRecordRead == null && currentFirstBibRecord == null)
+    				// we are at the beginning of the file
+    				lastRecordRead = marcReader.next();
+    
+                currentFirstBibRecord = lastRecordRead; 
+    
+                // look for following bib or mhld records that need to be merged in
+    			String idToMatch = MarcUtils.getControlFieldData(currentFirstBibRecord, firstBibFldToMatch);
+    			mergeFollowingRecs(idToMatch);
+    				//    marcReader is moved to the next record
+    				//    lastRecordRead gets a new value
+    				//    currentFirstBibRecord can get more fields merged in
+    		}
+        }
+        catch (Exception e)
+        {
+        	if (e instanceof SolrMarcRuntimeException)
+        		throw (RuntimeException) e;
+        	else
+        	{
+        		// try to get record identifier
+                String recCntlNum = null;
+                try {  recCntlNum = currentFirstBibRecord.getControlNumber(); }
+                catch (NullPointerException npe) { /* ignore */ }
+        
+                if (recCntlNum != null)
+                	logger.error("Skipping record after " + recCntlNum + "; Couldn't read it:  " + e.toString(), e);
+                else
+                	logger.error("Skipping record; Couldn't read it: " + e.toString(), e);
+        	}
+        }
 		
 		return currentFirstBibRecord;
     }
@@ -231,6 +251,7 @@ public class CombineMultBibsMhldsReader implements MarcReader
 				lastRecordRead = null;  
 				break;
 			}
+
     		if (MarcUtils.isMHLDRecord(lastRecordRead)) 
     		{
     			String mhldMatchId = MarcUtils.getControlFieldData(lastRecordRead, mhldFldToMatch);
@@ -249,7 +270,6 @@ public class CombineMultBibsMhldsReader implements MarcReader
 				    System.err.println(errmsg);
    				    throw new SolrMarcRuntimeException(errmsg);
                	}
-    			
     		}
     		else // bib record
     		{
