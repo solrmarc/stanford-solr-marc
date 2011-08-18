@@ -421,10 +421,10 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
 
 
     /**
-     * first bib bad rec
+     * first record in the file is unreadable (single bibs only)
      */
 @Test
-    public void unreadableFirstBibError() 
+    public void unreadableFirstRecord() 
     		throws IOException 
     {
         LoggerAppender4Testing appender = new LoggerAppender4Testing();
@@ -435,6 +435,9 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     		Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_badb1b2b3.mrc");
             Set<String> mergedRecIds = mergedRecs.keySet();
             assertEquals("Wrong number of read records: ", 3, mergedRecIds.size());
+            assertTrue("Expected a1 in results", mergedRecIds.contains("a1"));
+            assertTrue("Expected a2 in results", mergedRecIds.contains("a2"));
+            assertTrue("Expected a3 in results", mergedRecIds.contains("a3"));
             // message goes to logger ...
             appender.assertLogContains("Skipping record; Couldn't read it:");
         }
@@ -445,10 +448,10 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     }
 
     /**
-     * last bib bad rec
+     * last record in the file is unreadable (single bibs only)
      */
 @Test
-    public void unreadableLastBibError() 
+    public void unreadableLastRecord() 
     		throws IOException 
     {
         LoggerAppender4Testing appender = new LoggerAppender4Testing();
@@ -459,6 +462,9 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
         	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2b3bad.mrc");
             Set<String> mergedRecIds = mergedRecs.keySet();
             assertEquals("Wrong number of read records: ", 3, mergedRecIds.size());
+            assertTrue("Expected a1 in results", mergedRecIds.contains("a1"));
+            assertTrue("Expected a2 in results", mergedRecIds.contains("a2"));
+            assertTrue("Expected a3 in results", mergedRecIds.contains("a3"));
             // message goes to logger ...
             appender.assertLogContains("Skipping record after a3; Couldn't read it:");
         }
@@ -468,6 +474,31 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
         }
     }
     
+    /**
+     * middle record in the file is unreadable (single bibs only)
+     */
+@Test
+    public void unreadableMiddleRecord() 
+    		throws IOException 
+    {
+        LoggerAppender4Testing appender = new LoggerAppender4Testing();
+    	CombineMultBibsMhldsReader.logger.addAppender(appender);
+        try 
+        {
+            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test");
+        	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1badb3.mrc");
+            Set<String> mergedRecIds = mergedRecs.keySet();
+            assertEquals("Wrong number of read records: ", 2, mergedRecIds.size());
+            assertTrue("Expected a1 in results", mergedRecIds.contains("a1"));
+            assertTrue("Expected a3 in results", mergedRecIds.contains("a3"));
+            // message goes to logger ...
+            appender.assertLogContains("Skipping record after a1; Couldn't read it:");
+        }
+        finally 
+        {
+        	CombineMultBibsMhldsReader.logger.removeAppender(appender);
+        }
+    }
     
 
     // errors:
