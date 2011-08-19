@@ -263,9 +263,16 @@ public class CombineMultBibsMhldsReader implements MarcReader
                 	// we have a match - merge the mhld into the bib
             		if (isFirstMhld)
             		{
-            			currentFirstBibRecord = MarcUtils.removeSubfields(currentFirstBibRecord, mhldFldsToMerge);
+            			currentFirstBibRecord = MarcUtils.removeFields(currentFirstBibRecord, mhldFldsToMerge);
             			isFirstMhld = false;
             		}
+            		
+            		// look for last 852
+            		// if current 852 matches the last one, don't bother adding the current 852
+            		// ditto for 853s????
+            		//  
+
+// FIXME:  is there any reason the 999s need to be last?            		
             		currentFirstBibRecord = MarcUtils.combineRecords(currentFirstBibRecord, lastRecordRead, mhldFldsToMerge, insertMhldB4bibFld);
             		mergedSome = true;
             	}

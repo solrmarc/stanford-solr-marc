@@ -50,35 +50,32 @@ public class MarcUtils {
     }
     
     /**
-     * Return a List of VariableField objects corresponding to 880 fields linked
-     *  to the fields indicated by fieldSpec. 
-     * 
-     * @param record - the marc record object
-     * @param fieldSpec - string containing one or more marc "tags" for which 
-     *   linked 880 will be returned.  For example, 610 means return all 880
-     *   field(s) linked to any 610 field.  If more than one marc tag is 
-     *   desired, they need to be separated by a colon (e.g. 100:110:111)
-     * @return a List of VariableFields corresponding to 880 fields linked to 
-     *   the marc field(s) specified in the fieldSpec
-     */
-    public static List<VariableField> getLinkedVariableFields(final Record record, String fieldSpec)
-    {
-        List<VariableField> result = new ArrayList<VariableField>();
+	 * remove the specified fields from result
+	 * 
+	 * FIXME:  the following can be changed if there's a utility to copy
+	 *  record objects
+	 * Side Effect:
+	 *   NOTE:  the method changes the first param's value in addition to 
+	 *   providing the result (which is the same object as the first param's new value)	
+	 * 
+	 * @param Record MARC record object
+	 * @param fieldsToRemove the fields to be removed, as a regular expression (e.g. "852|866|867")
+	 * @return the Record object without the specifiedfields
+	 */
+	public static Record removeFields(Record record, String fieldsToRemove)
+	{
+	    List<VariableField> recVFList = record.getVariableFields();
+	    for (VariableField vf : recVFList)
+	    {
+	    	// FIXME:  it would be good to have some error checking on the fieldsToCopy expression passed in
+	        if (vf.getTag().matches(fieldsToRemove))
+	            record.removeVariableField(vf);
+	    }
+	    return record;
+	}
 
-        List<String> desiredTags = Arrays.asList(fieldSpec.split(":"));
 
-        List<VariableField> linkedFlds = getVariableFields(record, "880");        
-        for (VariableField lnkFld : linkedFlds) {
-			DataField df = (DataField) lnkFld;
-			Subfield sub6 = df.getSubfield('6');
-			if (sub6 != null && sub6.getData().length() >= 3 && desiredTags.contains(sub6.getData().substring(0, 3))) 
-				result.add(lnkFld);
-        }
-        
-        return result;
-    }
-
-    /**
+	/**
      * Return an ordered list of marc4j DataField objects for the range of marc tags 
      *  indicated by the (inclusive) bounds.  Tags must be 010 or higher.
      * @param record - marc record object
@@ -210,6 +207,36 @@ public class MarcUtils {
 	        }
 	    }
 	    return buffer.toString();
+	}
+
+
+	/**
+	 * Return a List of VariableField objects corresponding to 880 fields linked
+	 *  to the fields indicated by fieldSpec. 
+	 * 
+	 * @param record - the marc record object
+	 * @param fieldSpec - string containing one or more marc "tags" for which 
+	 *   linked 880 will be returned.  For example, 610 means return all 880
+	 *   field(s) linked to any 610 field.  If more than one marc tag is 
+	 *   desired, they need to be separated by a colon (e.g. 100:110:111)
+	 * @return a List of VariableFields corresponding to 880 fields linked to 
+	 *   the marc field(s) specified in the fieldSpec
+	 */
+	public static List<VariableField> getLinkedVariableFields(final Record record, String fieldSpec)
+	{
+	    List<VariableField> result = new ArrayList<VariableField>();
+	
+	    List<String> desiredTags = Arrays.asList(fieldSpec.split(":"));
+	
+	    List<VariableField> linkedFlds = getVariableFields(record, "880");        
+	    for (VariableField lnkFld : linkedFlds) {
+			DataField df = (DataField) lnkFld;
+			Subfield sub6 = df.getSubfield('6');
+			if (sub6 != null && sub6.getData().length() >= 3 && desiredTags.contains(sub6.getData().substring(0, 3))) 
+				result.add(lnkFld);
+	    }
+	    
+	    return result;
 	}
 
 
@@ -955,33 +982,6 @@ public class MarcUtils {
         return result;
     }
 
-	/**
-	 * remove the specified fields from result
-	 * 
-	 * FIXME:  the following can be changed if there's a utility to copy
-	 *  record objects
-	 * Side Effect:
-	 *   NOTE:  the method changes the first param's value in addition to 
-	 *   providing the result (which is the same object as the first param's new value)	
-	 * 
-	 * @param Record MARC record object
-	 * @param fieldsToRemove the fields to be removed, as a regular expression (e.g. "852|866|867")
-	 * @return the Record object without the specifiedfields
-	 */
-	public static Record removeSubfields(Record record, String fieldsToRemove)
-	{
-	    List<VariableField> recVFList = record.getVariableFields();
-	    for (VariableField vf : recVFList)
-	    {
-	    	// FIXME:  it would be good to have some error checking on the fieldsToCopy expression passed in
-	        if (vf.getTag().matches(fieldsToRemove))
-	            record.removeVariableField(vf);
-	    }
-	    return record;
-	}
-
-
-    
 	/**
 	 * find the first instance of the control field within a record and return 
 	 * its contents as a string. If the field is a DataField, return the 
