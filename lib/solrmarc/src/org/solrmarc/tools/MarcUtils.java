@@ -473,6 +473,68 @@ public class MarcUtils {
     }
 
     /**
+	 * extract all the subfields requested in requested marc fields. Each
+	 * instance of each marc field will be put in a separate result (but the
+	 * subfields will be concatenated into a single value for each marc field)
+	 * 
+	 * @param record
+	 *            marc record object
+	 * @param fieldSpec -
+	 *            the desired marc fields and subfields as given in the
+	 *            xxx_index.properties file
+	 * @param separator -
+	 *            the character to use between subfield values in the solr field
+	 *            contents
+	 * @return Set of values (as strings) for solr field
+	 */
+	public static Set<String> getAllSubfields(final Record record, String fieldSpec, String separator)
+	{
+	    Set<String> result = new LinkedHashSet<String>();
+	
+	    String[] fldTags = fieldSpec.split(":");
+	    for (int i = 0; i < fldTags.length; i++)
+	    {
+	        // Check to ensure tag length is at least 3 characters
+	        if (fldTags[i].length() < 3)
+	        {
+	            System.err.println("Invalid tag specified: " + fldTags[i]);
+	            continue;
+	        }
+	
+	        String fldTag = fldTags[i].substring(0, 3);
+	
+	        String subfldTags = fldTags[i].substring(3);
+	
+	        List<VariableField> marcFieldList = record.getVariableFields(fldTag);
+	        if (!marcFieldList.isEmpty())
+	        {
+	            Pattern subfieldPattern = Pattern.compile(subfldTags.length() == 0 ? "." : subfldTags);
+	            for (VariableField vf : marcFieldList)
+	            {
+	                DataField marcField = (DataField) vf;
+	                StringBuilder buffer = new StringBuilder("");
+	                List<Subfield> subfields = marcField.getSubfields();
+	                for (Subfield subfield : subfields)
+	                {
+	                    Matcher matcher = subfieldPattern.matcher("" + subfield.getCode());
+	                    if (matcher.matches())
+	                    {
+	                        if (buffer.length() > 0)
+	                            buffer.append(separator != null ? separator : " ");
+	                        buffer.append(subfield.getData().trim());
+	                    }
+	                }
+	                if (buffer.length() > 0)
+	                    result.add(Utils.cleanData(buffer.toString()));
+	            }
+	        }
+	    }
+	
+	    return result;
+	}
+
+
+	/**
      * get the contents of a subfield, rigorously ensuring no NPE
      * @param df - DataField of interest
      * @param code - code of subfield of interest
@@ -750,68 +812,6 @@ public class MarcUtils {
 
 
 	/**
-	 * extract all the subfields requested in requested marc fields. Each
-	 * instance of each marc field will be put in a separate result (but the
-	 * subfields will be concatenated into a single value for each marc field)
-	 * 
-	 * @param record
-	 *            marc record object
-	 * @param fieldSpec -
-	 *            the desired marc fields and subfields as given in the
-	 *            xxx_index.properties file
-	 * @param separator -
-	 *            the character to use between subfield values in the solr field
-	 *            contents
-	 * @return Set of values (as strings) for solr field
-	 */
-	public static Set<String> getAllSubfields(final Record record, String fieldSpec, String separator)
-	{
-	    Set<String> result = new LinkedHashSet<String>();
-	
-	    String[] fldTags = fieldSpec.split(":");
-	    for (int i = 0; i < fldTags.length; i++)
-	    {
-	        // Check to ensure tag length is at least 3 characters
-	        if (fldTags[i].length() < 3)
-	        {
-	            System.err.println("Invalid tag specified: " + fldTags[i]);
-	            continue;
-	        }
-	
-	        String fldTag = fldTags[i].substring(0, 3);
-	
-	        String subfldTags = fldTags[i].substring(3);
-	
-	        List<VariableField> marcFieldList = record.getVariableFields(fldTag);
-	        if (!marcFieldList.isEmpty())
-	        {
-	            Pattern subfieldPattern = Pattern.compile(subfldTags.length() == 0 ? "." : subfldTags);
-	            for (VariableField vf : marcFieldList)
-	            {
-	                DataField marcField = (DataField) vf;
-	                StringBuilder buffer = new StringBuilder("");
-	                List<Subfield> subfields = marcField.getSubfields();
-	                for (Subfield subfield : subfields)
-	                {
-	                    Matcher matcher = subfieldPattern.matcher("" + subfield.getCode());
-	                    if (matcher.matches())
-	                    {
-	                        if (buffer.length() > 0)
-	                            buffer.append(separator != null ? separator : " ");
-	                        buffer.append(subfield.getData().trim());
-	                    }
-	                }
-	                if (buffer.length() > 0)
-	                    result.add(Utils.cleanData(buffer.toString()));
-	            }
-	        }
-	    }
-	
-	    return result;
-	}
-
-
-	/**
 	 * For each occurrence of a marc field in the fieldSpec list, extract the
 	 * contents of all alphabetical subfields, concatenate them with a space
 	 * separator and add the string to the result set. Each instance of each
@@ -954,6 +954,32 @@ public class MarcUtils {
         }
         return result;
     }
+
+	/**
+	 * remove the specified fields from result
+	 * 
+	 * FIXME:  the following can be changed if there's a utility to copy
+	 *  record objects
+	 * Side Effect:
+	 *   NOTE:  the method changes the first param's value in addition to 
+	 *   providing the result (which is the same object as the first param's new value)	
+	 * 
+	 * @param Record MARC record object
+	 * @param fieldsToRemove the fields to be removed, as a regular expression (e.g. "852|866|867")
+	 * @return the Record object without the specifiedfields
+	 */
+	public static Record removeSubfields(Record record, String fieldsToRemove)
+	{
+	    List<VariableField> recVFList = record.getVariableFields();
+	    for (VariableField vf : recVFList)
+	    {
+	    	// FIXME:  it would be good to have some error checking on the fieldsToCopy expression passed in
+	        if (vf.getTag().matches(fieldsToRemove))
+	            record.removeVariableField(vf);
+	    }
+	    return record;
+	}
+
 
     
 	/**

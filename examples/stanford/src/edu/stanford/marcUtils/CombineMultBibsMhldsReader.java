@@ -239,6 +239,7 @@ public class CombineMultBibsMhldsReader implements MarcReader
     {
     	boolean stillLooking = true;
     	boolean mergedSome = false;
+    	boolean isFirstMhld = true;
     	lastRecordRead = null;
 		while (stillLooking)
 		{
@@ -260,6 +261,11 @@ public class CombineMultBibsMhldsReader implements MarcReader
             	if (compareResult == 0)
             	{
                 	// we have a match - merge the mhld into the bib
+            		if (isFirstMhld)
+            		{
+            			currentFirstBibRecord = MarcUtils.removeSubfields(currentFirstBibRecord, mhldFldsToMerge);
+            			isFirstMhld = false;
+            		}
             		currentFirstBibRecord = MarcUtils.combineRecords(currentFirstBibRecord, lastRecordRead, mhldFldsToMerge, insertMhldB4bibFld);
             		mergedSome = true;
             	}
@@ -301,6 +307,5 @@ public class CombineMultBibsMhldsReader implements MarcReader
 		
     	return mergedSome;
     }
-	    
-	
+	  
 }

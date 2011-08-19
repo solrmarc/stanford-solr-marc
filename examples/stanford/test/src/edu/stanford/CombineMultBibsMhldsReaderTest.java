@@ -281,16 +281,6 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     }
     
     
-
-	// single bib
-	// one bib and one mhld
-	// mult bibs
-	// mult bibs and mult mhlds 
-
-    // one bib and mult mhlds
-	// mult bibs and one mhld
-
-    
 // test for errors in raw record file ------------------------------------------
     
     /**
@@ -419,6 +409,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
 		}
     }
 
+//------- tests for unreadable records -----------------------------------------
 
     /**
      * first record in the file is unreadable (single bibs only)
@@ -615,15 +606,140 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
         	CombineMultBibsMhldsReader.logger.removeAppender(appender);
         }
     }
-    
 
-    // FIELD-wise testing
-	// test crashing bib fields removed
-	// fields to merge:  bib, mhld
-	//   present, missing
-	// fields not to merge
-	//   present
-	
+//------- tests for fields that merge ------------------------------------------
+
+    /**
+     * if the bib rec has existing fields included in the mhldFldsToMerge list, 
+     *  then those bib fields should be removed before adding the MHLD fields
+     */
+@Test
+    public void testCrashingBibFieldsRemoved()
+    		throws IOException
+    {
+        Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_mergeFldTests.mrc");
+    
+        Record mergedRec = mergedRecs.get("aallMhldFlds");
+        
+        Set<String> unexpectedVals = new HashSet<String>();
+        unexpectedVals.add("bibLoc");
+        RecordTestingUtils.assertSubfieldDoesNotHaveValues(mergedRec, "852", 'b', unexpectedVals);
+        
+        unexpectedVals.clear();
+        unexpectedVals.add("bib853a");
+        RecordTestingUtils.assertSubfieldDoesNotHaveValues(mergedRec, "853", 'a', unexpectedVals);
+        
+        unexpectedVals.clear();
+        unexpectedVals.add("bib863a");
+        RecordTestingUtils.assertSubfieldDoesNotHaveValues(mergedRec, "863", 'a', unexpectedVals);
+        
+        unexpectedVals.clear();
+        unexpectedVals.add("bib866a");
+        RecordTestingUtils.assertSubfieldDoesNotHaveValues(mergedRec, "866", 'a', unexpectedVals);
+    
+        unexpectedVals.clear();
+        unexpectedVals.add("bib867a");
+        unexpectedVals.add("bib867a2");
+        RecordTestingUtils.assertSubfieldDoesNotHaveValues(mergedRec, "867", 'a', unexpectedVals);
+        
+        unexpectedVals.clear();
+        unexpectedVals.add("bib868a");
+        RecordTestingUtils.assertSubfieldDoesNotHaveValues(mergedRec, "868", 'a', unexpectedVals);
+    }
+    
+    
+    /**
+     * the bib record should get all mhld fields specified
+     */
+@Test
+    public void testFieldsToMerge() 
+    		throws IOException
+    {
+        Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_mergeFldTests.mrc");
+        Record mergedRec = mergedRecs.get("aallMhldFlds");
+        
+        // mhld flds merged in
+        assertEquals("Wrong number of 852s ", 1, mergedRec.getVariableFields("852").size());
+        Set<String> expectedVals = new HashSet<String>();
+        expectedVals.add("mhldLoc");
+        RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "852", 'b', expectedVals);
+        
+        assertEquals("Wrong number of 853s ", 1, mergedRec.getVariableFields("853").size());
+        expectedVals.clear();
+        expectedVals.add("mhld853a");
+        RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "853", 'a', expectedVals);
+        
+        assertEquals("Wrong number of 863s ", 1, mergedRec.getVariableFields("863").size());
+        expectedVals.clear();
+        expectedVals.add("mhld863a");
+        RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "863", 'a', expectedVals);
+        
+        assertEquals("Wrong number of 866s", 3, mergedRec.getVariableFields("866").size());
+        expectedVals.clear();
+        expectedVals.add("V. 417 NO. 1A (JAN 2011)");
+        expectedVals.add("mhld866a ind1 blank ind2 0");
+        expectedVals.add("2009-");
+        expectedVals.add("mhld866a ind1 3 ind2 1");
+        expectedVals.add("mhld866a ind1 4 ind2 1");
+        RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "866", 'a', expectedVals);
+    
+        assertEquals("Wrong number of 867s ", 1, mergedRec.getVariableFields("867").size());
+        expectedVals.clear();
+        expectedVals.add("mhld867a ind1 blank ind2 0");
+        RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "867", 'a', expectedVals);
+        
+        assertEquals("Wrong number of 868s ", 3, mergedRec.getVariableFields("868").size());
+        expectedVals.clear();
+        expectedVals.add("mhld868a ind1 blank ind2 0");
+        expectedVals.add("mhld868a ind1 3 ind2 1");
+        expectedVals.add("1957-1993, 1995-1998");
+        expectedVals.add("mhld868a ind1 4 ind2 1");
+        RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "868", 'a', expectedVals);
+    }
+    
+    /**
+     * the bib record should not get any MHLD fields that aren't indicated for the merge
+     */
+@Test
+    public void testFieldsNotToMerge() 
+    		throws IOException
+    {
+        Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_mergeFldTests.mrc");
+        Record mergedRec = mergedRecs.get("aallMhldFlds");
+        
+        // 901 should not be merged
+        assertEquals("Wrong number of 901s ", 1, mergedRec.getVariableFields("901").size());
+        Set<String> expectedVals = new HashSet<String>();
+        expectedVals.add("bib901a");
+        RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "901", 'a', expectedVals);
+        Set<String> unexpectedVals = new HashSet<String>();
+        unexpectedVals.add("mhld901a");
+        RecordTestingUtils.assertSubfieldDoesNotHaveValues(mergedRec, "901", 'a', unexpectedVals);
+    }
+    
+    /**
+     * if the MHLD has more than one instance of a field, all instances should be put in the bib record
+     */
+//@Test
+    public void testMultOccurFieldsToMerge() 
+    		throws IOException
+    {
+//    	testFieldsToMerge();
+    }
+    
+    
+    /**
+     * if the MHLD has more than one instance of a field, all instances should be put in the bib record
+     */
+//@Test
+    public void testRemoveDuplicateMhld852s() 
+    		throws IOException
+    {
+    	org.junit.Assert.fail("implement me");
+    }
+
+
+
 
 // supporting methods for testing ---------------------------------------------
 	
