@@ -8,7 +8,7 @@ import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import org.marc4j.marc.Record;
+import org.marc4j.marc.*;
 import org.solrmarc.marc.RawRecordReader;
 import org.solrmarc.testUtils.RecordTestingUtils;
 import org.solrmarc.tools.*;
@@ -465,7 +465,8 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
             assertTrue("Expected a1 in results", mergedRecIds.contains("a1"));
             assertTrue("Expected a2 in results", mergedRecIds.contains("a2"));
             assertTrue("Expected a3 in results", mergedRecIds.contains("a3"));
-            // message goes to logger ...
+            
+            // did message go to logger?
             appender.assertLogContains("Skipping record after a3; Couldn't read it:");
         }
         finally 
@@ -491,7 +492,8 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
             assertEquals("Wrong number of read records: ", 2, mergedRecIds.size());
             assertTrue("Expected a1 in results", mergedRecIds.contains("a1"));
             assertTrue("Expected a3 in results", mergedRecIds.contains("a3"));
-            // message goes to logger ...
+
+            // did message go to logger?
             appender.assertLogContains("Skipping record after a1; Couldn't read it:");
         }
         finally 
@@ -500,17 +502,120 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
         }
     }
     
-
-    // errors:
-	//  unreadable record 
-	//    first bib
-	//      followed by bibs, mhlds, and both
-	//    subsequent bib
-	//    last bib
-	//	  first mhld
-	//    subsequent mhld
-	//    last mhld
-	//   first, last, middle record group in file
+    /**
+     * unreadable record in middle of multiple bibs for same id
+     */
+@Test
+    public void unreadableBetweenMultBibRecord() 
+    		throws IOException 
+    {
+        LoggerAppender4Testing appender = new LoggerAppender4Testing();
+    	CombineMultBibsMhldsReader.logger.addAppender(appender);
+        try 
+        {
+            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test");
+        	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b11badb13m11.mrc");
+            Set<String> mergedRecIds = mergedRecs.keySet();
+            assertEquals("Wrong number of read records: ", 1, mergedRecIds.size());
+            
+            // test if we got all the bib and all the mhld records that were readable
+            assertTrue("Expected a1 in results", mergedRecIds.contains("a1"));
+            Record mergedRec = mergedRecs.get("a1");
+            
+            Set<String> expectedVals = new HashSet<String>();
+            expectedVals.add("999a1-1");
+            expectedVals.add("999a1-3");
+        	RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "999", 'a', expectedVals);
+        	expectedVals.clear();
+        	expectedVals.add("mhld1-1");
+        	expectedVals.add("mhld1-2");
+        	RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "852", 'b', expectedVals);
+            
+            // did message go to logger?
+            appender.assertLogContains("Skipping record after a1; Couldn't read it:");
+        }
+        finally 
+        {
+        	CombineMultBibsMhldsReader.logger.removeAppender(appender);
+        }
+    }
+    
+    /**
+     * unreadable record between multiple bibs and multiple mhlds for same id
+     */
+@Test
+    public void unreadableBetweenBibMhldMultRecord() 
+    		throws IOException 
+    {
+        LoggerAppender4Testing appender = new LoggerAppender4Testing();
+    	CombineMultBibsMhldsReader.logger.addAppender(appender);
+        try 
+        {
+            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test");
+        	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b11b12badm11m12.mrc");
+            Set<String> mergedRecIds = mergedRecs.keySet();
+            assertEquals("Wrong number of read records: ", 1, mergedRecIds.size());
+            
+            // test if we got all the bib and all the mhld records that were readable
+            assertTrue("Expected a1 in results", mergedRecIds.contains("a1"));
+            Record mergedRec = mergedRecs.get("a1");
+            
+            Set<String> expectedVals = new HashSet<String>();
+            expectedVals.add("999a1-1");
+            expectedVals.add("999a1-2");
+        	RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "999", 'a', expectedVals);
+        	expectedVals.clear();
+        	expectedVals.add("mhld1-1");
+        	expectedVals.add("mhld1-2");
+        	RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "852", 'b', expectedVals);
+            
+            // did message go to logger?
+            appender.assertLogContains("Skipping record after a1; Couldn't read it:");
+        }
+        finally 
+        {
+        	CombineMultBibsMhldsReader.logger.removeAppender(appender);
+        }
+    }
+    
+    /**
+     * unreadable record between multiple mhlds for same id
+     */
+@Test
+    public void unreadableBetweenMultMhldRecord() 
+    		throws IOException 
+    {
+        LoggerAppender4Testing appender = new LoggerAppender4Testing();
+    	CombineMultBibsMhldsReader.logger.addAppender(appender);
+        try 
+        {
+            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test");
+        	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b11b12m11badm13.mrc");
+            Set<String> mergedRecIds = mergedRecs.keySet();
+            assertEquals("Wrong number of read records: ", 1, mergedRecIds.size());
+            
+            // test if we got all the bib and all the mhld records that were readable
+            assertTrue("Expected a1 in results", mergedRecIds.contains("a1"));
+            Record mergedRec = mergedRecs.get("a1");
+            
+            Set<String> expectedVals = new HashSet<String>();
+            expectedVals.add("999a1-1");
+            expectedVals.add("999a1-2");
+        	RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "999", 'a', expectedVals);
+        	expectedVals.clear();
+        	expectedVals.add("mhld1-1");
+        	expectedVals.add("mhld1-3");
+        	RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "852", 'b', expectedVals);
+            
+            // did message go to logger?
+            appender.assertLogContains("Skipping record after a1; Couldn't read it:");
+        }
+        finally 
+        {
+        	CombineMultBibsMhldsReader.logger.removeAppender(appender);
+        }
+    }
+    
 
     // FIELD-wise testing
 	// test crashing bib fields removed
@@ -573,5 +678,6 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     	String filePath = testDataParentPath + File.separator + filename;
         return combineFileRecordsAsMap(filePath, true);
     }
+    
     
 }
