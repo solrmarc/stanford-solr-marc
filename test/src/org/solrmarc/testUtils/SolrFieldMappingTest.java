@@ -1,5 +1,6 @@
 package org.solrmarc.testUtils;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -28,8 +29,9 @@ public class SolrFieldMappingTest
      *            name of xxx _config.properties file
      * @param idFldName -
      *            name of unique key field in Solr document
+     * @throws FileNotFoundException 
      */
-    public SolrFieldMappingTest(String configPropsName, String idFldName)
+    public SolrFieldMappingTest(String configPropsName, String idFldName) 
     {
         marcMappingTest = new MarcMappingOnly();
         marcMappingTest.init(new String[] { configPropsName, idFldName });

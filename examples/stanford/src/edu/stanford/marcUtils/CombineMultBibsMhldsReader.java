@@ -154,6 +154,30 @@ public class CombineMultBibsMhldsReader implements MarcReader
 		this (marcRecsFilename, null, null, null, null, null, null, true, "MARC8", false);
 	}
 
+	
+	
+	/**
+	 * 
+	 * @param marcReader - the marcReader to be wrapped by this combining reader
+	 * @param bibFldsToMerge - a regular expression (as a string) of Bib fields to be merged when there are multiple bib records (e.g. "998|999"; null for DEFAULT_BIB_FLDS_TO_MERGE)
+	 */
+	public CombineMultBibsMhldsReader(MarcReader marcReader, 
+										String bibFldsToMerge
+										) 
+				throws FileNotFoundException
+	{
+        this.marcReader = marcReader;
+		
+        // all of the below are set to defaults at instantiation, so they
+        //   only need to be changed here if non-null value is passed in.
+        
+		if (bibFldsToMerge != null)
+			this.bibFldsToMerge = bibFldsToMerge;
+	}
+	
+
+	
+	
 // ------- abstract class methods --------------------
 	
 	/**
