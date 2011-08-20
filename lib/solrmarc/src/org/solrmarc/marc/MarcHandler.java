@@ -396,7 +396,6 @@ public abstract class MarcHandler {
                     reader = new MarcCombiningReader(reader, errors, errors2, combineConsecutiveRecordsFields, combineLeftField, combineRightField);
                 }
         	}
-        		
         }
         
         // do we need to wrap in a MarcFilteredReader?
