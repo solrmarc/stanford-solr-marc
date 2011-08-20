@@ -129,8 +129,6 @@ public class CombineMultBibsMhldsReader implements MarcReader
 			this.insertMhldB4bibFld = insertMhldB4bibFld;
 	}
 	
-	
-    
 	/**
 	 * @param marcRecsFilename - the name of the file to be read
 	 * @param permissive - if true, try to recover from errors, including records with errors, when possible
@@ -147,7 +145,6 @@ public class CombineMultBibsMhldsReader implements MarcReader
 		this (marcRecsFilename, null, null, null, null, null, null, permissive, defaultEncoding, toUtf8);
 	}
 	
-
 	/**
 	 * @param marcRecsFilename - the name of the file to be read
 	 */
@@ -157,7 +154,7 @@ public class CombineMultBibsMhldsReader implements MarcReader
 		this (marcRecsFilename, null, null, null, null, null, null, true, "MARC8", false);
 	}
 
-	
+// ------- abstract class methods --------------------
 	
 	/**
 	 * Returns true if the iteration has more records, false otherwise.
@@ -216,6 +213,7 @@ public class CombineMultBibsMhldsReader implements MarcReader
 		return currentFirstBibRecord;
     }
 
+// ------- private methods --------------------
 	
     /**
      * Get next record in the file.  If the designated fields match
@@ -267,11 +265,6 @@ public class CombineMultBibsMhldsReader implements MarcReader
             			isFirstMhld = false;
             		}
             		
-            		// look for last 852
-            		// if current 852 matches the last one, don't bother adding the current 852
-            		// ditto for 853s????
-            		//  
-
 // FIXME:  is there any reason the 999s need to be last?            		
             		currentFirstBibRecord = MarcUtils.combineRecords(currentFirstBibRecord, lastRecordRead, mhldFldsToMerge, insertMhldB4bibFld);
             		mergedSome = true;
@@ -279,8 +272,7 @@ public class CombineMultBibsMhldsReader implements MarcReader
             	else 
                	{
    				    String errmsg = "CombineMultBibsMhldsReader: mhld record " + mhldMatchId + " came after bib record " + idToMatch + ": file isn't sorted.  \nCannot read file further.  STOPPING PROCESSING.";
-   				    logger.error(errmsg);
-				    System.err.println(errmsg);
+   				    logger.fatal(errmsg);
    				    throw new SolrMarcRuntimeException(errmsg);
                	}
     		}
@@ -304,8 +296,7 @@ public class CombineMultBibsMhldsReader implements MarcReader
                 	else // the new bib id sorts before the current one - the records in the file aren't ordered
                 	{
     				    String errmsg = "CombineMultBibsMhldsReader: bib record " + lookAheadBibRecId + " came after bib record " + idToMatch + ": file isn't sorted.  \nCannot read file further.  STOPPING PROCESSING.";
-    				    logger.error(errmsg);
-    				    System.err.println(errmsg);
+    				    logger.fatal(errmsg);
        				    throw new SolrMarcRuntimeException(errmsg);
                 	}
             	}    			
