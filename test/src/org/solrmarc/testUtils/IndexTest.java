@@ -55,13 +55,13 @@ public abstract class IndexTest {
         else
         {
             logger.info("Calling Delete All Docs");
-            importer.getSolrProxy().deleteAllDocs();
+            importer.getSolrProxy(false).deleteAllDocs();
         }
 		setupMarcImporter(configPropFilename, testDataParentPath + File.separator + testDataFname);
 		int numImported = importer.importRecords();       
 		importer.finish();
  
-        solrCoreProxy = (SolrCoreProxy)importer.getSolrProxy();
+        solrCoreProxy = (SolrCoreProxy)importer.getSolrProxy(false);
         solrCoreProxy.commit(false);
 		searcherProxy = new SolrSearcherProxy(solrCoreProxy);
 	}
@@ -85,7 +85,7 @@ public abstract class IndexTest {
 		int numImported = importer.importRecords();       
         importer.finish();
  
-        solrCoreProxy = (SolrCoreProxy)importer.getSolrProxy();
+        solrCoreProxy = (SolrCoreProxy)importer.getSolrProxy(false);
         solrCoreProxy.commit(false);
 		searcherProxy = new SolrSearcherProxy(solrCoreProxy);
 	}
@@ -111,7 +111,7 @@ public abstract class IndexTest {
         int numDeleted = importer.deleteRecords();       
         importer.finish();
  
-        solrCoreProxy = (SolrCoreProxy) importer.getSolrProxy();
+        solrCoreProxy = (SolrCoreProxy) importer.getSolrProxy(false);
         solrCoreProxy.commit(false);
 		searcherProxy = new SolrSearcherProxy(solrCoreProxy);
 	}
