@@ -876,6 +876,12 @@ public class MarcImporter extends MarcHandler
 			System.err.println(e.getMessage());
 			// e.printStackTrace();
 			System.exit(1);
+		} catch (FileNotFoundException e)
+		{
+			logger.fatal(e.getMessage());
+			System.err.println(e.getMessage());
+//			e.printStackTrace();
+			System.exit(1);
 		}
 
 		int exitCode = importer.handleAll();

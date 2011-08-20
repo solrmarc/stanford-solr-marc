@@ -1,5 +1,8 @@
 package org.solrmarc.testUtils;
 
+import static org.junit.Assert.fail;
+
+import java.io.FileNotFoundException;
 import java.util.*;
 
 //import org.apache.log4j.Logger;
@@ -24,12 +27,11 @@ import org.solrmarc.tools.SolrMarcIndexerException;
  */
 public class MarcMappingOnly extends MarcHandler
 {
-    // static Logger logger = Logger.getLogger(MarcMappingTest.class.getName());
+    // static Logger logger = Logger.getLogger(MarcMappingOnly.class.getName());
 
     /** name of unique key field in solr document */
     private String idFldName = null;
     private String argsPlus[] = null;
-    private boolean noConfigFile = false;
 
     /**
      * Constructor
@@ -44,7 +46,7 @@ public class MarcMappingOnly extends MarcHandler
     
     
     @Override
-    public void init(String args[])
+    public void init(String args[]) 
     {
         if (args[0].contains("+"))
         {
@@ -52,12 +54,16 @@ public class MarcMappingOnly extends MarcHandler
             if (argsPlus.length > 0 && argsPlus[0].length() > 0)
                 args[0] = argsPlus[0];
             else
-            {
                 args[0] = "null.properties";
-                noConfigFile = true;
-            }
         }
-        super.init(args);
+        try
+        {
+        	super.init(args);
+    	}
+        catch (FileNotFoundException e)
+        {
+        	fail("couldn't find file: " + e.getMessage());
+        }
     }
     
     @Override
@@ -100,7 +106,15 @@ public class MarcMappingOnly extends MarcHandler
      */
     public Map<String, Object> getIndexMapForRecord(String desiredRecId, String mrcFileName)
     {
-        loadReader("FILE", mrcFileName);
+    	try
+    	{
+            loadReader("FILE", mrcFileName);
+    	}
+        catch (FileNotFoundException e)
+        {
+        	fail("couldn't find file: " + e.getMessage());
+        }
+    	
         while (reader != null && reader.hasNext())
         {
             Record record = reader.next();
@@ -110,7 +124,8 @@ public class MarcMappingOnly extends MarcHandler
                 if (errors != null && includeErrors && errors.hasErrors())
                     solrFldName2ValMap.put("marc_error", errors.getErrors());
                 // FIXME:
-                if (desiredRecId == null || idFldName == null) return(solrFldName2ValMap);
+                if (desiredRecId == null || idFldName == null) 
+                	return solrFldName2ValMap;
                 
                 Object thisRecId = solrFldName2ValMap.get(idFldName);
                 if (thisRecId != null && thisRecId.equals(desiredRecId))
@@ -125,13 +140,9 @@ public class MarcMappingOnly extends MarcHandler
                 catch (NullPointerException npe) { /* ignore */ }
 
             	if (e.getLevel() == SolrMarcIndexerException.DELETE)
-                {
             		System.err.println("Indexing specs say record " + (recCntlNum != null ? recCntlNum : "") + " should not be indexed");
-                }
             	else
-            	{
 	                System.err.println("Error indexing Marc Record " + (recCntlNum != null ? recCntlNum : "") + ":" + e.getMessage());
-            	}
             }
             catch (MarcException me)
             {
@@ -155,10 +166,18 @@ public class MarcMappingOnly extends MarcHandler
      *            a raw SolrMarc-type field specification, for testing the lower level functions of 
      *            SolrMarc without first processing a full indexing specification.
      * @return the field/subfields from the indicated record as specified by the fieldSpec parameter
+     * @throws FileNotFoundException 
      */
-    public Set<String> lookupRawRecordValue(String desiredRecId, String mrcFileName, String fieldSpec)
+    public Set<String> lookupRawRecordValue(String desiredRecId, String mrcFileName, String fieldSpec) 
     {
-        loadReader("FILE", mrcFileName);
+    	try
+    	{
+            loadReader("FILE", mrcFileName);
+    	}
+        catch (FileNotFoundException e)
+        {
+        	fail("couldn't find file: " + e.getMessage());
+        }
         String propertyFilePathStr = System.getProperty("solrmarc.path");
         String propertyFilePaths[]  = makePropertySearchPath(propertyFilePathStr, null, null, homeDir);
   //      String propertyFilePaths[] = propertyFilePathStr == null ? new String[0] : propertyFilePathStr.split("[|]");
@@ -169,7 +188,8 @@ public class MarcMappingOnly extends MarcHandler
                 Record record = reader.next();
 
                 String thisRecId = record.getControlNumber();
-                if (desiredRecId != null && !thisRecId.equals(desiredRecId)) continue;
+                if (desiredRecId != null && !thisRecId.equals(desiredRecId)) 
+                	continue;
 
                 Set<String> result = null;
                 String translationMap = null;
@@ -202,9 +222,7 @@ public class MarcMappingOnly extends MarcHandler
                     Map<String, Object> indexMap = indexer.map(record);
                     Object tmpResult = indexMap.get("marcmappingtest");
                     if (tmpResult instanceof Set)
-                    {
                         result = (Set<String>)tmpResult;
-                    }
                     else if (tmpResult instanceof String)
                     {
                         result = new LinkedHashSet<String>();
@@ -219,9 +237,7 @@ public class MarcMappingOnly extends MarcHandler
                     Map<String, Object> indexMap = indexer.map(record);
                     Object tmpResult = indexMap.get("marcmappingtest");
                     if (tmpResult instanceof Set)
-                    {
                         result = (Set<String>)tmpResult;
-                    }
                     else if (tmpResult instanceof String)
                     {
                         result = new LinkedHashSet<String>();
@@ -237,9 +253,7 @@ public class MarcMappingOnly extends MarcHandler
                     Map<String, Object> indexMap = indexer.map(record);
                     Object tmpResult = indexMap.get("marcmappingtest");
                     if (tmpResult instanceof Set)
-                    {
                         result = (Set<String>)tmpResult;
-                    }
                     else if (tmpResult instanceof String)
                     {
                         result = new LinkedHashSet<String>();

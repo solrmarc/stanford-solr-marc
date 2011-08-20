@@ -574,7 +574,17 @@ public class SolrReIndexer extends MarcImporter
         
         SolrReIndexer reader = null;
         reader = new SolrReIndexer();
-        reader.init(newArgs);
+        try
+        {
+        	reader.init(newArgs);
+        }
+        catch (FileNotFoundException e)
+        {
+            String errmsg = "Couldn't find config file " + e.getMessage();
+            System.err.println(errmsg);
+            logger.fatal(errmsg);
+        	System.exit(1);
+        }
           
         reader.handleAll();
         
@@ -582,7 +592,6 @@ public class SolrReIndexer extends MarcImporter
 //        System.clearProperty("marc.path");
 //        System.clearProperty("marc.source");
         System.exit(0);
-
     }
 
 }
