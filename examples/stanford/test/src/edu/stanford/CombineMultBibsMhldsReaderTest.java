@@ -9,14 +9,16 @@ import java.util.*;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.marc4j.marc.*;
+import org.solrmarc.marc.CombineMultBibsMhldsReader;
 import org.solrmarc.marc.RawRecordReader;
 import org.solrmarc.testUtils.RecordTestingUtils;
 import org.solrmarc.tools.*;
 
-import edu.stanford.marcUtils.CombineMultBibsMhldsReader;
 
 /**
- * tests for edu.stanford.marcUtils.CombineMultBibsMultMhldsReader
+ * tests for org.solrmarc.marc.CombineMultBibsMultMhldsReader
+ *  FIXME:  these tests should move to solrmarc ... but I wrote the code
+ *   as edu.stanford, and am just trying to move forward.
  * @author Naomi Dushay
  */
 public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest

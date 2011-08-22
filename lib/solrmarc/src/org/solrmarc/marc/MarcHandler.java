@@ -29,7 +29,7 @@ public abstract class MarcHandler {
     protected boolean to_utf_8;
     protected String combineConsecutiveRecordsFields = null;
 // FIXME:  should just have the reader class declared outright rather than indirectly
-    /** set to true to use edu.stanford.marcUtils.CombineMultBibsMhldsReader */  
+    /** set to true to use CombineMultBibsMhldsReader */  
     protected boolean useStanfordCombiningReader = false;
 	protected boolean showConfig = false;
 	protected boolean showInputFile = false;
@@ -382,7 +382,7 @@ public abstract class MarcHandler {
         if (reader != null && combineConsecutiveRecordsFields != null)
         {
         	if (useStanfordCombiningReader)
-        		reader = new edu.stanford.marcUtils.CombineMultBibsMhldsReader(reader, combineConsecutiveRecordsFields);
+        		reader = new CombineMultBibsMhldsReader(reader, combineConsecutiveRecordsFields);
         	else
         	{
                 String combineLeftField = PropertiesUtils.getProperty(configProps, "marc.combine_records.left_field");

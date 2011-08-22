@@ -1,4 +1,4 @@
-package edu.stanford.marcUtils;
+package org.solrmarc.marc;
 
 import java.io.*;
 import java.util.Comparator;
