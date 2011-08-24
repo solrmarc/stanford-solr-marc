@@ -1095,6 +1095,20 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 // Item Related Methods -------------  End  --------------- Item Related Methods    
 
+// Mhld Methods ---------------------- Begin ---------------------- Mhld Methods    
+	
+	/**
+	 * for search results and record view displays:
+	 * @return set of fields containing summary holdings information 
+	 *  (lib, location, holdings, latest received ...)
+	 * @param record a marc4j Record object
+	 */
+	public Set<String> getMhldDisplay(final Record record) 
+	{
+		return MhldUtils.getMhldDisplay(record);
+	}
+	
+// Mhld Methods ---------------------- End ------------------------ Mhld Methods    
 	
 // Call Number Methods -------------- Begin ---------------- Call Number Methods    
 
