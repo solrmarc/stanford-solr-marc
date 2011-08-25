@@ -87,7 +87,7 @@ public class MhldMappingTests extends AbstractStanfordTest
      * per spec in email by Naomi Dushay on July 12, 2011, an MHLD summary holdings section
      *  is skipped if 868 has ind2 of 0 and 852 has a sub = 
      */
-//@Test
+@Test
     public final void testSkipped868() 
     {
     	String testDataFile = testFilePath + "mhldDisplay868.mrc";
@@ -102,7 +102,7 @@ public class MhldMappingTests extends AbstractStanfordTest
     	// keep if 2nd indicator "0" and no 852 sub =
     	valueStart = "GREEN -|- CURRENTPER -|- keep 868 -|- Index -|-  -|- keep me (868)";
     	solrFldMapTest.assertSolrFldValue(testDataFile, "keep868ind0", fldName, valueStart);
-    	valueStart = "MUSIC -|- MUS-NOCIRC -|- -|- Index -|-  -|- ";
+    	valueStart = "MUSIC -|- MUS-NOCIRC -|-  -|- Index -|-  -|- ";
     	solrFldMapTest.assertSolrFldValue(testDataFile, "multKeep868ind0", fldName, valueStart + "keep me 1 (868)");
     	solrFldMapTest.assertSolrFldValue(testDataFile, "multKeep868ind0", fldName, valueStart + "keep me 2 (868)");
     }
@@ -128,9 +128,9 @@ public class MhldMappingTests extends AbstractStanfordTest
         	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "multSkip867ind0", fldName, "ignore");
             appender.assertLogContains("Record multSkip867ind0 has multiple 867 with ind2=0 and an 852 sub=");
         	
-//            testDataFile = testFilePath + "mhldDisplay868.mrc";
-//        	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "multSkip868ind0", fldName, "ignore");
-//            appender.assertLogContains("Record multSkip868ind0 has multiple 868 with ind2=0 and an 852 sub=");
+            testDataFile = testFilePath + "mhldDisplay868.mrc";
+        	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "multSkip868ind0", fldName, "ignore");
+            appender.assertLogContains("Record multSkip868ind0 has multiple 868 with ind2=0 and an 852 sub=");
 
         }
         finally 
