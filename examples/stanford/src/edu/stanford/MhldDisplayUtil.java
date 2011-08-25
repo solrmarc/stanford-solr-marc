@@ -110,14 +110,14 @@ public class MhldDisplayUtil
 			} // end 852 field
 			
 			else if (df.getTag().equals("866"))
-				process866(df);
+				process86x(df, "866");
 			else if (df.getTag().equals("867"))
-				process867(df);
+				process86x(df, "867");
 
 			
 		} // end looping through fields
 
-// FIXME:  need test for outputing final 852		
+// FIXME:  need test for outputting final 852		
 		if (justGot852)
 			result.add(resultPrefixFrom852 + SEP + SEP);
 		else if (resultStr.length() > 0)
@@ -139,77 +139,80 @@ public class MhldDisplayUtil
 		resultStr = "";
 	}
 	
-	private void process866(DataField df866)
-	{
-		// if we have a previous 86x, then output the resultStr from that one
-		if (resultStr.length() > 0 && (have866for852 || have867for852))
-			result.add(resultStr);
-		resultStr = "";
-		
-		char ind2 = df866.getIndicator2();
-		if (ind2 == '0' && df852hasEqualsSubfield)
-		{
-			// we skip this 866 ... but we may need to write error message
-			if (!haveIgnored866for852)
-				haveIgnored866for852 = true;
-			else if (!wroteMult866errMsg)
-			{
-				logger.error("Record " + id + " has multiple 866 with ind2=0 and an 852 sub=");
-				wroteMult866errMsg = true;
-			}
-			return;
-		}
-		else
-		{
-			// set up result string for this one
-			String suba = MarcUtils.getSubfieldData(df866, 'a');
-			if (suba == null)
-				suba = "";
-			if (suba.endsWith("-"))
-				haveOpenHoldings = true;
-			resultStr = resultPrefixFrom852 + SEP + SEP + suba;
-			
-			if (!have866for852)
-				have866for852 = true;
-		}
-
-		justGot852 = false;	
-	}
 	
-	private void process867(DataField df867)
+	private void process86x(DataField df86x, String tag)
 	{
-		// if we have a previous 86x, then output the resultStr from that one
-		if (resultStr.length() > 0 && (have866for852 || have867for852))
+		// if we have a previous 86x, then keep the resultStr from the previous 86x
+		if (resultStr.length() > 0 && (have866for852 || have867for852 || have868for852))
 			result.add(resultStr);
 		resultStr = "";
 
-		char ind2 = df867.getIndicator2();
+		// should we skip this 86x?
+		char ind2 = df86x.getIndicator2();
 		if (ind2 == '0' && df852hasEqualsSubfield)
 		{
-			// we skip this 867 ... but we may need to write error message
-			if (!haveIgnored867for852)
-				haveIgnored867for852 = true;
-			else if (!wroteMult867errMsg)
+			// we skip this one ... but we may need to write error message
+			if (tag.equals("866"))
 			{
-				logger.error("Record " + id + " has multiple 867 with ind2=0 and an 852 sub=");
-				wroteMult867errMsg = true;
+				if (!haveIgnored866for852)
+					haveIgnored866for852 = true;
+				else if (!wroteMult866errMsg)
+				{
+					logger.error("Record " + id + " has multiple 866 with ind2=0 and an 852 sub=");
+					wroteMult866errMsg = true;
+				}
+			}
+			else if (tag.equals("867"))
+			{
+				if (!haveIgnored867for852)
+					haveIgnored867for852 = true;
+				else if (!wroteMult867errMsg)
+				{
+					logger.error("Record " + id + " has multiple 867 with ind2=0 and an 852 sub=");
+					wroteMult867errMsg = true;
+				}
+				
+			}
+			else if (tag.equals("868"))
+			{
+				if (!haveIgnored868for852)
+					haveIgnored868for852 = true;
+				else if (!wroteMult868errMsg)
+				{
+					logger.error("Record " + id + " has multiple 868 with ind2=0 and an 852 sub=");
+					wroteMult868errMsg = true;
+				}
 			}
 			return;
 		}
 		else
 		{
 			// set up result string for this one
-			String suba = MarcUtils.getSubfieldData(df867, 'a');
+			String suba = MarcUtils.getSubfieldData(df86x, 'a');
 			if (suba == null)
 				suba = "";
-			resultStr = resultPrefixFrom852 + "Supplement" + SEP + SEP + suba;
-
-			if (!have867for852)
-				have867for852 = true;
+			
+			String type = "";
+			if (tag.equals("866") && !have866for852)
+				have866for852 = true;
+			else if (tag.equals("867"))
+			{
+				type = "Supplement";
+				if (!have867for852)
+					have867for852 = true;
+			}
+			else if (tag.equals("868"))
+			{
+				type = "Index";
+				if (!have868for852)
+					have868for852 = true;
+			}
+			
+			resultStr = resultPrefixFrom852 + type + SEP + SEP + suba;
 		}
-
 		justGot852 = false;	
 	}
+
 	
 	/**
 	 * 
