@@ -113,7 +113,8 @@ public class MhldDisplayUtil
 				process86x(df, "866");
 			else if (df.getTag().equals("867"))
 				process86x(df, "867");
-
+			else if (df.getTag().equals("868"))
+				process86x(df, "868");
 			
 		} // end looping through fields
 
