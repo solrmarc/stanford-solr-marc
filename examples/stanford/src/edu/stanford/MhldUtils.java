@@ -2,9 +2,9 @@ package edu.stanford;
 
 import java.util.*;
 
+import org.apache.log4j.Logger;
 import org.marc4j.marc.*;
 import org.solrmarc.tools.MarcUtils;
-import org.solrmarc.tools.Utils;
 
 /**
  * Utility methods for item information Stanford SolrMarc
@@ -16,7 +16,9 @@ public class MhldUtils
 	/** separator used in mhld_display field */
 	public static final String SEP = " -|- ";
 	
-	/**
+    public static Logger logger = Logger.getLogger(MhldUtils.class.getName());
+    
+    /**
 	 * Default Constructor: private, so it can't be instantiated by other objects
 	 */	
 	private MhldUtils(){ }
@@ -26,6 +28,7 @@ public class MhldUtils
 	/**
 	 * given a marc Record object containing (sets of) mhld fields, return a set of mhld_display values
 	 * @param record - marc Record object
+	 * @param id - record id, used for error messages
 	 * @return set of fields from mhlds:
 	 *   library + SEP + 
 	 *   location + SEP + 
@@ -33,7 +36,7 @@ public class MhldUtils
 	 *   latest received + SEP + 
 	 *   library has 
 	 */
-	static Set<String> getMhldDisplay(Record record) 
+	static Set<String> getMhldDisplay(Record record, String id) 
 	{
 		Set<String> result = new LinkedHashSet<String>();
 		
@@ -42,11 +45,38 @@ public class MhldUtils
 		//   process 852
 		//   process following mhld fields
 		//   look for next 852
+		boolean justGot852 = false;
+		boolean df852hasEqualsSubfield = false;
+		boolean haveIgnored866for852 = false;  // used for reporting errors
+		boolean wroteMult866errMsg = false;
+		boolean have866for852 = false;
+		boolean haveOpenHoldings = false;
+		String resultPrefixFrom852 = "";
+		String resultStr = "";
 		List<DataField> allDataFieldsList = record.getDataFields();
+		
+		
+		// note:  have to read fields sequentially to associate mhld 8xx fields with preceding 852.
 		for (DataField df : allDataFieldsList)
 		{
 			if (df.getTag().equals("852"))
 			{
+				// if there were no intervening fields between the previous 852
+				//   and this one, then output the previous 852 information
+				if (justGot852)
+					result.add(resultPrefixFrom852 + SEP);
+				else if (resultStr.length() > 0)
+					result.add(resultStr);
+				
+				justGot852 = false;
+				df852hasEqualsSubfield = false;
+				haveIgnored866for852 = false;
+				wroteMult866errMsg = false;
+				have866for852 = false;
+				haveOpenHoldings = false;
+				resultPrefixFrom852 = "";
+				resultStr = "";
+				
 				String comment = "";
 				String subz = MarcUtils.getSubfieldData(df, 'z');
 				if (subz != null)
@@ -57,21 +87,69 @@ public class MhldUtils
 					else
 						comment = subz;
 				}
-				
+				// finish comment value
 				String sub3 = MarcUtils.getSubfieldData(df, '3');
 				if (sub3 != null && sub3.length() > 0)
 					comment = comment + " " + sub3;
-				
 				String libraryCode = MarcUtils.getSubfieldData(df, 'b');
 				String locationCode = MarcUtils.getSubfieldData(df, 'c');
 				
-				String resultVal = libraryCode + SEP + locationCode + SEP + comment + SEP + SEP;
+				resultPrefixFrom852 = libraryCode + SEP + locationCode + SEP + comment + SEP;				
 				
-				result.add(resultVal);
-			}
-		}
-		
-		
+				String subEquals = MarcUtils.getSubfieldData(df, '=');
+				if (subEquals != null && subEquals.length() > 0)
+					df852hasEqualsSubfield = true;
+
+				justGot852 = true;
+
+			} // end 852 field
+			
+			else if (df.getTag().equals("866"))
+			{
+				char ind2 = df.getIndicator2();
+				if (ind2 == '0' && df852hasEqualsSubfield)
+				{
+					// we skip this 866 ... but we may need to write error message
+					if (!haveIgnored866for852)
+						haveIgnored866for852 = true;
+					else if (!wroteMult866errMsg)
+					{
+						logger.error("Record " + id + " has multiple 866 with ind2=0 and 852 sub=");
+						wroteMult866errMsg = true;
+					}
+					continue;
+				}
+				else
+				{
+					// if we have a previous 866, then output the resultStr from that one
+					if (have866for852 && resultStr.length() > 0)
+						result.add(resultStr);
+					
+					// set up result string for this one
+					String suba = MarcUtils.getSubfieldData(df, 'a');
+					if (suba == null)
+						suba = "";
+					if (suba.endsWith("-"))
+						haveOpenHoldings = true;
+					resultStr = resultPrefixFrom852 + SEP + suba;
+					
+					if (!have866for852)
+						have866for852 = true;
+					
+//					result.add(resultStr);
+				}
+
+				justGot852 = false;
+
+			} // end 866 field
+
+			
+		} // end looping through fields
+
+		if (justGot852)
+			result.add(resultPrefixFrom852 + SEP);
+		else if (resultStr.length() > 0)
+			result.add(resultStr);
 		
 		return result;
 	}

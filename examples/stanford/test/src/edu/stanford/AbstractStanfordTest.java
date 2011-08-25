@@ -105,7 +105,6 @@ public abstract class AbstractStanfordTest extends IndexTest {
 		// needed to get through initialization; overridden in individual tests
 		System.setProperty("marc.path", anyTestFile);
         String testConfigFname = System.getProperty("test.config.file");
-
 		solrFldMapTest = new SolrFieldMappingTest(testConfigFname, docIDfname);
 	}
 
