@@ -59,13 +59,13 @@ public class SolrFieldMappingTest
     {
         Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(solrDocId, mrcFileName);
         if (solrFldName2ValMap == null)
-        	fail("there is no document with id " + solrDocId);
+        	fail("There is no document with id " + solrDocId);
         
         Object solrFldValObj = solrFldName2ValMap.get(expectedFldName);
         if (solrFldValObj == null)
-            fail("No value assigned for Solr field " + expectedFldName + " in Solr document " + solrDocId);
+            fail("Solr doc " + solrDocId + " has value assigned for Solr field " + expectedFldName);
         if (solrFldValObj instanceof String)
-            assertEquals("didn't get expected value for Solr field " + expectedFldName + " -- ", expectedFldVal, solrFldValObj.toString());
+            assertEquals("Solr doc " + solrDocId + " didn't have expected value for Solr field " + expectedFldName + ": ", expectedFldVal, solrFldValObj.toString());
         else if (solrFldValObj instanceof Collection)
         {
             // look for a match of at least one of the values
@@ -76,7 +76,7 @@ public class SolrFieldMappingTest
                     foundIt = true;
                 // System.out.println("DEBUG: value is [" + fldVal + "]");
             }
-            assertTrue("Solr field " + expectedFldName + " did not have any value matching " + expectedFldVal, foundIt);
+            assertTrue("Solr doc " + solrDocId + " did not have any " + expectedFldName + " fields with value matching " + expectedFldVal, foundIt);
         }
     }
 

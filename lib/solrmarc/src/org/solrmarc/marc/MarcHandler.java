@@ -178,7 +178,7 @@ public abstract class MarcHandler {
         if (unicodeNormalize != null) 
             unicodeNormalize = handleUnicodeNormalizeParm(unicodeNormalize);
         
-        if (PropertiesUtils.getProperty(configProps, "marc.override")!= null)
+        if (PropertiesUtils.getProperty(configProps, "marc.override") != null)
             System.setProperty("org.marc4j.marc.MarcFactory", PropertiesUtils.getProperty(configProps, "marc.override").trim());
         else  // no override, tell solrmarc to use the NoSortMarcFactory by default.
             System.setProperty("org.marc4j.marc.MarcFactory", "org.solrmarc.marcoverride.NoSortMarcFactoryImpl");
