@@ -36,6 +36,7 @@ import org.junit.runners.Suite;
         LanguageTests.class,
         MarcCombiningReaderTests.class,
         MergeMhldFldsIntoBibsReaderTests.class,
+        MhldMappingTests.class,
         MiscellaneousFieldTests.class,
         NoteFieldsTests.class,
         PhysicalTests.class,
