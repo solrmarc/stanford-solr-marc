@@ -139,6 +139,23 @@ public class MhldMappingTests extends AbstractStanfordTest
         }
     }
 
+    /**
+     * 852 subfield 3 should be included in the comment
+     */
+@Test
+    public final void test852sub3() 
+    {
+    	String testDataFile = testFilePath + "mhldDisplay852sub3.mrc";
+    	String valueStrB4 = "GREEN -|- STACKS -|- ";
+    	String valueStrAfter = " -|-  -|-  -|- ";
+    	
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "852zNo3", fldName, valueStrB4 + "sub z" + valueStrAfter);
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "852-3noZ", fldName, valueStrB4 + "sub 3" + valueStrAfter);
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "852zAnd3", fldName, valueStrB4 + "sub 3 sub z" + valueStrAfter);
+    }
+    
+
+
 
 	public void testCreateIx()
 	{

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+  <record>
+    <leader>00280cy  a22000973  4500</leader>
+    <controlfield tag="001">a852zNo3</controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">GREEN</subfield>
+      <subfield code="c">STACKS</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">sub z</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00280cy  a22000973  4500</leader>
+    <controlfield tag="001">a852-3noZ</controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="3">sub 3</subfield>
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">GREEN</subfield>
+      <subfield code="c">STACKS</subfield>
+      <subfield code="t">1</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00280cy  a22000973  4500</leader>
+    <controlfield tag="001">a852zAnd3</controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="3">sub 3</subfield>
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">GREEN</subfield>
+      <subfield code="c">STACKS</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">sub z</subfield>
+    </datafield>
+  </record>
+</collection>

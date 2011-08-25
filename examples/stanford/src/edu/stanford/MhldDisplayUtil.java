@@ -83,6 +83,9 @@ public class MhldDisplayUtil
 				init852Vars();
 				
 				String comment = "";
+				String sub3 = MarcUtils.getSubfieldData(df, '3');
+				if (sub3 != null && sub3.length() > 0)
+					comment = sub3;
 				String subz = MarcUtils.getSubfieldData(df, 'z');
 				if (subz != null)
 				{
@@ -90,12 +93,14 @@ public class MhldDisplayUtil
 					if (subz.toLowerCase().contains("all holdings transferred"))
 						continue;
 					else
-						comment = subz;
+					{
+						if (comment.length() > 0)
+							comment = comment + " " + subz;
+						else
+							comment = subz;
+					}
 				}
-				// finish comment value
-				String sub3 = MarcUtils.getSubfieldData(df, '3');
-				if (sub3 != null && sub3.length() > 0)
-					comment = comment + " " + sub3;
+
 				String libraryCode = MarcUtils.getSubfieldData(df, 'b');
 				String locationCode = MarcUtils.getSubfieldData(df, 'c');
 				
