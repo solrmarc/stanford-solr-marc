@@ -9,7 +9,7 @@ import org.marc4j.marc.*;
 import org.marc4j.marc.impl.*;
 
 /**
- * unit tests for edu.stanford.MhldUtils methods
+ * unit tests for edu.stanford.MhldDisplayUtil methods
  * @author Naomi Dushay
  */
 public class MhldUtilsUnitTests
@@ -24,12 +24,12 @@ public class MhldUtilsUnitTests
 		DataField df = new DataFieldImpl("852", ' ', ' ');
 		Subfield subz = new SubfieldImpl('z', "All holdings transferred");
 		df.addSubfield(subz);
-		assertTrue("Expected skip852 to return true", MhldUtils.skip852(df));
+		assertTrue("Expected skip852 to return true", MhldDisplayUtil.skip852(df));
 		
 		df = new DataFieldImpl("852", ' ', ' ');
 		subz = new SubfieldImpl('z', "random comment");
 		df.addSubfield(subz);
-		assertTrue("Expected skip852 to return false", !MhldUtils.skip852(df));
+		assertTrue("Expected skip852 to return false", !MhldDisplayUtil.skip852(df));
 	}
 
     /*
@@ -50,7 +50,7 @@ public class MhldUtilsUnitTests
 //    	dataFld.addSubfield(subz);
 //    	skipIt.addVariableField(dataFld);
 //    	
-//    	MhldUtils.skip852(df852);
+//    	MhldDisplayUtil.skip852(df852);
 //    	
 //    }
 //    

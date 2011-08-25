@@ -1105,7 +1105,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getMhldDisplay(final Record record) 
 	{
-		return MhldUtils.getMhldDisplay(record, id);
+		MhldDisplayUtil mhldDisplayUtil = new MhldDisplayUtil(record, id);
+		return mhldDisplayUtil.getMhldDisplayValues();
 	}
 	
 // Mhld Methods ---------------------- End ------------------------ Mhld Methods    
