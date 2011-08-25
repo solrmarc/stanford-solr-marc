@@ -11,52 +11,64 @@ import org.solrmarc.tools.MarcUtils;
  *  
  * @author Naomi Dushay
  */
-public class MhldUtils
+public class MhldDisplayUtil
 {
 	/** separator used in mhld_display field */
 	public static final String SEP = " -|- ";
 	
-    public static Logger logger = Logger.getLogger(MhldUtils.class.getName());
+    public static Logger logger = Logger.getLogger(MhldDisplayUtil.class.getName());
     
-    /**
-	 * Default Constructor: private, so it can't be instantiated by other objects
-	 */	
-	private MhldUtils(){ }
+    private Record record = null;
+    private String id = null;
+    private boolean justGot852 = false;
+    private boolean df852hasEqualsSubfield = false;
+    private String resultPrefixFrom852 = "";
+
+    private boolean haveOpenHoldings = false;
+    private boolean have866for852 = false;
+    private boolean haveIgnored866for852 = false;  // used for reporting errors
+    private boolean wroteMult866errMsg = false;
+
+    private boolean have867for852 = false;
+    private boolean haveIgnored867for852 = false;  // used for reporting errors
+    private boolean wroteMult867errMsg = false;
+
+    private boolean have868for852 = false;
+    private boolean haveIgnored868for852 = false;  // used for reporting errors
+    private boolean wroteMult868errMsg = false;
 
 	
+	String resultStr = "";
+
+	/** (ordered) set of mhld_display field values to be returned by getMhldDislayValues() */
+	Set<String> result = new LinkedHashSet<String>();
+
+	/**
+	 * Default Constructor: private, so it can't be instantiated by other objects
+	 */	
+	public MhldDisplayUtil(Record record, String id)
+	{ 
+		this.record = record;
+		this.id = id;
+	}
+
 	
 	/**
 	 * given a marc Record object containing (sets of) mhld fields, return a set of mhld_display values
-	 * @param record - marc Record object
-	 * @param id - record id, used for error messages
 	 * @return set of fields from mhlds:
 	 *   library + SEP + 
 	 *   location + SEP + 
 	 *   comment + SEP + 
+	 *   ""|Index|Supplement + SEP + 
 	 *   latest received + SEP + 
 	 *   library has 
 	 */
-	static Set<String> getMhldDisplay(Record record, String id) 
+	Set<String> getMhldDisplayValues() 
 	{
-		Set<String> result = new LinkedHashSet<String>();
-		
-		// for all data fields in record
-		//  find 852
-		//   process 852
-		//   process following mhld fields
-		//   look for next 852
-		boolean justGot852 = false;
-		boolean df852hasEqualsSubfield = false;
-		boolean haveIgnored866for852 = false;  // used for reporting errors
-		boolean wroteMult866errMsg = false;
-		boolean have866for852 = false;
-		boolean haveOpenHoldings = false;
-		String resultPrefixFrom852 = "";
-		String resultStr = "";
-		List<DataField> allDataFieldsList = record.getDataFields();
-		
+		result = new LinkedHashSet<String>();
 		
 		// note:  have to read fields sequentially to associate mhld 8xx fields with preceding 852.
+		List<DataField> allDataFieldsList = record.getDataFields();
 		for (DataField df : allDataFieldsList)
 		{
 			if (df.getTag().equals("852"))
@@ -68,14 +80,7 @@ public class MhldUtils
 				else if (resultStr.length() > 0)
 					result.add(resultStr);
 				
-				justGot852 = false;
-				df852hasEqualsSubfield = false;
-				haveIgnored866for852 = false;
-				wroteMult866errMsg = false;
-				have866for852 = false;
-				haveOpenHoldings = false;
-				resultPrefixFrom852 = "";
-				resultStr = "";
+				init852Vars();
 				
 				String comment = "";
 				String subz = MarcUtils.getSubfieldData(df, 'z');
@@ -105,53 +110,105 @@ public class MhldUtils
 			} // end 852 field
 			
 			else if (df.getTag().equals("866"))
-			{
-				char ind2 = df.getIndicator2();
-				if (ind2 == '0' && df852hasEqualsSubfield)
-				{
-					// we skip this 866 ... but we may need to write error message
-					if (!haveIgnored866for852)
-						haveIgnored866for852 = true;
-					else if (!wroteMult866errMsg)
-					{
-						logger.error("Record " + id + " has multiple 866 with ind2=0 and 852 sub=");
-						wroteMult866errMsg = true;
-					}
-					continue;
-				}
-				else
-				{
-					// if we have a previous 866, then output the resultStr from that one
-					if (have866for852 && resultStr.length() > 0)
-						result.add(resultStr);
-					
-					// set up result string for this one
-					String suba = MarcUtils.getSubfieldData(df, 'a');
-					if (suba == null)
-						suba = "";
-					if (suba.endsWith("-"))
-						haveOpenHoldings = true;
-					resultStr = resultPrefixFrom852 + SEP + suba;
-					
-					if (!have866for852)
-						have866for852 = true;
-					
-//					result.add(resultStr);
-				}
-
-				justGot852 = false;
-
-			} // end 866 field
+				process866(df);
+			else if (df.getTag().equals("867"))
+				process867(df);
 
 			
 		} // end looping through fields
 
+// FIXME:  need test for outputing final 852		
 		if (justGot852)
-			result.add(resultPrefixFrom852 + SEP);
+			result.add(resultPrefixFrom852 + SEP + SEP);
 		else if (resultStr.length() > 0)
 			result.add(resultStr);
-		
+	
 		return result;
+	}
+	
+	
+	void init852Vars()
+	{
+		justGot852 = false;
+		df852hasEqualsSubfield = false;
+		haveIgnored866for852 = false;
+		wroteMult866errMsg = false;
+		have866for852 = false;
+		haveOpenHoldings = false;
+		resultPrefixFrom852 = "";
+		resultStr = "";
+	}
+	
+	private void process866(DataField df866)
+	{
+		// if we have a previous 86x, then output the resultStr from that one
+		if (resultStr.length() > 0 && (have866for852 || have867for852))
+			result.add(resultStr);
+		resultStr = "";
+		
+		char ind2 = df866.getIndicator2();
+		if (ind2 == '0' && df852hasEqualsSubfield)
+		{
+			// we skip this 866 ... but we may need to write error message
+			if (!haveIgnored866for852)
+				haveIgnored866for852 = true;
+			else if (!wroteMult866errMsg)
+			{
+				logger.error("Record " + id + " has multiple 866 with ind2=0 and an 852 sub=");
+				wroteMult866errMsg = true;
+			}
+			return;
+		}
+		else
+		{
+			// set up result string for this one
+			String suba = MarcUtils.getSubfieldData(df866, 'a');
+			if (suba == null)
+				suba = "";
+			if (suba.endsWith("-"))
+				haveOpenHoldings = true;
+			resultStr = resultPrefixFrom852 + SEP + SEP + suba;
+			
+			if (!have866for852)
+				have866for852 = true;
+		}
+
+		justGot852 = false;	
+	}
+	
+	private void process867(DataField df867)
+	{
+		// if we have a previous 86x, then output the resultStr from that one
+		if (resultStr.length() > 0 && (have866for852 || have867for852))
+			result.add(resultStr);
+		resultStr = "";
+
+		char ind2 = df867.getIndicator2();
+		if (ind2 == '0' && df852hasEqualsSubfield)
+		{
+			// we skip this 867 ... but we may need to write error message
+			if (!haveIgnored867for852)
+				haveIgnored867for852 = true;
+			else if (!wroteMult867errMsg)
+			{
+				logger.error("Record " + id + " has multiple 867 with ind2=0 and an 852 sub=");
+				wroteMult867errMsg = true;
+			}
+			return;
+		}
+		else
+		{
+			// set up result string for this one
+			String suba = MarcUtils.getSubfieldData(df867, 'a');
+			if (suba == null)
+				suba = "";
+			resultStr = resultPrefixFrom852 + "Supplement" + SEP + SEP + suba;
+
+			if (!have867for852)
+				have867for852 = true;
+		}
+
+		justGot852 = false;	
 	}
 	
 	/**

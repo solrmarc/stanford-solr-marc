@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+  <record>
+    <leader>00195cy  a22000853  4500</leader>
+    <controlfield tag="001">akeep868ind0</controlfield>
+    <controlfield tag="008">110113                eng 110113        </controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">GREEN</subfield>
+      <subfield code="c">CURRENTPER</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">keep 868</subfield>
+    </datafield>
+    <datafield tag="866" ind1=" " ind2="0">
+      <subfield code="8">1</subfield>
+      <subfield code="a">v.194(2006)-</subfield>
+    </datafield>
+    <datafield tag="868" ind1=" " ind2="0">
+      <subfield code="8">1</subfield>
+      <subfield code="a">keep me (868)</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>00221cy  a22001093  4500</leader>
+    <controlfield tag="001">amultKeep868ind0</controlfield>
+    <controlfield tag="008">040607                eng 110627        </controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">MUSIC</subfield>
+      <subfield code="c">MUS-NOCIRC</subfield>
+      <subfield code="t">3</subfield>
+    </datafield>
+    <datafield tag="866" ind1="3" ind2="1">
+      <subfield code="8">0</subfield>
+      <subfield code="a">v.188(1999)</subfield>
+    </datafield>
+    <datafield tag="868" ind1=" " ind2="0">
+      <subfield code="8">5</subfield>
+      <subfield code="a">keep me 1 (868)</subfield>
+    </datafield>
+    <datafield tag="868" ind1=" " ind2="0">
+      <subfield code="8">6</subfield>
+      <subfield code="a">keep me 2 (868)</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>00195cy  a22000853  4500</leader>
+    <controlfield tag="001">askip868ind0</controlfield>
+    <controlfield tag="008">110113                eng 110113        </controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">GREEN</subfield>
+      <subfield code="c">CURRENTPER</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">skip 868</subfield>
+      <subfield code="=">666</subfield>
+    </datafield>
+    <datafield tag="866" ind1=" " ind2="0">
+      <subfield code="8">1</subfield>
+      <subfield code="a">v.194(2006)-</subfield>
+    </datafield>
+    <datafield tag="868" ind1=" " ind2="0">
+      <subfield code="8">1</subfield>
+      <subfield code="a">skip me (868)</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>00221cy  a22001093  4500</leader>
+    <controlfield tag="001">amultSkip868ind0</controlfield>
+    <controlfield tag="008">040607                eng 110627        </controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">MUSIC</subfield>
+      <subfield code="c">MUS-NOCIRC</subfield>
+      <subfield code="t">3</subfield>
+      <subfield code="=">666</subfield>
+    </datafield>
+    <datafield tag="866" ind1="3" ind2="1">
+      <subfield code="8">0</subfield>
+      <subfield code="a">v.188(1999)</subfield>
+    </datafield>
+    <datafield tag="868" ind1=" " ind2="0">
+      <subfield code="8">5</subfield>
+      <subfield code="a">skip me 1 (868)</subfield>
+    </datafield>
+    <datafield tag="868" ind1=" " ind2="0">
+      <subfield code="8">6</subfield>
+      <subfield code="a">skip me 2 (868)</subfield>
+    </datafield>
+  </record>
+  
+</collection>
