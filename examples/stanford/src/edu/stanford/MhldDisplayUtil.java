@@ -7,7 +7,7 @@ import org.marc4j.marc.*;
 import org.solrmarc.tools.MarcUtils;
 
 /**
- * Utility methods for item information Stanford SolrMarc
+ * Use this class to get mhld_display field values
  *  
  * @author Naomi Dushay
  */
@@ -20,21 +20,33 @@ public class MhldDisplayUtil
     
     private Record record = null;
     private String id = null;
+    
+    /** true when the previous field read was an 852 */
     private boolean justGot852 = false;
+    /** if an 852 has subfield '=', then 86x fields with ind2=0 are ignored */
     private boolean df852hasEqualsSubfield = false;
+    /** the part of a result string derived from the 852 */
     private String resultPrefixFrom852 = "";
 
     private boolean haveOpenHoldings = false;
     private boolean have866for852 = false;
-    private boolean haveIgnored866for852 = false;  // used for reporting errors
+    /** used for error detection */
+    private boolean haveIgnored866for852 = false; 
+    /** used for error reporting */
     private boolean wroteMult866errMsg = false;
 
+    /** helps track when to capture a result string */
     private boolean have867for852 = false;
-    private boolean haveIgnored867for852 = false;  // used for reporting errors
+    /** used for error detection */
+    private boolean haveIgnored867for852 = false; 
+    /** used for error reporting */
     private boolean wroteMult867errMsg = false;
 
+    /** helps track when to capture a result string */
     private boolean have868for852 = false;
-    private boolean haveIgnored868for852 = false;  // used for reporting errors
+    /** used for error detection */
+    private boolean haveIgnored868for852 = false;
+    /** used for error reporting */
     private boolean wroteMult868errMsg = false;
 
 	
@@ -44,7 +56,7 @@ public class MhldDisplayUtil
 	Set<String> result = new LinkedHashSet<String>();
 
 	/**
-	 * Default Constructor: private, so it can't be instantiated by other objects
+	 * @param id - used for easier error reporting
 	 */	
 	public MhldDisplayUtil(Record record, String id)
 	{ 
@@ -54,8 +66,9 @@ public class MhldDisplayUtil
 
 	
 	/**
-	 * given a marc Record object containing (sets of) mhld fields, return a set of mhld_display values
-	 * @return set of fields from mhlds:
+	 * return the set of mhld_display values based on mhld fields 
+	 *   (852, 853, 863, 866, 867, 868 ...)
+	 * @return Set of strings in format:
 	 *   library + SEP + 
 	 *   location + SEP + 
 	 *   comment + SEP + 
@@ -72,48 +85,7 @@ public class MhldDisplayUtil
 		for (DataField df : allDataFieldsList)
 		{
 			if (df.getTag().equals("852"))
-			{
-				// if there were no intervening fields between the previous 852
-				//   and this one, then output the previous 852 information
-				if (justGot852)
-					result.add(resultPrefixFrom852 + SEP);
-				else if (resultStr.length() > 0)
-					result.add(resultStr);
-				
-				init852Vars();
-				
-				String comment = "";
-				String sub3 = MarcUtils.getSubfieldData(df, '3');
-				if (sub3 != null && sub3.length() > 0)
-					comment = sub3;
-				String subz = MarcUtils.getSubfieldData(df, 'z');
-				if (subz != null)
-				{
-					// skip mhld if 852z has "All holdings transferred"
-					if (subz.toLowerCase().contains("all holdings transferred"))
-						continue;
-					else
-					{
-						if (comment.length() > 0)
-							comment = comment + " " + subz;
-						else
-							comment = subz;
-					}
-				}
-
-				String libraryCode = MarcUtils.getSubfieldData(df, 'b');
-				String locationCode = MarcUtils.getSubfieldData(df, 'c');
-				
-				resultPrefixFrom852 = libraryCode + SEP + locationCode + SEP + comment + SEP;				
-				
-				String subEquals = MarcUtils.getSubfieldData(df, '=');
-				if (subEquals != null && subEquals.length() > 0)
-					df852hasEqualsSubfield = true;
-
-				justGot852 = true;
-
-			} // end 852 field
-			
+				process852(df);
 			else if (df.getTag().equals("866"))
 				process86x(df, "866");
 			else if (df.getTag().equals("867"))
@@ -132,8 +104,55 @@ public class MhldDisplayUtil
 		return result;
 	}
 	
+	/**
+	 * given an 852 field, process it, changing class variables as appropriate
+	 */
+	private void process852(DataField df852)
+	{
+		// if there were no intervening fields between the previous 852
+		//   and this one, then output the previous 852 information
+		if (justGot852)
+			result.add(resultPrefixFrom852 + SEP);
+		else if (resultStr.length() > 0)
+			result.add(resultStr);
+		
+		resetVarsForNew852();
+		
+		String comment = "";
+		String sub3 = MarcUtils.getSubfieldData(df852, '3');
+		if (sub3 != null && sub3.length() > 0)
+			comment = sub3;
+		String subz = MarcUtils.getSubfieldData(df852, 'z');
+		if (subz != null)
+		{
+			// skip mhld if 852z has "All holdings transferred"
+			if (subz.toLowerCase().contains("all holdings transferred"))
+				return;
+			else
+			{
+				if (comment.length() > 0)
+					comment = comment + " " + subz;
+				else
+					comment = subz;
+			}
+		}
+
+		String libraryCode = MarcUtils.getSubfieldData(df852, 'b');
+		String locationCode = MarcUtils.getSubfieldData(df852, 'c');
+		
+		resultPrefixFrom852 = libraryCode + SEP + locationCode + SEP + comment + SEP;				
+		
+		String subEquals = MarcUtils.getSubfieldData(df852, '=');
+		if (subEquals != null && subEquals.length() > 0)
+			df852hasEqualsSubfield = true;
+
+		justGot852 = true;
+	}
 	
-	void init852Vars()
+	/**
+	 * reset class variables due to a new 852 field 
+	 */
+	private void resetVarsForNew852()
 	{
 		justGot852 = false;
 		df852hasEqualsSubfield = false;
@@ -144,8 +163,12 @@ public class MhldDisplayUtil
 		resultPrefixFrom852 = "";
 		resultStr = "";
 	}
-	
-	
+		
+	/**
+	 * given an 86x field, process it, changing class variables as appropriate
+	 * @param df86x - the DataField
+	 * @param tag - a string for the tag;  either  866, 867 or 868
+	 */
 	private void process86x(DataField df86x, String tag)
 	{
 		// if we have a previous 86x, then keep the resultStr from the previous 86x
