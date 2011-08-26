@@ -1,6 +1,10 @@
 package edu.stanford;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.junit.Before;
@@ -19,6 +23,22 @@ public class MhldMappingTests extends AbstractStanfordTest
 	}	
 
     /**
+     * ensure all (non-skipped) 852s are output
+     */
+@Test
+    public final void test852output() 
+    {
+    	String testDataFile = testFilePath + "mhldDisplay852only.mrc";
+    	solrFldMapTest.assertSolrFldHasNumValues(testDataFile, "358041", fldName, 5);
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, "GREEN -|- CURRENTPER -|- COUNTRY LIFE INTERNATIONAL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|-  -|- ");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, "SAL3 -|- STACKS -|-  -|-  -|-  -|- ");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, "SAL -|- STACKS -|-  -|-  -|-  -|- ");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, "GREEN -|- CURRENTPER -|- Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|-  -|- ");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, "GREEN -|- CURRENTPER -|- COUNTRY LIFE TRAVEL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|-  -|- ");
+    }
+    
+
+    /**
      * per spec in email by Naomi Dushay on July 12, 2011, an MHLD is skipped
      *  if 852 sub z  says "All holdings transfered" 
      */
@@ -26,14 +46,45 @@ public class MhldMappingTests extends AbstractStanfordTest
     public final void testSkippedMhlds() 
     {
 		String testDataFile = testFilePath + "mhldDisplay852only.mrc";
-    	solrFldMapTest.assertSolrFldHasNumValues(testDataFile, "362573", fldName, 3);
-    	solrFldMapTest.assertSolrFldValue(testDataFile, "362573", fldName, "GREEN -|- MEDIA-MTXT -|- CDs and DVDs -|-  -|- ");
-    	solrFldMapTest.assertSolrFldValue(testDataFile, "362573", fldName, "SAL3 -|- STACKS -|-  -|-  -|- ");
-    	solrFldMapTest.assertSolrFldValue(testDataFile, "362573", fldName, "GREEN -|- CURRENTPER -|- Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in STACKS -|-  -|-  -|- ");
-
 		solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "3974376", fldName, "GREEN -|- STACKS -|-  -|-  -|- ");
 		solrFldMapTest.assertSolrFldHasNumValues(testDataFile, "3974376", fldName, 0);
 		solrFldMapTest.assertNoSolrFld(testDataFile, "3974376", fldName);
+    }
+
+
+    /**
+     * ensure output with and without 86x have same number of separators
+     */
+@Test
+    public final void testNumberOfSeparators() 
+    {
+    	String testDataFile = testFilePath + "mhldDisplay852only.mrc";
+    	// 852 alone without comment
+    	String expectedResult = "SAL3 -|- STACKS -|-  -|-  -|-  -|- ";
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, expectedResult);
+    	assertNumSeparators(expectedResult, 5);
+    	
+    	// 852 alone with comment
+    	expectedResult = "GREEN -|- CURRENTPER -|- Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|-  -|- ";
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, expectedResult);
+    	assertNumSeparators(expectedResult, 5);
+    	
+    	// 852 w 866
+		testDataFile = testFilePath + "mhldDisplay868.mrc";
+		expectedResult = "GREEN -|- CURRENTPER -|- keep 868 -|-  -|-  -|- v.194(2006)-";
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "keep868ind0", fldName, expectedResult);
+    	assertNumSeparators(expectedResult, 5);
+
+    	// 852 w 868
+    	expectedResult = "GREEN -|- CURRENTPER -|- keep 868 -|- Index -|-  -|- keep me (868)";
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "keep868ind0", fldName, expectedResult);
+    	assertNumSeparators(expectedResult, 5);
+    	
+    	// 852 w 867
+		testDataFile = testFilePath + "mhldDisplay867.mrc";
+		expectedResult = "GREEN -|- CURRENTPER -|- keep 867 -|- Supplement -|-  -|- keep me (867)";
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "keep867ind0", fldName, expectedResult);
+    	assertNumSeparators(expectedResult, 5);
     }
 
 
@@ -163,10 +214,22 @@ public class MhldMappingTests extends AbstractStanfordTest
 		{
 			createIxInitVars("mhldDisplay86x.mrc");
 			assertDocHasFieldValue("358725", fldName, "[18-38, 1922-42]; 39, 1943-");
-			
 		}
-		catch (Exception e) {}
-		
+		catch (Exception e) {}		
 	}
 
+
+	
+    private void assertNumSeparators(String string, int expNum) 
+    {
+       Pattern p = Pattern.compile(" -\\|- ");
+       Matcher m = p.matcher(string); // get a matcher object
+       int count = 0;
+       while(m.find()) {
+           count++;
+       }
+       assertEquals("Got wrong number of separators for mhld_display field: ",  expNum, count);
+    }
+
+	
 }
