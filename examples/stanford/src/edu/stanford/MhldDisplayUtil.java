@@ -86,6 +86,8 @@ public class MhldDisplayUtil
 		{
 			if (df.getTag().equals("852"))
 				process852(df);
+			
+			// 86x fields for "Library Has"
 			else if (df.getTag().equals("866"))
 				process86x(df, "866");
 			else if (df.getTag().equals("867"))
@@ -95,7 +97,6 @@ public class MhldDisplayUtil
 			
 		} // end looping through fields
 
-// FIXME:  need test for outputting final 852		
 		if (justGot852)
 			result.add(resultPrefixFrom852 + SEP + SEP);
 		else if (resultStr.length() > 0)
@@ -106,13 +107,15 @@ public class MhldDisplayUtil
 	
 	/**
 	 * given an 852 field, process it, changing class variables as appropriate
+	 *  if the 852 is not skipped, sets resultPrefixFrom852, a portion of a 
+	 *  result string.
 	 */
 	private void process852(DataField df852)
 	{
 		// if there were no intervening fields between the previous 852
 		//   and this one, then output the previous 852 information
 		if (justGot852)
-			result.add(resultPrefixFrom852 + SEP);
+			result.add(resultPrefixFrom852 + SEP + SEP);
 		else if (resultStr.length() > 0)
 			result.add(resultStr);
 		
@@ -123,7 +126,7 @@ public class MhldDisplayUtil
 		if (sub3 != null && sub3.length() > 0)
 			comment = sub3;
 		String subz = MarcUtils.getSubfieldData(df852, 'z');
-		if (subz != null)
+		if (subz != null && subz.length() > 0)
 		{
 			// skip mhld if 852z has "All holdings transferred"
 			if (subz.toLowerCase().contains("all holdings transferred"))
@@ -149,8 +152,9 @@ public class MhldDisplayUtil
 		justGot852 = true;
 	}
 	
+	
 	/**
-	 * reset class variables due to a new 852 field 
+	 * reset class variables for a new 852 field 
 	 */
 	private void resetVarsForNew852()
 	{
@@ -164,8 +168,9 @@ public class MhldDisplayUtil
 		resultStr = "";
 	}
 		
+	
 	/**
-	 * given an 86x field, process it, changing class variables as appropriate
+	 * given an 86x field, process it, assigning class variables as appropriate
 	 * @param df86x - the DataField
 	 * @param tag - a string for the tag;  either  866, 867 or 868
 	 */
@@ -242,21 +247,6 @@ public class MhldDisplayUtil
 		justGot852 = false;	
 	}
 
-	
-	/**
-	 * 
-	 * @param df852 - an 852 field from 
-	 * @return
-	 */
-	static boolean skip852(DataField df852)
-	{
-		// skip mhld if 852z has "All holdings transferred"
-		String subz = MarcUtils.getSubfieldData(df852, 'z');
-		if (subz != null && subz.toLowerCase().contains("all holdings transferred"))
-			return true;
-		else
-			return false;
-	}
 	
 	
 /*	

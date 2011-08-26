@@ -18,19 +18,19 @@ public class MhldUtilsUnitTests
 	/*
 	 * unit test for org.solrmarc.tools.MarcUtils.combineRecords(record, record, fieldspec)
 	 */
-@Test
-	public void testSkip852()
-	{
-		DataField df = new DataFieldImpl("852", ' ', ' ');
-		Subfield subz = new SubfieldImpl('z', "All holdings transferred");
-		df.addSubfield(subz);
-		assertTrue("Expected skip852 to return true", MhldDisplayUtil.skip852(df));
-		
-		df = new DataFieldImpl("852", ' ', ' ');
-		subz = new SubfieldImpl('z', "random comment");
-		df.addSubfield(subz);
-		assertTrue("Expected skip852 to return false", !MhldDisplayUtil.skip852(df));
-	}
+//@Test
+//	public void testSkip852()
+//	{
+//		DataField df = new DataFieldImpl("852", ' ', ' ');
+//		Subfield subz = new SubfieldImpl('z', "All holdings transferred");
+//		df.addSubfield(subz);
+//		assertTrue("Expected skip852 to return true", MhldDisplayUtil.skip852(df));
+//		
+//		df = new DataFieldImpl("852", ' ', ' ');
+//		subz = new SubfieldImpl('z', "random comment");
+//		df.addSubfield(subz);
+//		assertTrue("Expected skip852 to return false", !MhldDisplayUtil.skip852(df));
+//	}
 
     /*
      * unit test for org.solrmarc.tools.MarcUtils.combineRecords(record, record, fieldspec)
