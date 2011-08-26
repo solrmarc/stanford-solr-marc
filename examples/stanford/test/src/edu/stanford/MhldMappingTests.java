@@ -23,7 +23,7 @@ public class MhldMappingTests extends AbstractStanfordTest
 	}	
 
     /**
-     * ensure all (non-skipped) 852s are output
+     * ensure all (non-skipped) 852s are output correctly
      */
 @Test
     public final void test852output() 
@@ -89,6 +89,20 @@ public class MhldMappingTests extends AbstractStanfordTest
 
 
     /**
+     * ensure all (non-skipped) 866s are output correctly
+     */
+@Test
+    public final void test866output() 
+    {
+    	String testDataFile = testFilePath + "mhldDisplay86x.mrc";
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, "GREEN -|- CURRENTPER -|- COUNTRY LIFE INTERNATIONAL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|-  -|- 2009-");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, "SAL3 -|- STACKS -|-  -|-  -|-  -|- v.151(1972)-v.152(1972)");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, "SAL -|- STACKS -|-  -|-  -|-  -|- 1953; v.143(1968)-v.144(1968),v.153(1973)-v.154(1973),v.164(1978),v.166(1979),v.175(1984),v.178(1985),v.182(1988)-v.183(1989),v.194(2000)-");
+    	// 2nd indicator "0" and no 852 sub =
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "358725", fldName, "GREEN -|- CURRENTPER -|- Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in STACKS -|-  -|-  -|- [18-38, 1922-42]; 39, 1943-");
+    }
+    
+    /**
      * per spec in email by Naomi Dushay on July 12, 2011, an MHLD summary holdings section
      *  is skipped if 866 has ind2 of 0 and 852 has a sub = 
      */
@@ -106,9 +120,22 @@ public class MhldMappingTests extends AbstractStanfordTest
     	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "362573", fldName, valueStart + "V. 417 NO. 21A (JUN 2011)");
     	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "362573", fldName, valueStart + "V. 417 NO. 22A (JUN 2011)");
     	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "362573", fldName, valueStart + "V. 417 NO. 23A (JUN 2011)"); 	
-		
-		// 2nd indicator "0" and no 852 sub =
-    	solrFldMapTest.assertSolrFldValue(testDataFile, "358725", fldName, valueStart + "[18-38, 1922-42]; 39, 1943-");
+    }
+    
+    /**
+     * ensure all (non-skipped) 867s are output correctly
+     */
+@Test
+    public final void test867output() 
+    {
+    	String testDataFile = testFilePath + "mhldDisplay867.mrc";
+    	
+    	// keep if 2nd indicator "0" and no 852 sub =
+    	String valueStart = "GREEN -|- CURRENTPER -|- keep 867 -|- Supplement -|-  -|- keep me (867)";
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "keep867ind0", fldName, valueStart);
+    	valueStart = "GREEN -|- STACKS -|- Supplement -|- Supplement -|-  -|- ";
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "multKeep867ind0", fldName, valueStart + "keep me 1 (867)");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "multKeep867ind0", fldName, valueStart + "keep me 2 (867)");
     }
     
     /**
@@ -125,13 +152,26 @@ public class MhldMappingTests extends AbstractStanfordTest
     	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "skip867ind0", fldName, valueStart + "skip me (867)");
     	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "multSkip867ind0", fldName, valueStart + "skip me 1 (867)");
     	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "multSkip867ind0", fldName, valueStart + "skip me 2 (867)");
-    	
+    }
+    
+    /**
+     * ensure all (non-skipped) 867s are output correctly
+     */
+@Test
+    public final void test868output() 
+    {
+		String testDataFile = testFilePath + "mhldDisplay868.mrc";
+	
     	// keep if 2nd indicator "0" and no 852 sub =
-    	valueStart = "GREEN -|- CURRENTPER -|- keep 867 -|- Supplement -|-  -|- keep me (867)";
-    	solrFldMapTest.assertSolrFldValue(testDataFile, "keep867ind0", fldName, valueStart);
-    	valueStart = "GREEN -|- STACKS -|- Supplement -|- Supplement -|-  -|- ";
-    	solrFldMapTest.assertSolrFldValue(testDataFile, "multKeep867ind0", fldName, valueStart + "keep me 1 (867)");
-    	solrFldMapTest.assertSolrFldValue(testDataFile, "multKeep867ind0", fldName, valueStart + "keep me 2 (867)");
+    	String valueStart = "GREEN -|- CURRENTPER -|- keep 868 -|- Index -|-  -|- keep me (868)";
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "keep868ind0", fldName, valueStart);
+    	valueStart = "MUSIC -|- MUS-NOCIRC -|-  -|- Index -|-  -|- ";
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "multKeep868ind0", fldName, valueStart + "keep me 1 (868)");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "multKeep868ind0", fldName, valueStart + "keep me 2 (868)");
+    	
+    	testDataFile = testFilePath + "mhldDisplay86x.mrc";
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "484112", fldName, "MUSIC -|- MUS-NOCIRC -|-  -|- Index -|-  -|- annee.188(1999)");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "484112", fldName, "MUSIC -|- MUS-NOCIRC -|-  -|- Index -|-  -|- MICROFICHE (MAY/DEC 2000)");
     }
     
     /**
@@ -149,13 +189,6 @@ public class MhldMappingTests extends AbstractStanfordTest
     	valueStart = "MUSIC -|- MUS-NOCIRC -|- -|- Index -|-  -|- ";
     	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "multSkip868ind0", fldName, valueStart + "skip me 1 (868)");
     	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "multSkip868ind0", fldName, valueStart + "skip me 2 (868)");
-    	
-    	// keep if 2nd indicator "0" and no 852 sub =
-    	valueStart = "GREEN -|- CURRENTPER -|- keep 868 -|- Index -|-  -|- keep me (868)";
-    	solrFldMapTest.assertSolrFldValue(testDataFile, "keep868ind0", fldName, valueStart);
-    	valueStart = "MUSIC -|- MUS-NOCIRC -|-  -|- Index -|-  -|- ";
-    	solrFldMapTest.assertSolrFldValue(testDataFile, "multKeep868ind0", fldName, valueStart + "keep me 1 (868)");
-    	solrFldMapTest.assertSolrFldValue(testDataFile, "multKeep868ind0", fldName, valueStart + "keep me 2 (868)");
     }
 
 
