@@ -72,7 +72,6 @@ public class MhldDisplayUtil
 	 *   library + SEP + 
 	 *   location + SEP + 
 	 *   comment + SEP + 
-	 *   ""|Index|Supplement + SEP + 
 	 *   latest received + SEP + 
 	 *   library has 
 	 */
@@ -98,7 +97,7 @@ public class MhldDisplayUtil
 		} // end looping through fields
 
 		if (justGot852)
-			result.add(resultPrefixFrom852 + SEP + SEP);
+			result.add(resultPrefixFrom852 + SEP);
 		else if (resultStr.length() > 0)
 			result.add(resultStr);
 	
@@ -115,7 +114,7 @@ public class MhldDisplayUtil
 		// if there were no intervening fields between the previous 852
 		//   and this one, then output the previous 852 information
 		if (justGot852)
-			result.add(resultPrefixFrom852 + SEP + SEP);
+			result.add(resultPrefixFrom852 + SEP);
 		else if (resultStr.length() > 0)
 			result.add(resultStr);
 		
@@ -226,23 +225,23 @@ public class MhldDisplayUtil
 			if (suba == null)
 				suba = "";
 			
-			String type = "";
+			String prefix = "";
 			if (tag.equals("866") && !have866for852)
 				have866for852 = true;
 			else if (tag.equals("867"))
 			{
-				type = "Supplement";
+				prefix = "Supplement: ";
 				if (!have867for852)
 					have867for852 = true;
 			}
 			else if (tag.equals("868"))
 			{
-				type = "Index";
+				prefix = "Index: ";
 				if (!have868for852)
 					have868for852 = true;
 			}
 			
-			resultStr = resultPrefixFrom852 + type + SEP + SEP + suba;
+			resultStr = resultPrefixFrom852 + SEP + prefix + suba;
 		}
 		justGot852 = false;	
 	}
