@@ -49,7 +49,14 @@ public class MhldDisplayUtil
     /** used for error reporting */
     private boolean wroteMult868errMsg = false;
 
-	
+	/**
+	 * for each 852, we need to have all the patterns in the 853 fields
+	 *  available so we can turn the correct 863 field into a sensible "Latest Received" string.
+	 *   key:  linkage number from 853 sub 8 
+	 *   value:  853 DataField object
+	 */
+	private Map<String, DataField> patternFieldMap = new HashMap<String, DataField>();
+    
 	String resultStr = "";
 
 	/** (ordered) set of mhld_display field values to be returned by getMhldDislayValues() */
@@ -86,6 +93,10 @@ public class MhldDisplayUtil
 			if (df.getTag().equals("852"))
 				process852(df);
 			
+			// 853 gives pattern for 863
+			else if (df.getTag().equals("853"))
+				addFieldToPatternFieldsMap(df);
+				
 			// 86x fields for "Library Has"
 			else if (df.getTag().equals("866"))
 				process86x(df, "866");
@@ -164,9 +175,21 @@ public class MhldDisplayUtil
 		have866for852 = false;
 		haveOpenHoldings = false;
 		resultPrefixFrom852 = "";
+		patternFieldMap.clear();
 		resultStr = "";
 	}
 		
+	/**
+	 * for each 852, we need to have all the patterns in the 853 fields
+	 *  available so we can turn the 863 field into a sensible "Latest Received" string.
+	 * @param df853 - an 853 field as a DataField object
+	 */
+	private void addFieldToPatternFieldsMap(DataField df853)
+	{
+		String linkSeqNum = MarcUtils.getSubfieldTrimmed(df853, '8');
+		patternFieldMap.put(linkSeqNum, df853);
+	}
+	
 	
 	/**
 	 * given an 86x field, process it, assigning class variables as appropriate
@@ -246,6 +269,16 @@ public class MhldDisplayUtil
 		justGot852 = false;	
 	}
 
+	private String getLatestReceived()
+	{
+		String result = "";
+		if (haveOpenHoldings)
+		{
+			result = "found open holdings";
+		}
+		
+		return result;
+	}
 	
 	
 /*	

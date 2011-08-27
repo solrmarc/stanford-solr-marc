@@ -17,7 +17,7 @@ public class MhldMappingTests extends AbstractStanfordTest
 	private String testFilePath = testDataParentPath + File.separator;
 
 @Before
-	public final void setup() 
+	public void setup() 
 	{
 		mappingTestInit();
 	}	
@@ -26,7 +26,7 @@ public class MhldMappingTests extends AbstractStanfordTest
      * ensure all (non-skipped) 852s are output correctly
      */
 @Test
-    public final void test852output() 
+    public void test852output() 
     {
     	String testDataFile = testFilePath + "mhldDisplay852only.mrc";
     	solrFldMapTest.assertSolrFldHasNumValues(testDataFile, "358041", fldName, 5);
@@ -43,7 +43,7 @@ public class MhldMappingTests extends AbstractStanfordTest
      *  if 852 sub z  says "All holdings transfered" 
      */
 @Test
-    public final void testSkippedMhlds() 
+    public void testSkippedMhlds() 
     {
 		String testDataFile = testFilePath + "mhldDisplay852only.mrc";
 		solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "3974376", fldName, "GREEN -|- STACKS -|-  -|-  -|- ");
@@ -56,7 +56,7 @@ public class MhldMappingTests extends AbstractStanfordTest
      * ensure output with and without 86x have same number of separators
      */
 @Test
-    public final void testNumberOfSeparators() 
+    public void testNumberOfSeparators() 
     {
     	String testDataFile = testFilePath + "mhldDisplay852only.mrc";
     	// 852 alone without comment
@@ -92,7 +92,7 @@ public class MhldMappingTests extends AbstractStanfordTest
      * ensure all (non-skipped) 866s are output correctly
      */
 @Test
-    public final void test866output() 
+    public void test866output() 
     {
     	String testDataFile = testFilePath + "mhldDisplay86x.mrc";
     	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, "GREEN -|- CURRENTPER -|- COUNTRY LIFE INTERNATIONAL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|- 2009-");
@@ -107,7 +107,7 @@ public class MhldMappingTests extends AbstractStanfordTest
      *  is skipped if 866 has ind2 of 0 and 852 has a sub = 
      */
 @Test
-    public final void testSkipped866() 
+    public void testSkipped866() 
     {
 		String testDataFile = testFilePath + "mhldDisplay86x.mrc";
 		
@@ -127,7 +127,7 @@ public class MhldMappingTests extends AbstractStanfordTest
      * ensure all (non-skipped) 867s are output correctly
      */
 @Test
-    public final void test867output() 
+    public void test867output() 
     {
     	String testDataFile = testFilePath + "mhldDisplay867.mrc";
     	
@@ -146,7 +146,7 @@ public class MhldMappingTests extends AbstractStanfordTest
      *  is skipped if 867 has ind2 of 0 and 852 has a sub = 
      */
 @Test
-    public final void testSkipped867() 
+    public void testSkipped867() 
     {
     	String testDataFile = testFilePath + "mhldDisplay867.mrc";
     	
@@ -162,7 +162,7 @@ public class MhldMappingTests extends AbstractStanfordTest
      * ensure all (non-skipped) 867s are output correctly
      */
 @Test
-    public final void test868output() 
+    public void test868output() 
     {
 		String testDataFile = testFilePath + "mhldDisplay868.mrc";
 	
@@ -185,7 +185,7 @@ public class MhldMappingTests extends AbstractStanfordTest
      *  is skipped if 868 has ind2 of 0 and 852 has a sub = 
      */
 @Test
-    public final void testSkipped868() 
+    public void testSkipped868() 
     {
     	String testDataFile = testFilePath + "mhldDisplay868.mrc";
     	
@@ -205,7 +205,7 @@ public class MhldMappingTests extends AbstractStanfordTest
      *  866 with ind2 '0' and 852 sub '=' exists, then there should be an indexing error message
      */
 @Test
-    public final void test86xErrorMessageConditions() 
+    public void test86xErrorMessageConditions() 
     {
     	String testDataFile = testFilePath + "mhldDisplay86x.mrc";
         LoggerAppender4Testing appender = new LoggerAppender4Testing();
@@ -235,7 +235,7 @@ public class MhldMappingTests extends AbstractStanfordTest
      * 852 subfield 3 should be included in the comment
      */
 @Test
-    public final void test852sub3() 
+    public void test852sub3() 
     {
     	String testDataFile = testFilePath + "mhldDisplay852sub3.mrc";
     	String valueStrB4 = "GREEN -|- STACKS -|- ";
@@ -247,12 +247,88 @@ public class MhldMappingTests extends AbstractStanfordTest
     	solrFldMapTest.assertSolrFldValue(testDataFile, "852zAnd3", fldName, valueStrB4 + "sub 3 sub z" + valueStrAfter);
     }
     
+//-------- Latest received tests ----------------
+
+    /**
+     * if the 866 field is open (ends with a hyphen), then use the most recent
+     *   863, formatted per matching 853
+     */
+//@Test
+    public void testLatestReceived()
+    {
+    	String testDataFile = testFilePath + "mhldDisplay.mrc";
+    	// 852 has sub =  and no 866
+    	String libLoc = "GREEN -|- CURRENTPER -|- ";
+    	String result = libLoc + "COUNTRY LIFE INTERNATIONAL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- 2011 22 -|- 2009- ";
+    	assertNumSeparators(result);
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, result);
+
+    	fail("Implement me");	
+    }
+    
+// FIXME:  need tests for different formats (ugh) -- do it with true unit tests (no xml records)
+    
+    
+    /**
+     * there should be no "Latest Received" portion when the 866 is closed
+     *   (doesn't end with a hyphen)
+     */
+@Test
+    public void testClosedHoldings() 
+    {
+    	String testDataFile = testFilePath + "mhldDisplay.mrc";
+    
+    	// 866 doesn't end with hyphen, and there are 863 - do not include 863 as Latest Received
+    	String libLoc = "MUSIC -|- MUS-NOCIRC -|-  -|- ";
+    	String libHas = " -|- v.188(1999)";
+    	String result = libLoc + "annee 188 no.14 Dec 17, 1999" + libHas;
+    	assertNumSeparators(result);
+    	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "484112", fldName, result);
+    	// it SHOULD have a value without the Latest Received portion
+    	result = libLoc + libHas;
+    	assertNumSeparators(result);
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "484112", fldName, result);
+    
+    	fail("add tests closed holdings occurring first, last, middle ...");
+    }
+
+	/**
+	 * if there is no 866, then 
+	 *  if the 852 has a sub = , then display the most recent 863
+	 */
+//@Test
+	public void testNo866()
+	{
+    	String testDataFile = testFilePath + "mhldDisplay.mrc";
+
+    	// 852 has sub =  and no 866:  use most recent 863
+    	String libLoc = "GREEN -|- CURRENTPER -|- ";
+    	String result = libLoc + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- v.205 no.55 Jan 6, 2011 -|- ";
+    	assertNumSeparators(result);
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, result);
+    	result = libLoc + "COUNTRY LIFE TRAVEL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- 2010/2011 24 -|- ";
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, result);
+
+    	
+    	// 852 has no sub =  and no 866:  do not use latest 863
+    	String libLocComment = libLoc + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL3 -|- ";
+    	result = libLocComment + "v.20 no.9 Mar 18, 2011 -|- ";
+    	assertNumSeparators(result);
+    	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "2416921", fldName, result);
+    	// it SHOULD have a result from the 852 (with no Latest Received or Library Has)
+    	result = libLocComment + " -|- ";
+    	assertNumSeparators(result);
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "2416921", fldName, result);
+
+    	fail("Implement me");
+	}
 
 
-
+	
 	public void testCreateIx()
 	{
-		try
+    	fail("Use this for indexing tests, not mapping tests ...");
+    	try
 		{
 			createIxInitVars("mhldDisplay86x.mrc");
 			assertDocHasFieldValue("358725", fldName, "[18-38, 1922-42]; 39, 1943-");
