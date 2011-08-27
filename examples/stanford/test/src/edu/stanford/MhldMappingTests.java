@@ -253,7 +253,7 @@ public class MhldMappingTests extends AbstractStanfordTest
      * if the 866 field is open (ends with a hyphen), then use the most recent
      *   863, formatted per matching 853
      */
-//@Test
+@Test
     public void testLatestReceived()
     {
     	String testDataFile = testFilePath + "mhldDisplay.mrc";
@@ -294,7 +294,7 @@ public class MhldMappingTests extends AbstractStanfordTest
 	 * if there is no 866, then 
 	 *  if the 852 has a sub = , then display the most recent 863
 	 */
-//@Test
+@Test
 	public void testNo866()
 	{
     	String testDataFile = testFilePath + "mhldDisplay.mrc";

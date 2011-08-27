@@ -121,12 +121,17 @@ public class MhldDisplayUtil
 			
 		} // end looping through fields
 
+		addValueToResult();
+	
+		return result;
+	}
+	
+	private void addValueToResult()
+	{
 		if (justGot852)
 			result.add(resultPrefixFrom852 + SEP);
 		else if (resultStr.length() > 0)
-			result.add(resultStr);
-	
-		return result;
+			result.add(resultStr + getLatestReceivedStr());
 	}
 	
 	/**
@@ -138,10 +143,7 @@ public class MhldDisplayUtil
 	{
 		// if there were no intervening fields between the previous 852
 		//   and this one, then output the previous 852 information
-		if (justGot852)
-			result.add(resultPrefixFrom852 + SEP);
-		else if (resultStr.length() > 0)
-			result.add(resultStr);
+		addValueToResult();
 		
 		resetVarsForNew852();
 		
@@ -226,6 +228,7 @@ public class MhldDisplayUtil
 			logger.error(id + " has mhld 853 with a non-integer value in sub 8: " + linkSeqNum);
 			return;
 		}
+		justGot852 = false;
 	}
 	
 	/**
@@ -247,7 +250,7 @@ public class MhldDisplayUtil
 			return;
 		}
 		String dfLinkNumStr = sub8.substring(0, periodPos);
-		String dfSeqNumStr = sub8.substring(periodPos);
+		String dfSeqNumStr = sub8.substring(periodPos + 1);
 		int dfLinkNum;
 		int dfSeqNum;
 		try
@@ -270,6 +273,7 @@ public class MhldDisplayUtil
 			mostRecent863seqNum = dfSeqNum;
 			mostRecent863 = df863;
 		}
+		justGot852 = false;
 	}
 
 	
@@ -332,7 +336,11 @@ public class MhldDisplayUtil
 			
 			String prefix = "";
 			if (tag.equals("866") && !have866for852)
+			{
 				have866for852 = true;
+				if (suba.endsWith("-"))
+					haveOpenHoldings = true;
+			}
 			else if (tag.equals("867"))
 			{
 				prefix = "Supplement: ";
@@ -393,7 +401,6 @@ System.out.println("DEBUG: " + id + " has latest received: " + result);
 
         if (pattern853df == null) 
         	return null;
-
 
         // get the enumeration information (with captions) from subfields a-f
         for (char code = 'a'; code <= 'f'; code++)
