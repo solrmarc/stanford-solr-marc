@@ -55,8 +55,20 @@ public class MhldDisplayUtil
 	 *   key:  linkage number from 853 sub 8 
 	 *   value:  853 DataField object
 	 */
-	private Map<String, DataField> patternFieldMap = new HashMap<String, DataField>();
+	private Map<Integer, DataField> patternFieldMap = new HashMap<Integer, DataField>();
     
+	/** if there is a "Latest Received" portion to the mhld_display value,
+	 * it comes from the most recent 863 for the mhld record.  */
+	private DataField mostRecent863 = null;
+	/** the link number from sub 8  of the most recent 863 
+	 *    (the most recent 863 will have the highest link number and 
+	 *    the highest seq number of any 863 for the given mhld) */
+	private int mostRecent863linkNum = 0;
+	/** the sequence number from sub 8  of the most recent 863 
+	 *    (the most recent 863 will have the highest link number and 
+	 *    the highest seq number of any 863 for the given mhld) */
+	private int mostRecent863seqNum = 0;
+	
 	String resultStr = "";
 
 	/** (ordered) set of mhld_display field values to be returned by getMhldDislayValues() */
@@ -79,8 +91,8 @@ public class MhldDisplayUtil
 	 *   library + SEP + 
 	 *   location + SEP + 
 	 *   comment + SEP + 
-	 *   latest received + SEP + 
-	 *   library has 
+	 *   library has + SEP +
+	 *   latest received  
 	 */
 	Set<String> getMhldDisplayValues() 
 	{
@@ -93,9 +105,11 @@ public class MhldDisplayUtil
 			if (df.getTag().equals("852"))
 				process852(df);
 			
-			// 853 gives pattern for 863
+			// 853 gives pattern for 863  for "Latest Received"
 			else if (df.getTag().equals("853"))
 				addFieldToPatternFieldsMap(df);
+			else if (df.getTag().equals("863"))
+				setMostRecent863(df);
 				
 			// 86x fields for "Library Has"
 			else if (df.getTag().equals("866"))
@@ -168,15 +182,31 @@ public class MhldDisplayUtil
 	 */
 	private void resetVarsForNew852()
 	{
+		resultStr = "";
+
+		// from 852
 		justGot852 = false;
 		df852hasEqualsSubfield = false;
-		haveIgnored866for852 = false;
-		wroteMult866errMsg = false;
+		resultPrefixFrom852 = "";
+
+		// from 853
+		patternFieldMap.clear();
+		// from 863
+		mostRecent863 = null;
+		mostRecent863linkNum = 0;
+		mostRecent863seqNum = 0;
+		
+		// from 866
 		have866for852 = false;
 		haveOpenHoldings = false;
-		resultPrefixFrom852 = "";
-		patternFieldMap.clear();
-		resultStr = "";
+
+		// for reporting 86x errors
+		haveIgnored866for852 = false;
+		haveIgnored867for852 = false;
+		haveIgnored868for852 = false;
+		wroteMult866errMsg = false;
+		wroteMult867errMsg = false;
+		wroteMult868errMsg = false;
 	}
 		
 	/**
@@ -187,9 +217,61 @@ public class MhldDisplayUtil
 	private void addFieldToPatternFieldsMap(DataField df853)
 	{
 		String linkSeqNum = MarcUtils.getSubfieldTrimmed(df853, '8');
-		patternFieldMap.put(linkSeqNum, df853);
+		try
+		{
+			patternFieldMap.put(Integer.valueOf(linkSeqNum), df853);
+		}
+		catch (NumberFormatException e)
+		{
+			logger.error(id + " has mhld 853 with a non-integer value in sub 8: " + linkSeqNum);
+			return;
+		}
 	}
 	
+	/**
+	 * we need mostRecent863 to be the 863 field with the highest link and
+	 *  sequence number.
+	 * this method can assign:
+	 *   mostRecent863linkNum
+	 *   mostRecent863seqNum
+	 *   mostRecent863
+	 * @param df863
+	 */
+	private void setMostRecent863(DataField df863)
+	{
+		String sub8 = MarcUtils.getSubfieldTrimmed(df863, '8');
+		int periodPos = sub8.indexOf('.');
+		if (periodPos == -1)
+		{
+			logger.error(id + " has mhld 863 without a period in sub 8: " + sub8);
+			return;
+		}
+		String dfLinkNumStr = sub8.substring(0, periodPos);
+		String dfSeqNumStr = sub8.substring(periodPos);
+		int dfLinkNum;
+		int dfSeqNum;
+		try
+		{
+			dfLinkNum = Integer.valueOf(dfLinkNumStr);
+			dfSeqNum = Integer.valueOf(dfSeqNumStr);
+		}
+		catch (NumberFormatException e)
+		{
+			logger.error(id + " has mhld 863 with a non-integer value for link or sequence number: " + sub8);
+			return;
+		}
+
+		// the df is more recent if the link number is greater, or if the link
+		//  number is the same and the sequence number is greater
+		if ((mostRecent863linkNum < dfLinkNum) ||
+		    (mostRecent863linkNum == dfLinkNum && mostRecent863seqNum < dfSeqNum))
+		{
+			mostRecent863linkNum = dfLinkNum;
+			mostRecent863seqNum = dfSeqNum;
+			mostRecent863 = df863;
+		}
+	}
+
 	
 	/**
 	 * given an 86x field, process it, assigning class variables as appropriate
@@ -264,391 +346,126 @@ public class MhldDisplayUtil
 					have868for852 = true;
 			}
 			
-			resultStr = resultPrefixFrom852 + SEP + prefix + suba;
+			resultStr = resultPrefixFrom852 + prefix + suba + SEP ;
 		}
 		justGot852 = false;	
 	}
 
-	private String getLatestReceived()
+	/**
+	 * @return a string for "Latest Received" based on mostRecent863 and the
+	 *   matching pattern field retrieved from the patternFieldMap
+	 */
+	private String getLatestReceivedStr()
 	{
 		String result = "";
 		if (haveOpenHoldings)
 		{
-			result = "found open holdings";
+			if (mostRecent863 != null && mostRecent863linkNum != 0)
+			{
+				DataField pattern853df = patternFieldMap.get(Integer.valueOf(mostRecent863linkNum));
+				result = expandWithCaptions(mostRecent863, pattern853df);
+			}
 		}
-		
+
+System.out.println("DEBUG: " + id + " has latest received: " + result);		
 		return result;
 	}
 	
 	
-/*	
-    public Set<String> getSummaryHoldingsInfo(Record record, String libraryMapName, String locationMapName)
+	/**
+	 * MHLD records put the pattern of the enumeration in an 853, and the values
+	 *  for each issue received into the 863.  To get a user friendly string,
+	 *  the captions from the 853 must be applied to the values in the 863.
+	 * NOTE:  the match between the 853 and 863 linkage numbers should be done
+	 *  before calling this method.
+	 *  
+	 *  @author Bob Haschart, with some revisions by Naomi Dushay
+	 *  
+	 * @param df863 - the 863 DataField object to be transformed
+	 * @param pattern853df - the 853 DataField containing the pattern for the
+	 *  863 field.
+	 * @return a user friendly string representation of the information in the 
+	 *   863 field.
+	 */
+    private String expandWithCaptions(DataField df863, DataField pattern853df)
     {
-        Set<String> result = new LinkedHashSet<String>();
-        Set<String> ivyresult = new LinkedHashSet<String>();
-        String fieldsToUseStr = "852|853|863|866|867";
-        String fieldsToUse[] = fieldsToUseStr.split("[|]");
-        String libMapName = loadTranslationMap(null, libraryMapName);
-        String locMapName = loadTranslationMap(null, locationMapName);
-        List<VariableField> fields = record.getVariableFields();
-        DataField libraryField = null;
-        for (int i = 0; i < fields.size(); i++)
-        {
-            String holdingsField;
-            VariableField vf = fields.get(i);
-            if (!(vf instanceof DataField))  continue;
-            DataField df = (DataField)vf;
-            if (df.getTag().equals("852"))  
-            {
-                libraryField = df;
-                if (getSubfieldVal(libraryField, 'z', null) != null)
-                {
-                    holdingsField = buildHoldingsField(libraryField, libMapName, locMapName, "", getSubfieldVal(libraryField, 'z', ""), "");
-                    addHoldingsField(result, ivyresult, holdingsField);
-                }
-            }
-            else if (df.getTag().equals("853"))  continue; // ignore 853's here.
-            else if (df.getTag().equals("866"))  
-            {
-                holdingsField = buildHoldingsField(libraryField, libMapName, locMapName, getSubfieldVal(df, 'a', ""), getSubfieldVal(df, 'z', ""), "Library has");
-                addHoldingsField(result, ivyresult, holdingsField);
-            }
-            else if (df.getTag().equals("867"))
-            {
-                holdingsField = buildHoldingsField(libraryField, libMapName, locMapName, getSubfieldVal(df, "z+a", ""), getSubfieldVal(df, "-z", ""), "Suppl text holdings");
-                addHoldingsField(result, ivyresult, holdingsField);
-            }
-            else if (df.getTag().equals("868"))
-            {
-                holdingsField = buildHoldingsField(libraryField, libMapName, locMapName, getSubfieldVal(df, 'a', ""), getSubfieldVal(df, 'z', ""), "Index text holdings");
-                addHoldingsField(result, ivyresult, holdingsField);
-            }
-            else if (df.getTag().equals("863"))
-            {
-                // look ahead for other 863's to combine                
-                String linktag = df.getSubfield('8') != null ? df.getSubfield('8').getData() : null;
-                int j = i+1;
-                for (; j < fields.size(); j++)
-                {
-                    VariableField nvf = fields.get(j);
-                    if (!(nvf instanceof DataField))  break;
-                    DataField ndf = (DataField)nvf;
-                    String nlinktag = ndf.getSubfield('8') != null ? ndf.getSubfield('8').getData() : null;
-                    if (linktag == null || nlinktag == null || !getLinkPrefix(linktag).equals(getLinkPrefix(nlinktag))) 
-                        break;                   
-                }
-                DataField labelField = null;
-                if (linktag != null) labelField = getLabelField(record, getLinkPrefix(linktag));
-                if (labelField != null && j == i + 1) 
-                {
-                    holdingsField = buildHoldingsField(libraryField, libMapName, locMapName, processEncodedField(df, labelField), getSubfieldVal(df, 'z', ""), "Library has");
-                    addHoldingsField(result, ivyresult, holdingsField);
-                }
-                else if (labelField != null && j > i + 1) 
-                {
-                    VariableField nvf = fields.get(j-1);
-                    DataField ndf = (DataField)nvf;
-                    holdingsField = buildHoldingsField(libraryField, libMapName, locMapName, processEncodedFieldRange(df, ndf, labelField), getSubfieldVal(df, 'z', ""), "Library has");
-                    addHoldingsField(result, ivyresult, holdingsField);
-                    i = j - 1;
-                }
-            }
-        }
-        if (ivyresult.size() != 0)
-        {
-            for (String ivy : ivyresult)
-            {
-                result.add(ivy);
-            }
-        }
-        return(result);
-    }
+        StringBuffer result = new StringBuffer();
 
-    private void addHoldingsField(Set<String> result, Set<String> ivyresult, String holdingsField)
-    {
-        if (holdingsField != null)
+        if (pattern853df == null) 
+        	return null;
+
+
+        // get the enumeration information (with captions) from subfields a-f
+        for (char code = 'a'; code <= 'f'; code++)
         {
-            if (holdingsField.startsWith("Ivy"))
-                ivyresult.add(holdingsField);
+        	String label = MarcUtils.getSubfieldData(pattern853df, code);
+            String data = MarcUtils.getSubfieldData(df863, code);
+            if (label == null || data == null) 
+            	break;
+            if (code != 'a')  
+            	result.append(", ");
+            // leave out any label with parens.
+            if (label.startsWith("(") && label.endsWith(")")) 
+            	label = "";
+            result.append(label + data);
+        }
+        
+        
+        // get alternate enumeration information (with captions) from subfields g and h
+        //   if it's not empty, append to the end within parens.
+        StringBuffer alt = new StringBuffer();
+        for (char code = 'g'; code <= 'h'; code++)
+        {
+            String label = MarcUtils.getSubfieldData(pattern853df, code);
+            String data = MarcUtils.getSubfieldData(df863, code);
+            if (label == null || data == null) 
+            	break;
+            if (code != 'g')  
+            	alt.append(", ");
+            alt.append(label + data);
+        }
+        if (alt.length() != 0)
+            result.append(" (" + alt + ")");
+
+        
+        // get the date (chronology information) from subfields i-m
+        StringBuffer dateStr = new StringBuffer();
+        boolean prependStr = false;
+        String strToPrepend = "";
+        for (char code = 'i'; code <= 'm'; code++)
+        {
+            String label = MarcUtils.getSubfieldData(pattern853df, code);
+            String data = MarcUtils.getSubfieldData(df863, code);
+            if (label == null || data == null) 
+            	break;
+            if (label.equalsIgnoreCase("(month)") || label.equalsIgnoreCase("(season)"))
+            {
+                data = expandMonthOrSeason(data);
+                strToPrepend = ":";
+            }
+            else if (label.equalsIgnoreCase("(day)"))
+            {
+                data = expandMonthOrSeason(data);
+                strToPrepend = " ";
+            }
+            if (prependStr)
+                dateStr.append(strToPrepend).append(data);
             else
-                result.add(holdingsField);
-        }
-    }
+                dateStr.append(data);
 
-    private String buildHoldingsField(DataField libraryField, String libMapName, String locMapName, String holdingsValue, String publicNote, String holdingsType)
-    {
-        if (libraryField == null || ((holdingsValue == null || holdingsValue.length() == 0) && (publicNote.length() == 0 ))) 
-        	return(null);
-        String libraryName = libraryField.getSubfield('b') != null ? Utils.remap(libraryField.getSubfield('b').getData(), findMap(libMapName), false) : null;
-        String locName = libraryField.getSubfield('c') != null ? Utils.remap(libraryField.getSubfield('c').getData(), findMap(locMapName), false) : null;
-        return(libraryName +"|"+ locName +"|"+ holdingsValue+"|"+publicNote+"|"+holdingsType);
-    }
-/*
-    private String getSubfieldVal(DataField df, String subfieldTags, String defValue)
-    {
-        List<Subfield> subfields = (List<Subfield>)df.getSubfields();
-        if (subfields.size() == 0)  return(defValue);
-        String result = "";
-        boolean found_a = false;
-        boolean getBefore_a = subfieldTags.contains("+");
-        for (Subfield sf : subfields)
-        {
-            if (sf.getCode() == 'a')
-            {
-                if (subfieldTags.contains(""+sf.getCode()))
-                {
-                    result = result + ((result.length() > 0) ? " " : "") + sf.getData();
-                }
-                found_a = true;
-            }
-            else if (getBefore_a && !found_a && sf.getCode() != 'a' && subfieldTags.contains(""+sf.getCode()) ) 
-            {
-                result = result + ((result.length() > 0) ? " " : "") + sf.getData();
-            }
-            else if (!getBefore_a && found_a && sf.getCode() != 'a' && subfieldTags.contains(""+sf.getCode()) )
-            {
-                result = result + ((result.length() > 0) ? " " : "") + sf.getData();
-            }
+            prependStr = true;
         }
-        return result;
-    }
-    
-    private String getSubfieldVal(DataField df, char subfieldTag, String defValue)
-    {
-        List<Subfield> subfields = (List<Subfield>)df.getSubfields(subfieldTag);
-        if (subfields.size() == 0)  return(defValue);
-        String result = "";
-        for (Subfield sf : subfields)
+        if (dateStr.length() > 0)
         {
-            result = result + sf.getData();
-        }
-        return result;
-    }
- 
-    private String processEncodedField(DataField df, DataField labelField)
-    {
-        boolean normalize_date = false;
-        if (labelField == null) return(null);
-        StringBuffer result = new StringBuffer();
-        for (char subfield = 'a'; subfield <= 'f'; subfield++)
-        {
-            String label = getSubfieldVal(labelField, subfield, null);
-            String data = getSubfieldVal(df, subfield, null);
-            if (label == null || data == null) break;
-            if (subfield != 'a')  result.append(", ");
-            if (label.startsWith("(") && label.endsWith(")")) label = "";
-            result.append(label);
-            result.append(data);
-        }
-        StringBuffer alt = new StringBuffer();
-        for (char subfield = 'g'; subfield <= 'h'; subfield++)
-        {
-            String label = getSubfieldVal(labelField, subfield, null);
-            String data = getSubfieldVal(df, subfield, null);
-            if (label == null || data == null) break;
-            if (subfield != 'g')  alt.append(", ");
-            alt.append(label);
-            alt.append(data);
-        }
-        if (alt.length() != 0)
-        {
-            result.append(" ("+alt+")");
-        }
-        String year = null;
-        StringBuffer date = new StringBuffer();
-        if (normalize_date)
-        {
-            for (char subfield = 'i'; subfield <= 'm'; subfield++)
-            {
-                boolean appendComma = false;
-                String label = getSubfieldVal(labelField, subfield, null);
-                String data = getSubfieldVal(df, subfield, null);
-                if (label == null || data == null) break;
-            //    if (subfield != 'i')  result.append(", ");
-                if (label.equalsIgnoreCase("(month)") || label.equalsIgnoreCase("(season)"))
-                {
-                    data = expandMonthOrSeason(data);
-                }
-                else if (year != null && !label.equalsIgnoreCase("(day)"))
-                {
-                    date.append(year);
-                    year = null;
-                }
-                else
-                {
-                    appendComma = true;
-                }
-                if (label.equalsIgnoreCase("(year)"))
-                {
-                    year = data;
-                }
-                else if (label.equalsIgnoreCase("(day)"))
-                {
-                    date.append(" ").append(data);
-                    if (appendComma) date.append(", ");
-                }
-                else
-                {
-                    date.append(data);
-                    if (appendComma) date.append(", ");
-                }
-            }
-            if (year != null) date.append(year);
-        }
-        else
-        {
-            boolean prependStr = false;
-            String strToPrepend = "";
-            for (char subfield = 'i'; subfield <= 'm'; subfield++)
-            {
-                String label = getSubfieldVal(labelField, subfield, null);
-                String data = getSubfieldVal(df, subfield, null);
-                if (label == null || data == null) break;
-                if (label.equalsIgnoreCase("(month)") || label.equalsIgnoreCase("(season)"))
-                {
-                    data = expandMonthOrSeason(data);
-                    strToPrepend = ":";
-                }
-                else if (label.equalsIgnoreCase("(day)"))
-                {
-                    data = expandMonthOrSeason(data);
-                    strToPrepend = " ";
-                }
-                if (prependStr)
-                {
-                    date.append(strToPrepend).append(data);
-                }
-                else
-                {
-                    date.append(data);
-                }
-                prependStr = true;
-            }
-        }
-        if (date.length() > 0)
-        {
-            if (result.length() > 0)  result.append(" (").append(date).append(")");
-            else result.append(date);
+            if (result.length() > 0)  
+            	result.append(" (").append(dateStr).append(")");
+            else 
+            	result.append(dateStr);
         }    
-        return result.toString();
-    }
-    
-    private String processEncodedFieldRange(DataField df1, DataField df2, DataField labelField)
-    {
-        boolean normalize_date = false;
-        if (labelField == null) return(null);
-        StringBuffer result = new StringBuffer();
-        StringBuffer vol1 = new StringBuffer();
-        StringBuffer vol2 = new StringBuffer();
-        for (char subfield = 'a'; subfield <= 'f'; subfield++)
-        {
-            String label = getSubfieldVal(labelField, subfield, null);
-            String data1 = getSubfieldVal(df1, subfield, null);
-            String data2 = getSubfieldVal(df2, subfield, null);
-            if (label == null || data1 == null || data2 == null) break;
-            if (subfield != 'a')  
-            {
-                vol1.append(", ");
-                vol2.append(", ");
-            }
-            if (label.startsWith("(") && label.endsWith(")")) label = "";
-            vol1.append(label);
-            vol1.append(data1);
-            vol2.append(label);
-            vol2.append(data2);
-        }
-        result.append(rangify(vol1.toString(), vol2.toString()));
-        StringBuffer alt = new StringBuffer();
-        for (char subfield = 'g'; subfield <= 'h'; subfield++)
-        {
-            String label = getSubfieldVal(labelField, subfield, null);
-            String data1 = getSubfieldVal(df1, subfield, null);
-            String data2 = getSubfieldVal(df2, subfield, null);
-            if (label == null || data1 == null || data2 == null) break;
-            if (subfield != 'g')  alt.append(", ");
-            alt.append(label);
-            alt.append(rangify(data1, data2));
-        }
-        if (alt.length() != 0)
-        {
-            result.append(" ("+alt+")");
-        }
-        StringBuffer date1 = new StringBuffer();
-        StringBuffer date2 = new StringBuffer();
-        {
-            boolean prependStr = false;
-            String strToPrepend = "";
-            for (char subfield = 'i'; subfield <= 'm'; subfield++)
-            {
-                String label = getSubfieldVal(labelField, subfield, null);
-                String data1 = getSubfieldVal(df1, subfield, null);
-                String data2 = getSubfieldVal(df2, subfield, null);
-                if (label == null || data1 == null || data2 == null) break;
-                if (label.equalsIgnoreCase("(month)") || label.equalsIgnoreCase("(season)"))
-                {
-                    data1 = expandMonthOrSeason(data1);
-                    data2 = expandMonthOrSeason(data2);
-                    strToPrepend = ":";
-                }
-                else if (label.equalsIgnoreCase("(day)"))
-                {
-                    strToPrepend = " ";
-                }
-                if (prependStr)
-                {
-                    date1.append(strToPrepend).append(data1);
-                    date2.append(strToPrepend).append(data2);
-                }
-                else
-                {
-                    date1.append(data1);
-                    date2.append(data2);
-                }
-                prependStr = true;
-            }
-        }
-        if (date1.length() > 0 && date2.length() > 0)
-        {
-            if (result.length() > 0)  result.append(" (").append(rangify(date1.toString(), date2.toString())).append(")");
-            else result.append(rangify(date1.toString(), date2.toString()));
-        }    
+        
         return result.toString();
     }
 
-    private Object rangify(String data1, String data2)
-    {
-        int i;
-        if (data1.equals(data2)) return(data1);
-        for (i = 0; i < data1.length() && i < data2.length(); i++)
-        {
-            if (data1.charAt(i) != data2.charAt(i)) break;
-        }
-        int preBackstep = i;
-        if ( i < data1.length() && i < data2.length() && Character.isDigit(data1.charAt(i)) && Character.isDigit(data2.charAt(i)))
-        {
-            while (Character.isDigit(data1.charAt(i)) && Character.isDigit(data2.charAt(i)) &&
-                i > 0 && Character.isDigit(data1.charAt(i-1)) && Character.isDigit(data2.charAt(i-1)))
-            {
-                i--;
-            }
-        }
-        else if ( i < data1.length() && i < data2.length() && Character.isLetter(data1.charAt(i)) && Character.isLetter(data2.charAt(i)))
-        {
-            while (Character.isLetter(data1.charAt(i)) && Character.isLetter(data2.charAt(i)) &&
-                i > 0 && Character.isLetter(data1.charAt(i-1)) && Character.isLetter(data2.charAt(i-1)))
-            {
-                i--;
-            }
-        }
-        String result;
-        if (i <= 3 && data1.length() > 6  && data2.length() > 6 && preBackstep < 6)
-            result = data1 + "-" + data2;
-        else if ( i < data1.length() && i < data2.length())
-            result = data1.substring(0, i) + data1.substring(i) + "-" + data2.substring(i);
-        else 
-            result = data1;
-        return result;
-    }
 
     private String expandMonthOrSeason(String data)
     {
@@ -669,35 +486,6 @@ public class MhldDisplayUtil
         data = data.replaceAll("23", "Autumn");
         data = data.replaceAll("24", "Winter");
         return(data);
-
     }
-
-    private DataField getLabelField(Record record, String linkPrefix)
-    {
-        if (linkPrefix == null) return(null);
-        List<VariableField> fields = (List<VariableField>)record.getVariableFields("853");
-        for (VariableField vf : fields)
-        {
-            if (!(vf instanceof DataField))  continue;
-            DataField df = (DataField)vf;
-            String link = df.getSubfield('8') != null ? df.getSubfield('8').getData() : null;
-            if (link != null && link.equals(linkPrefix))
-            {
-                return(df);
-            }
-        }
-        return(null);
-    }
-
-    private String getLinkPrefix(String linktag)
-    {
-        String prefix = null;
-        int index;
-        if ((index = linktag.indexOf('.')) == -1) 
-            prefix = linktag;
-        else 
-            prefix = linktag.substring(0, index);
-        return(prefix);
-    }
-*/
+	
 }
