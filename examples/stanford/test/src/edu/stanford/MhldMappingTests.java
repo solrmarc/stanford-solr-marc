@@ -312,14 +312,12 @@ public class MhldMappingTests extends AbstractStanfordTest
     	
     	// 852 has no sub =  and no 866:  do not use latest 863
     	String resultNoLatestRecd = libLoc + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL3 -|-  -|- ";
-    	result = resultNoLatestRecd + "v.20 no.9 Mar 18, 2011";
+    	result = resultNoLatestRecd + "v.20 no.9 (2011:March 18)";
     	assertNumSeparators(result);
     	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "2416921", fldName, result);
     	// it SHOULD have a result from the 852 (with no Latest Received or Library Has)
     	assertNumSeparators(resultNoLatestRecd);
     	solrFldMapTest.assertSolrFldValue(testDataFile, "2416921", fldName, resultNoLatestRecd);
-
-    	fail("Implement me");
 	}
 
 

@@ -129,13 +129,20 @@ public class MhldDisplayUtil
 	{
 		if (justGot852 && resultPrefixFrom852.length() > 0)
 			result.add(resultPrefixFrom852 + SEP);
+		// 866?
 		else if (have866for852 && resultStr.length() > 0)
 				result.add(resultStr + getLatestReceivedStr());
+		// 867 or 868?
 		else if ( (have867for852 || have868for852 ) && resultStr.length() > 0)
 				result.add(resultStr);
-		// else we had something other than 852, 866, 867, 868
-		else if ( !have866for852 && !have867for852 && !have868for852 && resultPrefixFrom852.length() > 0) 
-			result.add(resultPrefixFrom852 + SEP + getLatestReceivedStr());
+		// no 866, 852 has sub =
+		else if (!have866for852)
+		{
+			if (df852hasEqualsSubfield && resultPrefixFrom852.length() > 0) 
+				result.add(resultPrefixFrom852 + SEP + getLatestReceivedStr());
+			else if (resultPrefixFrom852.length() > 0)
+				result.add(resultPrefixFrom852 + SEP);
+		}
 	}
 	
 	/**
@@ -289,15 +296,10 @@ public class MhldDisplayUtil
 	 */
 	private void process86x(DataField df86x, String tag)
 	{
-		// if we have a previous 86x, then keep the resultStr from the previous 86x
+		// if we have a previous 86x, then add the value associated with the previous 86x
 		if (resultStr.length() > 0 && (have866for852 || have867for852 || have868for852))
-		{
 			addValueToResult();
-//			result.add(resultStr);
-			// reset resultStr to default (w no 86x information)
-			resultStr = resultPrefixFrom852 + SEP;
-		}
-//		resultStr = "";
+		resultStr = "";
 
 		// should we skip this 86x?
 		char ind2 = df86x.getIndicator2();
