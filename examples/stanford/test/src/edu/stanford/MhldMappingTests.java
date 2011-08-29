@@ -376,11 +376,13 @@ public class MhldMappingTests extends AbstractStanfordTest
 	}
 
 
-	
-    private void assertNumSeparators(String string) 
+	/**
+	 * assert that the expected mhld_display value has the correct number of separators
+	 */
+    private void assertNumSeparators(String mhld_displayValue) 
     {
        Pattern p = Pattern.compile(" -\\|- ");
-       Matcher m = p.matcher(string); // get a matcher object
+       Matcher m = p.matcher(mhld_displayValue); // get a matcher object
        int count = 0;
        while(m.find()) {
            count++;
