@@ -3,6 +3,8 @@ package edu.stanford;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -259,11 +261,9 @@ public class MhldMappingTests extends AbstractStanfordTest
     	String testDataFile = testFilePath + "mhldDisplay.mrc";
     	// 852 has sub =  and no 866
     	String libLoc = "GREEN -|- CURRENTPER -|- ";
-    	String result = libLoc + "COUNTRY LIFE INTERNATIONAL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- 2009-  -|- 2011 Summer";
+    	String result = libLoc + "COUNTRY LIFE INTERNATIONAL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- 2009- -|- 2011 Summer";
     	assertNumSeparators(result);
     	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, result);
-
-    	fail("Implement me");	
     }
     
 // FIXME:  need tests for different formats (ugh) -- do it with true unit tests (no xml records)
@@ -286,8 +286,9 @@ public class MhldMappingTests extends AbstractStanfordTest
     	// it SHOULD have a value without the Latest Received portion
     	assertNumSeparators(resultNoLatestRecd);
     	solrFldMapTest.assertSolrFldValue(testDataFile, "484112", fldName, resultNoLatestRecd);
-    
-    	fail("add tests closed holdings occurring first, last, middle ...");
+
+// FIXME:    	
+//    	fail("add tests closed holdings occurring first, last, middle ...");
     }
 
 	/**
@@ -300,8 +301,8 @@ public class MhldMappingTests extends AbstractStanfordTest
     	String testDataFile = testFilePath + "mhldDisplay.mrc";
 
     	// 852 has sub =  and no 866:  use most recent 863
-    	String libLoc = "GREEN -|- CURRENTPER -|-  -|- ";
-    	String result = libLoc + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- v.205 no.55 Jan 6, 2011";
+    	String libLoc = "GREEN -|- CURRENTPER -|- ";
+    	String result = libLoc + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|- v.205 no.22 (2011:June 1)";
     	assertNumSeparators(result);
     	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, result);
     	result = libLoc + "COUNTRY LIFE TRAVEL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|- 2010/2011 Winter";
@@ -321,6 +322,48 @@ public class MhldMappingTests extends AbstractStanfordTest
     	fail("Implement me");
 	}
 
+
+    
+    /**
+     * test the expected values for 358041
+     */
+@Test
+    public void test358041()
+    {
+    	String testDataFile = testFilePath + "mhldDisplay.mrc";
+    
+    	Set<String> resultSet = new HashSet<String>();
+    	
+    	// 852 has sub =  and no 866:  use most recent 863
+    	String greenCurrentper = "GREEN -|- CURRENTPER -|- ";
+    	String result = greenCurrentper + "COUNTRY LIFE INTERNATIONAL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- 2009- -|- 2011 Summer";
+    	resultSet.add(result);
+    	
+    	result = "SAL3 -|- STACKS -|-  -|- v.151(1972)-v.152(1972) -|- ";
+    	resultSet.add(result);
+    	
+    	result = "SAL -|- STACKS -|-  -|- 1953; v.143(1968)-v.144(1968),v.153(1973)-v.154(1973),v.164(1978),v.166(1979),v.175(1984),v.178(1985),v.182(1988)-v.183(1989),v.194(2000)- -|- ";
+    	resultSet.add(result);
+
+    	result = greenCurrentper + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|- v.205 no.22 (2011:June 1)";
+    	resultSet.add(result);
+
+    	
+    	result = greenCurrentper + "COUNTRY LIFE TRAVEL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|- 2010/2011 Winter";
+    	resultSet.add(result);
+    	
+    	for (String expected : resultSet)
+    	{
+    		assertNumSeparators(result);
+        	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, expected);
+    	}
+    	
+    	// 867 ind 0  previous 852 has sub =    	
+    	result = greenCurrentper + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- Supplement: COUNTRY LIFE ABROAD (WIN 2001), (JUL 14, 2005) -|- ";
+		assertNumSeparators(result);
+    	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "358041", fldName, result);
+    }
+    
 
 	
 	public void testCreateIx()
