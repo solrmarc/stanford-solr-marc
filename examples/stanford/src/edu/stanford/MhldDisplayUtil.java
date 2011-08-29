@@ -118,9 +118,8 @@ public class MhldDisplayUtil
 				process86x(df, "867");
 			else if (df.getTag().equals("868"))
 				process86x(df, "868");
-			
-		} // end looping through fields
-
+		} 
+		
 		addValueToResult();
 	
 		return result;
@@ -128,10 +127,15 @@ public class MhldDisplayUtil
 	
 	private void addValueToResult()
 	{
-		if (justGot852)
+		if (justGot852 && resultPrefixFrom852.length() > 0)
 			result.add(resultPrefixFrom852 + SEP);
-		else if (resultStr.length() > 0)
-			result.add(resultStr + getLatestReceivedStr());
+		else if (have866for852 && resultStr.length() > 0)
+				result.add(resultStr + getLatestReceivedStr());
+		else if ( (have867for852 || have868for852 ) && resultStr.length() > 0)
+				result.add(resultStr);
+		// else we had something other than 852, 866, 867, 868
+		else if ( !have866for852 && !have867for852 && !have868for852 && resultPrefixFrom852.length() > 0) 
+			result.add(resultPrefixFrom852 + SEP + getLatestReceivedStr());
 	}
 	
 	/**
@@ -170,6 +174,7 @@ public class MhldDisplayUtil
 		String locationCode = MarcUtils.getSubfieldData(df852, 'c');
 		
 		resultPrefixFrom852 = libraryCode + SEP + locationCode + SEP + comment + SEP;				
+//System.out.println("DEBUG: " + id + " resultPrefixFrom852: " + resultPrefixFrom852);
 		
 		String subEquals = MarcUtils.getSubfieldData(df852, '=');
 		if (subEquals != null && subEquals.length() > 0)
@@ -286,8 +291,13 @@ public class MhldDisplayUtil
 	{
 		// if we have a previous 86x, then keep the resultStr from the previous 86x
 		if (resultStr.length() > 0 && (have866for852 || have867for852 || have868for852))
-			result.add(resultStr);
-		resultStr = "";
+		{
+			addValueToResult();
+//			result.add(resultStr);
+			// reset resultStr to default (w no 86x information)
+			resultStr = resultPrefixFrom852 + SEP;
+		}
+//		resultStr = "";
 
 		// should we skip this 86x?
 		char ind2 = df86x.getIndicator2();
@@ -355,6 +365,8 @@ public class MhldDisplayUtil
 			}
 			
 			resultStr = resultPrefixFrom852 + prefix + suba + SEP ;
+//System.out.println("DEBUG: " + id + "   has resultStr: " + resultStr);		
+
 		}
 		justGot852 = false;	
 	}
@@ -366,16 +378,16 @@ public class MhldDisplayUtil
 	private String getLatestReceivedStr()
 	{
 		String result = "";
-		if (haveOpenHoldings)
+		if (haveOpenHoldings || !have866for852)
 		{
 			if (mostRecent863 != null && mostRecent863linkNum != 0)
 			{
 				DataField pattern853df = patternFieldMap.get(Integer.valueOf(mostRecent863linkNum));
-				result = expandWithCaptions(mostRecent863, pattern853df);
+				result = get863DisplayValue(mostRecent863, pattern853df);
 			}
 		}
 
-System.out.println("DEBUG: " + id + " has latest received: " + result);		
+//System.out.println("DEBUG: " + id + "    has latest received: " + result);		
 		return result;
 	}
 	
@@ -395,104 +407,128 @@ System.out.println("DEBUG: " + id + " has latest received: " + result);
 	 * @return a user friendly string representation of the information in the 
 	 *   863 field.
 	 */
-    private String expandWithCaptions(DataField df863, DataField pattern853df)
+    private String get863DisplayValue(DataField df863, DataField pattern853df)
     {
         StringBuffer result = new StringBuffer();
 
         if (pattern853df == null) 
         	return null;
 
-        // get the enumeration information (with captions) from subfields a-f
+        // subfields a-f  contain enumeration information (volume, issue ...)
+        //  or may have chronology information (year, month ...) if there is
+        //  no enumeration
         for (char code = 'a'; code <= 'f'; code++)
         {
-        	String label = MarcUtils.getSubfieldData(pattern853df, code);
-            String data = MarcUtils.getSubfieldData(df863, code);
-            if (label == null || data == null) 
+        	String caption = MarcUtils.getSubfieldData(pattern853df, code);
+            String value = MarcUtils.getSubfieldData(df863, code);
+            if (caption == null || value == null) 
             	break;
-            if (code != 'a')  
-            	result.append(", ");
-            // leave out any label with parens.
-            if (label.startsWith("(") && label.endsWith(")")) 
-            	label = "";
-            result.append(label + data);
+            if (result.length() > 0)  
+            	result.append(" ");
+            result.append(getCaptionedStr(caption, value));
         }
         
-        
-        // get alternate enumeration information (with captions) from subfields g and h
-        //   if it's not empty, append to the end within parens.
-        StringBuffer alt = new StringBuffer();
+        // subfields g-h  may contain alternative enumeration schemes
+        StringBuffer altSchemeStr = new StringBuffer();
         for (char code = 'g'; code <= 'h'; code++)
         {
-            String label = MarcUtils.getSubfieldData(pattern853df, code);
-            String data = MarcUtils.getSubfieldData(df863, code);
-            if (label == null || data == null) 
+            String caption = MarcUtils.getSubfieldData(pattern853df, code);
+            String value = MarcUtils.getSubfieldData(df863, code);
+            if (caption == null || value == null) 
             	break;
             if (code != 'g')  
-            	alt.append(", ");
-            alt.append(label + data);
+            	altSchemeStr.append(", ");
+            altSchemeStr.append(caption + value);
         }
-        if (alt.length() != 0)
-            result.append(" (" + alt + ")");
+        // append the alternative enumeration to the result within parens.
+        if (altSchemeStr.length() != 0)
+            result.append(" (" + altSchemeStr + ")");
 
-        
-        // get the date (chronology information) from subfields i-m
-        StringBuffer dateStr = new StringBuffer();
+        // subfields i-l  contain chronology information (year, month ...)
+        // subfield m  contains alternative chronology info
+        StringBuffer chronologyStr = new StringBuffer();
         boolean prependStr = false;
         String strToPrepend = "";
         for (char code = 'i'; code <= 'm'; code++)
         {
-            String label = MarcUtils.getSubfieldData(pattern853df, code);
-            String data = MarcUtils.getSubfieldData(df863, code);
-            if (label == null || data == null) 
+            String caption = MarcUtils.getSubfieldData(pattern853df, code);
+            String value = MarcUtils.getSubfieldData(df863, code);
+            if (caption == null || value == null) 
             	break;
-            if (label.equalsIgnoreCase("(month)") || label.equalsIgnoreCase("(season)"))
+            if (caption.equalsIgnoreCase("(month)") || caption.equalsIgnoreCase("(season)"))
             {
-                data = expandMonthOrSeason(data);
+                value = translateMonthOrSeason(value);
                 strToPrepend = ":";
             }
-            else if (label.equalsIgnoreCase("(day)"))
-            {
-                data = expandMonthOrSeason(data);
+            else if (caption.equalsIgnoreCase("(day)"))
                 strToPrepend = " ";
-            }
+
             if (prependStr)
-                dateStr.append(strToPrepend).append(data);
+                chronologyStr.append(strToPrepend).append(value);
             else
-                dateStr.append(data);
+                chronologyStr.append(value);
 
             prependStr = true;
         }
-        if (dateStr.length() > 0)
+        if (chronologyStr.length() > 0)
         {
+            // append the chronology info to an existing result within parens.
             if (result.length() > 0)  
-            	result.append(" (").append(dateStr).append(")");
+            	result.append(" (").append(chronologyStr).append(")");
             else 
-            	result.append(dateStr);
+            	result.append(chronologyStr);
         }    
         
         return result.toString();
     }
+    
 
-
-    private String expandMonthOrSeason(String data)
+    /**
+     * Given a caption string from an 853 subfield and a value string from a 
+     * corresponding 863 subfield, return the appropriate display value.
+     * Per http://www.loc.gov/marc/holdings/hd853855.html, captions within
+     *  parens should not be output, and the values for (month) and (season)
+     *  captions should be translated to an appropriate display value.
+     * @param caption - string from an 853 subfield
+     * @param value - value from an 863 subfield correlated to the 853 subfield
+     * @return string to be displayed
+     */
+    private String getCaptionedStr(String caption, String value)
     {
-        data = data.replaceAll("01", "Jan");
-        data = data.replaceAll("02", "Feb");
-        data = data.replaceAll("03", "Mar");
-        data = data.replaceAll("04", "Apr");
-        data = data.replaceAll("05", "May");
-        data = data.replaceAll("06", "Jun");
-        data = data.replaceAll("07", "Jul");
-        data = data.replaceAll("08", "Aug");
-        data = data.replaceAll("09", "Sept");
-        data = data.replaceAll("10", "Oct");
-        data = data.replaceAll("11", "Nov");
-        data = data.replaceAll("12", "Dec");
-        data = data.replaceAll("21", "Spring");
-        data = data.replaceAll("22", "Summer");
-        data = data.replaceAll("23", "Autumn");
-        data = data.replaceAll("24", "Winter");
-        return(data);
+        if (caption.equalsIgnoreCase("(month)") || caption.equalsIgnoreCase("(season)"))
+        	value = translateMonthOrSeason(value);
+        
+        if (caption.startsWith("(") && caption.endsWith(")")) 
+        	caption = "";
+        
+        return caption + value;
     }
+
+
+    /**
+     * turns 01-12 into three letter string for Month;  turns 21-24 into six
+     *  letter string for season.  Otherwise, returns the original value.
+     */
+    private String translateMonthOrSeason(String value)
+    {
+        value = value.replaceAll("01", "January");
+        value = value.replaceAll("02", "February");
+        value = value.replaceAll("03", "March");
+        value = value.replaceAll("04", "April");
+        value = value.replaceAll("05", "May");
+        value = value.replaceAll("06", "June");
+        value = value.replaceAll("07", "July");
+        value = value.replaceAll("08", "August");
+        value = value.replaceAll("09", "September");
+        value = value.replaceAll("10", "October");
+        value = value.replaceAll("11", "November");
+        value = value.replaceAll("12", "December");
+        value = value.replaceAll("21", "Spring");
+        value = value.replaceAll("22", "Summer");
+        value = value.replaceAll("23", "Autumn");
+        value = value.replaceAll("24", "Winter");
+        return(value);
+    }
+
 	
 }
