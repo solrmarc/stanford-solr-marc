@@ -970,6 +970,24 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 // Pub Date Methods  --------------  End  --------------------- Pub Date Methods    
 
+	
+// Note Field Methods --------------- Begin ----------------- Note Field Methods	
+
+	/**
+	 * if there are one or more 986 fields, use all values of 986a.  If there
+	 *  are no 986 fields, use all values of 586a.
+	 * @param record
+	 * @return Set of Strings containing searchable awards note strings.
+	 */
+	public Set<String> getAwardSearch(final Record record)
+	{
+		Set<String> resultSet = MarcUtils.getFieldList(record, "986a");
+		if (resultSet.isEmpty())
+			resultSet.addAll(MarcUtils.getFieldList(record, "586a"));
+		return resultSet;
+	}
+	
+// Note Field Methods ---------------  End  ----------------- Note Field Methods	
 
 // AllFields Methods  --------------- Begin ------------------ AllFields Methods    
 		
@@ -1295,8 +1313,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	{
 		return CallNumUtils.getReverseShelfkeys(itemSet, isSerial);
 	}
-
-
 	
 // Call Number Methods -------------- End ---------------- Call Number Methods
 
