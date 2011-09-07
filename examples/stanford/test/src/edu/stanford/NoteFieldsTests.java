@@ -189,8 +189,15 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	    assertSearchFldMultValProps(fldName);
 	    
 	    assertSingleResult("586", fldName, "New Zealand Post book awards winner");
+	    assertSingleResult("586", fldName, "\\\"586 second award\\\"");
 	    assertSingleResult("986", fldName, "Shortlisted for Montana New Zealand Book Awards\\: History Category 2006.");
-	    assertSingleResult("bothx86", fldName, "986 award");
+	    assertSingleResult("986", fldName, "\\\"986 second award\\\"");
+	    assertSingleResult("one586two986", fldName, "986 award1");
+	    assertSingleResult("one586two986", fldName, "986 award2");
+	    assertDocHasNoFieldValue("one586two986", fldName, "\\\"586 award\\\"");
+	    assertSingleResult("two586one986", fldName, "986 single award");
+	    assertDocHasNoFieldValue("two586one986", fldName, "\\\"586 award1\\\"");
+	    assertDocHasNoFieldValue("two586one986", fldName, "\\\"586 award2\\\"");
 	}
 
 }

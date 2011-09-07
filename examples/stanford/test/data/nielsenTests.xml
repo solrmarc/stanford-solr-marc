@@ -121,10 +121,13 @@
     <controlfield tag="001">a586</controlfield>
     <controlfield tag="008">071221s2008 nz c 000 1 eng </controlfield>
     <datafield tag="245" ind1="1" ind2="0">
-      <subfield code="a">record with a 586 but no 986</subfield>
+      <subfield code="a">record with two 586 but no 986</subfield>
     </datafield>
     <datafield tag="586" ind1=" " ind2=" ">
       <subfield code="a">New Zealand Post book awards winner</subfield>
+    </datafield>
+    <datafield tag="586" ind1=" " ind2=" ">
+      <subfield code="a">586 second award</subfield>
     </datafield>
   </record>
   
@@ -133,28 +136,55 @@
     <controlfield tag="001">a986</controlfield>
     <controlfield tag="008">060116s2005 nz ac b 001 0 eng </controlfield>
     <datafield tag="245" ind1="1" ind2="0">
-      <subfield code="a">record with no 586, but a 986</subfield>
+      <subfield code="a">record with no 586, but two 986</subfield>
     </datafield>
     <datafield tag="986" ind1=" " ind2=" ">
       <subfield code="a">Shortlisted for Montana New Zealand Book Awards: History Category 2006.</subfield>
+      <subfield code="1">Nielsen</subfield>
+    </datafield>
+    <datafield tag="986" ind1=" " ind2=" ">
+      <subfield code="a">986 second award</subfield>
       <subfield code="1">Nielsen</subfield>
     </datafield>
   </record>
   
   <record>
     <leader>01309cam a2200373Ma 4500</leader>
-    <controlfield tag="001">abothx86</controlfield>
+    <controlfield tag="001">aone586two986</controlfield>
     <controlfield tag="008">071221s2008 nz c 000 1 eng </controlfield>
     <datafield tag="245" ind1="1" ind2="0">
-      <subfield code="a">Both 586 and 986</subfield>
+      <subfield code="a">one 586 and two 986</subfield>
     </datafield>
     <datafield tag="586" ind1=" " ind2=" ">
       <subfield code="a">586 award</subfield>
     </datafield>
     <datafield tag="986" ind1=" " ind2=" ">
-      <subfield code="a">986 award</subfield>
+      <subfield code="a">986 award1</subfield>
+      <subfield code="1">Nielsen</subfield>
+    </datafield>
+    <datafield tag="986" ind1=" " ind2=" ">
+      <subfield code="a">986 award2</subfield>
       <subfield code="1">Nielsen</subfield>
     </datafield>
   </record>
   
+  <record>
+    <leader>01309cam a2200373Ma 4500</leader>
+    <controlfield tag="001">atwo586one986</controlfield>
+    <controlfield tag="008">071221s2008 nz c 000 1 eng </controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">two 586 and one 986</subfield>
+    </datafield>
+    <datafield tag="586" ind1=" " ind2=" ">
+      <subfield code="a">586 award1</subfield>
+    </datafield>
+    <datafield tag="586" ind1=" " ind2=" ">
+      <subfield code="a">586 award2</subfield>
+    </datafield>
+    <datafield tag="986" ind1=" " ind2=" ">
+      <subfield code="a">986 single award</subfield>
+      <subfield code="1">Nielsen</subfield>
+    </datafield>
+  </record>
+
 </collection>
