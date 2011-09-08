@@ -2,14 +2,6 @@
 <collection xmlns="http://www.loc.gov/MARC21/slim">
     <record>
         <leader>00941nam a22002651  4500</leader>
-        <controlfield tag="001">a99</controlfield>
-        <controlfield tag="008">740123s1966    ii a          000 0 eng  </controlfield>
-        <datafield tag="245" ind1="1" ind2="0">
-            <subfield code="a">additional record 99</subfield>
-        </datafield>
-    </record>
-    <record>
-        <leader>00941nam a22002651  4500</leader>
         <controlfield tag="001">a2</controlfield>
         <controlfield tag="008">740123s1966    ii a          000 0 eng  </controlfield>
         <datafield tag="245" ind1="1" ind2="0">
@@ -34,5 +26,13 @@
         <datafield tag="245" ind1="1" ind2="0">
             <subfield code="a">record 4 without 100 field</subfield>
         </datafield>
+    </record>
+    <record>
+      <leader>00941nam a22002651  4500</leader>
+      <controlfield tag="001">a99</controlfield>
+      <controlfield tag="008">740123s1966    ii a          000 0 eng  </controlfield>
+      <datafield tag="245" ind1="1" ind2="0">
+        <subfield code="a">additional record 99</subfield>
+      </datafield>
     </record>
 </collection>
