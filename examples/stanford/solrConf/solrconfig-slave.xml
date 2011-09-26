@@ -270,6 +270,7 @@
         geographic_subz_search^25      vern_geographic_subz_search^25
         subject_other_subvy_search^25  vern_subject_other_subvy_search^25
         subject_all_search^10          vern_subject_all_search^10
+        db_az_subject_search
 
         pub_date_search^10
         isbn_search^2
@@ -322,6 +323,8 @@
         geographic_subz_search^25      vern_geographic_subz_search^25
         subject_other_subvy_search^25  vern_subject_other_subvy_search^25
         subject_all_search^25          vern_subject_all_search^25
+        db_az_subject_search^25
+        
         pub_date_search^2
         physical^2                     vern_physical^2
         award_search^20
@@ -629,6 +632,7 @@
         geographic_subz_search         vern_geographic_subz_search
         subject_other_subvy_search     vern_subject_other_subvy_search
         subject_all_search             vern_subject_all_search
+        db_az_subject_search
       </str>
       <str name="pf">
         topic_unstem_search^5000
@@ -646,6 +650,7 @@
         geographic_subz_search^20      vern_geographic_subz_search^20
         subject_other_subvy_search^20  vern_subject_other_subvy_search^20
         subject_all_search^20          vern_subject_all_search^20
+        db_az_subject_search^20
       </str>
       
       <int name="ps">3</int>
@@ -935,6 +940,7 @@
         geographic_subz_search^25      vern_geographic_subz_search^25
         subject_other_subvy_search^25  vern_subject_other_subvy_search^25
         subject_all_search^10          vern_subject_all_search^10
+        db_az_subject_search
         
         pub_date_search^10
         isbn_search^2
@@ -985,6 +991,8 @@
         geographic_subz_search^25      vern_geographic_subz_search^25
         subject_other_subvy_search^25  vern_subject_other_subvy_search^25
         subject_all_search^25          vern_subject_all_search^25
+        db_az_subject_search^25
+        
         pub_date_search^2
         physical^2                     vern_physical^2
         award_search^20
@@ -1051,6 +1059,7 @@
         geographic_subz_search         vern_geographic_subz_search
         subject_other_subvy_search     vern_subject_other_subvy_search
         subject_all_search             vern_subject_all_search
+        db_az_subject_search
       </str>
       <str name="pf_subject">
         topic_unstem_search^5000
@@ -1068,6 +1077,7 @@
         geographic_subz_search^20      vern_geographic_subz_search^20
         subject_other_subvy_search^20  vern_subject_other_subvy_search^20
         subject_all_search^20          vern_subject_all_search^20
+        db_az_subject_search^20
       </str>
       
       <str name="qf_series">series_search     vern_series_search</str>
@@ -1232,7 +1242,8 @@
         topic_subx_search              vern_topic_subx_search
         geographic_subz_search         vern_geographic_subz_search
         subject_other_subvy_search     vern_subject_other_subvy_search
-        subject_all_search^            vern_subject_all_search
+        subject_all_search             vern_subject_all_search
+        db_az_subject_search
       </str>
       <str name="pf_subject">
         topic_unstem_search^5000
@@ -1250,6 +1261,7 @@
         geographic_subz_search^20      vern_geographic_subz_search^20
         subject_other_subvy_search^20  vern_subject_other_subvy_search^20
         subject_all_search^20          vern_subject_all_search^20
+        db_az_subject_search^20
       </str>
 
       <!-- for user query terms in publisher text box -->

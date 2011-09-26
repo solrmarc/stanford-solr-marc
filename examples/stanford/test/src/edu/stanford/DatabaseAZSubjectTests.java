@@ -1,9 +1,15 @@
 package edu.stanford;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 
 /**
@@ -77,6 +83,33 @@ public class DatabaseAZSubjectTests extends AbstractStanfordTest {
 
 		solrFldMapTest.assertSolrFldHasNumValues(testFilePath, "6859025", facetFldName, 3);
 	}
+
+    /**
+     *A-Z database subjects should be searchable with terms (not whole String)
+     */
+@Test
+    public final void testSearched() 
+    		throws ParserConfigurationException, IOException, SAXException
+    {
+		createIxInitVars("databasesAZsubjectTests.mrc");
+		String fldName = "db_az_subject_search";
+		
+		Set<String> docIds = new HashSet<String>();
+		docIds.add("2diffsubs");
+		docIds.add("6859025");
+		assertSearchResults(fldName, "Science", docIds);
+
+		docIds.remove("6859025");
+		docIds.add("goodAndBadCode");
+		assertSearchResults(fldName, "News", docIds);
+
+		assertSingleResult("2diffsubs", fldName, "General");
+		assertSingleResult("6859025", fldName, "Government");
+		// double assigning subject code JK
+		assertSingleResult("6859025", fldName, "History");
+		assertSingleResult("6859025", fldName, "Political");
+    }
+    
 
 
 }

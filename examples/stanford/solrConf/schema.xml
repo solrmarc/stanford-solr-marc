@@ -241,8 +241,8 @@
     <field name="vern_subject_all_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="subject_all_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     
-    <!-- this is both a subject display and search field -->
     <field name="db_az_subject" type="string" indexed="true" stored="true" multiValued="true" />
+    <field name="db_az_subject_search" type="text" indexed="true" stored="false" multiValued="true" />
     
     <!-- Subject Facet Fields -->
     <field name="topic_facet" type="string" indexed="true" stored="false" multiValued="true" />
@@ -364,6 +364,9 @@
   <copyField source="subject_other_search" dest="subject_other_unstem_search" />
   <copyField source="subject_other_subvy_search" dest="subject_other_subvy_unstem_search" />
   <copyField source="subject_all_search" dest="subject_all_unstem_search" />
+  
+  <copyField source="db_az_subject" dest="db_az_subject_search" />
+  
   
   <!-- unstemmed search fields: toc/summary -->
   <copyField source="toc_search" dest="toc_unstem_search" />
