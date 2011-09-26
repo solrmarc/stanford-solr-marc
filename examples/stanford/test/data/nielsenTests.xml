@@ -176,10 +176,10 @@
       <subfield code="a">two 586 and one 986</subfield>
     </datafield>
     <datafield tag="586" ind1=" " ind2=" ">
-      <subfield code="a">586 award1</subfield>
+      <subfield code="a">586 1award</subfield>
     </datafield>
     <datafield tag="586" ind1=" " ind2=" ">
-      <subfield code="a">586 award2</subfield>
+      <subfield code="a">586 2award</subfield>
     </datafield>
     <datafield tag="986" ind1=" " ind2=" ">
       <subfield code="a">986 single award</subfield>

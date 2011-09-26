@@ -54,7 +54,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	}
 
 	/**
-	 * Nielsen data is in the 905;  we want to use Nielsen data if it exists
+	 * Nielsen data is in the 905 we want to index both 905 and 505
 	 */
 @Test
 	public final void nielsenTOCSearchField() 
@@ -64,11 +64,14 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	    createIxInitVars("nielsenTests.mrc");
 	    assertSearchFldMultValProps(fldName);
 	    
-	    assertSingleResult("505", fldName, "505a");
-	    assertSingleResult("505", fldName, "505r");
-	    assertSingleResult("505", fldName, "505t");
-	    
 		Set<String> docIds = new HashSet<String>();
+		docIds.add("505");
+		docIds.add("bothx05");
+		assertSearchResults(fldName, "505a", docIds);
+		assertSearchResults(fldName, "505r", docIds);
+		assertSearchResults(fldName, "505t", docIds);
+	    
+		docIds = new HashSet<String>();
 		docIds.add("905");
 		docIds.add("bothx05");
 		assertSearchResults(fldName, "905a", docIds);
@@ -150,7 +153,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	}
 
 	/**
-	 * Nielsen data is in the 920;  we want to use Nielsen data if it exists
+	 * Nielsen data is in the 920; we want to index both 920 and 520
 	 */
 @Test
 	public final void nielsenSummarySearchField() 
@@ -160,10 +163,13 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	    createIxInitVars("nielsenTests.mrc");
 	    assertSearchFldMultValProps(fldName);
 	    
-	    assertSingleResult("520", fldName, "520a");
-	    assertSingleResult("520", fldName, "520b");
-	    
 		Set<String> docIds = new HashSet<String>();
+		docIds.add("520");
+		docIds.add("bothx20");
+		assertSearchResults(fldName, "520a", docIds);
+		assertSearchResults(fldName, "520b", docIds);
+	    
+		docIds = new HashSet<String>();
 		docIds.add("920");
 		docIds.add("bothx20");
 		assertSearchResults(fldName, "920a", docIds);
@@ -178,7 +184,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 
 
 	/**
-	 * Nielsen data is in the 986;  we want to use Nielsen data if it exists
+	 * Nielsen data is in the 986;  we want to index both 986 and 520
 	 */
 @Test
 	public final void nielsenAwardSearchField() 
@@ -192,12 +198,12 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	    assertSingleResult("586", fldName, "\\\"586 second award\\\"");
 	    assertSingleResult("986", fldName, "Shortlisted for Montana New Zealand Book Awards\\: History Category 2006.");
 	    assertSingleResult("986", fldName, "\\\"986 second award\\\"");
-	    assertSingleResult("one586two986", fldName, "986 award1");
-	    assertSingleResult("one586two986", fldName, "986 award2");
-	    assertDocHasNoFieldValue("one586two986", fldName, "\\\"586 award\\\"");
-	    assertSingleResult("two586one986", fldName, "986 single award");
-	    assertDocHasNoFieldValue("two586one986", fldName, "\\\"586 award1\\\"");
-	    assertDocHasNoFieldValue("two586one986", fldName, "\\\"586 award2\\\"");
+	    assertSingleResult("one586two986", fldName, "\\\"986 award1\\\"");
+	    assertSingleResult("one586two986", fldName, "\\\"986 award2\\\"");
+	    assertSingleResult("one586two986", fldName, "\\\"586 award1\\\"");
+	    assertSingleResult("two586one986", fldName, "\\\"986 single award\\\"");
+	    assertSingleResult("two586one986", fldName, "\\\"586 1award\\\"");
+	    assertSingleResult("two586one986", fldName, "\\\"586 1award\\\"");
 	}
 
 }
