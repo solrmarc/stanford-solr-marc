@@ -105,6 +105,9 @@ public class MhldMappingTests extends AbstractStanfordTest
     }
     
     /**
+     * per email by Naomi Dushay on October 14, 2011, MHLD summary holdings are 
+     *  NOT skipped: display 866 regardless of second indicator value or presence of 852 sub =
+     * previously: 
      * per spec in email by Naomi Dushay on July 12, 2011, an MHLD summary holdings section
      *  is skipped if 866 has ind2 of 0 and 852 has a sub = 
      */
@@ -116,13 +119,13 @@ public class MhldMappingTests extends AbstractStanfordTest
 		// skip if 2nd indicator '0'  and 852 sub '=' exists
 		String valueStart = "GREEN -|- CURRENTPER -|- Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in STACKS -|- ";
 		assertNumSeparators(valueStart + " -|- ");
-    	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "362573", fldName, valueStart + "V. 417 NO. 1A (JAN 2011) -|- ");
-    	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "362573", fldName, valueStart + "V. 417 NO. 4A (FEB 2011) -|- ");
-    	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "362573", fldName, valueStart + "V. 417 NO. 5A (FEB 2011) -|- ");
-    	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "362573", fldName, valueStart + "V. 417 NO. 20A (JUN 2011) -|- ");
-    	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "362573", fldName, valueStart + "V. 417 NO. 21A (JUN 2011) -|- ");
-    	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "362573", fldName, valueStart + "V. 417 NO. 22A (JUN 2011) -|- ");
-    	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "362573", fldName, valueStart + "V. 417 NO. 23A (JUN 2011) -|- "); 	
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "362573", fldName, valueStart + "V. 417 NO. 1A (JAN 2011) -|- ");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "362573", fldName, valueStart + "V. 417 NO. 4A (FEB 2011) -|- ");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "362573", fldName, valueStart + "V. 417 NO. 5A (FEB 2011) -|- ");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "362573", fldName, valueStart + "V. 417 NO. 20A (JUN 2011) -|- ");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "362573", fldName, valueStart + "V. 417 NO. 21A (JUN 2011) -|- ");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "362573", fldName, valueStart + "V. 417 NO. 22A (JUN 2011) -|- ");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "362573", fldName, valueStart + "V. 417 NO. 23A (JUN 2011) -|- "); 	
     }
     
     /**
@@ -144,6 +147,9 @@ public class MhldMappingTests extends AbstractStanfordTest
     }
     
     /**
+     * per email by Naomi Dushay on October 14, 2011, MHLD summary holdings are 
+     *  NOT skipped: display 867 regardless of second indicator value or presence of 852 sub =
+     * previously: 
      * per spec in email by Naomi Dushay on July 12, 2011, an MHLD summary holdings section
      *  is skipped if 867 has ind2 of 0 and 852 has a sub = 
      */
@@ -155,9 +161,9 @@ public class MhldMappingTests extends AbstractStanfordTest
     	// skip if 2nd indicator '0'  and 852 sub '=' exists
     	String valueStart = "GREEN -|- STACKS -|-  -|- Supplement: ";
 		assertNumSeparators(valueStart + " -|- ");
-    	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "skip867ind0", fldName, valueStart + "skip me (867) -|- ");
-    	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "multSkip867ind0", fldName, valueStart + "skip me 1 (867) -|- ");
-    	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "multSkip867ind0", fldName, valueStart + "skip me 2 (867) -|- ");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "skip867ind0", fldName, valueStart + "skip me (867) -|- ");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "multSkip867ind0", fldName, valueStart + "skip me 1 (867) -|- ");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "multSkip867ind0", fldName, valueStart + "skip me 2 (867) -|- ");
     }
     
     /**
@@ -183,6 +189,9 @@ public class MhldMappingTests extends AbstractStanfordTest
     }
     
     /**
+     * per email by Naomi Dushay on October 14, 2011, MHLD summary holdings are 
+     *  NOT skipped: display 868 regardless of second indicator value or presence of 852 sub =
+     * previously: 
      * per spec in email by Naomi Dushay on July 12, 2011, an MHLD summary holdings section
      *  is skipped if 868 has ind2 of 0 and 852 has a sub = 
      */
@@ -194,44 +203,47 @@ public class MhldMappingTests extends AbstractStanfordTest
     	// skip if 2nd indicator '0'  and 852 sub '=' exists
     	String valueStart = "GREEN -|- CURRENTPER -|- skip 868 -|- Index: ";
 		assertNumSeparators(valueStart + " -|- ");
-    	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "skip868ind0", fldName, valueStart + "skip me (868) -|- ");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "skip868ind0", fldName, valueStart + "skip me (868) -|- ");
     	valueStart = "MUSIC -|- MUS-NOCIRC -|-  -|- Index: ";
 		assertNumSeparators(valueStart + " -|- ");
-    	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "multSkip868ind0", fldName, valueStart + "skip me 1 (868) -|- ");
-    	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "multSkip868ind0", fldName, valueStart + "skip me 2 (868) -|- ");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "multSkip868ind0", fldName, valueStart + "skip me 1 (868) -|- ");
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "multSkip868ind0", fldName, valueStart + "skip me 2 (868) -|- ");
     }
 
 
     /**
+     * per email by Naomi Dushay on October 14, 2011, MHLD summary holdings are 
+     *  NOT skipped: display 868 regardless of second indicator value or presence of 852 sub =
+     * previously: 
      * per spec in email by Naomi Dushay on July 12, 2011, if there are multiple
      *  866 with ind2 '0' and 852 sub '=' exists, then there should be an indexing error message
      */
-@Test
-    public void test86xErrorMessageConditions() 
-    {
-    	String testDataFile = testFilePath + "mhldDisplay86x.mrc";
-        LoggerAppender4Testing appender = new LoggerAppender4Testing();
-    	MhldDisplayUtil.logger.addAppender(appender);
-        try 
-        {
-            Logger.getLogger(MhldDisplayUtil.class).info("Test");
-        	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "362573", fldName, "ignore");
-            appender.assertLogContains("Record 362573 has multiple 866 with ind2=0 and an 852 sub=");
-            
-            testDataFile = testFilePath + "mhldDisplay867.mrc";
-        	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "multSkip867ind0", fldName, "ignore");
-            appender.assertLogContains("Record multSkip867ind0 has multiple 867 with ind2=0 and an 852 sub=");
-        	
-            testDataFile = testFilePath + "mhldDisplay868.mrc";
-        	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "multSkip868ind0", fldName, "ignore");
-            appender.assertLogContains("Record multSkip868ind0 has multiple 868 with ind2=0 and an 852 sub=");
-
-        }
-        finally 
-        {
-        	MhldDisplayUtil.logger.removeAppender(appender);
-        }
-    }
+//@Test
+//    public void test86xErrorMessageConditions() 
+//    {
+//    	String testDataFile = testFilePath + "mhldDisplay86x.mrc";
+//        LoggerAppender4Testing appender = new LoggerAppender4Testing();
+//    	MhldDisplayUtil.logger.addAppender(appender);
+//        try 
+//        {
+//            Logger.getLogger(MhldDisplayUtil.class).info("Test");
+//        	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "362573", fldName, "ignore");
+//            appender.assertLogContains("Record 362573 has multiple 866 with ind2=0 and an 852 sub=");
+//            
+//            testDataFile = testFilePath + "mhldDisplay867.mrc";
+//        	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "multSkip867ind0", fldName, "ignore");
+//            appender.assertLogContains("Record multSkip867ind0 has multiple 867 with ind2=0 and an 852 sub=");
+//        	
+//            testDataFile = testFilePath + "mhldDisplay868.mrc";
+//        	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "multSkip868ind0", fldName, "ignore");
+//            appender.assertLogContains("Record multSkip868ind0 has multiple 868 with ind2=0 and an 852 sub=");
+//
+//        }
+//        finally 
+//        {
+//        	MhldDisplayUtil.logger.removeAppender(appender);
+//        }
+//    }
 
     /**
      * 852 subfield 3 should be included in the comment
@@ -302,13 +314,9 @@ public class MhldMappingTests extends AbstractStanfordTest
 
     	// 852 has sub =  and no 866:  use most recent 863
     	String libLoc = "GREEN -|- CURRENTPER -|- ";
-    	String result = libLoc + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|- v.205 no.22 (2011:June 1)";
+    	String result = libLoc + "COUNTRY LIFE TRAVEL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|- 2010/2011 Winter";
     	assertNumSeparators(result);
     	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, result);
-    	result = libLoc + "COUNTRY LIFE TRAVEL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|- 2010/2011 Winter";
-    	assertNumSeparators(result);
-    	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, result);
-
     	
     	// 852 has no sub =  and no 866:  do not use latest 863
     	String resultNoLatestRecd = libLoc + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL3 -|-  -|- ";
@@ -343,7 +351,7 @@ public class MhldMappingTests extends AbstractStanfordTest
     	result = "SAL -|- STACKS -|-  -|- 1953; v.143(1968)-v.144(1968),v.153(1973)-v.154(1973),v.164(1978),v.166(1979),v.175(1984),v.178(1985),v.182(1988)-v.183(1989),v.194(2000)- -|- ";
     	resultSet.add(result);
 
-    	result = greenCurrentper + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|- v.205 no.22 (2011:June 1)";
+    	result = greenCurrentper + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- Supplement: COUNTRY LIFE ABROAD (WIN 2001), (JUL 14, 2005) -|- ";
     	resultSet.add(result);
 
     	
@@ -356,25 +364,12 @@ public class MhldMappingTests extends AbstractStanfordTest
         	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, expected);
     	}
     	
-    	// 867 ind 0  previous 852 has sub =    	
+    	// 867 ind 0  previous 852 has sub =  - now used per email by Naomi Dushay on October 14, 2011 	
     	result = greenCurrentper + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- Supplement: COUNTRY LIFE ABROAD (WIN 2001), (JUL 14, 2005) -|- ";
 		assertNumSeparators(result);
-    	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "358041", fldName, result);
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, result);
     }
     
-
-	
-	public void testCreateIx()
-	{
-    	fail("Use this for indexing tests, not mapping tests ...");
-    	try
-		{
-			createIxInitVars("mhldDisplay86x.mrc");
-			assertDocHasFieldValue("358725", fldName, "[18-38, 1922-42]; 39, 1943-");
-		}
-		catch (Exception e) {}		
-	}
-
 
 	/**
 	 * assert that the expected mhld_display value has the correct number of separators

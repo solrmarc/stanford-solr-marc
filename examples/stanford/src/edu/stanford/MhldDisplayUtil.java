@@ -30,24 +30,12 @@ public class MhldDisplayUtil
 
     private boolean haveOpenHoldings = false;
     private boolean have866for852 = false;
-    /** used for error detection */
-    private boolean haveIgnored866for852 = false; 
-    /** used for error reporting */
-    private boolean wroteMult866errMsg = false;
 
     /** helps track when to capture a result string */
     private boolean have867for852 = false;
-    /** used for error detection */
-    private boolean haveIgnored867for852 = false; 
-    /** used for error reporting */
-    private boolean wroteMult867errMsg = false;
 
     /** helps track when to capture a result string */
     private boolean have868for852 = false;
-    /** used for error detection */
-    private boolean haveIgnored868for852 = false;
-    /** used for error reporting */
-    private boolean wroteMult868errMsg = false;
 
 	/**
 	 * for each 852, we need to have all the patterns in the 853 fields
@@ -213,14 +201,6 @@ public class MhldDisplayUtil
 		// from 866
 		have866for852 = false;
 		haveOpenHoldings = false;
-
-		// for reporting 86x errors
-		haveIgnored866for852 = false;
-		haveIgnored867for852 = false;
-		haveIgnored868for852 = false;
-		wroteMult866errMsg = false;
-		wroteMult867errMsg = false;
-		wroteMult868errMsg = false;
 	}
 		
 	/**
@@ -300,76 +280,33 @@ public class MhldDisplayUtil
 		if (resultStr.length() > 0 && (have866for852 || have867for852 || have868for852))
 			addValueToResult();
 		resultStr = "";
-
-		// should we skip this 86x?
-		char ind2 = df86x.getIndicator2();
-		if (ind2 == '0' && df852hasEqualsSubfield)
+		// set up result string for this one
+		String suba = MarcUtils.getSubfieldData(df86x, 'a');
+		if (suba == null)
+			suba = "";
+		
+		String prefix = "";
+		if (tag.equals("866") && !have866for852)
 		{
-			// we skip this one ... but we may need to write error message
-			if (tag.equals("866"))
-			{
-				if (!haveIgnored866for852)
-					haveIgnored866for852 = true;
-				else if (!wroteMult866errMsg)
-				{
-					logger.error("Record " + id + " has multiple 866 with ind2=0 and an 852 sub=");
-					wroteMult866errMsg = true;
-				}
-			}
-			else if (tag.equals("867"))
-			{
-				if (!haveIgnored867for852)
-					haveIgnored867for852 = true;
-				else if (!wroteMult867errMsg)
-				{
-					logger.error("Record " + id + " has multiple 867 with ind2=0 and an 852 sub=");
-					wroteMult867errMsg = true;
-				}
-				
-			}
-			else if (tag.equals("868"))
-			{
-				if (!haveIgnored868for852)
-					haveIgnored868for852 = true;
-				else if (!wroteMult868errMsg)
-				{
-					logger.error("Record " + id + " has multiple 868 with ind2=0 and an 852 sub=");
-					wroteMult868errMsg = true;
-				}
-			}
-			return;
+			have866for852 = true;
+			if (suba.endsWith("-"))
+				haveOpenHoldings = true;
 		}
-		else
+		else if (tag.equals("867"))
 		{
-			// set up result string for this one
-			String suba = MarcUtils.getSubfieldData(df86x, 'a');
-			if (suba == null)
-				suba = "";
-			
-			String prefix = "";
-			if (tag.equals("866") && !have866for852)
-			{
-				have866for852 = true;
-				if (suba.endsWith("-"))
-					haveOpenHoldings = true;
-			}
-			else if (tag.equals("867"))
-			{
-				prefix = "Supplement: ";
-				if (!have867for852)
-					have867for852 = true;
-			}
-			else if (tag.equals("868"))
-			{
-				prefix = "Index: ";
-				if (!have868for852)
-					have868for852 = true;
-			}
-			
-			resultStr = resultPrefixFrom852 + prefix + suba + SEP ;
+			prefix = "Supplement: ";
+			if (!have867for852)
+				have867for852 = true;
+		}
+		else if (tag.equals("868"))
+		{
+			prefix = "Index: ";
+			if (!have868for852)
+				have868for852 = true;
+		}
+		
+		resultStr = resultPrefixFrom852 + prefix + suba + SEP ;
 //System.out.println("DEBUG: " + id + "   has resultStr: " + resultStr);		
-
-		}
 		justGot852 = false;	
 	}
 
