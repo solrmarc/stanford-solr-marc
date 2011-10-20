@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+  
+  <record>
+    <leader>00677cy  a22002413  4500</leader>
+    <controlfield tag="001">a358041</controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">lib1</subfield>
+      <subfield code="c">loc1</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">comment1</subfield>
+      <subfield code="=">56343</subfield>
+    </datafield>
+    <datafield tag="853" ind1="2" ind2=" ">
+      <subfield code="8">3</subfield>
+      <subfield code="a">(year)</subfield>
+      <subfield code="b">(season)</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">3.5</subfield>
+      <subfield code="a">2011</subfield>
+      <subfield code="b">22</subfield>
+    </datafield>
+    <datafield tag="866" ind1="3" ind2="1">
+      <subfield code="8">1</subfield>
+      <subfield code="a">866a1open-</subfield>
+    </datafield>
+    
+    
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">lib2</subfield>
+      <subfield code="c">loc2</subfield>
+      <subfield code="t">1</subfield>
+    </datafield>
+    <datafield tag="866" ind1="3" ind2="1">
+      <subfield code="8">1</subfield>
+      <subfield code="a">866a2</subfield>
+    </datafield>
+
+
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">lib3</subfield>
+      <subfield code="c">loc3</subfield>
+    </datafield>
+    <datafield tag="866" ind1="3" ind2="1">
+      <subfield code="8">1</subfield>
+      <subfield code="a">866a3open-</subfield>
+    </datafield>
+
+
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">lib1</subfield>
+      <subfield code="c">loc1</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">comment4</subfield>
+      <subfield code="=">14974</subfield>
+    </datafield>
+    <datafield tag="853" ind1="2" ind2=" ">
+      <subfield code="8">1</subfield>
+      <subfield code="a">v.</subfield>
+      <subfield code="b">no.</subfield>
+      <subfield code="u">52</subfield>
+      <subfield code="v">r</subfield>
+      <subfield code="i">(year)</subfield>
+      <subfield code="j">(month)</subfield>
+      <subfield code="k">(day)</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.581</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">22</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">06</subfield>
+      <subfield code="k">1</subfield>
+    </datafield>
+    <datafield tag="867" ind1=" " ind2="0">
+      <subfield code="8">4</subfield>
+      <subfield code="a">867a</subfield>
+    </datafield>
+
+
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">lib1</subfield>
+      <subfield code="c">loc1</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">comment5</subfield>
+      <subfield code="=">39228</subfield>
+    </datafield>
+    <datafield tag="853" ind1="2" ind2=" ">
+      <subfield code="8">4</subfield>
+      <subfield code="a">(year)</subfield>
+      <subfield code="b">(month)</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">4.4</subfield>
+      <subfield code="a">2010/2011</subfield>
+      <subfield code="b">24</subfield>
+    </datafield>
+  </record>
+ 
+<!--
+  <record>
+    <leader>00677cy  a22002413  4500</leader>
+  </record>
+-->    
+    
+</collection>
