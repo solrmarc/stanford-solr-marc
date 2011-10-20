@@ -119,17 +119,16 @@ public class MhldDisplayUtil
 	 */
 	private void addValueToResult()
 	{
-		// 866?
-		if (have866for852 && resultStrFromProcess86x.length() > 0)
-			result.add(resultStrFromProcess86x + getLatestReceivedStr());
-		// 867 or 868?
-		else if ((have867for852 || have868for852) && resultStrFromProcess86x.length() > 0)
-			result.add(resultStrFromProcess86x);
 		// don't output the first 852
-		else if (resultPrefixFrom852.length() > 0)
+		if (resultPrefixFrom852.length() > 0)
 		{
-			// no 866, 852 has sub =
-			if (!have866for852 && df852hasEqualsSubfield)
+			// 866?
+			if (have866for852 && resultStrFromProcess86x.length() > 0)
+				result.add(resultStrFromProcess86x + getLatestReceivedStr());
+			// 867 or 868?
+			else if ((have867for852 || have868for852) && resultStrFromProcess86x.length() > 0)
+				result.add(resultStrFromProcess86x);
+			else if (!have866for852 && df852hasEqualsSubfield)
 				result.add(resultPrefixFrom852 + SEP + getLatestReceivedStr());
 			else
 				result.add(resultPrefixFrom852 + SEP);
@@ -172,6 +171,8 @@ public class MhldDisplayUtil
 
 		String libraryCode = MarcUtils.getSubfieldData(df852, 'b');
 		String locationCode = MarcUtils.getSubfieldData(df852, 'c');
+		if (StanfordIndexer.SKIPPED_LOCS.contains(locationCode) || StanfordIndexer.MISSING_LOCS.contains(locationCode))
+			return;
 
 		resultPrefixFrom852 = libraryCode + SEP + locationCode + SEP + comment + SEP;
 //System.out.println("\nDEBUG:   process852: " + id + " resultPrefixFrom852: " + resultPrefixFrom852);
@@ -179,7 +180,6 @@ public class MhldDisplayUtil
 		String subEquals = MarcUtils.getSubfieldData(df852, '=');
 		if (subEquals != null && subEquals.length() > 0)
 			df852hasEqualsSubfield = true;
-
 	}
 
 	/**

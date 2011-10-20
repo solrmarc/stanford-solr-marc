@@ -1687,7 +1687,6 @@
       <subfield code="i">2010</subfield>
       <subfield code="j">WIN</subfield>
     </datafield>
-    
     <datafield tag="852" ind1=" " ind2=" ">
       <subfield code="a">CSt</subfield>
       <subfield code="b">lib</subfield>
@@ -1705,7 +1704,6 @@
       <subfield code="a">105</subfield>
       <subfield code="i">2009</subfield>
     </datafield>
-
     <datafield tag="852" ind1=" " ind2=" ">
       <subfield code="a">CSt</subfield>
       <subfield code="b">lib</subfield>
@@ -1731,11 +1729,40 @@
       <subfield code="j">03</subfield>
       <subfield code="k">9</subfield>
     </datafield>
-    
-
-
   </record>
   
-
+  <record>
+    <leader>01200cy  a22000974  4500</leader>
+    <controlfield tag="001">aSkippedLocs</controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">lib</subfield>
+      <subfield code="c">loc</subfield>
+    </datafield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">lib</subfield>
+      <subfield code="c">3FL-REF-S</subfield>
+    </datafield>
+    <datafield tag="866" ind1="4" ind2="1">
+      <subfield code="8">1</subfield>
+      <subfield code="a">866a</subfield>
+    </datafield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">lib</subfield>
+      <subfield code="c">LOCKSS</subfield>
+    </datafield>
+    <datafield tag="866" ind1="4" ind2="1">
+      <subfield code="8">1</subfield>
+      <subfield code="a">866a</subfield>
+    </datafield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">lib</subfield>
+      <subfield code="c">WITHDRAWN</subfield>
+    </datafield>
+  </record>
+  
 
 </collection>

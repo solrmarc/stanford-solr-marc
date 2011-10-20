@@ -364,6 +364,33 @@ public class MhldMappingTests extends AbstractStanfordTest
     	solrFldMapTest.assertSolrFldValue(testDataFile, "852multz", fldName, result);
     }
 
+
+    /**
+     * if an 852 has a location in the locations_skipped_list.properties, then
+     *  it should not be included.
+     */
+@Test
+    public void testSkippedLocs()
+    {
+    	String testDataFile = testFilePath + "mhldDisplay.mrc";
+    
+    	String result = "lib -|- loc -|-  -|-  -|- ";
+    	assertNumSeparators(result);
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "SkippedLocs", fldName, result);
+    
+    	Set<String> unResultSet = new HashSet<String>();
+    	unResultSet.add("lib -|- 3FL-REF-S -|-  -|- 866a -|- ");
+    	unResultSet.add("lib -|- LOCKSS -|-  -|- 866a -|- ");
+    	unResultSet.add("lib -|- WITHDRAWN -|-  -|-  -|- ");
+    	for (String unexpected : unResultSet)
+    	{
+    		assertNumSeparators(result);
+        	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "SkippedLocs", fldName, unexpected);
+    	}
+    	solrFldMapTest.assertSolrFldHasNumValues(testDataFile, "SkippedLocs", fldName, 1);
+
+    }
+
     
     /**
      * test the expected values for 358041
