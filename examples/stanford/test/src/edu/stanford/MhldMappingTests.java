@@ -351,25 +351,59 @@ public class MhldMappingTests extends AbstractStanfordTest
     	result = "SAL -|- STACKS -|-  -|- 1953; v.143(1968)-v.144(1968),v.153(1973)-v.154(1973),v.164(1978),v.166(1979),v.175(1984),v.178(1985),v.182(1988)-v.183(1989),v.194(2000)- -|- ";
     	resultSet.add(result);
 
+    	// 867 ind 0  previous 852 has sub =  - now used per email by Naomi Dushay on October 14, 2011 	
     	result = greenCurrentper + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- Supplement: COUNTRY LIFE ABROAD (WIN 2001), (JUL 14, 2005) -|- ";
     	resultSet.add(result);
 
-    	
     	result = greenCurrentper + "COUNTRY LIFE TRAVEL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|- 2010/2011 Winter";
     	resultSet.add(result);
+    	
+    	solrFldMapTest.assertSolrFldHasNumValues(testDataFile, "358041", fldName, 5);
+    	for (String expected : resultSet)
+    	{
+    		assertNumSeparators(result);
+        	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, expected);
+    	}
+    }
+    
+
+    /**
+     * test the expected values for a record with easier text strings
+     */
+@Test
+    public void testEasyTextStr()
+    {
+    	String testDataFile = testFilePath + "mhldDisplayEasy.mrc";
+    
+    	Set<String> resultSet = new HashSet<String>();
+    	
+    	// 852 has sub =  and no 866:  use most recent 863
+    	String lib1loc1 = "lib1 -|- loc1 -|- ";
+    	String result = lib1loc1 + "comment1 -|- 866a1open- -|- 2011 Summer";
+    	resultSet.add(result);
+    	
+    	result = "lib2 -|- loc2 -|-  -|- 866a2 -|- ";
+    	resultSet.add(result);
+    	
+    	result = "lib3 -|- loc3 -|-  -|- 866a3open- -|- ";
+    	resultSet.add(result);
+
+    	result = lib1loc1 + "comment4 -|- Supplement: 867a -|- ";
+    	resultSet.add(result);
+    	
+    	
+    	result = lib1loc1 + "comment5 -|-  -|- 2010/2011 Winter";
+    	resultSet.add(result);
+    	
+    	solrFldMapTest.assertSolrFldHasNumValues(testDataFile, "358041", fldName, 5);
     	
     	for (String expected : resultSet)
     	{
     		assertNumSeparators(result);
         	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, expected);
     	}
-    	
-    	// 867 ind 0  previous 852 has sub =  - now used per email by Naomi Dushay on October 14, 2011 	
-    	result = greenCurrentper + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- Supplement: COUNTRY LIFE ABROAD (WIN 2001), (JUL 14, 2005) -|- ";
-		assertNumSeparators(result);
-    	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, result);
     }
-    
+
 
 	/**
 	 * assert that the expected mhld_display value has the correct number of separators
