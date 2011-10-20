@@ -1657,5 +1657,85 @@
       <subfield code="z">z6</subfield>
     </datafield>
    </record>
+
+  <record>
+    <leader>01200cy  a22000974  4500</leader>
+    <controlfield tag="001">alatestRecdPatterns</controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">lib</subfield>
+      <subfield code="c">loc</subfield>
+      <subfield code="=">output latest received</subfield>
+    </datafield>
+    <datafield tag="853" ind1="2" ind2=" ">
+      <subfield code="8">3</subfield>
+      <subfield code="a">v.</subfield>
+      <subfield code="b">pt.</subfield>
+      <subfield code="u">3</subfield>
+      <subfield code="v">r</subfield>
+      <subfield code="c">no.</subfield>
+      <subfield code="v">c</subfield>
+      <subfield code="i">(year)</subfield>
+      <subfield code="j">(season)</subfield>
+    </datafield>
+    <!-- v.106:pt.3:no.482:(2010:WIN) -->
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">3.36</subfield>
+      <subfield code="a">106</subfield>
+      <subfield code="b">3</subfield>
+      <subfield code="c">482</subfield>
+      <subfield code="i">2010</subfield>
+      <subfield code="j">WIN</subfield>
+    </datafield>
     
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">lib</subfield>
+      <subfield code="c">loc</subfield>
+      <subfield code="=">output latest received</subfield>
+    </datafield>
+    <datafield tag="853" ind1="2" ind2=" ">
+      <subfield code="8">1</subfield>
+      <subfield code="a">v.</subfield>
+      <subfield code="i">(year)</subfield>
+    </datafield>
+    <!-- v.105:(2009) -->
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.11</subfield>
+      <subfield code="a">105</subfield>
+      <subfield code="i">2009</subfield>
+    </datafield>
+
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">lib</subfield>
+      <subfield code="c">loc</subfield>
+      <subfield code="=">output latest received</subfield>
+    </datafield>
+    <datafield tag="853" ind1="2" ind2=" ">
+      <subfield code="8">1</subfield>
+      <subfield code="a">v.</subfield>
+      <subfield code="b">no.</subfield>
+      <subfield code="u">52</subfield>
+      <subfield code="v">r</subfield>
+      <subfield code="i">(year)</subfield>
+      <subfield code="j">(month)</subfield>
+      <subfield code="k">(day)</subfield>
+    </datafield>
+    <!-- v.205:no.10:(2011:March 9) -->
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">1.569</subfield>
+      <subfield code="a">205</subfield>
+      <subfield code="b">10</subfield>
+      <subfield code="i">2011</subfield>
+      <subfield code="j">03</subfield>
+      <subfield code="k">9</subfield>
+    </datafield>
+    
+
+
+  </record>
+  
+
+
 </collection>
