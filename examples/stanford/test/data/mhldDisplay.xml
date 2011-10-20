@@ -1623,5 +1623,39 @@
       <subfield code="a">a5340361</subfield>
     </datafield>
   </record>
+
+  <record>
+    <leader>01200cy  a22000974  4500</leader>
+    <controlfield tag="001">a852multz</controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">CROWN</subfield>
+      <subfield code="c">STACKS</subfield>
+      <subfield code="z">z1</subfield>
+      <subfield code="z">z2</subfield>
+    </datafield>
+    <datafield tag="866" ind1="4" ind2="1">
+      <subfield code="8">1</subfield>
+      <subfield code="a">866a</subfield>
+    </datafield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">HOOVER</subfield>
+      <subfield code="c">STACKS</subfield>
+      <subfield code="z">z3</subfield>
+    </datafield>
+    <datafield tag="866" ind1="4" ind2="1">
+      <subfield code="8">1</subfield>
+      <subfield code="a">866a</subfield>
+    </datafield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">LANE</subfield>
+      <subfield code="c">STACKS</subfield>
+      <subfield code="z">z4</subfield>
+      <subfield code="z">z5</subfield>
+      <subfield code="z">z6</subfield>
+    </datafield>
+   </record>
     
 </collection>
