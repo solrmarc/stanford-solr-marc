@@ -362,7 +362,7 @@ public class MhldDisplayUtil
 			if (caption == null || value == null)
 				break;
 			if (result.length() > 0)
-				result.append(" ");
+				result.append(":");
 			result.append(getCaptionedStr(caption, value));
 		}
 
@@ -380,7 +380,7 @@ public class MhldDisplayUtil
 		}
 		// append the alternative enumeration to the result within parens.
 		if (altSchemeStr.length() != 0)
-			result.append(" (" + altSchemeStr + ")");
+			result.append(":(" + altSchemeStr + ")");
 
 		// subfields i-l contain chronology information (year, month ...)
 		// subfield m contains alternative chronology info
@@ -413,7 +413,7 @@ public class MhldDisplayUtil
 		{
 			// append the chronology info to an existing result within parens.
 			if (result.length() > 0)
-				result.append(" (").append(chronologyStr).append(")");
+				result.append(":(").append(chronologyStr).append(")");
 			else
 				result.append(chronologyStr);
 		}

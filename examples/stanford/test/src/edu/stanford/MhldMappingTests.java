@@ -273,9 +273,20 @@ public class MhldMappingTests extends AbstractStanfordTest
     	String testDataFile = testFilePath + "mhldDisplay.mrc";
     	// 852 has sub =  and no 866
     	String libLoc = "GREEN -|- CURRENTPER -|- ";
-    	String result = libLoc + "COUNTRY LIFE INTERNATIONAL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- 2009- -|- 2011 Summer";
+    	String result = libLoc + "COUNTRY LIFE INTERNATIONAL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- 2009- -|- 2011:Summer";
     	assertNumSeparators(result);
     	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, result);
+    	libLoc = "lib -|- loc -|-  -|-  -|- ";
+    	Set<String> resultSet = new HashSet<String>();
+    	resultSet.add(libLoc + "v.106:pt.3:no.482:(2010:WIN)");
+    	resultSet.add(libLoc + "v.105:(2009)");
+    	resultSet.add(libLoc + "v.205:no.10:(2011:March 9)");
+    	solrFldMapTest.assertSolrFldHasNumValues(testDataFile, "latestRecdPatterns", fldName, 3);
+    	for (String expected : resultSet)
+    	{
+    		assertNumSeparators(result);
+        	solrFldMapTest.assertSolrFldValue(testDataFile, "latestRecdPatterns", fldName, expected);
+    	}
     }
     
 // FIXME:  need tests for different formats (ugh) -- do it with true unit tests (no xml records)
@@ -314,7 +325,7 @@ public class MhldMappingTests extends AbstractStanfordTest
 
     	// 852 has sub =  and no 866:  use most recent 863
     	String libLoc = "GREEN -|- CURRENTPER -|- ";
-    	String result = libLoc + "COUNTRY LIFE TRAVEL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|- 2010/2011 Winter";
+    	String result = libLoc + "COUNTRY LIFE TRAVEL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|- 2010/2011:Winter";
     	assertNumSeparators(result);
     	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, result);
     	
@@ -366,7 +377,7 @@ public class MhldMappingTests extends AbstractStanfordTest
     	
     	// 852 has sub =  and no 866:  use most recent 863
     	String greenCurrentper = "GREEN -|- CURRENTPER -|- ";
-    	String result = greenCurrentper + "COUNTRY LIFE INTERNATIONAL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- 2009- -|- 2011 Summer";
+    	String result = greenCurrentper + "COUNTRY LIFE INTERNATIONAL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- 2009- -|- 2011:Summer";
     	resultSet.add(result);
     	
     	result = "SAL3 -|- STACKS -|-  -|- v.151(1972)-v.152(1972) -|- ";
@@ -379,7 +390,7 @@ public class MhldMappingTests extends AbstractStanfordTest
     	result = greenCurrentper + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- Supplement: COUNTRY LIFE ABROAD (WIN 2001), (JUL 14, 2005) -|- ";
     	resultSet.add(result);
 
-    	result = greenCurrentper + "COUNTRY LIFE TRAVEL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|- 2010/2011 Winter";
+    	result = greenCurrentper + "COUNTRY LIFE TRAVEL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|- 2010/2011:Winter";
     	resultSet.add(result);
     	
     	solrFldMapTest.assertSolrFldHasNumValues(testDataFile, "358041", fldName, 5);
@@ -403,7 +414,7 @@ public class MhldMappingTests extends AbstractStanfordTest
     	
     	// 852 has sub =  and no 866:  use most recent 863
     	String lib1loc1 = "lib1 -|- loc1 -|- ";
-    	String result = lib1loc1 + "comment1 -|- 866a1open- -|- 2011 Summer";
+    	String result = lib1loc1 + "comment1 -|- 866a1open- -|- 2011:Summer";
     	resultSet.add(result);
     	
     	result = "lib2 -|- loc2 -|-  -|- 866a2 -|- ";
@@ -416,7 +427,7 @@ public class MhldMappingTests extends AbstractStanfordTest
     	resultSet.add(result);
     	
     	
-    	result = lib1loc1 + "comment5 -|-  -|- 2010/2011 Winter";
+    	result = lib1loc1 + "comment5 -|-  -|- 2010/2011:Winter";
     	resultSet.add(result);
     	
     	solrFldMapTest.assertSolrFldHasNumValues(testDataFile, "358041", fldName, 5);
