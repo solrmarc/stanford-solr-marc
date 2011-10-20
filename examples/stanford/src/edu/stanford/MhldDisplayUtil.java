@@ -154,8 +154,9 @@ public class MhldDisplayUtil
 		String sub3 = MarcUtils.getSubfieldData(df852, '3');
 		if (sub3 != null && sub3.length() > 0)
 			comment = sub3;
-		String subz = MarcUtils.getSubfieldData(df852, 'z');
-		if (subz != null && subz.length() > 0)
+
+		List<String> subzSet = MarcUtils.getSubfieldStrings(df852, 'z');
+		for (String subz : subzSet) 
 		{
 			// skip mhld if 852z has "All holdings transferred"
 			if (subz.toLowerCase().contains("all holdings transferred"))
