@@ -8,10 +8,10 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
-import org.solrmarc.tools.LoggerAppender4Testing;
+//import org.solrmarc.tools.LoggerAppender4Testing;
 
 public class MhldMappingTests extends AbstractStanfordTest 
 {
@@ -328,6 +328,30 @@ public class MhldMappingTests extends AbstractStanfordTest
     	solrFldMapTest.assertSolrFldValue(testDataFile, "2416921", fldName, resultNoLatestRecd);
 	}
 
+// ------------------
+
+
+    /**
+     * if an 852 has multiple subfield z, they should be concatenated with a
+     *  space in between.
+     */
+@Test
+    public void testMult852z()
+    {
+    	String testDataFile = testFilePath + "mhldDisplay.mrc";
+    
+    	String result = "CROWN -|- STACKS -|- z1 z2 -|- 866a -|- ";
+    	assertNumSeparators(result);
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "852multz", fldName, result);
+
+    	result = "HOOVER -|- STACKS -|- z3 -|- 866a -|- ";
+    	assertNumSeparators(result);
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "852multz", fldName, result);
+    	
+    	result = "LANE -|- STACKS -|- z4 z5 z6 -|-  -|- ";
+    	assertNumSeparators(result);
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "852multz", fldName, result);
+    }
 
     
     /**
