@@ -55,6 +55,34 @@ public class MhldMappingTests extends AbstractStanfordTest
 
 
     /**
+     * if an 852 has a location in the locations_skipped_list.properties, then
+     *  it should not be included.
+     */
+@Test
+    public void testSkippedLocs()
+    {
+    	String testDataFile = testFilePath + "mhldDisplay.mrc";
+    
+    	String result = "lib -|- loc -|-  -|-  -|- ";
+    	assertNumSeparators(result);
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "SkippedLocs", fldName, result);
+    
+    	Set<String> unResultSet = new HashSet<String>();
+    	unResultSet.add("lib -|- 3FL-REF-S -|-  -|- 866a -|- ");
+    	unResultSet.add("lib -|- LOCKSS -|-  -|- 866a -|- ");
+    	unResultSet.add("lib -|- WITHDRAWN -|-  -|-  -|- ");
+    	for (String unexpected : unResultSet)
+    	{
+    		assertNumSeparators(result);
+        	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "SkippedLocs", fldName, unexpected);
+    	}
+    	solrFldMapTest.assertSolrFldHasNumValues(testDataFile, "SkippedLocs", fldName, 1);
+    
+    }
+    
+
+
+    /**
      * ensure output with and without 86x have same number of separators
      */
 @Test
@@ -366,32 +394,20 @@ public class MhldMappingTests extends AbstractStanfordTest
 
 
     /**
-     * if an 852 has a location in the locations_skipped_list.properties, then
-     *  it should not be included.
+     * if an 852 has only one 866, with 853/863, ensure only one field is output.
      */
 @Test
-    public void testSkippedLocs()
+    public void testSingle852s()
     {
     	String testDataFile = testFilePath + "mhldDisplay.mrc";
-    
-    	String result = "lib -|- loc -|-  -|-  -|- ";
-    	assertNumSeparators(result);
-    	solrFldMapTest.assertSolrFldValue(testDataFile, "SkippedLocs", fldName, result);
-    
-    	Set<String> unResultSet = new HashSet<String>();
-    	unResultSet.add("lib -|- 3FL-REF-S -|-  -|- 866a -|- ");
-    	unResultSet.add("lib -|- LOCKSS -|-  -|- 866a -|- ");
-    	unResultSet.add("lib -|- WITHDRAWN -|-  -|-  -|- ");
-    	for (String unexpected : unResultSet)
-    	{
-    		assertNumSeparators(result);
-        	solrFldMapTest.assertSolrFldHasNoValue(testDataFile, "SkippedLocs", fldName, unexpected);
-    	}
-    	solrFldMapTest.assertSolrFldHasNumValues(testDataFile, "SkippedLocs", fldName, 1);
+    	solrFldMapTest.assertSolrFldHasNumValues(testDataFile, "866before863", fldName, 1);
 
+    	String result = "lib -|- loc -|- comment -|- 1, 1977- -|- v.23:no.1:(1999:January)";
+    	assertNumSeparators(result);
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "866before863", fldName, result);
     }
 
-    
+
     /**
      * test the expected values for 358041
      */

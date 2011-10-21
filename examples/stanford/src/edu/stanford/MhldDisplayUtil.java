@@ -109,7 +109,7 @@ public class MhldDisplayUtil
 				process86x(df, "868");
 		}
 
-		addValueToResult();
+		addValueToResult();  // be sure to get the last value
 
 		return result;
 	}
@@ -143,8 +143,7 @@ public class MhldDisplayUtil
 	 */
 	private void process852(DataField df852)
 	{
-		// if there were no intervening fields between the previous 852
-		//   and this one, then output the previous 852 information
+		// if we hit a new 852, then we need to output the previous info
 		addValueToResult();
 
 		resetVarsForNew852();
@@ -280,7 +279,11 @@ public class MhldDisplayUtil
 	 */
 	private void process86x(DataField df86x, String tag)
 	{
+		// if we have a new 86x, then add the value associated with the previous 86x
+		if (resultStrFromProcess86x.length() > 0 && (have866for852 || have867for852 || have868for852))
+			addValueToResult();
 		resultStrFromProcess86x = "";
+		
 		// set up result string for this one
 		String suba = MarcUtils.getSubfieldData(df86x, 'a');
 		if (suba == null)
@@ -308,7 +311,6 @@ public class MhldDisplayUtil
 
 		resultStrFromProcess86x = resultPrefixFrom852 + prefix + suba + SEP;
 		
-		addValueToResult();
 //System.out.println("DEBUG:     process86x: " + id + "   has resultStr: " + resultStrFromProcess86x);
 	}
 
