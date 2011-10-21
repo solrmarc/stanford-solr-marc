@@ -1764,5 +1764,37 @@
     </datafield>
   </record>
   
-
+  <record>
+    <leader>01200cy  a22000974  4500</leader>
+    <controlfield tag="001">a866before863</controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">lib</subfield>
+      <subfield code="c">loc</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">comment</subfield>
+      <subfield code=" ">3547</subfield>
+    </datafield>
+    <datafield tag="853" ind1="2" ind2=" ">
+      <subfield code="8">2</subfield>
+      <subfield code="a">v.</subfield>
+      <subfield code="b">no.</subfield>
+      <subfield code="u">6</subfield>
+      <subfield code="v">r</subfield>
+      <subfield code="i">(year)</subfield>
+      <subfield code="j">(month)</subfield>
+    </datafield>
+    <datafield tag="866" ind1=" " ind2="0">
+      <subfield code="8">1</subfield>
+      <subfield code="a">1, 1977-</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">2.1</subfield>
+      <subfield code="a">23</subfield>
+      <subfield code="b">1</subfield>
+      <subfield code="i">1999</subfield>
+      <subfield code="j">01</subfield>
+    </datafield>
+  </record>
+  
 </collection>
