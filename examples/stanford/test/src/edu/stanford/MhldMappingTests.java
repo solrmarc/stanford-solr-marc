@@ -132,6 +132,68 @@ public class MhldMappingTests extends AbstractStanfordTest
     	solrFldMapTest.assertSolrFldValue(testDataFile, "358725", fldName, "GREEN -|- CURRENTPER -|- Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in STACKS -|- [18-38, 1922-42]; 39, 1943- -|- ");
     }
     
+	/**
+	 * when there are multiple 866s in a record, the "latest received" should
+	 *  only attach to the open holdings statement
+	 */
+@Test
+	public void testMult866()
+	{
+    	String testDataFile = testFilePath + "mhldDisplayEasy2.mrc";
+        
+    	Set<String> resultSet = new HashSet<String>();
+    	
+    	String lib1loc1 = "lib1 -|- loc1 -|- comment1 -|- ";
+    	String latest = "v.417:no.11:(2011:March 25)";
+    	String result = lib1loc1 + "866a1open- -|- " + latest;
+    	resultSet.add(result);
+    	
+    	result = lib1loc1 + "866a2closed -|- ";
+    	resultSet.add(result);
+    	result = lib1loc1 + "866a3closed -|- ";
+    	resultSet.add(result);
+    	result = lib1loc1 + "866a4closed -|- ";
+    	resultSet.add(result);
+    	
+    	solrFldMapTest.assertSolrFldHasNumValues(testDataFile, "111", fldName, 4);
+    	
+    	for (String expected : resultSet)
+    	{
+    		assertNumSeparators(result);
+        	solrFldMapTest.assertSolrFldValue(testDataFile, "111", fldName, expected);
+    	}
+	}
+
+    /**
+     * the "latest received" should only attach to the open holdings statement
+     * when there are multiple 866s, or combination of 866 and 867 or 868
+     */
+@Test
+    public void test866and867()
+    {
+    	String testDataFile = testFilePath + "mhldDisplayEasy2.mrc";
+        
+    	Set<String> resultSet = new HashSet<String>();
+    	
+    	String lib1loc1 = "lib1 -|- loc1 -|-  -|- ";
+    	String latest = "no.322:(2011:March)";
+    	String result = lib1loc1 + "866a1open- -|- " + latest;
+    	resultSet.add(result);
+    	
+    	result = lib1loc1 + "Supplement: 867a -|- ";
+    	resultSet.add(result);
+    	
+    	solrFldMapTest.assertSolrFldHasNumValues(testDataFile, "222", fldName, 2);
+    	
+    	for (String expected : resultSet)
+    	{
+    		assertNumSeparators(result);
+        	solrFldMapTest.assertSolrFldValue(testDataFile, "222", fldName, expected);
+    	}
+    }
+
+
+
     /**
      * per email by Naomi Dushay on October 14, 2011, MHLD summary holdings are 
      *  NOT skipped: display 866 regardless of second indicator value or presence of 852 sub =
@@ -483,7 +545,6 @@ public class MhldMappingTests extends AbstractStanfordTest
 
     	result = lib1loc1 + "comment4 -|- Supplement: 867a -|- v.205:no.22:(2011:June 1)";
     	resultSet.add(result);
-    	
     	
     	result = lib1loc1 + "comment5 -|-  -|- 2010/2011:Winter";
     	resultSet.add(result);

@@ -23,17 +23,17 @@ public class MhldDisplayUtil
 
 	/** if an 852 has subfield '=', then 86x fields with ind2=0 are ignored */
 	private boolean df852hasEqualsSubfield = false;
+	/** true if there is no comment portion from 852 sub 3 and sub z */
+	private boolean noCommentFrom852 = true;
 	/** the part of a result string derived from the 852 */
 	private String resultPrefixFrom852 = "";
-
-	private boolean haveOpenHoldings = false;
-	private boolean have866for852 = false;
-
-	/** helps track when to capture a result string */
-	private boolean have867for852 = false;
-
-	/** helps track when to capture a result string */
-	private boolean have868for852 = false;
+	
+	/** all the 866 fields for a given 852 */
+	private List<DataField> list866 = new ArrayList<DataField>();
+	/** all the 867 fields for a given 852 */
+	private List<DataField> list867 = new ArrayList<DataField>();
+	/** all the 868 fields for a given 852 */
+	private List<DataField> list868 = new ArrayList<DataField>();
 	
 	/** for each 852, we need to have all the patterns in the 853 fields
 	 * available so we can turn the correct 863 field into a sensible
@@ -102,43 +102,100 @@ public class MhldDisplayUtil
 
 			// 86x fields for "Library Has"
 			else if (df.getTag().equals("866"))
-				process86x(df, "866");
+				list866.add(df);
 			else if (df.getTag().equals("867"))
-				process86x(df, "867");
+				list867.add(df);
 			else if (df.getTag().equals("868"))
-				process86x(df, "868");
+				list868.add(df);
 		}
 
-		addValueToResult();  // be sure to get the last value
+		addValuesToResult();  // get the last set of values from the final 852
 
 		return result;
 	}
 
+	
 	/**
-	 * adds a value to the result set, if conditions are met
+	 * adds values to the result set for a single mhld record (starting with 852)
+	 * 
+	 * spec:
+	 *  if 866 field ends with a hyphen (open holdings), display the most recent 863 (user friendly version)
+	 *    if there are multiple 866s ending with a hyphen, write error message to the indexing logs;  display Latest Received for first open holdings only.
+	 *  if no 866, but there is a single 867/868, display the most recent 863
+	 *    if there are multiple 867/868, then the most recent 863 should appear with all of them (????)
+	 *  if no 866, 867 or 868, and 852 sub = exists, display the most recent 863
 	 */
-	private void addValueToResult()
+	private void addValuesToResult()
 	{
-		// don't output the first 852
-		if (resultPrefixFrom852.length() > 0)
+		if (resultPrefixFrom852.length() == 0)
+			return;
+		
+		boolean latestRecdOut = false;
+		boolean has866 = false;
+		boolean has867 = false;
+		boolean has868 = false;
+
+		for (DataField df866 : list866)
 		{
-			// 866?
-			if (have866for852 && resultStrFromProcess86x.length() > 0)
-				result.add(resultStrFromProcess86x + getLatestReceivedStr());
-			// 867 or 868?
-			else if ((have867for852 || have868for852) && resultStrFromProcess86x.length() > 0)
-				if (have866for852)
-					result.add(resultStrFromProcess86x);
+			String suba = MarcUtils.getSubfieldData(df866, 'a');
+			if (suba == null)
+				suba = "";
+			if (suba.endsWith("-")) 
+			{
+				if (latestRecdOut == false)
+				{
+					result.add(resultPrefixFrom852 + suba + SEP + getLatestReceivedStr());
+					latestRecdOut = true;
+				}
 				else
-					result.add(resultStrFromProcess86x + getLatestReceivedStr());
-			else if (!have866for852 && df852hasEqualsSubfield)
+				{
+					result.add(resultPrefixFrom852 + suba + SEP);
+					logger.error(id + " has mhld with multiple 866 ending in hyphen");
+				}
+			}
+			else
+			{
+				result.add(resultPrefixFrom852 + suba + SEP);
+			}
+			has866 = true;
+		}
+		for (DataField df867 : list867)
+		{
+			String suba = MarcUtils.getSubfieldData(df867, 'a');
+			if (suba == null)
+				suba = "";
+			if (!has866)
+				result.add(resultPrefixFrom852 + "Supplement: " + suba + SEP + getLatestReceivedStr());
+			else
+				result.add(resultPrefixFrom852 + "Supplement: " + suba + SEP);
+			has867 = true;
+		}
+		for (DataField df868 : list868)
+		{
+			String suba = MarcUtils.getSubfieldData(df868, 'a');
+			if (suba == null)
+				suba = "";
+			if (!has866)
+				result.add(resultPrefixFrom852 + "Index: " + suba + SEP + getLatestReceivedStr());
+			else
+				result.add(resultPrefixFrom852 + "Index: " + suba + SEP);
+			has868 = true;
+		}
+		
+		if (!has866 && !has867 && !has868)
+		{
+			if (df852hasEqualsSubfield)
 				result.add(resultPrefixFrom852 + SEP + getLatestReceivedStr());
 			else
+			{
 				result.add(resultPrefixFrom852 + SEP);
+				if (noCommentFrom852)
+					logger.error(id + " has mhld 852 with no info: " + resultPrefixFrom852);
+			}
 		}
-//System.out.println("DEBUG: just added result " + String.valueOf(result.size()) + " " + result.toString());
 	}
-
+	
+	
 	/**
 	 * given an 852 field, process it, changing class variables as appropriate
 	 *  if the 852 is not skipped, sets resultPrefixFrom852, a portion of a
@@ -147,7 +204,7 @@ public class MhldDisplayUtil
 	private void process852(DataField df852)
 	{
 		// if we hit a new 852, then we need to output the previous info
-		addValueToResult();
+		addValuesToResult();
 
 		resetVarsForNew852();
 
@@ -170,6 +227,8 @@ public class MhldDisplayUtil
 					comment = subz;
 			}
 		}
+		if (comment.length() > 0)
+			noCommentFrom852 = false;
 
 		String libraryCode = MarcUtils.getSubfieldData(df852, 'b');
 		String locationCode = MarcUtils.getSubfieldData(df852, 'c');
@@ -194,6 +253,7 @@ public class MhldDisplayUtil
 		// from 852
 		df852hasEqualsSubfield = false;
 		resultPrefixFrom852 = "";
+		noCommentFrom852 = true;
 
 		// from 853
 		patternFieldMap.clear();
@@ -203,10 +263,9 @@ public class MhldDisplayUtil
 		mostRecent863seqNum = 0;
 
 		// from 86x
-		have866for852 = false;
-		haveOpenHoldings = false;
-		have867for852 = false;
-		have868for852 = false;
+		list867.clear();
+		list866.clear();
+		list868.clear();
 	}
 
 	/**
@@ -274,48 +333,6 @@ public class MhldDisplayUtil
 		}
 	}
 
-	/**
-	 * given an 86x field, process it, assigning class variables as appropriate
-	 * 
-	 * @param df86x - the DataField
-	 * @param tag - a string for the tag; either 866, 867 or 868
-	 */
-	private void process86x(DataField df86x, String tag)
-	{
-		// if we have a new 86x, then add the value associated with the previous 86x
-		if (resultStrFromProcess86x.length() > 0 && (have866for852 || have867for852 || have868for852))
-			addValueToResult();
-		resultStrFromProcess86x = "";
-		
-		// set up result string for this one
-		String suba = MarcUtils.getSubfieldData(df86x, 'a');
-		if (suba == null)
-			suba = "";
-
-		String prefix = "";
-		if (tag.equals("866") && !have866for852)
-		{
-			have866for852 = true;
-			if (suba.endsWith("-"))
-				haveOpenHoldings = true;
-		}
-		else if (tag.equals("867"))
-		{
-			prefix = "Supplement: ";
-			if (!have867for852)
-				have867for852 = true;
-		}
-		else if (tag.equals("868"))
-		{
-			prefix = "Index: ";
-			if (!have868for852)
-				have868for852 = true;
-		}
-
-		resultStrFromProcess86x = resultPrefixFrom852 + prefix + suba + SEP;
-		
-//System.out.println("DEBUG:     process86x: " + id + "   has resultStr: " + resultStrFromProcess86x);
-	}
 
 	/**
 	 * @return a string for "Latest Received" based on mostRecent863 and the
@@ -324,13 +341,10 @@ public class MhldDisplayUtil
 	private String getLatestReceivedStr()
 	{
 		String result = "";
-		if (haveOpenHoldings || (!have866for852 && df852hasEqualsSubfield))
+		if (mostRecent863 != null && mostRecent863linkNum != 0)
 		{
-			if (mostRecent863 != null && mostRecent863linkNum != 0)
-			{
-				DataField pattern853df = patternFieldMap.get(Integer.valueOf(mostRecent863linkNum));
-				result = get863DisplayValue(mostRecent863, pattern853df);
-			}
+			DataField pattern853df = patternFieldMap.get(Integer.valueOf(mostRecent863linkNum));
+			result = get863DisplayValue(mostRecent863, pattern853df);
 		}
 //System.out.println("DEBUG:       getLatestReceived: " + id + "    has latest received: " + result);
 		return result;
