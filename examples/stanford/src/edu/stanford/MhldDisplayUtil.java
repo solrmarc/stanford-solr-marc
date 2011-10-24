@@ -34,7 +34,7 @@ public class MhldDisplayUtil
 
 	/** helps track when to capture a result string */
 	private boolean have868for852 = false;
-
+	
 	/** for each 852, we need to have all the patterns in the 853 fields
 	 * available so we can turn the correct 863 field into a sensible
 	 * "Latest Received" string. 
@@ -127,7 +127,10 @@ public class MhldDisplayUtil
 				result.add(resultStrFromProcess86x + getLatestReceivedStr());
 			// 867 or 868?
 			else if ((have867for852 || have868for852) && resultStrFromProcess86x.length() > 0)
-				result.add(resultStrFromProcess86x);
+				if (have866for852)
+					result.add(resultStrFromProcess86x);
+				else
+					result.add(resultStrFromProcess86x + getLatestReceivedStr());
 			else if (!have866for852 && df852hasEqualsSubfield)
 				result.add(resultPrefixFrom852 + SEP + getLatestReceivedStr());
 			else
@@ -199,7 +202,7 @@ public class MhldDisplayUtil
 		mostRecent863linkNum = 0;
 		mostRecent863seqNum = 0;
 
-		// from 866
+		// from 86x
 		have866for852 = false;
 		haveOpenHoldings = false;
 		have867for852 = false;
