@@ -140,7 +140,7 @@ public class MhldMappingTests extends AbstractStanfordTest
      *  is skipped if 866 has ind2 of 0 and 852 has a sub = 
      */
 @Test
-    public void testSkipped866() 
+    public void testNoLongerSkipped866() 
     {
 		String testDataFile = testFilePath + "mhldDisplay86x.mrc";
 		
@@ -175,6 +175,21 @@ public class MhldMappingTests extends AbstractStanfordTest
     }
     
     /**
+     * ensure there is a "Latest Received" value when there is an 867 without 
+     * an 866, and there are 863s
+     */
+@Test
+    public void test867no866() 
+    {
+    	String testDataFile = testFilePath + "mhldDisplay.mrc";
+    	
+    	// keep if 2nd indicator "0" and no 852 sub =
+    	String valueStart = "GREEN -|- CURRENTPER -|- Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- Supplement: COUNTRY LIFE ABROAD (WIN 2001), (JUL 14, 2005) -|- v.205:no.22:(2011:June 1)";
+    	assertNumSeparators(valueStart);
+    	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, valueStart);
+    }
+    
+    /**
      * per email by Naomi Dushay on October 14, 2011, MHLD summary holdings are 
      *  NOT skipped: display 867 regardless of second indicator value or presence of 852 sub =
      * previously: 
@@ -182,7 +197,7 @@ public class MhldMappingTests extends AbstractStanfordTest
      *  is skipped if 867 has ind2 of 0 and 852 has a sub = 
      */
 @Test
-    public void testSkipped867() 
+    public void testNoLongerSkipped867() 
     {
     	String testDataFile = testFilePath + "mhldDisplay867.mrc";
     	
@@ -224,7 +239,7 @@ public class MhldMappingTests extends AbstractStanfordTest
      *  is skipped if 868 has ind2 of 0 and 852 has a sub = 
      */
 @Test
-    public void testSkipped868() 
+    public void testNoLongerSkipped868() 
     {
     	String testDataFile = testFilePath + "mhldDisplay868.mrc";
     	
@@ -317,7 +332,7 @@ public class MhldMappingTests extends AbstractStanfordTest
     	}
     }
     
-// FIXME:  need tests for different formats (ugh) -- do it with true unit tests (no xml records)
+// FIXME:  need tests for different enum/chronology formats (ugh) -- do it with true unit tests (no xml records)
     
     
     /**
@@ -430,7 +445,7 @@ public class MhldMappingTests extends AbstractStanfordTest
     	resultSet.add(result);
 
     	// 867 ind 0  previous 852 has sub =  - now used per email by Naomi Dushay on October 14, 2011 	
-    	result = greenCurrentper + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- Supplement: COUNTRY LIFE ABROAD (WIN 2001), (JUL 14, 2005) -|- ";
+    	result = greenCurrentper + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- Supplement: COUNTRY LIFE ABROAD (WIN 2001), (JUL 14, 2005) -|- v.205:no.22:(2011:June 1)";
     	resultSet.add(result);
 
     	result = greenCurrentper + "COUNTRY LIFE TRAVEL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|- 2010/2011:Winter";
@@ -466,7 +481,7 @@ public class MhldMappingTests extends AbstractStanfordTest
     	result = "lib3 -|- loc3 -|-  -|- 866a3open- -|- ";
     	resultSet.add(result);
 
-    	result = lib1loc1 + "comment4 -|- Supplement: 867a -|- ";
+    	result = lib1loc1 + "comment4 -|- Supplement: 867a -|- v.205:no.22:(2011:June 1)";
     	resultSet.add(result);
     	
     	
