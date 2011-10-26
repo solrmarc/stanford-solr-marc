@@ -144,7 +144,7 @@ public class MhldMappingTests extends AbstractStanfordTest
     	Set<String> resultSet = new HashSet<String>();
     	
     	String lib1loc1 = "lib1 -|- loc1 -|- comment1 -|- ";
-    	String latest = "v.417:no.11:(2011:March 25)";
+    	String latest = "v.417:no.11 (2011:March 25)";
     	String result = lib1loc1 + "866a1open- -|- " + latest;
     	resultSet.add(result);
     	
@@ -176,7 +176,7 @@ public class MhldMappingTests extends AbstractStanfordTest
     	Set<String> resultSet = new HashSet<String>();
     	
     	String lib1loc1 = "lib1 -|- loc1 -|-  -|- ";
-    	String latest = "no.322:(2011:March)";
+    	String latest = "no.322 (2011:March)";
     	String result = lib1loc1 + "866a1open- -|- " + latest;
     	resultSet.add(result);
     	
@@ -246,7 +246,7 @@ public class MhldMappingTests extends AbstractStanfordTest
     	String testDataFile = testFilePath + "mhldDisplay.mrc";
     	
     	// keep if 2nd indicator "0" and no 852 sub =
-    	String valueStart = "GREEN -|- CURRENTPER -|- Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- Supplement: COUNTRY LIFE ABROAD (WIN 2001), (JUL 14, 2005) -|- v.205:no.22:(2011:June 1)";
+    	String valueStart = "GREEN -|- CURRENTPER -|- Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- Supplement: COUNTRY LIFE ABROAD (WIN 2001), (JUL 14, 2005) -|- v.205:no.22 (2011:June 1)";
     	assertNumSeparators(valueStart);
     	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, valueStart);
     }
@@ -383,9 +383,9 @@ public class MhldMappingTests extends AbstractStanfordTest
     	solrFldMapTest.assertSolrFldValue(testDataFile, "358041", fldName, result);
     	libLoc = "lib -|- loc -|-  -|-  -|- ";
     	Set<String> resultSet = new HashSet<String>();
-    	resultSet.add(libLoc + "v.106:pt.3:no.482:(2010:WIN)");
-    	resultSet.add(libLoc + "v.105:(2009)");
-    	resultSet.add(libLoc + "v.205:no.10:(2011:March 9)");
+    	resultSet.add(libLoc + "v.106:pt.3:no.482 (2010:WIN)");
+    	resultSet.add(libLoc + "v.105 (2009)");
+    	resultSet.add(libLoc + "v.205:no.10 (2011:March 9)");
     	solrFldMapTest.assertSolrFldHasNumValues(testDataFile, "latestRecdPatterns", fldName, 3);
     	for (String expected : resultSet)
     	{
@@ -479,7 +479,7 @@ public class MhldMappingTests extends AbstractStanfordTest
     	String testDataFile = testFilePath + "mhldDisplay.mrc";
     	solrFldMapTest.assertSolrFldHasNumValues(testDataFile, "866before863", fldName, 1);
 
-    	String result = "lib -|- loc -|- comment -|- 1, 1977- -|- v.23:no.1:(1999:January)";
+    	String result = "lib -|- loc -|- comment -|- 1, 1977- -|- v.23:no.1 (1999:January)";
     	assertNumSeparators(result);
     	solrFldMapTest.assertSolrFldValue(testDataFile, "866before863", fldName, result);
     }
@@ -507,7 +507,7 @@ public class MhldMappingTests extends AbstractStanfordTest
     	resultSet.add(result);
 
     	// 867 ind 0  previous 852 has sub =  - now used per email by Naomi Dushay on October 14, 2011 	
-    	result = greenCurrentper + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- Supplement: COUNTRY LIFE ABROAD (WIN 2001), (JUL 14, 2005) -|- v.205:no.22:(2011:June 1)";
+    	result = greenCurrentper + "Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|- Supplement: COUNTRY LIFE ABROAD (WIN 2001), (JUL 14, 2005) -|- v.205:no.22 (2011:June 1)";
     	resultSet.add(result);
 
     	result = greenCurrentper + "COUNTRY LIFE TRAVEL. Latest yr. (or vol.) in CURRENT PERIODICALS; earlier in SAL -|-  -|- 2010/2011:Winter";
@@ -543,7 +543,7 @@ public class MhldMappingTests extends AbstractStanfordTest
     	result = "lib3 -|- loc3 -|-  -|- 866a3open- -|- ";
     	resultSet.add(result);
 
-    	result = lib1loc1 + "comment4 -|- Supplement: 867a -|- v.205:no.22:(2011:June 1)";
+    	result = lib1loc1 + "comment4 -|- Supplement: 867a -|- v.205:no.22 (2011:June 1)";
     	resultSet.add(result);
     	
     	result = lib1loc1 + "comment5 -|-  -|- 2010/2011:Winter";
