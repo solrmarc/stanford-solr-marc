@@ -432,7 +432,7 @@ public class MhldDisplayUtil
 		{
 			// append the chronology info to an existing result within parens.
 			if (result.length() > 0)
-				result.append(":(").append(chronologyStr).append(")");
+				result.append(" (").append(chronologyStr).append(")");
 			else
 				result.append(chronologyStr);
 		}
