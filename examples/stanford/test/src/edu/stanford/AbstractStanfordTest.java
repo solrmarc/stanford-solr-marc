@@ -33,7 +33,7 @@ public abstract class AbstractStanfordTest extends IndexTest {
         {
 //            solrPath = "home" + File.separator + "solrmarc" + File.separator
 //                    + "jetty" + File.separator + "solr";
-    		String ngdeDir = File.separator + "Users" + File.separator + "naomi" 
+    		String ngdeDir = File.separator + "Users" + File.separator + "ndushay" 
 					+ File.separator + "NGDE";
     		solrPath = ngdeDir + File.separator + "solr" + File.separator + "solr1.5";
             System.setProperty("solr.path", solrPath);
