@@ -87,17 +87,14 @@ public class MarcImporter extends MarcHandler
 		solrDataDir = PropertiesUtils.getProperty(configProps, "solr.data.dir");
 
 		// The name of the solr core to use, in a solr multicore environment
-		solrCoreName = PropertiesUtils.getProperty(configProps,
-				"solr.core.name");
+		solrCoreName = PropertiesUtils.getProperty(configProps, "solr.core.name");
 
 		// Ths URL of the currently running Solr server
 		solrHostURL = PropertiesUtils.getProperty(configProps, "solr.hosturl");
 
 		// Ths URL of the currently running Solr server
-		solrHostUpdateURL = PropertiesUtils.getProperty(configProps,
-				"solr.updateurl");
-		if (solrHostUpdateURL == null && solrHostURL != null
-				&& solrHostURL.length() > 0)
+		solrHostUpdateURL = PropertiesUtils.getProperty(configProps, "solr.updateurl");
+		if (solrHostUpdateURL == null && solrHostURL != null && solrHostURL.length() > 0)
 		{
 			if (solrHostURL.endsWith("/update"))
 				solrHostUpdateURL = solrHostURL;
@@ -129,7 +126,8 @@ public class MarcImporter extends MarcHandler
 					String testID = "12345";
 					String tested = testID.replaceFirst(mapPattern, mapReplace);
 					logger.info("Valid Regex pattern specified in property: marc.delete_record_id_mapper");
-				} catch (PatternSyntaxException pse)
+				} 
+				catch (PatternSyntaxException pse)
 				{
 					deleteRecordIDMapper = null;
 					logger.warn("Invalid Regex pattern specified in property: marc.delete_record_id_mapper");
@@ -142,8 +140,7 @@ public class MarcImporter extends MarcHandler
 			}
 		}
 
-		justIndexDontAdd = Boolean.parseBoolean(PropertiesUtils.getProperty(
-				configProps, "marc.just_index_dont_add"));
+		justIndexDontAdd = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "marc.just_index_dont_add"));
 		if (justIndexDontAdd)
 		{
 			Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
@@ -152,25 +149,18 @@ public class MarcImporter extends MarcHandler
 		}
 		else
 		{
-			optimizeAtEnd = Boolean.parseBoolean(PropertiesUtils.getProperty(
-					configProps, "solr.optimize_at_end"));
+			optimizeAtEnd = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "solr.optimize_at_end"));
 			if (optimizeAtEnd)
 				commitAtEnd = true;
-			String val = PropertiesUtils.getProperty(configProps,
-					"solr.commit_at_end");
+			String val = PropertiesUtils.getProperty(configProps, "solr.commit_at_end");
 			if (val != null)
 				commitAtEnd = Boolean.parseBoolean(val);
 		}
-		deleteRecordListFilename = PropertiesUtils.getProperty(configProps,
-				"marc.ids_to_delete");
+		deleteRecordListFilename = PropertiesUtils.getProperty(configProps, "marc.ids_to_delete");
 
 		// Set up Solr core
-		boolean useEmbeddedSolrServerProxy = Boolean
-				.parseBoolean(PropertiesUtils.getProperty(configProps,
-						"solrmarc.use_solr_server_proxy"));
-		useBinaryRequestHandler = Boolean
-				.parseBoolean(PropertiesUtils.getProperty(configProps,
-						"solrmarc.use_binary_request_handler"));
+		boolean useEmbeddedSolrServerProxy = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "solrmarc.use_solr_server_proxy"));
+		useBinaryRequestHandler = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "solrmarc.use_binary_request_handler"));
 		solrProxy = getSolrProxy(useEmbeddedSolrServerProxy);
 
 		return;
@@ -234,11 +224,12 @@ public class MarcImporter extends MarcHandler
 				solrProxy.delete(id, fromCommitted, fromPending);
 				recsDeletedCounter++;
 			}
-		} catch (FileNotFoundException fnfe)
+		} 
+		catch (FileNotFoundException fnfe)
 		{
-			logger.error(
-					"Error: unable to find and open delete-record-id-list: " + deleteRecordListFilename, fnfe);
-		} catch (IOException ioe)
+			logger.error("Error: unable to find and open delete-record-id-list: " + deleteRecordListFilename, fnfe);
+		} 
+		catch (IOException ioe)
 		{
 			logger.error("Error: reading from delete-record-id-list: " + deleteRecordListFilename, ioe);
 		}
@@ -268,23 +259,20 @@ public class MarcImporter extends MarcHandler
 			{
 				record = reader.next();
 				recsReadCounter++;
-			} catch (Exception e)
+			} 
+			catch (Exception e)
 			{
 				String recCntlNum = null;
 				try
 				{
 					recCntlNum = record.getControlNumber();
-				} catch (NullPointerException npe)
-				{ /* ignore */
-				}
+				} 
+				catch (NullPointerException npe) { /* ignore */	}
 
 				if (e instanceof SolrMarcRuntimeException)
 				{
 					// stop reading
-					String errmsg = "Unable to read record "
-							+ (recCntlNum != null ? recCntlNum : "")
-							+ " (record count " + recsReadCounter + ") -- "
-							+ e.getMessage();
+					String errmsg = "Unable to read record " + (recCntlNum != null ? recCntlNum : "") + " (record count " + recsReadCounter + ") -- " + e.getMessage();
 					logger.fatal(errmsg);
 					logger.fatal("******** Halting indexing! ********");
 					throw (SolrMarcRuntimeException) e;
@@ -292,11 +280,7 @@ public class MarcImporter extends MarcHandler
 				else
 				{
 					// keep reading
-					logger.error(
-							"Error reading record: "
-									+ (recCntlNum != null ? recCntlNum : "")
-									+ " (record count " + recsReadCounter
-									+ ") -- " + e.getMessage(), e);
+					logger.error("Error reading record: " + (recCntlNum != null ? recCntlNum : "") + " (record count " + recsReadCounter + ") -- " + e.getMessage(), e);
 					continue;
 				}
 			}
@@ -305,9 +289,8 @@ public class MarcImporter extends MarcHandler
 			try
 			{
 				recCntlNum = record.getControlNumber();
-			} catch (NullPointerException npe)
-			{ /* ignore */
-			}
+			} 
+			catch (NullPointerException npe) { /* ignore */	}
 
 			// index the record
 			try
@@ -316,33 +299,24 @@ public class MarcImporter extends MarcHandler
 				if (added)
 				{
 					recsIndexedCounter++;
-					logger.info("Added record " + recsReadCounter
-							+ " read from file: " + recCntlNum);
+					logger.info("Added record " + recsReadCounter + " read from file: " + recCntlNum);
 				}
 				else
-					logger.info("Deleted record " + recsReadCounter
-							+ " read from file: " + recCntlNum);
+					logger.info("Deleted record " + recsReadCounter	+ " read from file: " + recCntlNum);
 			} catch (Exception e)
 			{
 				Throwable cause = null;
 				if (e instanceof SolrRuntimeException)
 					cause = e.getCause();
 				if (cause != null && cause instanceof InvocationTargetException)
-					cause = ((InvocationTargetException) cause)
-							.getTargetException();
+					cause = ((InvocationTargetException) cause).getTargetException();
 
-				if (cause instanceof Exception
-						&& solrProxy.isSolrException((Exception) cause))
+				if (cause instanceof Exception && solrProxy.isSolrException((Exception) cause))
 				{
-					logger.error("Unable to index record "
-							+ (recCntlNum != null ? recCntlNum : "")
-							+ " (record count " + recsReadCounter + ") -- "
-							+ cause.getMessage());
+					logger.error("Unable to index record " + (recCntlNum != null ? recCntlNum : "") + " (record count " + recsReadCounter + ") -- "	+ cause.getMessage());
 
 					if (cause.getMessage().contains("missing required fields")
-							|| cause.getMessage()
-									.contains(
-											"multiple values encountered for non multiValued field")
+							|| cause.getMessage().contains("multiple values encountered for non multiValued field")
 							|| cause.getMessage().contains("unknown field"))
 					{
 						// skip record, but keep indexing
@@ -351,8 +325,7 @@ public class MarcImporter extends MarcHandler
 					{
 						// stop indexing
 						logger.fatal("******** Halting indexing! ********");
-						throw (new SolrRuntimeException(cause.getMessage(),
-								(Exception) cause));
+						throw (new SolrRuntimeException(cause.getMessage(),	(Exception) cause));
 					}
 				}
 				else if (e instanceof SolrMarcIndexerException)
@@ -360,20 +333,14 @@ public class MarcImporter extends MarcHandler
 					SolrMarcIndexerException smie = (SolrMarcIndexerException) e;
 					if (smie.getLevel() == SolrMarcIndexerException.IGNORE)
 						// skip record, but keep indexing
-						logger.info("Ignored record "
-								+ (recCntlNum != null ? recCntlNum : "")
-								+ " (record count " + recsReadCounter + ")");
+						logger.info("Ignored record " + (recCntlNum != null ? recCntlNum : "") + " (record count " + recsReadCounter + ")");
 					else if (smie.getLevel() == SolrMarcIndexerException.DELETE)
 						// skip record, but keep indexing
-						logger.info("Deleted record "
-								+ (recCntlNum != null ? recCntlNum : "")
-								+ " (record count " + recsReadCounter + ")");
+						logger.info("Deleted record " + (recCntlNum != null ? recCntlNum : "") + " (record count " + recsReadCounter + ")");
 					else if (smie.getLevel() == SolrMarcIndexerException.EXIT)
 					{
 						// stop indexing
-						logger.fatal("Serious Error flagged in record "
-								+ (recCntlNum != null ? recCntlNum : "")
-								+ " (record count " + recsReadCounter + ")");
+						logger.fatal("Serious Error flagged in record " + (recCntlNum != null ? recCntlNum : "") + " (record count " + recsReadCounter + ")");
 						logger.fatal("******** Halting indexing! ********");
 						throw (smie);
 					}
@@ -381,11 +348,7 @@ public class MarcImporter extends MarcHandler
 				else
 				{
 					// stop indexing
-					logger.error(
-							"Unable to index record "
-									+ (recCntlNum != null ? recCntlNum : "")
-									+ " (record count " + recsReadCounter
-									+ ") -- " + e.getMessage(), e);
+					logger.error("Unable to index record " + (recCntlNum != null ? recCntlNum : "") + " (record count " + recsReadCounter + ") -- " + e.getMessage(), e);
 					// this error should (might?) only be thrown if we can't
 					// write to the index
 					// therefore, continuing to index would be pointless.
@@ -395,8 +358,8 @@ public class MarcImporter extends MarcHandler
 						throw (SolrRuntimeException) e;
 					}
 				}
-			}
-		}
+			} // catch basic reader exception
+		} // while reader
 
 		return recsIndexedCounter;
 	}
@@ -404,8 +367,7 @@ public class MarcImporter extends MarcHandler
 	/**
 	 * Add a record to the index
 	 * 
-	 * @param record
-	 *            marc record to add
+	 * @param record  marc record to add
 	 */
 	private boolean addToIndex(Record record) throws IOException
 	{
@@ -491,11 +453,11 @@ public class MarcImporter extends MarcHandler
 				solrProxy.commit(shuttingDown ? false : optimizeAtEnd);
 				// System.out.println("Done with commit, closing Solr");
 				logger.info("Done with the commit, closing Solr");
-			} catch (IOException ioe)
+			} 
+			catch (IOException ioe)
 			{
-				// System.err.println("Final commit and optmization failed");
-				logger.error("Final commit and optimization failed: "
-						+ ioe.getMessage());
+				// System.err.println("Final commit and optimization failed");
+				logger.error("Final commit and optimization failed: " + ioe.getMessage());
 				logger.debug(ioe);
 				// e.printStackTrace();
 			}
@@ -527,15 +489,14 @@ public class MarcImporter extends MarcHandler
 		// solr server during the main program, so there is no need to
 		// separately contact
 		// server to tell it to commit, therefore merely return.
-		if ((solrCoreDir == null || solrCoreDir.length() == 0 || solrCoreDir
-				.equalsIgnoreCase("REMOTE")) && solrHostUpdateURL != null)
+		if ((solrCoreDir == null || solrCoreDir.length() == 0 || 
+				solrCoreDir.equalsIgnoreCase("REMOTE")) && solrHostUpdateURL != null)
 			return;
 		if (solrHostUpdateURL == null || solrHostUpdateURL.length() == 0)
 			return;
 		try
 		{
-			logger.info("Connecting to solr server at URL: "
-					+ solrHostUpdateURL);
+			logger.info("Connecting to solr server at URL: " + solrHostUpdateURL);
 			SolrUpdate.signalServer(solrHostUpdateURL);
 		} catch (MalformedURLException me)
 		{
@@ -544,8 +505,7 @@ public class MarcImporter extends MarcHandler
 		} catch (IOException ioe)
 		{
 			// System.err.println("IOException: " + ioe.getMessage());
-			logger.warn("Unable to establish connection to solr server at URL: "
-					+ solrHostUpdateURL);
+			logger.warn("Unable to establish connection to solr server at URL: " + solrHostUpdateURL);
 		}
 	}
 
@@ -611,15 +571,17 @@ public class MarcImporter extends MarcHandler
 		{
 			numImported = importRecords();
 			numDeleted = deleteRecords();
-		} catch (Exception e)
+		} 
+		catch (Exception e)
 		{
 			logger.info("Exception occurred while Indexing: " + e.getMessage());
 			logger.info("Setting Solr closed flag");
+			// commit what we've got so far
+			finish();
 			isShutDown = true;
 		}
 
-		logger.info(" Adding " + recsIndexedCounter + " of " + recsReadCounter
-				+ " documents to index");
+		logger.info(" Adding " + recsIndexedCounter + " of " + recsReadCounter	+ " documents to index");
 		logger.info(" Deleting " + recsDeletedCounter + " documents from index");
 
 		if (!isShutDown)
@@ -641,8 +603,7 @@ public class MarcImporter extends MarcHandler
 		// + indexingRate + "per sec");
 		// System.out.println("Deleted " + numDeleted + " records");
 
-		logger.info("Indexed " + numImported + " at a rate of about "
-				+ indexingRate + " per sec");
+		logger.info("Indexed " + numImported + " at a rate of about " + indexingRate + " per sec");
 		logger.info("Deleted " + numDeleted + " records");
 
 		return (shuttingDown ? 1 : 0);
@@ -651,8 +612,7 @@ public class MarcImporter extends MarcHandler
 	/**
 	 * set up Proxy for SolrCore, or return existing one
 	 * 
-	 * @param useEmbedded
-	 *            true if using solr embedded server
+	 * @param useEmbedded  true if using solr embedded server
 	 * @return SolrProxy object, instantiated
 	 */
 	public SolrProxy getSolrProxy(boolean useEmbedded)
@@ -662,35 +622,28 @@ public class MarcImporter extends MarcHandler
 			solrProxyIsRemote = false;
 			if (solrHostUpdateURL != null && solrHostUpdateURL.length() > 0)
 			{
-				if ((solrCoreDir == null || solrCoreDir.length() == 0 || solrCoreDir
-						.equalsIgnoreCase("REMOTE")))
-				{
+				if ((solrCoreDir == null || solrCoreDir.length() == 0 || solrCoreDir.equalsIgnoreCase("REMOTE")))
 					solrProxyIsRemote = true;
-				}
 				else
 				{
 					URL solrhostURL;
 					try
 					{
 						solrhostURL = new URL(solrHostUpdateURL);
-						java.net.InetAddress address = java.net.InetAddress
-								.getByName(solrhostURL.getHost());
+						java.net.InetAddress address = java.net.InetAddress	.getByName(solrhostURL.getHost());
 
-						String urlCanonicalHostName = address
-								.getCanonicalHostName();
-						String localCanonicalHostName = java.net.InetAddress
-								.getLocalHost().getCanonicalHostName();
-						if (!(address.isLoopbackAddress() || urlCanonicalHostName
-								.equals(localCanonicalHostName)))
-						{
+						String urlCanonicalHostName = address.getCanonicalHostName();
+						String localCanonicalHostName = java.net.InetAddress.getLocalHost().getCanonicalHostName();
+						if (!(address.isLoopbackAddress() || urlCanonicalHostName.equals(localCanonicalHostName)))
 							solrProxyIsRemote = true;
-						}
-					} catch (MalformedURLException e)
+					} 
+					catch (MalformedURLException e)
 					{
 						// URL seems invalid, assume that we want local access
 						// to the solr index and proceed
 						solrProxyIsRemote = false;
-					} catch (UnknownHostException e)
+					} 
+					catch (UnknownHostException e)
 					{
 						// hostname in URL seems invalid, assume that we want
 						// local access to the solr index and proceed
@@ -700,31 +653,27 @@ public class MarcImporter extends MarcHandler
 			}
 			if (solrProxyIsRemote)
 			{
-				logger.info(" Connecting to remote Solr server at URL "
-						+ solrHostUpdateURL);
+				logger.info(" Connecting to remote Solr server at URL "	+ solrHostUpdateURL);
 
 				if (useEmbedded)
 				{
 					try
 					{
-						String URL = solrHostUpdateURL.replaceAll(
-								"[/\\\\]update$", "");
-						CommonsHttpSolrServer httpsolrserver = new CommonsHttpSolrServer(
-								URL);
+						String URL = solrHostUpdateURL.replaceAll("[/\\\\]update$", "");
+						CommonsHttpSolrServer httpsolrserver = new CommonsHttpSolrServer(URL);
 						if (useBinaryRequestHandler)
-							httpsolrserver
-									.setRequestWriter(new BinaryRequestWriter());
+							httpsolrserver.setRequestWriter(new BinaryRequestWriter());
 
 						solrProxy = new SolrServerProxy(httpsolrserver);
-					} catch (MalformedURLException e)
+					} 
+					catch (MalformedURLException e)
 					{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 				else
-					solrProxy = new SolrRemoteProxy(solrHostUpdateURL,
-							useBinaryRequestHandler);
+					solrProxy = new SolrRemoteProxy(solrHostUpdateURL, useBinaryRequestHandler);
 			}
 			else
 			{
@@ -735,6 +684,7 @@ public class MarcImporter extends MarcHandler
 					logger.fatal(errmsg);
 					System.exit(1);
 				}
+				
 				File solrcoretest = new File(solrCoreDir);
 				if (!solrcoretest.isAbsolute())
 					solrcoretest = new File(homeDir, solrCoreDir);
@@ -742,15 +692,16 @@ public class MarcImporter extends MarcHandler
 				{
 					solrCoreDir = solrcoretest.getCanonicalPath();
 					System.setProperty("solr.solr.home", solrCoreDir);
-				} catch (IOException e)
+				} 
+				catch (IOException e)
 				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
 				if (!solrcoretest.exists() || !solrcoretest.isDirectory())
 				{
-					String errmsg = "Error: Supplied Solr home directory does not exist: "
-							+ solrCoreDir;
+					String errmsg = "Error: Supplied Solr home directory does not exist: " + solrCoreDir;
 					System.err.println(errmsg);
 					logger.fatal(errmsg);
 					System.exit(1);
@@ -759,41 +710,34 @@ public class MarcImporter extends MarcHandler
 				File solrcoretest2 = new File(solrCoreDir, "conf");
 				if (!solrcoretest1.exists() && !solrcoretest2.exists())
 				{
-					String errmsg = "Error: Supplied Solr home directory does not contain proper solr configuration: "
-							+ solrCoreDir;
+					String errmsg = "Error: Supplied Solr home directory does not contain proper solr configuration: " + solrCoreDir;
 					System.err.println(errmsg);
 					logger.fatal(errmsg);
 					System.exit(1);
 				}
 				logger.info(" Updating to Solr index at " + solrCoreDir);
+				
+				// set solrDataDir
 				if (!solrcoretest1.exists() && solrDataDir == null)
+					solrDataDir = new File(solrcoretest, "data").getAbsolutePath();
+				else if (solrDataDir != null && solrDataDir.contains("${solr.path}"))
 				{
-					solrDataDir = new File(solrcoretest, "data")
-							.getAbsolutePath();
-				}
-				else if (solrDataDir != null
-						&& solrDataDir.contains("${solr.path}"))
-				{
-					String dataPathFrag = solrDataDir.replaceFirst(
-							"[$][{]solr[.]path[}][/\\\\]+", "");
-					solrDataDir = new File(solrCoreDir, dataPathFrag)
-							.getAbsolutePath();
+					String dataPathFrag = solrDataDir.replaceFirst("[$][{]solr[.]path[}][/\\\\]+", "");
+					solrDataDir = new File(solrCoreDir, dataPathFrag).getAbsolutePath();
 				}
 				if (solrDataDir != null)
 				{
 					System.setProperty("solr.data.dir", solrDataDir);
 					logger.info("     Using Solr data dir " + solrDataDir);
 				}
+				
 				if (solrCoreName != null && solrCoreName.length() != 0)
 					logger.info("     Using Solr core " + solrCoreName);
 
 				if (useEmbedded)
-					solrProxy = SolrCoreLoader.loadEmbeddedCore(solrCoreDir,
-							solrDataDir, solrCoreName, useBinaryRequestHandler,
-							logger);
+					solrProxy = SolrCoreLoader.loadEmbeddedCore(solrCoreDir, solrDataDir, solrCoreName, useBinaryRequestHandler, logger);
 				else
-					solrProxy = SolrCoreLoader.loadCore(solrCoreDir,
-							solrDataDir, solrCoreName, logger);
+					solrProxy = SolrCoreLoader.loadCore(solrCoreDir, solrDataDir, solrCoreName, logger);
 			}
 		}
 		return (solrProxy);
@@ -870,13 +814,15 @@ public class MarcImporter extends MarcHandler
 		{
 			importer = new MarcImporter();
 			importer.init(args);
-		} catch (IllegalArgumentException e)
+		} 
+		catch (IllegalArgumentException e)
 		{
 			logger.fatal(e.getMessage());
 			System.err.println(e.getMessage());
 			// e.printStackTrace();
 			System.exit(1);
-		} catch (FileNotFoundException e)
+		} 
+		catch (FileNotFoundException e)
 		{
 			logger.fatal(e.getMessage());
 			System.err.println(e.getMessage());
