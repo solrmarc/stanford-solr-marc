@@ -275,7 +275,8 @@ public class MarcImporter extends MarcHandler
 					String errmsg = "Unable to read record " + (recCntlNum != null ? recCntlNum : "") + " (record count " + recsReadCounter + ") -- " + e.getMessage();
 					logger.fatal(errmsg);
 					logger.fatal("******** Halting indexing! ********");
-					throw (SolrMarcRuntimeException) e;
+					break;
+//					throw (SolrMarcRuntimeException) e;
 				}
 				else
 				{
