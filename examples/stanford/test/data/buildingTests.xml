@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collection xmlns="http://www.loc.gov/MARC21/slim">
   <record>
+    <leader>00880cam a2200229K  45 0</leader>
+    <controlfield tag="001">a1111</controlfield>
+    <controlfield tag="008">870518s1946    bl            000 0 por d</controlfield>
+    <datafield tag="245" ind1="1" ind2="3">
+      <subfield code="a">ILB (Inter-Library Borrowing) --> Green</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">Z666 .P31 C6 1946</subfield>
+      <subfield code="w">LC</subfield>
+      <subfield code="i">36105129694373</subfield>
+      <subfield code="l">STACKS</subfield>
+      <subfield code="m">ILB</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00880cam a2200229K  45 0</leader>
+    <controlfield tag="001">a2222</controlfield>
+    <controlfield tag="008">870518s1946    bl            000 0 por d</controlfield>
+    <datafield tag="245" ind1="1" ind2="3">
+      <subfield code="a">SPEC-DESK (Special Collections Loan Desk) --> Green</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">S666 .P31 C6 1946</subfield>
+      <subfield code="w">LC</subfield>
+      <subfield code="i">36105129694373</subfield>
+      <subfield code="l">STACKS</subfield>
+      <subfield code="m">SPEC-DESK</subfield>
+    </datafield>
+  </record>
+  <record>
     <leader>00941nam a22002651  4500</leader>
     <controlfield tag="001">a115472</controlfield>
     <controlfield tag="008">740123s1966    ii a          000 0 eng  </controlfield>
@@ -681,36 +711,6 @@
       <subfield code="i">36105129694373</subfield>
       <subfield code="l">INPROCESS</subfield>
       <subfield code="m">SAL3</subfield>
-    </datafield>
-  </record>
-  <record>
-    <leader>00880cam a2200229K  45 0</leader>
-    <controlfield tag="001">a1111</controlfield>
-    <controlfield tag="008">870518s1946    bl            000 0 por d</controlfield>
-    <datafield tag="245" ind1="1" ind2="3">
-      <subfield code="a">ILB (Inter-Library Borrowing) --> Green</subfield>
-    </datafield>
-    <datafield tag="999" ind1=" " ind2=" ">
-      <subfield code="a">Z666 .P31 C6 1946</subfield>
-      <subfield code="w">LC</subfield>
-      <subfield code="i">36105129694373</subfield>
-      <subfield code="l">STACKS</subfield>
-      <subfield code="m">ILB</subfield>
-    </datafield>
-  </record>
-  <record>
-    <leader>00880cam a2200229K  45 0</leader>
-    <controlfield tag="001">a2222</controlfield>
-    <controlfield tag="008">870518s1946    bl            000 0 por d</controlfield>
-    <datafield tag="245" ind1="1" ind2="3">
-      <subfield code="a">SPEC-DESK (Special Collections Loan Desk) --> Green</subfield>
-    </datafield>
-    <datafield tag="999" ind1=" " ind2=" ">
-      <subfield code="a">S666 .P31 C6 1946</subfield>
-      <subfield code="w">LC</subfield>
-      <subfield code="i">36105129694373</subfield>
-      <subfield code="l">STACKS</subfield>
-      <subfield code="m">SPEC-DESK</subfield>
     </datafield>
   </record>
 </collection>
