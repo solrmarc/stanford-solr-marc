@@ -115,11 +115,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">666.27 .F22</subfield>
       <subfield code="w">DEWEYPER</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105007402873</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   
@@ -131,30 +129,12 @@
     <datafield tag="245" ind1="0" ind2="0">
       <subfield code="a">format serial publication:  from LCPER 999w</subfield>
     </datafield>
-<!--    
-    <datafield tag="300" ind1=" " ind2=" ">
-      <subfield code="a">v. ;</subfield>
-      <subfield code="c">22 cm.</subfield>
-    </datafield>
-    <datafield tag="362" ind1="0" ind2=" ">
-      <subfield code="a">Vol. 1 (1980)-</subfield>
-    </datafield>
-    <datafield tag="500" ind1=" " ind2=" ">
-      <subfield code="a">Title from cover.</subfield>
-    </datafield>
-    <datafield tag="650" ind1=" " ind2="0">
-      <subfield code="a">Hispanic Americans</subfield>
-      <subfield code="x">Periodicals.</subfield>
-    </datafield>
--->    
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">E184.S75 R47A V.1 1980</subfield>
       <subfield code="w">LCPER</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105007402873</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   
@@ -177,25 +157,6 @@
     <datafield tag="245" ind1="0" ind2="0">
       <subfield code="a">format Serial Publication; leader/07 s 008/21 blank, 65x sub v "Periodicals"</subfield>
     </datafield>
-<!--
-    <datafield tag="300" ind1=" " ind2=" ">
-      <subfield code="a">1 v. :</subfield>
-      <subfield code="b">ill. ;</subfield>
-      <subfield code="c">28 cm</subfield>
-    </datafield>
-    <datafield tag="310" ind1=" " ind2=" ">
-      <subfield code="a">Annual</subfield>
-    </datafield>
-    <datafield tag="500" ind1=" " ind2=" ">
-      <subfield code="a">Distributed to depository libraries in microfiche.</subfield>
-    </datafield>
-    <datafield tag="515" ind1=" " ind2=" ">
-      <subfield code="a">June 1996 issue covers 1995.</subfield>
-    </datafield>
-    <datafield tag="550" ind1=" " ind2=" ">
-      <subfield code="a">Prepared by: Office of Industries.</subfield>
-    </datafield>
--->    
     <datafield tag="650" ind1=" " ind2="0">
       <subfield code="a">Industrial statistics</subfield>
       <subfield code="v">Periodicals.</subfield>
@@ -207,7 +168,6 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">ITC 1.15/3:</subfield>
       <subfield code="w">SUDOC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">4114632-1001</subfield>
       <subfield code="l">FED-DOCS</subfield>
       <subfield code="m">GREEN</subfield>
@@ -266,7 +226,6 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">INTERNET RESOURCE</subfield>
       <subfield code="w">ASIS</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">7117119-1001</subfield>
       <subfield code="l">INTERNET</subfield>
       <subfield code="t">SUL</subfield>
