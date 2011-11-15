@@ -1,7 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collection xmlns="http://www.loc.gov/MARC21/slim">
 <!-- NOTE: wrote test data from highest field to lowest, so more complete cases are at bottom -->
-<!-- 100 fields (not repeatable ... but Stanford has mults) main entry personal name: subfields a - z -->
+
+    <!-- 110 fields (not repeatable) main entry corporate name: subfields a - z -->
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a110</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="110" ind1="1" ind2=" ">
+            <subfield code="a">United States.</subfield>
+            <subfield code="b">Congress</subfield>
+            <subfield code="n">(97th, 2nd session :</subfield>
+            <subfield code="d">1982).</subfield>
+            <subfield code="b">House.</subfield>
+        </datafield>
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">110 a b n d b</subfield>
+        </datafield>
+    </record>
+    
+    <!-- 111 fields (not repeatable) main entry meeting name: subfields a - z -->
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a111</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="111" ind1="2" ind2=" ">
+            <subfield code="a">International Jean Sibelius Conference</subfield>
+            <subfield code="n">(3rd :</subfield>
+            <subfield code="d">2000 :</subfield>
+            <subfield code="c">Helsinki, Finland)</subfield>
+        </datafield>
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">111 a n d c</subfield>
+        </datafield>
+    </record>
+    
+    <!-- 130 fields (not repeatable) main entry uniform title: subfields a - z -->
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a130</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="130" ind1="0" ind2=" ">
+            <subfield code="a">Bible.</subfield>
+            <subfield code="p">O.T.</subfield>
+            <subfield code="p">Five Scrolls.</subfield>
+            <subfield code="l">Hebrew.</subfield>
+            <subfield code="s">Biblioteca apostolica vaticana.</subfield>
+            <subfield code="k">Manuscript.</subfield>
+            <subfield code="n">Urbiniti Hebraicus 1.</subfield>
+            <subfield code="f">1980.</subfield>
+        </datafield>
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">130 a p p l s k n f</subfield>
+        </datafield>
+    </record>
+    
+    <!-- 700 fields (repeatable) added entry personal name subfields a, d only-->
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a711</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">multiple 700s, some with |d, some not</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Kat, Bucky,</subfield>
+            <subfield code="d">1995-2008</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Rees, Graham L.</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Frog, Kermit,</subfield>
+            <subfield code="d">1960-</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a722</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">700 with |t between |a and |d</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2="2">
+            <subfield code="a">Nypsus, Marcus Iunius.</subfield>
+            <subfield code="t">Fluminis varatio.</subfield>
+            <subfield code="d">1993.</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a733</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">700 with lots of subfields following |a and |d, and another 700</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2="2">
+            <subfield code="a">Mendelssohn-Bartholdy, Felix,</subfield>
+            <subfield code="d">1809-1847.</subfield>
+            <subfield code="t">Lieder ohne Worte,</subfield>
+            <subfield code="m">piano,</subfield>
+            <subfield code="n">op.62.</subfield>
+            <subfield code="n">No. 6.</subfield>
+            <subfield code="p">Frühlingslied.</subfield>
+            <subfield code="f">1970.</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Rumpole, Horace,</subfield>
+            <subfield code="d">1954-1998</subfield>
+        </datafield>
+    </record>
+    
+    <!-- 100 fields (not repeatable ... but Stanford has mults) main entry personal name: subfields a - z -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
         <controlfield tag="001">a1001</controlfield>
@@ -41,59 +151,6 @@
         </datafield>
     </record>
 
-<!-- 110 fields (not repeatable) main entry corporate name: subfields a - z -->
-    <record>
-        <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a110</controlfield>
-        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
-        <datafield tag="110" ind1="1" ind2=" ">
-            <subfield code="a">United States.</subfield>
-            <subfield code="b">Congress</subfield>
-            <subfield code="n">(97th, 2nd session :</subfield>
-            <subfield code="d">1982).</subfield>
-            <subfield code="b">House.</subfield>
-        </datafield>
-        <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">110 a b n d b</subfield>
-        </datafield>
-    </record>
-
-<!-- 111 fields (not repeatable) main entry meeting name: subfields a - z -->
-    <record>
-        <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a111</controlfield>
-        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
-        <datafield tag="111" ind1="2" ind2=" ">
-            <subfield code="a">International Jean Sibelius Conference</subfield>
-            <subfield code="n">(3rd :</subfield>
-            <subfield code="d">2000 :</subfield>
-            <subfield code="c">Helsinki, Finland)</subfield>
-        </datafield>
-        <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">111 a n d c</subfield>
-        </datafield>
-    </record>
-
-<!-- 130 fields (not repeatable) main entry uniform title: subfields a - z -->
-    <record>
-        <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a130</controlfield>
-        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
-        <datafield tag="130" ind1="0" ind2=" ">
-            <subfield code="a">Bible.</subfield>
-            <subfield code="p">O.T.</subfield>
-            <subfield code="p">Five Scrolls.</subfield>
-            <subfield code="l">Hebrew.</subfield>
-            <subfield code="s">Biblioteca apostolica vaticana.</subfield>
-            <subfield code="k">Manuscript.</subfield>
-            <subfield code="n">Urbiniti Hebraicus 1.</subfield>
-            <subfield code="f">1980.</subfield>
-        </datafield>
-        <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">130 a p p l s k n f</subfield>
-        </datafield>
-    </record>
-
 <!-- 240 fields (not repeatable) uniform title: subfields a - z -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
@@ -125,23 +182,6 @@
         </datafield>
     </record>
         
-<!-- 130 and 240 -->
-    <record>
-        <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a11332244</controlfield>
-        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
-        <datafield tag="130" ind1="1" ind2="0">
-            <subfield code="a">Bodkin Van Horn</subfield>
-        </datafield>
-        <datafield tag="240" ind1="1" ind2="0">
-            <subfield code="a">Marvin O'Gravel Balloon Face</subfield>
-        </datafield>
-        <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">130 and 240</subfield>
-        </datafield>
-    </record>
-    
-
 <!-- 245 fields (not repeatable ... but Stanford has mults) title: a + b + h AND a - z -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
@@ -466,60 +506,21 @@
         </datafield>
     </record>
         
-<!-- 700 fields (repeatable) added entry personal name subfields a, d only-->
+    <!-- 130 and 240 -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a711</controlfield>
+        <controlfield tag="001">a11332244</controlfield>
         <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="130" ind1="1" ind2="0">
+            <subfield code="a">Bodkin Van Horn</subfield>
+        </datafield>
+        <datafield tag="240" ind1="1" ind2="0">
+            <subfield code="a">Marvin O'Gravel Balloon Face</subfield>
+        </datafield>
         <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">multiple 700s, some with |d, some not</subfield>
-        </datafield>
-        <datafield tag="700" ind1="1" ind2=" ">
-            <subfield code="a">Kat, Bucky,</subfield>
-            <subfield code="d">1995-2008</subfield>
-        </datafield>
-        <datafield tag="700" ind1="1" ind2=" ">
-            <subfield code="a">Rees, Graham L.</subfield>
-        </datafield>
-        <datafield tag="700" ind1="1" ind2=" ">
-            <subfield code="a">Frog, Kermit,</subfield>
-            <subfield code="d">1960-</subfield>
+            <subfield code="a">130 and 240</subfield>
         </datafield>
     </record>
-    <record>
-        <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a722</controlfield>
-        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
-        <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">700 with |t between |a and |d</subfield>
-        </datafield>
-        <datafield tag="700" ind1="1" ind2="2">
-            <subfield code="a">Nypsus, Marcus Iunius.</subfield>
-            <subfield code="t">Fluminis varatio.</subfield>
-            <subfield code="d">1993.</subfield>
-        </datafield>
-    </record>
-    <record>
-        <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a733</controlfield>
-        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
-        <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">700 with lots of subfields following |a and |d, and another 700</subfield>
-        </datafield>
-        <datafield tag="700" ind1="1" ind2="2">
-            <subfield code="a">Mendelssohn-Bartholdy, Felix,</subfield>
-            <subfield code="d">1809-1847.</subfield>
-            <subfield code="t">Lieder ohne Worte,</subfield>
-            <subfield code="m">piano,</subfield>
-            <subfield code="n">op.62.</subfield>
-            <subfield code="n">No. 6.</subfield>
-            <subfield code="p">Frühlingslied.</subfield>
-            <subfield code="f">1970.</subfield>
-        </datafield>
-        <datafield tag="700" ind1="1" ind2=" ">
-            <subfield code="a">Rumpole, Horace,</subfield>
-            <subfield code="d">1954-1998</subfield>
-        </datafield>
-    </record>
+    
     
 </collection>
