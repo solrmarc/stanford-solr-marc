@@ -31,36 +31,6 @@
     </datafield>
   </record>
   <record>
-    <leader>01247cas a2200337 a 4500</leader>
-    <controlfield tag="001">a460947</controlfield>
-    <controlfield tag="008">830415c19809999vauuu    a    0    0eng  </controlfield>
-    <datafield tag="245" ind1="0" ind2="0">
-      <subfield code="a">hoover online-txt</subfield>
-    </datafield>
-    <datafield tag="999" ind1=" " ind2=" ">
-      <subfield code="a">E184.S75 R47A V.1 1980</subfield>
-      <subfield code="w">LCPER</subfield>
-      <subfield code="i">36105007402873</subfield>
-      <subfield code="l">ONLINE-TXT</subfield>
-      <subfield code="m">HOOVER</subfield>
-    </datafield>
-  </record>
-  <record>
-    <leader>00715cam a2200205   4500</leader>
-    <controlfield tag="001">a690002</controlfield>
-    <controlfield tag="008">711019s1955    xx            000 0 eng u</controlfield>
-    <datafield tag="245" ind1="1" ind2="0">
-      <subfield code="a">hoover online RESV-URL</subfield>
-    </datafield>
-    <datafield tag="999" ind1=" " ind2=" ">
-      <subfield code="a">159.32 .W211</subfield>
-      <subfield code="w">DEWEY</subfield>
-      <subfield code="i">36105046693508</subfield>
-      <subfield code="l">RESV-URL</subfield>
-      <subfield code="m">HOOVER</subfield>
-    </datafield>
-  </record>
-  <record>
     <leader>00947cam a2200265 a 4500</leader>
     <controlfield tag="001">a345228</controlfield>
     <controlfield tag="008">891204s1990    ru            000 0 rus  </controlfield>
@@ -76,6 +46,21 @@
     </datafield>
   </record>
   <record>
+    <leader>01247cas a2200337 a 4500</leader>
+    <controlfield tag="001">a460947</controlfield>
+    <controlfield tag="008">830415c19809999vauuu    a    0    0eng  </controlfield>
+    <datafield tag="245" ind1="0" ind2="0">
+      <subfield code="a">hoover online-txt</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">E184.S75 R47A V.1 1980</subfield>
+      <subfield code="w">LCPER</subfield>
+      <subfield code="i">36105007402873</subfield>
+      <subfield code="l">ONLINE-TXT</subfield>
+      <subfield code="m">HOOVER</subfield>
+    </datafield>
+  </record>
+  <record>
     <leader>00651nam a22001575? 4500</leader>
     <controlfield tag="001">a575946</controlfield>
     <controlfield tag="008">910118s1990||||gw |||||||||||||||||ger|d</controlfield>
@@ -88,6 +73,21 @@
       <subfield code="i">36105035087092</subfield>
       <subfield code="l">WITHDRAWN</subfield>
       <subfield code="m">GREEN</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00715cam a2200205   4500</leader>
+    <controlfield tag="001">a690002</controlfield>
+    <controlfield tag="008">711019s1955    xx            000 0 eng u</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">hoover online RESV-URL</subfield>
+    </datafield>
+    <datafield tag="999" ind1=" " ind2=" ">
+      <subfield code="a">159.32 .W211</subfield>
+      <subfield code="w">DEWEY</subfield>
+      <subfield code="i">36105046693508</subfield>
+      <subfield code="l">RESV-URL</subfield>
+      <subfield code="m">HOOVER</subfield>
     </datafield>
   </record>
   <record>
