@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collection xmlns="http://www.loc.gov/MARC21/slim">
-<!-- 4 digits space 4 digits -->    
+    <!-- 2 digits space 5 digits -->    
+    <record>
+        <leader>02075cas a2200385 a 4500</leader>
+        <controlfield tag="001">a2then5</controlfield>
+        <controlfield tag="008">020717c20029999mduar b f       0 0 eng c</controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">lop to 71 15446</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">71 15446 V.1</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="i">36105116233839</subfield>
+            <subfield code="l">RBC-30</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">71 15446 V.2</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="i">36105116233847</subfield>
+            <subfield code="l">RBC-30</subfield>
+            <subfield code="m">SPEC-COLL</subfield>
+        </datafield>
+    </record>
+    <!-- 4 digits space 4 digits -->    
     <record>
         <leader>08519cas a22011051a 4500</leader>
         <controlfield tag="001">a4then4</controlfield>
@@ -11,7 +34,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">2451 7513 1954:NO.1-6</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105094421117</subfield>
             <subfield code="l">EALSAL-CHN</subfield>
             <subfield code="m">EAST-ASIA</subfield>
@@ -19,7 +41,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">2451 7513 1957:NO.7-1959:NO.6</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105124668901</subfield>
             <subfield code="l">EALSAL-CHN</subfield>
             <subfield code="m">EAST-ASIA</subfield>
@@ -27,7 +48,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">2451 7513 1961:NO.1,3-6</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105124668950</subfield>
             <subfield code="l">EALSAL-CHN</subfield>
             <subfield code="m">EAST-ASIA</subfield>
@@ -35,7 +55,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">2451 7513 1954-1983 INDEX</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105124670220</subfield>
             <subfield code="l">EALSAL-CHN</subfield>
             <subfield code="m">EAST-ASIA</subfield>
@@ -52,7 +71,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">4488.301 0300 2001 CD-ROM</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105126369052</subfield>
             <subfield code="l">EALSAL-CHN</subfield>
             <subfield code="m">EAST-ASIA</subfield>
@@ -60,7 +78,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">4488.301 0300 1961</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105125083126</subfield>
             <subfield code="l">EALSAL-CHN</subfield>
             <subfield code="m">EAST-ASIA</subfield>
@@ -68,7 +85,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">4488.301 0300 1950-1960</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105094399131</subfield>
             <subfield code="l">EALSAL-CHN</subfield>
             <subfield code="m">EAST-ASIA</subfield>
@@ -85,7 +101,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">9698.3 4275.25 F V.1</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105119175003</subfield>
             <subfield code="l">READING-RM</subfield>
             <subfield code="m">EAST-ASIA</subfield>
@@ -93,65 +108,13 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">9698.3 4275.25 F V.2</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105119175078</subfield>
             <subfield code="l">READING-RM</subfield>
             <subfield code="m">EAST-ASIA</subfield>
         </datafield>
     </record>
-<!-- 2 digits space 5 digits -->    
-    <record>
-        <leader>02075cas a2200385 a 4500</leader>
-        <controlfield tag="001">a2then5</controlfield>
-        <controlfield tag="008">020717c20029999mduar b f       0 0 eng c</controlfield>
-        <datafield tag="245" ind1="1" ind2="0">
-            <subfield code="a">lop to 71 15446</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">71 15446 V.1</subfield>
-            <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">36105116233839</subfield>
-            <subfield code="l">RBC-30</subfield>
-            <subfield code="m">SPEC-COLL</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">71 15446 V.2</subfield>
-            <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">36105116233847</subfield>
-            <subfield code="l">RBC-30</subfield>
-            <subfield code="m">SPEC-COLL</subfield>
-        </datafield>
-    </record>
-<!-- japanese in process -->    
-    <record>
-        <leader>02075cas a2200385 a 4500</leader>
-        <controlfield tag="001">ajapInProc</controlfield>
-        <controlfield tag="008">020717c20029999mduar b f       0 0 jap c</controlfield>
-        <datafield tag="245" ind1="1" ind2="0">
-            <subfield code="a">lop to 7885324-1001</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">7885324-1001-1</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">7885324-1001</subfield>
-            <subfield code="k">INPROCESS</subfield>
-            <subfield code="l">JAPANESE</subfield>
-            <subfield code="m">EAST-ASIA</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">7885324-1001-2</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">7885324-2001</subfield>
-            <subfield code="k">INPROCESS</subfield>
-            <subfield code="l">JAPANESE</subfield>
-            <subfield code="m">EAST-ASIA</subfield>
-        </datafield>
-    </record>
-<!-- 4 digit class in dewey? -->        
+    
+    <!-- 4 digit class in dewey? -->        
     <record>
         <leader>06724cas a2200601   4500</leader>
         <controlfield tag="001">adeweyish</controlfield>
@@ -162,7 +125,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">8291.209 .A963 V.7 1975/1976</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105010410483</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">SAL3</subfield>
@@ -170,63 +132,83 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">8291.209 .A963 V.16:NO.4 1994</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105016169471</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">SAL3</subfield>
         </datafield>
     </record>
-<!-- map -->    
-    <record>
-        <leader>06724cas a2200601   4500</leader>
-        <controlfield tag="001">amapXM</controlfield>
-        <controlfield tag="008">790219c19639999at uu     b  s0    0eng d</controlfield>
-        <datafield tag="245" ind1=" " ind2=" ">
-            <subfield code="a">lop to XM98-1</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">XM98-1 NO.1</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">36105023263168</subfield>
-            <subfield code="l">MAP-CASES</subfield>
-            <subfield code="m">EARTH-SCI</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">XM98-1 NO.2</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">36105023263150</subfield>
-            <subfield code="l">MAP-CASES</subfield>
-            <subfield code="m">EARTH-SCI</subfield>
-        </datafield>
-    </record>
-<!-- yugoslav serial -->
+    <!-- japanese in process -->    
     <record>
         <leader>02075cas a2200385 a 4500</leader>
-        <controlfield tag="001">ayugoSerial</controlfield>
-        <controlfield tag="008">020717c20029999mduar b f       0 0 eng c</controlfield>
+        <controlfield tag="001">ajapInProc</controlfield>
+        <controlfield tag="008">020717c20029999mduar b f       0 0 jap c</controlfield>
         <datafield tag="245" ind1="1" ind2="0">
-            <subfield code="a">lop to YUGOSLAV SERIAL</subfield>
+            <subfield code="a">lop to 7885324-1001</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">YUGOSLAV SERIAL 1996 V.37</subfield>
-            <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">36105073119435</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">HOOVER</subfield>
+            <subfield code="a">7885324-1001-1</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="i">7885324-1001</subfield>
+            <subfield code="k">INPROCESS</subfield>
+            <subfield code="l">JAPANESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">YUGOSLAV SERIAL 1997-1998 V.38-39</subfield>
-            <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">36105073412061</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">HOOVER</subfield>
-        </datafield>    
+            <subfield code="a">7885324-1001-2</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="i">7885324-2001</subfield>
+            <subfield code="k">INPROCESS</subfield>
+            <subfield code="l">JAPANESE</subfield>
+            <subfield code="m">EAST-ASIA</subfield>
+        </datafield>
     </record>
-<!-- manuscript collection -->
+    <!-- Lane bad LC -->
+    <record>
+        <leader>00455cam a22001695i 4500</leader>
+        <controlfield tag="001">alaneBadLC</controlfield>
+        <controlfield tag="008">090106 2009    xx                  eng  </controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">Lane bad LC callnum can't start with Y  expect Y210 .A3F6</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">Y210 .A3F6 VOL. 1</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="i">LL41857</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">Y210 .A3F6 VOL. 2</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="i">LL41858</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
+        </datafield>
+    </record>
+    <!-- mislabeled LC -->
+    <record>
+        <leader>00455cam a22001695i 4500</leader>
+        <controlfield tag="001">aletterY</controlfield>
+        <controlfield tag="008">090106 2009    xx                  eng  </controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">LC callnum can't start with Y  expect Y210 .A3F6</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">Y210 .A3F6 1973</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="i">LL41857</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">Y210 .A3F6 1978</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="i">LL41858</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+    <!-- manuscript collection -->
     <record>
         <leader>02075cas a2200385 a 4500</leader>
         <controlfield tag="001">amanuColl</controlfield>
@@ -237,7 +219,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">M1162</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">4447519-1001</subfield>
             <subfield code="l">MANUSCRIPT</subfield>
             <subfield code="m">SPEC-COLL</subfield>
@@ -245,7 +226,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">M1162 ACCN 2000-260 BOX 1</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105116165627</subfield>
             <subfield code="l">MSS-30</subfield>
             <subfield code="m">SPEC-COLL</subfield>
@@ -253,46 +233,35 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">M1162 ACCN 2000-260 BOX 2</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105116165635</subfield>
             <subfield code="l">MSS-30</subfield>
             <subfield code="m">SPEC-COLL</subfield>
         </datafield>        
     </record>
-<!-- sudoc -->
+    <!-- map -->    
     <record>
-        <leader>02075cas a2200385 a 4500</leader>
-        <controlfield tag="001">asudoc</controlfield>
-        <controlfield tag="008">020717c20029999mduar b f       0 0 eng c</controlfield>
-        <datafield tag="245" ind1="1" ind2="0">
-            <subfield code="a">lop to  C 13.58:</subfield>
+        <leader>06724cas a2200601   4500</leader>
+        <controlfield tag="001">amapXM</controlfield>
+        <controlfield tag="008">790219c19639999at uu     b  s0    0eng d</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">lop to XM98-1</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">C 13.58:</subfield>
-            <subfield code="w">SUDOC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">5423830-1001</subfield>
-            <subfield code="l">SSRC-FICHE</subfield>
-            <subfield code="m">GREEN</subfield>
+            <subfield code="a">XM98-1 NO.1</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="i">36105023263168</subfield>
+            <subfield code="l">MAP-CASES</subfield>
+            <subfield code="m">EARTH-SCI</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">C 13.58:6616</subfield>
-            <subfield code="w">SUDOC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">36105050246300</subfield>
-            <subfield code="l">SSRC-FICHE</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">C 13.58:6628</subfield>
-            <subfield code="w">SUDOC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">36105050306526</subfield>
-            <subfield code="l">SSRC-FICHE</subfield>
-            <subfield code="m">GREEN</subfield>
+            <subfield code="a">XM98-1 NO.2</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="i">36105023263150</subfield>
+            <subfield code="l">MAP-CASES</subfield>
+            <subfield code="m">EARTH-SCI</subfield>
         </datafield>
     </record>
-<!-- mcd -->
+    <!-- mcd -->
     <record>
         <leader>02621cjm a2200457Ia 4500</leader>
         <controlfield tag="001">aMCD</controlfield>
@@ -302,7 +271,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">MCD 17393 DISC 1</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105129399742</subfield>
             <subfield code="l">RECORDINGS</subfield>
             <subfield code="m">MUSIC</subfield>
@@ -310,23 +278,21 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">MCD 17393 DISC 2</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105129400151</subfield>
             <subfield code="l">RECORDINGS</subfield>
             <subfield code="m">MUSIC</subfield>
         </datafield>
-<!--        
-        <datafield tag="999" ind1=" " ind2=" ">
+        <!--        
+            <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">MCD 17393 BOOKLET</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105129400136</subfield>
             <subfield code="l">RECORDINGS</subfield>
             <subfield code="m">MUSIC</subfield>
-        </datafield>
--->
+            </datafield>
+        -->
     </record>
-<!-- mcd don't lop -->
+    <!-- mcd don't lop -->
     <record>
         <leader>02621cjm a2200457Ia 4500</leader>
         <controlfield tag="001">aMCDdontLop</controlfield>
@@ -336,7 +302,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">MCDI 141 (V.87:2)</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105028377781</subfield>
             <subfield code="l">RECORDINGS</subfield>
             <subfield code="m">MUSIC</subfield>
@@ -344,7 +309,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">MCDI 142 (V.87:3)</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105028377773</subfield>
             <subfield code="l">RECORDINGS</subfield>
             <subfield code="m">MUSIC</subfield>
@@ -352,7 +316,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">MCD 10313 (V.91:3)</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105018138581</subfield>
             <subfield code="l">RECORDINGS</subfield>
             <subfield code="m">MUSIC</subfield>
@@ -360,13 +323,12 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">MCD 10945 (V.91:5)</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105018139241</subfield>
             <subfield code="l">RECORDINGS</subfield>
             <subfield code="m">MUSIC</subfield>
         </datafield>    
     </record>
-<!-- mdvd -->
+    <!-- mdvd -->
     <record>
         <leader>07178cgm a2200853Ia 4500</leader>
         <controlfield tag="001">aMDVD</controlfield>
@@ -377,7 +339,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">MDVD 703 (V.12)</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105129324369</subfield>
             <subfield code="l">RECORDINGS</subfield>
             <subfield code="m">MUSIC</subfield>
@@ -385,38 +346,12 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">MDVD 703 (V.13)</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105129396482</subfield>
             <subfield code="l">RECORDINGS</subfield>
             <subfield code="m">MUSIC</subfield>
         </datafield>
     </record>
-<!-- zdvd -->    
-    <record>
-        <leader>07178cgm a2200853Ia 4500</leader>
-        <controlfield tag="001">aZDVD</controlfield>
-        <controlfield tag="008">090311s2009 xxu000 vleng d</controlfield>
-        <datafield tag="245" ind1="1" ind2="0">
-            <subfield code="a">ZDVD volumes should lop to ZDVD 20921</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">ZDVD 20921 DISC 1</subfield>
-            <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">36105130941532</subfield>
-            <subfield code="l">MEDIA-MTXT</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">ZDVD 20921 DISC 2</subfield>
-            <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">36105130941524</subfield>
-            <subfield code="l">MEDIA-MTXT</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-    </record>
-<!-- mfilm -->
+    <!-- mfilm -->
     <record>
         <leader>01669nam a2200289ua 4500</leader>
         <controlfield tag="001">amfilmHoover1</controlfield>
@@ -427,7 +362,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">N343 MFILM 1886 JUL-DEC.</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105073550472</subfield>
             <subfield code="l">MICROFILM</subfield>
             <subfield code="m">HOOVER</subfield>
@@ -435,7 +369,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">N343 MFILM 1891 JAN-JUN.</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105073550480</subfield>
             <subfield code="l">MICROFILM</subfield>
             <subfield code="m">HOOVER</subfield>
@@ -451,7 +384,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">N413 1947:SEP. MFILM</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105073582053</subfield>
             <subfield code="l">MICROFILM</subfield>
             <subfield code="m">HOOVER</subfield>
@@ -459,7 +391,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">N413 1947:OCT. MFILM</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105073582079</subfield>
             <subfield code="l">MICROFILM</subfield>
             <subfield code="m">HOOVER</subfield>
@@ -475,7 +406,6 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">MFILM N.S. 56 V.65 1981</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105024189354</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">SAL3</subfield>
@@ -483,63 +413,85 @@
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">MFILM N.S. 56 V.53 1969</subfield>
             <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
             <subfield code="i">36105024189479</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">SAL3</subfield>
         </datafield>    
     </record>    
-    
-<!-- mislabeled LC -->
+    <!-- sudoc -->
     <record>
-        <leader>00455cam a22001695i 4500</leader>
-        <controlfield tag="001">aletterY</controlfield>
-        <controlfield tag="008">090106 2009    xx                  eng  </controlfield>
-        <datafield tag="035" ind1=" " ind2=" ">
-            <subfield code="a">LC callnum can't start with Y  expect Y210 .A3F6</subfield>
+        <leader>02075cas a2200385 a 4500</leader>
+        <controlfield tag="001">asudoc</controlfield>
+        <controlfield tag="008">020717c20029999mduar b f       0 0 eng c</controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">lop to  C 13.58:</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">Y210 .A3F6 1973</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">LL41857</subfield>
-            <subfield code="l">STACKS</subfield>
+            <subfield code="a">C 13.58:</subfield>
+            <subfield code="w">SUDOC</subfield>
+            <subfield code="i">5423830-1001</subfield>
+            <subfield code="l">SSRC-FICHE</subfield>
             <subfield code="m">GREEN</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">Y210 .A3F6 1978</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">LL41858</subfield>
-            <subfield code="l">STACKS</subfield>
+            <subfield code="a">C 13.58:6616</subfield>
+            <subfield code="w">SUDOC</subfield>
+            <subfield code="i">36105050246300</subfield>
+            <subfield code="l">SSRC-FICHE</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">C 13.58:6628</subfield>
+            <subfield code="w">SUDOC</subfield>
+            <subfield code="i">36105050306526</subfield>
+            <subfield code="l">SSRC-FICHE</subfield>
             <subfield code="m">GREEN</subfield>
         </datafield>
     </record>
-    
-<!-- Lane bad LC -->
+    <!-- yugoslav serial -->
     <record>
-        <leader>00455cam a22001695i 4500</leader>
-        <controlfield tag="001">alaneBadLC</controlfield>
-        <controlfield tag="008">090106 2009    xx                  eng  </controlfield>
-        <datafield tag="035" ind1=" " ind2=" ">
-            <subfield code="a">Lane bad LC callnum can't start with Y  expect Y210 .A3F6</subfield>
+        <leader>02075cas a2200385 a 4500</leader>
+        <controlfield tag="001">ayugoSerial</controlfield>
+        <controlfield tag="008">020717c20029999mduar b f       0 0 eng c</controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">lop to YUGOSLAV SERIAL</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">Y210 .A3F6 VOL. 1</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">LL41857</subfield>
-            <subfield code="l">ASK@LANE</subfield>
-            <subfield code="m">LANE-MED</subfield>
+            <subfield code="a">YUGOSLAV SERIAL 1996 V.37</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="i">36105073119435</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">HOOVER</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">Y210 .A3F6 VOL. 2</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">LL41858</subfield>
-            <subfield code="l">ASK@LANE</subfield>
-            <subfield code="m">LANE-MED</subfield>
+            <subfield code="a">YUGOSLAV SERIAL 1997-1998 V.38-39</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="i">36105073412061</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">HOOVER</subfield>
+        </datafield>    
+    </record>
+<!-- zdvd -->    
+    <record>
+        <leader>07178cgm a2200853Ia 4500</leader>
+        <controlfield tag="001">aZDVD</controlfield>
+        <controlfield tag="008">090311s2009 xxu000 vleng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">ZDVD volumes should lop to ZDVD 20921</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ZDVD 20921 DISC 1</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="i">36105130941532</subfield>
+            <subfield code="l">MEDIA-MTXT</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ZDVD 20921 DISC 2</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="i">36105130941524</subfield>
+            <subfield code="l">MEDIA-MTXT</subfield>
+            <subfield code="m">GREEN</subfield>
         </datafield>
     </record>
-    
 </collection>
