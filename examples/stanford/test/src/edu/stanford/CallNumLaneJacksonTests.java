@@ -49,7 +49,7 @@ public class CallNumLaneJacksonTests extends AbstractStanfordTest {
 		assertTrue("Output messages unexpectedly written: " + sysBAOS.toString(),  sysBAOS.size() == 0);
 
 		// reading in to last record, so there will now be system output messages
-		solrFldMapTest.assertSolrFldValue(testFilePath, "greenInvalidLC", fldName, "94025");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ZZgreenInvalidLC", fldName, "94025");
 		assertTrue("Output messages expected for Green invalid LC",  sysBAOS.size() != 0);
 	}
 	
@@ -77,7 +77,7 @@ public class CallNumLaneJacksonTests extends AbstractStanfordTest {
 		solrFldMapTest.assertNoSolrFld(testFilePath, "7603175", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "letterO", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "letterY", fldName);
-		solrFldMapTest.assertNoSolrFld(testFilePath, "greenInvalidLC", fldName);
+		solrFldMapTest.assertNoSolrFld(testFilePath, "ZZgreenInvalidLC", fldName);
 	}
 	
 	private static String LC_SKEY = "lc a   0027.000000 b0.360000";
@@ -112,7 +112,7 @@ public class CallNumLaneJacksonTests extends AbstractStanfordTest {
 		solrFldMapTest.assertNoSolrFld(testFilePath, "7603175", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "letterO", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "letterY", fldName);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "greenInvalidLC", fldName, OTHER_SKEY);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ZZgreenInvalidLC", fldName, OTHER_SKEY);
 	}
 
 	/**
@@ -139,7 +139,7 @@ public class CallNumLaneJacksonTests extends AbstractStanfordTest {
 		solrFldMapTest.assertNoSolrFld(testFilePath, "7603175", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "letterO", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "letterY", fldName);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "greenInvalidLC", fldName, OTHER_RSKEY);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ZZgreenInvalidLC", fldName, OTHER_RSKEY);
 	}
 
 
@@ -167,7 +167,7 @@ public class CallNumLaneJacksonTests extends AbstractStanfordTest {
 		solrFldMapTest.assertNoSolrFld(testFilePath, "7603175", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "letterO", fldName);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "letterY", fldName);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "greenInvalidLC", fldName, "94025");
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ZZgreenInvalidLC", fldName, "94025");
 	}
 	
 	/**
@@ -262,7 +262,7 @@ public class CallNumLaneJacksonTests extends AbstractStanfordTest {
 		callnum = "Y210 .A3F6 1973";
 		fldVal = barcode + sep + "GREEN" + sep + "STACKS" + sep + sep + sep +
 					callnum + sep + OTHER_SKEY + sep + OTHER_RSKEY + sep + callnum + sep + OTHER_SKEY;
-		solrFldMapTest.assertSolrFldValue(testFilePath, "greenInvalidLC", fldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "ZZgreenInvalidLC", fldName, fldVal);
 	}
 
 
