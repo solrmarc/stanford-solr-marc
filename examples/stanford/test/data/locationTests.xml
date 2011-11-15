@@ -10,20 +10,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">HC241.25 .I4 D47</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105033811451</subfield>
-      <subfield code="d">7/18/2008</subfield>
-      <subfield code="e">7/10/2008</subfield>
       <subfield code="l">ELECTR-LOC</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="n">1</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">1/23/1974</subfield>
-      <subfield code="z">DIGI-SENT</subfield>
-      <subfield code="o">.TECHSTAFF. 900915</subfield>
     </datafield>
   </record>
   <record>
@@ -36,19 +25,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">HG6046 .V28 1986</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105034181003</subfield>
-      <subfield code="d">9/24/1999</subfield>
       <subfield code="l">INTERNET</subfield>
       <subfield code="m">HOOVER</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="q">1</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">4/27/1989</subfield>
-      <subfield code="o">.TECHSTAFF. tf:GREEN 04/28/06 batch</subfield>
-      <subfield code="o">.TECHSTAFF. c:sq</subfield>
     </datafield>
   </record>
   <record>
@@ -61,20 +40,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">E184.S75 R47A V.1 1980</subfield>
       <subfield code="w">LCPER</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105007402873</subfield>
-      <subfield code="d">2/5/2004</subfield>
-      <subfield code="e">9/3/1998</subfield>
       <subfield code="l">ONLINE-TXT</subfield>
       <subfield code="m">HOOVER</subfield>
-      <subfield code="n">1</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="q">4</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">4/15/1983</subfield>
-      <subfield code="o">.TECHSTAFF. #16/i:jrt</subfield>
     </datafield>
   </record>
   <record>
@@ -87,17 +55,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">159.32 .W211</subfield>
       <subfield code="w">DEWEY</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105046693508</subfield>
-      <subfield code="d">8/6/1996</subfield>
       <subfield code="l">RESV-URL</subfield>
       <subfield code="m">HOOVER</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">10/19/1971</subfield>
-      <subfield code="o">.TECHSTAFF. tf:SAL 04/07/05 batch</subfield>
     </datafield>
   </record>
   <record>
@@ -110,17 +70,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">D764.7 .K72 1990</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105043140537</subfield>
-      <subfield code="d">8/6/1996</subfield>
       <subfield code="l">DISCARD-NS</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">4/27/1989</subfield>
-      <subfield code="o">.TECHSTAFF. c:lr</subfield>
     </datafield>
   </record>
   <record>
@@ -133,21 +85,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">CB3 .A6 SUPPL. V.31</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105035087092</subfield>
-      <subfield code="d">6/18/2008</subfield>
-      <subfield code="e">6/18/2008</subfield>
       <subfield code="l">WITHDRAWN</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="n">4</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">M</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">1/18/1991</subfield>
-      <subfield code="o">.TECHSTAFF. c:al</subfield>
-      <subfield code="o">.TECHSTAFF. PUB 1/22/91/pb</subfield>
-      <subfield code="o">.TECHSTAFF. MIDSPINE.v.31 suppl.</subfield>
     </datafield>
   </record>
   <record>
@@ -160,21 +100,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">Z7164.T23.W45</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105035887392</subfield>
-      <subfield code="d">4/30/1998</subfield>
-      <subfield code="e">2/20/1995</subfield>
       <subfield code="l">FED-DOCS-S</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="q">1</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">8/12/1980</subfield>
-      <subfield code="o">.TECHSTAFF. 910824</subfield>
-      <subfield code="o">.TECHSTAFF. tf:GREEN 09/01 batch</subfield>
-      <subfield code="o">.TECHSTAFF. tf:SAL-NEWARK 04/04 batch</subfield>
     </datafield>
   </record>
   <record>
@@ -187,19 +115,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">PA3998 .H2 O5 1977</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105036688153</subfield>
-      <subfield code="d">4/19/2000</subfield>
-      <subfield code="e">8/30/1997</subfield>
       <subfield code="l">SUPERSEDED</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="n">10</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">2/7/1977</subfield>
-      <subfield code="o">.TECHSTAFF. 910824</subfield>
     </datafield>
   </record>
   <record>
@@ -212,39 +130,16 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">BX4659.E85 W44</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105037439663</subfield>
-      <subfield code="d">12/10/2007</subfield>
-      <subfield code="e">12/5/2007</subfield>
       <subfield code="l">CDPSHADOW</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="n">26</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="q">12</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">2/24/1983</subfield>
-      <subfield code="o">.TECHSTAFF. 910824/i:mal</subfield>
     </datafield>
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">BX4659 .E85 W44 1982</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105001623284</subfield>
-      <subfield code="d">11/14/2007</subfield>
-      <subfield code="e">10/22/2007</subfield>
       <subfield code="l">TECHSHADOW</subfield>
       <subfield code="m">LAW</subfield>
-      <subfield code="n">25</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="q">2</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">2/24/1983</subfield>
-      <subfield code="o">.TECHSTAFF. 910824/i:mal</subfield>
-      <subfield code="o">.TECHSTAFF. tf:MEYER 12/98 batch</subfield>
     </datafield>
   </record>
   <record>
@@ -257,17 +152,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">PR9184.6 .M3</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105037871261</subfield>
-      <subfield code="d">8/6/1996</subfield>
       <subfield code="l">STAFSHADOW</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">10/28/1985</subfield>
-      <subfield code="o">.TECHSTAFF. 910824</subfield>
     </datafield>
   </record>
   <record>
@@ -280,18 +167,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">MFILM N.S. 1350 REEL 230 NO. 3741</subfield>
       <subfield code="w">ALPHANUM</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">001AFX2969</subfield>
-      <subfield code="d">5/15/1999</subfield>
       <subfield code="l">MEDIA-MTXT</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">NH-MICR</subfield>
-      <subfield code="u">7/15/1987</subfield>
-      <subfield code="o">.TECHSTAFF. 910824</subfield>
-      <subfield code="o">.TECHSTAFF. tf:CPM 05/99 batch</subfield>
     </datafield>
   </record>
   <record>
@@ -304,17 +182,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">PQ6653.A646.V5</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105038701285</subfield>
-      <subfield code="d">8/6/1996</subfield>
       <subfield code="l">SHADOW</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">1/3/1979</subfield>
-      <subfield code="o">.TECHSTAFF. 910824</subfield>
     </datafield>
   </record>
   <record>
@@ -327,19 +197,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">TD811.5 .G76 1983</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105039395095</subfield>
-      <subfield code="d">3/13/1996</subfield>
-      <subfield code="e">3/13/1996</subfield>
       <subfield code="l">LOST</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="q">2</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">6/17/1983</subfield>
-      <subfield code="o">.TECHSTAFF. CAT: CABG: Dewey call no. MEy 910907/i:mjd</subfield>
     </datafield>
   </record>
   <record>
@@ -352,17 +212,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">PQ6666.E7484 B4 1983</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105040261765</subfield>
-      <subfield code="d">5/21/1998</subfield>
       <subfield code="l">SSRC-FIC-S</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">4/25/1986</subfield>
-      <subfield code="o">.TECHSTAFF. CAT: ns 910907</subfield>
     </datafield>
   </record>
   <record>
@@ -375,35 +227,16 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">QA273 .C83 1962</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105033142303</subfield>
-      <subfield code="d">10/22/2003</subfield>
-      <subfield code="e">3/13/1995</subfield>
       <subfield code="l">SSRC-SLS</subfield>
       <subfield code="m">MATH-CS</subfield>
-      <subfield code="n">1</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="q">6</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS</subfield>
-      <subfield code="u">5/14/1984</subfield>
     </datafield>
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">QA273 .C83 1962</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">2</subfield>
       <subfield code="i">36105033142311</subfield>
-      <subfield code="d">8/15/1997</subfield>
-      <subfield code="e">4/7/1995</subfield>
       <subfield code="l">MAPCASES-S</subfield>
       <subfield code="m">SAL</subfield>
-      <subfield code="q">1</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">8/15/1997</subfield>
-      <subfield code="o">.TECHSTAFF. tf:MATH 8/97 batch</subfield>
     </datafield>
   </record>
   <record>
@@ -416,17 +249,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">352.042 .C594 ED.2</subfield>
       <subfield code="w">DEWEY</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105047516096</subfield>
-      <subfield code="d">8/7/1996</subfield>
       <subfield code="l">MAPFILE-S</subfield>
       <subfield code="m">SAL3</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">3/14/1986</subfield>
-      <subfield code="o">.TECHSTAFF. tf:SAL 06/17/05 batch</subfield>
     </datafield>
   </record>
   <record>
@@ -439,18 +264,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">Z3871.Z8</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105082101390</subfield>
-      <subfield code="d">8/7/1996</subfield>
       <subfield code="l">BENDER-S</subfield>
       <subfield code="m">SAL</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">2/20/1979</subfield>
-      <subfield code="o">.TECHSTAFF. tf:HOOVER 06/29/05 batch</subfield>
-      <subfield code="o">.TECHSTAFF. 911019</subfield>
     </datafield>
   </record>
   <record>
@@ -463,20 +279,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">DK43 .B63</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105041442281</subfield>
-      <subfield code="d">5/11/2006</subfield>
-      <subfield code="e">5/9/2006</subfield>
       <subfield code="l">DISCARD</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="q">1</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">7/29/1985</subfield>
-      <subfield code="z">DIGI-SENT</subfield>
-      <subfield code="o">.TECHSTAFF. rcp2474</subfield>
     </datafield>
   </record>
   <record>
@@ -489,35 +294,16 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">370.1 .S655</subfield>
       <subfield code="w">DEWEY</subfield>
-      <subfield code="c">2</subfield>
       <subfield code="i">36105033336798</subfield>
-      <subfield code="d">6/17/2005</subfield>
-      <subfield code="e">6/10/2004</subfield>
       <subfield code="l">WITHDRAWN</subfield>
       <subfield code="m">EDUCATION</subfield>
-      <subfield code="n">6</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">12/2/1971</subfield>
     </datafield>
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">370.1 .S655</subfield>
       <subfield code="w">DEWEY</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105033336780</subfield>
-      <subfield code="d">5/26/2003</subfield>
-      <subfield code="e">5/15/2003</subfield>
       <subfield code="l">3FL-REF-S</subfield>
       <subfield code="m">MEYER</subfield>
-      <subfield code="n">1</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">12/2/1971</subfield>
-      <subfield code="o">.TECHSTAFF. tf:EDUCATION 05/24/06 batch</subfield>
     </datafield>
   </record>
   <record>
@@ -530,53 +316,23 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">PR3724.T3</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105003934432</subfield>
-      <subfield code="d">1/24/2006</subfield>
-      <subfield code="e">1/20/2006</subfield>
       <subfield code="l">SPECM-S</subfield>
       <subfield code="m">SAL</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">1/14/1977</subfield>
-      <subfield code="z">DIGI-SENT</subfield>
-      <subfield code="o">.TECHSTAFF. tf:MEYER 03/99 batch</subfield>
     </datafield>
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">PR3724.T3</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">2</subfield>
       <subfield code="i">36105003934424</subfield>
-      <subfield code="d">1/24/2006</subfield>
-      <subfield code="e">1/20/2006</subfield>
       <subfield code="l">SPECA-S</subfield>
       <subfield code="m">SAL</subfield>
-      <subfield code="n">4</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="q">1</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">1/14/1977</subfield>
-      <subfield code="z">DIGI-SENT</subfield>
-      <subfield code="o">.TECHSTAFF. tf:MEYER 03/99 batch</subfield>
     </datafield>
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">827.5 .S97TG</subfield>
       <subfield code="w">DEWEY</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105048104132</subfield>
-      <subfield code="d">8/7/1996</subfield>
       <subfield code="l">SPECB-S</subfield>
       <subfield code="m">SAL3</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">1/14/1977</subfield>
-      <subfield code="o">.TECHSTAFF. tf:SAL 09/27/04 batch</subfield>
     </datafield>
   </record>
   <record>
@@ -589,19 +345,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">PQ2678.I26 P54 1992</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105043436257</subfield>
-      <subfield code="d">4/24/1998</subfield>
-      <subfield code="e">11/22/1994</subfield>
       <subfield code="l">SPECAX-S</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="n">1</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">12/29/1992</subfield>
-      <subfield code="o">.TECHSTAFF. c:beh</subfield>
     </datafield>
   </record>
   <record>
@@ -614,18 +360,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">E 1.28:COO-4274-1</subfield>
       <subfield code="w">SUDOC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">001AMR5851</subfield>
-      <subfield code="d">11/22/1998</subfield>
       <subfield code="l">FED-DOCS</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">GOVSTKS</subfield>
-      <subfield code="u">5/20/1979</subfield>
-      <subfield code="x">MARCIVE</subfield>
-      <subfield code="o">.TECHSTAFF. tf:GOV-DOCS 11/98 batch</subfield>
     </datafield>
   </record>
   <record>
@@ -638,18 +375,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">GA 1.13:RCED-85-88</subfield>
       <subfield code="w">SUDOC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">001ANE5736</subfield>
-      <subfield code="d">11/27/1998</subfield>
       <subfield code="l">SPECBX-S</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">GOVSTKS</subfield>
-      <subfield code="u">7/19/1985</subfield>
-      <subfield code="x">MARCIVE</subfield>
-      <subfield code="o">.TECHSTAFF. tf:GOV-DOCS 11/98 batch</subfield>
     </datafield>
   </record>
   <record>
@@ -662,21 +390,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">B781 .A33 I55 1993</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105004381195</subfield>
-      <subfield code="d">8/25/1997</subfield>
-      <subfield code="e">2/8/1994</subfield>
       <subfield code="l">SPECMX-S</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="q">2</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">1/12/1994</subfield>
-      <subfield code="o">.TECHSTAFF. tf:GREEN 07/29/05 batch</subfield>
-      <subfield code="o">.TECHSTAFF. c:skt</subfield>
-      <subfield code="o">.TECHSTAFF. CIRC.TO PUB-TECH 7/17/97.</subfield>
     </datafield>
   </record>
   <record>
@@ -689,20 +405,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">DS135 .P6 I65</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105082973251</subfield>
-      <subfield code="d">10/3/2007</subfield>
-      <subfield code="e">9/25/2007</subfield>
       <subfield code="l">SPECMEDX-S</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="p">$40.00</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">3/29/1971</subfield>
-      <subfield code="z">DIGI-SENT</subfield>
-      <subfield code="o">.TECHSTAFF. tf:HOOVER 04/06/05 batch</subfield>
-      <subfield code="o">.TECHSTAFF. rcp1936</subfield>
     </datafield>
   </record>
   <record>
@@ -715,19 +420,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">DG579 .A5 A5 1995</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105016935392</subfield>
-      <subfield code="d">1/31/2003</subfield>
-      <subfield code="e">11/25/2002</subfield>
       <subfield code="l">SPECMED-S</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="n">1</subfield>
-      <subfield code="q">1</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">9/1/1997</subfield>
-      <subfield code="o">.TECHSTAFF. c:srk</subfield>
     </datafield>
   </record>
   <record>
@@ -740,19 +435,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">PS3553 .L337 F76 1978</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105017175519</subfield>
-      <subfield code="d">6/13/1999</subfield>
-      <subfield code="e">6/17/1996</subfield>
       <subfield code="l">EAL-TEMP-S</subfield>
       <subfield code="m">GREEN</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">8/13/1997</subfield>
-      <subfield code="o">.TECHSTAFF. tf:GREEN 10/10/05 batch</subfield>
-      <subfield code="o">.TECHSTAFF. mc level 3 vtd 01/12/2001</subfield>
-      <subfield code="o">.TECHSTAFF.  6/12/01 (BL)</subfield>
     </datafield>
   </record>
   <record>
@@ -765,14 +450,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">PQ9661 .P31 C6 1946</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105129694373</subfield>
       <subfield code="l">INPROCESS</subfield>
       <subfield code="m">SAL3</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">8/4/2008</subfield>
     </datafield>
   </record>
   <!-- LOCKSS location: shadowed -->
@@ -786,14 +466,9 @@
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">PQ9661 .P31 C6 1946</subfield>
       <subfield code="w">LC</subfield>
-      <subfield code="c">1</subfield>
       <subfield code="i">36105129694373</subfield>
       <subfield code="l">LOCKSS</subfield>
       <subfield code="m">SUL</subfield>
-      <subfield code="r">Y</subfield>
-      <subfield code="s">Y</subfield>
-      <subfield code="t">STKS-MONO</subfield>
-      <subfield code="u">8/4/2008</subfield>
     </datafield>
   </record>
 </collection>
