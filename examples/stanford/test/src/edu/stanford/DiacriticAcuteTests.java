@@ -20,7 +20,7 @@ import org.xml.sax.SAXException;
 public class DiacriticAcuteTests extends AbstractStanfordTest {
 
 	// contains the diacritics in our test data
-	private String fldName = "author_person_search";
+	private String fldName = "author_1xx_search";
 	
 @Before
 	public final void initVars() 
