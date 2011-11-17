@@ -13,6 +13,7 @@
       <subfield code="i">36105129694373</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">ILB</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -28,6 +29,7 @@
       <subfield code="i">36105129694373</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">SPEC-DESK</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -43,6 +45,7 @@
       <subfield code="i">36105033811451</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">APPLIEDPHY</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -58,6 +61,7 @@
       <subfield code="i">36105034181003</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">ARS</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -73,6 +77,7 @@
       <subfield code="i">36105043140537</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">ART</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -88,6 +93,7 @@
       <subfield code="i">36105007402873</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">BIOLOGY</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">E184.S75 R47A V.2 1980</subfield>
@@ -95,6 +101,7 @@
       <subfield code="i">36105007402874</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">BIOLOGY</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -111,6 +118,7 @@
       <subfield code="k">CHECKEDOUT</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">GREEN</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">CB3 .A6 SUPPL. V.32</subfield>
@@ -135,6 +143,7 @@
       <subfield code="i">36105046693508</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">SAL3</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -150,6 +159,7 @@
       <subfield code="i">36105035887392</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">SAL-NEWARK</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -165,6 +175,7 @@
       <subfield code="i">36105036688153</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">CHEMCHMENG</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -180,6 +191,7 @@
       <subfield code="i">36105037439663</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">GREEN</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">BX4659 .E85 W44 1982</subfield>
@@ -187,6 +199,7 @@
       <subfield code="i">36105001623284</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">SAL</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -202,6 +215,7 @@
       <subfield code="i">36105037871261</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">CLASSICS</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -217,6 +231,7 @@
       <subfield code="i">001AFX2969</subfield>
       <subfield code="l">MEDIA-MTXT</subfield>
       <subfield code="m">GREEN</subfield>
+      <subfield code="t">NH-MICR</subfield>
     </datafield>
   </record>
   <record>
@@ -232,6 +247,7 @@
       <subfield code="i">36105038701285</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">CPM</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -247,8 +263,9 @@
       <subfield code="i">36105039395095</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">EARTH-SCI</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
-  </record>
+  </record>hoo
   <record>
     <leader>00731cam a2200181 a 4500</leader>
     <controlfield tag="001">a1618836</controlfield>
@@ -262,6 +279,7 @@
       <subfield code="i">36105040261765</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">EDUCATION</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -277,6 +295,7 @@
       <subfield code="i">36105033142303</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">MATH-CS</subfield>
+      <subfield code="t">STKS</subfield>
     </datafield>
   </record>
   <record>
@@ -292,6 +311,7 @@
       <subfield code="i">36105047516096</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">ENG</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -307,6 +327,7 @@
       <subfield code="i">36105082101390</subfield>
       <subfield code="l">SAL-PAGE</subfield>
       <subfield code="m">SAL</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -322,6 +343,7 @@
       <subfield code="i">36105041442281</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">GOV-DOCS</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -344,6 +366,7 @@
       <subfield code="i">36105033336780</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">SAL3</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -359,6 +382,7 @@
       <subfield code="i">36105003934432</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">SAL</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">PR3724.T3</subfield>
@@ -366,6 +390,7 @@
       <subfield code="i">36105003934424</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">SAL</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">827.5 .S97TG</subfield>
@@ -373,6 +398,7 @@
       <subfield code="i">36105048104132</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">SAL3</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -388,6 +414,7 @@
       <subfield code="i">36105043436257</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">GRN-REF</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -403,6 +430,7 @@
       <subfield code="i">001AMR5851</subfield>
       <subfield code="l">FED-DOCS</subfield>
       <subfield code="m">GREEN</subfield>
+      <subfield code="t">GOVSTKS</subfield>
     </datafield>
   </record>
   <record>
@@ -418,6 +446,7 @@
       <subfield code="i">001ANE5736</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">JACKSON</subfield>
+      <subfield code="t">GOVSTKS</subfield>
     </datafield>
   </record>
   <record>
@@ -433,6 +462,7 @@
       <subfield code="i">36105004381195</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">MEYER</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -448,6 +478,7 @@
       <subfield code="i">36105082973251</subfield>
       <subfield code="l">SAL-PAGE</subfield>
       <subfield code="m">SAL</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -463,6 +494,7 @@
       <subfield code="i">36105016935392</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">HOPKINS</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -478,6 +510,7 @@
       <subfield code="i">36105017175519</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">PHYSICS</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -509,6 +542,7 @@
       <subfield code="i">36105020376997</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">HV-ARCHIVE</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -524,6 +558,7 @@
       <subfield code="i">3743949-1001</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">HOOVER</subfield>
+      <subfield code="t">STKS</subfield>
     </datafield>
   </record>
   <record>
@@ -539,6 +574,7 @@
       <subfield code="i">36105025373064</subfield>
       <subfield code="l">BENDER</subfield>
       <subfield code="m">GREEN</subfield>
+      <subfield code="t">NONCIRC</subfield>
     </datafield>
     <datafield tag="999" ind1=" " ind2=" ">
       <subfield code="a">PS3557 .O5829 K3 1998</subfield>
@@ -546,6 +582,7 @@
       <subfield code="i">36105019748495</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">SAL3</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -561,6 +598,7 @@
       <subfield code="i">4114632-1001</subfield>
       <subfield code="l">FED-DOCS</subfield>
       <subfield code="m">GREEN</subfield>
+      <subfield code="t">GOVSTKS</subfield>
     </datafield>
   </record>
   <record>
@@ -576,6 +614,7 @@
       <subfield code="i">4258089-1001</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">SPEC-COLL</subfield>
+      <subfield code="t">GOVSTKS</subfield>
     </datafield>
   </record>
   <record>
@@ -591,6 +630,7 @@
       <subfield code="i">36105021909747</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">TANNER</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -606,6 +646,7 @@
       <subfield code="i">36105063104488</subfield>
       <subfield code="l">BASEMENT</subfield>
       <subfield code="m">LAW</subfield>
+      <subfield code="t">LAW-STKS</subfield>
     </datafield>
   </record>
   <record>
@@ -621,6 +662,7 @@
       <subfield code="i">36105114964369</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">MUSIC</subfield>
+      <subfield code="t">STKS</subfield>
     </datafield>
   </record>
   <record>
@@ -636,6 +678,7 @@
       <subfield code="i">36105122224160</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">SUL</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -651,6 +694,7 @@
       <subfield code="i">36105095758004</subfield>
       <subfield code="l">JAPANESE</subfield>
       <subfield code="m">EAST-ASIA</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
   <record>
@@ -681,6 +725,7 @@
       <subfield code="i">LL124341</subfield>
       <subfield code="l">ASK@LANE</subfield>
       <subfield code="m">LANE-MED</subfield>
+      <subfield code="t">MEDICAL</subfield>
     </datafield>
   </record>
   <record>
@@ -696,6 +741,7 @@
       <subfield code="i">LL94379</subfield>
       <subfield code="l">STACKS</subfield>
       <subfield code="m">LANE-MED</subfield>
+      <subfield code="t">MEDICAL</subfield>
     </datafield>
   </record>
   <record>
@@ -711,6 +757,7 @@
       <subfield code="i">36105129694373</subfield>
       <subfield code="l">INPROCESS</subfield>
       <subfield code="m">SAL3</subfield>
+      <subfield code="t">STKS-MONO</subfield>
     </datafield>
   </record>
 </collection>

@@ -1,82 +1,5 @@
 <collection xmlns="http://www.loc.gov/MARC21/slim">
     <record>
-        <leader>01635cas a2200337 a 4500</leader>
-        <controlfield tag="001">a5788269</controlfield>
-        <controlfield tag='008'>030515c200u9999cauau        s0    0eng d</controlfield>
-        <datafield tag="245" ind1="1" ind2="0">
-            <subfield code="a">CPA licensee handbook.</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">CALIF A125 .A34 2002</subfield>
-            <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">36105122888543</subfield>
-            <subfield code="l">CALIF-DOCS</subfield>
-            <subfield code="m">GREEN</subfield>
-            <subfield code="r">Y</subfield>
-            <subfield code="s">Y</subfield>
-            <subfield code="t">GOVSTKS</subfield>
-            <subfield code="u">1/17/2007</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">CALIF A125 .A34 2003</subfield>
-            <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">36105122888544</subfield>
-            <subfield code="l">CALIF-DOCS</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-    </record>
-    <record>
-        <leader>02293cas a2200421 a 4500</leader>
-        <controlfield tag="001">a409752</controlfield>
-        <controlfield tag='008'>791210d19731986cauqr        s0    0eng  </controlfield>
-        <datafield tag="245" ind1="0" ind2="0">
-            <subfield code="a">Bulletin /</subfield>
-            <subfield code="c">State Board of Accountancy.</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">CALIF A125 .B9</subfield>
-            <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">409752-2001</subfield>
-            <subfield code="d">1/11/1999</subfield>
-            <subfield code="l">CALIF-DOCS</subfield>
-            <subfield code="m">GREEN</subfield>
-            <subfield code="p">$40.00</subfield>
-            <subfield code="r">Y</subfield>
-            <subfield code="s">Y</subfield>
-            <subfield code="t">GOVSTKS</subfield>
-            <subfield code="u">3/9/1981</subfield>
-            <subfield code="o">.TECHSTAFF. #15 cat:doc 901130</subfield>
-            <subfield code="o">.TECHSTAFF. tf:GOV-DOCS 01/99 batch</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">CALIF A125 .B9 V.7-15 1966-1977:NO.1</subfield>
-            <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">36105127370737</subfield>
-            <subfield code="l">CALIF-DOCS</subfield>
-            <subfield code="m">GREEN</subfield>
-            <subfield code="r">Y</subfield>
-            <subfield code="s">Y</subfield>
-            <subfield code="t">GOVSTKS</subfield>
-            <subfield code="u">1/17/2007</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">CALIF A125 .B9 V.17 1977:NO.3</subfield>
-            <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">36105127370745</subfield>
-            <subfield code="l">CALIF-DOCS</subfield>
-            <subfield code="m">GREEN</subfield>
-            <subfield code="r">Y</subfield>
-            <subfield code="s">Y</subfield>
-            <subfield code="t">GOVSTKS</subfield>
-            <subfield code="u">1/17/2007</subfield>
-        </datafield>
-    </record>
-    <record>
         <leader>00953cas a2200229   4500</leader>
         <controlfield tag='001'>a373245</controlfield>
         <controlfield tag='008'>790219d19161918causu         0   a0eng u</controlfield>
@@ -90,12 +13,7 @@
             <subfield code="i">36105027549075</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">SAL3</subfield>
-            <subfield code="r">Y</subfield>
-            <subfield code="s">Y</subfield>
             <subfield code="t">STKS-PERI</subfield>
-            <subfield code="u">9/13/2002</subfield>
-            <subfield code="o">.TECHSTAFF. tf:SAL 02/25/05 batch</subfield>
-            <subfield code="o">.TECHSTAFF. i:vtd 9/13/2002</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">553.2805 .P187 V.1-2 1919-1920</subfield>
@@ -120,12 +38,7 @@
             <subfield code="i">36105027313985</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">SAL3</subfield>
-            <subfield code="r">Y</subfield>
-            <subfield code="s">Y</subfield>
             <subfield code="t">STKS-PERI</subfield>
-            <subfield code="u">10/24/2002</subfield>
-            <subfield code="o">.TECHSTAFF. tf:SAL 02/25/05 batch</subfield>
-            <subfield code="o">.TECHSTAFF. i:vtd10/24/2002</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">553.2805 .P494 V.11 1924:JUL.-DEC</subfield>
@@ -136,5 +49,66 @@
             <subfield code="m">SAL3</subfield>
         </datafield>
     </record>
-    
+    <record>
+        <leader>02293cas a2200421 a 4500</leader>
+        <controlfield tag="001">a409752</controlfield>
+        <controlfield tag='008'>791210d19731986cauqr        s0    0eng  </controlfield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">Bulletin /</subfield>
+            <subfield code="c">State Board of Accountancy.</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">CALIF A125 .B9</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">409752-2001</subfield>
+            <subfield code="d">1/11/1999</subfield>
+            <subfield code="l">CALIF-DOCS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="t">GOVSTKS</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">CALIF A125 .B9 V.7-15 1966-1977:NO.1</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105127370737</subfield>
+            <subfield code="l">CALIF-DOCS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="t">GOVSTKS</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">CALIF A125 .B9 V.17 1977:NO.3</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105127370745</subfield>
+            <subfield code="l">CALIF-DOCS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="t">GOVSTKS</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01635cas a2200337 a 4500</leader>
+        <controlfield tag="001">a5788269</controlfield>
+        <controlfield tag='008'>030515c200u9999cauau        s0    0eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">CPA licensee handbook.</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">CALIF A125 .A34 2002</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105122888543</subfield>
+            <subfield code="l">CALIF-DOCS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="t">GOVSTKS</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">CALIF A125 .A34 2003</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105122888544</subfield>
+            <subfield code="l">CALIF-DOCS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
 </collection>
