@@ -2,74 +2,18 @@
 <collection>
     <record>
         <leader>01767nam a22003614a 4500</leader>
-        <controlfield tag="001">aoneLC</controlfield>
+        <controlfield tag="001">abadDewey</controlfield>
         <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
         <datafield tag="245" ind1=" " ind2=" ">
-            <subfield code="a">one LC item</subfield>
+            <subfield code="a">invalid Dewey</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">M1503 .A5</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">11</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-    </record>
-    <record>
-        <leader>01767nam a22003614a 4500</leader>
-        <controlfield tag="001">aoneDewey</controlfield>
-        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
-        <datafield tag="245" ind1=" " ind2=" ">
-            <subfield code="a">one dewey item</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">111.11 .A5</subfield>
+            <subfield code="a">1234.5 .D6</subfield>
             <subfield code="w">DEWEY</subfield>
             <subfield code="c">1</subfield>
-            <subfield code="i">22</subfield>
+            <subfield code="i">66</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
-        </datafield>
-    </record>
-    <record>
-        <leader>01767nam a22003614a 4500</leader>
-        <controlfield tag="001">aoneSudoc</controlfield>
-        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
-        <datafield tag="245" ind1=" " ind2=" ">
-            <subfield code="a">single Sudoc item</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">A 13.78:NC-315</subfield>
-            <subfield code="w">SUDOC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">33</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-    </record>
-    <record>
-        <leader>01767nam a22003614a 4500</leader>
-        <controlfield tag="001">aoneOther</controlfield>
-        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
-        <datafield tag="245" ind1=" " ind2=" ">
-            <subfield code="a">single Other item</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">ABCD1234</subfield>
-            <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">44</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-    </record>
-    <record>
-        <leader>01767nam a22003614a 4500</leader>
-        <controlfield tag="001">anoItems</controlfield>
-        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
-        <datafield tag="245" ind1=" " ind2=" ">
-            <subfield code="a">no items</subfield>
         </datafield>
     </record>
     <record>
@@ -86,43 +30,6 @@
             <subfield code="i">55</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
-        </datafield>
-    </record>
-    <record>
-        <leader>01767nam a22003614a 4500</leader>
-        <controlfield tag="001">abadDewey</controlfield>
-        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
-        <datafield tag="245" ind1=" " ind2=" ">
-            <subfield code="a">invalid Dewey</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">1234.5 .D6</subfield>
-            <subfield code="w">DEWEY</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">66</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-    </record>
-    <record>
-        <leader>00988nas a2200193z  4500</leader>
-        <controlfield tag="001">aonlineItem</controlfield>
-        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
-        <datafield tag="245" ind1="1" ind2=" ">
-            <subfield code="a">online item</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">IGNORED ONLINE</subfield>
-            <subfield code="w">ASIS</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">77</subfield>
-            <subfield code="l">INTERNET</subfield>
-            <subfield code="m">GREEN</subfield>
-            <subfield code="r">N</subfield>
-            <subfield code="s">Y</subfield>
-            <subfield code="t">SUL</subfield>
-            <subfield code="u">12/15/2007</subfield>
-            <subfield code="z">TAX=8.25</subfield>
         </datafield>
     </record>
     <record>
@@ -148,40 +55,10 @@
     </record>
     <record>
         <leader>00988nas a2200193z  4500</leader>
-        <controlfield tag="001">ashelbyLoc</controlfield>
+        <controlfield tag="001">amultDewey</controlfield>
         <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
         <datafield tag="245" ind1="1" ind2=" ">
-            <subfield code="a">shelby title location</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">M1503 .A5 VOL.22</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">77</subfield>
-            <subfield code="k">SHELBYTITL</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-            <subfield code="r">N</subfield>
-            <subfield code="s">Y</subfield>
-            <subfield code="t">SUL</subfield>
-            <subfield code="u">12/15/2007</subfield>
-            <subfield code="z">TAX=8.25</subfield>
-        </datafield>
-    </record>
-    <record>
-        <leader>00988nas a2200193z  4500</leader>
-        <controlfield tag="001">aoneEach</controlfield>
-        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
-        <datafield tag="245" ind1="1" ind2=" ">
-            <subfield code="a">one of each location type</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">M1503 .A5</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">11</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
+            <subfield code="a">multiple Dewey call numbers of diff lengths</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">111.11 .A5</subfield>
@@ -192,74 +69,18 @@
             <subfield code="m">GREEN</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">A 13.78:NC-315</subfield>
-            <subfield code="w">SUDOC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">33</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">ABCD1234</subfield>
-            <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">44</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-    </record>
-    <record>
-        <leader>00988nas a2200193z  4500</leader>
-        <controlfield tag="001">anoLC</controlfield>
-        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
-        <datafield tag="245" ind1="1" ind2=" ">
-            <subfield code="a">no LC call number</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">111.11 .A5</subfield>
+            <subfield code="a">111.11 .A5C B2</subfield>
             <subfield code="w">DEWEY</subfield>
             <subfield code="c">1</subfield>
-            <subfield code="i">22</subfield>
+            <subfield code="i">24</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">A 13.78:NC-315</subfield>
-            <subfield code="w">SUDOC</subfield>
+            <subfield code="a">111.11 .A5 B2</subfield>
+            <subfield code="w">DEWEY</subfield>
             <subfield code="c">1</subfield>
-            <subfield code="i">33</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">ABCD1234</subfield>
-            <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">44</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-    </record>
-    <record>
-        <leader>00988nas a2200193z  4500</leader>
-        <controlfield tag="001">anoLCnoDewey</controlfield>
-        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
-        <datafield tag="245" ind1="1" ind2=" ">
-            <subfield code="a">no LC no Dewey call number</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">A 13.78:NC-315</subfield>
-            <subfield code="w">SUDOC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">33</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">ABCD1234</subfield>
-            <subfield code="w">ALPHANUM</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">44</subfield>
+            <subfield code="i">23</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
         </datafield>
@@ -346,32 +167,24 @@
     </record>
     <record>
         <leader>00988nas a2200193z  4500</leader>
-        <controlfield tag="001">amultDewey</controlfield>
+        <controlfield tag="001">amultOther</controlfield>
         <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
         <datafield tag="245" ind1="1" ind2=" ">
-            <subfield code="a">multiple Dewey call numbers of diff lengths</subfield>
+            <subfield code="a">multiple other call numbers of diff lengths</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">111.11 .A5</subfield>
-            <subfield code="w">DEWEY</subfield>
+            <subfield code="a">ABCD1234</subfield>
+            <subfield code="w">ALPHANUM</subfield>
             <subfield code="c">1</subfield>
-            <subfield code="i">22</subfield>
+            <subfield code="i">44</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">111.11 .A5C B2</subfield>
-            <subfield code="w">DEWEY</subfield>
+            <subfield code="a">1234 56789</subfield>
+            <subfield code="w">ASIS</subfield>
             <subfield code="c">1</subfield>
-            <subfield code="i">24</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">111.11 .A5 B2</subfield>
-            <subfield code="w">DEWEY</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">23</subfield>
+            <subfield code="i">45</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
         </datafield>
@@ -417,11 +230,51 @@
         </datafield>
     </record>
     <record>
+        <leader>01767nam a22003614a 4500</leader>
+        <controlfield tag="001">anoItems</controlfield>
+        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">no items</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01767nam a22003614a 4500</leader>
+        <controlfield tag="001">aoneDewey</controlfield>
+        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">one dewey item</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">111.11 .A5</subfield>
+            <subfield code="w">DEWEY</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">22</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+    <record>
         <leader>00988nas a2200193z  4500</leader>
-        <controlfield tag="001">amultOther</controlfield>
+        <controlfield tag="001">anoLC</controlfield>
         <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
         <datafield tag="245" ind1="1" ind2=" ">
-            <subfield code="a">multiple other call numbers of diff lengths</subfield>
+            <subfield code="a">no LC call number</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">111.11 .A5</subfield>
+            <subfield code="w">DEWEY</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">22</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">A 13.78:NC-315</subfield>
+            <subfield code="w">SUDOC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">33</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">ABCD1234</subfield>
@@ -431,13 +284,160 @@
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
         </datafield>
+    </record>
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">anoLCnoDewey</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">no LC no Dewey call number</subfield>
+        </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">1234 56789</subfield>
-            <subfield code="w">ASIS</subfield>
+            <subfield code="a">A 13.78:NC-315</subfield>
+            <subfield code="w">SUDOC</subfield>
             <subfield code="c">1</subfield>
-            <subfield code="i">45</subfield>
+            <subfield code="i">33</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ABCD1234</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">44</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">aoneEach</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">one of each location type</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">M1503 .A5</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">11</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">111.11 .A5</subfield>
+            <subfield code="w">DEWEY</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">22</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">A 13.78:NC-315</subfield>
+            <subfield code="w">SUDOC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">33</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ABCD1234</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">44</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01767nam a22003614a 4500</leader>
+        <controlfield tag="001">aoneLC</controlfield>
+        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">one LC item</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">M1503 .A5</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">11</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01767nam a22003614a 4500</leader>
+        <controlfield tag="001">aoneOther</controlfield>
+        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">single Other item</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ABCD1234</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">44</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01767nam a22003614a 4500</leader>
+        <controlfield tag="001">aoneSudoc</controlfield>
+        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">single Sudoc item</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">A 13.78:NC-315</subfield>
+            <subfield code="w">SUDOC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">33</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">aonlineItem</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">online item</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">IGNORED ONLINE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">77</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">SUL</subfield>
+            <subfield code="u">12/15/2007</subfield>
+            <subfield code="z">TAX=8.25</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">ashelbyLoc</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">shelby title location</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">M1503 .A5 VOL.22</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">77</subfield>
+            <subfield code="k">SHELBYTITL</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="r">N</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">SUL</subfield>
+            <subfield code="u">12/15/2007</subfield>
+            <subfield code="z">TAX=8.25</subfield>
         </datafield>
     </record>
     
