@@ -1,145 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collection xmlns="http://www.loc.gov/MARC21/slim">
-<!-- single shadowed home location -->
-    <record>
-        <leader>01151cam a2200277 i 4500</leader>
-        <controlfield tag="001">askipHomeLoc</controlfield>
-        <controlfield tag="008">800812s1979    ilu      b    000 0 eng  </controlfield>
-        <datafield tag="245" ind1="1" ind2="0">
-            <subfield code="a">single Shadowed home location</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">Z7164.T23.W45</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">36105035887392</subfield>
-            <subfield code="d">4/30/1998</subfield>
-            <subfield code="e">2/20/1995</subfield>
-            <subfield code="l">FED-DOCS-S</subfield>
-            <subfield code="m">GREEN</subfield>
-            <subfield code="p">$40.00</subfield>
-            <subfield code="q">1</subfield>
-            <subfield code="r">Y</subfield>
-            <subfield code="s">Y</subfield>
-            <subfield code="t">STKS-MONO</subfield>
-            <subfield code="u">8/12/1980</subfield>
-        </datafield>
-    </record>
-<!-- WITHDRAWN (current location) -->
-    <record>
-        <leader>00719cam a2200241Li 4500</leader>
-        <controlfield tag="001">askipCurrLoc</controlfield>
-        <controlfield tag="008">980209s1969    sz            00| 0 ger u</controlfield>
-        <datafield tag="245" ind1="1" ind2="0">
-            <subfield code="a">Current Location withdrawn</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">WDRNALW4497</subfield>
-            <subfield code="w">ASIS</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">001ALW4497</subfield>
-            <subfield code="d">8/30/1996</subfield>
-            <subfield code="k">WITHDRAWN</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-            <subfield code="p">$40.00</subfield>
-            <subfield code="r">Y</subfield>
-            <subfield code="s">Y</subfield>
-            <subfield code="t">STKS-MONO</subfield>
-            <subfield code="u">10/14/1992</subfield>
-        </datafield>
-    </record>
-<!-- mult skipped locations -->
-    <record>
-        <leader>01151cam a2200277 i 4500</leader>
-        <controlfield tag="001">amultSkip</controlfield>
-        <controlfield tag="008">800812s1979    ilu      b    000 0 eng  </controlfield>
-        <datafield tag="245" ind1="1" ind2="0">
-            <subfield code="a">one home, one current skipped location</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">Z7164.T23.W45</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">36105035887392</subfield>
-            <subfield code="d">4/30/1998</subfield>
-            <subfield code="l">FED-DOCS-S</subfield>
-            <subfield code="m">GREEN</subfield>
-            <subfield code="p">$40.00</subfield>
-            <subfield code="q">1</subfield>
-            <subfield code="r">Y</subfield>
-            <subfield code="s">Y</subfield>
-            <subfield code="t">STKS-MONO</subfield>
-            <subfield code="u">8/12/1980</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">WDRNALW4497</subfield>
-            <subfield code="w">ASIS</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">111</subfield>
-            <subfield code="d">8/30/1996</subfield>
-            <subfield code="k">WITHDRAWN</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-            <subfield code="p">$40.00</subfield>
-            <subfield code="r">Y</subfield>
-            <subfield code="s">Y</subfield>
-            <subfield code="t">STKS-MONO</subfield>
-            <subfield code="u">10/14/1992</subfield>
-        </datafield>
-    </record>
-<!-- one skipped loc, one valid -->    
-    <record>
-        <leader>01149nam a22002891  4500</leader>
-        <controlfield tag="001">akeepOne</controlfield>
-        <controlfield tag="008">840514s1962    enk      b    000 0 eng  </controlfield>
-        <datafield tag="245" ind1="1" ind2="0">
-            <subfield code="a">keep one, skip one</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">KEEP</subfield>
-            <subfield code="w">ASIS</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">KEEP</subfield>
-            <subfield code="d">10/22/2003</subfield>
-            <subfield code="e">3/13/1995</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-            <subfield code="n">1</subfield>
-            <subfield code="p">$40.00</subfield>
-            <subfield code="q">6</subfield>
-            <subfield code="r">Y</subfield>
-            <subfield code="s">Y</subfield>
-            <subfield code="t">STKS</subfield>
-            <subfield code="u">5/14/1984</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">SKIP</subfield>
-            <subfield code="w">ASIS</subfield>
-            <subfield code="c">2</subfield>
-            <subfield code="i">SKIP</subfield>
-            <subfield code="d">8/15/1997</subfield>
-            <subfield code="e">4/7/1995</subfield>
-            <subfield code="l">MAPCASES-S</subfield>
-            <subfield code="m">SAL</subfield>
-            <subfield code="q">1</subfield>
-            <subfield code="r">Y</subfield>
-            <subfield code="s">Y</subfield>
-            <subfield code="t">STKS-MONO</subfield>
-            <subfield code="u">8/15/1997</subfield>
-            <subfield code="o">.TECHSTAFF. tf:MATH 8/97 batch</subfield>
-        </datafield>
-    </record>
-<!-- No Items -->
-    <record>
-        <leader>00719cam a2200241Li 4500</leader>
-        <controlfield tag="001">aNoItems</controlfield>
-        <controlfield tag="008">980209s1969    sz            00| 0 ger u</controlfield>
-        <datafield tag="245" ind1="1" ind2="0">
-            <subfield code="a">No items - should be On-Order</subfield>
-        </datafield>
-    </record>
-<!-- One item type EDI-REMOVE -->
+    <!-- One item type EDI-REMOVE -->
     <record>
         <leader>01767nam a22003614a 4500</leader>
         <controlfield tag="001">aEdiRemove</controlfield>
@@ -154,14 +15,75 @@
             <subfield code="i">777</subfield>
             <subfield code="l">EDI</subfield>
             <subfield code="m">SUL</subfield>
-            <subfield code="r">Y</subfield>
-            <subfield code="s">Y</subfield>
             <subfield code="t">EDI-REMOVE</subfield>
-            <subfield code="u">10/15/2009</subfield>
-            <subfield code="z">TAX=8.25</subfield>
         </datafield>
     </record>
-<!-- edi removed plus another location -->
+    <!-- one skipped loc, one valid -->    
+    <record>
+        <leader>01149nam a22002891  4500</leader>
+        <controlfield tag="001">akeepOne</controlfield>
+        <controlfield tag="008">840514s1962    enk      b    000 0 eng  </controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">keep one, skip one</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">KEEP</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">KEEP</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="t">STKS</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">SKIP</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">2</subfield>
+            <subfield code="i">SKIP</subfield>
+            <subfield code="l">MAPCASES-S</subfield>
+            <subfield code="m">SAL</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+            <subfield code="o">.TECHSTAFF. tf:MATH 8/97 batch</subfield>
+        </datafield>
+    </record>
+    <!-- mult skipped locations -->
+    <record>
+        <leader>01151cam a2200277 i 4500</leader>
+        <controlfield tag="001">amultSkip</controlfield>
+        <controlfield tag="008">800812s1979    ilu      b    000 0 eng  </controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">one home, one current skipped location</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">Z7164.T23.W45</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105035887392</subfield>
+            <subfield code="l">FED-DOCS-S</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">WDRNALW4497</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">111</subfield>
+            <subfield code="k">WITHDRAWN</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+        </datafield>
+    </record>
+    <!-- No Items -->
+    <record>
+        <leader>00719cam a2200241Li 4500</leader>
+        <controlfield tag="001">aNoItems</controlfield>
+        <controlfield tag="008">980209s1969    sz            00| 0 ger u</controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">No items - should be On-Order</subfield>
+        </datafield>
+    </record>
+    <!-- edi removed plus another location -->
     <record>
         <leader>01767nam a22003614a 4500</leader>
         <controlfield tag="001">aOnePlusEdiRemove</controlfield>
@@ -176,28 +98,53 @@
             <subfield code="i">SKIP</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
-            <subfield code="r">Y</subfield>
-            <subfield code="s">Y</subfield>
             <subfield code="t">EDI-REMOVE</subfield>
-            <subfield code="u">10/15/2009</subfield>
-            <subfield code="z">TAX=8.25</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">KEEP</subfield>
             <subfield code="w">ASIS</subfield>
             <subfield code="c">1</subfield>
             <subfield code="i">KEEP</subfield>
-            <subfield code="d">10/22/2003</subfield>
-            <subfield code="e">3/13/1995</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
-            <subfield code="n">1</subfield>
-            <subfield code="p">$40.00</subfield>
-            <subfield code="q">6</subfield>
-            <subfield code="r">Y</subfield>
-            <subfield code="s">Y</subfield>
             <subfield code="t">STKS</subfield>
-            <subfield code="u">5/14/1984</subfield>
+        </datafield>
+    </record>
+    <!-- WITHDRAWN (current location) -->
+    <record>
+        <leader>00719cam a2200241Li 4500</leader>
+        <controlfield tag="001">askipCurrLoc</controlfield>
+        <controlfield tag="008">980209s1969    sz            00| 0 ger u</controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">Current Location withdrawn</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">WDRNALW4497</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">001ALW4497</subfield>
+            <subfield code="k">WITHDRAWN</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="t">STKS-MONO</subfield>
+        </datafield>
+    </record>
+    <!-- single shadowed home location -->
+    <record>
+        <leader>01151cam a2200277 i 4500</leader>
+        <controlfield tag="001">askipHomeLoc</controlfield>
+        <controlfield tag="008">800812s1979    ilu      b    000 0 eng  </controlfield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">single Shadowed home location</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">Z7164.T23.W45</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">36105035887392</subfield>
+            <subfield code="l">FED-DOCS-S</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="t">STKS-MONO</subfield>
         </datafield>
     </record>
 </collection>
