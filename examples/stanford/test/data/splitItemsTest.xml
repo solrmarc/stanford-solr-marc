@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collection>
     <record>
+        <leader>01767nam a22003614a 4500</leader>
+        <controlfield tag="001">anotSplit1</controlfield>
+        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">first record not split</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">C1 .D2</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">010</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01767nam a22003614a 4500</leader>
+        <controlfield tag="001">anotSplit2</controlfield>
+        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">second record not split</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">F1 .G2</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">020</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+    <record>
         <leader>01952cas  2200457Ia 45í0</leader>
         <controlfield tag="001">asplit1</controlfield>
         <controlfield tag="008">780930m19391944nyu   p       000 v eng d</controlfield>
@@ -65,22 +97,6 @@
         </datafield>
     </record>
     <record>
-        <leader>01767nam a22003614a 4500</leader>
-        <controlfield tag="001">anotSplit1</controlfield>
-        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
-        <datafield tag="245" ind1=" " ind2=" ">
-            <subfield code="a">first record not split</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">C1 .D2</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">010</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-    </record>
-    <record>
         <leader>01952cas  2200457Ia 45í0</leader>
         <controlfield tag="001">asplit2</controlfield>
         <controlfield tag="008">780930m19391944nyu   p       000 v eng d</controlfield>
@@ -140,22 +156,6 @@
             <subfield code="w">LC</subfield>
             <subfield code="c">1</subfield>
             <subfield code="i">205</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-    </record>
-    <record>
-        <leader>01767nam a22003614a 4500</leader>
-        <controlfield tag="001">anotSplit2</controlfield>
-        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
-        <datafield tag="245" ind1=" " ind2=" ">
-            <subfield code="a">second record not split</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">F1 .G2</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">020</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
         </datafield>
