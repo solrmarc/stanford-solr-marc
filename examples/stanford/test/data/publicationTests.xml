@@ -1,38 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collection xmlns="http://www.loc.gov/MARC21/slim">
-
-    <!-- 260ababc -->
+<!-- country from 008 -->    
+    
+    <!-- 008/15-17 ja -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a260ababc</controlfield>
-        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <controlfield tag="001">a008ja</controlfield>
+        <controlfield tag="008">041202s2000    ja nnn  s      f    eng d</controlfield>
         <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">260ababc</subfield>
-        </datafield>
-        <datafield tag="260" ind1="#" ind2="#">
-            <subfield code="a">Paris :</subfield>
-            <subfield code="b">Gauthier-Villars ;</subfield>
-            <subfield code="a">Chicago :</subfield>
-            <subfield code="b">University of Chicago Press,</subfield>
-            <subfield code="c">1955.</subfield>
+            <subfield code="a">008/15-17 ja</subfield>
         </datafield>
     </record>
     
-    <!-- 260abbc -->
+    <!-- 008/15-17 mdu -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a260abbc</controlfield>
+        <controlfield tag="001">a008mdu</controlfield>
         <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
         <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">260abbc</subfield>
-        </datafield>
-        <datafield tag="260" ind1="#" ind2="#">
-            <subfield code="a">Washington, D.C. :</subfield>
-            <subfield code="b">first b :</subfield>
-            <subfield code="b">second b U.S. G.P.O.,</subfield>
-            <subfield code="c">1981.</subfield>
+            <subfield code="a">008/15-17 mdu Maryland</subfield>
         </datafield>
     </record>
+    
+    <!-- 008/15-17 vp (to ignore) -->
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a008vp</controlfield>
+        <controlfield tag="008">041202s2000    vp nnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">008/15-17 vp Various Places to be ignored</subfield>
+        </datafield>
+    </record>
+    
+    <!-- 008/15-17 xx unknown -->
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a008xx</controlfield>
+        <controlfield tag="008">041202s2000    xx nnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">008/15-17 xx unknown to be ignored</subfield>
+        </datafield>
+    </record>
+    
     
     <!-- 260-3ab -->
     <record>
@@ -49,18 +58,20 @@
         </datafield>
     </record>
     
-    <!-- 260a s.l. - unknown place -->
+    <!-- 260ababc -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a260aunknown</controlfield>
+        <controlfield tag="001">a260ababc</controlfield>
         <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
         <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">260a s.l. - unknown place</subfield>
+            <subfield code="a">260ababc</subfield>
         </datafield>
         <datafield tag="260" ind1="#" ind2="#">
-            <subfield code="a">[S.l.] :</subfield>
-            <subfield code="b">Insight Press,</subfield>
-            <subfield code="c">1981.</subfield>
+            <subfield code="a">Paris :</subfield>
+            <subfield code="b">Gauthier-Villars ;</subfield>
+            <subfield code="a">Chicago :</subfield>
+            <subfield code="b">University of Chicago Press,</subfield>
+            <subfield code="c">1955.</subfield>
         </datafield>
     </record>
     
@@ -81,17 +92,19 @@
         </datafield>
     </record>
     
-    <!-- 260b s.n. - unknown name -->
+    <!-- 260abbc -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a260bunknown</controlfield>
+        <controlfield tag="001">a260abbc</controlfield>
         <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
         <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">260 b s.n. - unknown name</subfield>
+            <subfield code="a">260abbc</subfield>
         </datafield>
         <datafield tag="260" ind1="#" ind2="#">
-            <subfield code="a">Victoria, B.C. :</subfield>
-            <subfield code="b">[s.n.],</subfield>
+            <subfield code="a">Washington, D.C. :</subfield>
+            <subfield code="b">first b :</subfield>
+            <subfield code="b">second b U.S. G.P.O.,</subfield>
+            <subfield code="c">1981.</subfield>
         </datafield>
     </record>
     
@@ -108,63 +121,74 @@
             <subfield code="B">s.n.,</subfield>
         </datafield>
     </record>
-
-<!-- 880 for publication -->
-    <!-- vern260abc -->
+    <!-- 260a s.l. - unknown place -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">avern260abc</controlfield>
+        <controlfield tag="001">a260aunknown</controlfield>
         <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
         <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">vern260abc</subfield>
+            <subfield code="a">260a s.l. - unknown place</subfield>
         </datafield>
-        <datafield tag="260" ind1=" " ind2=" ">
-            <subfield code="6">880-01</subfield>
-            <subfield code="a">something</subfield>
-        </datafield>
-        <datafield tag="880" ind1=" " ind2=" ">
-            <subfield code="6">260-01/$1</subfield>
-            <subfield code="a">vern260a :</subfield>
-            <subfield code="b">vern260b,</subfield>
-            <subfield code="c">2008.</subfield>
+        <datafield tag="260" ind1="#" ind2="#">
+            <subfield code="a">[S.l.] :</subfield>
+            <subfield code="b">Insight Press,</subfield>
+            <subfield code="c">1981.</subfield>
         </datafield>
     </record>
     
-    <!-- vern260abcg -->
+    <!-- 260b s.n. - unknown name -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">avern260abcg</controlfield>
+        <controlfield tag="001">a260bunknown</controlfield>
         <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
         <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">vern260abcg</subfield>
-        </datafield>
-        <datafield tag="260" ind1=" " ind2=" ">
-            <subfield code="6">880-01</subfield>
-            <subfield code="a">something else</subfield>
-        </datafield>
-        <datafield tag="880" ind1=" " ind2=" ">
-            <subfield code="6">260-01/$1</subfield>
-            <subfield code="a">vern260a :</subfield>
-            <subfield code="b">vern260b,</subfield>
-            <subfield code="c">1990</subfield>
-            <subfield code="g">(1992 printing)</subfield>
-        </datafield>    
-    </record>
- 
-<!-- 260c publication dates -->
- 
-    <!-- 260 c right bracket -->
-    <record>
-        <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a260crightbracket</controlfield>
-        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
-        <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">260 c right bracket</subfield>
+            <subfield code="a">260 b s.n. - unknown name</subfield>
         </datafield>
         <datafield tag="260" ind1="#" ind2="#">
-            <subfield code="a">[i.e. Bruxelles :</subfield>
-            <subfield code="b">Moens,</subfield>
-            <subfield code="c">1883]</subfield>
+            <subfield code="a">Victoria, B.C. :</subfield>
+            <subfield code="b">[s.n.],</subfield>
+        </datafield>
+    </record>
+    
+    
+<!-- 260c publication dates -->
+ 
+    <!-- 260 c angle brackets -->
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a260canglebrackets</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">260 c angle brackets (temporary date)</subfield>
+        </datafield>
+        <datafield tag="260" ind1="#" ind2="#">
+            <subfield code="c">1981-&lt;1982&gt;</subfield>
+        </datafield>
+    </record>
+    
+    <!-- 260 c angle brackets hyphen -->
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a260canglebracketshyphen</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">260 c angle brackets hyphen</subfield>
+        </datafield>
+        <datafield tag="260" ind1="#" ind2="#">
+            <subfield code="c">&lt;1981- &gt;</subfield>
+        </datafield>
+    </record>
+    
+    <!-- 260 c brackets -->
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a260cbrackets</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">260 c brackets</subfield>
+        </datafield>
+        <datafield tag="260" ind1="#" ind2="#">
+            <subfield code="c">1968 [i.e. 1971]</subfield>
         </datafield>
     </record>
     
@@ -234,18 +258,18 @@
         </datafield>
     </record>
     
-    <!-- 260 c vague -->
+    <!-- 260 c complex -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a260cvague</controlfield>
+        <controlfield tag="001">a260ccomplex</controlfield>
         <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
         <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">260 c vague </subfield>
+            <subfield code="a">260 c complex</subfield>
         </datafield>
         <datafield tag="260" ind1="#" ind2="#">
-            <subfield code="c">15--?]</subfield>
+            <subfield code="c">1946 [reprinted 1965]</subfield>
         </datafield>
-    </record>    
+    </record>
     
     <!-- 260 c full date -->
     <record>
@@ -257,19 +281,6 @@
         </datafield>
         <datafield tag="260" ind1="#" ind2="#">
             <subfield code="c">April 15, 1977.</subfield>
-        </datafield>
-    </record>
-    
-    <!-- 260 c brackets -->
-    <record>
-        <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a260cbrackets</controlfield>
-        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
-        <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">260 c brackets</subfield>
-        </datafield>
-        <datafield tag="260" ind1="#" ind2="#">
-            <subfield code="c">1968 [i.e. 1971]</subfield>
         </datafield>
     </record>
     
@@ -286,6 +297,21 @@
         </datafield>
     </record>
     
+    <!-- 260 c right bracket -->
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a260crightbracket</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">260 c right bracket</subfield>
+        </datafield>
+        <datafield tag="260" ind1="#" ind2="#">
+            <subfield code="a">[i.e. Bruxelles :</subfield>
+            <subfield code="b">Moens,</subfield>
+            <subfield code="c">1883]</subfield>
+        </datafield>
+    </record>
+    
     <!-- 260 c trailing hyphen -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
@@ -299,31 +325,18 @@
         </datafield>
     </record>
     
-    <!-- 260 c angle brackets -->
+    <!-- 260 c vague -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a260canglebrackets</controlfield>
+        <controlfield tag="001">a260cvague</controlfield>
         <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
         <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">260 c angle brackets (temporary date)</subfield>
+            <subfield code="a">260 c vague </subfield>
         </datafield>
         <datafield tag="260" ind1="#" ind2="#">
-            <subfield code="c">1981-&lt;1982&gt;</subfield>
+            <subfield code="c">15--?]</subfield>
         </datafield>
-    </record>
-    
-    <!-- 260 c angle brackets hyphen -->
-    <record>
-        <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a260canglebracketshyphen</controlfield>
-        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
-        <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">260 c angle brackets hyphen</subfield>
-        </datafield>
-        <datafield tag="260" ind1="#" ind2="#">
-            <subfield code="c">&lt;1981- &gt;</subfield>
-        </datafield>
-    </record>
+    </record>    
     
     <!-- 260 c words -->
     <record>
@@ -338,59 +351,46 @@
         </datafield>
     </record>
     
-    <!-- 260 c complex -->
+<!-- 880 for publication -->
+    <!-- vern260abc -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a260ccomplex</controlfield>
+        <controlfield tag="001">avern260abc</controlfield>
         <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
         <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">260 c complex</subfield>
+            <subfield code="a">vern260abc</subfield>
         </datafield>
-        <datafield tag="260" ind1="#" ind2="#">
-            <subfield code="c">1946 [reprinted 1965]</subfield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="6">880-01</subfield>
+            <subfield code="a">something</subfield>
+        </datafield>
+        <datafield tag="880" ind1=" " ind2=" ">
+            <subfield code="6">260-01/$1</subfield>
+            <subfield code="a">vern260a :</subfield>
+            <subfield code="b">vern260b,</subfield>
+            <subfield code="c">2008.</subfield>
         </datafield>
     </record>
-     
-<!-- country from 008 -->    
     
-    <!-- 008/15-17 mdu -->
+    <!-- vern260abcg -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a008mdu</controlfield>
+        <controlfield tag="001">avern260abcg</controlfield>
         <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
         <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">008/15-17 mdu Maryland</subfield>
+            <subfield code="a">vern260abcg</subfield>
         </datafield>
-    </record>
-    
-    <!-- 008/15-17 ja -->
-    <record>
-        <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a008ja</controlfield>
-        <controlfield tag="008">041202s2000    ja nnn  s      f    eng d</controlfield>
-        <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">008/15-17 ja</subfield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="6">880-01</subfield>
+            <subfield code="a">something else</subfield>
         </datafield>
-    </record>
-    
-    <!-- 008/15-17 vp (to ignore) -->
-    <record>
-        <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a008vp</controlfield>
-        <controlfield tag="008">041202s2000    vp nnn  s      f    eng d</controlfield>
-        <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">008/15-17 vp Various Places to be ignored</subfield>
-        </datafield>
-    </record>
-    
-    <!-- 008/15-17 xx unknown -->
-    <record>
-        <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a008xx</controlfield>
-        <controlfield tag="008">041202s2000    xx nnn  s      f    eng d</controlfield>
-        <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">008/15-17 xx unknown to be ignored</subfield>
-        </datafield>
+        <datafield tag="880" ind1=" " ind2=" ">
+            <subfield code="6">260-01/$1</subfield>
+            <subfield code="a">vern260a :</subfield>
+            <subfield code="b">vern260b,</subfield>
+            <subfield code="c">1990</subfield>
+            <subfield code="g">(1992 printing)</subfield>
+        </datafield>    
     </record>
     
 </collection>
