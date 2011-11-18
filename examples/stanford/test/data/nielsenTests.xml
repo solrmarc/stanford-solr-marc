@@ -24,6 +24,38 @@
     </datafield>
   </record>
 
+  <!-- 520, 920 -->
+  <record>
+    <leader>66662cim  2200457Ia 45í0</leader>
+    <controlfield tag="001">a520</controlfield>
+    <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">five-twenty</subfield>
+    </datafield>
+    <datafield tag="520" ind1=" " ind2=" ">
+      <subfield code="a">520a</subfield>
+      <subfield code="b">520b</subfield>
+      <subfield code="c">520c</subfield>
+      <subfield code="u">520u</subfield>
+    </datafield>
+  </record>
+  
+  <!-- 586, 986 -->
+  <record>
+    <leader>01309cam a2200373Ma 4500</leader>
+    <controlfield tag="001">a586</controlfield>
+    <controlfield tag="008">071221s2008 nz c 000 1 eng </controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">record with two 586 but no 986</subfield>
+    </datafield>
+    <datafield tag="586" ind1=" " ind2=" ">
+      <subfield code="a">New Zealand Post book awards winner</subfield>
+    </datafield>
+    <datafield tag="586" ind1=" " ind2=" ">
+      <subfield code="a">586 second award</subfield>
+    </datafield>
+  </record>
+  
   <record>
     <leader>66662cim  2200457Ia 45í0</leader>
     <controlfield tag="001">a905</controlfield>
@@ -37,6 +69,38 @@
       <subfield code="r">905r</subfield>
       <subfield code="t">905t</subfield>
       <subfield code="u">905u</subfield>
+    </datafield>
+  </record>
+  
+  <record>
+    <leader>66662cim  2200457Ia 45í0</leader>
+    <controlfield tag="001">a920</controlfield>
+    <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">nine-twenty</subfield>
+    </datafield>
+    <datafield tag="920" ind1=" " ind2=" ">
+      <subfield code="a">920a</subfield>
+      <subfield code="b">920b</subfield>
+      <subfield code="c">920c</subfield>
+      <subfield code="u">920u</subfield>
+    </datafield>
+  </record>
+
+  <record xmlns="http://www.loc.gov/MARC21/slim">
+    <leader>01509nam a2200433 a 4500</leader>
+    <controlfield tag="001">a986</controlfield>
+    <controlfield tag="008">060116s2005 nz ac b 001 0 eng </controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">record with no 586, but two 986</subfield>
+    </datafield>
+    <datafield tag="986" ind1=" " ind2=" ">
+      <subfield code="a">Shortlisted for Montana New Zealand Book Awards: History Category 2006.</subfield>
+      <subfield code="1">Nielsen</subfield>
+    </datafield>
+    <datafield tag="986" ind1=" " ind2=" ">
+      <subfield code="a">986 second award</subfield>
+      <subfield code="1">Nielsen</subfield>
     </datafield>
   </record>
   
@@ -63,37 +127,6 @@
     </datafield>
   </record>
   
-<!-- 520, 920 -->
-  <record>
-    <leader>66662cim  2200457Ia 45í0</leader>
-    <controlfield tag="001">a520</controlfield>
-    <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
-    <datafield tag="245" ind1="1" ind2="0">
-      <subfield code="a">five-twenty</subfield>
-    </datafield>
-    <datafield tag="520" ind1=" " ind2=" ">
-      <subfield code="a">520a</subfield>
-      <subfield code="b">520b</subfield>
-      <subfield code="c">520c</subfield>
-      <subfield code="u">520u</subfield>
-    </datafield>
-  </record>
-  
-  <record>
-    <leader>66662cim  2200457Ia 45í0</leader>
-    <controlfield tag="001">a920</controlfield>
-    <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
-    <datafield tag="245" ind1="1" ind2="0">
-      <subfield code="a">nine-twenty</subfield>
-    </datafield>
-    <datafield tag="920" ind1=" " ind2=" ">
-      <subfield code="a">920a</subfield>
-      <subfield code="b">920b</subfield>
-      <subfield code="c">920c</subfield>
-      <subfield code="u">920u</subfield>
-    </datafield>
-  </record>
-  
   <record>
     <leader>66662cim  2200457Ia 45í0</leader>
     <controlfield tag="001">abothx20</controlfield>
@@ -112,39 +145,6 @@
       <subfield code="b">920b</subfield>
       <subfield code="c">920c</subfield>
       <subfield code="u">920u</subfield>
-    </datafield>
-  </record>
-  
-  <!-- 586, 986 -->
-  <record>
-    <leader>01309cam a2200373Ma 4500</leader>
-    <controlfield tag="001">a586</controlfield>
-    <controlfield tag="008">071221s2008 nz c 000 1 eng </controlfield>
-    <datafield tag="245" ind1="1" ind2="0">
-      <subfield code="a">record with two 586 but no 986</subfield>
-    </datafield>
-    <datafield tag="586" ind1=" " ind2=" ">
-      <subfield code="a">New Zealand Post book awards winner</subfield>
-    </datafield>
-    <datafield tag="586" ind1=" " ind2=" ">
-      <subfield code="a">586 second award</subfield>
-    </datafield>
-  </record>
-  
-  <record xmlns="http://www.loc.gov/MARC21/slim">
-    <leader>01509nam a2200433 a 4500</leader>
-    <controlfield tag="001">a986</controlfield>
-    <controlfield tag="008">060116s2005 nz ac b 001 0 eng </controlfield>
-    <datafield tag="245" ind1="1" ind2="0">
-      <subfield code="a">record with no 586, but two 986</subfield>
-    </datafield>
-    <datafield tag="986" ind1=" " ind2=" ">
-      <subfield code="a">Shortlisted for Montana New Zealand Book Awards: History Category 2006.</subfield>
-      <subfield code="1">Nielsen</subfield>
-    </datafield>
-    <datafield tag="986" ind1=" " ind2=" ">
-      <subfield code="a">986 second award</subfield>
-      <subfield code="1">Nielsen</subfield>
     </datafield>
   </record>
   
