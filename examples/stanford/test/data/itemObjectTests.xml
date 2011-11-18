@@ -2,40 +2,16 @@
 <collection>
     <record>
         <leader>01767nam a22003614a 4500</leader>
-        <controlfield tag="001">alopped</controlfield>
+        <controlfield tag="001">abadDewey</controlfield>
         <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
         <datafield tag="245" ind1=" " ind2=" ">
-            <subfield code="a">call number gets lopped</subfield>
+            <subfield code="a">invalid Dewey</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">F12 .B6 V.27</subfield>
-            <subfield code="w">LC</subfield>
+            <subfield code="a">1234.5 .D6</subfield>
+            <subfield code="w">DEWEY</subfield>
             <subfield code="c">1</subfield>
-            <subfield code="i">001</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">F12 .B6 V.27</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">002</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-    </record>
-    <record>
-        <leader>01767nam a22003614a 4500</leader>
-        <controlfield tag="001">adeweyAsLC</controlfield>
-        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
-        <datafield tag="245" ind1=" " ind2=" ">
-            <subfield code="a">says it's lc but it's dewey</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">111.11 .A5</subfield>
-            <subfield code="w">LC</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">111</subfield>
+            <subfield code="i">333</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
         </datafield>
@@ -57,39 +33,6 @@
         </datafield>
     </record>
     <record>
-        <leader>01767nam a22003614a 4500</leader>
-        <controlfield tag="001">abadDewey</controlfield>
-        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
-        <datafield tag="245" ind1=" " ind2=" ">
-            <subfield code="a">invalid Dewey</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">1234.5 .D6</subfield>
-            <subfield code="w">DEWEY</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">333</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-    </record>
-    <record>
-        <leader>00988nas a2200193z  4500</leader>
-        <controlfield tag="001">ahomeLocInternet</controlfield>
-        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
-        <datafield tag="245" ind1="1" ind2=" ">
-            <subfield code="a">internet home loc</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">INTERNET RESOURCE</subfield>
-            <subfield code="w">ASIS</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">444</subfield>
-            <subfield code="l">INTERNET</subfield>
-            <subfield code="m">GREEN</subfield>
-            <subfield code="t">SUL</subfield>
-        </datafield>
-    </record>
-    <record>
         <leader>00988nas a2200193z  4500</leader>
         <controlfield tag="001">acurrLocInternet</controlfield>
         <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
@@ -108,20 +51,19 @@
         </datafield>
     </record>
     <record>
-        <leader>00988nas a2200193z  4500</leader>
-        <controlfield tag="001">ainternetCallnum</controlfield>
-        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
-        <datafield tag="245" ind1="1" ind2=" ">
-            <subfield code="a">internet resource call nummber</subfield>
+        <leader>01767nam a22003614a 4500</leader>
+        <controlfield tag="001">adeweyAsLC</controlfield>
+        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">says it's lc but it's dewey</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">INTERNET RESOURCE</subfield>
-            <subfield code="w">ASIS</subfield>
+            <subfield code="a">111.11 .A5</subfield>
+            <subfield code="w">LC</subfield>
             <subfield code="c">1</subfield>
-            <subfield code="i">666</subfield>
+            <subfield code="i">111</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
-            <subfield code="t">SUL</subfield>
         </datafield>
     </record>
     <record>
@@ -145,6 +87,64 @@
             <subfield code="w">LC</subfield>
             <subfield code="c">1</subfield>
             <subfield code="i">111</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">ahomeLocInternet</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet home loc</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">444</subfield>
+            <subfield code="l">INTERNET</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="t">SUL</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00988nas a2200193z  4500</leader>
+        <controlfield tag="001">ainternetCallnum</controlfield>
+        <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
+        <datafield tag="245" ind1="1" ind2=" ">
+            <subfield code="a">internet resource call nummber</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">INTERNET RESOURCE</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">666</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+            <subfield code="t">SUL</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01767nam a22003614a 4500</leader>
+        <controlfield tag="001">alopped</controlfield>
+        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">call number gets lopped</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">F12 .B6 V.27</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">001</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">F12 .B6 V.27</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">002</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
         </datafield>
