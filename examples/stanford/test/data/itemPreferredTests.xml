@@ -238,22 +238,6 @@
         </datafield>
     </record>
     <record>
-        <leader>01767nam a22003614a 4500</leader>
-        <controlfield tag="001">aoneDewey</controlfield>
-        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
-        <datafield tag="245" ind1=" " ind2=" ">
-            <subfield code="a">one dewey item</subfield>
-        </datafield>
-        <datafield tag="999" ind1=" " ind2=" ">
-            <subfield code="a">111.11 .A5</subfield>
-            <subfield code="w">DEWEY</subfield>
-            <subfield code="c">1</subfield>
-            <subfield code="i">22</subfield>
-            <subfield code="l">STACKS</subfield>
-            <subfield code="m">GREEN</subfield>
-        </datafield>
-    </record>
-    <record>
         <leader>00988nas a2200193z  4500</leader>
         <controlfield tag="001">anoLC</controlfield>
         <controlfield tag="008">071214uuuuuuuuuxx uu |ss    u|    |||| d</controlfield>
@@ -305,6 +289,22 @@
             <subfield code="w">ALPHANUM</subfield>
             <subfield code="c">1</subfield>
             <subfield code="i">44</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">GREEN</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01767nam a22003614a 4500</leader>
+        <controlfield tag="001">aoneDewey</controlfield>
+        <controlfield tag="008">090721s2009    gw a     b    000 0 ger c</controlfield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">one dewey item</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">111.11 .A5</subfield>
+            <subfield code="w">DEWEY</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">22</subfield>
             <subfield code="l">STACKS</subfield>
             <subfield code="m">GREEN</subfield>
         </datafield>
