@@ -342,7 +342,7 @@ public class SeriesTests extends AbstractStanfordTest {
 		docIds.add("798059");   // 440a (full phrase), 800adt
 		assertSearchResults(fldName, "\"Joyce, James, 1882-1941. James Joyce archive\"", docIds);
 		// phrase in title, no series fields
-		assertDocHasNoField("222", fldName);
+		assertDocHasNoField("2222", fldName);
 	}
 
 	/**
@@ -360,7 +360,7 @@ public class SeriesTests extends AbstractStanfordTest {
 		assertSearchResults(fldName, "\"European Court of Human Rights.\"", docIds);  // 810a only
 		assertSearchResults(fldName, "\"European Court of Human Rights. Publications de la Cour europeenne des droits de l'homme. Serie A, Arrets et decisions\"", docIds);
 		// phrase in title, no series fields
-		assertDocHasNoField("111", fldName);
+		assertDocHasNoField("1111", fldName);
 		// sub v included
 		assertSingleResult("1943665", fldName, "138"); 
 		assertSingleResult("1943753", fldName, "132"); 
@@ -380,7 +380,7 @@ public class SeriesTests extends AbstractStanfordTest {
 		docIds.add("253693");   // 490av, 811atv
 		assertSearchResults(fldName, "\"Delaware Symposium on Language Studies\"", docIds);
 		// phrase in title, no series fields
-		assertDocHasNoField("999", fldName);
+		assertDocHasNoField("9999", fldName);
 		// sub v included
 		assertSingleResult("1588366", fldName, "4"); 
 		assertSingleResult("253693", fldName, "7"); 
@@ -401,7 +401,7 @@ public class SeriesTests extends AbstractStanfordTest {
 		docIds.add("488433");	// 830a
 		assertSearchResults(fldName, "\"Lecture notes in computer science\"", docIds);
 		// phrase in title, no series fields
-		assertDocHasNoField("444", fldName);
+		assertDocHasNoField("4444", fldName);
 		// sub v included
 		assertSingleResult("1964873", fldName, "240"); 
 		assertSingleResult("4489006", fldName, "1658"); 
@@ -417,7 +417,7 @@ public class SeriesTests extends AbstractStanfordTest {
 		assertZeroResults(fldName, "0171");
 		assertZeroResults(fldName, "1660");
 		// phrase in title, no series fields
-		assertDocHasNoField("666", fldName);
+		assertDocHasNoField("6666", fldName);
 		// sub v included
 		assertSingleResult("1025630", fldName, "3"); 
 		assertSingleResult("1554950", fldName, "6");  
@@ -425,7 +425,7 @@ public class SeriesTests extends AbstractStanfordTest {
 		// "Macmillan series in applied computer science"  490, 830
 		assertSingleResult("1173521", fldName, "\"Macmillan series in applied computer science\"");
 		// phrase in title, no series fields
-		assertDocHasNoField("333", fldName);	
+		assertDocHasNoField("3333", fldName);	
 	}
 	
 }
