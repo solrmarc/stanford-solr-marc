@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collection xmlns="http://www.loc.gov/MARC21/slim">
-    <!-- era 20th century with trailing period: 650y -->
+    <!-- era trailing period, date range ending in 4 digits -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a650y</controlfield>
+        <controlfield tag="001">a111</controlfield>
         <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
         <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">era 20th century with trailing period: 650y</subfield>
+            <subfield code="a">era "449-1066." remove trailing period</subfield>
         </datafield>
-        <datafield tag="650" ind1=" " ind2="0">
-            <subfield code="a">Civilization, Modern</subfield>
-            <subfield code="y">20th century.</subfield>
+        <datafield tag="651" ind1=" " ind2="0">
+            <subfield code="a">Great Britain</subfield>
+            <subfield code="x">Church history</subfield>
+            <subfield code="y">449-1066.</subfield>
+        </datafield>
+    </record>
+    <!-- era trailing dash -->
+    <record>
+        <leader>66662cim  2200457Ia 45í0</leader>
+        <controlfield tag="001">a222</controlfield>
+        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
+        <datafield tag="245" ind1="1" ind2="4">
+            <subfield code="a">era trailing dash</subfield>
+        </datafield>
+        <datafield tag="651" ind1=" " ind2="0">
+            <subfield code="a">Iraq</subfield>
+            <subfield code="x">History</subfield>
+            <subfield code="y">1921-</subfield>
         </datafield>
     </record>
     <!-- era 20th century without trailing period: 650y -->
@@ -69,32 +84,17 @@
             <subfield code="v">Congresses.</subfield>
         </datafield>
     </record>
-    <!-- era trailing period, date range ending in 4 digits -->
+    <!-- era 20th century with trailing period: 650y -->
     <record>
         <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a111</controlfield>
+        <controlfield tag="001">a650y</controlfield>
         <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
         <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">era "449-1066." remove trailing period</subfield>
+            <subfield code="a">era 20th century with trailing period: 650y</subfield>
         </datafield>
-        <datafield tag="651" ind1=" " ind2="0">
-            <subfield code="a">Great Britain</subfield>
-            <subfield code="x">Church history</subfield>
-            <subfield code="y">449-1066.</subfield>
-        </datafield>
-    </record>
-    <!-- era trailing dash -->
-    <record>
-        <leader>66662cim  2200457Ia 45í0</leader>
-        <controlfield tag="001">a222</controlfield>
-        <controlfield tag="008">041202s2000    mdunnn  s      f    eng d</controlfield>
-        <datafield tag="245" ind1="1" ind2="4">
-            <subfield code="a">era trailing dash</subfield>
-        </datafield>
-        <datafield tag="651" ind1=" " ind2="0">
-            <subfield code="a">Iraq</subfield>
-            <subfield code="x">History</subfield>
-            <subfield code="y">1921-</subfield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Civilization, Modern</subfield>
+            <subfield code="y">20th century.</subfield>
         </datafield>
     </record>
     <!-- era other: 045ax-x -->
