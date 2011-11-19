@@ -267,8 +267,8 @@ public class PublicationTests extends AbstractStanfordTest
 		expectedOrderList.add("pubDate12uu");   // "13th century" 
 		expectedOrderList.add("pubDate13uu");   // "14th century" 
 		expectedOrderList.add("pubDate16uu");   // "17th century" 
-		expectedOrderList.add("pubDate19uu");   // "20th century" 
 		expectedOrderList.add("p19uu");   // "20th century"
+		expectedOrderList.add("pubDate19uu");   // "20th century" 
 		expectedOrderList.add("s190u");   // "1900s"
 		expectedOrderList.add("r1900");   // "1900"
 		expectedOrderList.add("pubDate195u");   // "1950s"
@@ -285,11 +285,11 @@ public class PublicationTests extends AbstractStanfordTest
 		expectedOrderList.add("e1997");   // "1997"
 		expectedOrderList.add("c1998");   // "1998"
 		expectedOrderList.add("w1999");   // "1999"
-		expectedOrderList.add("pubDate20uu");   // "21st century" 
 		expectedOrderList.add("o20uu");   // "21st century"
+		expectedOrderList.add("pubDate20uu");   // "21st century" 
 		expectedOrderList.add("x200u");   // "2000s"
-		expectedOrderList.add("firstDateOnly008");  // "2000"
 		expectedOrderList.add("f2000");   // "2000"
+		expectedOrderList.add("firstDateOnly008");  // "2000"
 		expectedOrderList.add("q2001");   // "2001"
 		expectedOrderList.add("pubDate0204");  // 2004
 		expectedOrderList.add("pubDate0059");  // 2005
@@ -300,12 +300,12 @@ public class PublicationTests extends AbstractStanfordTest
 		expectedOrderList.add("pubDate2010");   // "2010"
 		
 		// invalid/missing dates are designated as last in solr schema file
-		//  TODO: not sure what creates the order for "ties" 
-		expectedOrderList.add("pubDate1uuu"); 
-		expectedOrderList.add("pubDate9999"); 
-		expectedOrderList.add("pubDate6666"); 
+		//  they are in order of occurrence in the raw data 
 		expectedOrderList.add("pubDate0000"); 
 		expectedOrderList.add("pubDate0019"); 			
+		expectedOrderList.add("pubDate1uuu"); 
+		expectedOrderList.add("pubDate6666"); 
+		expectedOrderList.add("pubDate9999"); 
 		
 		// get search results sorted by pub_date_sort field
 		// pub_date_sort isn't stored, so we must look at id field
@@ -361,11 +361,11 @@ public class PublicationTests extends AbstractStanfordTest
 		expectedOrderList.add("pubDate0059");  // 2005
 		expectedOrderList.add("pubDate0204");  // 2004
 		expectedOrderList.add("q2001");   // "2001"
-		expectedOrderList.add("firstDateOnly008");  // "2000"
 		expectedOrderList.add("f2000");   // "2000"
+		expectedOrderList.add("firstDateOnly008");  // "2000"
 		expectedOrderList.add("x200u");   // "2000s"
-		expectedOrderList.add("pubDate20uu");   // "21st century" 
 		expectedOrderList.add("o20uu");   // "21st century"
+		expectedOrderList.add("pubDate20uu");   // "21st century" 
 		expectedOrderList.add("w1999");   // "1999"
 		expectedOrderList.add("c1998");   // "1998"
 		expectedOrderList.add("e1997");   // "1997"
@@ -382,8 +382,8 @@ public class PublicationTests extends AbstractStanfordTest
 		expectedOrderList.add("s195u");   // "1950s"
 		expectedOrderList.add("r1900");   // "1900"
 		expectedOrderList.add("s190u");   // "1900s"
-		expectedOrderList.add("pubDate19uu");   // "20th century" 
 		expectedOrderList.add("p19uu");   // "20th century"
+		expectedOrderList.add("pubDate19uu");   // "20th century" 
 		expectedOrderList.add("pubDate16uu");   // "17th century" 
 		expectedOrderList.add("pubDate13uu");   // "14th century" 
 		expectedOrderList.add("pubDate12uu");   // "13th century" 
@@ -402,11 +402,11 @@ public class PublicationTests extends AbstractStanfordTest
 
 		// invalid/missing dates are designated as last or first in solr
 		//  schema file.  
-		expectedOrderList.add("pubDate1uuu"); 
-		expectedOrderList.add("pubDate9999"); 
-		expectedOrderList.add("pubDate6666"); 
 		expectedOrderList.add("pubDate0000"); 
 		expectedOrderList.add("pubDate0019"); 			
+		expectedOrderList.add("pubDate1uuu"); 
+		expectedOrderList.add("pubDate6666"); 
+		expectedOrderList.add("pubDate9999"); 
 		
 		// get search results sorted by pub_date_sort field
 		List<DocumentProxy> results = getDescSortDocs("collection", "sirsi", fldName);
