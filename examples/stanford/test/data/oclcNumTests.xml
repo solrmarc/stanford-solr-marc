@@ -2,6 +2,57 @@
 <collection xmlns="http://www.loc.gov/MARC21/slim">
   <record>
     <leader>01952cim  2200457Ia 45í0</leader>
+    <controlfield tag="001">a035and079butNoOclc</controlfield>
+    <controlfield tag="005">19900112051232.0</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="035" ind1=" " ind2=" ">
+      <subfield code="a">(CStRLIN)CSUO98-B6924</subfield>
+    </datafield>
+    <datafield tag="035" ind1=" " ind2=" ">
+      <subfield code="a">(OCoLC-I)164324897</subfield>
+    </datafield>
+    <datafield tag="079" ind1=" " ind2=" ">
+      <subfield code="a">bad 079</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">no oclc but multiple 035 and bad 079</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>01952cim  2200457Ia 45í0</leader>
+    <controlfield tag="001">a035bad079OCoLConly</controlfield>
+    <controlfield tag="005">19900112051232.0</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="035" ind1=" " ind2=" ">
+      <subfield code="a">(OCoLC)180776170</subfield>
+    </datafield>
+    <datafield tag="079" ind1=" " ind2=" ">
+      <subfield code="a">bad 079</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">Multiple 035 with no (OCoLC-M) and bad 079, but has (OCoLC)</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>01952cim  2200457Ia 45í0</leader>
+    <controlfield tag="001">a035OCoLConly</controlfield>
+    <controlfield tag="005">19900112051232.0</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="035" ind1=" " ind2=" ">
+      <subfield code="a">(OCoLC)180776170</subfield>
+    </datafield>
+    <datafield tag="035" ind1=" " ind2=" ">
+      <subfield code="a">(OCoLC-I)164324897</subfield>
+    </datafield>
+    <datafield tag="035" ind1=" " ind2=" ">
+      <subfield code="a">(CStRLIN)CSUO98-B6924</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">Multiple 035 with no (OCoLC-M) and no 079, but has (OCoLC)</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>01952cim  2200457Ia 45í0</leader>
     <controlfield tag="001">a035withOCoLC-M</controlfield>
     <controlfield tag="005">19900112051232.0</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
@@ -22,6 +73,21 @@
     </datafield>
     <datafield tag="245" ind1="1" ind2="0">
       <subfield code="a">035 with OCoLC-M prefix (no parens)</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>01952cim  2200457Ia 45í0</leader>
+    <controlfield tag="001">a079badPrefix</controlfield>
+    <controlfield tag="005">19900112051232.0</controlfield>
+    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
+    <datafield tag="035" ind1=" " ind2=" ">
+      <subfield code="a">(OCoLC)180776170</subfield>
+    </datafield>
+    <datafield tag="079" ind1=" " ind2=" ">
+      <subfield code="a">bad66654321</subfield>
+    </datafield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">079 bad prefix with 035 (OCoLC)</subfield>
     </datafield>
   </record>
   <record>
@@ -118,57 +184,6 @@
   </record>
   <record>
     <leader>01952cim  2200457Ia 45í0</leader>
-    <controlfield tag="001">a035OCoLConly</controlfield>
-    <controlfield tag="005">19900112051232.0</controlfield>
-    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
-    <datafield tag="035" ind1=" " ind2=" ">
-      <subfield code="a">(OCoLC)180776170</subfield>
-    </datafield>
-    <datafield tag="035" ind1=" " ind2=" ">
-      <subfield code="a">(OCoLC-I)164324897</subfield>
-    </datafield>
-    <datafield tag="035" ind1=" " ind2=" ">
-      <subfield code="a">(CStRLIN)CSUO98-B6924</subfield>
-    </datafield>
-    <datafield tag="245" ind1="1" ind2="0">
-      <subfield code="a">Multiple 035 with no (OCoLC-M) and no 079, but has (OCoLC)</subfield>
-    </datafield>
-  </record>
-  <record>
-    <leader>01952cim  2200457Ia 45í0</leader>
-    <controlfield tag="001">a035bad079OCoLConly</controlfield>
-    <controlfield tag="005">19900112051232.0</controlfield>
-    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
-    <datafield tag="035" ind1=" " ind2=" ">
-      <subfield code="a">(OCoLC)180776170</subfield>
-    </datafield>
-    <datafield tag="079" ind1=" " ind2=" ">
-      <subfield code="a">bad 079</subfield>
-    </datafield>
-    <datafield tag="245" ind1="1" ind2="0">
-      <subfield code="a">Multiple 035 with no (OCoLC-M) and bad 079, but has (OCoLC)</subfield>
-    </datafield>
-  </record>
-  <record>
-    <leader>01952cim  2200457Ia 45í0</leader>
-    <controlfield tag="001">a035and079butNoOclc</controlfield>
-    <controlfield tag="005">19900112051232.0</controlfield>
-    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
-    <datafield tag="035" ind1=" " ind2=" ">
-      <subfield code="a">(CStRLIN)CSUO98-B6924</subfield>
-    </datafield>
-    <datafield tag="035" ind1=" " ind2=" ">
-      <subfield code="a">(OCoLC-I)164324897</subfield>
-    </datafield>
-    <datafield tag="079" ind1=" " ind2=" ">
-      <subfield code="a">bad 079</subfield>
-    </datafield>
-    <datafield tag="245" ind1="1" ind2="0">
-      <subfield code="a">no oclc but multiple 035 and bad 079</subfield>
-    </datafield>
-  </record>
-  <record>
-    <leader>01952cim  2200457Ia 45í0</leader>
     <controlfield tag="001">aMultOclcNums</controlfield>
     <controlfield tag="005">19900112051232.0</controlfield>
     <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
@@ -189,21 +204,6 @@
     </datafield>
     <datafield tag="245" ind1="1" ind2="0">
       <subfield code="a">multiple good 035 and a good 079 that should be ignored</subfield>
-    </datafield>
-  </record>
-  <record>
-    <leader>01952cim  2200457Ia 45í0</leader>
-    <controlfield tag="001">a079badPrefix</controlfield>
-    <controlfield tag="005">19900112051232.0</controlfield>
-    <controlfield tag="008">780930m19391944nyu           000 0 eng d</controlfield>
-    <datafield tag="035" ind1=" " ind2=" ">
-      <subfield code="a">(OCoLC)180776170</subfield>
-    </datafield>
-    <datafield tag="079" ind1=" " ind2=" ">
-      <subfield code="a">bad66654321</subfield>
-    </datafield>
-    <datafield tag="245" ind1="1" ind2="0">
-      <subfield code="a">079 bad prefix with 035 (OCoLC)</subfield>
     </datafield>
   </record>
 </collection>
