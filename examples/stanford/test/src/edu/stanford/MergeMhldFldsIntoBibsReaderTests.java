@@ -493,7 +493,7 @@ public class MergeMhldFldsIntoBibsReaderTests
 
 // Tests for very basic functionality of code, including Bob's original test (with some modifications to run as a more typical junit test)    
 
-String mergedBib335output[] = {
+String MERGED_BIB335_OUTPUT[] = {
         "LEADER 02429nas a2200481 a 4500",
         "001 u335",
         "003 SIRSI",
@@ -535,7 +535,7 @@ String mergedBib335output[] = {
         "999   $aAP30 .T75 Nr.23-24 1998-1999$wLCPER$c1$iX006166304$d4/5/2007$e3/13/2007$lALD-STKS$mALDERMAN$rY$sY$tBOUND-JRNL$u3/12/2007$xADD",
         };
 
-String mergedBib335outputNoUmlaut[] = {
+String MERGED_BIB335_OUTPUT_NO_UMLAUT[] = {
         "LEADER 02429nas a2200481 a 4500",
         "001 u335",
         "003 SIRSI",
@@ -594,14 +594,14 @@ String mergedBib335outputNoUmlaut[] = {
 	    assertTrue("Record with id " + expId + " should be in results", mergedRecs.containsKey(expId));
 	    
 	    Record resultRec = mergedRecs.get(expId);
-	    RecordTestingUtils.assertEqualsIgnoreLeader(mergedBib335outputNoUmlaut, resultRec);		
+	    RecordTestingUtils.assertEqualsIgnoreLeader(MERGED_BIB335_OUTPUT_NO_UMLAUT, resultRec);		
 	}
 
 
 	/**
 	 * Test mergeMhldRecsIntoBibRecsAsStdOut method (distinct from Bob's old way)
 	 */
-@Test
+//@Test
 	public void testMergeToStdOut() 
 	        throws IOException
 	{
@@ -610,7 +610,7 @@ String mergedBib335outputNoUmlaut[] = {
 	
 		ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
 		MergeMhldFldsIntoBibsReader.mergeMhldRecsIntoBibRecsAsStdOut(bibRecFileName, mhldRecFileName);
-		RecordTestingUtils.assertMarcRecsEqual(mergedBib335output, sysBAOS);
+		RecordTestingUtils.assertMarcRecsEqual(MERGED_BIB335_OUTPUT, sysBAOS);
 	}
 
 
