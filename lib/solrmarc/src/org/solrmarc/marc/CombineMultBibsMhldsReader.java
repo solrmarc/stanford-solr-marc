@@ -203,8 +203,24 @@ public class CombineMultBibsMhldsReader implements MarcReader
     		if (hasNext())
     		{
     			if (lastRecordRead == null && currentFirstBibRecord == null)
+    			{
     				// we are at the beginning of the file
     				lastRecordRead = marcReader.next();
+    				if (MarcUtils.isMHLDRecord(lastRecordRead))
+    	        	{
+    	        		// try to get record identifier
+    	                String recCntlNum = null;
+    	                try {  recCntlNum = lastRecordRead.getControlNumber(); }
+    	                catch (NullPointerException npe) { /* ignore */ }
+	                	String errmsg = "First record isn't bib: Skipping record";
+    	        
+    	                if (recCntlNum != null)
+    	                	logger.error(errmsg + " " + recCntlNum);
+    	                else
+    	                	logger.error(errmsg + ".");
+    	                this.next(); // move on to the next record
+    	        	}
+    			}
     
                 currentFirstBibRecord = lastRecordRead; 
     

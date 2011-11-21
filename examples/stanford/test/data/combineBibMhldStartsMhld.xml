@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+    <record>
+        <leader>00195cy  a22000853  4500</leader>
+        <controlfield tag="001">amhld1</controlfield>
+    </record>
+    
+    <record>
+        <leader>00684ca  a22002413  4500</leader>
+        <controlfield tag="001">amhldWithBib</controlfield>
+    </record>
+    <record>
+        <leader>00195cy  a22000853  4500</leader>
+        <controlfield tag="001">amhldWithBib</controlfield>
+    </record>
+</collection>
+
