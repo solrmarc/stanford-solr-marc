@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collection xmlns="http://www.loc.gov/MARC21/slim">
   <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">akeep867ind0</controlfield>
+  </record>
+  <record>
     <leader>00195cy  a22000853  4500</leader>
     <controlfield tag="001">akeep867ind0</controlfield>
     <datafield tag="852" ind1=" " ind2=" ">
@@ -16,6 +20,10 @@
     </datafield>
   </record>
 
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">amultKeep867ind0</controlfield>
+  </record>
   <record>
     <leader>00195cy  a22000853  4500</leader>
     <controlfield tag="001">amultKeep867ind0</controlfield>
@@ -43,21 +51,9 @@
   </record>
   
   <record>
-    <leader>00195cy  a22000853  4500</leader>
-    <controlfield tag="001">askip867ind0</controlfield>
-    <datafield tag="852" ind1=" " ind2=" ">
-      <subfield code="a">CSt</subfield>
-      <subfield code="b">GREEN</subfield>
-      <subfield code="c">STACKS</subfield>
-      <subfield code="t">1</subfield>
-      <subfield code="=">666</subfield>
-    </datafield>
-    <datafield tag="867" ind1=" " ind2="0">
-      <subfield code="8">1</subfield>
-      <subfield code="a">skip me (867)</subfield>
-    </datafield>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">amultSkip867ind0</controlfield>
   </record>
-  
   <record>
     <leader>00195cy  a22000853  4500</leader>
     <controlfield tag="001">amultSkip867ind0</controlfield>
@@ -85,4 +81,24 @@
     </datafield>
   </record>
 
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">askip867ind0</controlfield>
+  </record>
+  <record>
+    <leader>00195cy  a22000853  4500</leader>
+    <controlfield tag="001">askip867ind0</controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">GREEN</subfield>
+      <subfield code="c">STACKS</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="=">666</subfield>
+    </datafield>
+    <datafield tag="867" ind1=" " ind2="0">
+      <subfield code="8">1</subfield>
+      <subfield code="a">skip me (867)</subfield>
+    </datafield>
+  </record>
+  
 </collection>

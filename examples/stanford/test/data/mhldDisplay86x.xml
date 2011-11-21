@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collection xmlns="http://www.loc.gov/MARC21/slim">
   <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a358041</controlfield>
+  </record>
+  <record>
     <leader>00677cy  a22002413  4500</leader>
     <controlfield tag="001">a358041</controlfield>
     <controlfield tag="008">090716                eng 110531        </controlfield>
@@ -54,6 +58,10 @@
   </record>
 
   <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a358725</controlfield>
+  </record>
+  <record>
     <leader>02010ny  a2200565z  4500</leader>
     <controlfield tag="001">a358725</controlfield>
     <datafield tag="852" ind1=" " ind2=" ">
@@ -76,6 +84,10 @@
     </datafield>
   </record>
   
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a362573</controlfield>
+  </record>
   <record>
     <leader>00401cy  a22001454  4500</leader>
     <controlfield tag="001">a362573</controlfield>
@@ -145,6 +157,10 @@
   </record>
   
   <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a371676</controlfield>
+  </record>
+  <record>
     <leader>00280cy  a22000973  4500</leader>
     <controlfield tag="001">a371676</controlfield>
     <controlfield tag="008">970320                eng 001211        </controlfield>
@@ -157,6 +173,10 @@
     </datafield>
   </record>
   
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a484112</controlfield>
+  </record>
   <record>
     <leader>00221cy  a22001093  4500</leader>
     <controlfield tag="001">a484112</controlfield>
@@ -192,6 +212,10 @@
   </record>
 
   <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a485668</controlfield>
+  </record>
+  <record>
     <leader>00195cy  a22000853  4500</leader>
     <controlfield tag="001">a485668</controlfield>
     <controlfield tag="008">110113                eng 110113        </controlfield>
@@ -221,6 +245,10 @@
     </datafield>
   </record>
   
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a487531</controlfield>
+  </record>
   <record>
     <leader>00350cy  a22000973  4500</leader>
     <controlfield tag="001">a487531</controlfield>
@@ -255,6 +283,10 @@
     </datafield>
   </record>
   
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a488789</controlfield>
+  </record>
   <record>
     <leader>01200cy  a22000974  4500</leader>
     <controlfield tag="001">a488789</controlfield>
@@ -296,6 +328,10 @@
   </record>
   
   <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a491261</controlfield>
+  </record>
+  <record>
     <leader>28689ny  a2207897z  4500</leader>
     <controlfield tag="001">a491261</controlfield>
     <datafield tag="852" ind1=" " ind2=" ">
@@ -311,6 +347,10 @@
     </datafield>
   </record>
   
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a495435</controlfield>
+  </record>
   <record>
     <leader>07941ny  a2202365z  4500</leader>
     <controlfield tag="001">a495435</controlfield>
@@ -331,6 +371,10 @@
     </datafield>
   </record>
   
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a2416921</controlfield>
+  </record>
   <record>
     <leader>00181cy  a22000853  4500</leader>
     <controlfield tag="001">a2416921</controlfield>
@@ -365,6 +409,10 @@
     </datafield>
   </record>
 
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a2471077</controlfield>
+  </record>
   <record>
     <leader>00569cy  a2200193z  4500</leader>
     <controlfield tag="001">a2471077</controlfield>
@@ -404,6 +452,10 @@
     </datafield>
   </record>
 
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a3195843</controlfield>
+  </record>
   <record>
     <leader>00198cy  a22000853  4500</leader>
     <controlfield tag="001">a3195843</controlfield>
@@ -509,6 +561,10 @@
   </record>
 
   <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a3974376</controlfield>
+  </record>
+  <record>
     <leader>00196cy  a22000853  4500</leader>
     <controlfield tag="001">a3974376</controlfield>
     <controlfield tag="008">110623                eng 110623        </controlfield>
@@ -535,6 +591,10 @@
     </datafield>
   </record>
 
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a4030565</controlfield>
+  </record>
   <record>
     <leader>03547cy  a22011413  4500</leader>
     <controlfield tag="001">a4030565</controlfield>
@@ -566,6 +626,10 @@
     </datafield>
   </record>
   
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a4244164</controlfield>
+  </record>
   <record>
     <leader>00713cy  a22002534  4500</leader>
     <controlfield tag="001">a4244164</controlfield>
@@ -612,6 +676,10 @@
     </datafield>
   </record>
   
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a5340361</controlfield>
+  </record>
   <record>
     <leader>20501cy  a22057493  4500</leader>
     <controlfield tag="001">a5340361</controlfield>
