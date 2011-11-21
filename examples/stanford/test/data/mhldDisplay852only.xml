@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collection xmlns="http://www.loc.gov/MARC21/slim">
   <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a358041</controlfield>
+  </record>
+  <record>
     <leader>00684cy  a22002413  4500</leader>
     <controlfield tag="001">a358041</controlfield>
     <datafield tag="852" ind1=" " ind2=" ">
@@ -42,6 +46,10 @@
     
   
   <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a362573</controlfield>
+  </record>
+  <record>
     <leader>00408cy  a22001454  4500</leader>
     <controlfield tag="001">a362573</controlfield>
     <controlfield tag="008">070227                eng 071120        </controlfield>
@@ -71,6 +79,10 @@
   
   
   
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a3974376</controlfield>
+  </record>
   <record>
     <leader>02443cy  a22007933  4500</leader>
     <controlfield tag="001">a3974376</controlfield>

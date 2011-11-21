@@ -1,6 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collection xmlns="http://www.loc.gov/MARC21/slim">
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a852multz</controlfield>
+  </record>
+  <record>
+    <leader>01200cy  a22000974  4500</leader>
+    <controlfield tag="001">a852multz</controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">CROWN</subfield>
+      <subfield code="c">STACKS</subfield>
+      <subfield code="z">z1</subfield>
+      <subfield code="z">z2</subfield>
+    </datafield>
+    <datafield tag="866" ind1="4" ind2="1">
+      <subfield code="8">1</subfield>
+      <subfield code="a">866a</subfield>
+    </datafield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">HOOVER</subfield>
+      <subfield code="c">STACKS</subfield>
+      <subfield code="z">z3</subfield>
+    </datafield>
+    <datafield tag="866" ind1="4" ind2="1">
+      <subfield code="8">1</subfield>
+      <subfield code="a">866a</subfield>
+    </datafield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">LANE</subfield>
+      <subfield code="c">STACKS</subfield>
+      <subfield code="z">z4</subfield>
+      <subfield code="z">z5</subfield>
+      <subfield code="z">z6</subfield>
+    </datafield>
+  </record>
+
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a866before863</controlfield>
+  </record>
+  <record>
+    <leader>01200cy  a22000974  4500</leader>
+    <controlfield tag="001">a866before863</controlfield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="a">CSt</subfield>
+      <subfield code="b">lib</subfield>
+      <subfield code="c">loc</subfield>
+      <subfield code="t">1</subfield>
+      <subfield code="z">comment</subfield>
+      <subfield code=" ">3547</subfield>
+    </datafield>
+    <datafield tag="853" ind1="2" ind2=" ">
+      <subfield code="8">2</subfield>
+      <subfield code="a">v.</subfield>
+      <subfield code="b">no.</subfield>
+      <subfield code="u">6</subfield>
+      <subfield code="v">r</subfield>
+      <subfield code="i">(year)</subfield>
+      <subfield code="j">(month)</subfield>
+    </datafield>
+    <datafield tag="866" ind1=" " ind2="0">
+      <subfield code="8">1</subfield>
+      <subfield code="a">1, 1977-</subfield>
+    </datafield>
+    <datafield tag="863" ind1=" " ind2="1">
+      <subfield code="8">2.1</subfield>
+      <subfield code="a">23</subfield>
+      <subfield code="b">1</subfield>
+      <subfield code="i">1999</subfield>
+      <subfield code="j">01</subfield>
+    </datafield>
+  </record>
   
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a358041</controlfield>
+  </record>
   <record>
     <leader>00677cy  a22002413  4500</leader>
     <controlfield tag="001">a358041</controlfield>
@@ -155,6 +233,10 @@
   </record>
   
   <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a358725</controlfield>
+  </record>
+  <record>
     <leader>02010ny  a2200565z  4500</leader>
     <controlfield tag="001">a358725</controlfield>
     <datafield tag="852" ind1=" " ind2=" ">
@@ -232,6 +314,10 @@
     </datafield>
   </record>
 
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a362573</controlfield>
+  </record>
   <record>
     <leader>00401cy  a22001454  4500</leader>
     <controlfield tag="001">a362573</controlfield>
@@ -395,6 +481,10 @@
   </record>
   
   <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a371676</controlfield>
+  </record>
+  <record>
     <leader>00280cy  a22000973  4500</leader>
     <controlfield tag="001">a371676</controlfield>
     <datafield tag="852" ind1=" " ind2=" ">
@@ -406,6 +496,10 @@
     </datafield>
   </record>
 
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a484112</controlfield>
+  </record>
   <record>
     <leader>00221cy  a22001093  4500</leader>
     <controlfield tag="001">a484112</controlfield>
@@ -496,6 +590,10 @@
   </record>
   
   <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a485668</controlfield>
+  </record>
+  <record>
     <leader>00195cy  a22000853  4500</leader>
     <controlfield tag="001">a485668</controlfield>
     <datafield tag="852" ind1=" " ind2=" ">
@@ -551,6 +649,10 @@
     </datafield>
   </record>
   
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a487531</controlfield>
+  </record>
   <record>
     <leader>00350cy  a22000973  4500</leader>
     <controlfield tag="001">a487531</controlfield>
@@ -646,6 +748,10 @@
   </record>
   
   <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a488789</controlfield>
+  </record>
+  <record>
     <leader>01200cy  a22000974  4500</leader>
     <controlfield tag="001">a488789</controlfield>
     <datafield tag="852" ind1=" " ind2=" ">
@@ -684,6 +790,10 @@
     </datafield>
   </record>
   
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a491261</controlfield>
+  </record>
   <record>
     <leader>28689ny  a2207897z  4500</leader>
     <controlfield tag="001">a491261</controlfield>
@@ -763,6 +873,10 @@
     </datafield>
   </record>
 
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a495435</controlfield>
+  </record>
   <record>
     <leader>07941ny  a2202365z  4500</leader>
     <controlfield tag="001">a495435</controlfield>
@@ -875,6 +989,10 @@
   </record>
  
   <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a2416921</controlfield>
+  </record>
+  <record>
     <leader>00181cy  a22000853  4500</leader>
     <controlfield tag="001">a2416921</controlfield>
     <datafield tag="852" ind1=" " ind2=" ">
@@ -959,6 +1077,10 @@
     </datafield>
   </record>
   
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a2471077</controlfield>
+  </record>
   <record>
     <leader>00569cy  a2200193z  4500</leader>
     <controlfield tag="001">a2471077</controlfield>
@@ -1067,6 +1189,10 @@
     </datafield>
   </record>
 
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a3195843</controlfield>
+  </record>
   <record>
     <leader>00198cy  a22000853  4500</leader>
     <controlfield tag="001">a3195843</controlfield>
@@ -1309,6 +1435,10 @@
   </record>
   
   <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a3974376</controlfield>
+  </record>
+  <record>
     <leader>00196cy  a22000853  4500</leader>
     <controlfield tag="001">a3974376</controlfield>
     <datafield tag="852" ind1=" " ind2=" ">
@@ -1366,6 +1496,10 @@
     </datafield>
   </record>
 
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a4030565</controlfield>
+  </record>
   <record>
     <leader>03547cy  a22011413  4500</leader>
     <controlfield tag="001">a4030565</controlfield>
@@ -1459,6 +1593,10 @@
   </record>
  
   <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a4244164</controlfield>
+  </record>
+  <record>
     <leader>00713cy  a22002534  4500</leader>
     <controlfield tag="001">a4244164</controlfield>
     <datafield tag="852" ind1=" " ind2=" ">
@@ -1541,6 +1679,10 @@
     </datafield>
   </record>
  
+  <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">a5340361</controlfield>
+  </record>
   <record>
     <leader>20501cy  a22057493  4500</leader>
     <controlfield tag="001">a5340361</controlfield>
@@ -1625,39 +1767,9 @@
   </record>
 
   <record>
-    <leader>01200cy  a22000974  4500</leader>
-    <controlfield tag="001">a852multz</controlfield>
-    <datafield tag="852" ind1=" " ind2=" ">
-      <subfield code="a">CSt</subfield>
-      <subfield code="b">CROWN</subfield>
-      <subfield code="c">STACKS</subfield>
-      <subfield code="z">z1</subfield>
-      <subfield code="z">z2</subfield>
-    </datafield>
-    <datafield tag="866" ind1="4" ind2="1">
-      <subfield code="8">1</subfield>
-      <subfield code="a">866a</subfield>
-    </datafield>
-    <datafield tag="852" ind1=" " ind2=" ">
-      <subfield code="a">CSt</subfield>
-      <subfield code="b">HOOVER</subfield>
-      <subfield code="c">STACKS</subfield>
-      <subfield code="z">z3</subfield>
-    </datafield>
-    <datafield tag="866" ind1="4" ind2="1">
-      <subfield code="8">1</subfield>
-      <subfield code="a">866a</subfield>
-    </datafield>
-    <datafield tag="852" ind1=" " ind2=" ">
-      <subfield code="a">CSt</subfield>
-      <subfield code="b">LANE</subfield>
-      <subfield code="c">STACKS</subfield>
-      <subfield code="z">z4</subfield>
-      <subfield code="z">z5</subfield>
-      <subfield code="z">z6</subfield>
-    </datafield>
-   </record>
-
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">alatestRecdPatterns</controlfield>
+  </record>
   <record>
     <leader>01200cy  a22000974  4500</leader>
     <controlfield tag="001">alatestRecdPatterns</controlfield>
@@ -1732,6 +1844,10 @@
   </record>
   
   <record>
+    <leader>00684ca  a22002413  4500</leader>
+    <controlfield tag="001">aSkippedLocs</controlfield>
+  </record>
+  <record>
     <leader>01200cy  a22000974  4500</leader>
     <controlfield tag="001">aSkippedLocs</controlfield>
     <datafield tag="852" ind1=" " ind2=" ">
@@ -1764,37 +1880,5 @@
     </datafield>
   </record>
   
-  <record>
-    <leader>01200cy  a22000974  4500</leader>
-    <controlfield tag="001">a866before863</controlfield>
-    <datafield tag="852" ind1=" " ind2=" ">
-      <subfield code="a">CSt</subfield>
-      <subfield code="b">lib</subfield>
-      <subfield code="c">loc</subfield>
-      <subfield code="t">1</subfield>
-      <subfield code="z">comment</subfield>
-      <subfield code=" ">3547</subfield>
-    </datafield>
-    <datafield tag="853" ind1="2" ind2=" ">
-      <subfield code="8">2</subfield>
-      <subfield code="a">v.</subfield>
-      <subfield code="b">no.</subfield>
-      <subfield code="u">6</subfield>
-      <subfield code="v">r</subfield>
-      <subfield code="i">(year)</subfield>
-      <subfield code="j">(month)</subfield>
-    </datafield>
-    <datafield tag="866" ind1=" " ind2="0">
-      <subfield code="8">1</subfield>
-      <subfield code="a">1, 1977-</subfield>
-    </datafield>
-    <datafield tag="863" ind1=" " ind2="1">
-      <subfield code="8">2.1</subfield>
-      <subfield code="a">23</subfield>
-      <subfield code="b">1</subfield>
-      <subfield code="i">1999</subfield>
-      <subfield code="j">01</subfield>
-    </datafield>
-  </record>
-  
+ 
 </collection>
