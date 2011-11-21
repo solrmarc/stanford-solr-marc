@@ -721,6 +721,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     
     /**
      * if the MHLD has more than one instance of a field, all instances should be put in the bib record
+     *   (duplicated by testFieldsToMerge)
      */
 //@Test
     public void testMultOccurFieldsToMerge() 
@@ -728,6 +729,34 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     {
 //    	testFieldsToMerge();
     }
+    
+    /**
+     * the first record should not be assumed to be a bib
+     */
+@Test
+    public void testFirstRecordTypeAssessed() 
+    		throws IOException
+    {
+        LoggerAppender4Testing appender = new LoggerAppender4Testing();
+    	CombineMultBibsMhldsReader.logger.addAppender(appender);
+        try 
+        {
+            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test");
+        	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhldStartsMhld.mrc");
+            Set<String> mergedRecIds = mergedRecs.keySet();
+            assertEquals("Wrong number of read records: ", 1, mergedRecIds.size());
+            assertTrue("Expected amhldWithBib in results", mergedRecIds.contains("amhldWithBib"));
+            
+            // did message go to logger?
+            appender.assertLogContains("First record isn't bib: Skipping record amhld1");
+        }
+        finally 
+        {
+        	CombineMultBibsMhldsReader.logger.removeAppender(appender);
+        }
+
+    }
+
     
     
     /**
@@ -743,6 +772,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
 
 
 
+    
 // supporting methods for testing ---------------------------------------------
 	
     /**
