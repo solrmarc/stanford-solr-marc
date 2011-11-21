@@ -58,8 +58,6 @@ public class MhldDisplayUtil
 	 */
 	private int mostRecent863seqNum = 0;
 
-	String resultStrFromProcess86x = "";
-
 	/** (ordered) set of mhld_display field values to be returned by getMhldDislayValues() */
 	Set<String> result = new LinkedHashSet<String>();
 
@@ -248,8 +246,6 @@ public class MhldDisplayUtil
 	 */
 	private void resetVarsForNew852()
 	{
-		resultStrFromProcess86x = "";
-
 		// from 852
 		df852hasEqualsSubfield = false;
 		resultPrefixFrom852 = "";
