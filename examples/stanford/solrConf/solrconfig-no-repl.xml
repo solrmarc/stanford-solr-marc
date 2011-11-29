@@ -217,7 +217,7 @@
       <str name="echoParams">explicit</str>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
-      <str name="mm">4&lt;-1 4&lt;90%</str>
+      <str name="mm">6&lt;-1 6&lt;90%</str>
       <int name="qs">1</int>
       <str name="qf">
         title_245a_unstem_search^100000
@@ -402,7 +402,7 @@
       <str name="echoParams">explicit</str>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
-      <str name="mm">4&lt;-1 4&lt;90%</str>
+      <str name="mm">6&lt;-1 6&lt;90%</str>
       <int name="qs">1</int>
       <str name="qf">
         title_245a_unstem_search^50000
@@ -508,7 +508,7 @@
       <str name="echoParams">explicit</str>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
-      <str name="mm">4&lt;-1 4&lt;90%</str>
+      <str name="mm">6&lt;-1 6&lt;90%</str>
       <int name="qs">1</int>
       <str name="qf">
         author_1xx_unstem_search^200
@@ -605,7 +605,7 @@
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
       <int name="qs">1</int>
-      <str name="mm">4&lt;-1 4&lt;90%</str>
+      <str name="mm">6&lt;-1 6&lt;90%</str>
 
       <str name="qf">
         topic_unstem_search^500
@@ -723,7 +723,7 @@
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
       <int name="qs">1</int>
-      <str name="mm">4&lt;-1 4&lt;90%</str>
+      <str name="mm">6&lt;-1 6&lt;90%</str>
       
       <str name="qf">series_search     vern_series_search</str>
       <str name="pf">series_search^20  vern_series_search^20</str>
@@ -885,7 +885,7 @@
       <str name="echoParams">explicit</str>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
-      <str name="mm">4&lt;-1 4&lt;90%</str>
+      <str name="mm">6&lt;-1 6&lt;90%</str>
       <int name="ps">3</int>
       <float name="tie">0.01</float>
       <int name="qs">1</int>
@@ -1487,7 +1487,7 @@
       <str name="echoParams">explicit</str>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
       <str name="q.alt">*:*</str>
-      <str name="mm">4&lt;-1 4&lt;90%</str>
+      <str name="mm">6&lt;-1 6&lt;90%</str>
       <str name="qf">open_search</str>
       <str name="pf">open_search^10</str>
       <float name="tie">0.01</float>
