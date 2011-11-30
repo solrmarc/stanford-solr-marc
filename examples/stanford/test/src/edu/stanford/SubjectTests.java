@@ -1128,8 +1128,9 @@ public class SubjectTests extends AbstractStanfordTest {
 		assertSearchResults(fldName, "\"20th century\"", docIds);
 		assertSearchResults(fldName, "\"20th century.\"", docIds);
 		docIds.clear();
-		docIds.add("111");
-		docIds.add("777");
+// NOTE:  this will need to be changed for a stopwords restored index (remove 111 and 777 from expected docs)
+//		docIds.add("111");
+//		docIds.add("777");
 		docIds.add("888");
 		docIds.add("999");
 		assertSearchResults(fldName, "\"To 449\"", docIds);
