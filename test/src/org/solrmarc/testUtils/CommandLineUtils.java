@@ -3,10 +3,24 @@ package org.solrmarc.testUtils;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.security.Permission;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 public class CommandLineUtils
 {
@@ -69,6 +83,41 @@ public class CommandLineUtils
         compareUtilOutputLines(stdin, outputLinesExpected, 0, outputLinesExpected.length);
     }
     
+    private static class ExitException extends SecurityException 
+    {
+        private static final long serialVersionUID = -1982617086752946683L;
+        public final int status;
+
+        public ExitException(int status) 
+        {
+            super("There is no escape!");
+            this.status = status;
+        }
+    }
+
+    private static class NoExitSecurityManager extends SecurityManager 
+    {
+        @Override
+        public void checkPermission(Permission perm) 
+        {
+            // allow anything.
+        }
+
+        @Override
+        public void checkPermission(Permission perm, Object context) 
+        {
+            // allow anything.
+        }
+
+        @Override
+        public void checkExit(int status) 
+        {
+            super.checkExit(status);
+            throw new ExitException(status);
+        }
+    }
+
+
     public static void runCommandLineUtil(String className, String methodName, InputStream stdin, OutputStream stdout, 
                                           OutputStream stderr, String[] args, Map<String, String> addnlProps)
     {
@@ -112,10 +161,11 @@ public class CommandLineUtils
             PrintStream origErr = System.err;
             Class clazz;
             Method method;
+            if (methodName == null) methodName = "main";
             Map<String, String> backupProps = new LinkedHashMap<String, String>();
             Map<String, String> allOrigProps = new LinkedHashMap<String, String>();
             SecurityManager savedSecurityManager = System.getSecurityManager();
-            System.setSecurityManager(new TestingUtil.NoExitSecurityManager());
+            System.setSecurityManager(new NoExitSecurityManager());
             checkpointProps(allOrigProps);
             addProps(addnlProps, backupProps);
             try
@@ -127,7 +177,7 @@ public class CommandLineUtils
                 if (stderr != null) System.setErr(new PrintStream(stderr));
                 method.invoke(null, (Object)args);
             }
-            catch (TestingUtil.ExitException e)
+            catch (ExitException e)
             {
                 System.setOut(origOut);
                 System.setErr(origErr);
@@ -157,7 +207,7 @@ public class CommandLineUtils
             {
                 System.setOut(origOut);
                 System.setErr(origErr);
-                if (e.getTargetException() instanceof TestingUtil.ExitException)
+                if (e.getTargetException() instanceof ExitException)
                 {
 //                    System.out.println("class "+ className +" called System.exit("+((ExitException)(e.getTargetException())).status+")" );
                 }

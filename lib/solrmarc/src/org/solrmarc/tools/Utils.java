@@ -776,6 +776,37 @@ public final class Utils {
 
     }
 
+	/**
+	 * delete the directory indicated by the argument.
+	 * @param dirPath - path of directory to be deleted.
+	 */
+	public static final void deleteDirContents(String dirPath) {
+		File d = new File(dirPath);
+		File[] files = d.listFiles();
+		if (files != null)	
+			for (File file: files)
+			{	// recursively remove files and directories
+				deleteDir(file.getAbsolutePath());
+			}
+	}
+	
+	/**
+	 * delete the directory indicated by the argument.
+	 * @param dirPath - path of directory to be deleted.
+	 */
+	public static final void deleteDir(String dirPath) {
+		File d = new File(dirPath);
+		File[] files = d.listFiles();
+		if (files != null)	
+			for (File file: files)
+			{	// recursively remove files and directories
+				deleteDir(file.getAbsolutePath());
+			}
+		logger.debug("Deleting: "+ d.getAbsolutePath());
+		d.delete();
+	}
+
+   
    /** compares two strings after removing periods and spaces */
    public static Comparator<String> compareNoPeriodsOrSpaces = new Comparator<String>() 
    {

@@ -30,11 +30,6 @@ public class PhysicalTests extends AbstractStanfordTest {
 	{
 		String fldName = "physical";
 		createIxInitVars("physicalTests.mrc");
-		assertTextFieldProperties(fldName);
-		assertFieldHasNorms(fldName);
-		assertFieldStored(fldName);
-		assertFieldIndexed(fldName);
-		assertFieldMultiValued(fldName);
 
 		assertSingleResult("300111", fldName, "sound disc");
 		assertSingleResult("300111", fldName, "\"1 sound disc (20 min.); analog, 33 1/3 rpm, stereo. ; 12 in.\"");

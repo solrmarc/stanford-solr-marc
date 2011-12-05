@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Top Level SolrMarc -->
 <project basedir="." default="dist" name="SolrMarc Custom">
 
     <!-- property files -->
@@ -19,6 +20,9 @@
     <!-- import ant_package.xml which defines all of the macros used to create the source and binary distribution packages -->
     <property name="ant_package.dist.dir" location="${buildtools.path}" />   
     <import file="${buildtools.path}/ant_package.xml" />
+    
+    <property name="package.dir" value="package" />
+    <property name="version" value="2.3.1" />
 
     <tstamp>
         <format property="year" pattern="yyyy" />
@@ -52,7 +56,7 @@
         <delete dir="${site.dir}" /> 
     </target>
 
-    <target name="init" depends="clean,init_site" unless="init.already.run"
+    <target name="init" depends="init_site" unless="init.already.run"
         description="create (empty) generated directories">
         <mkdir dir="${build.dir}" />
         <mkdir dir="${dist.dir}" />
@@ -114,8 +118,6 @@
     </target>
 
     <target name="package" description="Create both prebuilt binary distributions and a source distribution" >
-        <property name="package.dir" value="package" />
-        <property name="version" value="2.1.2" />
         <mkdir dir="${package.dir}" />
         <packagesrc version="${version}" />
         <packageprebuilt example="GenericBlacklight" binprefix="bin" version="${version}" />
@@ -123,7 +125,7 @@
         <packageprebuilt example="none" binprefix="bin" acceptpromptdefaults="true" version="${version}" /> 
     </target>
     
-    <target name="upload" depends="package" description="Upload prebuilt binary distributions and a source distribution to googlecode" >
+    <target name="upload" description="Upload prebuilt binary distributions and a source distribution to googlecode" >
         <if> 
             <available file="build.credentials.properties" />
             <then>
@@ -152,6 +154,10 @@
         <echo message="Use 'ant package-src' to build a gzipped tarball of the source code for distribution" />
         <echo message="Use 'ant package-prebuilt' to build a gzipped tarball of a pre-built, pre-configured, binary release" />
         <echo message="Use 'ant test' to run unit tests" />
+        <echo message="To build and test an example configuration in its own sub directory do the following:" />
+        <echo message="      ant -Dsite.dir=test-GenericBlacklight -Ddist.path=dist dist test" />
+
+
     </target>
 
     <!-- Site Testing Targets -->
@@ -162,22 +168,16 @@
          </ant>
     </target>
         
-    <target name="junittest" depends="init" description="Run junittest test suite in local build directory">
-         <ant antfile="${site.dir}/build.xml" target="junittest" inheritAll="false" >
+    <target name="core_junittest" depends="init" description="Run junittest test suite in local build directory">
+         <ant antfile="${site.dir}/build.xml" target="core_junittest" inheritAll="false" >
              <property name="dist.path" location="${dist.dir}" />
          </ant>
     </target>
     
-    <target name="test-custom-coverage" depends="init" description="run junittest in local build directory with Cobertura code coverage for custom code only">
-        <ant antfile="${site.dir}/build.xml" target="test-custom-coverage" inheritAll="false" >
-            <property name="dist.path" location="${dist.dir}" />
-        </ant>
-    </target>
-    
-    <target name="test-all-coverage" depends="init" description="run junittest in local build directory with Cobertura code coverage for custom and core code">
-        <ant antfile="${site.dir}/build.xml" target="test-all-coverage" inheritAll="false" >
-            <property name="dist.path" location="${dist.dir}" />
-        </ant>
+    <target name="site_junittest" depends="init" description="Run junittest test suite in local build directory">
+         <ant antfile="${site.dir}/build.xml" target="site_junittest" inheritAll="false" >
+             <property name="dist.path" location="${dist.dir}" />
+         </ant>
     </target>
     
     <target name="smoketest" depends="init" description="Run smoketest test suite in local build directory">
@@ -186,15 +186,38 @@
          </ant>
     </target>
     
-    <target name="indextest" depends="init" description="Run indextest test suite in local build directory">
-         <ant antfile="${site.dir}/build.xml" target="indextest" inheritAll="false" >
+    <target name="site_indextest" depends="init" description="Run indextest test suite in local build directory">
+         <ant antfile="${site.dir}/build.xml" target="site_indextest" inheritAll="false" >
              <property name="dist.path" location="${dist.dir}" />
          </ant>
     </target>
     
-    <target name="maintest" depends="init" description="Run indextest test suite from top-level directory">
-         <ant antfile="${site.dir}/build.xml" target="maintest" inheritAll="false" >
+    <target name="core_indextest" depends="init" description="Run indextest test suite from top-level directory">
+         <ant antfile="${site.dir}/build.xml" target="core_indextest" inheritAll="false" >
              <property name="dist.path" location="${dist.dir}" />
+         </ant>
+    </target>
+
+    <target name="runCoreTestsWithCoverage" description="Run tests for Core SolrMarc code with code coverage info">
+        <propertyregex property="site.dir" input="${site.dir}" regexp="local_build" replace="core-only" defaultValue="core-only" override="true" />
+        <antcall target="veryclean" >
+            <param name="site.dir" value="core-only"/>
+            <param name="build.dir" value="core-only/build"/>
+            <param name="dist.dir" value="core-only/dist"/>
+        </antcall>
+        <antcall target="init" inheritAll="false" >
+            <param name="site.dir" value="core-only"/>
+            <param name="input.continue.processing.with.not.uptodate" value="c"/>
+            <param name="example.configuration" value="none"/>
+            <param name="dist.path" value="dist"/>
+            <param name="custom.config.file.prefix" value="core"/>
+            <param name="exe.mem.args" value="-Xmx256m"/>
+            <param name="marc.encoding" value="MARC8"/>
+            <param name="use.builtin.solr" value="builtin"/>
+         </antcall>
+         <ant antfile="core-only/build.xml" target="testCoverage" inheritAll="false" >
+             <property name="site.dir" value="core-only"/>
+             <property name="dist.path" location="core-only/${dist.dir}" />
          </ant>
     </target>
 

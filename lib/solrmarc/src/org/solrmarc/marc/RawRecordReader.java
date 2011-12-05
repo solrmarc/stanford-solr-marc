@@ -1,7 +1,18 @@
 package org.solrmarc.marc;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 import org.apache.log4j.Logger;
 import org.solrmarc.tools.RawRecord;
@@ -9,7 +20,7 @@ import org.solrmarc.tools.RawRecord;
 /**
  * Read a binary marc file
  * @author Robert Haschart
- * @version $Id: RawRecordReader.java 1465 2011-04-12 18:38:25Z rh9ec@virginia.edu $
+ * @version $Id: RawRecordReader.java 1500 2011-07-22 18:36:27Z rh9ec@virginia.edu $
  *
  */
 public class RawRecordReader
@@ -20,9 +31,16 @@ public class RawRecordReader
     private DataInputStream input;
     RawRecord nextRec = null;
     RawRecord afterNextRec = null;
+    boolean mergeRecords = true;
     
     public RawRecordReader(InputStream is)
     {
+        input = new DataInputStream(new BufferedInputStream(is));
+    }
+    
+    public RawRecordReader(InputStream is, boolean mergeRecords)
+    {
+        this.mergeRecords = mergeRecords;
         input = new DataInputStream(new BufferedInputStream(is));
     }
     
@@ -37,10 +55,13 @@ public class RawRecordReader
             if (afterNextRec == null)
             {
                 afterNextRec = new RawRecord(input);
-                while (afterNextRec != null && afterNextRec.getRecordBytes() != null && afterNextRec.getRecordId().equals(nextRec.getRecordId()))
+                if (mergeRecords)
                 {
-                    nextRec = new RawRecord(nextRec, afterNextRec);
-                    afterNextRec = new RawRecord(input);
+                    while (afterNextRec != null && afterNextRec.getRecordBytes() != null && afterNextRec.getRecordId().equals(nextRec.getRecordId()))
+                    {
+                        nextRec = new RawRecord(nextRec, afterNextRec);
+                        afterNextRec = new RawRecord(input);
+                    }
                 }
            }
             return(true);

@@ -44,8 +44,6 @@ public class CallNumberTests extends AbstractStanfordTest {
 	{
 		String fldName = "callnum_top_facet";
 		createIxInitVars(fileName);
-		assertFacetFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
 						
 		assertSingleResult("1033119", fldName, "\"B - Philosophy, Psychology, Religion\"");
 
@@ -73,16 +71,12 @@ public class CallNumberTests extends AbstractStanfordTest {
 		assertSearchResults(fldName, "\"Dewey Classification\"", docIds);
 		
 		fldName = "lc_alpha_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
 		assertZeroResults(fldName, "NO*");  // "NO CALL NUMBER"
 		assertZeroResults(fldName, "IN*");  // "IN PROCESS"
 		assertZeroResults(fldName, "X*");   // X call nums (including XX)
 		assertZeroResults(fldName, "WI*");  // "WITHDRAWN"
 
 		fldName = "lc_b4cutter_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
 		assertZeroResults(fldName, "NO CALL NUMBER");
 		assertZeroResults(fldName, "IN PROCESS");
 		assertZeroResults(fldName, "X*"); // X call nums (including XX)
@@ -90,27 +84,16 @@ public class CallNumberTests extends AbstractStanfordTest {
 		assertZeroResults(fldName, "110978984448763");
 				
 		fldName = "dewey_1digit_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
 		docIds.clear();
 		docIds.add("2214009");
 		docIds.add("1849258");
 		assertSearchResults(fldName, "\"300s - Social Sciences\"", docIds);
 		fldName = "dewey_2digit_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
 		fldName = "dewey_b4cutter_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
 		assertZeroResults(fldName, "WITHDRAWN");
 		
 		
 		fldName = "callnum_search";
-		assertFieldMultiValued(fldName);
-		assertTextFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldIndexed(fldName); 
-		assertFieldNotStored(fldName); 
 		assertSingleResult("690002", fldName, "\"159.32 .W211\""); 
 		//  skipped values
 		assertZeroResults(fldName, "\"NO CALL NUMBER\"");
@@ -526,8 +509,6 @@ public class CallNumberTests extends AbstractStanfordTest {
 		String fldName = "shelfkey";
 		String revFldName = "reverse_shelfkey";
 		createIxInitVars(fileName);
-		assertFieldNotStored(fldName);
-		assertFieldNotStored(revFldName);
 		
 		// assert searching works
 	

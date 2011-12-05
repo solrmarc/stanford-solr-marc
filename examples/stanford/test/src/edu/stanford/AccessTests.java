@@ -35,8 +35,8 @@ public class AccessTests extends AbstractStanfordTest {
 		throws ParserConfigurationException, IOException, SAXException
 	{
 		createIxInitVars("onlineFormat.mrc");
-		assertFacetFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
+//		assertFacetFieldProperties(fldName);
+//		assertFieldMultiValued(fldName);
 		assertEquals("accessMethod string incorrect: ", "Online", onlineFldVal);
 		assertEquals("accessMethod string incorrect: ", "At the Library", atLibraryFldVal);
 	}

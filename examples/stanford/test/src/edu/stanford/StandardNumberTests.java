@@ -33,10 +33,6 @@ public class StandardNumberTests extends AbstractStanfordTest {
 	{
 		String fldName = "oclc";
 		createIxInitVars("oclcNumTests.mrc");
-        assertTextFieldProperties(fldName);
-        assertFieldIndexed(fldName);
-        assertFieldStored(fldName);
-		assertFieldMultiValued(fldName);
 	
 		assertDocHasFieldValue("035withOCoLC-M", fldName, "656729"); 
 		assertDocHasNoFieldValue("035withOCoLC-MnoParens", fldName, "656729"); 
@@ -188,13 +184,6 @@ public class StandardNumberTests extends AbstractStanfordTest {
 	{
 		String fldName = "isbn_search";
 		createIxInitVars("isbnTests.mrc");
-		// single token, but tokenized nevertheless
-		assertFieldTokenized(fldName);
-		assertFieldHasNoTermVectors(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldMultiValued(fldName);
-		assertFieldNotStored(fldName);
-		assertFieldIndexed(fldName);
 		
 		// searches are not exhaustive  (b/c programmer is exhausted)
 	
@@ -278,13 +267,6 @@ public class StandardNumberTests extends AbstractStanfordTest {
 		String fldName = "issn_search";
 		createIxInitVars("issnTests.mrc");
 		// issn is now text, not string, to accommodate the hyphen
-		//    single token, but tokenized nevertheless
-		assertFieldTokenized(fldName);
-		assertFieldHasNoTermVectors(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldMultiValued(fldName);
-		assertFieldNotStored(fldName);
-		assertFieldIndexed(fldName);
 	
 		assertSingleResult("022suba", fldName, "1047-2010");
 		assertSingleResult("022subaX", fldName, "1047-201X");

@@ -1,10 +1,18 @@
 package org.solrmarc.tools;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
+import org.solrmarc.marc.MarcImporter;
+import org.solrmarc.tools.GetDefaultConfig;
 
 
 public class SolrUpdate
@@ -126,8 +134,7 @@ public class SolrUpdate
         // Send POST output.
         printout = new DataOutputStream (urlConn.getOutputStream ());
 
-        // see http://wiki.apache.org/solr/UpdateXmlMessages for explanation of attributes
-        String content = "<commit waitSearcher=\"false\" />";
+        String content = "<commit/>";
          
         printout.writeBytes (content);
         printout.flush ();

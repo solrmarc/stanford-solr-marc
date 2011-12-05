@@ -21,9 +21,10 @@ import org.solrmarc.tools.RawRecord;
 public class RecordTestingUtils 
 {
     private static String testDir = "test";
-    private static String testDataParentPath = testDir + File.separator + "data";
+    private static String testDataParentPath = System.getProperty("test.data.path", /*default to */testDir + File.separator + "data");
     private static String smokeTestDir = testDataParentPath + File.separator + "smoketest";
-    private static String testConfigFile = smokeTestDir + File.separator + "test_config.properties";
+    private static String testConfigFile = System.getProperty("test.config.file", /*default to */smokeTestDir + File.separator + "test_config.properties");
+ //   private static String testConfigFile = smokeTestDir + File.separator + testConfigFname;
 
     private static final String MARC_PRINTER_CLASS_NAME = "org.solrmarc.marc.MarcPrinter";
     private static final String MAIN_METHOD_NAME = "main";
@@ -184,7 +185,7 @@ public class RecordTestingUtils
 	            {
 	                if (actualLine.equals("Flushing results...") || actualLine.equals("Flushing results done") || actualLine.startsWith("Cobertura:"))
 	                    continue;   // skip this line and don't even count it.  I don't know where these "Flushing Results..." lines are coming from.
-	                
+	
 	                if (ignoreLeader && lineCnt == 0)
 	                	continue;
 	
@@ -203,22 +204,25 @@ public class RecordTestingUtils
 
 	/**
 	 * Assert that each instance of the subfield is in the expected values
+	 *  and that the number of instances match.
 	 */
 	public static void assertSubfieldHasExpectedValues(Record record, String fieldTag, char subfieldCode, Set<String> expectedVals)
 	{
-		int count = 0;
 	    List<VariableField> vfList = record.getVariableFields(fieldTag);
-	    for (VariableField vf : vfList)
+	    Set<String> resultSet = new LinkedHashSet<String>();
+	    for (Iterator iter = vfList.iterator(); iter.hasNext();)
 	    {
-	    	DataField df = (DataField) vf;
+	    	DataField df = (DataField) iter.next();
 	    	List<Subfield> sfList = df.getSubfields(subfieldCode);
-	    	for (Subfield sf : sfList) 
+	    	for (Iterator iter2 = sfList.iterator(); iter2.hasNext();) 
 	    	{
+	    		Subfield sf = (Subfield) iter2.next();
 	    		String val = sf.getData();
-	    		count = count + 1;
+	    		resultSet.add(val);
     			assertTrue("Got unexpected value " + val, expectedVals.contains(val));
 			}
 	    }
+	    org.junit.Assert.assertEquals("Number of values doesn't match", expectedVals.size(), resultSet.size());
 	}
 	
 	/**
@@ -384,71 +388,89 @@ public class RecordTestingUtils
         fail("shouldn't get here");
 	}
 
-	public static void assertRecordsEquals(String message, Record rec1, Record rec2)
-	{
-	    int result = compareRecords(rec1, rec2);
-	    String messageMore = null;
-	    if (result == 1) message = "Control Fields are different between rec1 and rec2";
-	    else if (result == 2) message = "Subfields are different between rec1 and rec2";
-	    else if (result == 3) message = "One record has a DataField where another has a ControlField";
-	    else if (result == -1) message = "Done with one record but not the other";
-	    org.junit.Assert.assertEquals(message+" "+messageMore, 0, result);
-	}
+public static void assertRecordsEquals(String message, Record rec1, Record rec2)
+{
+    int result = compareRecords(rec1, rec2);
+    String messageMore = null;
+    if (result == 1) message = "Control Fields are different between rec1 and rec2";
+    else if (result == 2) message = "Subfields are different between rec1 and rec2";
+    else if (result == 3) message = "One record has a DataField where another has a ControlField";
+    else if (result == -1) message = "Done with one record but not the other";
+    org.junit.Assert.assertEquals(message+" "+messageMore, 0, result);
+}
 
-	public static void assertRecordIsSubset(String message, Record rec1, Record rec2)
-	{
-	    int result = compareRecords(rec1, rec2);
-	    String messageMore= null;
-	    if (result == 1) message = "Control Fields are different between rec1 and rec2";
-	    else if (result == 2) message = "Subfields are different between rec1 and rec2";
-	    else if (result == 3) message = "One record has a DataField where another has a ControlField";
-	    else if (result == 0) message = "Records are equal when they shouldn't be";
-	    org.junit.Assert.assertEquals(message+" "+messageMore, -1, result);
-	}
+public static void assertRecordIsSubset(String message, Record rec1, Record rec2)
+{
+    int result = compareRecords(rec1, rec2);
+    String messageMore= null;
+    if (result == 1) message = "Control Fields are different between rec1 and rec2";
+    else if (result == 2) message = "Subfields are different between rec1 and rec2";
+    else if (result == 3) message = "One record has a DataField where another has a ControlField";
+    else if (result == 0) message = "Records are equal when they shouldn't be";
+    org.junit.Assert.assertEquals(message+" "+messageMore, -1, result);
+}
 
-	public static int compareRecords(Record rec1, Record rec2)
+public static int compareRecords(Record rec1, Record rec2)
+{
+    List<VariableField> fields1 = (List<VariableField>)rec1.getVariableFields();
+    List<VariableField> fields2 = (List<VariableField>)rec2.getVariableFields();
+    Iterator<VariableField> iter1 = fields1.iterator();
+    Iterator<VariableField> iter2 = fields2.iterator();
+    while (iter1.hasNext() && iter2.hasNext())
+    {
+        VariableField f1 = iter1.next();
+        VariableField f2 = iter2.next();
+        if (f1 instanceof ControlField && f2 instanceof ControlField)
+        {
+            ControlField cf1 = (ControlField)f1;
+            ControlField cf2 = (ControlField)f2;
+            if (! cf1.getData().equals(cf2.getData()))  return(1);
+        }
+        else if (f1 instanceof DataField && f2 instanceof DataField)
+        {
+            DataField df1 = (DataField)f1;
+            DataField df2 = (DataField)f2;
+            List<Subfield> sfs1 = (List<Subfield>)df1.getSubfields();
+            List<Subfield> sfs2 = (List<Subfield>)df2.getSubfields();
+            Iterator<Subfield> iter3 = sfs1.iterator();
+            Iterator<Subfield> iter4 = sfs2.iterator();
+            while (iter3.hasNext() && iter4.hasNext())
+            {
+                Subfield sf1 = iter3.next();
+                Subfield sf2 = iter4.next();
+                if (! sf1.getData().equals(sf2.getData()))  
+                    return(2);
+            }
+        }
+        else 
+        {
+            return(3);
+        }
+    }
+    // if done with one record but not the other
+    if (iter1.hasNext() || iter2.hasNext())
+    {
+        return(-1);
+    }
+    return(0);
+}
+	/**
+	 * Assign id of record to be the ckey. Our ckeys are in 001 subfield a. 
+	 * Marc4j is unhappy with subfields in a control field so this is a kludge 
+	 * work around.
+	 */
+	public static String getRecordIdFrom001(Record record)
 	{
-	    List<VariableField> fields1 = (List<VariableField>)rec1.getVariableFields();
-	    List<VariableField> fields2 = (List<VariableField>)rec2.getVariableFields();
-	    Iterator<VariableField> iter1 = fields1.iterator();
-	    Iterator<VariableField> iter2 = fields2.iterator();
-	    while (iter1.hasNext() && iter2.hasNext())
-	    {
-	        VariableField f1 = iter1.next();
-	        VariableField f2 = iter2.next();
-	        if (f1 instanceof ControlField && f2 instanceof ControlField)
-	        {
-	            ControlField cf1 = (ControlField)f1;
-	            ControlField cf2 = (ControlField)f2;
-	            if (! cf1.getData().equals(cf2.getData()))  return(1);
-	        }
-	        else if (f1 instanceof DataField && f2 instanceof DataField)
-	        {
-	            DataField df1 = (DataField)f1;
-	            DataField df2 = (DataField)f2;
-	            List<Subfield> sfs1 = (List<Subfield>)df1.getSubfields();
-	            List<Subfield> sfs2 = (List<Subfield>)df2.getSubfields();
-	            Iterator<Subfield> iter3 = sfs1.iterator();
-	            Iterator<Subfield> iter4 = sfs2.iterator();
-	            while (iter3.hasNext() && iter4.hasNext())
-	            {
-	                Subfield sf1 = iter3.next();
-	                Subfield sf2 = iter4.next();
-	                if (! sf1.getData().equals(sf2.getData()))  
-	                    return(2);
-	            }
-	        }
-	        else 
-	        {
-	            return(3);
-	        }
-	    }
-	    // if done with one record but not the other
-	    if (iter1.hasNext() || iter2.hasNext())
-	    {
-	        return(-1);
-	    }
-	    return(0);
+		String id = null;
+		ControlField fld = (ControlField) record.getVariableField("001");
+		if (fld != null && fld.getData() != null) 
+		{
+			String rawVal = fld.getData();
+			// 'u' is for testing
+			if (rawVal.startsWith("a") || rawVal.startsWith("u"))
+				id = rawVal.substring(1);
+		}
+		return id;
 	}
 
 }

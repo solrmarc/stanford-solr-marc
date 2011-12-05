@@ -4,7 +4,8 @@ import java.io.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.solrmarc.solr.DocumentProxy;
+//import org.solrmarc.solr.DocumentProxy;
+import org.apache.solr.common.SolrDocument;
 import org.xml.sax.SAXException;
 
 import org.junit.*;
@@ -181,13 +182,15 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 		assertFieldValuesEqual("1", createDateFldName, updateDateFldName);
 		
 		// assert created < last_updated  2, 3, 4
-		int solrDocNum = getSingleDocNum(docIDfname, "2");
-		DocumentProxy doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
-		String[] createVals = doc.getValues(createDateFldName);
-		String[] updateVals = doc.getValues(updateDateFldName);
+		
+//		int solrDocNum = getSingleDocNum(docIDfname, "2");
+//		DocumentProxy doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
+		SolrDocument doc = getDocument("2");
 		
 /* won't compile with current build.xml  2010-07-31
 test commented out anyway b/c it's ahead of the actual code being written
+		String[] createVals = doc.getValues(createDateFldName);
+		String[] updateVals = doc.getValues(updateDateFldName);
 		org.apache.solr.schema.DateField d = new org.apache.solr.schema.DateField();
 	
 		java.util.Date createDate = d.parseMath(null, createVals[0]);

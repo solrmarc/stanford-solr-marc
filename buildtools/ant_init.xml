@@ -98,7 +98,7 @@
                                     <equals arg1="c" arg2="${input.continue.processing.with.not.uptodate}"/>
                                     <then>
                                         <copy_files_from_example_directory update="true" />
-                                        <copy_files_from_top_level />
+                                      <!--  <copy_files_from_top_level /> -->
                                     </then>
                                 </elseif>
                             </if>
@@ -106,6 +106,8 @@
                     </if>
                 </then>
             </if>
+            <copy_files_from_top_level />
+            <copy_test_solr_configuration />
         </sequential>
     </macrodef>
 
@@ -168,7 +170,7 @@
                 </fileset>
             </copy>
             <copy todir="${site.dir}" filtering="false" preservelastmodified="true">
-                 <fileset dir="examples/${example.configuration}" includes="*_config.properties,*_index.properties,import.properties,marc*.properties" >
+                 <fileset dir="examples/${example.configuration}" includes="*config*.properties,*index*.properties,import.properties,marc*.properties" >
                      <depend targetdir="${site.dir}" >
                      </depend>
                  </fileset>
@@ -476,7 +478,15 @@
                 </fileset>
             </copy>
             <copy todir="${site.test.dir}/data" preservelastmodified="true" overwrite="false">
-                <fileset dir="${test.dir}/data" includes="*.mrc,maintest.txt" >
+                <fileset dir="${test.dir}/data" includes="*.mrc,*.txt,smoketest/**,*.xml,*.del,*.properties,*.bsh,*.json,*.gz" >
+                    <depend targetdir="${site.test.dir}/data" />
+                </fileset>
+            </copy>
+            <copy todir="${site.test.dir}/${build.dir}" preservelastmodified="true" overwrite="false">
+                <fileset dir="${lib.dir}/test" includes="**/*.jar,**/*.txt" >
+                    <depend targetdir="${site.test.dir}/data" />
+                </fileset>
+                <fileset dir="${lib.dir}/solrmarc/build/test" includes="**/*.jar" >
                     <depend targetdir="${site.test.dir}/data" />
                 </fileset>
             </copy>
@@ -491,6 +501,19 @@
                             <expandproperties />
                             <fixcrlf />
                         </filterchain> 
+                    </copy>
+                </then>
+            </if>
+            
+            <echo message="checking for 'none' configuration" />
+            <if >
+                <equals arg1="${example.configuration}" arg2="none" />
+                <then>
+                    <echo message="copying maps" />
+                    <copy todir="${site.map.dir}" preservelastmodified="true" overwrite="false">
+                        <fileset dir="${trans.map.dir}"  includes="*.properties" >
+                            <depend targetdir="${site.map.dir}" />
+                        </fileset>
                     </copy>
                 </then>
             </if>

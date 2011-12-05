@@ -36,10 +36,6 @@ public class LanguageTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		createIxInitVars(fileName);
-	    assertStringFieldProperties(fldName);
-	    assertFieldIndexed(fldName);
-	    assertFieldStored(fldName);
-		assertFieldMultiValued(fldName);
 
 		assertSingleResult("008mul041atha", fldName, "Thai"); 
 		assertSingleResult("008eng3041a", fldName, "German"); 

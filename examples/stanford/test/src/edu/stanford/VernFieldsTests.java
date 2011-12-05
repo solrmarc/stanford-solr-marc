@@ -244,7 +244,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 		fldName = "vern_title_full_display";
 		
 PrintStream ps = new PrintStream(System.out, true, "UTF-16");		
-ps.println("DEBUG:  vern_title_full_display contains: " + getDocument("hebrew1").getValues("vern_full_title_display")[0]);		
+//ps.println("DEBUG:  vern_title_full_display contains: " + getDocument("hebrew1").getValues("vern_full_title_display")[0]);		
 								assertDocHasFieldValue("hebrew1", fldName, "אל״ף בי״ת של יהדות הלל צייטלין ; תירגם וערך מנחם ברש־רועי /");
 								assertDocHasFieldValue("hebrew1", fldName, "אל״ף בי״ת של יהדות / הלל צייטלין ; תירגם וערך מנחם ברש־רועי");
 		

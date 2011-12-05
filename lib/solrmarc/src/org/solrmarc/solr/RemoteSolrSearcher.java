@@ -31,7 +31,7 @@ public class RemoteSolrSearcher
     
     public int handleAll()
     {
-        output = new MarcStreamWriter(System.out, "UTF8");
+        output = new MarcStreamWriter(System.out, "UTF8", true);
         if (solrFieldContainingEncodedMarcRecord == null) solrFieldContainingEncodedMarcRecord = "marc_display";
         /*String queryparts[] = query.split(":");
         if (queryparts.length != 2) 
@@ -59,6 +59,10 @@ public class RemoteSolrSearcher
             if (recordStr.startsWith("<?xml version"))
             {
                 record = getRecordFromXMLString(recordStr);            
+            }
+            else if (recordStr.startsWith("{\""))
+            {
+                record = getRecordFromJsonString(recordStr);
             }
             else
             {
@@ -118,6 +122,13 @@ public class RemoteSolrSearcher
                         result = line.replaceFirst(".*<\\?xml", "<?xml");
                         result = result.replaceFirst("</collection>.*", "</collection>");
                         result = result.replaceAll("\\\\\"", "\"");
+                    }
+                    else if (line.contains(solrFieldContainingEncodedMarcRecord2+"\":[\"{"))
+                    {
+                        result = line.replaceFirst("[^:]*:\\[\"[{]", "{");
+                        result = result.replaceFirst("\\\\n\"][}]]", "");
+                        result = result.replaceAll("\\\\\"", "\"");
+                        result = result.replace("\\\\", "\\");
                     }
                     else 
                     {
@@ -302,6 +313,36 @@ public class RemoteSolrSearcher
             try {
                 tryAgain = false;
                 reader = new MarcStreamReader(new ByteArrayInputStream(marcRecordStr.getBytes("UTF8")));
+                if (reader.hasNext())
+                {
+                    Record record = reader.next(); 
+                    return(record);
+                }
+            }
+            catch( MarcException me)
+            {
+                me.printStackTrace();
+            }
+            catch (UnsupportedEncodingException e)
+            {
+                e.printStackTrace();
+            }
+        } while (tryAgain);
+        return(null);
+    }
+    /**
+     * Extract the marc record from JSON string
+     * @param marcRecordStr
+     * @return
+     */
+    private Record getRecordFromJsonString(String marcRecordStr)
+    {
+        MarcJsonReader reader;
+        boolean tryAgain = false;
+        do {
+            try {
+                tryAgain = false;
+                reader = new MarcJsonReader(new ByteArrayInputStream(marcRecordStr.getBytes("UTF8")));
                 if (reader.hasNext())
                 {
                     Record record = reader.next(); 
