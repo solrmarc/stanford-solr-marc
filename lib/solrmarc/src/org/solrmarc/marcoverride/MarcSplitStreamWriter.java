@@ -84,9 +84,10 @@ public class MarcSplitStreamWriter extends MarcStreamWriter
                     }
                     data.write(df.getIndicator1());
                     data.write(df.getIndicator2());
-                    List<Subfield> subfields = df.getSubfields();
-                    for (Subfield sf : subfields)
-                    {
+                    List subfields = df.getSubfields();
+                    Iterator si = subfields.iterator();
+                    while (si.hasNext()) {
+                        Subfield sf = (Subfield) si.next();
                         data.write(Constants.US);
                         data.write(sf.getCode());
                         data.write(getDataElement(sf.getData()));
@@ -106,9 +107,10 @@ public class MarcSplitStreamWriter extends MarcStreamWriter
                     df.setId(new Long(0));
                     data.write(df.getIndicator1());
                     data.write(df.getIndicator2());
-                    List<Subfield> subfields = df.getSubfields();
-                    for (Subfield sf : subfields)
-                    {
+                    List subfields = df.getSubfields();
+                    Iterator si = subfields.iterator();
+                    while (si.hasNext()) {
+                        Subfield sf = (Subfield) si.next();
                         data.write(Constants.US);
                         data.write(sf.getCode());
                         data.write(getDataElement(sf.getData()));

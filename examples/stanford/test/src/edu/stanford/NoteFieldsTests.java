@@ -26,7 +26,6 @@ public class NoteFieldsTests extends AbstractStanfordTest {
     {
         String fldName = "toc_search";
 	    createIxInitVars("summaryTests.mrc");
-        assertSearchFldMultValProps(fldName);
 
         assertSingleResult("505", fldName, "505a");
         assertSingleResult("505", fldName, "505r");
@@ -44,7 +43,6 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	{
 		String fldName = "vern_toc_search";
 		createIxInitVars("summaryTests.mrc");
-		assertSearchFldMultValProps(fldName);
 
 		assertSingleResult("505", fldName, "vern505a");
         assertSingleResult("505", fldName, "vern505r");
@@ -62,7 +60,6 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	{
 	    String fldName = "toc_search";
 	    createIxInitVars("nielsenTests.mrc");
-	    assertSearchFldMultValProps(fldName);
 	    
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("505");
@@ -95,7 +92,6 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	{
 	    String fldName = "context_search";
 	    createIxInitVars("summaryTests.mrc");
-	    assertSearchFldMultValProps(fldName);
 
 	    assertSingleResult("518", fldName, "518a");
 
@@ -111,7 +107,6 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	{
 	    String fldName = "vern_context_search";
 	    createIxInitVars("summaryTests.mrc");
-	    assertSearchFldMultValProps(fldName);
 
 	    assertSingleResult("518", fldName, "vern518a");
 
@@ -127,7 +122,6 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	{
 	    String fldName = "summary_search";
 	    createIxInitVars("summaryTests.mrc");
-	    assertSearchFldMultValProps(fldName);
 	    
 		assertSingleResult("520", fldName, "520a");
 		assertSingleResult("520", fldName, "520b");
@@ -144,7 +138,6 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	{
 	    String fldName = "vern_summary_search";
 	    createIxInitVars("summaryTests.mrc");
-	    assertSearchFldMultValProps(fldName);
 
 	    assertSingleResult("520", fldName, "vern520a");
 		assertSingleResult("520", fldName, "vern520b");
@@ -161,7 +154,6 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	{
 	    String fldName = "summary_search";
 	    createIxInitVars("nielsenTests.mrc");
-	    assertSearchFldMultValProps(fldName);
 	    
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("520");
@@ -192,7 +184,6 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	{
 	    String fldName = "award_search";
 	    createIxInitVars("nielsenTests.mrc");
-	    assertSearchFldMultValProps(fldName);
 	    
 	    assertSingleResult("586", fldName, "New Zealand Post book awards winner");
 	    assertSingleResult("586", fldName, "\\\"586 second award\\\"");

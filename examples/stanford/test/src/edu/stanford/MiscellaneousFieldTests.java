@@ -6,7 +6,8 @@ import java.util.HashSet;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.solrmarc.solr.DocumentProxy;
+//import org.solrmarc.solr.DocumentProxy;
+import org.apache.solr.common.SolrDocument;
 import org.xml.sax.SAXException;
 
 import org.junit.*;
@@ -29,10 +30,6 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 	{
 		String fldName = "id";
 		createIxInitVars("idTests.mrc");
-		assertTextFieldProperties(fldName);
-		assertFieldNotMultiValued(fldName);		
-		assertFieldStored(fldName);
-		assertFieldIndexed(fldName);
 		
         int numDocs = getNumMatchingDocs("collection", "sirsi");
         assertEquals("Number of documents in index incorrect: ", 3, numDocs);
@@ -82,7 +79,6 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 	{
 		String fldName = "all_search";
 		createIxInitVars("allfieldsTests.mrc");
-		assertSearchFldOneValProps(fldName);
 		
 		String docId = "allfields1";
 
@@ -123,8 +119,6 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 	{
 		createIxInitVars("allfieldsTests.mrc");
 	    String fldName = "marc21";
-	    assertDisplayFieldProperties(fldName);
-	    assertFieldNotMultiValued(fldName);
 	}
 
 
@@ -140,8 +134,6 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 	{
 		createIxInitVars("idTests.mrc");
 	    String fldName = "display_type";
-	    assertFacetFieldProperties(fldName);
-	    assertFieldMultiValued(fldName);
 	    
 	    // all MARC records from Symphony
         assertEquals("docs aren't all display_type sirsi", 3, getNumMatchingDocs(fldName, "sirsi"));
@@ -158,37 +150,8 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 	{
 		createIxInitVars("allfieldsTests.mrc");
 	    String fldName = "open_search";
-	    assertTextFieldProperties(fldName);
-	    assertFieldIndexed(fldName);
-	    assertFieldStored(fldName);
 	    // ensure stemming, single word in multiple word sub field matches ...
 	    assertSingleResult("allfields1", fldName, "skip");
-	}
-
-	/**
-	 * spell fields should be stored and indexed
-	 */
-//@Test   no longer using spell fields, 
-// spell fields removed from solr config files as of 2010-03-12
-	public final void testSpellFields() 
-	    throws ParserConfigurationException, IOException, SAXException
-	{
-		createIxInitVars("allfieldsTests.mrc");
-		Set<String> fields = new HashSet<String>(3);
-		fields.add("spell");
-		fields.add("spell_title");
-		fields.add("spell_author");
-		fields.add("spell_subject");
-		for (String fldName : fields) {
-		    assertTextFieldProperties(fldName);
-		    assertFieldOmitsNorms(fldName);
-		    assertFieldIndexed(fldName);
-		    assertFieldStored(fldName);
-		}
-		assertFieldNotMultiValued("spell");
-		assertFieldMultiValued("spell_title");
-		assertFieldMultiValued("spell_author");
-		assertFieldMultiValued("spell_subject");
 	}
 
 
@@ -200,9 +163,11 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		createIxInitVars("fieldOrdering.mrc");
-		int solrDocNum = getSingleDocNum(docIDfname, "1");
-		DocumentProxy doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
-		String marc21 = doc.getValuesForField("marc21")[0];
+//		int solrDocNum = getSingleDocNum(docIDfname, "1");
+//		DocumentProxy doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
+		SolrDocument doc = getDocument("1");
+//		String marc21 = doc.getValuesForField("marc21")[0];
+		String marc21 = (String) doc.getFirstValue("marc21");
 		int ix650 = marc21.indexOf("650first");
 		int ix600 = marc21.indexOf("600second");
 		assertTrue("fields are NOT in the original order", ix650 < ix600);

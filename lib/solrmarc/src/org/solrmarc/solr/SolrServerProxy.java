@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
+import org.apache.solr.common.SolrInputField;
 
 public class SolrServerProxy implements SolrProxy
 {
@@ -58,9 +59,14 @@ public class SolrServerProxy implements SolrProxy
 
     public void close()
     {
-    	// do nothing
+        // do nothing
     }
 
+    public SolrServer getSolrServer()
+    {
+        return(solrserver);        
+    }
+    
     public void commit(boolean optimize) throws IOException
     {
         try

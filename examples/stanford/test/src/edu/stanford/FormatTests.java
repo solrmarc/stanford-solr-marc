@@ -29,16 +29,6 @@ public class FormatTests extends AbstractStanfordTest {
 		mappingTestInit();
 	}
 	
-@Test
-	public final void testFormatFieldProperties() 
-		throws ParserConfigurationException, IOException, SAXException
-	{
-		createIxInitVars(testDataFname);
-        assertStringFieldProperties(facetFldName);
-        assertFieldIndexed(facetFldName);
-        assertFieldStored(facetFldName);
-		assertFieldMultiValued(facetFldName);
-	}
 
 	/**
 	 * Audio Non-Music format tests

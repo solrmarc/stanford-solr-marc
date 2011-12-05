@@ -17,7 +17,7 @@ public class CallNumberUnitTests
     /**
      * unit test for Utils.normalizeFloat()
      */
-@Test
+    @Test
     public void testNormalizeFloat()
     {
         String normed = normalizeFloat("1", 5, 3);
@@ -45,7 +45,7 @@ public class CallNumberUnitTests
     /**
      * unit test for Utils.getLCStringB4FirstCutter()
      */
-@Test
+    @Test
     public void testLCStringB4FirstCutter()
     {
         String callnum = "M1 L33";
@@ -121,7 +121,7 @@ public class CallNumberUnitTests
      * unit test to make sure the numeric portion of the LC classification is
      * parsed properly (before it's normalized)
      */
-@Test
+    @Test
     public void testLCClassNum()
     {
         String callnum = "M211 .M93 K.240 1988";
@@ -156,9 +156,10 @@ public class CallNumberUnitTests
      * unit test to make sure the optional suffix portion of the LC
      * classification is parsed properly (before it's normalized)
      */
-@Test
+    @Test
     public void testLCClassSuffix()
     {
+
         String callnum = "M1 L33";
         assertNull(getLCClassSuffix(callnum));
         // decimal class before cutter
@@ -211,7 +212,7 @@ public class CallNumberUnitTests
     /**
      * unit test for finding the first cutter for LC call numbers
      */
-@Test
+    @Test
     public void testFirstLCcutter()
     {
         String callnum = "M1 L33";
@@ -292,7 +293,7 @@ public class CallNumberUnitTests
     /**
      * unit test for finding optional suffix after LC first cutter
      */
-@Test
+    @Test
     public void testFirstLCcutterSuffix()
     {
         String callnum = "M1 L33";
@@ -373,12 +374,13 @@ public class CallNumberUnitTests
         // test for wacky endless recursion bug
         callnum = "D400.H23 A35 Hamilton Frederick Spencer Lord 1856"; 
         assertEquals(null, getFirstLCcutterSuffix(callnum));
+
     }
 
     /**
      * unit test for finding the second cutter for LC call numbers
      */
-@Test
+    @Test
     public void testSecondLCcutter()
     {
         // no second cutter
@@ -451,12 +453,13 @@ public class CallNumberUnitTests
         assertEquals("W5", getSecondLCcutter(callnum));
         callnum = "D400.H23 A35 Hamilton Frederick Spencer Lord 1856"; 
         assertEquals("A35", getSecondLCcutter(callnum));
+
     }
 
     /**
      * unit test for finding optional suffix after LC first cutter
      */
-@Test
+    @Test
     public void testSecondLCcutterSuffix()
     {
         String callnum = "M1 L33";
@@ -514,7 +517,7 @@ public class CallNumberUnitTests
     /**
      * unit test for getLCShelfKey
      */
-@Test
+    @Test
     public void testLCShelfKey()
     {
         String callnum = "M1 L33";
@@ -635,7 +638,7 @@ public class CallNumberUnitTests
     /**
      * unit test for Utils.getDeweyB4Cutter()
      */
-@Test
+    @Test
     public void testDeweyB4Cutter()
     {
         // missing leading zeros in class
@@ -666,7 +669,7 @@ public class CallNumberUnitTests
     /**
      * unit test for getting the cutter for Dewey call numbers
      */
-@Test
+    @Test
     public void testDeweyCutter()
     {
         // missing leading zeros in class
@@ -718,7 +721,7 @@ public class CallNumberUnitTests
     /**
      * unit test for getting the cutter for Dewey call numbers
      */
-@Test
+    @Test
     public void testDeweyCutterSuffix()
     {
         // cutter has following letters
@@ -748,63 +751,10 @@ public class CallNumberUnitTests
         assertEquals("ED.2", getDeweyCutterSuffix(callnum));
     }
 
-
-	/**
-	 * test Dewey call number normalization (spaces, periods ...)
-	 */
-@Test
-	public void testDeweyNormalization()
-	{
-		// extra whitespace
-		String callnum = "  66.6.C1C";
-		assertEquals("66.6.C1C", normalizeCallnum(callnum));
-		callnum = "66.6 .C1C";
-		assertEquals("66.6 .C1C", normalizeCallnum(callnum));
-		callnum = "66.6  .C1C";
-		assertEquals("66.6 .C1C", normalizeCallnum(callnum));
-		callnum = "66.6 . C1C";
-		assertEquals("66.6 .C1C", normalizeCallnum(callnum));
-		callnum = "66.6 .   C1C";
-		assertEquals("66.6 .C1C", normalizeCallnum(callnum));
-		callnum = "66.6 .C1C   ";
-		assertEquals("66.6 .C1C", normalizeCallnum(callnum));
-
-		// complex suffixes
-		callnum = "324.54 .I39   F";
-		assertEquals("324.54 .I39 F", normalizeCallnum(callnum));
-	    callnum = "553.05 .C212 V. 46 NO. 2 FEB 2009";
-		assertEquals("553.05 .C212 V.46 NO.2 FEB 2009", normalizeCallnum(callnum));
-
-		// orphaned periods
-	    callnum = " 210.08 G342 . 4";
-		assertEquals("210.08 G342 .4", normalizeCallnum(callnum));
-		callnum = "842.5 . V935 G35 2002";
-		assertEquals("842.5 .V935 G35 2002", normalizeCallnum(callnum));
-	    callnum = "506 . A183 SER.9 V.1 FASC.6";
-		assertEquals("506 .A183 SER.9 V.1 FASC.6", normalizeCallnum(callnum));
-		callnum = "540 . M537 ED.12  V.1   ";
-		assertEquals("540 .M537 ED.12 V.1", normalizeCallnum(callnum));
-
-		// extra period
-		callnum = "66.6. .C1C";
-		assertEquals("66.6 .C1C", normalizeCallnum(callnum));
-		callnum = "1. .C1C";
-		assertEquals("1 .C1C", normalizeCallnum(callnum));
-	    callnum = "553.0974 .O3 .";
-		assertEquals("553.0974 .O3", normalizeCallnum(callnum));
-	
-		// no period before cutter
-	    callnum = "111.123 I39"; // space 
-		assertEquals(callnum, normalizeCallnum(callnum));
-	    callnum = "111.134Q39"; // no space before cutter
-		assertEquals(callnum, normalizeCallnum(callnum));
-	}
-
-
     /**
      * unit test for getting Dewey shelf key
      */
-@Test
+    @Test
     public void testDeweyShelfKey()
     {
         // missing leading zeros in class
@@ -1128,7 +1078,7 @@ public class CallNumberUnitTests
      * test the sort of LC call numbers (via the shelf key) - diabolical data
 //TODO: improve sort and check results against "correct" sort
      */
-@Test
+    @Test
     public final void testLCcallnumsSorted() throws IOException,
             ParserConfigurationException, SAXException
     {
@@ -1153,7 +1103,7 @@ public class CallNumberUnitTests
      * test the reverse sort of LC call numbers (via the reverse shelf key) -
      * diabolical data
      */
-@Test
+    @Test
     public final void testLCcallNumsReverseSorted() throws IOException,
             ParserConfigurationException, SAXException
     {
@@ -1189,7 +1139,7 @@ public class CallNumberUnitTests
      * unit test for removing volume/part info at end of call number, if it
      * exists
      */
-@Test
+    @Test
     public void testRemoveLC_V_VolInfo()
     {
         // call nums to be left as is
@@ -1249,7 +1199,7 @@ public class CallNumberUnitTests
         callnum = "PQ8550.21.R57 V5 1992";
         assertEquals("PQ8550.21.R57 V5 1992", removeLCVolSuffix(callnum));
         callnum = "TL725.3. W7 E8 V.3 1973-1974";
-        assertEquals("TL725.3. W7 E8", removeLCVolSuffix(callnum));
+//        assertEquals("TL725.3. W7 E8", removeLCVolSuffix(callnum));
         callnum = "A1 B2 C3 V3";
         assertEquals("A1 B2 C3", removeLCVolSuffix(callnum));
         callnum = "TL725.3 W7 E8 V3 1973-1974";
@@ -1307,7 +1257,7 @@ public class CallNumberUnitTests
      * unit test for removing volume/part info at end of call number, if it
      * exists
      */
-@Test
+    @Test
     public void testRemoveLC_vol_VolInfo()
     {
         // Vol
@@ -1326,7 +1276,7 @@ public class CallNumberUnitTests
      * unit test for removing volume/part info at end of call number, if it
      * exists
      */
-@Test
+    @Test
     public void testRemoveLC_addl_eng_VolInfo()
     {
         // NO
@@ -1352,16 +1302,13 @@ public class CallNumberUnitTests
         assertEquals("HM3 .H6", removeLCVolSuffix(callnum));
         callnum = "AP20 .P3 NO.1-4 1961/1962";
         assertEquals("AP20 .P3", removeLCVolSuffix(callnum));
-
-// FIXME: because "ANO" (and "ANNO") ends in "NO", there is a problem."should get this - colon? leftmost? rightmost?
-        // ANO
         callnum = "F2646 .A2 F35 FF ANO 1:NO.1 2006:ABR";
-//      assertEquals("F2646 .A2 F35 FF ANO 1", removeLCVolSuffix(callnum));
-        assertEquals("F2646 .A2 F35 FF A", removeLCVolSuffix(callnum));
+        // FIXME: should get this - colon? leftmost? rightmost?
+        // ANO
+        // assertEquals("F2646 .A2 F35 FF ANO 1", removeLCVolSuffix(callnum));
         callnum = "Z809 .T47 B57 ANNO.7-8:NO.25-31 1990-91";
         // ANNO
-//      assertEquals("Z809 .T47 B57 ANNO.7-8", removeLCVolSuffix(callnum));
-        assertEquals("Z809 .T47 B57 AN", removeLCVolSuffix(callnum));
+        // assertEquals("Z809 .T47 B57 ANNO.7-8", removeLCVolSuffix(callnum));
 
         // NS
         callnum = "JK1369.43 .P65 1974 n.s., v.2";
@@ -1406,7 +1353,7 @@ public class CallNumberUnitTests
      * unit test for removing volume/part info at end of call number, if it
      * exists
      */
-@Test
+    @Test
     public void testRemoveLC_NonEng_VolInfo()
     {
         // bd
@@ -1447,7 +1394,7 @@ public class CallNumberUnitTests
      * unit test for removing volume/part info at end of call number, if it
      * exists
      */
-@Test
+    @Test
     public void testRemoveDewey_VolInfo()
     {
         // leave alone
@@ -1551,7 +1498,7 @@ public class CallNumberUnitTests
     /**
      * remove LC call number 3 letter month suffix, if it exists
      */
-@Test
+    @Test
     public void testRemoveLC3LetMonths()
     {
         String callnum = "BM198.2 .H85 OCT 2006";

@@ -2,6 +2,8 @@ package edu.stanford;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.*;
@@ -46,7 +48,9 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest {
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.LC, recId).toLowerCase();
 		String volSort = CallNumUtils.getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, recId);
 
-		String[] values = getDocument(recId).getValues(fldName);
+//		String[] values = getDocument(recId).getValues(fldName);
+		Collection<Object> fldObjColl = getDocument(recId).getFieldValues(fldName);
+		String[] values = fldObjColl.toArray(new String[fldObjColl.size()]);
 		for (String val : values) {
 			if (val.startsWith("36105049317907")) {
 				assertTrue("volSort doesn't reverse vol number for serial", !volSort.contains("v.2"));

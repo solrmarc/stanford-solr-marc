@@ -120,6 +120,7 @@ public class MarcPatcher extends MarcHandler
     @Override
     protected void initLocal()
     {
+        configToUse = null;
         configProps = new Properties();
         configProps.setProperty("marc.to_utf_8", "false");
         configProps.setProperty("marc.default_encoding", "ISO-8859-1");

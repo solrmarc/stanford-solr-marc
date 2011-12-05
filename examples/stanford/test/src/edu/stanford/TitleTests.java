@@ -27,37 +27,6 @@ public class TitleTests extends AbstractStanfordTest {
 	}	
 
 
-	/**
-	 * test the properties of the fields, which requires building the index
-	 */
-@Test
-	public void testDisplayFieldProperties()
-		throws IOException, ParserConfigurationException, SAXException 
-	{
-		createIxInitVars(testFileName);
-
-		Set<String> fldNames = new HashSet<String>();
-		fldNames.add("title_245a_display");
-		fldNames.add("title_245c_display");
-		fldNames.add("title_display");
-		fldNames.add("title_full_display");
-		fldNames.add("title_uniform_display");
-		for (String fldName : fldNames) {
-			assertDisplayFieldProperties(fldName);
-			assertFieldNotMultiValued(fldName);
-		}
-		
-		String fldName = "title_sort";		
-		// field is not string; rather tokenized with single term
-		assertTextFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldIndexed(fldName);
-	    // stored because it's used for sorting in nearby-on-shelf
-		assertFieldStored(fldName);
-		assertFieldNotMultiValued(fldName);
-	}
-
-
     /**
 	 * Test title_245a_display field;  trailing punctuation is removed
 	 */

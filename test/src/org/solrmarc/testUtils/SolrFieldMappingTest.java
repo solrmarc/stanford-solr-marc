@@ -1,9 +1,10 @@
 package org.solrmarc.testUtils;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 
 import static org.junit.Assert.*;
+
+import org.apache.log4j.Logger;
 
 /**
  * Utility Test class to determine if a marc record will map data to the Solr
@@ -29,9 +30,8 @@ public class SolrFieldMappingTest
      *            name of xxx _config.properties file
      * @param idFldName -
      *            name of unique key field in Solr document
-     * @throws FileNotFoundException 
      */
-    public SolrFieldMappingTest(String configPropsName, String idFldName) 
+    public SolrFieldMappingTest(String configPropsName, String idFldName)
     {
         marcMappingTest = new MarcMappingOnly();
         marcMappingTest.init(new String[] { configPropsName, idFldName });
@@ -60,7 +60,7 @@ public class SolrFieldMappingTest
         Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(solrDocId, mrcFileName);
         if (solrFldName2ValMap == null)
         	fail("There is no document with id " + solrDocId);
-        
+
         Object solrFldValObj = solrFldName2ValMap.get(expectedFldName);
         if (solrFldValObj == null)
             fail("Solr doc " + solrDocId + " has value assigned for Solr field " + expectedFldName);
@@ -100,7 +100,7 @@ public class SolrFieldMappingTest
     public void assertSolrFldHasNoValue(String mrcFileName, String solrDocId,
             String expectedFldName, String expectedFldVal)
     {
-        Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(solrDocId, mrcFileName);
+        Map<String, Object> solrFldName2ValMap = marcMappingTest .getIndexMapForRecord(solrDocId, mrcFileName);
         if (solrFldName2ValMap == null)
         	fail("there is no document with id " + solrDocId);
 

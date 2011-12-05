@@ -28,7 +28,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
         createIxInitVars(searchTestDataFname);
 		String fldName = "topic_search";
-		assertSearchFldMultValProps(fldName);
 
 		// all subfields except v, x, y and z from  650, 690, 653, 654
 		
@@ -100,7 +99,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 	    createIxInitVars(searchTestDataFname);
 		String fldName = "vern_topic_search";
-		assertSearchFldMultValProps(fldName);
 	
 		// all subfields except v, x, y and z from  650, 690, 653, 654
 		
@@ -150,7 +148,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 	    createIxInitVars(searchTestDataFname);
 		String fldName = "topic_subx_search";
-		assertSearchFldMultValProps(fldName);
 	
 		// subfield x from all subject fields
 		assertSingleResult("600search", fldName, "600x");
@@ -200,7 +197,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 	    createIxInitVars(searchTestDataFname);
 		String fldName = "vern_topic_subx_search";
-		assertSearchFldMultValProps(fldName);
 	
 		// subfield x from all subject fields
 		assertSingleResult("Vern600search", fldName, "vern600x");
@@ -251,7 +247,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 	    createIxInitVars(searchTestDataFname);
 		String fldName = "geographic_search";
-		assertSearchFldMultValProps(fldName);
 	
 		// all subfields except v, x, y, z from  651, 691
 		Set<String> docIds = new HashSet<String>();
@@ -300,7 +295,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 	    createIxInitVars(searchTestDataFname);
 		String fldName = "vern_geographic_search";
-		assertSearchFldMultValProps(fldName);
 	
 		// all subfields except v, x, y, z from  651, 691
 		assertSingleResult("Vern651search", fldName, "vern651a");		
@@ -327,7 +321,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 	    createIxInitVars(searchTestDataFname);
 		String fldName = "geographic_subz_search";
-		assertSearchFldMultValProps(fldName);
 	
 		// subfield z from all subject fields
 		assertSingleResult("600search", fldName, "600z");
@@ -378,7 +371,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 	    createIxInitVars(searchTestDataFname);
 		String fldName = "vern_geographic_subz_search";
-		assertSearchFldMultValProps(fldName);
 	
 		// subfield z from all subject fields
 		assertSingleResult("Vern600search", fldName, "vern600z");
@@ -430,7 +422,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 	    createIxInitVars(searchTestDataFname);
 		String fldName = "subject_other_search";
-		assertSearchFldMultValProps(fldName);
 	
 		// all subfields except v, x, y, z from  600, 610-11, 630, 655-58, 696-699
 	
@@ -547,7 +538,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 	    createIxInitVars(searchTestDataFname);
 		String fldName = "vern_subject_other_search";
-		assertSearchFldMultValProps(fldName);
 	
 		// all subfields except v, x, y, z from  600, 610-11, 630, 655-58, 696-699
 	
@@ -631,7 +621,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 	    createIxInitVars(searchTestDataFname);
 		String fldName = "subject_other_search";
-		assertSearchFldMultValProps(fldName);
 	
 		// all subfields except v, x, y, z from 630
 	
@@ -671,7 +660,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 	    createIxInitVars(searchTestDataFname);
 		String fldName = "vern_subject_other_search";
-		assertSearchFldMultValProps(fldName);
 	
 		// all subfields except v, x, y, z from 630
 	
@@ -705,7 +693,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 	    createIxInitVars(searchTestDataFname);
 		String fldName = "subject_other_search";
-		assertSearchFldMultValProps(fldName);
 	
 		// all subfields except v, x, y, z from 655-58
 	
@@ -773,7 +760,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 	    createIxInitVars(searchTestDataFname);
 		String fldName = "vern_subject_other_search";
-		assertSearchFldMultValProps(fldName);
 	
 		// all subfields except v, x, y, z from 655-58
 	
@@ -814,7 +800,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 	    createIxInitVars(searchTestDataFname);
 		String fldName = "subject_other_search";
-		assertSearchFldMultValProps(fldName);
 	
 		// all subfields except v, x, y, z from 696-699
 	
@@ -940,7 +925,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 	    createIxInitVars(searchTestDataFname);
 		String fldName = "vern_subject_other_search";
-		assertSearchFldMultValProps(fldName);
 	
 		// all subfields except v, x, y, z from 696-699
 	
@@ -1054,7 +1038,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 	    createIxInitVars(searchTestDataFname);
 		String fldName = "subject_other_subvy_search";
-		assertSearchFldMultValProps(fldName);
 	
 		// subfields v from all subject fields
 		assertSingleResult("600search", fldName, "600v");
@@ -1147,7 +1130,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 	    createIxInitVars(searchTestDataFname);
 		String fldName = "vern_subject_other_subvy_search";
-		assertSearchFldMultValProps(fldName);
 	
 		// subfields v from all subject fields
 		assertSingleResult("Vern600search", fldName, "vern600v");
@@ -1257,8 +1239,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
         createIxInitVars(testDataFname);
         String fldName = "topic_facet";
-        assertFacetFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
 		
 		// topic_facet is a copy field from topic_facet, but it is a string
 		// topic = 600abcdq:600t:610ab:610t:630a:630t:650a:655a
@@ -1385,8 +1365,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
         createIxInitVars(testDataFname);
 		String fldName = "geographic_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
 	
 	    // trailing period should be stripped
 		Set<String> docIds = new HashSet<String>();
@@ -1410,8 +1388,6 @@ public class SubjectTests extends AbstractStanfordTest {
 	{
 		String fldName = "era_facet";
 		createIxInitVars("eraTests.mrc");
-		assertFacetFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
 	
 	    // trailing period should be stripped
 		Set<String> docIds = new HashSet<String>();

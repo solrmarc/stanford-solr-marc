@@ -13,7 +13,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import org.junit.*;
 
-import org.solrmarc.solr.DocumentProxy;
+//import org.solrmarc.solr.DocumentProxy;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 
 import edu.stanford.enumValues.PubDateGroup;
 
@@ -38,10 +40,6 @@ public class PublicationTests extends AbstractStanfordTest
 	{
 		String fldName = "pub_search";
 		createIxInitVars("publicationTests.mrc");
-		assertTextFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldMultiValued(fldName);
-		assertFieldIndexed(fldName);
 		// test searching
 		assertSingleResult("260aunknown", fldName, "Insight");
 		assertSingleResult("260bunknown", fldName, "victoria"); // downcased
@@ -51,10 +49,6 @@ public class PublicationTests extends AbstractStanfordTest
 		assertZeroResults(fldName, "s.n.");
 
 		fldName = "vern_pub_search";
-		assertTextFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldMultiValued(fldName);
-		assertFieldIndexed(fldName);
 		// searching
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("vern260abc");
@@ -62,10 +56,6 @@ public class PublicationTests extends AbstractStanfordTest
 		assertSearchResults(fldName, "vern260a", docIds);
 		
 		fldName = "pub_country";
-		assertTextFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldNotMultiValued(fldName);
-		assertFieldIndexed(fldName);
 		// searching
 		// these codes should be skipped
 		assertDocHasNoField("008vp", fldName);  // "Various places"
@@ -220,20 +210,11 @@ public class PublicationTests extends AbstractStanfordTest
 	{
 		createIxInitVars("pubDateTests.mrc");
 		String fldName = "pub_date";
-	    assertStringFieldProperties(fldName);
-	    assertFieldIndexed(fldName);
-	    assertFieldStored(fldName);
-		assertFieldNotMultiValued(fldName);		
 		// for facet
 		pubDateSearchTests(fldName);
 		
 		fldName = "pub_date_search";
 		createIxInitVars("pubDateTests.mrc");
-		assertTextFieldProperties(fldName);
-		assertFieldNotMultiValued(fldName);
-		assertFieldNotStored(fldName);
-		assertFieldIndexed(fldName);
-		assertFieldOmitsNorms(fldName);
 		pubDateSearchTests(fldName);
 	}
 
@@ -247,7 +228,6 @@ public class PublicationTests extends AbstractStanfordTest
 	{
 		String fldName = "pub_date_sort";
 		createIxInitVars("pubDateTests.mrc");
-		assertSortFldProps(fldName);
 	
 		// list of doc ids in correct publish date sort order
 		List<String> expectedOrderList = new ArrayList<String>(50);
@@ -309,24 +289,31 @@ public class PublicationTests extends AbstractStanfordTest
 		
 		// get search results sorted by pub_date_sort field
 		// pub_date_sort isn't stored, so we must look at id field
-        List<DocumentProxy> results = getAscSortDocs("collection", "sirsi", "pub_date_sort");
-		DocumentProxy firstDoc = results.get(0);
-		assertTrue("9999 pub date should not sort first", firstDoc.getValues(docIDfname)[0] != "pubDate9999");
+//        List<DocumentProxy> results = getAscSortDocs("collection", "sirsi", "pub_date_sort");
+//		DocumentProxy firstDoc = results.get(0);
+//		assertTrue("9999 pub date should not sort first", firstDoc.getValues(docIDfname)[0] != "pubDate9999");
+        SolrDocumentList results = getAscSortDocs("collection", "sirsi", "pub_date_sort");
+		SolrDocument firstDoc = results.get(0);
+		assertTrue("9999 pub date should not sort first", (String) firstDoc.getFirstValue(docIDfname) != "pubDate9999");
 		
 		// we know we have documents that are not in the expected order list
 		int expDocIx = 0;
-		for (DocumentProxy doc : results) 
+//		for (DocumentProxy doc : results) 
+		for (SolrDocument doc : results) 
 		{
 			if (expDocIx < expectedOrderList.size() - 1) 
 			{
 				// we haven't found all docs in the expected list yet
-			    String[] vals = doc.getValues(docIDfname);
-			    if (vals != null && vals.length > 0) 
-			    {
-	                String docId = vals[0];
-	                if (docId.equals(expectedOrderList.get(expDocIx + 1))) 
-	                    expDocIx++;
-			    }
+//			    String[] vals = doc.getValues(docIDfname);
+//			    if (vals != null && vals.length > 0) 
+//			    {
+//	                String docId = vals[0];
+//	                if (docId.equals(expectedOrderList.get(expDocIx + 1))) 
+//	                    expDocIx++;
+//			    }
+				String docId = (String) doc.getFirstValue(docIDfname);
+                if (docId.equals(expectedOrderList.get(expDocIx + 1))) 
+                	expDocIx++;
 			}
 			else break;  // we found all the documents in the expected order list
 		}		
@@ -409,25 +396,32 @@ public class PublicationTests extends AbstractStanfordTest
 		expectedOrderList.add("pubDate9999"); 
 		
 		// get search results sorted by pub_date_sort field
-		List<DocumentProxy> results = getDescSortDocs("collection", "sirsi", fldName);
-		DocumentProxy firstDoc = results.get(0);
-		assertTrue("0000 pub date should not sort first", firstDoc.getValues(docIDfname)[0] != "pubDate0000");
+//		List<DocumentProxy> results = getDescSortDocs("collection", "sirsi", fldName);
+//		DocumentProxy firstDoc = results.get(0);
+//		assertTrue("0000 pub date should not sort first", firstDoc.getValues(docIDfname)[0] != "pubDate0000");
+		SolrDocumentList results = getDescSortDocs("collection", "sirsi", fldName);
+		SolrDocument firstDoc = results.get(0);
+		assertTrue("0000 pub date should not sort first", (String) firstDoc.getFirstValue(docIDfname) != "pubDate0000");
 
 		
 		// we know we have documents that are not in the expected order list
 		int expDocIx = 0;
-		for (DocumentProxy doc : results) 
+//		for (DocumentProxy doc : results) 
+		for (SolrDocument doc : results)
 		{
 			if (expDocIx < expectedOrderList.size() - 1) 
 			{
 				// we haven't found all docs in the expected list yet
-                String[] vals = doc.getValues(docIDfname);
-                if (vals != null && vals.length > 0) 
-                {
-                    String docId = vals[0];
-                    if (docId.equals(expectedOrderList.get(expDocIx + 1))) 
-                        expDocIx++;
-                }
+//                String[] vals = doc.getValues(docIDfname);
+//                if (vals != null && vals.length > 0) 
+//                {
+//                    String docId = vals[0];
+//                    if (docId.equals(expectedOrderList.get(expDocIx + 1))) 
+//                        expDocIx++;
+//                }
+				String docId = (String) doc.getFirstValue(docIDfname);
+              if (docId.equals(expectedOrderList.get(expDocIx + 1))) 
+            	  expDocIx++;
 			}
 			else break;  // we found all the documents in the expected order list
 		}		
@@ -450,7 +444,6 @@ public class PublicationTests extends AbstractStanfordTest
 	{
 		String fldName = "pub_date_group_facet";
 		createIxInitVars("pubDateTests.mrc");
-		assertFacetFieldProperties(fldName);
 		
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("pubDate2010");

@@ -9,6 +9,8 @@ import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.junit.*;
 import org.xml.sax.SAXException;
 
@@ -25,32 +27,6 @@ public class AuthorTests extends AbstractStanfordTest {
 	}
 	
 // TODO:  problem with eclipse and encoding for non latin  :-(
-
-	/**
-	 * Test author display field properties and such in the context of index
-	 */
-@Test
-	public final void testDisplayFieldsInIx() 
-			throws ParserConfigurationException, IOException, SAXException 
-	{
-		createIxInitVars("displayFieldsTests.mrc");
-
-		String fldName = "author_person_display";
-		assertDisplayFieldProperties(fldName);
-//		assertFieldNotMultiValued(fldName);   // it is multivalued for image collections.
-		
-		fldName = "author_person_full_display";
-		assertDisplayFieldProperties(fldName);
-//		assertFieldNotMultiValued(fldName);  // it is multivalued for image collections.
-
-		fldName = "author_corp_display";
-		assertDisplayFieldProperties(fldName);
-		assertFieldNotMultiValued(fldName);
-		
-		fldName = "author_meeting_display";
-		assertDisplayFieldProperties(fldName);
-		assertFieldNotMultiValued(fldName);
-	}
 
 	/**
 	 * Personal name display field tests.
@@ -131,47 +107,6 @@ public class AuthorTests extends AbstractStanfordTest {
 		solrFldMapTest.assertSolrFldValue(testFilePath, "5666387", fldName, "International Jean Sibelius Conference (3rd : 2000 : Helsinki, Finland)");
 	}
 
-	/**
-	 * author_addl_display field - no longer used
-	 */
-//@Test
-//	public final void testAuthorAddlDisplay() 
-//	{
-//		String fldName = "author_addl_display";
-//		String testFilePath = testDataParentPath + File.separator + "displayFieldsTests.mrc";
-//
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "711", fldName, "Kat, Bucky, 1995-2008"); 
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "711", fldName, "Rees, Graham L."); 
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "711", fldName, "Frog, Kermit, 1960-"); 
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "722", fldName, "Nypsus, Marcus Iunius. 1993."); 
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "733", fldName, "Mendelssohn-Bartholdy, Felix, 1809-1847."); 
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "733", fldName, "Rumpole, Horace, 1954-1998"); 
-//	}
-
-	/**
-	 * Test author facet field properties and such in the context of index
-	 */
-@Test
-	public final void testFacetFieldsInIx() 
-			throws ParserConfigurationException, IOException, SAXException 
-	{
-		createIxInitVars("authorTests.mrc");
-
-		String fldName = "author_person_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldMultiValued(fldName);
-
-		fldName = "author_corp_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldMultiValued(fldName);
-
-		fldName = "author_meeting_facet";
-		assertFacetFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldMultiValued(fldName);
-	}
 
 	/**
 	 * Personal name facet field tests, especially removal of trailing 
@@ -306,9 +241,6 @@ public class AuthorTests extends AbstractStanfordTest {
 	{
 		String fldName = "author_other_facet";
 		createIxInitVars("authorTests.mrc");
-		assertFacetFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldMultiValued(fldName);
 	
 		// 110 - trailing period to remove
 		assertSingleResult("110foo", fldName, "\"SAFE Association (U.S.). Symposium\"");
@@ -355,41 +287,8 @@ public class AuthorTests extends AbstractStanfordTest {
 		assertZeroResults(fldName, "\"Delaware Symposium on Language Studies\"");
 	}
 
-	/**
-	 * Combined author facet (contains personal name, corporate name and 
-	 *  meeting name facet values) tests.  Removal of trailing punctuation.
-	 */
-// no longer in index 2009-05-14
-//@Test
-//	public final void testAuthorCombinedFacet() 
-//			throws ParserConfigurationException, IOException, SAXException 
-//	{
-//		String fldName = "author_combined_facet";
-//		assertFacetFieldProperties(fldName);
-//		assertFieldOmitsNorms(fldName);
-//		assertFieldMultiValued(fldName);
-//
-//		// 100 and 700
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "700sayers", fldName, "Whimsey, Peter");
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "700sayers", fldName, "Sayers, Dorothy L. (Dorothy Leigh), 1893-1957");
-//		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "700sayers", fldName, "Whimsey, Peter,");
-//		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "700sayers", fldName, "Sayers, Dorothy L. (Dorothy Leigh), 1893-1957.");
-//		// 110 and 710
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "110710corpname", fldName, "Thelma");
-//		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "110710corpname", fldName, "Thelma.");
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "110710corpname", fldName, "Roaring Woman, Louise. 2000-2001");
-//		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "110710corpname", fldName, "Roaring Woman, Louise");
-//		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "110710corpname", fldName, "Roaring Woman, Louise. 2000-2001.");
-//		// 111
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "111faim", fldName, "FAIM (Forum)");
-//		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "111faim", fldName, "FAIM (Forum).");
-//		// 711
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "711", fldName, "European Conference on Computer Vision (2006 : Graz, Austria)");
-//		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "711", fldName, "European Conference on Computer Vision (2006 : Graz, Austria");
-//	}
 
-
-	/**
+/**
 	 * author_1xx_search:  check all search subfields for 100, 110, 111
 	 */
 @Test
@@ -398,7 +297,6 @@ public class AuthorTests extends AbstractStanfordTest {
 	{
 		String fldName = "author_1xx_search";
 		createIxInitVars("authorTests.mrc");
-		assertSearchFldOneValProps(fldName);
 		assertSingleResult("100search", fldName, "100a");
 		assertSingleResult("100search", fldName, "100b");
 		assertSingleResult("100search", fldName, "100c");
@@ -443,7 +341,6 @@ public class AuthorTests extends AbstractStanfordTest {
 	{
 		String fldName = "vern_author_1xx_search";
 		createIxInitVars("vernacularSearchTests.mrc");
-		assertSearchFldOneValProps(fldName);
 		
 		assertSingleResult("100VernSearch", fldName, "vern100a");
 		assertSingleResult("100VernSearch", fldName, "vern100b");
@@ -490,7 +387,6 @@ public class AuthorTests extends AbstractStanfordTest {
 	{
 		String fldName = "author_7xx_search";
 		createIxInitVars("authorTests.mrc");
-		assertSearchFldMultValProps(fldName);
 		assertSingleResult("7xxPersonSearch", fldName, "700a");
 		assertSingleResult("7xxPersonSearch", fldName, "700b");
 		assertSingleResult("7xxPersonSearch", fldName, "700c");
@@ -527,7 +423,6 @@ public class AuthorTests extends AbstractStanfordTest {
 	{
 		String fldName = "vern_author_7xx_search";
 		createIxInitVars("vernacularSearchTests.mrc");
-		assertSearchFldMultValProps(fldName);
 		assertSingleResult("7xxVernPersonSearch", fldName, "vern700a");
 		assertSingleResult("7xxVernPersonSearch", fldName, "vern700b");
 		assertSingleResult("7xxVernPersonSearch", fldName, "vern700c");
@@ -575,7 +470,6 @@ public class AuthorTests extends AbstractStanfordTest {
 	{
 		String fldName = "author_7xx_search";
 		createIxInitVars("authorTests.mrc");
-		assertSearchFldMultValProps(fldName);
 	
 		assertSingleResult("7xxCorpSearch", fldName, "710a");
 		assertSingleResult("7xxCorpSearch", fldName, "710b");
@@ -612,7 +506,6 @@ public class AuthorTests extends AbstractStanfordTest {
 	{
 		String fldName = "vern_author_7xx_search";
 		createIxInitVars("vernacularSearchTests.mrc");
-		assertSearchFldMultValProps(fldName);
 	
 		assertSingleResult("7xxVernCorpSearch", fldName, "vern710a");
 		assertSingleResult("7xxVernCorpSearch", fldName, "vern710b");
@@ -659,7 +552,6 @@ public class AuthorTests extends AbstractStanfordTest {
 	{
 		String fldName = "author_7xx_search";
 		createIxInitVars("authorTests.mrc");
-		assertSearchFldMultValProps(fldName);
 	
 		assertSingleResult("7xxMeetingSearch", fldName, "711a");
 		assertSingleResult("7xxMeetingSearch", fldName, "711c");
@@ -696,7 +588,6 @@ public class AuthorTests extends AbstractStanfordTest {
 	{
 		String fldName = "vern_author_7xx_search";
 		createIxInitVars("vernacularSearchTests.mrc");
-		assertSearchFldMultValProps(fldName);
 	
 		assertSingleResult("7xxVernMeetingSearch", fldName, "vern711a");
 		assertSingleResult("7xxVernMeetingSearch", fldName, "vern711c");
@@ -741,7 +632,6 @@ public class AuthorTests extends AbstractStanfordTest {
 	{
 		String fldName = "author_8xx_search";
 		createIxInitVars("authorTests.mrc");
-		assertSearchFldMultValProps(fldName);
 		assertSingleResult("800search", fldName, "800a");
 		assertSingleResult("800search", fldName, "800b");
 		assertSingleResult("800search", fldName, "800c");
@@ -785,7 +675,6 @@ public class AuthorTests extends AbstractStanfordTest {
 	{
 		String fldName = "vern_author_8xx_search";
 		createIxInitVars("vernacularSearchTests.mrc");
-		assertSearchFldMultValProps(fldName);
 		assertSingleResult("800VernSearch", fldName, "vern800a");
 		assertSingleResult("800VernSearch", fldName, "vern800b");
 		assertSingleResult("800VernSearch", fldName, "vern800c");
@@ -988,7 +877,6 @@ public class AuthorTests extends AbstractStanfordTest {
 		throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException
 	{
 		createIxInitVars("authorTests.mrc");
-	    assertSortFldProps("author_sort");
 
 		// list of doc ids in correct author sort order
 		List<String> expectedOrderList = new ArrayList<String>(30);
@@ -1016,20 +904,25 @@ public class AuthorTests extends AbstractStanfordTest {
 		expectedOrderList.add("2400");  // Wacky 240 0 nonfiling
 		expectedOrderList.add("2402");  // Wacky 240 2 nonfiling
 		expectedOrderList.add("892452");  // Wacky 240 245 nonfiling
+
 		
 		// get search results sorted by author_sort field
-		int resultDocIds[] = getAscSortDocNums("collection", "sirsi", "author_sort");
+//		int resultDocIds[] = getAscSortDocs("collection", "sirsi", "author_sort");
+		SolrDocumentList resultDocs = getAscSortDocs("collection", "sirsi", "author_sort");
 		// we know we have documents that are not in the expected order list
 		int expDocIx = 0;
-		for (int i = 0; i < resultDocIds.length; i++) {
+//		for (int i = 0; i < resultDocIds.length; i++) {
+		for (int i = 0; i < resultDocs.size(); i++) {
 			if (expDocIx < expectedOrderList.size() - 1) {
 				// we haven't found all docs in the expected list yet
-				String resultDocId = searcherProxy.getDocIdFromSolrDocNum(resultDocIds[i], docIDfname);
+//				String resultDocId = searcherProxy.getDocIdFromSolrDocNum(resultDocIds[i], docIDfname);
+				String resultDocId = (String) resultDocs.get(i).getFirstValue(docIDfname);
 				if (resultDocId.equals(expectedOrderList.get(expDocIx + 1)))
 					expDocIx++;
 			}
 			else break;  // we found all the documents in the expected order list
 		}
+		
 		
 		if (expDocIx != expectedOrderList.size() - 1) {
 			String lastCorrDocId = expectedOrderList.get(expDocIx);

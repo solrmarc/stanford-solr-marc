@@ -36,8 +36,6 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	{
 		String fldName = "building_facet";
 		createIxInitVars("buildingTests.mrc");
-		assertFacetFieldProperties(fldName);
-		assertFieldMultiValued(fldName);
 		
 	    assertSingleResult("229800", fldName, "\"Archive of Recorded Sound\"");
 	    assertSingleResult("345228", fldName, "\"Art & Architecture\"");
@@ -158,11 +156,6 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	{
 		String fldName = "barcode_search";
 		createIxInitVars("locationTests.mrc");
-		assertTextFieldProperties(fldName);
-		assertFieldOmitsNorms(fldName);
-		assertFieldIndexed(fldName);
-		assertFieldNotStored(fldName);
-		assertFieldMultiValued(fldName);
 
 		// single barcode in the record
 		assertSingleResult("115472", fldName, "36105033811451");
@@ -1371,10 +1364,6 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		// single test to make sure this field is created properly
 		createIxInitVars("itemPreferredTests.mrc");
 		String fldName = "preferred_barcode";
-		assertStringFieldProperties(fldName);
-		assertFieldStored(fldName);
-		assertFieldNotIndexed(fldName);
-		assertFieldNotMultiValued(fldName);
 		assertDocHasFieldValue("multLC", fldName, "12");
 	}
 
