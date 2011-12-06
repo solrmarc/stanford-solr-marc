@@ -1,6 +1,7 @@
 bin/*
 .project
 .classpath
+build/*
 dist/*
 local_build/*
 *.log*
