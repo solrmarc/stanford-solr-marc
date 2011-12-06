@@ -2,7 +2,7 @@
 <project basedir="." default="build" name="Solrmarc Core">
 
     <!-- property files -->
-    <property file="build.properties" />
+    <property file="build_core.properties" />
 
     <!-- import other ant scripts -->
     <property name="one-jar.dist.dir" value="${buildtools.path}" />
@@ -19,9 +19,6 @@
 
     <path id="classpath.jars" description="Jars for classpath (but not solr jars)">
         <fileset dir="${lib.dir}" includes="*.jar" excludes="*/*.jar,jzkit_client.jar" /> <!-- ?? also exclude jzkit_client.jar ?? -->
-<!--
-    		<fileset dir="${lib.dir}" includes="solr_remote_only/*.jar"  /> 
--->
       	<fileset dir="${lib.dir}" includes="solrj-lib/*.jar"  /> 
     </path>
 
@@ -42,7 +39,7 @@
                 target="${java.compat.version}" 
                 source="${java.compat.version}" 
                 debug="true" debuglevel="lines,vars,source" 
-                encoding="utf-8">
+                encoding="utf-8" includeantruntime="false">
             <include name="**/*.java" />
             <exclude name="**/*Test*.java" />
             <exclude name="test/**/*.java" />
@@ -84,52 +81,6 @@
         <antcall target="testJarPrivate" />        -->
     </target>
     
-    <target name="compilez3950" depends="init" description="Compile source code into the build directory">
-        <javac destdir="${solrmarc.build.dir}" srcdir="${src.dir}" 
-                target="${java.compat.version}" 
-                source="${java.compat.version}" 
-                debug="true" debuglevel="lines,vars,source" 
-                encoding="utf-8">
-            <include name="**/z3950/*.java" />
-            <exclude name="**/Z3950Importer.java" />
-            <classpath >
-                <path refid="classpath.jars" />
-                <path>
-                    <fileset dir="${lib.dir}" includes="jzkit_client.jar" /> <!-- ?? also exclude jzkit_client.jar ?? -->
-                </path>
-            </classpath>
-        </javac>
-        
-    </target>
-    
-    <target name="buildz3950" depends="compilez3950" description="create ${jar.name} in the build directory">
-        <echo message="${ant.project.name}: ${ant.file}" />
-
-        <jar destfile="${solrmarc.build.dir}/Z3950.jar">
-            <fileset dir="${solrmarc.build.dir}" includes="**/z3950/*.class" />
-            <fileset file="../../log4j.properties" /> 
-            <manifest>
-                <attribute name="Main-Class" value="org.solrmarc.z3950.Z3950MarcReader" />
-            </manifest>
-        </jar>
-
-        <one-jar destfile="${solrmarc.dist.dir}/MarcFetch.jar" >
-            <manifest>
-                <attribute name="Main-Class" value="com.simontuffs.onejar.Boot" />
-                <attribute name="One-Jar-Main-Class" value="org.solrmarc.z3950.Z3950MarcReader" />
-            </manifest>
-
-            <main jar="${solrmarc.build.dir}/Z3950.jar" />
-            <lib>
-                <fileset dir="${lib.dir}" includes="marc4j.jar,jzkit_client.jar,log4j*.jar" />
-            </lib>
-       </one-jar> 
-
-        <!-- the single jar from the core code needs to include test classes 
-        because the local build tests rely on the core code utility test classes 
-        <antcall target="testJarPrivate" />        -->
-    </target>
- 
     <!-- Testing Targets, including Code Coverage -->
     
     <target name="testClean" description="clean generated test directories">
@@ -145,7 +96,7 @@
     <path id="test.compile.classpath">
         <pathelement location="${solrmarc.build.dir}" />
         <path refid="classpath.jars" />
-        <fileset dir="${lib.dir}" includes="test/*.jar" />
+        <fileset dir="${test.dir}" includes="lib/*.jar" />
     </path>
 
     <!-- private target for compiling test classes;  It is private because it
@@ -157,7 +108,7 @@
         <javac destdir="${solrmarc.build.dir}/test" 
                srcdir="${test.dir}/src" 
                target="${java.compat.version}" source="${java.compat.version}" 
-               debug="true" debuglevel="lines,vars,source"  encoding="utf-8">
+               debug="true" debuglevel="lines,vars,source"  encoding="utf-8" includeantruntime="false">
             <include name="**/*.java" />
             <classpath>
                 <path refid="test.compile.classpath" />
@@ -281,19 +232,4 @@
     </target>    
 
     
-    <!-- Utility Targets -->
-
-    <target name="Z3950Client">
-        <java classname="MarcImporter" failonerror="true" fork="yes">
-            <classpath refid="classpath.jars" />
-        </java>
-    </target>
-        
-    <!-- naomi asks:  is this a utility target?  should it go to the bottom? -->
-    <target name="zclient" depends="compile" description="create ${jar.name} in the build directory">
-        <jar destfile="${solrmarc.build.dir}/zclient.jar">
-            <fileset dir="${solrmarc.build.dir}" includes="**/ZClient.class,**/MarcTranslatedReader.class" />
-        </jar>
-    </target>
-   
 </project>
