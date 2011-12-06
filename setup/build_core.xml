@@ -90,6 +90,7 @@
     <target name="testInit" 
             description="create (empty) generated test directories">
         <mkdir dir="${core.test.build.dir}" />
+    		<copy file="${test.log4j.props}" todir="${core.test.build.dir}"/>
     </target>
     
     
@@ -154,24 +155,9 @@
                 <attribute name="TestClasses" value="${test.classes.in.core.jar}"/>
             </manifest>
         </jar>
- 
-        <!-- note: naomi wonders if the onejar task should have its own target 
-        <one-jar destfile="${solrmarc.dist.dir}/${one-jar.name}" 
-               manifest="${buildtools.path}/manifest.mf">
-            <main jar="${solrmarc.build.dir}/${jar.name}" />
-            <lib>
-                <fileset dir="${lib.dir}" includes="*.jar" excludes="jzkit_client.jar" />
-            </lib>
-            <fileset dir="${buildtools.path}" includes="JarUtils.jar" />
-            <fileset dir="${lib.dir}" includes="solr_remote_only/*.jar" />
-            <fileset dir="${lib.dir}" includes="test/*.jar" />
-            <zipfileset dir="${solrmarc.build.dir}" includes="*.jar" />
-            <zipfileset dir="${solrmarc.build.dir}/test" includes="*.jar" prefix="test" />
-       </one-jar> -->
-        
     </target>
 
-    <target name="testJar" depends="testCompile,testJarPrivate" />
+    <target name="testJar" depends="testCompile,testJarPrivate" description="create test jar" />
 
 
     <!-- Cobertura (code coverage) targets -->
@@ -210,7 +196,7 @@
             <path refid="test.compile.classpath" />
         </path>
          
-        <junit showoutput="yes" printsummary="yes" fork="yes" forkmode="perBatch">
+        <junit showoutput="yes" printsummary="withOutAndErr" fork="yes" forkmode="perBatch">
             <classpath refid="instrumented.classpath" />
             
             <!-- name of the coverage metadata file to use.  It must be the same
@@ -221,10 +207,12 @@
 <!-- use test element instead of batchtest element if desired
             <test name="${test.class}" />
 -->
+<!--
             <batchtest fork="yes">
                  <fileset dir="${solrmarc.build.dir}/test" excludes="org/solrmarc/testUtils/**"/>
             </batchtest>
-            
+-->            
+          <test name="${test.class}" />
         </junit>
  
 

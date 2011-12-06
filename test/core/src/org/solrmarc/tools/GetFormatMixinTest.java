@@ -14,7 +14,7 @@ import org.solrmarc.index.SolrIndexer;
 
 public class GetFormatMixinTest
 {
-//    @Before
+    @Before
     public void setUp()
     {
     	String testDataPath = System.getProperty("test.data.path");
@@ -37,7 +37,8 @@ public class GetFormatMixinTest
         MarcReader reader = null;
         Properties indexingProps = new Properties();
         indexingProps.setProperty("getformatmixin", "custom(org.solrmarc.index.GetFormatMixin), getContentTypesAndMediaTypes");
-        indexingProps.setProperty("getformatmixinmapped", "custom(org.solrmarc.index.GetFormatMixin), getContentTypesAndMediaTypes, getformat_mixin_map.properties");
+//        indexingProps.setProperty("getformatmixinmapped", "custom(org.solrmarc.index.GetFormatMixin), getContentTypesAndMediaTypes, getformat_mixin_map.properties");
+        indexingProps.setProperty("getformatmixinmapped", "custom(org.solrmarc.index.GetFormatMixin), getContentTypesAndMediaTypes, setup/core/translation_maps/getformat_mixin_map.properties");
         String verboseStr = System.getProperty("marc.verbose");
         boolean verbose = (verboseStr != null && verboseStr.equalsIgnoreCase("true"));
         ErrorHandler errors = new ErrorHandler();
@@ -52,7 +53,8 @@ public class GetFormatMixinTest
             {
             } 
         }
-        SolrIndexer testIndexer = SolrIndexer.indexerFromProperties(indexingProps, new String[]{"translation_maps"});
+//        SolrIndexer testIndexer = SolrIndexer.indexerFromProperties(indexingProps, new String[]{"translation_maps"});
+        SolrIndexer testIndexer = SolrIndexer.indexerFromProperties(indexingProps, new String[]{"setup/core/translation_maps"});
         try
         {
             reader = new MarcPermissiveStreamReader(new FileInputStream(new File(testDataParentPath, "formatRecs.mrc")), true, true, "MARC8");

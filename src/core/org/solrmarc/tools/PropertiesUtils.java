@@ -66,6 +66,7 @@ public class PropertiesUtils {
      * load a properties file into a Properties object
      * @param propertyPaths the directories to search for the properties file
      * @param propertyFileName name of the sought properties file
+     * @param showName whether the name of the file/resource being read should be shown.
      * @return Properties object 
      */
     public static Properties loadProperties(String propertyPaths[], String propertyFileName, boolean showName)

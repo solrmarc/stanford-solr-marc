@@ -2,18 +2,12 @@ package org.solrmarc.tools;
 
 import static org.junit.Assert.fail;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
+import java.io.*;
 
 import org.junit.Test;
 import org.marc4j.MarcStreamReader;
 import org.marc4j.marc.Record;
 import org.solrmarc.testUtils.IndexTest;
-import org.xml.sax.SAXException;
 
 
 public class IndexSmokeTest extends IndexTest
