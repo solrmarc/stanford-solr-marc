@@ -44,7 +44,7 @@
 		</fileset>
 	</path>
 	
-	<target name="compile_core" depends="init_core" description="Compile custom source code into the build directory">
+	<target name="compile_core" depends="init_core" description="Compile CORE source code into the build directory">
 		<javac destdir="${core.build.dir}" srcdir="${core.src.dir}" 
                 target="${java.compat.version}" 
                 source="${java.compat.version}" 
@@ -63,7 +63,7 @@
 		<path refid="core.classpath" />
 	</path>
 	
-	<target name="compile_site" depends="compile_core,init_site" description="Compile site AND core source code into the build directory">
+	<target name="compile_site" depends="compile_core,init_site" description="Compile SITE AND CORE source code into the build directory">
 		<javac destdir="${site.build.dir}" srcdir="${site.src.dir}" 
                 target="${java.compat.version}" 
                 source="${java.compat.version}" 
@@ -74,14 +74,14 @@
 		</javac>
 	</target>
 	
-	<target name="build_core" depends="compile_core" description="Build custom jar file containing custom code and log4j.properties" >
+	<target name="build_core" depends="compile_core" description="Build custom jar file containing CORE code and log4j.properties" >
 		<jar destfile="${core.build.dir}/${core.jar.name}.jar">
 			<fileset dir="${core.build.dir}" includes="**/*.class" />
 			<fileset file="${log4j.props}" />
 		</jar>
 	</target>
 
-	<target name="build_site" depends="build_core,compile_site" description="Build custom jar file containing custom code and log4j.properties" >
+	<target name="build_site" depends="build_core,compile_site" description="Build custom jar file containing SITE code" >
 		<jar destfile="${site.build.dir}/${site.jar.name}.jar">
 			<fileset dir="${site.build.dir}" includes="**/*.class" />
 			<fileset file="${core.build.dir}/${core.jar.name}.jar" />
@@ -139,34 +139,39 @@
 	</target>
 
 	<path id="test.core.classpath" description="classes and jars needed to build CORE TEST code">
-		<fileset dir="${site.lib.dir}">
-			<include name="*.jar" />
+		<fileset dir="${test.lib.dir}">
+			<include name="**/*.jar" />
 		</fileset>
 		<pathelement location="${core.build.dir}"/>
-		<path refid="core.classpath.jars" />
+		<path refid="core.classpath" />
 	</path>
 	
-
-	
-	<target name="test_compile_core" depends="init_core" description="Compile custom source code into the build directory">
-		<javac destdir="${core.build.dir}" srcdir="${core.src.dir}" 
+	<target name="test_compile_core" depends="test_init_core" description="Compile CORE TEST source code into the test build directory">
+		<javac destdir="${core.test.build.dir}" srcdir="${core.test.src.dir}" 
                 target="${java.compat.version}" 
                 source="${java.compat.version}" 
                 debug="true" debuglevel="lines,vars,source" 
                 encoding="utf-8" includeAntRuntime="false">
 			<include name="**/*.java" />
-			<classpath refid="core.classpath.jars" />
+			<classpath refid="test.core.classpath" />
 		</javac>
 	</target>
 
-	<target name="test_compile_site" depends="compile_core,init_site" description="Compile site AND core source code into the build directory">
-		<javac destdir="${site.build.dir}" srcdir="${site.src.dir}" 
+	<path id="test.site.classpath" description="classes and jars needed to build SITE TEST code">
+		<fileset dir="${site.test.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<path refid="test.core.classpath" />
+	</path>
+	
+	<target name="test_compile_site" depends="test_compile_core,test_init_site" description="Compile SITE AND CORE TEST source code into the test build directory">
+		<javac destdir="${site.test.build.dir}" srcdir="${site.test.src.dir}" 
                 target="${java.compat.version}" 
                 source="${java.compat.version}" 
                 debug="true" debuglevel="lines,vars,source" 
                 encoding="utf-8" includeAntRuntime="false">
 			<include name="**/*.java" />
-			<classpath refid="site.classpath" />
+			<classpath refid="test.site.classpath" />
 		</javac>
 	</target>
 	
