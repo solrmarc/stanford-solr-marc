@@ -54,7 +54,7 @@
 
         <jar destfile="${solrmarc.build.dir}/${jar.name}">
             <fileset dir="${solrmarc.build.dir}" includes="**/*.class" excludes="**/*Test*.class,test/**/*.class,**/z3950/*.class" />
-            <fileset file="../../log4j.properties" /> 
+            <fileset file="${log4j.props}" /> 
             <manifest>
                 <attribute name="Main-Class" value="org.solrmarc.marc.MarcImporter" />
             </manifest>
@@ -112,7 +112,9 @@
             <include name="**/*.java" />
             <classpath>
                 <path refid="test.compile.classpath" />
- <!--               <fileset file="../../log4j.properties" /> --> 
+<!--
+            	<fileset file="${log4j.props}" /> 
+-->            	
             </classpath>
         </javac>
     </target>

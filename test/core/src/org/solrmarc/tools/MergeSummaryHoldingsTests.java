@@ -31,7 +31,20 @@ public class MergeSummaryHoldingsTests
             fail("property test.config.file must be defined for the tests to run");
 //      static String testConfigFile = smokeTestDir + File.separator + "test_config.properties";
     }
-
+    
+	static {
+        if (testDataParentPath == null)
+        {
+        	testDataParentPath = ".." + File.separator + "test" + File.separator + "core" + File.separator + "data";
+            System.setProperty("test.data.path", testDataParentPath);
+        }
+        if (testConfigFname == null)
+        {
+        	testConfigFname = testDataParentPath + File.separator + "smoketest" + File.separator + "test_config.properties";
+            System.setProperty("test.config.file", testConfigFname);
+        }
+	}
+    
     static String smokeTestDir = testDataParentPath + File.separator + "smoketest";
 
     

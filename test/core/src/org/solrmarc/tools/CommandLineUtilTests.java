@@ -1,25 +1,8 @@
 package org.solrmarc.tools;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -38,7 +21,28 @@ public class CommandLineUtilTests
             java.util.logging.Logger.getLogger("org.apache.solr").setLevel(java.util.logging.Level.SEVERE);
             Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
         }
+/*
+        String testDataPath = System.getProperty("test.data.path");
+        if (testDataPath == null)
+        {
+            testDataPath = "test" + File.separator + "core" + File.separator + "data";
+            System.setProperty("test.data.path", testDataPath);
+        }
+    	String testConfigFile = System.getProperty("test.config.file");
+        if (testConfigFile == null)
+        {
+        	testConfigFile = testDataPath + File.separator + "smoketest" + File.separator + "test_config.properties";
+            System.setProperty("test.config.file", testConfigFile);
+        }
+    	String solrPath = System.getProperty("solr.path");
+        if (solrPath == null)
+        {
+        	solrPath = testDataPath + File.separator + "smoketest" + File.separator + "solr";
+            System.setProperty("solr.path", testConfigFile);
+        }
+*/
     }
+
     /**
      * unit test for MergeSummaryHoldings and PrintWriter
      */

@@ -1,4 +1,4 @@
-package org.solrmarc.tools;
+package org.solrmarc.testUtils;
 
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.spi.LoggingEvent;

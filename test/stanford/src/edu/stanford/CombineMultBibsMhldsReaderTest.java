@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.marc4j.marc.*;
 import org.solrmarc.marc.CombineMultBibsMhldsReader;
 import org.solrmarc.marc.RawRecordReader;
+import org.solrmarc.testUtils.LoggerAppender4Testing;
 import org.solrmarc.testUtils.RecordTestingUtils;
 import org.solrmarc.tools.*;
 
