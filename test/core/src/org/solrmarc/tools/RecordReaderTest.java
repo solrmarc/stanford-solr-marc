@@ -3,23 +3,13 @@ package org.solrmarc.tools;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.marc4j.MarcPermissiveStreamReader;
-import org.marc4j.MarcReader;
-import org.marc4j.marc.ControlField;
-import org.marc4j.marc.DataField;
-import org.marc4j.marc.Record;
-import org.marc4j.marc.Subfield;
-import org.marc4j.marc.VariableField;
+import org.marc4j.*;
+import org.marc4j.marc.*;
 import org.solrmarc.marc.MarcCombiningReader;
 import org.solrmarc.marc.RawRecordReader;
 import org.solrmarc.marcoverride.MarcSplitStreamWriter;
@@ -27,6 +17,18 @@ import org.solrmarc.marcoverride.MarcSplitStreamWriter;
 
 public class RecordReaderTest
 {
+	
+ //   @Before
+    public void setUp()
+    {
+    	String testDataPath = System.getProperty("test.data.path");
+        if (testDataPath == null)
+        {
+            testDataPath = "test" + File.separator + "core" + File.separator + "data";
+            System.setProperty("test.data.path", testDataPath);
+        }
+    }
+
     /**
      * unit test for org.solrmarc.marc.RawRecordReader and org.solrmarc.tools.RawRecord
      */
