@@ -106,7 +106,7 @@
       jar file containing the test classes in addition to the core classes. -->
     <target name="testCompilePrivate" > 
         <javac destdir="${solrmarc.build.dir}/test" 
-               srcdir="${test.dir}/src" 
+               srcdir="${core.test.src.dir}" 
                target="${java.compat.version}" source="${java.compat.version}" 
                debug="true" debuglevel="lines,vars,source"  encoding="utf-8" includeantruntime="false">
             <include name="**/*.java" />
@@ -129,7 +129,7 @@
     <target name="testJarPrivate">
         <echo level="debug" message="test.dir/src  = ${test.dir}/src" />
         <pathconvert pathsep="," property="test.classes.in.core.jar" >
-            <fileset  dir="${test.dir}/src" includes="**/*.java">
+            <fileset  dir="${core.test.src.dir}" includes="**/*.java">
                 <and>
                     <contains text="@Test" />
                     <not> <contains text="@Parameters" /> </not>
@@ -206,7 +206,6 @@
             <pathelement location="${core.instr.dir}" />
             <pathelement location="${solrmarc.build.dir}/test" />
             <path refid="test.compile.classpath" />
-      <!--      <path refid="cobertura.classpath" /> -->
         </path>
          
         <junit showoutput="yes" printsummary="yes" fork="yes" forkmode="perBatch">
