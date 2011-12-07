@@ -803,7 +803,7 @@ public class MarcImporter extends MarcHandler
                     logger.info("     Using Solr core " + solrCoreName);
               //  solrProxy = SolrCoreLoader.loadCore(solrCoreDir, solrDataDir, solrCoreName, logger);
                 solrProxy = SolrCoreLoader.loadEmbeddedCore(solrCoreDir, solrDataDir, solrCoreName, useBinaryRequestHandler, logger);
-            }
+            } // end solrProxy is not remote
         }
         return(solrProxy);
     }
