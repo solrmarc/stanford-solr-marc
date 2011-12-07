@@ -10,8 +10,18 @@
 	<property name="dist.exe.dir" value="bin" />
 	<property name="dist.exe.path" location="${dist.path}/${dist.exe.dir}" />
 	<property name="jetty.install.dir" value="${dist.path}/jetty" />
-	<property name="solr.install.dir" value="${dist.path}/jetty/solr" />
+	<property name="solr.install.dir" value="${jetty.install.dir}/solr" />
 	<property name="core.jar.name" value="SolrMarc" />
+	
+	<!-- CORE TEST properties, in case they aren't already defined -->
+	<property name="core.test.dir" value="${test.dir}/core" />
+	<property name="core.test.config.file" value="${core.test.dir}/test_core_config.properties" />
+	<property name="core.test.data.path" value="${core.test.dir}/data"/>
+	<property name="test.solr.path" value="${test.dir}/jetty/solr" />
+	<property name="test.solr.data.dir" value = "${test.solr.path}/data"/>
+	<property name="test.jetty.dir" value="${test.dir}/jetty" />
+	<property name="test.solr.orig.dir" value="${test.dir}/solr" />
+	<property name="test.solr.run.dir" value="${test.jetty.dir}/solr" />
 
 	<!-- SITE properties, in case they aren't already defined -->
 	<property name="site.src.dir" location="${src.dir}/${site.basename}" />
@@ -199,10 +209,11 @@
 	</path>
 
 	<target name="test_core" depends="test_compile_core" description="run tests for CORE code">
-<!--
-		<echo message="solr.path: ${solr.path}" />
-		<echo message="solr.path being used for testing: ${site.test.solr.dir}" />
--->
+		<echo message="solr.path for CORE testing: ${test.solr.path}" />
+		
+		<copy todir="${test.jetty.dir}/solr" overwrite="false" >
+			<fileset dir="${test.solr.orig.dir}" includes="**" excludes="**/data/**,**/index" />
+		</copy>
 		
 		<!-- if no core test class is defined, call the Util Unit test -->
 		<property name="core.test.class"  value="org.solrmarc.tools.UtilUnitTests" />
@@ -211,13 +222,18 @@
 			<classpath refid="test.core.run.classpath" />
 			<formatter type="plain" usefile="false" />
 
-    	<sysproperty key="test.data.path" path="${test.data.path}" />
-			<sysproperty key="solr.data.dir" path="${test.solr.data.dir}" />
+			<sysproperty key="test.config.file" value="${core.test.config.file}" />
+    	<sysproperty key="test.data.path" value="${core.test.data.path}" />
+			<sysproperty key="solr.data.dir" value="${test.solr.data.dir}" />
+			<sysproperty key="solr.path" value="${test.solr.path}" />
+    	<sysproperty key="solrmarc.use_solr_server_proxy" value="${core.test.use_solr_server_proxy}" />
+    	<sysproperty key="solrmarc.use_binary_request_handler" value="${core.test.use_binary_request_handler}" />
+    	<sysproperty key="solrmarc.use_streaming_proxy" value="${core.test.use_streaming_proxy}" />
+			<sysproperty key="test.solr.verbose" value="${test.solr.verbose}" />
+    	
 <!--    	
 			<sysproperty key="test.data.file" value="${test.data.file}" />
 			<sysproperty key="test.config.dir" path="${dist.path}" />
-			<sysproperty key="test.config.file" value="${default.config}" />
-			<sysproperty key="solr.path" path="${site.test.solr.dir}" />
 			<sysproperty key="solr.data.dir" path="${site.test.solr.dir}/data" />
 			<sysproperty key="test.solr.verbose" value="${test.solr.verbose}" />
 -->    	
