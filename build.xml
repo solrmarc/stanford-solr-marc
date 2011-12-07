@@ -163,7 +163,7 @@
 		<path refid="core.classpath" />
 	</path>
 	
-	<target name="test_compile_core" depends="test_init_core" description="Compile CORE TEST source code into the test build directory">
+	<target name="test_compile_core" depends="compile_core,test_init_core" description="Compile CORE TEST source code into the test build directory">
 		<javac destdir="${core.test.build.dir}" srcdir="${core.test.src.dir}" 
                 target="${java.compat.version}" 
                 source="${java.compat.version}" 
