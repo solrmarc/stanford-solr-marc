@@ -187,12 +187,12 @@ public abstract class IndexTest {
 	public void createIxInitVarsDistSM2_3_1(String configPropFilename, String solrPath, String solrDataDir, 
 	                             String testDataParentPath, String testDataFname) 
 	{
-        //System.err.println("test.solr.verbose = " + System.getProperty("test.solr.verbose"));
-//        if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
-//        {
-//            java.util.logging.Logger.getLogger("org.apache.solr").setLevel(java.util.logging.Level.SEVERE);
-//            Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
-//        }
+        System.err.println("test.solr.verbose = " + System.getProperty("test.solr.verbose"));
+        if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
+        {
+            java.util.logging.Logger.getLogger("org.apache.solr").setLevel(java.util.logging.Level.SEVERE);
+            Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
+        }
 //        addnlProps = new LinkedHashMap<String, String>();
 //        backupProps = new LinkedHashMap<String, String>();
 //        allOrigProps = new LinkedHashMap<String, String>();
