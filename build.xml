@@ -9,20 +9,18 @@
 	<property name="dist.dir" value="dist" />
 	<property name="dist.exe.dir" value="bin" />
 	<property name="dist.exe.path" location="${dist.path}/${dist.exe.dir}" />
-	<property name="jetty.install.dir" value="${dist.path}/jetty" />
-	<property name="solr.install.dir" value="${jetty.install.dir}/solr" />
 	<property name="core.jar.name" value="SolrMarc" />
 	
 	<!-- CORE TEST properties, in case they aren't already defined -->
 	<property name="core.test.dir" value="${test.dir}/core" />
 	<property name="core.test.config.file" value="${core.test.dir}/test_core_config.properties" />
 	<property name="core.test.data.path" value="${core.test.dir}/data"/>
-	<property name="test.solr.path" value="${test.dir}/jetty/solr" />
-	<property name="test.solr.data.dir" value = "${test.solr.path}/data"/>
+	<property name="core.test.solr.orig.dir" value="${test.dir}/solr" />
 	<property name="test.jetty.dir" value="${test.dir}/jetty" />
-	<property name="test.solr.url" value = "http://localhost:8985/solr" />
-	<property name="test.solr.orig.dir" value="${test.dir}/solr" />
 	<property name="test.solr.run.dir" value="${test.jetty.dir}/solr" />
+	<property name="test.solr.data.dir" value="${test.solr.run.dir}/data" />
+	<property name="test.solr.url" value="http://localhost:8985/solr" />
+	<property name="test.solr.jar.dir" value="${test.dir}/jars_from_solr_war" />
 
 	<!-- SITE properties, in case they aren't already defined -->
 	<property name="site.src.dir" location="${src.dir}/${site.basename}" />
@@ -204,16 +202,33 @@
 		</javac>
 	</target>
 	
+	<target name="get_jars_from_solr_war">
+		<mkdir dir="${test.solr.jar.dir}"/>
+		<unwar src="${core.solr.war.path}" dest="${test.solr.jar.dir}">
+			<flattenmapper/>
+			<patternset>
+				<include name="**/*.jar"/>
+			</patternset>
+		</unwar>
+	</target>
+	
 	<path id="test.core.run.classpath" description="classes and jars needed to run CORE TEST code">
 		<pathelement location="${core.test.build.dir}"/>
 		<path refid="test.core.build.classpath" />
+<!--
+		<fileset dir="${test.solr.jar.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+-->		
 	</path>
 
-	<target name="test_core" depends="test_compile_core" description="run tests for CORE code">
-		<echo message="solr.path for CORE testing: ${test.solr.path}" />
+	<target name="test_core" depends="test_compile_core,get_jars_from_solr_war" description="run tests for CORE code">
+		<echo message="solr path for CORE testing: ${test.solr.run.dir}" />
 		
-		<copy todir="${test.jetty.dir}/solr" overwrite="false" >
-			<fileset dir="${test.solr.orig.dir}" includes="**" excludes="**/data/**,**/index" />
+		<mkdir dir="${test.jetty.dir}/logs"/>
+		<mkdir dir="${test.solr.run.dir}"/>		
+		<copy todir="${test.solr.run.dir}" overwrite="false" >
+			<fileset dir="${core.test.solr.orig.dir}" includes="**/conf/**,**/lib/**"/>
 		</copy>
 		
 		<!-- if no core test class is defined, call the Util Unit test -->
@@ -228,9 +243,9 @@
 			<sysproperty key="test.jetty.port" value="${test.jetty.port}" />
 			<sysproperty key="test.jetty.dir" value="${test.jetty.dir}" />
 			<sysproperty key="test.solr.url" value="${test.solr.url}" />
-			<sysproperty key="test.solr.path" value="${test.solr.path}" />
+			<sysproperty key="test.solr.path" value="${test.solr.run.dir}" />
 			<sysproperty key="solr.data.dir" value="${test.solr.data.dir}" />
-			<sysproperty key="solr.path" value="${test.solr.path}" />
+			<sysproperty key="solr.path" value="${test.solr.run.dir}" />
     	<sysproperty key="solrmarc.use_solr_server_proxy" value="${core.test.use_solr_server_proxy}" />
     	<sysproperty key="solrmarc.use_binary_request_handler" value="${core.test.use_binary_request_handler}" />
     	<sysproperty key="solrmarc.use_streaming_proxy" value="${core.test.use_streaming_proxy}" />
@@ -315,6 +330,8 @@
 	
 	<target name="test_clean_core" >
 		<delete dir="${core.test.build.dir}" />
+		<delete dir="${test.solr.jar.dir}" />
+		<delete dir="${test.solr.run.dir}" />
 	</target>
 
 	<target name="test_clean_site" description="remove the directories generated for SITE testing">
@@ -609,48 +626,6 @@
 		</sequential>
 	</macrodef>
 
-	<macrodef name="check_solr_test_up_to_date" description="Check whether the test/jetty/webapps/solr.war and test/solr/conf are up to date w.r.t. the solrConf directory" >
-		<sequential>
-			<if>
-				<!--  if it is a multicore-solr configuration -->
-				<available type="file" file="${site.base.dir}/solrConf/solr.xml" />
-				<then>
-					<!-- copy files from solrConf if they are newer. -->
-					<copy overwrite="true" todir="${site.test.solr.dir}" failonerror="false">
-						<fileset dir="${site.base.dir}/solrConf" includes="**" excludes="*.war" >
-							<depend targetdir="${site.test.solr.dir}" />
-						</fileset>
-					</copy>
-				</then>
-				<else>
-					<!-- normal single core configuration -->
-					<!-- copy files from solrConf if they are newer. -->
-					<copy overwrite="true" todir="${site.test.solr.dir}/conf" failonerror="false">
-						<fileset dir="${site.base.dir}/solrConf" includes="*" excludes="*.jar,*.war" >
-							<depend targetdir="${site.test.solr.dir}/conf" />
-						</fileset>
-					</copy>
-					<copy overwrite="true" todir="${site.test.solr.dir}/lib" failonerror="false">
-						<fileset dir="${site.base.dir}/solrConf" includes="*.jar" >
-							<depend targetdir="${site.test.solr.dir}/lib" />
-						</fileset>
-					</copy>
-				</else>
-			</if>
-			<if>
-				<available type="file" file="${site.dir}/solrConf/solr.war" />
-				<then>
-					<!-- copy war file from solrConf if it is newer. -->
-					<copy overwrite="true" todir="${site.test.dir}/jetty/webapps" failonerror="false">
-						<fileset dir="${site.base.dir}/solrConf" includes="*.war" >
-							<depend targetdir="${site.test.dir}/jetty/webapps" />
-						</fileset>
-					</copy>
-				</then>
-			</if>
-		</sequential>
-	</macrodef>
-
 	<macrodef name="copy_scripts" description="Copy scripts or batch files from script_templates directory to the dist directory">
 		<sequential>
 			<if>
@@ -728,90 +703,6 @@
 		</sequential>
 	</macrodef>
 
-	<macrodef name="copy_jetty"  description="Copy Jetty setup from site test config to distribution dir" >
-		<sequential>
-			<copy todir="${jetty.install.dir}" overwrite="false" >
-				<fileset dir="${site.test.dir}/jetty" includes="**" />
-			</copy>
-		</sequential>
-	</macrodef>
-
-	<macrodef name="copy_solr"  description="Copy Solr from from site test config to distribution jetty dir" >
-		<sequential>
-			<copy todir="${solr.install.dir}" overwrite="false" >
-				<fileset dir="${site.test.dir}/solr" includes="**" excludes="**/data/**,**/index" />
-			</copy>
-		</sequential>
-	</macrodef>
-
-	<!-- macro to determine the name of the class containing custom indexer source code -->
-	<macrodef name="get_custom_indexer_class">
-		<sequential>
-			<if>
-				<available file="${site.src.dir}" type="dir" />
-				<then>
-					<fileset id="custom_indexer_source" dir="${site.src.dir}" includes="**/*.java">
-						<or>
-							<containsregexp expression="public[ ]+class[ ]+[A-Za-z][A-Za-z0-9_]*[ ]+extends[ ]+SolrIndexer" />
-							<containsregexp expression="public[ ]+class[ ]+[A-Za-z][A-Za-z0-9_]*[ ]+extends[ ]+org[.]solrmarc[.]index[.]SolrIndexer" />
-						</or>
-					</fileset>
-
-					<condition property="custom.index.source.exists">
-						<or>
-							<resourcecount count="0" when="gt" refid="custom_indexer_source" />
-							<isset property="solr.indexer" />
-						</or>
-					</condition>
-
-					<property name="custom.indexer.source" refid="custom_indexer_source" />
-
-					<if>
-						<isset property="solr.indexer" />
-						<then>
-							<property name="custom.indexer.class" value="${solr.indexer}" />
-						</then>
-						<elseif>
-							<resourcecount count="0" when="gt" refid="custom_indexer_source" />
-							<then>
-								<pathconvert property="custom.indexer.class" refid="custom_indexer_source">
-									<chainedmapper>
-										<regexpmapper from="^.*src[/\\](.*java)$$" to="\1" />
-										<packagemapper from="*.java" to="*" />
-									</chainedmapper>
-								</pathconvert>
-								<pathconvert property="custom.jar.name" refid="custom_indexer_source">
-									<chainedmapper>
-										<regexpmapper from="^.*src[/\\]([A-Za-z0-9_]*[/\\])*(.*)[.]java$$" to="\2" />
-									</chainedmapper>
-								</pathconvert>
-							</then>
-						</elseif>
-						<else>
-							<property name="custom.indexer.class" value="org.solrmarc.index.SolrIndexer" />
-						</else>
-					</if>
-					<if>
-						<not>
-							<isset property="custom.jar.name" />
-						</not>
-						<then>
-							<property name="custom.jar.name" value="Custom" />
-						</then>
-					</if>
-				</then>
-				<else>
-					<property name="custom.indexer.source" value="" />
-					<property name="custom.indexer.class" value="" />
-					<property name="custom.jar.name" value="Custom" />
-				</else>
-			</if>
-
-			<echo message="custom.indexer.source = ${custom.indexer.source}" />
-			<echo message="custom.indexer.class = ${custom.indexer.class}" />
-			<echo message="custom.jar.name = ${custom.jar.name}" />
-		</sequential>
-	</macrodef>
 
 	<!-- macro to unbundle all of the necessary jars from the SolrMarc One-Jar so they can be used by junit tests -->
 	<macrodef name="get_jars_from_solrmarc_onejar" >
@@ -828,26 +719,7 @@
 				<flattenmapper />
 			</unwar>
 		</sequential>
-	</macrodef>
-
-	<!-- macro to unbundle all of the necessary jars from the solr.war file so they can be used by junit tests -->
-	<macrodef name="get_jars_from_solr_war" >
-		<attribute name="src" default="${jetty.install.dir}/webapps/solr.war" />
-		<attribute name="todir" />
-		<sequential>
-			<mkdir dir="@{todir}" />
-			<unwar src="@{src}" dest="@{todir}">
-				<flattenmapper/>
-				<patternset>
-					<include name="**/*.jar"/>
-				</patternset>
-			</unwar>
-		</sequential>
-	</macrodef>
-
-	
-	
-	
+	</macrodef>	
 	
 	<target name="clean_all" depends="test_clean, clean" description="remove all build, test and dist generated directories">
 		<delete dir="${dist.dir}" quiet="true" />
