@@ -37,8 +37,8 @@ public class GetFormatMixinTest
         MarcReader reader = null;
         Properties indexingProps = new Properties();
         indexingProps.setProperty("getformatmixin", "custom(org.solrmarc.index.GetFormatMixin), getContentTypesAndMediaTypes");
-//        indexingProps.setProperty("getformatmixinmapped", "custom(org.solrmarc.index.GetFormatMixin), getContentTypesAndMediaTypes, getformat_mixin_map.properties");
-        indexingProps.setProperty("getformatmixinmapped", "custom(org.solrmarc.index.GetFormatMixin), getContentTypesAndMediaTypes, setup/core/translation_maps/getformat_mixin_map.properties");
+        indexingProps.setProperty("getformatmixinmapped", "custom(org.solrmarc.index.GetFormatMixin), getContentTypesAndMediaTypes, getformat_mixin_map.properties");
+//        indexingProps.setProperty("getformatmixinmapped", "custom(org.solrmarc.index.GetFormatMixin), getContentTypesAndMediaTypes, conf/core/translation_maps/getformat_mixin_map.properties");
         String verboseStr = System.getProperty("marc.verbose");
         boolean verbose = (verboseStr != null && verboseStr.equalsIgnoreCase("true"));
         ErrorHandler errors = new ErrorHandler();
@@ -86,7 +86,7 @@ public class GetFormatMixinTest
         {
             fail("unable to read test recordfile  formatTests.mrc");
         }
-        System.out.println("Test testRemoteIndexRecord is successful");
+        System.out.println("Test testGetFormatMixin is successful");
     }
 
     private void showResults(Object result, String label, boolean verbose, PrintStream out, String id)
