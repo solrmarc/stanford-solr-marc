@@ -20,6 +20,7 @@
 	<property name="test.solr.path" value="${test.dir}/jetty/solr" />
 	<property name="test.solr.data.dir" value = "${test.solr.path}/data"/>
 	<property name="test.jetty.dir" value="${test.dir}/jetty" />
+	<property name="test.solr.url" value = "http://localhost:8985/solr" />
 	<property name="test.solr.orig.dir" value="${test.dir}/solr" />
 	<property name="test.solr.run.dir" value="${test.jetty.dir}/solr" />
 
@@ -224,6 +225,10 @@
 
 			<sysproperty key="test.config.file" value="${core.test.config.file}" />
     	<sysproperty key="test.data.path" value="${core.test.data.path}" />
+			<sysproperty key="test.jetty.port" value="${test.jetty.port}" />
+			<sysproperty key="test.jetty.dir" value="${test.jetty.dir}" />
+			<sysproperty key="test.solr.url" value="${test.solr.url}" />
+			<sysproperty key="test.solr.path" value="${test.solr.path}" />
 			<sysproperty key="solr.data.dir" value="${test.solr.data.dir}" />
 			<sysproperty key="solr.path" value="${test.solr.path}" />
     	<sysproperty key="solrmarc.use_solr_server_proxy" value="${core.test.use_solr_server_proxy}" />

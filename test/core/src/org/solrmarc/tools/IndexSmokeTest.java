@@ -4,16 +4,45 @@ import static org.junit.Assert.fail;
 
 import java.io.*;
 
-import org.junit.Test;
+import org.junit.*;
 import org.marc4j.MarcStreamReader;
 import org.marc4j.marc.Record;
 import org.solrmarc.testUtils.IndexTest;
+import org.solrmarc.testUtils.SolrJettyProcess;
 
 
 public class IndexSmokeTest extends IndexTest
 {
     private final String testDataFname = "selectedRecs.mrc";
+   
     
+    
+    static SolrJettyProcess solrJettyProcess = null; 
+    static int jettyProcessPort; 
+    static String testDataParentPath;
+    static String testConfigFile;
+    static String solrPath;
+
+    /**
+     * Start a Jetty driven solr server running in a separate JVM at port jetty.test.port
+     */
+    @BeforeClass
+    public static void startJetty() 
+    {
+    	startTestJetty();
+    }
+
+    /**
+     * Start a Jetty driven solr server running in a separate JVM at port jetty.test.port
+     * @throws Exception 
+     */
+    @AfterClass
+    public static void stopJetty() throws Exception 
+    {
+    	stopTestJetty();
+    }
+
+      
     /**
      * Test assignment of Book format
      *   includes monographic series
@@ -92,8 +121,15 @@ public class IndexSmokeTest extends IndexTest
         String testConfigFname = System.getProperty("test.config.file");
         if (testConfigFname == null)
             fail("property test.config.file must be defined for the tests to run");
+        
+        String testSolrUrl = System.getProperty("test.solr.url");
+        if (testSolrUrl == null)
+            fail("property test.solr.url must be defined for the tests to run");
+        boolean useBinaryRequestHandler = Boolean.valueOf(System.getProperty("core.test.use_streaming_proxy"));
+        boolean useStreamingProxy= Boolean.valueOf(System.getProperty("core.test.use_binary_request_handler"));
 
-        createIxInitVarsDistSM2_3_1(testConfigFname, solrPath, solrDataDir, testDataParentPath, testDataFname);
+//        createIxInitVarsDistSM2_3_1(testConfigFname, solrPath, solrDataDir, testDataParentPath, testDataFname);
+        createIxInitVarsDistSM2_3_1(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, testDataFname);
     
     //  createNewTestIndex(testDataParentPath + File.separator + testDataFname, configPropFile, solrPath, solrDataDir, solrmarcPath, siteSpecificPath);
     //  solrCore = getSolrCore(solrPath, solrDataDir);

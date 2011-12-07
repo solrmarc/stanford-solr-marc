@@ -32,25 +32,29 @@ public class RemoteServerTest
      * Start a Jetty driven solr server running in a separate JVM at port jetty.test.port
      */
     @BeforeClass
-    public static void setUp() 
+    public static void startJetty() 
     {
         String jettyTestPortStr;
 
+        solrPath = System.getProperty("test.solr.path");
+        if (solrPath == null)
+            fail("property test.solr.path must be defined for the tests to run");
         testDataParentPath = System.getProperty("test.data.path");
+        if (testDataParentPath == null)
+            fail("property core.test.data.path must be defined for the tests to run");
         testConfigFile = System.getProperty("test.config.file");
-        solrPath = System.getProperty("solr.path");
-        jettyTestPortStr = System.getProperty("jetty.test.port");
+        if (testConfigFile == null)
+            fail("property core.test.config.file must be defined for this test to run");
+        String jettyDir = System.getProperty("test.jetty.dir");
+        if (jettyDir == null)
+            fail("property test.jetty.dir must be defined for this test to run");
+        
+        jettyTestPortStr = System.getProperty("test.jetty.port");
         // Specify port 0 to select any available port 
         if (jettyTestPortStr == null)
             jettyTestPortStr = "0";
-        if (solrPath == null)
-            fail("property solr.path must be defined for the tests to run");
-        if (testDataParentPath == null)
-            fail("property test.data.path must be defined for the tests to run");
-        if (testConfigFile == null)
-            fail("property test.config.file be defined for this test to run");
         
-        solrJettyProcess = new SolrJettyProcess(solrPath, testDataParentPath, testConfigFile, jettyTestPortStr);
+        solrJettyProcess = new SolrJettyProcess(solrPath, testDataParentPath, testConfigFile, jettyTestPortStr, jettyDir);
         boolean serverIsUp = false;
         try
         {
@@ -71,7 +75,7 @@ public class RemoteServerTest
     
     
     @AfterClass
-    public static void tearDown() throws Exception
+    public static void stopJetty() throws Exception
     {
         if (solrJettyProcess != null && solrJettyProcess.isServerIsUp())
         {
