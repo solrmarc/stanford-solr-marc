@@ -20,7 +20,6 @@
 	<property name="test.solr.run.dir" value="${test.jetty.dir}/solr" />
 	<property name="test.solr.data.dir" value="${test.solr.run.dir}/data" />
 	<property name="test.solr.url" value="http://localhost:8985/solr" />
-	<property name="test.solr.jar.dir" value="${test.dir}/jars_from_solr_war" />
 
 	<!-- SITE properties, in case they aren't already defined -->
 	<property name="site.src.dir" location="${src.dir}/${site.basename}" />
@@ -202,27 +201,15 @@
 		</javac>
 	</target>
 	
-	<target name="get_jars_from_solr_war">
-		<mkdir dir="${test.solr.jar.dir}"/>
-		<unwar src="${core.solr.war.path}" dest="${test.solr.jar.dir}">
-			<flattenmapper/>
-			<patternset>
-				<include name="**/*.jar"/>
-			</patternset>
-		</unwar>
-	</target>
-	
 	<path id="test.core.run.classpath" description="classes and jars needed to run CORE TEST code">
 		<pathelement location="${core.test.build.dir}"/>
-		<path refid="test.core.build.classpath" />
-<!--
-		<fileset dir="${test.solr.jar.dir}">
-			<include name="**/*.jar" />
+		<fileset dir="${test.solr.run.dir}/lib">
+			<include name="*.jar" />
 		</fileset>
--->		
+		<path refid="test.core.build.classpath" />
 	</path>
 
-	<target name="test_core" depends="test_compile_core,get_jars_from_solr_war" description="run tests for CORE code">
+	<target name="test_core" depends="test_compile_core" description="run tests for CORE code">
 		<echo message="solr path for CORE testing: ${test.solr.run.dir}" />
 		
 		<mkdir dir="${test.jetty.dir}/logs"/>
