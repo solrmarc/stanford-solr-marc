@@ -2,7 +2,7 @@ package org.solrmarc.testUtils;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
+import org.junit.*;
 //import org.marc4j.marc.Record;
 
 import java.io.*;
@@ -175,6 +175,62 @@ public abstract class IndexTest {
 	}
 	
 	
+    static SolrJettyProcess solrJettyProcess = null; 
+//    static int jettyProcessPort; 
+    /**
+     * Start a Jetty driven solr server running in a separate JVM at port jetty.test.port
+     */
+    public static void startTestJetty() 
+    {
+        String jettyTestPortStr;
+
+        String solrPath = System.getProperty("test.solr.path");
+        if (solrPath == null)
+            fail("property test.solr.path must be defined for the tests to run");
+        String testDataParentPath = System.getProperty("test.data.path");
+        if (testDataParentPath == null)
+            fail("property test.data.path must be defined for the tests to run");
+        String testConfigFile = System.getProperty("test.config.file");
+        if (testConfigFile == null)
+            fail("property test.config.file must be defined for this test to run");
+        String jettyDir = System.getProperty("test.jetty.dir");
+        if (jettyDir == null)
+            fail("property test.jetty.dir must be defined for this test to run");
+        
+        jettyTestPortStr = System.getProperty("test.jetty.port");
+        // Specify port 0 to select any available port 
+        if (jettyTestPortStr == null)
+            jettyTestPortStr = "0";
+        
+        solrJettyProcess = new SolrJettyProcess(solrPath, testDataParentPath, testConfigFile, jettyTestPortStr, jettyDir);
+        boolean serverIsUp = false;
+        try
+        {
+            serverIsUp = solrJettyProcess.startProcessWaitUntilSolrIsReady();
+        }
+        catch (IOException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        assertTrue("Server did not become available", serverIsUp);
+        // If you need to see the output of the solr server after the server is up and running, call 
+        // solrJettyProcess.outputReset() here to empty the buffer so the later output is visible in the Eclipse variable viewer
+        //solrJettyProcess.outputReset();
+        System.out.println("Server is up and running at port "+ solrJettyProcess.getJettyPort());
+    }
+    
+    public static void stopTestJetty() throws Exception
+    {
+        if (solrJettyProcess != null && solrJettyProcess.isServerIsUp())
+        {
+            solrJettyProcess.stopServer();
+        }
+    }
+
+
+	
     /**
      * Given the paths to a marc file to be indexed, the solr directory, and
      *  the path for the solr index, create the index from the marc file.
@@ -184,8 +240,10 @@ public abstract class IndexTest {
      * @param testDataParentPath - directory containing the test data file
      * @param testDataFname - file of marc records to be indexed.  should end in ".mrc" "marc" or ".xml"
      */
-	public void createIxInitVarsDistSM2_3_1(String configPropFilename, String solrPath, String solrDataDir, 
-	                             String testDataParentPath, String testDataFname) 
+//	public void createIxInitVarsDistSM2_3_1(String configPropFilename, String solrPath, String solrDataDir, 
+//	                             String testDataParentPath, String testDataFname) 
+	public void createIxInitVarsDistSM2_3_1(String configPropFilename, String testSolrUrl, boolean useBinaryRequestHandler, boolean useStreamingProxy, 
+            String testDataParentPath, String testDataFname) 
 	{
         System.err.println("test.solr.verbose = " + System.getProperty("test.solr.verbose"));
         if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
@@ -219,11 +277,11 @@ public abstract class IndexTest {
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
         ByteArrayOutputStream err1 = new ByteArrayOutputStream();
         Map<String,String> addnlProps = new LinkedHashMap<String,String>();
-        addnlProps.put("solr.path", solrPath);
-        if (solrDataDir != null)
-        {
-            addnlProps.put("solr.data.dir", solrDataDir);
-        }
+//        addnlProps.put("solr.path", solrPath);
+//        if (solrDataDir != null)
+//        {
+//            addnlProps.put("solr.data.dir", solrDataDir);
+//        }
         if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
         {
             addnlProps.put("solr.log.level", "OFF");
@@ -231,7 +289,10 @@ public abstract class IndexTest {
         }
 
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", null, out1, err1, new String[]{configPropFilename, testDataParentPath + File.separator + testDataFname }, addnlProps);
-        solrProxy = SolrCoreLoader.loadEmbeddedCore(solrPath, solrDataDir, null, false, logger);
+//        solrProxy = SolrCoreLoader.loadEmbeddedCore(solrPath, solrDataDir, null, false, logger);
+        
+        
+        solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
         solrServer = ((SolrServerProxy)solrProxy).getSolrServer();
         
 //        CommandLineUtils.addProps(addnlProps, backupProps);
