@@ -4,7 +4,8 @@
 	<property file="build.properties" />
 	<property file="${site.conf.props}" />
 
-	<!-- core properties, in case they aren't already defined -->
+	<!-- CORE properties, in case they aren't already defined -->
+	<property name="core.build.dir" value="${build.dir}" />
 	<property name="dist.dir" value="dist" />
 	<property name="dist.exe.dir" value="bin" />
 	<property name="dist.exe.path" location="${dist.path}/${dist.exe.dir}" />
@@ -12,7 +13,7 @@
 	<property name="solr.install.dir" value="${dist.path}/jetty/solr" />
 	<property name="core.jar.name" value="SolrMarc" />
 
-	<!-- site properties, in case they aren't already defined -->
+	<!-- SITE properties, in case they aren't already defined -->
 	<property name="site.src.dir" location="${src.dir}/${site.basename}" />
 	<property name="site.build.dir" location="${build.dir}/${site.basename}" />
 	<property name="site.indexer.class" value="org.solrmarc.index.SolrIndexer" />
@@ -20,13 +21,14 @@
 	<property name="site.scripts.dir" location="${site.conf.dir}/${scripts.dir}" />
 	<property name="site.solrconf.dir" location="${site.conf.dir}/solrConf" />
 
-	<!-- site test properties, in case they aren't already defined -->
+	<!-- SITE TEST properties, in case they aren't already defined -->
 	<property name="site.test.basedir" location="${test.dir}/${site.basename}" />
 	<property name="site.test.src.dir" location="${site.test.basedir}/${src.dir}" />
 	<property name="site.test.data.dir" location="${site.test.basedir}/data" />
-	<property name="site.test.build.dir" location="${build.dir}/${test.dir}/{$site.basename}" />
+	<property name="site.test.build.dir" location="${build.dir}/${test.dir}/${site.basename}" />
 	<property name="site.test.solr.dir" location="${site.test.basedir}/solr" />
 		
+	
 	<target name="init_core" description="create (empty) generated directories for core code">
 		<mkdir dir="${core.build.dir}" />
 	</target>
@@ -127,8 +129,23 @@
 		<copy_solr />
 		<property name="dist.already.run" value="true" />
 	</target>
+	
+	
+	<target name="clean_core" >
+		<delete dir="${core.build.dir}" />
+	</target>
 
-	<!-- Site Testing Targets -->
+	<target name="clean_site" description="remove the build directories for SITE">
+		<delete dir="$site.build.dir}" />
+	</target>
+		
+	<target name="clean" depends="clean_site,clean_core" description="remove the build directories for CORE and SITE" />
+		
+
+	
+	
+
+	<!-- Testing Targets -->
 
 	<target name="test_init_core" description="create (empty) generated directories for CORE TEST code">
 		<mkdir dir="${core.test.build.dir}" />
@@ -161,6 +178,7 @@
 		<fileset dir="${site.test.lib.dir}">
 			<include name="**/*.jar" />
 		</fileset>
+		<pathelement location="${core.test.build.dir}"/>
 		<path refid="test.core.classpath" />
 	</path>
 	
@@ -175,7 +193,18 @@
 		</javac>
 	</target>
 	
+	
+	<target name="test_clean_core" >
+		<delete dir="${core.test.build.dir}" />
+	</target>
 
+	<target name="test_clean_site" description="remove the directories generated for SITE testing">
+		<delete dir="$site.test.build.dir}" />
+	</target>
+	
+	<target name="test_clean" depends="test_clean_site,test_clean_core" description="remove the directories generated for CORE and SITE testing" />
+	
+	
 	<target name="testClean" depends="init_core" description="clean generated test directories">
 		<delete dir="${site.test.build.dir}" quiet="true" />
 		<delete dir="${site.test.solr.dir}/data" quiet="true" />
@@ -781,11 +810,12 @@
 	</macrodef>
 
 	
-	<target name="clean" description="clean the generated directories">
-		<delete dir="${build.dir}" quiet="true" />
+	
+	
+	
+	<target name="clean_all" depends="test_clean, clean" description="remove all build, test and dist generated directories">
 		<delete dir="${dist.dir}" quiet="true" />
 	</target>
-
 
 	
 </project>
