@@ -4,25 +4,17 @@ import static org.junit.Assert.fail;
 
 import java.io.*;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.junit.*;
 import org.marc4j.MarcStreamReader;
 import org.marc4j.marc.Record;
 import org.solrmarc.testUtils.IndexTest;
-import org.solrmarc.testUtils.SolrJettyProcess;
+import org.xml.sax.SAXException;
 
 
 public class IndexSmokeTest extends IndexTest
 {
-    private final String testDataFname = "selectedRecs.mrc";
-   
-    
-    
-    static SolrJettyProcess solrJettyProcess = null; 
-    static int jettyProcessPort; 
-    static String testDataParentPath;
-    static String testConfigFile;
-    static String solrPath;
-
     /**
      * Start a Jetty driven solr server running in a separate JVM at port jetty.test.port
      */
@@ -44,44 +36,41 @@ public class IndexSmokeTest extends IndexTest
 
       
     /**
-     * Test assignment of Book format
-     *   includes monographic series
+     * Creates index and asserts an expected doc is present.
      */
 @Test
-    public final void testForSmoke() 
+    public final void testForSmoke() throws ParserConfigurationException, IOException, SAXException 
     {
-        createIxInitVars(testDataFname);
-        String testDataParentPath = System.getProperty("test.data.path");
-        if (testDataParentPath == null)
-            fail("property test.data.path must be defined for the tests to run");
+        createIxInitVars("double_007.xml");
+        this.assertDocPresent("u2");
 
-        MarcStreamReader reader = null;
-        try
-        {
-            reader = new MarcStreamReader(new FileInputStream(testDataParentPath + File.separator + testDataFname));
-        }
-        catch (FileNotFoundException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        while (reader != null && reader.hasNext())
-        {
-            Record rec = reader.next();
-            String id = rec.getControlNumber();
-            if (id != null)
-            {
-                assertDocPresent(id);
-            }
-        }
-        System.out.println("Test testForSmoke is successful");
+//        MarcStreamReader reader = null;
+//        try
+//        {
+//            reader = new MarcStreamReader(new FileInputStream(testDataParentPath + File.separator + testDataFname));
+//        }
+//        catch (FileNotFoundException e)
+//        {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        while (reader != null && reader.hasNext())
+//        {
+//            Record rec = reader.next();
+//            String id = rec.getControlNumber();
+//            if (id != null)
+//            {
+//                assertDocPresent(id);
+//            }
+//        }
+//        System.out.println("Test testForSmoke is successful");
     }
 
     /**
      * creates an index from the indicated test file, and initializes 
      *  necessary variables
      */
-    private void createIxInitVars(String testDataFname) 
+    private void createIxInitVars(String testDataFname) throws ParserConfigurationException, IOException, SAXException 
     {
         docIDfname = "id";
         
@@ -109,11 +98,6 @@ public class IndexSmokeTest extends IndexTest
 
         
     
-        String solrPath = System.getProperty("solr.path");
-        String solrDataDir = System.getProperty("solr.data.dir");
-        if (solrPath == null)
-            fail("property solr.path must be defined for the tests to run");
-    
         String testDataParentPath = System.getProperty("test.data.path");
         if (testDataParentPath == null)
             fail("property test.data.path must be defined for the tests to run");
@@ -125,6 +109,7 @@ public class IndexSmokeTest extends IndexTest
         String testSolrUrl = System.getProperty("test.solr.url");
         if (testSolrUrl == null)
             fail("property test.solr.url must be defined for the tests to run");
+        System.setProperty("solr.hosturl", testSolrUrl);
         boolean useBinaryRequestHandler = Boolean.valueOf(System.getProperty("core.test.use_streaming_proxy"));
         boolean useStreamingProxy= Boolean.valueOf(System.getProperty("core.test.use_binary_request_handler"));
 

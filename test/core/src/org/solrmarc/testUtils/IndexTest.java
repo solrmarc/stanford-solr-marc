@@ -243,7 +243,7 @@ public abstract class IndexTest {
 //	public void createIxInitVarsDistSM2_3_1(String configPropFilename, String solrPath, String solrDataDir, 
 //	                             String testDataParentPath, String testDataFname) 
 	public void createIxInitVarsDistSM2_3_1(String configPropFilename, String testSolrUrl, boolean useBinaryRequestHandler, boolean useStreamingProxy, 
-            String testDataParentPath, String testDataFname) 
+            String testDataParentPath, String testDataFname) throws ParserConfigurationException, IOException, SAXException 
 	{
         System.err.println("test.solr.verbose = " + System.getProperty("test.solr.verbose"));
         if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
@@ -251,72 +251,38 @@ public abstract class IndexTest {
             java.util.logging.Logger.getLogger("org.apache.solr").setLevel(java.util.logging.Level.SEVERE);
             Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
         }
-//        addnlProps = new LinkedHashMap<String, String>();
-//        backupProps = new LinkedHashMap<String, String>();
-//        allOrigProps = new LinkedHashMap<String, String>();
-//        CommandLineUtils.checkpointProps(allOrigProps);
-//
-//        if (solrPath != null)  
-//        {
-//            addnlProps.put("solr.path", solrPath);
-////            if (solrDataDir == null)
-////            {
-////                solrDataDir = solrPath + File.separator + "data";
-////            }
-////            addnlProps.put("solr.data.dir", solrDataDir);
-//        }
-        logger.debug("System.getProperty(\"os.name\") : "+System.getProperty("os.name"));
-//        if (!System.getProperty("os.name").toLowerCase().contains("win"))
-//        {
-//            //   comment out these two lines since if the solr data dir is set the same as the solr home, the conf directory would be deleted as well.
-//            //   for that matter, if the solr data dir is accidently pointed at a valued directory, that directory, and all of its children, would be wiped out.  
-// //           logger.info("Calling Delete Dir Contents");
-// //           deleteDirContents(solrDataDir);
-//        }
+
         // index a small set of records (actually one record)
-        ByteArrayOutputStream out1 = new ByteArrayOutputStream();
-        ByteArrayOutputStream err1 = new ByteArrayOutputStream();
         Map<String,String> addnlProps = new LinkedHashMap<String,String>();
-//        addnlProps.put("solr.path", solrPath);
-//        if (solrDataDir != null)
-//        {
-//            addnlProps.put("solr.data.dir", solrDataDir);
-//        }
         if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
         {
             addnlProps.put("solr.log.level", "OFF");
             addnlProps.put("solrmarc.log.level", "OFF");
         }
 
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", null, out1, err1, new String[]{configPropFilename, testDataParentPath + File.separator + testDataFname }, addnlProps);
+//      backupProps = new LinkedHashMap<String, String>();
+//      allOrigProps = new LinkedHashMap<String, String>();
+//      CommandLineUtils.checkpointProps(allOrigProps);
+
+//        ByteArrayOutputStream out1 = new ByteArrayOutputStream();
+//        ByteArrayOutputStream err1 = new ByteArrayOutputStream();
+//        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", null, out1, err1, new String[]{configPropFilename, testDataParentPath + File.separator + testDataFname }, addnlProps);
 //        solrProxy = SolrCoreLoader.loadEmbeddedCore(solrPath, solrDataDir, null, false, logger);
         
         
-        solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
-        solrServer = ((SolrServerProxy)solrProxy).getSolrServer();
+//    	createIxInitVars(configPropFilename, null, null, testDataParentPath, testDataFname);
+
+//      CommandLineUtils.addProps(addnlProps, backupProps);
         
-//        CommandLineUtils.addProps(addnlProps, backupProps);
-//        importer = new MarcImporter();
-//        if (configPropFilename != null)
-//        {
-//            importer.init(new String[]{configPropFilename, testDataParentPath + File.separator + testDataFname});
-//        }
-//        else 
-//        {
-//            importer.init(new String[]{testDataParentPath + File.separator + testDataFname});
-//        }
-//        if (System.getProperty("os.name").toLowerCase().contains("win"))
-//        {
-//            logger.info("Calling Delete All Docs");
-//            importer.getSolrProxy().deleteAllDocs();
-//        }
-//        
-//        int numImported = importer.importRecords();       
-//        importer.finish();
-//        
-//        solrProxy = (SolrCoreProxy)importer.getSolrProxy();
-//        solrCoreProxy.commit(false);
-//        searcherProxy = new SolrSearcherProxy(solrCoreProxy);
+        solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
+
+        importer = new MarcImporter(solrProxy);
+        importer.init(new String[] {configPropFilename, testDataParentPath + File.separator + testDataFname});        	
+		int numImported = importer.importRecords();       
+		importer.finish();
+        
+        solrProxy.commit(true);
+        solrServer = ((SolrServerProxy)solrProxy).getSolrServer();
 	}
 	
 		
