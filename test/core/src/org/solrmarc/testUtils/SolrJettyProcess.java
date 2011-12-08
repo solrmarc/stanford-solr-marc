@@ -260,6 +260,5 @@ public class SolrJettyProcess
         return serverIsUp;
     }
 
-
     
 }

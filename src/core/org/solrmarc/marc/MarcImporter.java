@@ -16,7 +16,6 @@ package org.solrmarc.marc;
  * limitations under the License.
  */
 
-
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
@@ -30,8 +29,6 @@ import org.marc4j.ErrorHandler;
 import org.marc4j.marc.Record;
 import org.solrmarc.solr.*;
 import org.solrmarc.tools.*;
-
-
 
 /**
  * @author Wayne Graham (wsgrah@wm.edu)
@@ -73,6 +70,15 @@ public class MarcImporter extends MarcHandler
     {
         showConfig = true;
         showInputFile = true;
+    }
+        
+    /**
+     * Constructs an instance with properties files
+     */
+    public MarcImporter(SolrProxy solrProxy)
+    {
+    	this();
+    	this.solrProxy = solrProxy;
     }
         
     /**
@@ -714,12 +720,15 @@ public class MarcImporter extends MarcHandler
             solrProxyIsRemote = false;
             if (solrHostUpdateURL != null && solrHostUpdateURL.length() > 0)
             {
-                if ((solrCoreDir == null || solrCoreDir.length() == 0 || solrCoreDir.equalsIgnoreCase("REMOTE")))
+System.err.println("DEBUG:  have solr url");
+            	if ((solrCoreDir == null || solrCoreDir.length() == 0 || solrCoreDir.equalsIgnoreCase("REMOTE")))
                 {
+System.err.println("DEBUG:  solr proxy is remote");
                     solrProxyIsRemote = true;
                 }
                 else 
                 {
+System.err.println("DEBUG:  connecting to hostURL");
                     URL solrhostURL;
                     try
                     {
@@ -736,15 +745,18 @@ public class MarcImporter extends MarcHandler
                     catch (MalformedURLException e)
                     {
                         // URL seems invalid, assume that we want local access to the solr index and proceed
+                        logger.warn("Solr URL is invalid; will try to load embedded core") ;
                         solrProxyIsRemote = false;
                     }
                     catch (UnknownHostException e)
                     {
                         // hostname in URL seems invalid, assume that we want local access to the solr index and proceed
+                        logger.warn("Hostname in Solr URL is unknown; will try to load embedded core") ;
                         solrProxyIsRemote = false;
                     }
                 }
             }
+            
             if (solrProxyIsRemote)
             {
                 logger.info(" Connecting to remote Solr server at URL " + solrHostUpdateURL);
@@ -752,6 +764,7 @@ public class MarcImporter extends MarcHandler
             }
             else 
             {
+            	// if solrProxyIsRemote == false, then use embedded core
                 if (solrCoreDir.equals("@SOLR_PATH@") )
                 {
                     System.err.println("Error: Solr home directory not initialized, please run setsolrhome") ;
@@ -770,6 +783,7 @@ public class MarcImporter extends MarcHandler
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+                
                 if (!solrcoretest.exists() || !solrcoretest.isDirectory() )
                 {
                     System.err.println("Error: Supplied Solr home directory does not exist: "+ solrCoreDir) ;
@@ -784,6 +798,7 @@ public class MarcImporter extends MarcHandler
                     logger.error("Error: Supplied Solr home directory does not contain proper solr configuration: "+ solrCoreDir) ;
                     System.exit(1);               
                 }
+                
                 logger.info(" Updating to Solr index at " + solrCoreDir);
                 if (!solrcoretest1.exists() && solrDataDir == null)
                 {
@@ -799,6 +814,7 @@ public class MarcImporter extends MarcHandler
                     System.setProperty("solr.data.dir", solrDataDir);
                     logger.info("     Using Solr data dir " + solrDataDir);
                 }
+                
                 if (solrCoreName != null && solrCoreName.length() != 0)
                     logger.info("     Using Solr core " + solrCoreName);
               //  solrProxy = SolrCoreLoader.loadCore(solrCoreDir, solrDataDir, solrCoreName, logger);

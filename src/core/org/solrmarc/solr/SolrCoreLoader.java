@@ -175,7 +175,6 @@ public class SolrCoreLoader
     {
         SolrProxy solrProxy = null;
         String urlString = solrHostUpdateURL.replaceAll("[/\\\\]update$", "");
-        SolrServer solrserver;
         boolean supportsJavabin = false;
         String solrversion = "UNKNOWN";
         // request the solr/admin/registry info page and extract info about the version 
