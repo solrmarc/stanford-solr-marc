@@ -24,7 +24,7 @@ public abstract class IndexTest {
 	
 	protected static MarcImporter importer;
     protected static SolrProxy solrProxy;
-	protected static SolrServer solrServer;
+	protected static SolrServer solrJSolrServer;
 	protected static SolrJettyProcess solrJettyProcess = null;
 
 	protected static String docIDfname = "id";
@@ -193,8 +193,8 @@ public abstract class IndexTest {
 	    
 	    solrProxy.commit(false);  // don't optimize
 	    
-	    solrServer = ((SolrServerProxy)solrProxy).getSolrServer();
-	    logger.debug("just set solrServer to " + solrServer.toString());
+	    solrJSolrServer = ((SolrServerProxy)solrProxy).getSolrServer();
+	    logger.debug("just set solrJSolrServer to " + solrJSolrServer.toString());
 	}
 
 	
@@ -229,8 +229,8 @@ public abstract class IndexTest {
 		{
 		    solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
 		    logger.debug("just set solrProxy to remote solr server at " + testSolrUrl + " - " + solrProxy.toString());
-		    solrServer = ((SolrServerProxy)solrProxy).getSolrServer();
-		    logger.debug("just set solrServer to " + solrServer.toString());
+		    solrJSolrServer = ((SolrServerProxy)solrProxy).getSolrServer();
+		    logger.debug("just set solrJSolrServer to " + solrJSolrServer.toString());
 		}
 		
 		if (importer == null)
@@ -281,7 +281,7 @@ public abstract class IndexTest {
  
         solrProxy = importer.getSolrProxy();
         solrProxy.commit(false);
-        solrServer = ((SolrServerProxy)solrProxy).getSolrServer();
+        solrJSolrServer = ((SolrServerProxy)solrProxy).getSolrServer();
 	}
 	
     /**
@@ -357,7 +357,7 @@ public abstract class IndexTest {
  
         solrProxy = (SolrProxy)importer.getSolrProxy();
         solrProxy.commit(false);
-        solrServer = ((SolrServerProxy)solrProxy).getSolrServer();
+        solrJSolrServer = ((SolrServerProxy)solrProxy).getSolrServer();
 	}
 
     /**
@@ -383,7 +383,7 @@ public abstract class IndexTest {
  
         solrProxy = importer.getSolrProxy();
         solrProxy.commit(false);
-        solrServer = ((SolrServerProxy)solrProxy).getSolrServer();
+        solrJSolrServer = ((SolrServerProxy)solrProxy).getSolrServer();
 	}
 	
 	
@@ -445,7 +445,7 @@ public abstract class IndexTest {
 
       CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", null, out1, err1, new String[]{configPropFilename, testDataParentPath + File.separator + testDataFname }, addnlProps);
       solrProxy = SolrCoreLoader.loadEmbeddedCore(solrPath, solrDataDir, null, false, logger);
-      solrServer = ((SolrServerProxy)solrProxy).getSolrServer();
+      solrJSolrServer = ((SolrServerProxy)solrProxy).getSolrServer();
       
 //      CommandLineUtils.addProps(addnlProps, backupProps);
 //      importer = new MarcImporter();
@@ -552,7 +552,7 @@ public abstract class IndexTest {
 	    query.setQueryType("standard");
 	    query.setFacet(false);
 	    try {
-	        QueryResponse response = solrServer.query(query); 
+	        QueryResponse response = solrJSolrServer.query(query); 
 	        return(response.getResults());
 	    }
 	    catch (SolrServerException e)
@@ -798,7 +798,7 @@ public abstract class IndexTest {
         query.setFacet(false);
         query.setSortField(sortfld, SolrQuery.ORDER.asc);
         try {
-            QueryResponse response = solrServer.query(query); 
+            QueryResponse response = solrJSolrServer.query(query); 
             return(response.getResults());
         }
         catch (SolrServerException e)
@@ -825,7 +825,7 @@ public abstract class IndexTest {
         query.setFacet(false);
         query.setSortField(sortfld, SolrQuery.ORDER.desc);
         try {
-            QueryResponse response = solrServer.query(query); 
+            QueryResponse response = solrJSolrServer.query(query); 
             return(response.getResults());
         }
         catch (SolrServerException e)
