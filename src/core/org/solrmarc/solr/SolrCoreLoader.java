@@ -4,8 +4,7 @@ import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
 
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrServer;
@@ -13,7 +12,7 @@ import org.apache.solr.client.solrj.impl.*;
 //import org.apache.solr.client.solrj.impl.BinaryRequestWriterV1;
 //import org.apache.solr.client.solrj.impl.BinaryResponseParserV1;
 import org.apache.solr.client.solrj.request.RequestWriter;
-import org.solrmarc.tools.Utils;
+//import org.solrmarc.tools.Utils;
 import org.xml.sax.InputSource;
 
 public class SolrCoreLoader
@@ -33,11 +32,12 @@ public class SolrCoreLoader
 //            urls.toArray(new URL[urls.size()]), 
 //            GFClassLoader.class.getClassLoader());
 //        }
-    
-    public static SolrProxy loadCore(String solrCoreDir, String solrDataDir, String solrCoreName, Logger logger)
-    {
-        return loadEmbeddedCore(solrCoreDir, solrDataDir, solrCoreName, true, logger);
-    }
+
+	
+//    public static SolrProxy loadCore(String solrCoreDir, String solrDataDir, String solrCoreName, Logger logger)
+//    {
+//        return loadEmbeddedCore(solrCoreDir, solrDataDir, solrCoreName, true, logger);
+//    }
 
     public static SolrProxy loadEmbeddedCore(String solrCoreDir, String solrDataDir, String solrCoreName, boolean useBinaryRequestHandler, Logger logger)
     {
@@ -162,9 +162,10 @@ public class SolrCoreLoader
         }
         catch (Exception e)
         {
+        	e.getCause().printStackTrace();
+//            e.printStackTrace();
             System.err.println("Error: Problem instantiating SolrCore");               
             logger.error("Error: Problem instantiating SolrCore");
-            e.printStackTrace();
             System.exit(1);
         }
 
@@ -175,14 +176,17 @@ public class SolrCoreLoader
     {
         SolrProxy solrProxy = null;
         String urlString = solrHostUpdateURL.replaceAll("[/\\\\]update$", "");
+/* 
+// commented out for DEBUG       
         boolean supportsJavabin = false;
         String solrversion = "UNKNOWN";
         // request the solr/admin/registry info page and extract info about the version 
         // number of the solr server and whether it supports javabin
         try
         {
-            URL url = new URL(urlString+"/admin/registry.jsp");
-            InputStream is = url.openStream();
+            URL url = new URL(urlString+"/admin/registry.jsp");            
+System.err.println("DEBUG:    SolrCoreLoader.loadRemoteSolrServer about to open registry url");            
+//            InputStream is = url.openStream();
             String registryInfo = Utils.readStreamIntoString(is);
             int solrversionStart = registryInfo.indexOf("<solr-spec-version>");
             int solrversionEnd = registryInfo.indexOf("</solr-spec-version>");
@@ -208,35 +212,35 @@ public class SolrCoreLoader
             System.err.println(errmsg); 
             useBinaryRequestHandler = false;
         }
+*/
         try
-        {
+        {        	
             CommonsHttpSolrServer httpsolrserver;
             if (useStreamingServer)
-            {
                 httpsolrserver = new StreamingUpdateSolrServer(urlString, 100, 2); 
-            }
             else
-            {
                 httpsolrserver = new CommonsHttpSolrServer(urlString);
-            }
-            if (solrversion.equals("UNKNOWN") || !useBinaryRequestHandler)
+            
+// DEBUG:  commented out b/c no longer care??            
+//            if (solrversion.equals("UNKNOWN") || !useBinaryRequestHandler)
             {
-                System.err.println("Solrversion "+solrversion+" using xml response writer");
+//                System.err.println("Solrversion "+solrversion+" using xml response writer");
                 httpsolrserver.setRequestWriter(new RequestWriter());
-                httpsolrserver.setParser( new XMLResponseParser());
+                httpsolrserver.setParser(new XMLResponseParser());
             }
+// DEBUG: commented out b/c no longer care??            
 //            else if (solrversion.startsWith("1.4"))
 //            {
 //                System.err.println("Solrversion "+solrversion+" using v1 binary response writer");
 //                httpsolrserver.setRequestWriter(new BinaryRequestWriterV1());
-//                httpsolrserver.setParser( new BinaryResponseParserV1());
+//                httpsolrserver.setParser(new BinaryResponseParserV1());
 //            }
-            else
-            {
-                System.err.println("Solrversion "+solrversion+" using v2 binary response writer");
-                httpsolrserver.setRequestWriter(new BinaryRequestWriter());
-                httpsolrserver.setParser( new BinaryResponseParser());
-            }
+//            else
+//            {
+//                System.err.println("Solrversion "+solrversion+" using v2 binary response writer");
+//                httpsolrserver.setRequestWriter(new BinaryRequestWriter());
+//                httpsolrserver.setParser(new BinaryResponseParser());
+//            }            
             solrProxy = new SolrServerProxy(httpsolrserver); 
         }
         catch (MalformedURLException e)

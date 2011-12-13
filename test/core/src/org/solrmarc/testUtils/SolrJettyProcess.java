@@ -1,19 +1,11 @@
 package org.solrmarc.testUtils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.net.*;
+import java.util.*;
 
 import javax.net.SocketFactory;
 
-import org.solrmarc.tools.CommandLineUtilTests;
 import org.solrmarc.tools.Utils;
 
 public class SolrJettyProcess
@@ -27,16 +19,16 @@ public class SolrJettyProcess
 
     public SolrJettyProcess(String solrPath, String testDataParentPath, String testConfigFile, String jettyTestPortStr, String jettyPath)
     {
-        vmspawner = createSolrServerAsBackgroundProcess(solrPath, testDataParentPath, testConfigFile, jettyTestPortStr, jettyPath);
+        vmspawner = startJettyWithSolrAsBackgroundProcess(solrPath, testDataParentPath, testConfigFile, jettyTestPortStr, jettyPath);
         jettyPort = Integer.parseInt(jettyTestPortStr);
     }
     
-    public SolrJettyProcess(String solrPath, String testDataParentPath, String testConfigFile, String jettyPath)
-    {
-        this(solrPath, testDataParentPath, testConfigFile, "0", jettyPath);
-    }
-    
-    private static JavaInvoke createSolrServerAsBackgroundProcess(String solrPath, String testDataParentPath, String testConfigFile, String jettyTestPortStr, String jettyPath) 
+//    public SolrJettyProcess(String solrPath, String testDataParentPath, String testConfigFile, String jettyPath)
+//    {
+//        this(solrPath, testDataParentPath, testConfigFile, "0", jettyPath);
+//    }
+
+    private static JavaInvoke startJettyWithSolrAsBackgroundProcess(String solrPath, String testDataParentPath, String testConfigFile, String jettyTestPortStr, String jettyPath) 
     {
         JavaInvoke vmspawner;
         if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
@@ -46,17 +38,13 @@ public class SolrJettyProcess
         }
         Map<String, String> javaProps = new LinkedHashMap<String, String>();
         javaProps.put("solr.solr.home", myGetCanonicalPath(new File(solrPath)));
+        
         javaProps.put("jetty.port", jettyTestPortStr);
         List<String> addnlClassPath = new ArrayList<String>();
-//        addnlClassPath.add(myGetCanonicalPath(new File(testDataParentPath, "../jetty/start.jar")));
         addnlClassPath.add(myGetCanonicalPath(new File(jettyPath + File.separator + "start.jar")));
-        System.out.println("Properties read, starting server");
-        
-        // ensure we start in a sane state
-        CommandLineUtilTests.deleteAllRecords(testConfigFile, solrPath );
-        
+        System.out.println("Starting Jetty Solr server at " + jettyPath + " port " + jettyTestPortStr);
+
         vmspawner = new JavaInvoke("org.mortbay.start.Main",
-//                                   new File(myGetCanonicalPath(new File(testDataParentPath, "../jetty"))), 
                                    new File(myGetCanonicalPath(new File(jettyPath))), 
                                    javaProps, 
                                    null,
@@ -64,6 +52,7 @@ public class SolrJettyProcess
                                    null, false);
         return(vmspawner);
     }
+    
     
     public boolean startProcessWaitUntilSolrIsReady() throws IOException 
     {
@@ -85,6 +74,7 @@ public class SolrJettyProcess
         }
         return(serverIsUp);
     }
+
     
     public void stopServer()
     {
@@ -255,7 +245,7 @@ public class SolrJettyProcess
         return jettyPort;
     }
 
-    public boolean isServerIsUp()
+    public boolean isServerRunning()
     {
         return serverIsUp;
     }

@@ -9,6 +9,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.solrmarc.testUtils.CommandLineUtils;
+import org.solrmarc.testUtils.IndexTest;
 
 
 public class CommandLineUtilTests
@@ -419,7 +420,7 @@ public class CommandLineUtilTests
             fail("property test.config.file be defined for this test to run");
 
         // ensure we start in a sane state
-        deleteAllRecords(testConfigFile, solrPath );
+        IndexTest.deleteAllRecordsEmbedded(testConfigFile, solrPath );
         
         // index a small set of records
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
@@ -494,7 +495,7 @@ public class CommandLineUtilTests
         CommandLineUtils.assertArrayEquals("all records via GetFromSolr, all record via MarcMerger ", out9.toByteArray(), out10.toByteArray()); 
 
         // now delete all of the records in the index to make test order not matter
-        deleteAllRecords(testConfigFile, solrPath );
+        IndexTest.deleteAllRecordsEmbedded(testConfigFile, solrPath );
 
         // lastly check that the index is now empty
         ByteArrayOutputStream out11 = new ByteArrayOutputStream();
@@ -524,7 +525,7 @@ public class CommandLineUtilTests
             fail("property test.config.file be defined for this test to run");
 
         // ensure we start in a sane state
-        deleteAllRecords(testConfigFile, solrPath );
+        IndexTest.deleteAllRecordsEmbedded(testConfigFile, solrPath );
 
         // index a small set of records (actually one record)
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
@@ -560,7 +561,7 @@ public class CommandLineUtilTests
         CommandLineUtils.assertArrayEquals("record via GetFromSolr by id, and record via GetFromSolr by fund_code_facet ", out4.toByteArray(), out5.toByteArray()); 
         
         // now delete all of the records in the index to make test order not matter
-        deleteAllRecords(testConfigFile, solrPath );
+        IndexTest.deleteAllRecordsEmbedded(testConfigFile, solrPath );
 
         // lastly check that the index is now empty
         ByteArrayOutputStream out13 = new ByteArrayOutputStream();
@@ -572,40 +573,4 @@ public class CommandLineUtilTests
         System.out.println("Test testBooklistReader is successful");
     }
     
-    public static void deleteAllRecords(String testConfigFile, String solrPath )
-    {
-        byte[] listOfRecordsToDelete = getListOfAllRecordIds(testConfigFile, solrPath, false);
-        
-        ByteArrayInputStream in = new ByteArrayInputStream(listOfRecordsToDelete);
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        ByteArrayOutputStream err = new ByteArrayOutputStream();
-        Map<String,String> addnlProps3 = new LinkedHashMap<String,String>();
-//        addnlProps3.put("marc.delete_record_id_mapper", "001 [ ]*([A-Za-z0-9]*).*->$1");
-        addnlProps3.put("solr.path", solrPath);
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", in, out, err, new String[]{testConfigFile, "DELETE_ONLY"}, addnlProps3);
-    }
-    
-    public static byte[] getListOfAllRecordIds(String testConfigFile, String solrPath, boolean show)
-    {
-        // dump the entire contents of index (don't try this at home)
-        ByteArrayOutputStream out1 = new ByteArrayOutputStream();
-        ByteArrayOutputStream err1 = new ByteArrayOutputStream();
-        Map<String,String> addnlProps1 = new LinkedHashMap<String,String>();
-        addnlProps1.put("solr.path", solrPath);
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.SolrReIndexer", "main", null, out1, err1, new String[]{testConfigFile, "-id", "*:*", "marc_display"}, addnlProps1);
-                
-        // now show the list all of the records
-        if (show)
-        {
-            try
-            {
-                System.out.println("testConfigFile= "+ testConfigFile + "    solrPath="+solrPath);
-                System.out.println(out1.toString("UTF8"));
-            }
-            catch (UnsupportedEncodingException e)
-            {
-            }
-        }
-        return(out1.toByteArray());
-    }
 }

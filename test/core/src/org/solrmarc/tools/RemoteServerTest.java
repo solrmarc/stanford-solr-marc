@@ -77,7 +77,7 @@ public class RemoteServerTest
     @AfterClass
     public static void stopJetty() throws Exception
     {
-        if (solrJettyProcess != null && solrJettyProcess.isServerIsUp())
+        if (solrJettyProcess != null && solrJettyProcess.isServerRunning())
         {
             solrJettyProcess.stopServer();
         }
