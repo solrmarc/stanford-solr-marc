@@ -16,7 +16,7 @@ public class IndexSmokeTest extends IndexTest
     /**
      * Start a Jetty driven solr server running in a separate JVM at port jetty.test.port
      */
-    @BeforeClass
+@BeforeClass
     public static void startJetty() 
     {    	
     	startTestJetty();
@@ -33,10 +33,9 @@ public class IndexSmokeTest extends IndexTest
     }
 
     /**
-     * Start a Jetty driven solr server running in a separate JVM at port jetty.test.port
-     * @throws Exception 
+     * Stop the Jetty server we spun up for testing
      */
-    @AfterClass
+@AfterClass
     public static void stopJetty() throws Exception 
     {
     	stopTestJetty();
