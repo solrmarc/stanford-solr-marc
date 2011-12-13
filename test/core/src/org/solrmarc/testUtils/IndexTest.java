@@ -25,7 +25,7 @@ public abstract class IndexTest {
 	
 	protected MarcImporter importer;
     protected SolrProxy solrProxy;
-	protected SolrServer solrServer;
+	protected static SolrServer solrServer;
 
 	protected static String docIDfname = "id";
 
@@ -66,7 +66,6 @@ public abstract class IndexTest {
         solrProxy = importer.getSolrProxy();
         solrProxy.commit(false);
         solrServer = ((SolrServerProxy)solrProxy).getSolrServer();
-//		searcherProxy = new SolrSearcherProxy(solrCoreProxy);
 	}
 	
     /**
@@ -90,12 +89,6 @@ public abstract class IndexTest {
             Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
         }
         // from DistSMCreateIxInitVars ... which only creates the smoketest
-//        Map<String,String> addnlProps = new LinkedHashMap<String,String>();
-//        addnlProps.put("solr.path", solrPath);
-//        if (solrDataDir != null)
-//        {
-//            addnlProps.put("solr.data.dir", solrDataDir);
-//        }
 //        if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
 //        {
 //            addnlProps.put("solr.log.level", "OFF");
@@ -140,13 +133,13 @@ public abstract class IndexTest {
 	{
 		setSolrSysProperties(solrPath, solrDataDir);
 		setupMarcImporter(configPropFilename, testDataParentPath + File.separator + testDataFname);
-		int numImported = importer.importRecords();       
-        importer.finish();
+		int numImported = importer.importRecords();
+// FIXME:  Naomi doesn't think this will work for remote server debugging
+		importer.finish();
  
         solrProxy = (SolrProxy)importer.getSolrProxy();
         solrProxy.commit(false);
         solrServer = ((SolrServerProxy)solrProxy).getSolrServer();
-//		searcherProxy = new SolrSearcherProxy(solrCoreProxy);
 	}
 
     /**
@@ -166,12 +159,12 @@ public abstract class IndexTest {
 		setupMarcImporter(configPropFilename, deletedIdsFilename);    
         
         int numDeleted = importer.deleteRecords();       
+// FIXME:  Naomi doesn't think this will work for remote server debugging
         importer.finish();
  
         solrProxy = importer.getSolrProxy();
         solrProxy.commit(false);
         solrServer = ((SolrServerProxy)solrProxy).getSolrServer();
-//		searcherProxy = new SolrSearcherProxy(solrCoreProxy);
 	}
 	
 	
@@ -184,15 +177,19 @@ public abstract class IndexTest {
     {
         String jettyTestPortStr;
 
-        String solrPath = System.getProperty("test.solr.path");
-        if (solrPath == null)
-            fail("property test.solr.path must be defined for the tests to run");
+        String testSolrUrl = System.getProperty("test.solr.url");
+        if (testSolrUrl == null)
+            fail("property test.solr.url must be defined for the tests to run");
+        System.setProperty("solr.hosturl", testSolrUrl);
+
         String testDataParentPath = System.getProperty("test.data.path");
         if (testDataParentPath == null)
             fail("property test.data.path must be defined for the tests to run");
+        
         String testConfigFile = System.getProperty("test.config.file");
         if (testConfigFile == null)
             fail("property test.config.file must be defined for this test to run");
+
         String jettyDir = System.getProperty("test.jetty.dir");
         if (jettyDir == null)
             fail("property test.jetty.dir must be defined for this test to run");
@@ -201,8 +198,8 @@ public abstract class IndexTest {
         // Specify port 0 to select any available port 
         if (jettyTestPortStr == null)
             jettyTestPortStr = "0";
-        
-        solrJettyProcess = new SolrJettyProcess(solrPath, testDataParentPath, testConfigFile, jettyTestPortStr, jettyDir);
+
+        solrJettyProcess = new SolrJettyProcess(testSolrUrl, testDataParentPath, testConfigFile, jettyTestPortStr, jettyDir);
         boolean serverIsUp = false;
         try
         {
@@ -213,23 +210,59 @@ public abstract class IndexTest {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
-        assertTrue("Server did not become available", serverIsUp);
+		assertTrue("Server did not become available", serverIsUp);
+//        assertTrue("Server did not become available", solrJettyProcess.isServerRunning());
+		
         // If you need to see the output of the solr server after the server is up and running, call 
         // solrJettyProcess.outputReset() here to empty the buffer so the later output is visible in the Eclipse variable viewer
-        //solrJettyProcess.outputReset();
+//        solrJettyProcess.outputReset();
         System.out.println("Server is up and running at port "+ solrJettyProcess.getJettyPort());
     }
     
+    
     public static void stopTestJetty() throws Exception
     {
-        if (solrJettyProcess != null && solrJettyProcess.isServerIsUp())
-        {
+        if (solrJettyProcess != null && solrJettyProcess.isServerRunning())
             solrJettyProcess.stopServer();
-        }
     }
 
 
+    /**
+     * Given the paths to a marc file to be indexed, the solr directory, and
+     *  the path for the solr index, create the index from the marc file.
+     * @param confPropFilename - name of config.properties file
+     * @param solrPath - the directory holding the solr instance (think conf files)
+     * @param solrDataDir - the data directory to hold the index
+     * @param testDataParentPath - directory containing the test data file
+     * @param testDataFname - file of marc records to be indexed.  should end in ".mrc" "marc" or ".xml"
+     */
+	public void createFreshIxOverHTTP(String configPropFilename, String testSolrUrl, boolean useBinaryRequestHandler, boolean useStreamingProxy, 
+            String testDataParentPath, String testDataFname) throws ParserConfigurationException, IOException, SAXException 
+	{
+		boolean solrVerbose = Boolean.parseBoolean(System.getProperty("test.solr.verbose"));
+        Map<String,String> addnlProps = new LinkedHashMap<String,String>();
+        if (!solrVerbose)
+        {
+            java.util.logging.Logger.getLogger("org.apache.solr").setLevel(java.util.logging.Level.SEVERE);
+            Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
+            addnlProps.put("solr.log.level", "OFF");
+            addnlProps.put("solrmarc.log.level", "OFF");
+        }
+        
+        solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
+		solrProxy.deleteAllDocs();
+
+		importer = new MarcImporter(solrProxy);
+        importer.init(new String[] {configPropFilename, testDataParentPath + File.separator + testDataFname});        	
+		int numImported = importer.importRecords();
+        
+        solrProxy.commit(false);
+        
+        solrServer = ((SolrServerProxy)solrProxy).getSolrServer();
+	}
+	
+		
+    
 	
     /**
      * Given the paths to a marc file to be indexed, the solr directory, and
@@ -240,49 +273,78 @@ public abstract class IndexTest {
      * @param testDataParentPath - directory containing the test data file
      * @param testDataFname - file of marc records to be indexed.  should end in ".mrc" "marc" or ".xml"
      */
-//	public void createIxInitVarsDistSM2_3_1(String configPropFilename, String solrPath, String solrDataDir, 
-//	                             String testDataParentPath, String testDataFname) 
-	public void createIxInitVarsDistSM2_3_1(String configPropFilename, String testSolrUrl, boolean useBinaryRequestHandler, boolean useStreamingProxy, 
-            String testDataParentPath, String testDataFname) throws ParserConfigurationException, IOException, SAXException 
+	public void createIxInitVarsDistSM2_3_1(String configPropFilename, String solrPath, String solrDataDir, 
+	                             String testDataParentPath, String testDataFname) 
 	{
-        System.err.println("test.solr.verbose = " + System.getProperty("test.solr.verbose"));
-        if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
-        {
-            java.util.logging.Logger.getLogger("org.apache.solr").setLevel(java.util.logging.Level.SEVERE);
-            Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
-        }
-
-        // index a small set of records (actually one record)
-        Map<String,String> addnlProps = new LinkedHashMap<String,String>();
-        if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
-        {
-            addnlProps.put("solr.log.level", "OFF");
-            addnlProps.put("solrmarc.log.level", "OFF");
-        }
-
+        //System.err.println("test.solr.verbose = " + System.getProperty("test.solr.verbose"));
+//      if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
+//      {
+//          java.util.logging.Logger.getLogger("org.apache.solr").setLevel(java.util.logging.Level.SEVERE);
+//          Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
+//      }
+//      addnlProps = new LinkedHashMap<String, String>();
 //      backupProps = new LinkedHashMap<String, String>();
 //      allOrigProps = new LinkedHashMap<String, String>();
 //      CommandLineUtils.checkpointProps(allOrigProps);
+//
+//      if (solrPath != null)  
+//      {
+//          addnlProps.put("solr.path", solrPath);
+////          if (solrDataDir == null)
+////          {
+////              solrDataDir = solrPath + File.separator + "data";
+////          }
+////          addnlProps.put("solr.data.dir", solrDataDir);
+//      }
+      logger.debug("System.getProperty(\"os.name\") : "+System.getProperty("os.name"));
+//      if (!System.getProperty("os.name").toLowerCase().contains("win"))
+//      {
+//          //   comment out these two lines since if the solr data dir is set the same as the solr home, the conf directory would be deleted as well.
+//          //   for that matter, if the solr data dir is accidently pointed at a valued directory, that directory, and all of its children, would be wiped out.  
+////           logger.info("Calling Delete Dir Contents");
+////           deleteDirContents(solrDataDir);
+//      }
+      // index a small set of records (actually one record)
+      ByteArrayOutputStream out1 = new ByteArrayOutputStream();
+      ByteArrayOutputStream err1 = new ByteArrayOutputStream();
+      Map<String,String> addnlProps = new LinkedHashMap<String,String>();
+      addnlProps.put("solr.path", solrPath);
+      if (solrDataDir != null)
+      {
+          addnlProps.put("solr.data.dir", solrDataDir);
+      }
+      if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
+      {
+          addnlProps.put("solr.log.level", "OFF");
+          addnlProps.put("solrmarc.log.level", "OFF");
+      }
 
-//        ByteArrayOutputStream out1 = new ByteArrayOutputStream();
-//        ByteArrayOutputStream err1 = new ByteArrayOutputStream();
-//        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", null, out1, err1, new String[]{configPropFilename, testDataParentPath + File.separator + testDataFname }, addnlProps);
-//        solrProxy = SolrCoreLoader.loadEmbeddedCore(solrPath, solrDataDir, null, false, logger);
-        
-        
-//    	createIxInitVars(configPropFilename, null, null, testDataParentPath, testDataFname);
-
+      CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", null, out1, err1, new String[]{configPropFilename, testDataParentPath + File.separator + testDataFname }, addnlProps);
+      solrProxy = SolrCoreLoader.loadEmbeddedCore(solrPath, solrDataDir, null, false, logger);
+      solrServer = ((SolrServerProxy)solrProxy).getSolrServer();
+      
 //      CommandLineUtils.addProps(addnlProps, backupProps);
-        
-        solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
-
-        importer = new MarcImporter(solrProxy);
-        importer.init(new String[] {configPropFilename, testDataParentPath + File.separator + testDataFname});        	
-		int numImported = importer.importRecords();       
-		importer.finish();
-        
-        solrProxy.commit(true);
-        solrServer = ((SolrServerProxy)solrProxy).getSolrServer();
+//      importer = new MarcImporter();
+//      if (configPropFilename != null)
+//      {
+//          importer.init(new String[]{configPropFilename, testDataParentPath + File.separator + testDataFname});
+//      }
+//      else 
+//      {
+//          importer.init(new String[]{testDataParentPath + File.separator + testDataFname});
+//      }
+//      if (System.getProperty("os.name").toLowerCase().contains("win"))
+//      {
+//          logger.info("Calling Delete All Docs");
+//          importer.getSolrProxy().deleteAllDocs();
+//      }
+//      
+//      int numImported = importer.importRecords();       
+//      importer.finish();
+//      
+//      solrProxy = (SolrCoreProxy)importer.getSolrProxy();
+//      solrCoreProxy.commit(false);
+//      searcherProxy = new SolrSearcherProxy(solrCoreProxy);
 	}
 	
 		
@@ -366,11 +428,15 @@ public abstract class IndexTest {
 	    query.setQueryType("standard");
 	    query.setFacet(false);
 	    try {
+System.err.println("DEBUG:     IndexTest.getDocList solrServer is " + solrServer.toString());
 	        QueryResponse response = solrServer.query(query); 
+System.err.println("DEBUG:  response to query is " + response.toString()); 	        
 	        return(response.getResults());
 	    }
 	    catch (SolrServerException e)
 	    {
+	    	e.getCause().printStackTrace();
+//	    	e.printStackTrace();
 	    }
 	    return(new SolrDocumentList());
 	}
@@ -672,5 +738,44 @@ public abstract class IndexTest {
 //		}
 //		fail(msgPrefix + "doc \"" + doc_id + "\" missing from list");
 //	}
+	
+	
+    public static void deleteAllRecordsEmbedded(String testConfigFile, String solrPath )
+    {
+        byte[] listOfRecordsToDelete = getListOfAllRecordIdsEmbedded(testConfigFile, solrPath, false);
+        
+        ByteArrayInputStream in = new ByteArrayInputStream(listOfRecordsToDelete);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ByteArrayOutputStream err = new ByteArrayOutputStream();
+        Map<String,String> addnlProps3 = new LinkedHashMap<String,String>();
+//        addnlProps3.put("marc.delete_record_id_mapper", "001 [ ]*([A-Za-z0-9]*).*->$1");
+        addnlProps3.put("solr.path", solrPath);
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", in, out, err, new String[]{testConfigFile, "DELETE_ONLY"}, addnlProps3);
+    }
+    
+    public static byte[] getListOfAllRecordIdsEmbedded(String testConfigFile, String solrPath, boolean show)
+    {
+        // dump the entire contents of index (don't try this at home)
+        ByteArrayOutputStream out1 = new ByteArrayOutputStream();
+        ByteArrayOutputStream err1 = new ByteArrayOutputStream();
+        Map<String,String> addnlProps1 = new LinkedHashMap<String,String>();
+        addnlProps1.put("solr.path", solrPath);
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.SolrReIndexer", "main", null, out1, err1, new String[]{testConfigFile, "-id", "*:*", "marc_display"}, addnlProps1);
+                
+        // now show the list all of the records
+        if (show)
+        {
+            try
+            {
+                System.out.println("testConfigFile= "+ testConfigFile + "    solrPath="+solrPath);
+                System.out.println(out1.toString("UTF8"));
+            }
+            catch (UnsupportedEncodingException e)
+            {
+            }
+        }
+        return(out1.toByteArray());
+    }
+
 	
 }

@@ -1,5 +1,6 @@
 package org.solrmarc.tools;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.*;
@@ -10,6 +11,7 @@ import org.junit.*;
 import org.marc4j.MarcStreamReader;
 import org.marc4j.marc.Record;
 import org.solrmarc.testUtils.IndexTest;
+import org.solrmarc.testUtils.SolrJettyProcess;
 import org.xml.sax.SAXException;
 
 
@@ -20,8 +22,18 @@ public class IndexSmokeTest extends IndexTest
      */
     @BeforeClass
     public static void startJetty() 
-    {
+    {    	
     	startTestJetty();
+//    	DEBUG        
+//System.err.println("DEBUG: just started Jetty for IndexSmokeTest as beforeClass.");    	
+//      try
+//      {
+//      Thread.sleep(1000 * 60); // do nothing for 1000 miliseconds (1 second)
+//      }
+//      catch(InterruptedException e)
+//      {
+//      e.printStackTrace();
+//      }
     }
 
     /**
@@ -33,7 +45,7 @@ public class IndexSmokeTest extends IndexTest
     {
     	stopTestJetty();
     }
-
+    
       
     /**
      * Creates index and asserts an expected doc is present.
@@ -41,29 +53,12 @@ public class IndexSmokeTest extends IndexTest
 @Test
     public final void testForSmoke() throws ParserConfigurationException, IOException, SAXException 
     {
-        createIxInitVars("double_007.xml");
-        this.assertDocPresent("u2");
-
-//        MarcStreamReader reader = null;
-//        try
-//        {
-//            reader = new MarcStreamReader(new FileInputStream(testDataParentPath + File.separator + testDataFname));
-//        }
-//        catch (FileNotFoundException e)
-//        {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        while (reader != null && reader.hasNext())
-//        {
-//            Record rec = reader.next();
-//            String id = rec.getControlNumber();
-//            if (id != null)
-//            {
-//                assertDocPresent(id);
-//            }
-//        }
-//        System.out.println("Test testForSmoke is successful");
+//        createIxInitVars("double_007.xml");
+//        createIxInitVars("double_007.mrc");
+//    	this.assertResultSize(docIDfname, "ocm*", 1);
+//    	this.assertDocPresent("ocm57136914 ");
+        createIxInitVars("selectedRecs.mrc");
+        assertDocPresent("u2");
     }
 
     /**
@@ -86,18 +81,13 @@ public class IndexSmokeTest extends IndexTest
 //        	testConfigFile = testDataPath + File.separator + "smoketest" + File.separator + "test_config.properties";
 //            System.setProperty("test.config.file", testConfigFile);
 //        }
-//    	String solrPath = System.getProperty("solr.path");
-//        if (solrPath == null)
+//        String testSolrUrl = System.getProperty("test.solr.url");
+//        if (testSolrUrl == null)
 //        {
-//        	solrPath = testDataPath + File.separator + "smoketest" + File.separator + "solr";
-//            System.setProperty("solr.path", testConfigFile);
-//        }
-//    	String solrDataDir = System.getProperty("solr.data.dir");
-//
-//        createIxInitVarsDistSM2_3_1(testConfigFile, solrPath, solrDataDir, testDataPath, testDataFname);
+//        	testSolrUrl = "http://localhost:8984/solr";
+//            System.setProperty("test.solr.url", testSolrUrl);
+//        }    
 
-        
-    
         String testDataParentPath = System.getProperty("test.data.path");
         if (testDataParentPath == null)
             fail("property test.data.path must be defined for the tests to run");
@@ -114,13 +104,7 @@ public class IndexSmokeTest extends IndexTest
         boolean useStreamingProxy= Boolean.valueOf(System.getProperty("core.test.use_binary_request_handler"));
 
 //        createIxInitVarsDistSM2_3_1(testConfigFname, solrPath, solrDataDir, testDataParentPath, testDataFname);
-        createIxInitVarsDistSM2_3_1(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, testDataFname);
-    
-    //  createNewTestIndex(testDataParentPath + File.separator + testDataFname, configPropFile, solrPath, solrDataDir, solrmarcPath, siteSpecificPath);
-    //  solrCore = getSolrCore(solrPath, solrDataDir);
-    //  sis = getSolrIndexSearcher(solrCore);
+        createFreshIxOverHTTP(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, testDataFname);
     }
-       
-
 
 }

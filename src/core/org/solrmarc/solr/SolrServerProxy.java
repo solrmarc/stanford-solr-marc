@@ -20,6 +20,7 @@ public class SolrServerProxy implements SolrProxy
     
     public String addDoc(Map<String, Object> fieldsMap, boolean verbose, boolean addDocToIndex) throws IOException
     {
+System.err.println("DEBUG:   in SolrServerProxy.addDoc()" );    	
         SolrInputDocument inputDoc = new SolrInputDocument();
         Iterator<String> keys = fieldsMap.keySet().iterator();
         while (keys.hasNext())
@@ -69,6 +70,16 @@ public class SolrServerProxy implements SolrProxy
     
     public void commit(boolean optimize) throws IOException
     {
+System.err.println("DEBUG:   in SolrServerProxy.commit()" ); 	
+System.err.println("DEBUG:          solrserver is " + solrserver.toString());
+try
+{
+	System.err.println("DEBUG:           response to ping is " + solrserver.ping().toString());
+} catch (SolrServerException e1)
+{
+	// TODO Auto-generated catch block
+	e1.printStackTrace();
+}
         try
         {  
             if (optimize)
