@@ -34,8 +34,12 @@ public abstract class IndexTest {
     protected String testDataParentPath;
     protected String testConfigFname;
     protected String testSolrUrl;
-    protected boolean useBinaryRequestHandler;
-    protected boolean useStreamingProxy;
+    
+    protected boolean useBinaryRequestHandler = Boolean.valueOf(System.getProperty("core.test.use_streaming_proxy"));
+    protected boolean useStreamingProxy = Boolean.valueOf(System.getProperty("core.test.use_binary_request_handler"));
+	protected static String testSolrLogLevel = System.getProperty("test.solr.log.level");
+	protected static String testSolrMarcLogLevel = System.getProperty("test.solrmarc.log.level");
+
 
 	/**
 	 * Start a Jetty driven solr server running in a separate JVM at port jetty.test.port
@@ -91,7 +95,7 @@ public abstract class IndexTest {
 	/**
      * initializes the properties used to create an index over http
      */
-    protected void initVarsForHttpIndexing()
+    protected void initVarsForHttpTestIndexing()
     {
         testDataParentPath = System.getProperty("test.data.path");
         if (testDataParentPath == null)
@@ -105,15 +109,57 @@ public abstract class IndexTest {
         if (testSolrUrl == null)
             fail("property test.solr.url must be defined for the tests to run");
         System.setProperty("solr.hosturl", testSolrUrl);
-        
-        useBinaryRequestHandler = Boolean.valueOf(System.getProperty("core.test.use_streaming_proxy"));
-        useStreamingProxy = Boolean.valueOf(System.getProperty("core.test.use_binary_request_handler"));
     }
-
     
+    public static void setTestLoggingLevels()
+    {
+    	setTestLoggingLevels(testSolrLogLevel, testSolrMarcLogLevel);
+    }
+    
+// FIXME:  move this to Utils, and also look for logging levels in config.properties    
+    
+	/**
+	 * default settings:  solr:  WARNING;  solrmarc: WARN
+	 * Solr uses java.util.logging; level settings for solr logging: 
+	 *    OFF, SEVERE, WARNING, INFO, FINE, FINER, FINEST, ALL
+	 * SolrMarc uses log4j logging; level settings for solrmarc logging:
+	 *    OFF, FATAL, WARN, INFO, DEBUG, ALL
+	 */
+	public static void setTestLoggingLevels(String solrLogLevel, String solrmarcLogLevel)
+	{
+        java.util.logging.Level solrLevel = java.util.logging.Level.WARNING;
+
+        if (solrLogLevel != null)
+        {
+            if (solrLogLevel.equals("OFF"))     solrLevel = java.util.logging.Level.OFF;
+            if (solrLogLevel.equals("SEVERE"))  solrLevel = java.util.logging.Level.SEVERE;
+            if (solrLogLevel.equals("WARNING")) solrLevel = java.util.logging.Level.WARNING;
+            if (solrLogLevel.equals("INFO"))    solrLevel = java.util.logging.Level.INFO;
+            if (solrLogLevel.equals("FINE"))    solrLevel = java.util.logging.Level.FINE;
+            if (solrLogLevel.equals("FINER"))   solrLevel = java.util.logging.Level.FINER;
+            if (solrLogLevel.equals("FINEST"))  solrLevel = java.util.logging.Level.FINEST;
+            if (solrLogLevel.equals("ALL"))     solrLevel = java.util.logging.Level.ALL;
+        }
+        java.util.logging.Logger.getLogger("org.apache.solr").setLevel(solrLevel);
+
+        org.apache.log4j.Level solrmarcLevel = org.apache.log4j.Level.WARN;
+        if (solrmarcLogLevel != null)
+        {
+            if (solrmarcLogLevel.equals("OFF"))     solrmarcLevel = Level.OFF;
+            if (solrmarcLogLevel.equals("FATAL"))   solrmarcLevel = Level.FATAL;
+            if (solrmarcLogLevel.equals("WARN"))    solrmarcLevel = Level.WARN;
+            if (solrmarcLogLevel.equals("INFO"))    solrmarcLevel = Level.INFO;
+            if (solrmarcLogLevel.equals("DEBUG"))   solrmarcLevel = Level.DEBUG;
+            if (solrmarcLogLevel.equals("ALL"))     solrmarcLevel = Level.ALL;
+        }
+        Utils.setLog4jLogLevel(solrmarcLevel);
+	}
+
+
     /**
-     * creates an index from the indicated test file of marc records, and initializes 
+     * Creates a pristine Solr index from the indicated test file of marc records, and initializes 
      *  necessary variables.  Uses a bunch of class instance variables
+	 * @param marcTestDataFname - file of marc records to be indexed.  should end in ".mrc" "marc" or ".xml"
      */
     protected void createFreshTestIxOverHTTP(String marcTestDataFname)
     		throws ParserConfigurationException, IOException, SAXException 
@@ -121,42 +167,84 @@ public abstract class IndexTest {
         createFreshTestIxOverHTTP(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, marcTestDataFname);
     }
 
-
+    
     /**
-	 * Given the paths to a marc file to be indexed, the solr directory, and
-	 *  the path for the solr index, create the index from the marc file.
+	 * Create a pristine Solr index from the marc file.
 	 * @param confPropFilename - name of config.properties file
-	 * @param solrPath - the directory holding the Solr instance (think Solr conf files)
-	 * @param solrDataDir - the data directory to hold the generated index
+	 * @param testSolrUrl - url for test solr instances, as a string
+	 * @param useBinaryRequestHandler - true to use the binary request handler
+	 * @param useStreamingProxy - true to use streaming proxy (multiple records added at a time)
 	 * @param testDataParentPath - directory containing the test data file
-	 * @param testDataFname - file of marc records to be indexed.  should end in ".mrc" "marc" or ".xml"
+	 * @param marcTestDataFname - file of marc records to be indexed.  should end in ".mrc" "marc" or ".xml"
 	 */
 	public void createFreshTestIxOverHTTP(String configPropFilename, String testSolrUrl, 
 											boolean useBinaryRequestHandler, boolean useStreamingProxy, 
-	        								String testDataParentPath, String testDataFname) 
+	        								String testDataParentPath, String marcTestDataFname) 
 	        		throws ParserConfigurationException, IOException, SAXException 
 	{
-		boolean solrVerbose = Boolean.parseBoolean(System.getProperty("test.solr.verbose"));
-	    Map<String,String> addnlProps = new LinkedHashMap<String,String>();
-	    if (!solrVerbose)
-	    {
-	        java.util.logging.Logger.getLogger("org.apache.solr").setLevel(java.util.logging.Level.SEVERE);
-	        Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
-	        addnlProps.put("solr.log.level", "OFF");
-	        addnlProps.put("solrmarc.log.level", "OFF");
-	    }
-	    
 	    solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
+	    logger.debug("just set solrProxy to remote solr server at " + testSolrUrl + " - " + solrProxy.toString());
 		solrProxy.deleteAllDocs();
+	    logger.debug("just deleted all docs known to the solrProxy");
 	
 		importer = new MarcImporter(solrProxy);
-	    importer.init(new String[] {configPropFilename, testDataParentPath + File.separator + testDataFname});        	
+	    importer.init(new String[] {configPropFilename, testDataParentPath + File.separator + marcTestDataFname});        	
 		int numImported = importer.importRecords();
 	    
-	    solrProxy.commit(false);
+	    solrProxy.commit(false);  // don't optimize
 	    
 	    solrServer = ((SolrServerProxy)solrProxy).getSolrServer();
+	    logger.debug("just set solrServer to " + solrServer.toString());
 	}
+
+	
+    /**
+     * Updates the Solr index from the indicated test file of marc records, and initializes 
+     *  necessary variables.  Uses a bunch of class instance variables
+	 * @param marcTestDataFname - file of marc records to be indexed.  should end in ".mrc" "marc" or ".xml"
+     */
+    protected void updateTestIxOverHTTP(String marcTestDataFname)
+    		throws ParserConfigurationException, IOException, SAXException 
+    {
+    	updateTestIxOverHTTP(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, marcTestDataFname);
+    }
+
+	
+    /**
+	 * Updates the Solr index from the marc file.
+	 * @param confPropFilename - name of config.properties file
+	 * @param testSolrUrl - url for test solr instances, as a string
+	 * @param useBinaryRequestHandler - true to use the binary request handler
+	 * @param useStreamingProxy - true to use streaming proxy (multiple records added at a time)
+	 * @param testDataParentPath - directory containing the test data file
+	 * @param marcTestDataFname - file of marc records to be indexed.  should end in ".mrc" "marc" or ".xml"
+	 */
+	public void updateTestIxOverHTTP(String configPropFilename, String testSolrUrl, 
+										boolean useBinaryRequestHandler, boolean useStreamingProxy, 
+										String testDataParentPath, String marcTestDataFname)
+			throws ParserConfigurationException, IOException, SAXException 
+	{
+	    logger.debug("solrProxy for " + testSolrUrl + " starting as - " + (solrProxy == null ? "null" : solrProxy.toString()));
+		if (solrProxy == null)
+		{
+		    solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
+		    logger.debug("just set solrProxy to remote solr server at " + testSolrUrl + " - " + solrProxy.toString());
+		    solrServer = ((SolrServerProxy)solrProxy).getSolrServer();
+		    logger.debug("just set solrServer to " + solrServer.toString());
+		}
+		
+		if (importer == null)
+			importer = new MarcImporter(solrProxy);
+
+	    importer.init(new String[] {configPropFilename, testDataParentPath + File.separator + marcTestDataFname});        	
+		int numImported = importer.importRecords();
+	    solrProxy.commit(false);  // don't optimize
+	}
+
+	
+	
+
+
 
 
 	/**
@@ -385,16 +473,16 @@ public abstract class IndexTest {
 	
 		
 	/**
-	 * ensure IndexSearcher and SolrCore are reset for next test
+	 * close and set solrProxy to null
 	 */
-	@After
-	public void tearDown()
+//@After
+	public static void closeSolrProxy()
 	{
 	    // avoid "already closed" exception
-	    logger.info("Calling teardown to close importer");
+	    logger.debug("IndexTest closing solrProxy and setting to null");
         if (solrProxy != null)
         {
-            logger.info("Closing solr");
+            logger.info("Closing solrProxy");
             solrProxy.close();
             solrProxy = null;
         }

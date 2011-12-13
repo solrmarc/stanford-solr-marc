@@ -741,20 +741,20 @@ public final class Utils {
         }
     }
     
+    /**
+     * loop through all the log4j loggers under the root and set them to the
+     *  new log4j level.
+     * @param newLevel
+     */
    @SuppressWarnings("unchecked")
     public static void setLog4jLogLevel(org.apache.log4j.Level newLevel)
     {
         Logger rootLogger = org.apache.log4j.Logger.getRootLogger();
         Enumeration<Logger> enLogger = rootLogger.getLoggerRepository().getCurrentLoggers();
-        Logger tmpLogger = null;
-        /* If logger is root, then need to loop through all loggers under root
-        * and change their logging levels too.  Also, skip sql loggers so
-        they
-        * do not get effected.
-        */
+        // loop through all loggers under root 
         while(enLogger.hasMoreElements())
         {
-            tmpLogger = (Logger)(enLogger.nextElement());
+            Logger tmpLogger = (Logger)(enLogger.nextElement());
             tmpLogger.setLevel(newLevel);
         }
         Enumeration<Appender> enAppenders = rootLogger.getAllAppenders();

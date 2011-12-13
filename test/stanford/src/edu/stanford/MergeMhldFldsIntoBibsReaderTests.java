@@ -71,11 +71,9 @@ public class MergeMhldFldsIntoBibsReaderTests
 @Before
     public void setUp()
     {
-        if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
-        {
-            java.util.logging.Logger.getLogger("org.apache.solr").setLevel(java.util.logging.Level.SEVERE);
-            Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
-        }
+		String testSolrLogLevel = System.getProperty("test.solr.log.level");
+		String testSolrmarcLogLevel = System.getProperty("test.solrmarc.log.level");
+		IndexTest.setTestLoggingLevels(testSolrLogLevel, testSolrmarcLogLevel);
     }
         
     /**

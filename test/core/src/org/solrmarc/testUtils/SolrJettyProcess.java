@@ -26,11 +26,11 @@ public class SolrJettyProcess
     private static JavaInvoke startJettyWithSolrAsBackgroundProcess(String solrHomeDir, String jettyPath, String jettyTestPortStr) 
     {
         JavaInvoke vmspawner;
-        if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
-        {
-            java.util.logging.Logger.getLogger("org.apache.solr").setLevel(java.util.logging.Level.SEVERE);
-            Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
-        }
+        
+		String testSolrLogLevel = System.getProperty("test.solr.log.level");
+		String testSolrmarcLogLevel = System.getProperty("test.solrmarc.log.level");
+		IndexTest.setTestLoggingLevels(testSolrLogLevel, testSolrmarcLogLevel);
+
         Map<String, String> javaProps = new LinkedHashMap<String, String>();
         javaProps.put("solr.solr.home", myGetCanonicalPath(new File(solrHomeDir)));
         javaProps.put("jetty.port", jettyTestPortStr);
