@@ -1,26 +1,23 @@
 package org.solrmarc.tools;
 
-import static org.junit.Assert.fail;
+//import static org.junit.Assert.fail;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.solrmarc.testUtils.CommandLineUtils;
-import org.solrmarc.testUtils.SolrJettyProcess;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.junit.*;
+import org.solrmarc.testUtils.*;
+import org.xml.sax.SAXException;
 
 
-public class RemoteServerTest
+public class RemoteServerTest extends IndexTest
 {
     static SolrJettyProcess solrJettyProcess = null; 
     static int jettyProcessPort; 
@@ -31,9 +28,11 @@ public class RemoteServerTest
     /**
      * Start a Jetty driven solr server running in a separate JVM at port jetty.test.port
      */
-    @BeforeClass
+@BeforeClass
     public static void startJetty() 
     {
+    	startTestJetty();
+/*
         String jettyTestPortStr;
 
         solrPath = System.getProperty("test.solr.path");
@@ -71,25 +70,120 @@ public class RemoteServerTest
         // solrJettyProcess.outputReset() here to empty the buffer so the later output is visible in the Eclipse variable viewer
         //solrJettyProcess.outputReset();
         System.out.println("Server is up and running at port "+ solrJettyProcess.getJettyPort());
+*/        
     }
     
     
-    @AfterClass
+    /**
+     * Stop the Jetty server we spun up for testing
+     */
+@AfterClass
     public static void stopJetty() throws Exception
     {
+    	stopTestJetty();
+/*    	
         if (solrJettyProcess != null && solrJettyProcess.isServerRunning())
         {
             solrJettyProcess.stopServer();
         }
+*/        
     }
     
+
+	/**
+	 * smoke test for indexing via HTTP
+	 */
+@Test
+	public void testRemoteIndexRecord() 
+			throws ParserConfigurationException, IOException, SAXException
+	{
+        initVarsForHttpIndexing();
+        createFreshTestIxOverHTTP("double_007.mrc");
+    	assertDocPresent("ocm57136914 ");
+	}
+
+	
+	public void testRemoteUpdateIndex()
+			throws ParserConfigurationException, IOException, SAXException
+	{
+		initVarsForHttpIndexing();
+		useBinaryRequestHandler = true;
+		useStreamingProxy = true;
+		
+		createFreshTestIxOverHTTP("mergeInput.mrc");
+		
+		// update index
+// 			updateIx(configPropFilename, solrPath, solrDataDir, testDataParentPath, "u2103.mrc");
+
+		assertDocPresent("u3");
+
+		fail("testIndexFormats not yet implemented");
+	}
+	
+	public void testRemoteSolrSearcher()
+	{
+//        ByteArrayOutputStream out2 = new ByteArrayOutputStream();
+//        ByteArrayOutputStream err2 = new ByteArrayOutputStream();
+//        CommandLineUtils.runCommandLineUtil("org.solrmarc.solr.RemoteSolrSearcher", "main", null, out2, err2, new String[]{urlStr, "id:u3", "marc_display"});
+
+	}
+	
+
+	public void testIndexFormats()
+	{
+		// get record u3 raw from test data file
+
+		// get record u3 raw from index
+		// compare results
+		
+        // retrieve record u3 from the index as XML
+		// compare results
+
+        // retrieve record u3 from the index as JSON
+		// compare results
+
+		fail("testIndexFormats not yet implemented");
+	}
+
+	public void testSolrUpdate()
+	{
+        //   now test SolrUpdate  to commit the changes
+        ByteArrayOutputStream out5 = new ByteArrayOutputStream();
+//        CommandLineUtils.runCommandLineUtil("org.solrmarc.tools.SolrUpdate", "main", null, out5, new String[]{"-v", urlStr+"/update"});
+
+	}
+
+	public void testCommit()
+	{
+		
+	}
+	
+	public void testSolrJNonStreamingBinary()
+	{
+		
+	}
+	
+	public void testSolrJNonStreamingNonBinary()
+	{
+		
+	}
+
+	public void testSolrJStreamingBinary()
+	{
+		
+	}
+
+	public void testSolrJStreamingNonBinary()
+	{
+		
+	}
 
     /**
      * unit test for index a number of records via the REMOTE http access methods.
      * then search for those records using the RemoteSolrSearcher class.
      */
-    @Test
-    public void testRemoteIndexRecord()
+//@Test
+    public void testRemoteIndexRecordOld()
     {
         // index a small set of records
         URL serverURL =  null;
@@ -223,7 +317,7 @@ public class RemoteServerTest
         System.out.println("Test testRemoteIndexRecord is successful");
     }
     
-    @Test
+//@Test
     public void testSolrjBinaryAndNonBinary()
     {
         // index a small set of records
