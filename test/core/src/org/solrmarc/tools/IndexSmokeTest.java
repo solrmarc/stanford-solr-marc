@@ -1,6 +1,5 @@
 package org.solrmarc.tools;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.*;
@@ -8,10 +7,7 @@ import java.io.*;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.*;
-import org.marc4j.MarcStreamReader;
-import org.marc4j.marc.Record;
 import org.solrmarc.testUtils.IndexTest;
-import org.solrmarc.testUtils.SolrJettyProcess;
 import org.xml.sax.SAXException;
 
 
