@@ -44,11 +44,12 @@ public class IndexSmokeTest extends IndexTest
      * Creates index and asserts an expected doc is present.
      */
 @Test
-    public final void testForSmoke() throws ParserConfigurationException, IOException, SAXException 
+    public final void testForSmoke() 
+    		throws ParserConfigurationException, IOException, SAXException 
     {
         initVarsForHttpIndexing();
         createFreshTestIxOverHTTP("double_007.xml");
-    	this.assertDocPresent("ocm57136914 ");
+    	assertDocPresent("ocm57136914 ");
     }
 
 }

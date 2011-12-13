@@ -81,7 +81,7 @@ public abstract class IndexTest {
 	/**
 	 * stop the Jetty server if it is running
 	 */
-	public static void stopTestJetty() throws Exception
+	public static void stopTestJetty() 
 	{
 	    if (solrJettyProcess != null && solrJettyProcess.isServerRunning())
 	        solrJettyProcess.stopServer();
@@ -115,7 +115,8 @@ public abstract class IndexTest {
      * creates an index from the indicated test file of marc records, and initializes 
      *  necessary variables.  Uses a bunch of class instance variables
      */
-    protected void createFreshTestIxOverHTTP(String marcTestDataFname) throws ParserConfigurationException, IOException, SAXException 
+    protected void createFreshTestIxOverHTTP(String marcTestDataFname)
+    		throws ParserConfigurationException, IOException, SAXException 
     {
         createFreshTestIxOverHTTP(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, marcTestDataFname);
     }
@@ -130,8 +131,10 @@ public abstract class IndexTest {
 	 * @param testDataParentPath - directory containing the test data file
 	 * @param testDataFname - file of marc records to be indexed.  should end in ".mrc" "marc" or ".xml"
 	 */
-	public void createFreshTestIxOverHTTP(String configPropFilename, String testSolrUrl, boolean useBinaryRequestHandler, boolean useStreamingProxy, 
-	        String testDataParentPath, String testDataFname) throws ParserConfigurationException, IOException, SAXException 
+	public void createFreshTestIxOverHTTP(String configPropFilename, String testSolrUrl, 
+											boolean useBinaryRequestHandler, boolean useStreamingProxy, 
+	        								String testDataParentPath, String testDataFname) 
+	        		throws ParserConfigurationException, IOException, SAXException 
 	{
 		boolean solrVerbose = Boolean.parseBoolean(System.getProperty("test.solr.verbose"));
 	    Map<String,String> addnlProps = new LinkedHashMap<String,String>();
