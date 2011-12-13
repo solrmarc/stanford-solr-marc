@@ -177,18 +177,9 @@ public abstract class IndexTest {
     {
         String jettyTestPortStr;
 
-        String testSolrUrl = System.getProperty("test.solr.url");
-        if (testSolrUrl == null)
-            fail("property test.solr.url must be defined for the tests to run");
-        System.setProperty("solr.hosturl", testSolrUrl);
-
-        String testDataParentPath = System.getProperty("test.data.path");
-        if (testDataParentPath == null)
-            fail("property test.data.path must be defined for the tests to run");
-        
-        String testConfigFile = System.getProperty("test.config.file");
-        if (testConfigFile == null)
-            fail("property test.config.file must be defined for this test to run");
+        String testSolrHomeDir = System.getProperty("test.solr.path");
+        if (testSolrHomeDir == null)
+            fail("property test.solr.path must be defined for the tests to run");
 
         String jettyDir = System.getProperty("test.jetty.dir");
         if (jettyDir == null)
@@ -199,7 +190,7 @@ public abstract class IndexTest {
         if (jettyTestPortStr == null)
             jettyTestPortStr = "0";
 
-        solrJettyProcess = new SolrJettyProcess(testSolrUrl, testDataParentPath, testConfigFile, jettyTestPortStr, jettyDir);
+        solrJettyProcess = new SolrJettyProcess(testSolrHomeDir, jettyDir, jettyTestPortStr);
         boolean serverIsUp = false;
         try
         {
@@ -216,7 +207,7 @@ public abstract class IndexTest {
         // If you need to see the output of the solr server after the server is up and running, call 
         // solrJettyProcess.outputReset() here to empty the buffer so the later output is visible in the Eclipse variable viewer
 //        solrJettyProcess.outputReset();
-        System.out.println("Server is up and running at port "+ solrJettyProcess.getJettyPort());
+        System.out.println("Server is up and running at " + jettyDir + " port "+ solrJettyProcess.getJettyPort());
     }
     
     
@@ -428,9 +419,7 @@ public abstract class IndexTest {
 	    query.setQueryType("standard");
 	    query.setFacet(false);
 	    try {
-System.err.println("DEBUG:     IndexTest.getDocList solrServer is " + solrServer.toString());
 	        QueryResponse response = solrServer.query(query); 
-System.err.println("DEBUG:  response to query is " + response.toString()); 	        
 	        return(response.getResults());
 	    }
 	    catch (SolrServerException e)
