@@ -8,8 +8,7 @@ import java.util.*;
 import org.junit.*;
 import org.marc4j.marc.*;
 import org.solrmarc.marc.RawRecordReader;
-import org.solrmarc.testUtils.CommandLineUtils;
-import org.solrmarc.testUtils.RecordTestingUtils;
+import org.solrmarc.testUtils.*;
 
 /**
  * Note that actual use of MergeSummaryHoldings is a call to main() from a 
@@ -93,12 +92,11 @@ public class MergeSummaryHoldingsTests
 @Before
     public void setUp()
     {
-        if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
-        {
-            java.util.logging.Logger.getLogger("org.apache.solr").setLevel(java.util.logging.Level.SEVERE);
-            Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
-        }
-        testDataParentPath = System.getProperty("test.data.path");
+    	String testSolrLogLevel = System.getProperty("test.solr.log.level");
+    	String testSolrmarcLogLevel = System.getProperty("test.solrmarc.log.level");
+    	IndexTest.setTestLoggingLevels(testSolrLogLevel, testSolrmarcLogLevel);
+
+    	testDataParentPath = System.getProperty("test.data.path");
         testConfigFname = System.getProperty("test.config.file");
         //System.out.println("-----testDataParentPath = "+testDataParentPath);
     }

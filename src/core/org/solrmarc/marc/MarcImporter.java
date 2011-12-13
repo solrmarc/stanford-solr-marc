@@ -109,7 +109,8 @@ public class MarcImporter extends MarcHandler
             else
                 solrHostUpdateURL = solrHostURL+"/update";
         }
-        
+
+// FIXME:  could move the setLoggingLevels in IndexTest to Utils class and use that here.        
         String solrLogLevel = PropertiesUtils.getProperty(configProps, "solr.log.level");
         
         java.util.logging.Level solrLevel = java.util.logging.Level.WARNING;

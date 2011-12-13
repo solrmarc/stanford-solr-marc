@@ -27,50 +27,13 @@ public class RemoteServerTest extends IndexTest
 
     /**
      * Start a Jetty driven solr server running in a separate JVM at port jetty.test.port
+     *  and set the logging levels
      */
 @BeforeClass
-    public static void startJetty() 
+    public static void setupTestClass() 
     {
     	startTestJetty();
-/*
-        String jettyTestPortStr;
-
-        solrPath = System.getProperty("test.solr.path");
-        if (solrPath == null)
-            fail("property test.solr.path must be defined for the tests to run");
-//        testDataParentPath = System.getProperty("test.data.path");
-//        if (testDataParentPath == null)
-//            fail("property core.test.data.path must be defined for the tests to run");
-//        testConfigFile = System.getProperty("test.config.file");
-//        if (testConfigFile == null)
-//            fail("property core.test.config.file must be defined for this test to run");
-        String jettyDir = System.getProperty("test.jetty.dir");
-        if (jettyDir == null)
-            fail("property test.jetty.dir must be defined for this test to run");
-        
-        jettyTestPortStr = System.getProperty("test.jetty.port");
-        // Specify port 0 to select any available port 
-        if (jettyTestPortStr == null)
-            jettyTestPortStr = "0";
-        
-        solrJettyProcess = new SolrJettyProcess(solrPath, jettyDir, jettyTestPortStr);
-        boolean serverIsUp = false;
-        try
-        {
-            serverIsUp = solrJettyProcess.startProcessWaitUntilSolrIsReady();
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        assertTrue("Server did not become available", serverIsUp);
-        // If you need to see the output of the solr server after the server is up and running, call 
-        // solrJettyProcess.outputReset() here to empty the buffer so the later output is visible in the Eclipse variable viewer
-        //solrJettyProcess.outputReset();
-        System.out.println("Server is up and running at port "+ solrJettyProcess.getJettyPort());
-*/        
+		setTestLoggingLevels();
     }
     
     
@@ -81,12 +44,7 @@ public class RemoteServerTest extends IndexTest
     public static void stopJetty() throws Exception
     {
     	stopTestJetty();
-/*    	
-        if (solrJettyProcess != null && solrJettyProcess.isServerRunning())
-        {
-            solrJettyProcess.stopServer();
-        }
-*/        
+    	closeSolrProxy();
     }
     
 
@@ -97,27 +55,24 @@ public class RemoteServerTest extends IndexTest
 	public void testRemoteIndexRecord() 
 			throws ParserConfigurationException, IOException, SAXException
 	{
-        initVarsForHttpIndexing();
+        initVarsForHttpTestIndexing();
         createFreshTestIxOverHTTP("double_007.mrc");
     	assertDocPresent("ocm57136914 ");
 	}
 
-	
+    /**
+     * testing update of existing index via HTTP
+     */
+@Test
 	public void testRemoteUpdateIndex()
 			throws ParserConfigurationException, IOException, SAXException
 	{
-		initVarsForHttpIndexing();
-		useBinaryRequestHandler = true;
-		useStreamingProxy = true;
-		
+		initVarsForHttpTestIndexing();
 		createFreshTestIxOverHTTP("mergeInput.mrc");
+		updateTestIxOverHTTP("u2103.mrc");
 		
-		// update index
-// 			updateIx(configPropFilename, solrPath, solrDataDir, testDataParentPath, "u2103.mrc");
-
-		assertDocPresent("u3");
-
-		fail("testIndexFormats not yet implemented");
+		assertDocPresent("u2103");
+    	assertDocPresent("u3"); // from mergeInput.mrc
 	}
 	
 	public void testRemoteSolrSearcher()
@@ -125,7 +80,6 @@ public class RemoteServerTest extends IndexTest
 //        ByteArrayOutputStream out2 = new ByteArrayOutputStream();
 //        ByteArrayOutputStream err2 = new ByteArrayOutputStream();
 //        CommandLineUtils.runCommandLineUtil("org.solrmarc.solr.RemoteSolrSearcher", "main", null, out2, err2, new String[]{urlStr, "id:u3", "marc_display"});
-
 	}
 	
 

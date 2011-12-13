@@ -13,10 +13,12 @@ public class IndexSmokeTest extends IndexTest
 {
     /**
      * Start a Jetty driven solr server running in a separate JVM at port jetty.test.port
+     *  and set the logging levels
      */
 @BeforeClass
-    public static void startJetty() 
+    public static void setupTestClass() 
     {    	
+		setTestLoggingLevels();
     	startTestJetty();
 //    	DEBUG        
 //System.err.println("DEBUG: just started Jetty for IndexSmokeTest as beforeClass.");    	
@@ -47,7 +49,7 @@ public class IndexSmokeTest extends IndexTest
     public final void testForSmoke() 
     		throws ParserConfigurationException, IOException, SAXException 
     {
-        initVarsForHttpIndexing();
+        initVarsForHttpTestIndexing();
         createFreshTestIxOverHTTP("double_007.xml");
     	assertDocPresent("ocm57136914 ");
     }
