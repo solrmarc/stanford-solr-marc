@@ -132,7 +132,7 @@ public abstract class AbstractStanfordTest extends IndexTest {
         if (testConfigFname == null)
             fail("property test.config.file must be defined for the tests to run");
 
-        createIxInitVars(testConfigFname, solrPath, null, testDataParentPath, testDataFname);
+        createIxInitVarsOld(testConfigFname, solrPath, null, testDataParentPath, testDataFname);
 	}
 	
 	/**
