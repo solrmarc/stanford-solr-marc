@@ -53,12 +53,8 @@ public class IndexSmokeTest extends IndexTest
 @Test
     public final void testForSmoke() throws ParserConfigurationException, IOException, SAXException 
     {
-//        createIxInitVars("double_007.xml");
-//        createIxInitVars("double_007.mrc");
-//    	this.assertResultSize(docIDfname, "ocm*", 1);
-//    	this.assertDocPresent("ocm57136914 ");
-        createIxInitVars("selectedRecs.mrc");
-        assertDocPresent("u2");
+        createIxInitVars("double_007.xml");
+    	this.assertDocPresent("ocm57136914 ");
     }
 
     /**

@@ -17,18 +17,13 @@ public class SolrJettyProcess
     private ByteArrayOutputStream serverErr = null;
     private boolean serverIsUp = false;
 
-    public SolrJettyProcess(String solrPath, String testDataParentPath, String testConfigFile, String jettyTestPortStr, String jettyPath)
+    public SolrJettyProcess(String solrHomeDir, String jettyPath, String jettyTestPortStr)
     {
-        vmspawner = startJettyWithSolrAsBackgroundProcess(solrPath, testDataParentPath, testConfigFile, jettyTestPortStr, jettyPath);
+        vmspawner = startJettyWithSolrAsBackgroundProcess(solrHomeDir, jettyPath, jettyTestPortStr);
         jettyPort = Integer.parseInt(jettyTestPortStr);
     }
     
-//    public SolrJettyProcess(String solrPath, String testDataParentPath, String testConfigFile, String jettyPath)
-//    {
-//        this(solrPath, testDataParentPath, testConfigFile, "0", jettyPath);
-//    }
-
-    private static JavaInvoke startJettyWithSolrAsBackgroundProcess(String solrPath, String testDataParentPath, String testConfigFile, String jettyTestPortStr, String jettyPath) 
+    private static JavaInvoke startJettyWithSolrAsBackgroundProcess(String solrHomeDir, String jettyPath, String jettyTestPortStr) 
     {
         JavaInvoke vmspawner;
         if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
@@ -37,12 +32,11 @@ public class SolrJettyProcess
             Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
         }
         Map<String, String> javaProps = new LinkedHashMap<String, String>();
-        javaProps.put("solr.solr.home", myGetCanonicalPath(new File(solrPath)));
-        
+        javaProps.put("solr.solr.home", myGetCanonicalPath(new File(solrHomeDir)));
         javaProps.put("jetty.port", jettyTestPortStr);
         List<String> addnlClassPath = new ArrayList<String>();
         addnlClassPath.add(myGetCanonicalPath(new File(jettyPath + File.separator + "start.jar")));
-        System.out.println("Starting Jetty Solr server at " + jettyPath + " port " + jettyTestPortStr);
+        System.out.println("Starting Jetty Solr server at " + myGetCanonicalPath(new File(jettyPath)) + " port " + jettyTestPortStr);
 
         vmspawner = new JavaInvoke("org.mortbay.start.Main",
                                    new File(myGetCanonicalPath(new File(jettyPath))), 

@@ -304,7 +304,6 @@ public class MarcImporter extends MarcHandler
 
             try {
                 boolean added = addToIndex(record);
-System.out.println("DEBUG:  record '" + recCntlNum + "' at position " + recsReadCounter + " in file was added? " + String.valueOf(added));
                 if (added)
                 {
                     recsIndexedCounter++;

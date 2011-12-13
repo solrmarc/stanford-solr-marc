@@ -39,12 +39,12 @@ public class RemoteServerTest
         solrPath = System.getProperty("test.solr.path");
         if (solrPath == null)
             fail("property test.solr.path must be defined for the tests to run");
-        testDataParentPath = System.getProperty("test.data.path");
-        if (testDataParentPath == null)
-            fail("property core.test.data.path must be defined for the tests to run");
-        testConfigFile = System.getProperty("test.config.file");
-        if (testConfigFile == null)
-            fail("property core.test.config.file must be defined for this test to run");
+//        testDataParentPath = System.getProperty("test.data.path");
+//        if (testDataParentPath == null)
+//            fail("property core.test.data.path must be defined for the tests to run");
+//        testConfigFile = System.getProperty("test.config.file");
+//        if (testConfigFile == null)
+//            fail("property core.test.config.file must be defined for this test to run");
         String jettyDir = System.getProperty("test.jetty.dir");
         if (jettyDir == null)
             fail("property test.jetty.dir must be defined for this test to run");
@@ -54,7 +54,7 @@ public class RemoteServerTest
         if (jettyTestPortStr == null)
             jettyTestPortStr = "0";
         
-        solrJettyProcess = new SolrJettyProcess(solrPath, testDataParentPath, testConfigFile, jettyTestPortStr, jettyDir);
+        solrJettyProcess = new SolrJettyProcess(solrPath, jettyDir, jettyTestPortStr);
         boolean serverIsUp = false;
         try
         {
