@@ -250,7 +250,7 @@ public class DiacriticTests extends AbstractStanfordTest {
 	public final void testAeLigature() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		tearDown();
+		closeSolrProxy();
 		createIxInitVars("aeoeLigatureTests.mrc");
 		String fldName = "title_245a_search";
 
@@ -276,7 +276,7 @@ public class DiacriticTests extends AbstractStanfordTest {
 	public final void testOeLigature() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		tearDown();
+		closeSolrProxy();
 		createIxInitVars("aeoeLigatureTests.mrc");
 		String fldName = "title_245a_search";
 

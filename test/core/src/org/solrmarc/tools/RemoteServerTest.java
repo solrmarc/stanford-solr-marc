@@ -75,6 +75,7 @@ public class RemoteServerTest extends IndexTest
     	assertDocPresent("u3"); // from mergeInput.mrc
 	}
 	
+
 // TODO:  rewrite this to something decent.
 	public void testIndexFormats()
 			throws ParserConfigurationException, IOException, SAXException
@@ -129,19 +130,6 @@ public class RemoteServerTest extends IndexTest
 		fail("testIndexFormats not yet implemented");
 	}
 
-	public void testSolrUpdate()
-	{
-        //   now test SolrUpdate  to commit the changes
-        ByteArrayOutputStream out5 = new ByteArrayOutputStream();
-//        CommandLineUtils.runCommandLineUtil("org.solrmarc.tools.SolrUpdate", "main", null, out5, new String[]{"-v", urlStr+"/update"});
-
-	}
-
-	public void testCommit()
-	{
-		
-	}
-	
 	public void testSolrJNonStreamingBinary()
 	{
 		

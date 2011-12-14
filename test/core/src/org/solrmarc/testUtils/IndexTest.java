@@ -157,8 +157,7 @@ public abstract class IndexTest {
 
 
     /**
-     * Creates a pristine Solr index from the indicated test file of marc records, and initializes 
-     *  necessary variables.  Uses a bunch of class instance variables
+     * Creates a pristine Solr index from the indicated test file of marc records.  Uses a bunch of class instance variables
 	 * @param marcTestDataFname - file of marc records to be indexed.  should end in ".mrc" "marc" or ".xml"
      */
     protected void createFreshTestIxOverHTTP(String marcTestDataFname)
@@ -182,22 +181,65 @@ public abstract class IndexTest {
 	        								String testDataParentPath, String marcTestDataFname) 
 	        		throws ParserConfigurationException, IOException, SAXException 
 	{
+        createFreshTestIxOverHTTPNoCommit(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, marcTestDataFname);
+	    solrProxy.commit(false);  // don't optimize
+		
+//		
+//	    solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
+//	    logger.debug("just set solrProxy to remote solr server at " + testSolrUrl + " - " + solrProxy.toString());
+//		solrProxy.deleteAllDocs();
+//	    solrProxy.commit(false); // don't optimize
+//	    logger.debug("just deleted all docs known to the solrProxy");
+//	
+//		importer = new MarcImporter(solrProxy);
+//	    importer.init(new String[] {configPropFilename, testDataParentPath + File.separator + marcTestDataFname});        	
+//		int numImported = importer.importRecords();
+//	    
+//	    solrProxy.commit(false);  // don't optimize
+//	    
+//	    solrJSolrServer = ((SolrServerProxy)solrProxy).getSolrServer();
+//	    logger.debug("just set solrJSolrServer to " + solrJSolrServer.toString());
+	}
+
+	
+    /**
+     * Creates a pristine Solr index from the indicated test file of marc records, but doesn't commit. Uses a bunch of class instance variables.
+	 * @param marcTestDataFname - file of marc records to be indexed.  should end in ".mrc" "marc" or ".xml"
+     */
+    protected void createFreshTestIxOverHTTPNoCommit(String marcTestDataFname)
+    		throws ParserConfigurationException, IOException, SAXException 
+    {
+        createFreshTestIxOverHTTPNoCommit(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, marcTestDataFname);
+    }
+	
+	
+    /**
+	 * Create a pristine Solr index from the marc file, but don't send commit.
+	 * @param confPropFilename - name of config.properties file
+	 * @param testSolrUrl - url for test solr instances, as a string
+	 * @param useBinaryRequestHandler - true to use the binary request handler
+	 * @param useStreamingProxy - true to use streaming proxy (multiple records added at a time)
+	 * @param testDataParentPath - directory containing the test data file
+	 * @param marcTestDataFname - file of marc records to be indexed.  should end in ".mrc" "marc" or ".xml"
+	 */
+	public void createFreshTestIxOverHTTPNoCommit(String configPropFilename, String testSolrUrl, 
+											boolean useBinaryRequestHandler, boolean useStreamingProxy, 
+	        								String testDataParentPath, String marcTestDataFname) 
+	        		throws ParserConfigurationException, IOException, SAXException 
+	{
 	    solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
 	    logger.debug("just set solrProxy to remote solr server at " + testSolrUrl + " - " + solrProxy.toString());
-		solrProxy.deleteAllDocs();
+	    solrJSolrServer = ((SolrServerProxy)solrProxy).getSolrServer();
+
+	    solrProxy.deleteAllDocs();
+	    solrProxy.commit(false); // don't optimize
 	    logger.debug("just deleted all docs known to the solrProxy");
 	
 		importer = new MarcImporter(solrProxy);
 	    importer.init(new String[] {configPropFilename, testDataParentPath + File.separator + marcTestDataFname});        	
 		int numImported = importer.importRecords();
-	    
-	    solrProxy.commit(false);  // don't optimize
-	    
-	    solrJSolrServer = ((SolrServerProxy)solrProxy).getSolrServer();
-	    logger.debug("just set solrJSolrServer to " + solrJSolrServer.toString());
 	}
 
-	
     /**
      * Updates the Solr index from the indicated test file of marc records, and initializes 
      *  necessary variables.  Uses a bunch of class instance variables

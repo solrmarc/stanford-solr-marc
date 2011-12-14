@@ -15,7 +15,7 @@ import org.solrmarc.tools.*;
 
 public abstract class MarcHandler {
 
-	abstract protected int handleAll();
+	abstract protected int handleAll() throws IOException;
 
 	protected SolrIndexer indexer;
 	protected MarcReader reader;
