@@ -2,11 +2,7 @@ package org.solrmarc.testUtils;
 
 import static org.junit.Assert.*;
 
-import org.junit.*;
-//import org.marc4j.marc.Record;
-
 import java.io.*;
-//import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -183,22 +179,6 @@ public abstract class IndexTest {
 	{
         createFreshTestIxOverHTTPNoCommit(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, marcTestDataFname);
 	    solrProxy.commit(false);  // don't optimize
-		
-//		
-//	    solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
-//	    logger.debug("just set solrProxy to remote solr server at " + testSolrUrl + " - " + solrProxy.toString());
-//		solrProxy.deleteAllDocs();
-//	    solrProxy.commit(false); // don't optimize
-//	    logger.debug("just deleted all docs known to the solrProxy");
-//	
-//		importer = new MarcImporter(solrProxy);
-//	    importer.init(new String[] {configPropFilename, testDataParentPath + File.separator + marcTestDataFname});        	
-//		int numImported = importer.importRecords();
-//	    
-//	    solrProxy.commit(false);  // don't optimize
-//	    
-//	    solrJSolrServer = ((SolrServerProxy)solrProxy).getSolrServer();
-//	    logger.debug("just set solrJSolrServer to " + solrJSolrServer.toString());
 	}
 
 	
