@@ -75,16 +75,14 @@ public class RemoteServerTest extends IndexTest
     	assertDocPresent("u3"); // from mergeInput.mrc
 	}
 	
-	public void testRemoteSolrSearcher()
-	{
-//        ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-//        ByteArrayOutputStream err2 = new ByteArrayOutputStream();
-//        CommandLineUtils.runCommandLineUtil("org.solrmarc.solr.RemoteSolrSearcher", "main", null, out2, err2, new String[]{urlStr, "id:u3", "marc_display"});
-	}
-	
-
+// TODO:  rewrite this to something decent.
 	public void testIndexFormats()
+			throws ParserConfigurationException, IOException, SAXException
 	{
+		initVarsForHttpTestIndexing();
+		createFreshTestIxOverHTTP("mergeInput.mrc");
+		updateTestIxOverHTTP("u2103.mrc");
+
 		// get record u3 raw from test data file
 
 		// get record u3 raw from index
@@ -96,6 +94,38 @@ public class RemoteServerTest extends IndexTest
         // retrieve record u3 from the index as JSON
 		// compare results
 
+		// YUCK:  should call the java class as a java class, not from command line
+/*		
+        // retrieve record u3 from the index
+        ByteArrayOutputStream out2 = new ByteArrayOutputStream();
+        ByteArrayOutputStream err2 = new ByteArrayOutputStream();
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.solr.RemoteSolrSearcher", "main", null, out2, err2, new String[]{urlStr, "id:u3", "marc_display"});
+        
+        // retrieve record u3 from the original input file
+        ByteArrayOutputStream out3 = new ByteArrayOutputStream();
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.RawRecordReader", "main", null, out3, new String[]{testDataParentPath+"/mergeInput.mrc", "u3" });
+        
+        // compare the results
+        CommandLineUtils.assertArrayEquals("record via GetFromSolr(raw), and record via GetRecord ", out2.toByteArray(), out3.toByteArray());
+        
+        // retrieve record u3 from the index as XML
+        ByteArrayOutputStream out4 = new ByteArrayOutputStream();
+        ByteArrayOutputStream err4 = new ByteArrayOutputStream();
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.solr.RemoteSolrSearcher", "main", null, out4, err4, new String[]{urlStr, "id:u3", "marc_xml_display"});
+        
+        // compare the results
+        CommandLineUtils.assertArrayEquals("record via GetFromSolr(XML), and record via GetRecord ", out3.toByteArray(), out4.toByteArray());
+        
+        // retrieve record u3 from the index as JSON
+        ByteArrayOutputStream out4a = new ByteArrayOutputStream();
+        ByteArrayOutputStream err4a = new ByteArrayOutputStream();
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.solr.RemoteSolrSearcher", "main", null, out4a, err4a, new String[]{urlStr, "id:u3", "marc_json_display"});
+        
+        // compare the results
+        CommandLineUtils.assertArrayEquals("record via GetFromSolr(JSON), and record via GetRecord ", out3.toByteArray(), out4a.toByteArray());
+        //System.out.println("Test testRemoteIndexRecord is successful");
+*/		
+		
 		fail("testIndexFormats not yet implemented");
 	}
 

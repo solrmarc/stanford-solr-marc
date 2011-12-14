@@ -489,14 +489,18 @@ public class MarcImporter extends MarcHandler
     
     protected void signalServer()
     {
-        if (shuttingDown || !commitAtEnd) return;
+        if (shuttingDown || !commitAtEnd) 
+        	return;
         // if solrCoreDir == null  and  solrHostUpdateURL != null  then we are talking to a remote 
         // solr server during the main program, so there is no need to separately contact
         // server to tell it to commit,  therefore merely return.
         if ((solrCoreDir == null || solrCoreDir.length() == 0 || solrCoreDir.equalsIgnoreCase("REMOTE")) && solrHostUpdateURL != null) 
             return;
-        if (solrHostUpdateURL == null || solrHostUpdateURL.length() == 0) return;
-        try {
+        if (solrHostUpdateURL == null || solrHostUpdateURL.length() == 0) 
+        	return;
+        
+        try 
+        {
             logger.info("Connecting to solr server at URL: " + solrHostUpdateURL);
             SolrUpdate.signalServer(solrHostUpdateURL);
         }
@@ -585,9 +589,11 @@ public class MarcImporter extends MarcHandler
         logger.info(" Adding " + recsIndexedCounter + " of " + recsReadCounter + " documents to index");
         logger.info(" Deleting " + recsDeletedCounter + " documents from index");
 
-        if (!isShutDown) finish();
+        if (!isShutDown) 
+        	finish();
 
-        if (!justIndexDontAdd) signalServer();
+        if (!justIndexDontAdd) 
+        	signalServer();
         
         Date end = new Date();
         long totalTime = end.getTime() - start.getTime();
