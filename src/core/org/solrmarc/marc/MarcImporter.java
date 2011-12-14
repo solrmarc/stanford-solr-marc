@@ -107,7 +107,7 @@ public class MarcImporter extends MarcHandler
             if (solrHostURL.endsWith("/update"))
                 solrHostUpdateURL = solrHostURL;
             else
-                solrHostUpdateURL = solrHostURL+"/update";
+                solrHostUpdateURL = solrHostURL + "/update";
         }
 
 // FIXME:  could move the setLoggingLevels in IndexTest to Utils class and use that here.        
@@ -475,7 +475,8 @@ public class MarcImporter extends MarcHandler
         isShutDown = true;
     }
     
-   
+
+// FIXME:  couldn't this method be replaced by solrProxy.commit()  ?????    
    /**
      * If there is a running Solr server instance looking at the same index
      * that is being updated by this process, this function can be used to signal 
@@ -486,23 +487,30 @@ public class MarcImporter extends MarcHandler
      * for example:    http://localhost:8983/solr/update
      * This value is taken from the  solr.hosturl  entry in the properties file. 
      */
-    
-    protected void signalServer()
+    protected void sendCommitToSolrUrl()
+    		throws IOException
     {
+// FIXME:  couldn't this just be:
+//    	if (solrProxy != null)
+//    	{
+//    		solrProxy.commit(optimizeAtEnd);
+//    		return;
+//    	}
+    	
         if (shuttingDown || !commitAtEnd) 
         	return;
         // if solrCoreDir == null  and  solrHostUpdateURL != null  then we are talking to a remote 
         // solr server during the main program, so there is no need to separately contact
         // server to tell it to commit,  therefore merely return.
-        if ((solrCoreDir == null || solrCoreDir.length() == 0 || solrCoreDir.equalsIgnoreCase("REMOTE")) && solrHostUpdateURL != null) 
+        if ((solrCoreDir == null || solrCoreDir.length() == 0 || solrCoreDir.equalsIgnoreCase("REMOTE") ) && solrHostUpdateURL != null) 
             return;
         if (solrHostUpdateURL == null || solrHostUpdateURL.length() == 0) 
         	return;
         
         try 
         {
-            logger.info("Connecting to solr server at URL: " + solrHostUpdateURL);
-            SolrUpdate.signalServer(solrHostUpdateURL);
+            logger.info("Sending commit to solr server at URL: " + solrHostUpdateURL);
+            SolrUpdate.sendCommitToSolr(solrHostUpdateURL);
         }
         catch (MalformedURLException me)
         {
@@ -567,6 +575,7 @@ public class MarcImporter extends MarcHandler
      */
     @Override
     public int handleAll()
+    	throws IOException
     {
         Runtime.getRuntime().addShutdownHook(new MyShutdownThread(this));
         
@@ -593,7 +602,7 @@ public class MarcImporter extends MarcHandler
         	finish();
 
         if (!justIndexDontAdd) 
-        	signalServer();
+        	sendCommitToSolrUrl();
         
         Date end = new Date();
         long totalTime = end.getTime() - start.getTime();
@@ -804,10 +813,21 @@ public class MarcImporter extends MarcHandler
             //e.printStackTrace();
             System.exit(1);
         }
-        
-        int exitCode = importer.handleAll();
+
+        try
+        {
+        	int exitCode = importer.handleAll();
+            System.exit(exitCode);
+        }
+        catch (IOException e)
+        {
+            logger.error(e.getMessage());
+            System.err.println(e.getMessage());
+            //e.printStackTrace();
+            System.exit(1);
+        }
       //  System.clearProperty("marc.path");
       //  System.clearProperty("marc.source");
-        System.exit(exitCode);
+//        System.exit(exitCode);
     }
 }

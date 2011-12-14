@@ -24,7 +24,7 @@ public class IndexSmokeTest extends IndexTest
 //System.err.println("DEBUG: just started Jetty for IndexSmokeTest as beforeClass.");    	
 //      try
 //      {
-//      Thread.sleep(1000 * 60); // do nothing for 1000 miliseconds (1 second)
+//      Thread.sleep(1000 * 30); // do nothing for 30 seconds
 //      }
 //      catch(InterruptedException e)
 //      {

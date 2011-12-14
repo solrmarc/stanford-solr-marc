@@ -1,17 +1,10 @@
 package org.solrmarc.tools;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.*;
+import java.net.*;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.solrmarc.marc.MarcImporter;
 import org.solrmarc.tools.GetDefaultConfig;
 
 
@@ -22,7 +15,7 @@ public class SolrUpdate
     private static boolean verbose = false;
 
     /**
-     * @param args
+     * @param args - main may be here just for testing
      */
     public static void main(String[] args)
     {
@@ -61,7 +54,7 @@ public class SolrUpdate
                 System.out.println("Connecting to solr server at URL: " + solrServerURL);
             else 
                 logger.info("Connecting to solr server at URL: " + solrServerURL);
-            signalServer(solrServerURL);
+            sendCommitToSolr(solrServerURL);
         }
         catch (MalformedURLException me)
         {
@@ -98,53 +91,36 @@ public class SolrUpdate
      * that server that the indexes have changed, so that it will find the new data
      * with out having to be restarted.
      * 
-     * uses member variable SolrHostURL which contains the URL of the Solr server
+     * @param SolrHostUpdateURL  the URL of the Solr server update request handler
      * for example:    http://localhost:8983/solr/update
-     * This value is taken from the  solr.hosturl  entry in the properties file. 
-     * @throws IOException 
      */
-    
-    public static void signalServer(String solrHostURL) throws IOException
+    public static void sendCommitToSolr(String solrHostUpdateURL) throws IOException
     {
-        if (solrHostURL == null || solrHostURL.length() == 0) return;
-        URL         url;
-        URLConnection   urlConn;
-        DataOutputStream    printout;
-        BufferedReader input;
+        if (solrHostUpdateURL == null || solrHostUpdateURL.length() == 0) 
+        	return;
+        
+        URL url = new URL(solrHostUpdateURL);
+        URLConnection urlConn = url.openConnection();
 
-        // URL of CGI-Bin script.
-        url = new URL (solrHostURL);
+        urlConn.setDoInput (true); // we want input (ie. response) from HTTP
 
-        // URL connection channel.
-        urlConn = url.openConnection();
-
-        // Let the run-time system (RTS) know that we want input.
-        urlConn.setDoInput (true);
-
-        // Let the RTS know that we want to do output.
-        urlConn.setDoOutput (true);
-
-        // No caching, we want the real thing.
-        urlConn.setUseCaches (false);
-
-        // Specify the content type.
+        // set up the POST header for the commit command
+        urlConn.setDoOutput (true); // we want output (ie. a request) for HTTP
+        urlConn.setUseCaches (false);  // we don't want caching
         urlConn.setRequestProperty("Content-Type", "text/xml");
         urlConn.setRequestProperty("charset", "utf-8");
 
-        // Send POST output.
-        printout = new DataOutputStream (urlConn.getOutputStream ());
-
-        String content = "<commit/>";
-         
-        printout.writeBytes (content);
-        printout.flush ();
-        printout.close ();
+        // POST commit command to Solr
+        DataOutputStream postContentOutStream = new DataOutputStream(urlConn.getOutputStream ());
+        postContentOutStream.writeBytes("<commit/>");
+        postContentOutStream.flush();
+        postContentOutStream.close();
 
         // Get response data.
-        input = new BufferedReader(new InputStreamReader(urlConn.getInputStream ()));
+        BufferedReader responseAsReader = new BufferedReader(new InputStreamReader(urlConn.getInputStream ()));
 
         String str;
-        while (null != ((str = input.readLine())))
+        while (null != ((str = responseAsReader.readLine())))
         {
             if (verbose) 
                 System.out.println(str);
@@ -152,10 +128,10 @@ public class SolrUpdate
                 logger.info(str);
         }
 
-        input.close ();
+        responseAsReader.close();
 
         // Display response.
-        System.exit(0);
+//        System.exit(0);
      }
 
 

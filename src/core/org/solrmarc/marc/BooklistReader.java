@@ -89,7 +89,7 @@ public class BooklistReader extends SolrReIndexer
         
         finish(); 
         
-        signalServer();
+        sendCommitToSolrUrl();
 
         return(0);
     }
