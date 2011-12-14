@@ -418,7 +418,7 @@ public class CommandLineUtilTests
             fail("property test.config.file be defined for this test to run");
 
         // ensure we start in a sane state
-        IndexTest.deleteAllRecordsEmbedded(testConfigFile, solrPath );
+//        IndexTest.deleteAllRecordsEmbedded(testConfigFile, solrPath );
         
         // index a small set of records
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
@@ -493,7 +493,7 @@ public class CommandLineUtilTests
         CommandLineUtils.assertArrayEquals("all records via GetFromSolr, all record via MarcMerger ", out9.toByteArray(), out10.toByteArray()); 
 
         // now delete all of the records in the index to make test order not matter
-        IndexTest.deleteAllRecordsEmbedded(testConfigFile, solrPath );
+//        IndexTest.deleteAllRecordsEmbedded(testConfigFile, solrPath );
 
         // lastly check that the index is now empty
         ByteArrayOutputStream out11 = new ByteArrayOutputStream();
@@ -523,7 +523,7 @@ public class CommandLineUtilTests
             fail("property test.config.file be defined for this test to run");
 
         // ensure we start in a sane state
-        IndexTest.deleteAllRecordsEmbedded(testConfigFile, solrPath );
+//        IndexTest.deleteAllRecordsEmbedded(testConfigFile, solrPath );
 
         // index a small set of records (actually one record)
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
@@ -559,7 +559,7 @@ public class CommandLineUtilTests
         CommandLineUtils.assertArrayEquals("record via GetFromSolr by id, and record via GetFromSolr by fund_code_facet ", out4.toByteArray(), out5.toByteArray()); 
         
         // now delete all of the records in the index to make test order not matter
-        IndexTest.deleteAllRecordsEmbedded(testConfigFile, solrPath );
+//        IndexTest.deleteAllRecordsEmbedded(testConfigFile, solrPath );
 
         // lastly check that the index is now empty
         ByteArrayOutputStream out13 = new ByteArrayOutputStream();

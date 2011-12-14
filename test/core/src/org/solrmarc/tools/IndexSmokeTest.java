@@ -36,7 +36,7 @@ public class IndexSmokeTest extends IndexTest
      * Stop the Jetty server we spun up for testing
      */
 @AfterClass
-    public static void stopJetty() throws Exception 
+    public static void stopJetty() 
     {
     	stopTestJetty();
     }
@@ -49,7 +49,7 @@ public class IndexSmokeTest extends IndexTest
     public final void testForSmoke() 
     		throws ParserConfigurationException, IOException, SAXException 
     {
-        initVarsForHttpTestIndexing();
+    	initVarsForHttpTestIndexing();
         createFreshTestIxOverHTTP("double_007.xml");
     	assertDocPresent("ocm57136914 ");
     }

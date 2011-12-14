@@ -89,7 +89,14 @@ public class BooklistReader extends SolrReIndexer
         
         finish(); 
         
-        sendCommitToSolrUrl();
+        try
+		{
+			sendCommitToSolrUrl();
+		} catch ( IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         return(0);
     }

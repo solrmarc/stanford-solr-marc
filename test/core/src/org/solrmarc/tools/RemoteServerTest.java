@@ -1,8 +1,6 @@
 package org.solrmarc.tools;
 
-//import static org.junit.Assert.fail;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -19,11 +17,11 @@ import org.xml.sax.SAXException;
 
 public class RemoteServerTest extends IndexTest
 {
-    static SolrJettyProcess solrJettyProcess = null; 
-    static int jettyProcessPort; 
-    static String testDataParentPath;
-    static String testConfigFile;
-    static String solrPath;
+//    static SolrJettyProcess solrJettyProcess = null; 
+//    static int jettyProcessPort; 
+//    static String testDataParentPath;
+//    static String testConfigFile;
+//    static String solrPath;
 
     /**
      * Start a Jetty driven solr server running in a separate JVM at port jetty.test.port
@@ -32,8 +30,8 @@ public class RemoteServerTest extends IndexTest
 @BeforeClass
     public static void setupTestClass() 
     {
-    	startTestJetty();
 		setTestLoggingLevels();
+    	startTestJetty();
     }
     
     
@@ -41,7 +39,7 @@ public class RemoteServerTest extends IndexTest
      * Stop the Jetty server we spun up for testing
      */
 @AfterClass
-    public static void stopJetty() throws Exception
+    public static void stopJetty()
     {
     	stopTestJetty();
     	closeSolrProxy();
@@ -55,7 +53,7 @@ public class RemoteServerTest extends IndexTest
 	public void testRemoteIndexRecord() 
 			throws ParserConfigurationException, IOException, SAXException
 	{
-        initVarsForHttpTestIndexing();
+		initVarsForHttpTestIndexing();
         createFreshTestIxOverHTTP("double_007.mrc");
     	assertDocPresent("ocm57136914 ");
 	}
@@ -130,24 +128,86 @@ public class RemoteServerTest extends IndexTest
 		fail("testIndexFormats not yet implemented");
 	}
 
+@Test	
 	public void testSolrJNonStreamingBinary()
+			throws ParserConfigurationException, IOException, SAXException
 	{
-		
+		initVarsForHttpTestIndexing();
+        useBinaryRequestHandler = true;
+        useStreamingProxy = false;
+ 		createFreshTestIxOverHTTP("mergeInput.mrc");
+
+        // assert record was written as binary:  \\u001e is binary, #30 is non-binary
+//        String resultVal = getFirstRawFieldValue("u3", "marc_display");
+        String resultVal = getRawFieldByIDBob("u3", "marc_display");
+System.err.println("DEBUG resultValue is " + resultVal);
+
+		assertTrue("Remote non-streaming binary indexing doesn't get binary result", resultVal.contains("\\u001e"));
+		assertTrue("Remote non-streaming binary indexing gets non-binary result", !resultVal.contains("#30"));
+//		assertFalse("Record added using remote non-binary request handler unexpectedly contains #30;", resultVal.contains("#30;"));
 	}
 	
-	public void testSolrJNonStreamingNonBinary()
+@Test	
+	public void testSolrJNonStreamingNonBinary() 
+			throws ParserConfigurationException, IOException, SAXException
 	{
-		
+		initVarsForHttpTestIndexing();
+        useBinaryRequestHandler = false;
+        useStreamingProxy = false;
+		createFreshTestIxOverHTTP("mergeInput.mrc");
+
+        // assert record was written as non-binary:  \\u001e is binary, #30 is non-binary
+
+//        String results = getRawFieldByIDBob(testSolrUrl, "u3", "marc_display");
+//        assertTrue("Record added using remote non-binary request handler does contain \\u001e", !results.contains("\\u001e"));
+//		assertTrue("Record added using remote non-binary request handler doesn't contain #30;", results.contains("#30;"));
+
+        String resultVal = getFirstRawFieldValue("u3", "marc_display");
+System.err.println("DEBUG resultValue is " + resultVal);
+        assertTrue("Remote non-streaming non-binary indexing gets binary result", !resultVal.contains("\\u001e"));
+		assertTrue("Remote non-streaming non-binary indexing doesn't get non-binary result", resultVal.contains("#30"));
 	}
 
+@Test	
 	public void testSolrJStreamingBinary()
+			throws ParserConfigurationException, IOException, SAXException
 	{
-		
+		initVarsForHttpTestIndexing();
+        useBinaryRequestHandler = true;
+        useStreamingProxy = true;
+		createFreshTestIxOverHTTP("mergeInput.mrc");
+
+        // Check whether record was written as binary:  \\u001e is binary, #30 is non-binary
+//        String results = getRawFieldByIDBob(testSolrUrl, "u3", "marc_display");
+//        assertTrue("Record added using remote non-binary request handler doesn't contain \\u001e", results.contains("\\u001e"));
+//        assertTrue("Record added using remote non-binary request handler does contain #30;", !results.contains("#30;"));
+
+        // assert record was written as binary:  \\u001e is binary, #30 is non-binary
+        String resultVal = getFirstRawFieldValue("u3", "marc_display");
+System.err.println("DEBUG resultValue is " + resultVal);
+        assertTrue("Remote streaming binary indexing doesn't get binary result", resultVal.contains("\\u001e"));
+		assertTrue("Remote streaming binary indexing gets non-binary result", !resultVal.contains("#30"));
 	}
 
+@Test	
 	public void testSolrJStreamingNonBinary()
+			throws ParserConfigurationException, IOException, SAXException
 	{
-		
+		initVarsForHttpTestIndexing();
+        useBinaryRequestHandler = false;
+        useStreamingProxy = true;
+		createFreshTestIxOverHTTP("mergeInput.mrc");
+        
+        // Check whether record was not written as binary 
+//        String results = getRawFieldByIDBob(testSolrUrl, "u3", "marc_display");
+//        assertTrue("Record added using remote non-binary request handler does contain \\u001e", !results.contains("\\u001e"));
+//        assertTrue("Record added using remote non-binary request handler doesn't contain #30;", results.contains("#30;"));
+        
+        // assert record was written as non-binary:  \\u001e is binary, #30 is non-binary
+        String resultVal = getFirstRawFieldValue("u3", "marc_display");
+System.err.println("DEBUG resultValue is " + resultVal);
+        assertTrue("Remote streaming non-binary indexing gets binary result", !resultVal.contains("\\u001e"));
+		assertTrue("Remote streaming non-binary indexing doesn't get non-binary result", resultVal.contains("#30"));
 	}
 
     /**
@@ -155,7 +215,7 @@ public class RemoteServerTest extends IndexTest
      * then search for those records using the RemoteSolrSearcher class.
      */
 //@Test
-    public void testRemoteIndexRecordOld()
+    public void testRemoteIndexRecordBob()
     {
         // index a small set of records
         URL serverURL =  null;
@@ -163,9 +223,9 @@ public class RemoteServerTest extends IndexTest
         {
             serverURL = new URL("http", "localhost", solrJettyProcess.getJettyPort(), "/solr");
         }
-        catch (MalformedURLException e)
+        catch (Exception e)
         {
-            // TODO Auto-generated catch block
+        	e.getCause().printStackTrace();
             e.printStackTrace();
         }
         
@@ -179,7 +239,7 @@ public class RemoteServerTest extends IndexTest
         addnlProps1.put("solrmarc.use_binary_request_handler", "true");
         addnlProps1.put("solrmarc.use_solr_server_proxy", "true");
         addnlProps1.put("solrmarc.use_streaming_proxy", "true");
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", null, out1, err1, new String[]{testConfigFile, testDataParentPath+"/mergeInput.mrc"  }, addnlProps1);
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", null, out1, err1, new String[]{testConfigFname, testDataParentPath+"/mergeInput.mrc"  }, addnlProps1);
         if (out1.toByteArray().length > 0) System.out.println("Importer results: "+ new String (out1.toByteArray()));
         if (err1.toByteArray().length > 0) System.out.println("Importer results: "+ new String (err1.toByteArray()));
         
@@ -187,7 +247,7 @@ public class RemoteServerTest extends IndexTest
         ByteArrayOutputStream err1a = new ByteArrayOutputStream();
         addnlProps1.put("solrmarc.use_binary_request_handler", "false");
         addnlProps1.put("solrmarc.use_streaming_proxy", "false");
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", null, out1a, err1a, new String[]{testConfigFile, testDataParentPath+"/u2103.mrc"  }, addnlProps1);
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", null, out1a, err1a, new String[]{testConfigFname, testDataParentPath+"/u2103.mrc"  }, addnlProps1);
         if (out1a.toByteArray().length > 0) System.out.println("Importer results: "+ new String (out1a.toByteArray()));
         if (err1a.toByteArray().length > 0) System.out.println("Importer results: "+ new String (err1a.toByteArray()));
 
@@ -236,7 +296,7 @@ public class RemoteServerTest extends IndexTest
         ByteArrayInputStream in7 = new ByteArrayInputStream(out6.toByteArray());
         ByteArrayOutputStream out7 = new ByteArrayOutputStream();
         ByteArrayOutputStream err7 = new ByteArrayOutputStream();
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in7, out7, err7, new String[]{testConfigFile, "print", "001"}, addnlProps1);
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in7, out7, err7, new String[]{testConfigFname, "print", "001"}, addnlProps1);
         String printidsResult = new String(out7.toByteArray());
         if (!printidsResult.matches("001 u1[\\r]?[\\n]001 u3[\\r]?[\\n]001 u4[\\r]?[\\n]001 u7[\\r]?[\\n]001 u8[\\r]?[\\n]001 u10[\\r]?[\\n]001 u2103[\\r]?[\\n]"))
         {
@@ -257,7 +317,7 @@ public class RemoteServerTest extends IndexTest
         addnlProps8.put("solr.hosturl", urlStr);
         addnlProps8.put("solr.path", "REMOTE");
         addnlProps8.put("marc.verbose", "true");
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", in8, out8, err8, new String[]{testConfigFile, "DELETE_ONLY", "-nocommit"}, addnlProps8);
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", in8, out8, err8, new String[]{testConfigFname, "DELETE_ONLY", "-nocommit"}, addnlProps8);
 //        if (out8.toByteArray().length > 0) System.out.println("Importer results: "+ new String (out8.toByteArray()));
 //        if (err8.toByteArray().length > 0) System.out.println("Importer results: "+ new String (err8.toByteArray()));
 
@@ -289,132 +349,5 @@ public class RemoteServerTest extends IndexTest
         System.out.println("Test testRemoteIndexRecord is successful");
     }
     
-//@Test
-    public void testSolrjBinaryAndNonBinary()
-    {
-        // index a small set of records
-        URL serverURL =  null;
-        try
-        {
-            serverURL = new URL("http", "localhost", solrJettyProcess.getJettyPort(), "/solr");
-        }
-        catch (MalformedURLException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        String urlStr = serverURL.toString();
-        ByteArrayOutputStream out1 = new ByteArrayOutputStream();
-        ByteArrayOutputStream err1 = new ByteArrayOutputStream();
-        Map<String,String> addnlProps1 = new LinkedHashMap<String,String>();
-        addnlProps1.put("solr.hosturl", urlStr);
-        addnlProps1.put("solr.path", "REMOTE");
-        addnlProps1.put("solrmarc.use_binary_request_handler", "true");
-        addnlProps1.put("solrmarc.use_solr_server_proxy", "true");
-        addnlProps1.put("solrmarc.use_streaming_proxy", "false");
-        
-        // Add several records using remote non-streaming binary solrj 
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", null, out1, err1, new String[]{testConfigFile, testDataParentPath+"/mergeInput.mrc"  }, addnlProps1);
-        
-        // Check whether record was written as binary 
-        String results = getRawFieldByID(urlStr, "u3", "marc_display");
-        assertTrue("Record added using remote binary request handler doesn't contain \\u001e", results.contains("\\u001e"));
-        assertTrue("Record added using remote non-binary request handler does contain #30;", !results.contains("#30;"));
-
-        out1.reset();
-        err1.reset();
-        // Add several records using remote non-streaming non-binary solrj 
-        addnlProps1.put("solrmarc.use_binary_request_handler", "false");
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", null, out1, err1, new String[]{testConfigFile, testDataParentPath+"/mergeInput.mrc"  }, addnlProps1);
-        
-        // Check whether record was not written as binary 
-        results = getRawFieldByID(urlStr, "u3", "marc_display");
-        assertTrue("Record added using remote non-binary request handler does contain \\u001e", !results.contains("\\u001e"));
-        assertTrue("Record added using remote non-binary request handler doesn't contain #30;", results.contains("#30;"));
-
-        out1.reset();
-        err1.reset();
-        // Add several records using remote streaming binary solrj 
-        addnlProps1.put("solrmarc.use_binary_request_handler", "true");
-        addnlProps1.put("solrmarc.use_streaming_proxy", "true");
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", null, out1, err1, new String[]{testConfigFile, testDataParentPath+"/mergeInput.mrc"  }, addnlProps1);
-        
-        results = getRawFieldByID(urlStr, "u3", "marc_display");
-        assertTrue("Record added using remote non-binary request handler doesn't contain \\u001e", results.contains("\\u001e"));
-        assertTrue("Record added using remote non-binary request handler does contain #30;", !results.contains("#30;"));
-
-        out1.reset();
-        err1.reset();
-        // Add several records using remote streaming non-binary solrj 
-        addnlProps1.put("solrmarc.use_binary_request_handler", "false");
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", null, out1, err1, new String[]{testConfigFile, testDataParentPath+"/mergeInput.mrc"  }, addnlProps1);
-        
-        // Check whether record was not written as binary 
-        results = getRawFieldByID(urlStr, "u3", "marc_display");
-        assertTrue("Record added using remote non-binary request handler does contain \\u001e", !results.contains("\\u001e"));
-        assertTrue("Record added using remote non-binary request handler doesn't contain #30;", results.contains("#30;"));
-        
-        out1.reset();
-        err1.reset();
-        // Add several records using local binary solrj 
-        addnlProps1.put("solr.path", new File(solrPath).getAbsolutePath());
-        addnlProps1.put("solrmarc.use_binary_request_handler", "true");
-        addnlProps1.put("solrmarc.use_streaming_proxy", "false");
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", null, out1, err1, new String[]{testConfigFile, testDataParentPath+"/mergeInput.mrc"  }, addnlProps1);
-        
-        results = getRawFieldByID(urlStr, "u3", "marc_display");
-        assertTrue("Record added using remote non-binary request handler doesn't contain \\u001e", results.contains("\\u001e"));
-        assertTrue("Record added using remote non-binary request handler does contain #30;", !results.contains("#30;"));
-
-        out1.reset();
-        err1.reset();
-        // Add several records using local non-binary solrj 
-        addnlProps1.put("solrmarc.use_binary_request_handler", "false");
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcImporter", "main", null, out1, err1, new String[]{testConfigFile, testDataParentPath+"/mergeInput.mrc"  }, addnlProps1);
-        
-        // Check whether record was not written as binary 
-        results = getRawFieldByID(urlStr, "u3", "marc_display");
-        assertTrue("Record added using remote non-binary request handler does contain \\u001e", !results.contains("\\u001e"));
-        assertTrue("Record added using remote non-binary request handler doesn't contain #30;", results.contains("#30;"));
-
-        System.out.println("Test testSolrjBinaryAndNonBinary is successful");
-    }
-
-    /**
-     *   getRawFieldByID - Talk to solr jetty server at specificed URL, search for record with id, 
-     *   and return the raw value of the field in the field "fieldToFetch" 
-     *   If the record with that id doesn't exist id or the record doesn't contain that field return null
-     */
-    public static String getRawFieldByID(String serverURL, String id, String fieldToFetch)
-    {
-        String fieldValue = null;
-        String select = "select/?q=id%3A%ID%&version=2.2&start=0&rows=1&indent=on&fl=%FIELD%&wt=json";
-        URL selectURL;
-        try
-        {
-            selectURL = new URL(serverURL + "/" + select.replace("%ID%", id).replace("%FIELD%", fieldToFetch));
-            InputStream is = selectURL.openStream();
-            String selectInfo = Utils.readStreamIntoString(is);
-            String findAtStart = "\""+fieldToFetch+"\":";
-            int fieldStart = selectInfo.indexOf(findAtStart);
-            int fieldEnd = selectInfo.indexOf("\"}]");
-            if (fieldStart != -1 && fieldEnd != -1)
-            {
-                fieldValue = selectInfo.substring(fieldStart+findAtStart.length(), fieldEnd);
-            }
-        }
-        catch (MalformedURLException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return(fieldValue);
-    }
-        
 }
 
