@@ -232,17 +232,11 @@
     	<sysproperty key="test.solr.url" value="${test.solr.url}" />
 			<sysproperty key="test.solr.path" value="${test.solr.run.dir}" />
 			<sysproperty key="solr.data.dir" value="${test.solr.data.dir}" />
-			<sysproperty key="solr.path" value="${test.solr.run.dir}" />
+			<sysproperty key="solr.path" value="${test.solr.path}" />
     	<sysproperty key="solrmarc.use_binary_request_handler" value="${core.test.use_binary_request_handler}" />
     	<sysproperty key="solrmarc.use_streaming_proxy" value="${core.test.use_streaming_proxy}" />
 			<sysproperty key="test.solr.log.level" value="${test.solr.log.level}" />
 			<sysproperty key="test.solrmarc.log.level" value="${test.solrmarc.log.level}" />
-    	
-<!--    	
-			<sysproperty key="test.data.file" value="${test.data.file}" />
-			<sysproperty key="test.config.dir" path="${dist.path}" />
-			<sysproperty key="solr.data.dir" path="${site.test.solr.dir}/data" />
--->    	
     	
 			<test name="${core.test.class}" />
 <!--

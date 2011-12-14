@@ -1,14 +1,10 @@
 package org.solrmarc.tools;
 
 import java.io.*;
-import java.net.MalformedURLException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.*;
-import org.solrmarc.marc.MarcImporter;
-import org.solrmarc.solr.SolrCoreLoader;
-import org.solrmarc.solr.SolrServerProxy;
 import org.solrmarc.testUtils.IndexTest;
 import org.xml.sax.SAXException;
 
