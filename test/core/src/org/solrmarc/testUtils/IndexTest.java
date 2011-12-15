@@ -112,11 +112,8 @@ public abstract class IndexTest
 												String testDataParentPath, String marcTestDataFname) 
 			throws ParserConfigurationException, IOException, SAXException
 	{
-		solrProxy = SolrCoreLoader.loadRemoteSolrServer(
-				testSolrUrl + "/update", useBinaryRequestHandler,
-				useStreamingProxy);
-		logger.debug("just set solrProxy to remote solr server at "
-				+ testSolrUrl + " - " + solrProxy.toString());
+		solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
+		logger.debug("just set solrProxy to remote solr server at "	+ testSolrUrl + " - " + solrProxy.toString());
 		solrJSolrServer = ((SolrServerProxy) solrProxy).getSolrServer();
 
 		solrProxy.deleteAllDocs();
@@ -552,7 +549,7 @@ public abstract class IndexTest
 	 *  If the record doesn't exist id or the record doesn't contain that field return null
 	 *  @param desiredFld - the field from which we want the value 
 	 */
-	public String getFirstRawFieldValue(String id, String desiredFld)
+	public String getFirstFieldValViaJSON(String id, String desiredFld)
 	{
 		SolrDocument doc = null;
 		
@@ -583,21 +580,20 @@ public abstract class IndexTest
 	}
 
     /**
-	 * getRawFieldByIDBob - Request record by id from Solr, and return the raw
+	 * getFldValPreserveBinary - Request record by id from Solr, and return the raw
 	 *  value of the field. If the record doesn't exist id or the record
 	 * doesn't contain that field return null
-	 *  @param fieldOfInterest - the field from which we want the value 
+	 *  @param desiredFld - the field from which we want the value 
 	 */
-	public String getRawFieldByIDBob(String id, String fieldOfInterest)
+	public String getFldValPreserveBinary(String id, String desiredFld)
 	{
 		String fieldValue = null;
-		String selectStr = "select/?q=id%3A" + id + "&fl=" + fieldOfInterest + "&rows=1&wt=json&qt=standard&facet=false";
+		String selectStr = "select/?q=id%3A" + id + "&fl=" + desiredFld + "&rows=1&wt=json&qt=standard&facet=false";
 		try
 		{
 			InputStream is = new URL(testSolrUrl + "/" + selectStr).openStream();
-System.err.println("DEBUG: url is " + testSolrUrl + "/" + selectStr);
 			String solrResultStr = Utils.readStreamIntoString(is);
-			String fieldLabel = "\"" + fieldOfInterest + "\":";
+			String fieldLabel = "\"" + desiredFld + "\":";
 			int valStartIx = solrResultStr.indexOf(fieldLabel);
 			int valEndIx = solrResultStr.indexOf("\"}]");
 			if (valStartIx != -1 && valEndIx != -1)
