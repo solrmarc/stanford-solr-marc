@@ -41,6 +41,7 @@ public class SolrCoreLoader
 
     public static SolrProxy loadEmbeddedCore(String solrCoreDir, String solrDataDir, String solrCoreName, boolean useBinaryRequestHandler, Logger logger)
     {
+    	logger.warn("loading EMBEDDED CORE version of Solr Proxy!!!!");
     	try
         {
             // create solrCoreObject and coreContainerObj
@@ -240,12 +241,17 @@ System.err.println("DEBUG:    SolrCoreLoader.loadRemoteSolrServer about to open 
 //                System.err.println("Solrversion "+solrversion+" using v2 binary response writer");
 //                httpsolrserver.setRequestWriter(new BinaryRequestWriter());
 //                httpsolrserver.setParser(new BinaryResponseParser());
-//            }            
+//            }
+            
+            if (useBinaryRequestHandler)
+            {
+            	httpsolrserver.setRequestWriter(new BinaryRequestWriter());
+            	httpsolrserver.setParser(new BinaryResponseParser());
+            }
             solrProxy = new SolrServerProxy(httpsolrserver); 
         }
         catch (MalformedURLException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return(solrProxy);

@@ -132,6 +132,7 @@ public class RemoteServerTest extends IndexTest
 	public void testSolrJNonStreamingBinary()
 			throws ParserConfigurationException, IOException, SAXException
 	{
+		closeSolrProxy();  // need to reset the solrProxy to get the right request handling
 		initVarsForHttpTestIndexing();
         useBinaryRequestHandler = true;
         useStreamingProxy = false;
@@ -139,8 +140,7 @@ public class RemoteServerTest extends IndexTest
 
         // assert record was written as binary:  \\u001e is binary, #30 is non-binary
 //        String resultVal = getFirstRawFieldValue("u3", "marc_display");
-        String resultVal = getRawFieldByIDBob("u3", "marc_display");
-System.err.println("DEBUG resultValue is " + resultVal);
+        String resultVal = getFldValPreserveBinary("u3", "marc_display");
 
 		assertTrue("Remote non-streaming binary indexing doesn't get binary result", resultVal.contains("\\u001e"));
 		assertTrue("Remote non-streaming binary indexing gets non-binary result", !resultVal.contains("#30"));
@@ -151,6 +151,7 @@ System.err.println("DEBUG resultValue is " + resultVal);
 	public void testSolrJNonStreamingNonBinary() 
 			throws ParserConfigurationException, IOException, SAXException
 	{
+		closeSolrProxy();  // need to reset the solrProxy to get the right request handling
 		initVarsForHttpTestIndexing();
         useBinaryRequestHandler = false;
         useStreamingProxy = false;
@@ -162,8 +163,8 @@ System.err.println("DEBUG resultValue is " + resultVal);
 //        assertTrue("Record added using remote non-binary request handler does contain \\u001e", !results.contains("\\u001e"));
 //		assertTrue("Record added using remote non-binary request handler doesn't contain #30;", results.contains("#30;"));
 
-        String resultVal = getFirstRawFieldValue("u3", "marc_display");
-System.err.println("DEBUG resultValue is " + resultVal);
+//        String resultVal = getFirstRawFieldValue("u3", "marc_display");
+        String resultVal = getFldValPreserveBinary("u3", "marc_display");
         assertTrue("Remote non-streaming non-binary indexing gets binary result", !resultVal.contains("\\u001e"));
 		assertTrue("Remote non-streaming non-binary indexing doesn't get non-binary result", resultVal.contains("#30"));
 	}
@@ -172,6 +173,7 @@ System.err.println("DEBUG resultValue is " + resultVal);
 	public void testSolrJStreamingBinary()
 			throws ParserConfigurationException, IOException, SAXException
 	{
+		closeSolrProxy();  // need to reset the solrProxy to get the right request handling
 		initVarsForHttpTestIndexing();
         useBinaryRequestHandler = true;
         useStreamingProxy = true;
@@ -183,8 +185,8 @@ System.err.println("DEBUG resultValue is " + resultVal);
 //        assertTrue("Record added using remote non-binary request handler does contain #30;", !results.contains("#30;"));
 
         // assert record was written as binary:  \\u001e is binary, #30 is non-binary
-        String resultVal = getFirstRawFieldValue("u3", "marc_display");
-System.err.println("DEBUG resultValue is " + resultVal);
+//        String resultVal = getFirstRawFieldValue("u3", "marc_display");
+        String resultVal = getFldValPreserveBinary("u3", "marc_display");
         assertTrue("Remote streaming binary indexing doesn't get binary result", resultVal.contains("\\u001e"));
 		assertTrue("Remote streaming binary indexing gets non-binary result", !resultVal.contains("#30"));
 	}
@@ -193,6 +195,7 @@ System.err.println("DEBUG resultValue is " + resultVal);
 	public void testSolrJStreamingNonBinary()
 			throws ParserConfigurationException, IOException, SAXException
 	{
+		closeSolrProxy();  // need to reset the solrProxy to get the right request handling
 		initVarsForHttpTestIndexing();
         useBinaryRequestHandler = false;
         useStreamingProxy = true;
@@ -204,8 +207,8 @@ System.err.println("DEBUG resultValue is " + resultVal);
 //        assertTrue("Record added using remote non-binary request handler doesn't contain #30;", results.contains("#30;"));
         
         // assert record was written as non-binary:  \\u001e is binary, #30 is non-binary
-        String resultVal = getFirstRawFieldValue("u3", "marc_display");
-System.err.println("DEBUG resultValue is " + resultVal);
+//        String resultVal = getFirstRawFieldValue("u3", "marc_display");
+        String resultVal = getFldValPreserveBinary("u3", "marc_display");
         assertTrue("Remote streaming non-binary indexing gets binary result", !resultVal.contains("\\u001e"));
 		assertTrue("Remote streaming non-binary indexing doesn't get non-binary result", resultVal.contains("#30"));
 	}
