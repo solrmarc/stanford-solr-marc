@@ -1,25 +1,11 @@
-package org.solrmarc.marc;
+package org.solrmarc.testUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
-import org.marc4j.ErrorHandler;
-import org.marc4j.MarcException;
-import org.marc4j.MarcPermissiveStreamReader;
-import org.marc4j.MarcReader;
-import org.marc4j.MarcStreamWriter;
-import org.marc4j.MarcWriter;
+import org.marc4j.*;
 import org.marc4j.marc.Record;
+import org.solrmarc.marc.MarcTranslatedReader;
 
 public class PermissiveReaderTest
 {
