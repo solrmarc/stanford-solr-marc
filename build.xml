@@ -248,7 +248,6 @@
 				<fileset dir="${core.test.build.dir}" includes="**/tools/*Test*.class" />
 			</batchtest>
 -->
-    	
 		</junit>
 	</target>
 	

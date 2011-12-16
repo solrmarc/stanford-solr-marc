@@ -402,7 +402,7 @@ public class MergeSummaryHoldings implements MarcReader
 
     
     /**
-     * this is a Naomi Dushay rewrite method, not called by main()
+     * this is a Naomi Dushay rewrite method, not called by main(), used only for testing
      * for each bib record in the bib rec file 
      *  look for a corresponding mhld record.  If a match is found, 
      *    1) remove any existing fields in the bib record that duplicate the mhld fields to be merged into the bib record
