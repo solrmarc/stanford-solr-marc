@@ -7,6 +7,7 @@ local_build/*
 *.log*
 test/build/*
 test/jetty/solr/*
+test/jetty/webapps/*
 lib/solrmarc/build/*
 lib/solrmarc/dist/*
 .DS_Store
