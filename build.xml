@@ -209,14 +209,17 @@
 		<path refid="test.core.build.classpath" />
 	</path>
 
-	<target name="test_core" depends="test_compile_core" description="run tests for CORE code">
+	<target name="test_core" depends="test_clean,test_compile_core" description="run tests for CORE code">
 		<echo message="solr path for CORE testing: ${test.solr.run.dir}" />
 		
-		<mkdir dir="${test.jetty.dir}/logs"/>
-		<mkdir dir="${test.solr.run.dir}"/>		
-		<copy todir="${test.solr.run.dir}" overwrite="false" >
+		<!-- set up jetty with solr files, including war, configuration, jars ... -->
+		<mkdir dir="${test.jetty.dir}/logs" />
+		<mkdir dir="${test.solr.run.dir}" />
+		<copy todir="${test.solr.run.dir}">
 			<fileset dir="${core.test.solr.orig.dir}" includes="**/conf/**,**/lib/**"/>
 		</copy>
+		<!-- copy over the war file -->
+		<copy file="${core.solr.war.path}" tofile="${test.jetty.dir}/webapps/solr.war" failonerror="false" />
 		
 		<!-- if no core test class is defined, call the Util Unit test -->
 		<property name="core.test.class"  value="org.solrmarc.tools.UtilUnitTests" />
@@ -312,6 +315,7 @@
 		<delete dir="${core.test.build.dir}" />
 		<delete dir="${test.solr.jar.dir}" />
 		<delete dir="${test.solr.run.dir}" />
+		<delete file="${test.jetty.dir}/webapps/solr.war"/>
 	</target>
 
 	<target name="test_clean_site" description="remove the directories generated for SITE testing">
