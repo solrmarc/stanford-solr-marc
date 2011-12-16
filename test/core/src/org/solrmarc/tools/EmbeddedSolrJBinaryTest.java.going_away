@@ -11,6 +11,8 @@ import java.util.Map;
 import org.junit.*;
 import org.solrmarc.testUtils.*;
 
+//TODO:  this class and what it is testing will be GOING AWAY very soon  - Naomi 12-12-15
+
 /**
  * based on Bob's old code in RemoteServerTest as of 12-12-2011
  *   needs refactoring to avoid using CommandLineUtil
@@ -40,7 +42,7 @@ public class EmbeddedSolrJBinaryTest extends IndexTest
     }
     
 
-@Test
+//@Test
 	public void testSolrjBinaryAndNonBinaryBob()
 	{
 		initVarsForHttpTestIndexing();
