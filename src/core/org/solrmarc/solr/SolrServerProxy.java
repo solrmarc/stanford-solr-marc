@@ -1,21 +1,18 @@
 package org.solrmarc.solr;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
-import org.apache.solr.common.SolrInputField;
 
 public class SolrServerProxy implements SolrProxy
 {
-    SolrServer solrserver;
-    public SolrServerProxy(SolrServer solrserver)
+    SolrServer solrJSolrServer;
+    public SolrServerProxy(SolrServer solrJSolrServer)
     {
-        this.solrserver = solrserver;
+        this.solrJSolrServer = solrJSolrServer;
     }
     
     public String addDoc(Map<String, Object> fieldsMap, boolean verbose, boolean addDocToIndex) throws IOException
@@ -43,7 +40,7 @@ public class SolrServerProxy implements SolrProxy
         {
             try
             {
-                solrserver.add(inputDoc);
+				solrJSolrServer.add(inputDoc);
             }
             catch (SolrServerException e)
             {
@@ -64,7 +61,7 @@ public class SolrServerProxy implements SolrProxy
 
     public SolrServer getSolrServer()
     {
-        return(solrserver);        
+        return(solrJSolrServer);        
     }
     
     public void commit(boolean optimize) throws IOException
@@ -72,9 +69,9 @@ public class SolrServerProxy implements SolrProxy
         try
         {  
             if (optimize)
-                solrserver.optimize();
+                solrJSolrServer.optimize();
             else
-                solrserver.commit();
+                solrJSolrServer.commit();
         }
         catch (SolrServerException e)
         {
@@ -86,7 +83,7 @@ public class SolrServerProxy implements SolrProxy
     {
         try
         {
-            solrserver.deleteById(id);
+            solrJSolrServer.deleteById(id);
         }
         catch (SolrServerException e)
         {
@@ -98,7 +95,7 @@ public class SolrServerProxy implements SolrProxy
     {
         try
         {
-            solrserver.deleteByQuery("*:*");
+            solrJSolrServer.deleteByQuery("*:*");
         }
         catch (SolrServerException e)
         {
