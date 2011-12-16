@@ -12,6 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.*;
 import org.apache.solr.client.solrj.*;
+import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.*;
 import org.apache.solr.common.params.CommonParams;
@@ -113,7 +114,7 @@ public abstract class IndexTest
 			throws ParserConfigurationException, IOException, SAXException
 	{
 		solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
-		logger.debug("just set solrProxy to remote solr server at "	+ testSolrUrl + " - " + solrProxy.toString());
+		logger.debug("just set solrProxy to remote server at "	+ testSolrUrl + " - " + solrProxy.toString());
 		solrJSolrServer = ((SolrServerProxy) solrProxy).getSolrServer();
 
 		solrProxy.deleteAllDocs();
@@ -556,10 +557,10 @@ public abstract class IndexTest
 		SolrQuery query = new SolrQuery(docIDfname + ":" + id);
 		query.setQueryType("standard");
 		query.setFacet(false);
-		query.setParam(CommonParams.WT, "JSON");
+		query.setParam(CommonParams.WT, "json");
 		try
 		{
-			QueryResponse response = solrJSolrServer.query(query);
+			QueryResponse response = ((CommonsHttpSolrServer) solrJSolrServer).query(query);
 			SolrDocumentList docList = response.getResults();
 			for (SolrDocument d : docList)
 				doc = d;
