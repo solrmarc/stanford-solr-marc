@@ -542,12 +542,13 @@ public abstract class IndexTest
 		assertTrue("Found no document with id \"" + doc_id + "\"", sdl.size() == 1);
 	}
 
-
-// FIXME:  not working	
     /**
 	 * Request record by id from Solr as JSON, and return the raw value of the 
 	 *  field (note that XML response does not preserve the raw value of the field.) 
 	 *  If the record doesn't exist id or the record doesn't contain that field return null
+	 *  
+	 *  NOTE:  does NOT work for retrieving binary values
+	 *  
 	 *  @param desiredFld - the field from which we want the value 
 	 */
 	public String getFirstFieldValViaJSON(String id, String desiredFld)
