@@ -16,7 +16,7 @@ import org.solrmarc.testUtils.*;
  *   needs refactoring to avoid using CommandLineUtil
  * @author Naomi Dushay
  */
-public class LocalBinaryTest extends IndexTest
+public class EmbeddedSolrJBinaryTest extends IndexTest
 {
     /**
      * Start a Jetty driven solr server running in a separate JVM at port jetty.test.port
