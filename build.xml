@@ -139,7 +139,7 @@
 	</target>
 	
 	
-	<target name="clean_core" >
+	<target name="clean_core" description="remove the build directories for CORE">
 		<delete dir="${core.build.dir}" />
 	</target>
 
@@ -251,6 +251,16 @@
 		</junit>
 	</target>
 	
+	<target name="instrument_core" depends="compile_core">
+		<delete dir="${core.instr.dir}" />
+		<mkdir dir="${core.instr.dir}" />
+		<cobertura-instrument todir="${core.instr.dir}">
+			<fileset dir="${core.build.dir}">
+				<include name="**/*.class" />
+				<exclude name="**/*Test*" />
+			</fileset>
+		</cobertura-instrument>
+	</target>
 	
 	
 	<target name="junittest" depends="dist,testJar" description="run junit tests for bib index">
@@ -310,7 +320,7 @@
 	
 	
 	
-	<target name="test_clean_core" >
+	<target name="test_clean_core" description="remove the directories generated for CORE testing">
 		<delete dir="${core.test.build.dir}" />
 		<delete dir="${test.solr.jar.dir}" />
 		<delete dir="${test.solr.run.dir}" />
