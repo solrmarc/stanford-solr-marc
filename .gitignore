@@ -3,6 +3,7 @@ bin/*
 .classpath
 build/*
 dist/*
+ci/*
 local_build/*
 *.log*
 test/build/*

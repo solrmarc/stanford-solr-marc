@@ -20,11 +20,14 @@
 	<property name="test.solr.run.dir" value="${test.jetty.dir}/solr" />
 	<property name="test.solr.data.dir" value="${test.solr.run.dir}/data" />
 	<property name="test.solr.url" value="http://localhost:8985/solr" />
+	<property name="cobertura.jar.dir" location="${test.lib.dir}/cobertura-1.9.4.1" />
+	<property name="cobertura.core.data.file" value="${core.instr.dir}/cobertura.ser" />
 
 	<!-- SITE properties, in case they aren't already defined -->
 	<property name="site.src.dir" location="${src.dir}/${site.basename}" />
 	<property name="site.build.dir" location="${build.dir}/${site.basename}" />
 	<property name="site.indexer.class" value="org.solrmarc.index.SolrIndexer" />
+<!-- FIXME:  trans.map.path not defined -->	
 	<property name="site.map.dir" location="${site.conf.dir}/${trans.map.path}" />
 	<property name="site.scripts.dir" location="${site.conf.dir}/${scripts.dir}" />
 	<property name="site.solrconf.dir" location="${site.conf.dir}/solrConf" />
@@ -98,6 +101,8 @@
 		</jar>
 	</target>
 
+	
+<!-- FIXME:  dist.path not defined -->	
 	
 	<target name="dist" depends="build_core" unless="dist.already.run"
              description="Copy necessary files to the dist directory, to make a runnable instance of SolrMarc">
@@ -208,10 +213,9 @@
 		</fileset>
 		<path refid="test.core.build.classpath" />
 	</path>
-
-	<target name="test_core" depends="test_clean,test_compile_core" description="run tests for CORE code">
+	
+	<target name="core_setup_test_jetty">
 		<echo message="solr path for CORE testing: ${test.solr.run.dir}" />
-		
 		<!-- set up jetty with solr files, including war, configuration, jars ... -->
 		<mkdir dir="${test.jetty.dir}/logs" />
 		<mkdir dir="${test.solr.run.dir}" />
@@ -220,7 +224,9 @@
 		</copy>
 		<!-- copy over the war file -->
 		<copy file="${core.solr.war.path}" tofile="${test.jetty.dir}/webapps/solr.war" failonerror="false" />
-		
+	</target>
+
+	<target name="test_core" depends="test_clean,test_compile_core,core_setup_test_jetty" description="run tests for CORE code">
 		<!-- if no core test class is defined, call the Util Unit test -->
 		<property name="core.test.class"  value="org.solrmarc.tools.UtilUnitTests" />
 
@@ -251,16 +257,69 @@
 		</junit>
 	</target>
 	
-	<target name="instrument_core" depends="compile_core">
+	<path id="cobertura.classpath">
+		<fileset dir="${cobertura.jar.dir}">
+			<include name="cobertura.jar" />
+			<include name="lib/**/*.jar" />
+		</fileset>
+	</path>
+
+	<!-- Load cobertura custom ant tasks -->
+	<taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
+
+	<!-- NOTE:  this should be used after a fresh core compile -->
+	<target name="instrument_core">
 		<delete dir="${core.instr.dir}" />
+		<delete file="${cobertura.core.data.file}" />
 		<mkdir dir="${core.instr.dir}" />
-		<cobertura-instrument todir="${core.instr.dir}">
+		<cobertura-instrument todir="${core.instr.dir}" datafile="${cobertura.core.data.file}">
 			<fileset dir="${core.build.dir}">
 				<include name="**/*.class" />
 				<exclude name="**/*Test*" />
 			</fileset>
 		</cobertura-instrument>
 	</target>
+	
+	<target name="test_core_coverage" depends="test_clean,test_compile_core,instrument_core,core_setup_test_jetty"
+		description="run tests for CORE and capture code coverage" >
+		<delete dir="${core.coverage.dir}" />
+		<mkdir dir="${core.coverage.dir}"/>
+
+		<path id="instrumented.classpath">
+			<pathelement location="${core.instr.dir}" />
+			<path refid="test.core.run.classpath" />
+			<path refid="cobertura.classpath" />
+		</path>
+		<echo message="test class = ${test.class} " />
+
+		<junit showoutput="yes" printsummary="yes" fork="yes">
+			<formatter type="xml" />
+
+			<classpath refid="instrumented.classpath" />
+
+			<!-- name of the coverage data file to use.  It must be the same
+                as the coverage data file generated during instrumentation. -->
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.core.data.file}" />
+
+			<sysproperty key="test.config.file" value="${core.test.config.file}" />
+    	<sysproperty key="test.data.path" value="${core.test.data.path}" />
+			<sysproperty key="test.jetty.port" value="${test.jetty.port}" />
+			<sysproperty key="test.jetty.dir" value="${test.jetty.dir}" />
+    	<sysproperty key="test.solr.url" value="${test.solr.url}" />
+			<sysproperty key="test.solr.path" value="${test.solr.run.dir}" />
+			<sysproperty key="solr.data.dir" value="${test.solr.data.dir}" />
+			<sysproperty key="solr.path" value="${test.solr.path}" />
+    	<sysproperty key="solrmarc.use_binary_request_handler" value="${core.test.use_binary_request_handler}" />
+    	<sysproperty key="solrmarc.use_streaming_proxy" value="${core.test.use_streaming_proxy}" />
+			<sysproperty key="test.solr.log.level" value="${test.solr.log.level}" />
+			<sysproperty key="test.solrmarc.log.level" value="${test.solrmarc.log.level}" />
+    	
+			<test name="${core.coverage.test.class}" />
+		</junit>
+
+		<cobertura-report format="html" destdir="${core.coverage.dir}" srcdir="${site.src.dir}" datafile="${cobertura.core.data.file}"/>
+	</target>
+
 	
 	
 	<target name="junittest" depends="dist,testJar" description="run junit tests for bib index">
@@ -318,13 +377,14 @@
 
 	
 	
-	
-	
 	<target name="test_clean_core" description="remove the directories generated for CORE testing">
 		<delete dir="${core.test.build.dir}" />
-		<delete dir="${test.solr.jar.dir}" />
+		<delete dir="${test.solr.data.dir}" />
 		<delete dir="${test.solr.run.dir}" />
 		<delete file="${test.jetty.dir}/webapps/solr.war"/>
+		<delete dir="${core.instr.dir}" />
+		<delete file="${cobertura.core.data.file}" />
+		<delete dir="${core.coverage.dir}" />
 	</target>
 
 	<target name="test_clean_site" description="remove the directories generated for SITE testing">
@@ -500,17 +560,21 @@
 
 
 	<!-- **********  Cobertura Code Coverage *********** -->
+<!--	
 	<path id="cobertura.classpath">
 		<fileset dir="${cobertura.jar.dir}">
 			<include name="cobertura.jar" />
 			<include name="lib/**/*.jar" />
 		</fileset>
 	</path>
+-->
 
 	<!-- Load cobertura custom ant tasks -->
+<!--	
 	<taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
 
 	<property name="cobertura.instr.dir" value="instr"/>
+-->
 
 	<!-- instrument custom classes only -->
 	<target name="instrument-custom" depends="clean,dist" description="instrument custom (local) classes only for coverage reports">
@@ -536,7 +600,9 @@
 		</cobertura-instrument>
 	</target>
 
+<!--	
 	<property name="cobertura.coverage.dir" value="${build.dir}/coverage/cobertura" />
+-->
 
 	<!-- private target to run junit test with Cobertura code coverage. Coverage stats depend on contents of instrumented class directory -->
 	<target name="run-instrumented-test">
