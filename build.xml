@@ -291,9 +291,11 @@
 			<path refid="test.core.run.classpath" />
 			<path refid="cobertura.classpath" />
 		</path>
-		<echo message="test class = ${test.class} " />
+
+		<echo message="test class = ${core.coverage.test.class}" />
 
 		<junit showoutput="yes" printsummary="yes" fork="yes">
+			<formatter type="plain" usefile="false" />
 			<classpath refid="instrumented.classpath" />
 			<!-- name of the coverage data file to use.  It must be the same
                 as the coverage data file generated during instrumentation. -->
@@ -378,9 +380,10 @@
 			<path refid="test.site.run.classpath" />
 			<path refid="cobertura.classpath" />
 		</path>
-		<echo message="test class = ${test.class} " />
+		<echo message="test class = ${site.coverage.test.class} " />
 
 		<junit showoutput="yes" printsummary="yes" fork="yes">
+			<formatter type="plain" usefile="false" />
 			<classpath refid="instrumented.classpath" />
 			<!-- name of the coverage data file to use.  It must be the same
                 as the coverage data file generated during instrumentation. -->
@@ -399,7 +402,7 @@
 			<sysproperty key="solr.data.dir" value="${test.solr.data.dir}" />
 			<sysproperty key="solr.path" value="${test.solr.path}" />
     	
-			<test name="${core.coverage.test.class}" />
+			<test name="${site.coverage.test.class}" />
 		</junit>
 
 		<!-- hudson cobertura plugin uses xml report and html reports are handy -->
