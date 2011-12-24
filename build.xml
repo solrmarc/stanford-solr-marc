@@ -317,7 +317,10 @@
 			<test name="${core.coverage.test.class}" />
 		</junit>
 
+		<!-- hudson uses both xml and html reports -->
+		<cobertura-report format="xml" destdir="${core.coverage.dir}" srcdir="${site.src.dir}" datafile="${cobertura.core.data.file}"/>
 		<cobertura-report format="html" destdir="${core.coverage.dir}" srcdir="${site.src.dir}" datafile="${cobertura.core.data.file}"/>
+
 	</target>
 
 	
