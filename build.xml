@@ -281,7 +281,7 @@
 		</cobertura-instrument>
 	</target>
 	
-	<target name="test_core_coverage" depends="test_clean,test_compile_core,instrument_core,core_setup_test_jetty"
+	<target name="test_core_coverage" depends="test_clean_core,test_compile_core,instrument_core,core_setup_test_jetty"
 		description="run tests for CORE and capture code coverage" >
 		<delete dir="${core.coverage.dir}" />
 		<mkdir dir="${core.coverage.dir}"/>
