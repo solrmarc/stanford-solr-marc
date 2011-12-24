@@ -74,6 +74,7 @@ public class SolrJettyProcess
     {
         if (jettyProcess != null)
         {
+            System.out.println("Stopping Jetty Solr server at port " + String.valueOf(jettyPort));
             jettyProcess.destroy();
             try
             {
