@@ -2,7 +2,7 @@
 <project name="solrmarc" default="build_core" basedir="." >
 
 	<property file="build.properties" />
-	<property file="${site.conf.props}" />
+	<property file="${site.conf.props}" />  <!-- FIXME: use this? -->
 
 	<!-- CORE properties, in case they aren't already defined -->
 	<property name="core.build.dir" value="${build.dir}" />
@@ -24,6 +24,7 @@
 	<property name="cobertura.core.data.file" value="${core.instr.dir}/cobertura.ser" />
 
 	<!-- SITE properties, in case they aren't already defined -->
+<!-- FIXME:  site.dirname or site.basename -->	
 	<property name="site.src.dir" location="${src.dir}/${site.basename}" />
 	<property name="site.build.dir" location="${build.dir}/${site.basename}" />
 	<property name="site.indexer.class" value="org.solrmarc.index.SolrIndexer" />
@@ -236,16 +237,16 @@
 
 			<sysproperty key="test.config.file" value="${core.test.config.file}" />
     	<sysproperty key="test.data.path" value="${core.test.data.path}" />
+    	<sysproperty key="solrmarc.use_binary_request_handler" value="${core.test.use_binary_request_handler}" />
+    	<sysproperty key="solrmarc.use_streaming_proxy" value="${core.test.use_streaming_proxy}" />
+			<sysproperty key="test.solr.log.level" value="${test.solr.log.level}" />
+			<sysproperty key="test.solrmarc.log.level" value="${test.solrmarc.log.level}" />
 			<sysproperty key="test.jetty.port" value="${test.jetty.port}" />
 			<sysproperty key="test.jetty.dir" value="${test.jetty.dir}" />
     	<sysproperty key="test.solr.url" value="${test.solr.url}" />
 			<sysproperty key="test.solr.path" value="${test.solr.run.dir}" />
 			<sysproperty key="solr.data.dir" value="${test.solr.data.dir}" />
 			<sysproperty key="solr.path" value="${test.solr.path}" />
-    	<sysproperty key="solrmarc.use_binary_request_handler" value="${core.test.use_binary_request_handler}" />
-    	<sysproperty key="solrmarc.use_streaming_proxy" value="${core.test.use_streaming_proxy}" />
-			<sysproperty key="test.solr.log.level" value="${test.solr.log.level}" />
-			<sysproperty key="test.solrmarc.log.level" value="${test.solrmarc.log.level}" />
     	
 			<test name="${core.test.class}" />
 <!--
@@ -267,7 +268,7 @@
 	<!-- Load cobertura custom ant tasks -->
 	<taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
 
-	<!-- NOTE:  this should be used after a fresh core compile -->
+	<!-- NOTE:  this should be used only after a fresh CORE compile -->
 	<target name="instrument_core">
 		<delete dir="${core.instr.dir}" />
 		<delete file="${cobertura.core.data.file}" />
@@ -293,36 +294,142 @@
 		<echo message="test class = ${test.class} " />
 
 		<junit showoutput="yes" printsummary="yes" fork="yes">
-			<formatter type="xml" />
-
 			<classpath refid="instrumented.classpath" />
-
 			<!-- name of the coverage data file to use.  It must be the same
                 as the coverage data file generated during instrumentation. -->
 			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.core.data.file}" />
 
 			<sysproperty key="test.config.file" value="${core.test.config.file}" />
     	<sysproperty key="test.data.path" value="${core.test.data.path}" />
+    	<sysproperty key="solrmarc.use_binary_request_handler" value="${core.test.use_binary_request_handler}" />
+    	<sysproperty key="solrmarc.use_streaming_proxy" value="${core.test.use_streaming_proxy}" />
+			<sysproperty key="test.solr.log.level" value="${test.solr.log.level}" />
+			<sysproperty key="test.solrmarc.log.level" value="${test.solrmarc.log.level}" />
 			<sysproperty key="test.jetty.port" value="${test.jetty.port}" />
 			<sysproperty key="test.jetty.dir" value="${test.jetty.dir}" />
     	<sysproperty key="test.solr.url" value="${test.solr.url}" />
 			<sysproperty key="test.solr.path" value="${test.solr.run.dir}" />
 			<sysproperty key="solr.data.dir" value="${test.solr.data.dir}" />
 			<sysproperty key="solr.path" value="${test.solr.path}" />
-    	<sysproperty key="solrmarc.use_binary_request_handler" value="${core.test.use_binary_request_handler}" />
-    	<sysproperty key="solrmarc.use_streaming_proxy" value="${core.test.use_streaming_proxy}" />
-			<sysproperty key="test.solr.log.level" value="${test.solr.log.level}" />
-			<sysproperty key="test.solrmarc.log.level" value="${test.solrmarc.log.level}" />
     	
 			<test name="${core.coverage.test.class}" />
 		</junit>
 
-		<!-- hudson uses both xml and html reports -->
-		<cobertura-report format="xml" destdir="${core.coverage.dir}" srcdir="${site.src.dir}" datafile="${cobertura.core.data.file}"/>
-		<cobertura-report format="html" destdir="${core.coverage.dir}" srcdir="${site.src.dir}" datafile="${cobertura.core.data.file}"/>
-
+		<!-- hudson cobertura plugin uses xml report and html reports are handy -->
+		<cobertura-report format="xml" destdir="${core.coverage.dir}" srcdir="${core.src.dir}" datafile="${cobertura.core.data.file}"/>
+		<cobertura-report format="html" destdir="${core.coverage.dir}" srcdir="$core.src.dir}" datafile="${cobertura.core.data.file}"/>
 	</target>
 
+	
+	<target name="site_setup_test_jetty">
+		<echo message="solr path for SITE testing: ${test.solr.run.dir}" />
+		<!-- set up jetty with solr files, including war, configuration, jars ... -->
+		<mkdir dir="${test.jetty.dir}/logs" />
+		<mkdir dir="${test.solr.run.dir}" />
+		<copy todir="${test.solr.run.dir}">
+			<fileset dir="${site.test.solr.orig.dir}" includes="**/conf/**,**/lib/**"/>
+		</copy>
+		<!-- copy over the war file -->
+		<copy file="${site.solr.war.path}" tofile="${test.jetty.dir}/webapps/solr.war" failonerror="false" />
+	</target>
+
+	<target name="test_site" depends="test_clean,test_compile_site,site_setup_test_jetty" description="run tests for SITE code">
+    <junit showoutput="yes" printsummary="yes" fork="yes" forkmode="perBatch">
+			<classpath refid="test.site.run.classpath" />
+			<formatter type="plain" usefile="false" />
+
+			<sysproperty key="test.config.file" value="${site.test.config.file}" />
+    	<sysproperty key="test.data.path" value="${site.test.data.path}" />
+    	<sysproperty key="solrmarc.use_binary_request_handler" value="${site.test.use_binary_request_handler}" />
+    	<sysproperty key="solrmarc.use_streaming_proxy" value="${site.test.use_streaming_proxy}" />
+			<sysproperty key="test.solr.log.level" value="${test.solr.log.level}" />
+			<sysproperty key="test.solrmarc.log.level" value="${test.solrmarc.log.level}" />
+			<sysproperty key="test.jetty.port" value="${test.jetty.port}" />
+			<sysproperty key="test.jetty.dir" value="${test.jetty.dir}" />
+    	<sysproperty key="test.solr.url" value="${test.solr.url}" />
+			<sysproperty key="test.solr.path" value="${test.solr.run.dir}" />
+			<sysproperty key="solr.data.dir" value="${test.solr.data.dir}" />
+			<sysproperty key="solr.path" value="${test.solr.path}" />
+    	
+			<test name="${site.test.class}" />
+		</junit>
+	</target>
+	
+	<!-- NOTE:  this should be used only after a fresh SITE compile -->
+	<target name="instrument_site">
+		<delete dir="${site.instr.dir}" />
+		<delete file="${cobertura.site.data.file}" />
+		<mkdir dir="${site.instr.dir}" />
+		<cobertura-instrument todir="${site.instr.dir}" datafile="${cobertura.site.data.file}">
+			<fileset dir="${site.build.dir}">
+				<include name="**/*.class" />
+				<exclude name="**/*Test*" />
+			</fileset>
+		</cobertura-instrument>
+	</target>
+	
+	<target name="test_site_coverage" depends="test_clean,test_compile_site,instrument_site,site_setup_test_jetty"
+		description="run tests for SITE and capture code coverage" >
+		<delete dir="${site.coverage.dir}" />
+		<mkdir dir="${site.coverage.dir}"/>
+		
+		<path id="instrumented.classpath">
+			<pathelement location="${site.instr.dir}" />
+			<path refid="test.site.run.classpath" />
+			<path refid="cobertura.classpath" />
+		</path>
+		<echo message="test class = ${test.class} " />
+
+		<junit showoutput="yes" printsummary="yes" fork="yes">
+			<classpath refid="instrumented.classpath" />
+			<!-- name of the coverage data file to use.  It must be the same
+                as the coverage data file generated during instrumentation. -->
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.site.data.file}" />
+
+			<sysproperty key="test.config.file" value="${site.test.config.file}" />
+    	<sysproperty key="test.data.path" value="${site.test.data.path}" />
+    	<sysproperty key="solrmarc.use_binary_request_handler" value="${site.test.use_binary_request_handler}" />
+    	<sysproperty key="solrmarc.use_streaming_proxy" value="${site.test.use_streaming_proxy}" />
+			<sysproperty key="test.solr.log.level" value="${test.solr.log.level}" />
+			<sysproperty key="test.solrmarc.log.level" value="${test.solrmarc.log.level}" />
+			<sysproperty key="test.jetty.port" value="${test.jetty.port}" />
+			<sysproperty key="test.jetty.dir" value="${test.jetty.dir}" />
+    	<sysproperty key="test.solr.url" value="${test.solr.url}" />
+			<sysproperty key="test.solr.path" value="${test.solr.run.dir}" />
+			<sysproperty key="solr.data.dir" value="${test.solr.data.dir}" />
+			<sysproperty key="solr.path" value="${test.solr.path}" />
+    	
+			<test name="${core.coverage.test.class}" />
+		</junit>
+
+		<!-- hudson cobertura plugin uses xml report and html reports are handy -->
+		<cobertura-report format="xml" destdir="${site.coverage.dir}" srcdir="${site.src.dir}" datafile="${cobertura.site.data.file}"/>
+		<cobertura-report format="html" destdir="${site.coverage.dir}" srcdir="${site.src.dir}" datafile="${cobertura.site.data.file}"/>
+	</target>
+	
+	
+	
+	
+	<target name="test_clean_core" description="remove the directories generated for CORE testing">
+		<delete dir="${core.test.build.dir}" />
+		<delete dir="${test.solr.data.dir}" />
+		<delete dir="${test.solr.run.dir}" />
+		<delete file="${test.jetty.dir}/webapps/solr.war"/>
+		<delete dir="${core.instr.dir}" />
+		<delete file="${cobertura.core.data.file}" />
+		<delete dir="${core.coverage.dir}" />
+	</target>
+
+	<target name="test_clean_site" description="remove the directories generated for SITE testing">
+		<delete dir="$site.test.build.dir}" />
+		<delete dir="${site.test.solr.dir}/data" quiet="true" />
+	</target>
+	
+	<target name="test_clean" depends="test_clean_site,test_clean_core" description="remove the directories generated for CORE and SITE testing" />
+	
+	
+
+	
 	
 	
 	<target name="junittest" depends="dist,testJar" description="run junit tests for bib index">
@@ -377,27 +484,6 @@
 		<delete dir="${solr.jar.file.dir}" deleteonexit="true" quiet="true" />
 		<delete dir="${site.test.dir}/tmp_solrmarc_jars" deleteonexit="true" quiet="true" />
 	</target>
-
-	
-	
-	<target name="test_clean_core" description="remove the directories generated for CORE testing">
-		<delete dir="${core.test.build.dir}" />
-		<delete dir="${test.solr.data.dir}" />
-		<delete dir="${test.solr.run.dir}" />
-		<delete file="${test.jetty.dir}/webapps/solr.war"/>
-		<delete dir="${core.instr.dir}" />
-		<delete file="${cobertura.core.data.file}" />
-		<delete dir="${core.coverage.dir}" />
-	</target>
-
-	<target name="test_clean_site" description="remove the directories generated for SITE testing">
-		<delete dir="$site.test.build.dir}" />
-		<delete dir="${site.test.solr.dir}/data" quiet="true" />
-	</target>
-	
-	<target name="test_clean" depends="test_clean_site,test_clean_core" description="remove the directories generated for CORE and SITE testing" />
-	
-	
 
 	
 
@@ -562,23 +648,7 @@
 	</target>
 
 
-	<!-- **********  Cobertura Code Coverage *********** -->
-<!--	
-	<path id="cobertura.classpath">
-		<fileset dir="${cobertura.jar.dir}">
-			<include name="cobertura.jar" />
-			<include name="lib/**/*.jar" />
-		</fileset>
-	</path>
--->
-
-	<!-- Load cobertura custom ant tasks -->
-<!--	
-	<taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
-
-	<property name="cobertura.instr.dir" value="instr"/>
--->
-
+	
 	<!-- instrument custom classes only -->
 	<target name="instrument-custom" depends="clean,dist" description="instrument custom (local) classes only for coverage reports">
 		<delete dir="${cobertura.instr.dir}" />
@@ -602,10 +672,6 @@
 			</fileset>
 		</cobertura-instrument>
 	</target>
-
-<!--	
-	<property name="cobertura.coverage.dir" value="${build.dir}/coverage/cobertura" />
--->
 
 	<!-- private target to run junit test with Cobertura code coverage. Coverage stats depend on contents of instrumented class directory -->
 	<target name="run-instrumented-test">
