@@ -8,6 +8,7 @@
 	<property name="core.build.dir" value="${build.dir}" />
 	<property name="dist.dir" value="dist" />
 	<property name="dist.exe.dir" value="bin" />
+<!-- FIXME:  dist.path not defined -->	
 	<property name="dist.exe.path" location="${dist.path}/${dist.exe.dir}" />
 	<property name="core.jar.name" value="SolrMarc" />
 	
@@ -294,7 +295,7 @@
 
 		<echo message="test class = ${core.coverage.test.class}" />
 
-		<junit showoutput="yes" printsummary="yes" fork="yes">
+		<junit showoutput="yes" printsummary="yes" fork="yes" haltonfailure="on">
 			<formatter type="plain" usefile="false" />
 			<classpath refid="instrumented.classpath" />
 			<!-- name of the coverage data file to use.  It must be the same
@@ -382,7 +383,7 @@
 		</path>
 		<echo message="test class = ${site.coverage.test.class} " />
 
-		<junit showoutput="yes" printsummary="yes" fork="yes">
+		<junit showoutput="yes" printsummary="yes" fork="yes"  haltonfailure="on">
 			<formatter type="plain" usefile="false" />
 			<classpath refid="instrumented.classpath" />
 			<!-- name of the coverage data file to use.  It must be the same
