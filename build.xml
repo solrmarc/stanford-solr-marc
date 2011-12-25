@@ -277,6 +277,8 @@
 		<cobertura-instrument todir="${core.instr.dir}" datafile="${cobertura.core.data.file}">
 			<fileset dir="${core.build.dir}">
 				<include name="**/*.class" />
+				<exclude name="**/test/**" />
+				<exclude name="**/testUtils/*.class" />
 				<exclude name="**/*Test*" />
 			</fileset>
 		</cobertura-instrument>
