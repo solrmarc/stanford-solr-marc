@@ -926,9 +926,14 @@ public abstract class IndexTest
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			fail("Server did not become available");
+			stopTestJetty();
+			fail("Jetty server did not become available");
 		}
-		assertTrue("Server did not become available", serverIsUp);
+		if (!serverIsUp) 
+		{
+			stopTestJetty();
+			fail("Jetty server did not become available");
+		}
 
 		// If you need to see the output of the solr server after the server is up and running, call
 		// solrJettyProcess.outputReset() here to empty the buffer so the later output is visible in the Eclipse variable viewer
