@@ -54,7 +54,6 @@ public class SolrJettyProcess
         serverErr = new ByteArrayOutputStream();
         
         jettyProcess = vmspawner.startStdinStderrInstance("JETTY", serverOut, serverErr);
-//        p = vmspawner.start();
         serverIsUp = false;
         if (jettyPort == 0)
         {
@@ -64,7 +63,7 @@ public class SolrJettyProcess
         }
         else
         {
-            serverIsUp = checkServerIsUp(25000, 100, getServerAddress(), jettyPort);
+            serverIsUp = checkServerIsUp(60000, 100, getServerAddress(), jettyPort);
         }
         return(serverIsUp);
     }
