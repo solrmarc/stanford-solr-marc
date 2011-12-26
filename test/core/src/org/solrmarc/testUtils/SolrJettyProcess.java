@@ -102,7 +102,8 @@ System.out.println("DEBUG: in startProcessWaitUntilSolrIsReady with port " + Str
     
     private static InetAddress getServerAddress() throws UnknownHostException 
     {
-        return InetAddress.getLocalHost();
+//        return InetAddress.getLocalHost();
+        return InetAddress.getByName(null);
     }
     
     /**
@@ -201,17 +202,19 @@ System.out.println("DEBUG: in startProcessWaitUntilSolrIsReady with port " + Str
      */
     private static boolean checkServerIsUp(InetAddress server, int port) 
     {
-        Socket sock = null;
-        try {
-//            sock = SocketFactory.getDefault().createSocket(server, port);
-            sock = SocketFactory.getDefault().createSocket("localhost", port);
+System.out.println("DEBUG:  checkServerIsUp will use " + server.getHostName());        	
+
+    	Socket sock = null;
+        try {        	
+            sock = SocketFactory.getDefault().createSocket(server, port);
+//            sock = SocketFactory.getDefault().createSocket("localhost", port);
             sock.setSoLinger(true, 0);
+System.out.println("DEBUG:  checkServerIsUp HAD SUCCESS!!!!!");        	
             return true;
         } 
         catch (IOException e) 
         { 
-System.out.println("checkServerIsUp caught IOException \n");        	
-e.printStackTrace();
+System.out.println("DEBUG:  checkServerIsUp caught IOException " + e.getMessage());        	
             return false;
         }
         finally
