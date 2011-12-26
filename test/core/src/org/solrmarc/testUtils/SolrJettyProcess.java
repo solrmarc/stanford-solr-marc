@@ -55,6 +55,7 @@ public class SolrJettyProcess
         
         jettyProcess = vmspawner.startStdinStderrInstance("JETTY", serverOut, serverErr);
         serverIsUp = false;
+System.out.println("DEBUG: in startProcessWaitUntilSolrIsReady with port " + String.valueOf(jettyPort));
         if (jettyPort == 0)
         {
             String jettyPortStr = waitServerIsUp(60000, 100, serverErr, "INFO:  Started SocketConnector@0.0.0.0:", "INFO:  Started SocketConnector @ 0.0.0.0:");
@@ -63,7 +64,7 @@ public class SolrJettyProcess
         }
         else
         {
-            serverIsUp = checkServerIsUp(60000, 100, getServerAddress(), jettyPort);
+        	serverIsUp = checkServerIsUp(60000, 100, getServerAddress(), jettyPort);
         }
         return(serverIsUp);
     }
@@ -101,6 +102,7 @@ public class SolrJettyProcess
     
     private static InetAddress getServerAddress() throws UnknownHostException 
     {
+System.out.println("DEBUG: getServerAddress will return" + InetAddress.getLocalHost().getCanonicalHostName());    	
         return InetAddress.getLocalHost();
     }
     
@@ -208,6 +210,8 @@ public class SolrJettyProcess
         } 
         catch (IOException e) 
         { 
+System.out.println("checkServerIsUp caught IOException \n");        	
+e.printStackTrace();
             return false;
         }
         finally
