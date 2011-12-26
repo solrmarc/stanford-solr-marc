@@ -102,7 +102,7 @@ System.out.println("DEBUG: in startProcessWaitUntilSolrIsReady with port " + Str
     
     private static InetAddress getServerAddress() throws UnknownHostException 
     {
-System.out.println("DEBUG: getServerAddress will return" + InetAddress.getLocalHost().getCanonicalHostName());    	
+System.out.println("DEBUG: getServerAddress will return " + InetAddress.getLocalHost().getCanonicalHostName());    	
         return InetAddress.getLocalHost();
     }
     
