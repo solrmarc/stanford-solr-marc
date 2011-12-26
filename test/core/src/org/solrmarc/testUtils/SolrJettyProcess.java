@@ -64,7 +64,7 @@ System.out.println("DEBUG: in startProcessWaitUntilSolrIsReady with port " + Str
         }
         else
         {
-        	serverIsUp = checkServerIsUp(60000, 100, getServerAddress(), jettyPort);
+        	serverIsUp = checkServerIsUp(15000, 100, getServerAddress(), jettyPort);
         }
         return(serverIsUp);
     }
@@ -102,7 +102,6 @@ System.out.println("DEBUG: in startProcessWaitUntilSolrIsReady with port " + Str
     
     private static InetAddress getServerAddress() throws UnknownHostException 
     {
-System.out.println("DEBUG: getServerAddress will return " + InetAddress.getLocalHost().getCanonicalHostName());    	
         return InetAddress.getLocalHost();
     }
     
@@ -204,7 +203,8 @@ System.out.println("DEBUG: getServerAddress will return " + InetAddress.getLocal
     {
         Socket sock = null;
         try {
-            sock = SocketFactory.getDefault().createSocket(server, port);
+//            sock = SocketFactory.getDefault().createSocket(server, port);
+            sock = SocketFactory.getDefault().createSocket("localhost", port);
             sock.setSoLinger(true, 0);
             return true;
         } 
