@@ -6,8 +6,6 @@ import java.util.*;
 
 import javax.net.SocketFactory;
 
-import org.solrmarc.tools.Utils;
-
 public class SolrJettyProcess
 {
     private JavaInvoke vmspawner = null;
@@ -48,14 +46,18 @@ public class SolrJettyProcess
     }
     
     
-    public boolean startProcessWaitUntilSolrIsReady() throws IOException 
+    /**
+     * spawns the Jetty Process, grabbing stdin and stdout.  Waits for the 
+     *  Jetty server to respond to a socket connection before returning.
+     */
+    public boolean startProcessWaitUntilSolrIsReady() 
+    		throws IOException 
     {
         serverOut = new ByteArrayOutputStream();
         serverErr = new ByteArrayOutputStream();
         
         jettyProcess = vmspawner.startStdinStderrInstance("JETTY", serverOut, serverErr);
         serverIsUp = false;
-System.out.println("DEBUG: in startProcessWaitUntilSolrIsReady with port " + String.valueOf(jettyPort));
         if (jettyPort == 0)
         {
             String jettyPortStr = waitServerIsUp(60000, 100, serverErr, "INFO:  Started SocketConnector@0.0.0.0:", "INFO:  Started SocketConnector @ 0.0.0.0:");
@@ -63,13 +65,15 @@ System.out.println("DEBUG: in startProcessWaitUntilSolrIsReady with port " + Str
             serverIsUp = checkServerIsUp(5000, 100, getServerAddress(), jettyPort);
         }
         else
-        {
         	serverIsUp = checkServerIsUp(15000, 100, getServerAddress(), jettyPort);
-        }
+
         return(serverIsUp);
     }
 
     
+    /**
+     * stops the jettyProcess, waiting for the process to terminate before returning.
+     */
     public void stopServer()
     {
         if (jettyProcess != null)
@@ -100,9 +104,14 @@ System.out.println("DEBUG: in startProcessWaitUntilSolrIsReady with port " + Str
         return(pathStr);
     }
     
-    private static InetAddress getServerAddress() throws UnknownHostException 
+    /**
+     * This will return an InetAddress object either for 127.0.0.1 or localhost,
+     *  using InetAddress.getByName(null)
+     * @see http://docs.oracle.com/javase/1.4.2/docs/api/java/net/InetAddress.html#getByName%28java.lang.String%29
+     */
+    private static InetAddress getServerAddress() 
+    		throws UnknownHostException 
     {
-//        return InetAddress.getLocalHost();
         return InetAddress.getByName(null);
     }
     
@@ -125,13 +134,12 @@ System.out.println("DEBUG: in startProcessWaitUntilSolrIsReady with port " + Str
         long start = System.currentTimeMillis();
         String socketStr = "0";
         int lastLineRead = 0;
-        while((System.currentTimeMillis() - start) < timeout)
+        while ((System.currentTimeMillis() - start) < timeout)
         {
             String outputSoFar = new String(out.toByteArray());
             String lines[] = outputSoFar.split("\r?\n");
             for (int i = lastLineRead; i < lines.length; i++)
             {
-//                System.out.println(lines[i]);
                 if (lines[i].contains(patternToWatchFor1))
                 {
                     socketStr = lines[i].replaceAll(".*"+patternToWatchFor1 + "([0-9]*).*", "$1");
@@ -144,7 +152,8 @@ System.out.println("DEBUG: in startProcessWaitUntilSolrIsReady with port " + Str
                 }
             }
             lastLineRead = lines.length;
-            try {
+            try 
+            {
                 Thread.sleep(sleepTime);
             } 
             catch (InterruptedException e) 
@@ -172,22 +181,19 @@ System.out.println("DEBUG: in startProcessWaitUntilSolrIsReady with port " + Str
     private static boolean checkServerIsUp(long timeout, long sleepTime, InetAddress server, int port ) 
     {
         long start = System.currentTimeMillis();
-        while((System.currentTimeMillis() - start) < timeout)
+        while ((System.currentTimeMillis() - start) < timeout)
         {
-            if(!checkServerIsUp(server, port))
-            {
-                try {
+            if (!checkServerIsUp(server, port))
+                try 
+                {
                     Thread.sleep(sleepTime);
                 } 
                 catch (InterruptedException e) 
                 {
                     return false;
                 }
-            }
             else
-            {
                 return true;
-            }
         }
         return false;
     }
@@ -198,30 +204,27 @@ System.out.println("DEBUG: in startProcessWaitUntilSolrIsReady with port " + Str
      * @param server address of the server to contact.
      * @param port TCP port to connect to on the specified server.
      * @return true if that port is accepting connections, 
-     * false in all other cases: not listening and/or connection error.
+     * false in all other cases: no listening and/or connection error will be thrown
      */
     private static boolean checkServerIsUp(InetAddress server, int port) 
     {
-System.out.println("DEBUG:  checkServerIsUp will use " + server.getHostName());        	
-
     	Socket sock = null;
-        try {        	
+        try 
+        {        	
             sock = SocketFactory.getDefault().createSocket(server, port);
-//            sock = SocketFactory.getDefault().createSocket("localhost", port);
             sock.setSoLinger(true, 0);
-System.out.println("DEBUG:  checkServerIsUp HAD SUCCESS!!!!!");        	
             return true;
         } 
         catch (IOException e) 
         { 
-System.out.println("DEBUG:  checkServerIsUp caught IOException " + e.getMessage());        	
             return false;
         }
         finally
         {
-            if(sock != null)
+            if (sock != null)
             {
-                try {
+                try 
+                {
                     sock.close();
                 } 
                 catch (IOException e) 
@@ -232,9 +235,13 @@ System.out.println("DEBUG:  checkServerIsUp caught IOException " + e.getMessage(
         }
     }
 
-    // if you need to see the output generated after the jetty server is up and running
-    // but the amount in the buffer is too large to see the later log info, call outputReset()
-    // In general this routine won't be needed.
+    /**
+     * Use if you need to see the output generated after the jetty server is up 
+     * and running, but the amount in the buffer is too large to see the later 
+     * log info.
+     * 
+     * In general this routine won't be needed.
+     */
     public void outputReset()
     {
         serverErr.reset();
