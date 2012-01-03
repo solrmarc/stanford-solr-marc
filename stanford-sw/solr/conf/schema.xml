@@ -69,7 +69,13 @@
         <filter class="schema.UnicodeNormalizationFilterFactory" version="icu4j" composed="false" remove_diacritics="true" remove_modifiers="true" fold="true" />
         <filter class="solr.LowerCaseFilterFactory" />
 -->        
-        <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
+<!-- 				
+				<filter class="solr.ICUNormalizer2FilterFactory" name="nfc" mode="decompose"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+				<filter class="solr.ASCIIFoldingFilterFactory"/>
+        <filter class="solr.ICUFoldingFilterFactory"/> 
+-->				
+				<filter class="solr.ICUCollationKeyFilterFactory" locale="en" strength="primary"/>
         <filter class="solr.TrimFilterFactory" />
       </analyzer>
     </fieldtype>

@@ -819,7 +819,8 @@ public class AuthorTests extends AbstractStanfordTest {
 	public final void testAuthorSortNumericSubflds() 
 	{
 		String fldName = "author_sort";
-		String testFilePath = testDataParentPath + File.separator + "authorTests.mrc";//	    assertSortFldProps(fldName);
+		String testFilePath = testDataParentPath + File.separator + "authorTests.mrc";
+//	    assertSortFldProps(fldName);
 	
 		// 100 
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1006", fldName, "Sox on Fox 100 has sub 6");
