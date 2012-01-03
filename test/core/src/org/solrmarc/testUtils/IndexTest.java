@@ -70,7 +70,7 @@ public abstract class IndexTest
 	 * Create a pristine Solr index from the marc file, and send a commit.
 	 * 
 	 * @param confPropFilename - name of config.properties file
-	 * @param testSolrUrl - url for test solr instances, as a string
+	 * @param testSolrUrl - url for test solr instance, as a string
 	 * @param useBinaryRequestHandler - true to use the binary request handler
 	 * @param useStreamingProxy - true to use streaming proxy (multiple records added at a time)
 	 * @param testDataParentPath - directory containing the test data file
@@ -103,7 +103,7 @@ public abstract class IndexTest
 	 * Create a pristine Solr index from the marc file, but don't send commit.
 	 * 
 	 * @param confPropFilename - name of config.properties file
-	 * @param testSolrUrl - url for test solr instances, as a string
+	 * @param testSolrUrl - url for test solr instance, as a string
 	 * @param useBinaryRequestHandler - true to use the binary request handler
 	 * @param useStreamingProxy - true to use streaming proxy (multiple records added at a time)
 	 * @param testDataParentPath - directory containing the test data file
@@ -123,9 +123,9 @@ public abstract class IndexTest
 		logger.debug("just deleted all docs known to the solrProxy");
 
 		importer = new MarcImporter(solrProxy);
-		importer.init(new String[] { configPropFilename,
-				testDataParentPath + File.separator + marcTestDataFname });
-		int numImported = importer.importRecords();
+		importer.init(new String[] { configPropFilename, testDataParentPath + File.separator + marcTestDataFname });
+		if (marcTestDataFname != null)
+			importer.importRecords();
 	}
 
 	/**
@@ -145,7 +145,7 @@ public abstract class IndexTest
 	 * Updates the Solr index from the marc file.
 	 * 
 	 * @param confPropFilename - name of config.properties file
-	 * @param testSolrUrl - url for test solr instances, as a string
+	 * @param testSolrUrl - url for test solr instance, as a string
 	 * @param useBinaryRequestHandler - true to use the binary request handler
 	 * @param useStreamingProxy - true to use streaming proxy (multiple records added at a time)
 	 * @param testDataParentPath - directory containing the test data file
@@ -169,8 +169,11 @@ public abstract class IndexTest
 			importer = new MarcImporter(solrProxy);
 
 		importer.init(new String[] { configPropFilename, testDataParentPath + File.separator + marcTestDataFname });
-		int numImported = importer.importRecords();
-		solrProxy.commit(false); // don't optimize
+		if (marcTestDataFname != null)
+		{
+			int numImported = importer.importRecords();
+			solrProxy.commit(false); // don't optimize
+		}
 	}
 
 	/**
@@ -249,8 +252,9 @@ public abstract class IndexTest
 	 * @param testDataFname
 	 *            - file of marc records to be indexed. should end in ".mrc"
 	 *            "marc" or ".xml"
+	 * @deprecated
 	 */
-	public void updateIx(String configPropFilename, String solrPath,
+	public void updateIxOld(String configPropFilename, String solrPath,
 			String solrDataDir, String testDataParentPath, String testDataFname)
 			throws ParserConfigurationException, IOException, SAXException
 	{
@@ -266,23 +270,18 @@ public abstract class IndexTest
 		solrJSolrServer = ((SolrServerProxy) solrProxy).getSolrServer();
 	}
 
+	
 	/**
 	 * Given the paths to a marc file to be indexed, the solr directory, and the
 	 * path for the solr index, delete the records from the index.
 	 * 
-	 * @param confPropFilename
-	 *            - name of config.properties file
-	 * @param solrPath
-	 *            - the directory holding the solr instance (think conf files)
-	 * @param solrDataDir
-	 *            - the data directory to hold the index
-	 * @param deletedIdsFilename
-	 *            - file containing record ids to be deleted (including parent
-	 *            path)
+	 * @param confPropFilename  name of config.properties file
+	 * @param solrPath  the directory holding the solr instance (think conf files)
+	 * @param solrDataDir  the data directory to hold the index
+	 * @param deletedIdsFilename  file containing record ids to be deleted (including parent path)
 	 * @deprecated
 	 */
-	public void deleteRecordsFromIx(String configPropFilename, String solrPath,
-			String solrDataDir, String deletedIdsFilename)
+	public void deleteRecordsFromIxOld(String configPropFilename, String solrPath, String solrDataDir, String deletedIdsFilename)
 			throws ParserConfigurationException, IOException, SAXException
 	{
 		setSolrSysProperties(solrPath, solrDataDir);
@@ -298,7 +297,56 @@ public abstract class IndexTest
 		solrProxy.commit(false);
 		solrJSolrServer = ((SolrServerProxy) solrProxy).getSolrServer();
 	}
+	
 
+	/**
+	 * delete the records from the test index via HTTP
+	 * 
+	 * @param testSolrUrl - url for test solr instance, as a string
+	 */
+	public void deleteAllRecordsFromTestIx(String testSolrUrl)
+			throws ParserConfigurationException, IOException, SAXException
+	{
+		if (solrProxy == null)
+		{
+			solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
+			logger.debug("just set solrProxy to remote server at "	+ testSolrUrl + " - " + solrProxy.toString());
+		}
+		solrProxy.deleteAllDocs();
+		solrProxy.commit(false); // don't optimize
+		logger.debug("just deleted all docs known to the solrProxy");
+	}
+
+	/**
+	 * delete the records specified  from the test index via HTTP
+	 * Given the paths to a marc file to be indexed, the solr directory, and the
+	 * path for the solr index, delete the records from the index.
+	 * 
+	 * @param deletedIdsFilename  file containing record ids to be deleted (including parent path)
+	 * @param testSolrUrl - url for test solr instance, as a string; used if solrProxy isn't initialized
+	 * @param confPropFilename  name of config.properties file; used if MarcImporter isn't initialized
+	 */
+	public void deleteRecordsFromTestIx(String deletedIdsFilename, String testSolrUrl, String configPropFilename)
+			throws ParserConfigurationException, IOException, SAXException
+	{
+		if (solrProxy == null)
+		{
+			solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
+			logger.debug("just set solrProxy to remote server at "	+ testSolrUrl + " - " + solrProxy.toString());
+		}
+		
+		if (importer == null)
+		{
+			importer = new MarcImporter(solrProxy);
+		}
+		importer.init(new String[] { configPropFilename, testDataParentPath + File.separator + deletedIdsFilename });
+		importer.deleteRecords();
+		solrProxy.commit(false); // don't optimize
+		logger.debug("just deleted Solr docs per deleted ids file");
+	}
+	
+
+	
 	/**
 	 * close and set solrProxy to null
 	 */
@@ -473,7 +521,7 @@ public abstract class IndexTest
 	public final void assertDocNotPresent(String doc_id)
 	{
 		SolrDocumentList sdl = getDocList(docIDfname, doc_id);
-		assertTrue("Found no document with id \"" + doc_id + "\"", sdl.size() == 0);
+		assertTrue("Unexpectedly found document with id \"" + doc_id + "\"", sdl.size() == 0);
 	}
 
 	public final void assertDocHasFieldValue(String doc_id, String fldName,	String fldVal)
@@ -753,7 +801,7 @@ public abstract class IndexTest
 	 *            the name of the System property
 	 * @return the value of the property; fail if there is no value
 	 */
-	private static String getRequiredSystemProperty(String propertyName)
+	protected static String getRequiredSystemProperty(String propertyName)
 	{
 		String propVal = System.getProperty(propertyName);
 		if (propVal == null)
