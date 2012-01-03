@@ -17,15 +17,17 @@
 	<property name="site.scripts.dir" location="${site.conf.dir}/${scripts.dir}" />
 	<property name="site.solrconf.dir" location="${site.conf.dir}/solrConf" />
 
+
+<!-- ******* CORE basic build targets ********** -->
 	
+	<target name="clean_core" description="remove the build directories for CORE">
+		<delete dir="${core.build.dir}" />
+	</target>
+
 	<target name="init_core" description="create (empty) generated directories for core code">
 		<mkdir dir="${core.build.dir}" />
 	</target>
 
-	<target name="init_site" depends="init_core" description="create (empty) generated directories for site AND core code">
-		<mkdir dir="${site.build.dir}" />
-	</target>
-		
 	<path id="core.classpath" description="classes and jars needed to build CORE code)">
 		<fileset dir="${lib.dir}">
 			<include name="*.jar" />
@@ -44,6 +46,24 @@
 			<include name="**/*.java" />
 			<classpath refid="core.classpath" />
 		</javac>
+	</target>
+
+	<target name="build_core" depends="compile_core" description="Build custom jar file containing CORE code and log4j.properties" >
+		<jar destfile="${core.build.dir}/${core.jar.name}.jar">
+			<fileset dir="${core.build.dir}" includes="**/*.class" />
+			<fileset file="${log4j.props}" />
+		</jar>
+	</target>
+
+	
+<!-- ******* SITE basic build targets ********** -->
+	
+	<target name="clean_site" description="remove the build directories for SITE">
+		<delete dir="$site.build.dir}" />
+	</target>
+		
+	<target name="init_site" depends="init_core" description="create (empty) generated directories for site AND core code">
+		<mkdir dir="${site.build.dir}" />
 	</target>
 
 	<path id="site.classpath" description="classes and jars needed to build SITE code">
@@ -65,13 +85,6 @@
 		</javac>
 	</target>
 	
-	<target name="build_core" depends="compile_core" description="Build custom jar file containing CORE code and log4j.properties" >
-		<jar destfile="${core.build.dir}/${core.jar.name}.jar">
-			<fileset dir="${core.build.dir}" includes="**/*.class" />
-			<fileset file="${log4j.props}" />
-		</jar>
-	</target>
-
 	<target name="build_site" depends="build_core,compile_site" description="Build custom jar file containing SITE code" >
 		<jar destfile="${site.build.dir}/${site.jar.name}.jar">
 			<fileset dir="${site.build.dir}" includes="**/*.class" />
@@ -80,6 +93,8 @@
 		</jar>
 	</target>
 
+	
+<!-- ******* CORE and SITE together targets ********** -->
 	
 <!-- FIXME:  dist.path not defined -->	
 	
@@ -122,26 +137,22 @@
 		<property name="dist.already.run" value="true" />
 	</target>
 	
-	
-	<target name="clean_core" description="remove the build directories for CORE">
-		<delete dir="${core.build.dir}" />
-	</target>
-
-	<target name="clean_site" description="remove the build directories for SITE">
-		<delete dir="$site.build.dir}" />
-	</target>
-		
 	<target name="clean" depends="clean_site,clean_core" description="remove the build directories for CORE and SITE" />
-		
-
-	
 	
 
-	<!-- Testing Targets -->
+	
+<!-- ******* CORE TEST targets ********** -->
+	
+	<target name="test_clean_core" description="remove the directories generated for CORE testing">
+		<delete dir="${core.test.build.dir}" />
+		<delete dir="${test.solr.data.dir}" />
+		<delete dir="${test.solr.run.dir}" />
+		<delete file="${test.jetty.dir}/webapps/solr.war"/>
+		<delete dir="${core.instr.dir}" />
+		<delete file="${cobertura.core.data.file}" />
+		<delete dir="${core.coverage.dir}" />
+	</target>
 
-	
-<!--  CORE TEST TARGETS -->	
-	
 	<target name="test_init_core" description="create (empty) generated directories for CORE TEST code">
 		<mkdir dir="${core.test.build.dir}" />
 	</target>
@@ -283,7 +294,12 @@
 	</target>
 
 	
-<!-- SITE TEST TARGETS -->
+<!-- ******* SITE TEST targets ********** -->
+	
+	<target name="test_clean_site" description="remove the directories generated for SITE testing">
+		<delete dir="$site.test.build.dir}" />
+		<delete dir="${site.test.solr.data.dir}" quiet="true" />
+	</target>
 	
 	<target name="test_init_site" depends="test_init_core" description="create (empty) generated directories for site AND core TEST code">
 		<mkdir dir="${site.test.build.dir}" />
@@ -425,21 +441,6 @@
 	
 	
 	
-	
-	<target name="test_clean_core" description="remove the directories generated for CORE testing">
-		<delete dir="${core.test.build.dir}" />
-		<delete dir="${test.solr.data.dir}" />
-		<delete dir="${test.solr.run.dir}" />
-		<delete file="${test.jetty.dir}/webapps/solr.war"/>
-		<delete dir="${core.instr.dir}" />
-		<delete file="${cobertura.core.data.file}" />
-		<delete dir="${core.coverage.dir}" />
-	</target>
-
-	<target name="test_clean_site" description="remove the directories generated for SITE testing">
-		<delete dir="$site.test.build.dir}" />
-		<delete dir="${site.test.solr.data.dir}" quiet="true" />
-	</target>
 	
 	<target name="test_clean" depends="test_clean_site,test_clean_core" description="remove the directories generated for CORE and SITE testing" />
 	
