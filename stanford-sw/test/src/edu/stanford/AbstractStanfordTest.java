@@ -6,7 +6,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import static org.junit.Assert.fail;
 
 import org.junit.BeforeClass;
 import org.solrmarc.testUtils.IndexTest;
@@ -108,14 +107,14 @@ public abstract class AbstractStanfordTest extends IndexTest {
 		System.setProperty("marc.source", "FILE");
 		// needed to get through initialization; overridden in individual tests
 		System.setProperty("marc.path", anyTestFile);
-        String testConfigFname = System.getProperty("test.config.file");
+        String testConfigFname = getRequiredSystemProperty("test.config.file");
 		solrFldMapTest = new SolrFieldMappingTest(testConfigFname, docIDfname);
 	}
 
 
 
 	/**
-	 * creates an index from the indicated test file, and initializes 
+	 * creates a fresh index from the indicated test file, and initializes 
 	 *  necessary variables
 	 */
 	public void createIxInitVars(String testDataFname) 
@@ -123,23 +122,9 @@ public abstract class AbstractStanfordTest extends IndexTest {
 	{
 		docIDfname = "id";
 
-		String solrPath = System.getProperty("solr.path");
-        if (solrPath == null)
-            fail("property solr.path must be defined for the tests to run");
-        
         String testDataParentPath = System.getProperty("test.data.path");
-        if (testDataParentPath == null)
-            fail("property test.data.path must be defined for the tests to run");
+        String testConfigFname = getRequiredSystemProperty("test.config.file");
 
-        String testConfigFname = System.getProperty("test.config.file");
-        if (testConfigFname == null)
-            fail("property test.config.file must be defined for the tests to run");
-
-        // for jetty instance
-        if (System.getProperty("test.solr.path") == null)
-        	System.setProperty("test.solr.path", solrPath);
-        if (System.getProperty("test.jetty.dir") == null)
-        	System.setProperty("test.jetty.dir", "test" + File.separator + "jetty");
         String testJettyPortStr = System.getProperty("test.jetty.port");
         if (testJettyPortStr == null)
         {
@@ -151,8 +136,8 @@ public abstract class AbstractStanfordTest extends IndexTest {
 		if (solrJettyProcess == null)
 			startTestJetty();
 
-// FIXME:  set up vars and use the single argument version?		
-        createFreshTestIxOverHTTP(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, testDataFname);
+// FIXME:  set up vars and use the single argument version?	
+		createFreshTestIxOverHTTP(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, testDataFname);
 	}
 	
 	/**
@@ -162,19 +147,21 @@ public abstract class AbstractStanfordTest extends IndexTest {
 	public void updateIx(String testDataFname) 
 		throws ParserConfigurationException, IOException, SAXException 
 	{
-		String solrPath = System.getProperty("solr.path");
-        if (solrPath == null)
-            fail("property solr.path must be defined for the tests to run");
+		testConfigFname = getRequiredSystemProperty("test.config.file");
+		testDataParentPath = getRequiredSystemProperty("test.data.path");
 
-        String testDataParentPath = System.getProperty("test.data.path");
-        if (testDataParentPath == null)
-            fail("property test.data.path must be defined for the tests to run");
+        String testJettyPortStr = System.getProperty("test.jetty.port");
+        if (testJettyPortStr == null)
+        {
+        	testJettyPortStr = "8983";
+        	System.setProperty("test.jetty.port", testJettyPortStr);
+        }
+        String testSolrUrl = "http://localhost:" + testJettyPortStr + "/solr";
 
-        String testConfigFname = System.getProperty("test.config.file");
-        if (testConfigFname == null)
-            fail("property test.config.file must be defined for the tests to run");
+// FIXME:  set up vars and use the single argument version?		
+        updateTestIxOverHTTP(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, testDataFname);
 
-        updateIx(testConfigFname, solrPath, null, testDataParentPath, testDataFname);
+//        updateIxOld(testConfigFname, solrPath, null, testDataParentPath, testDataFname);
 	}
 	
 	/**
@@ -184,21 +171,36 @@ public abstract class AbstractStanfordTest extends IndexTest {
 	public void deleteIxDocs(String deletedIdsFilename) 
 		throws ParserConfigurationException, IOException, SAXException 
 	{
-		docIDfname = "id";
+//		docIDfname = "id";
+//
+//		String solrPath = System.getProperty("solr.path");
+//        if (solrPath == null)
+//            fail("property solr.path must be defined for the tests to run");
+//
+//        String testConfigFname = System.getProperty("test.config.file");
+//        if (testConfigFname == null)
+//            fail("property test.config.file must be defined for the tests to run");
+//        
+//        deleteRecordsFromIxOld(testConfigFname, solrPath, null, deletedIdsFilename);
+		
+        String testConfigFname = getRequiredSystemProperty("test.config.file");
 
-		String solrPath = System.getProperty("solr.path");
-        if (solrPath == null)
-            fail("property solr.path must be defined for the tests to run");
+        String testJettyPortStr = System.getProperty("test.jetty.port");
+        if (testJettyPortStr == null)
+        {
+        	testJettyPortStr = "8983";
+        	System.setProperty("test.jetty.port", testJettyPortStr);
+        }
+        String testSolrUrl = "http://localhost:" + testJettyPortStr + "/solr";
 
-        String testDataParentPath = System.getProperty("test.data.path");
-        if (testDataParentPath == null)
-            fail("property test.data.path must be defined for the tests to run");
+		// these properties must be set or MarcHandler can't initialize properly
+		// needed to get through initialization; overridden in individual tests
+		String testDataParentPath = getRequiredSystemProperty("test.data.path");
+		String anyTestFile = new File(testDataParentPath, "pubDateTests.mrc").getAbsolutePath();
+		System.setProperty("marc.source", "FILE");
+		System.setProperty("marc.path", anyTestFile);
 
-        String testConfigFname = System.getProperty("test.config.file");
-        if (testConfigFname == null)
-            fail("property test.config.file must be defined for the tests to run");
-        
-        deleteRecordsFromIx(testConfigFname, solrPath, null, deletedIdsFilename);
+		deleteRecordsFromTestIx(deletedIdsFilename, testSolrUrl, testConfigFname);
 	}
 	
 }
