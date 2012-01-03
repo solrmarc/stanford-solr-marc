@@ -336,10 +336,10 @@ public abstract class IndexTest
 		}
 		
 		if (importer == null)
-		{
 			importer = new MarcImporter(solrProxy);
-		}
-		importer.init(new String[] { configPropFilename, testDataParentPath + File.separator + deletedIdsFilename });
+
+		importer.init(new String[] { configPropFilename });
+		importer.setDeleteRecordListFilename(deletedIdsFilename);
 		importer.deleteRecords();
 		solrProxy.commit(false); // don't optimize
 		logger.debug("just deleted Solr docs per deleted ids file");
