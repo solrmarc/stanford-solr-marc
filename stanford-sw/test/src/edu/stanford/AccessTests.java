@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.*;
+import org.solrmarc.tools.SolrMarcIndexerException;
 import org.xml.sax.SAXException;
 
 import edu.stanford.enumValues.Access;
@@ -24,6 +25,7 @@ public class AccessTests extends AbstractStanfordTest {
 @Before
 	public final void setup() 
 	{
+		setTestLoggingLevels();
 		mappingTestInit();
 	}
 
@@ -105,29 +107,38 @@ public class AccessTests extends AbstractStanfordTest {
 	public final void testAccessFrom999() 
 	{
     	String testFilePath = testDataParentPath + File.separator + "buildingTests.mrc";
+    	
+    	try
+    	{
+    	 	// "Online"
+    		// has SFX url in 956
+    		solrFldMapTest.assertSolrFldValue(testFilePath, "7117119", fldName, onlineFldVal); 
 
-	 	// "Online"
-		// has SFX url in 956
-		solrFldMapTest.assertSolrFldValue(testFilePath, "7117119", fldName, onlineFldVal); 
+    	 	// "At the Library"
+    	 	// formerly "On campus"
+    		solrFldMapTest.assertSolrFldValue(testFilePath, "115472", fldName, atLibraryFldVal); 
+    		solrFldMapTest.assertSolrFldValue(testFilePath, "2442876", fldName, atLibraryFldVal); 
+    		solrFldMapTest.assertSolrFldValue(testFilePath, "3142611", fldName, atLibraryFldVal); 
+    	 	// formerly "Upon request"
+    	 	// SAL1 & 2
+    		solrFldMapTest.assertSolrFldValue(testFilePath, "1033119", fldName, atLibraryFldVal); 
+    		solrFldMapTest.assertSolrFldValue(testFilePath, "1962398", fldName, atLibraryFldVal); 
+    		solrFldMapTest.assertSolrFldValue(testFilePath, "2328381", fldName, atLibraryFldVal); 
+    		solrFldMapTest.assertSolrFldValue(testFilePath, "2913114", fldName, atLibraryFldVal); 
+    	 	// SAL3
+    		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, atLibraryFldVal); 
+    		solrFldMapTest.assertSolrFldValue(testFilePath, "3941911", fldName, atLibraryFldVal); 
+    		solrFldMapTest.assertSolrFldValue(testFilePath, "7651581", fldName, atLibraryFldVal); 
+    		solrFldMapTest.assertSolrFldValue(testFilePath, "2214009", fldName, atLibraryFldVal); 
+    	 	// SAL-NEWARK
+    		solrFldMapTest.assertSolrFldValue(testFilePath, "804724", fldName, atLibraryFldVal); 
 
-	 	// "At the Library"
-	 	// formerly "On campus"
-		solrFldMapTest.assertSolrFldValue(testFilePath, "115472", fldName, atLibraryFldVal); 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2442876", fldName, atLibraryFldVal); 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "3142611", fldName, atLibraryFldVal); 
-	 	// formerly "Upon request"
-	 	// SAL1 & 2
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1033119", fldName, atLibraryFldVal); 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1962398", fldName, atLibraryFldVal); 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2328381", fldName, atLibraryFldVal); 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2913114", fldName, atLibraryFldVal); 
-	 	// SAL3
-		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, atLibraryFldVal); 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "3941911", fldName, atLibraryFldVal); 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "7651581", fldName, atLibraryFldVal); 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "2214009", fldName, atLibraryFldVal); 
-	 	// SAL-NEWARK
-		solrFldMapTest.assertSolrFldValue(testFilePath, "804724", fldName, atLibraryFldVal); 
+    	}
+    	catch (SolrMarcIndexerException e)
+    	{
+    		if (e.getMessage().indexOf("Record a3277173 purposely not indexed because item_display field is empty") == -1)
+    			throw e;
+    	}
 	}
 
 }
