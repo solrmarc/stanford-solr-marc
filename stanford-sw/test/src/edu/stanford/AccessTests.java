@@ -7,7 +7,6 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.*;
-import org.solrmarc.tools.SolrMarcIndexerException;
 import org.xml.sax.SAXException;
 
 import edu.stanford.enumValues.Access;
