@@ -80,7 +80,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	}
 	
 
-/**
+	/**
 	 * Test that deletion of non-existing records smoothly reports error and
 	 *  causes no other problems
 	 */
