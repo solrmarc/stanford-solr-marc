@@ -486,12 +486,13 @@ public abstract class IndexTest
 		{
 			SolrDocument doc = sdl.get(0);
 			Collection<Object> fields = doc.getFieldValues(fldName);
-			for (Object field : fields)
-			{
-				if (field.toString().equals(fldVal))
-					// found field with desired value
-					return;
-			}
+			if (fields != null)
+				for (Object field : fields)
+				{
+					if (field.toString().equals(fldVal))
+						// found field with desired value
+						return;
+				}
 			fail("Field " + fldName + " did not contain value \"" + fldVal + "\" in doc " + doc_id);
 		}
 		fail("Document " + doc_id + " was not found");
@@ -508,11 +509,12 @@ public abstract class IndexTest
 		{
 			SolrDocument doc = sdl.get(0);
 			Collection<Object> fields = doc.getFieldValues(fldName);
-			for (Object field : fields)
-			{
-				if (field.toString().equals(fldVal))
-					fail("Field " + fldName + " contained value \"" + fldVal + "\" in doc " + doc_id);
-			}
+			if (fields != null)
+				for (Object field : fields)
+				{
+					if (field.toString().equals(fldVal))
+						fail("Field " + fldName + " contained value \"" + fldVal + "\" in doc " + doc_id);
+				}
 			return;
 		}
 		fail("Document " + doc_id + " was not found");
