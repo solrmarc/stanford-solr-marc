@@ -200,7 +200,7 @@
 		<!-- if no core test class is defined, call the Util Unit test -->
 		<property name="core.test.class"  value="org.solrmarc.tools.UtilUnitTests" />
 
-    <junit showoutput="yes" printsummary="yes" fork="yes" forkmode="perBatch">
+    <junit showoutput="yes" printsummary="yes" fork="yes" forkmode="perBatch" haltonfailure="on">
 			<classpath refid="test.core.run.classpath" />
 			<formatter type="plain" usefile="false" />
 
@@ -350,7 +350,7 @@
 	</target>
 	
 	<target name="test_site" depends="test_clean,test_compile_site,site_setup_test_jetty" description="run tests for SITE code">
-    <junit showoutput="yes" printsummary="yes" fork="yes" forkmode="perBatch">
+    <junit showoutput="yes" printsummary="yes" fork="yes" forkmode="perBatch" haltonfailure="on">
 			<classpath refid="test.site.run.classpath" />
 			<formatter type="plain" usefile="false" />
 
