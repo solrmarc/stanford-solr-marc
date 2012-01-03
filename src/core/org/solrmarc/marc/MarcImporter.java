@@ -257,6 +257,7 @@ public class MarcImporter extends MarcHandler
                     System.out.println("Deleting record with id :"+ id);
                     logger.info("Deleting record with id :"+ id);
                 }
+// FIXME:  do this with SolrJ call to delete list of ids                
                 solrProxy.delete(id, fromCommitted, fromPending);
                 recsDeletedCounter++;
             }            
