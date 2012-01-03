@@ -176,129 +176,7 @@ public abstract class IndexTest
 		}
 	}
 
-	/**
-	 * Set the appropriate system properties for Solr processing
-	 * 
-	 * @param solrPath
-	 *            - the directory holding the solr instance (think solr/conf
-	 *            files)
-	 * @param solrDataDir
-	 *            - the data directory to hold the index
-	 * @deprecated
-	 */
-	private void setSolrSysProperties(String solrPath, String solrDataDir)
-	{
-		if (solrPath != null)
-		{
-			System.setProperty("solr.path", solrPath);
-			if (solrDataDir == null)
-				solrDataDir = solrPath + File.separator + "data";
-
-			System.setProperty("solr.data.dir", solrDataDir);
-		}
-		if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
-		{
-			java.util.logging.Logger.getLogger("org.apache.solr").setLevel(
-					java.util.logging.Level.SEVERE);
-			Utils.setLog4jLogLevel(org.apache.log4j.Level.WARN);
-		}
-		// from DistSMCreateIxInitVars ... which only creates the smoketest
-		// if (!Boolean.parseBoolean(System.getProperty("test.solr.verbose")))
-		// {
-		// addnlProps.put("solr.log.level", "OFF");
-		// addnlProps.put("solrmarc.log.level", "OFF");
-		// }
-	}
-
-	/**
-	 * Given the paths to a marc file to be indexed, the solr directory, and the
-	 * path for the solr index, instantiate the MarcImporter object
-	 * 
-	 * @param confPropFilename
-	 *            - name of config.properties file (must include ".properties"
-	 *            on the end)
-	 * @param argFileName
-	 *            - the name of a file to be processed by the MarcImporter;
-	 *            should end in "marc" or ".mrc" or ".xml" or ".del", or be null
-	 *            (or the string "NONE") if there is no such file. (All this per
-	 *            MarcHandler constructor)
-	 * @deprecated
-	 */
-	private void setupMarcImporter(String configPropFilename, String argFileName)
-			throws ParserConfigurationException, IOException, SAXException
-	{
-		if (argFileName == null)
-			argFileName = "NONE";
-
-		importer = new MarcImporter();
-		if (configPropFilename != null)
-			importer.init(new String[] { configPropFilename, argFileName });
-		else
-			importer.init(new String[] { argFileName });
-	}
-
-	/**
-	 * Given the paths to a marc file to be indexed, the solr directory, and the
-	 * path for the solr index, create the index from the marc file.
-	 * 
-	 * @param confPropFilename
-	 *            - name of config.properties file
-	 * @param solrPath
-	 *            - the directory holding the solr instance (think conf files)
-	 * @param solrDataDir
-	 *            - the data directory to hold the index
-	 * @param testDataParentPath
-	 *            - directory containing the test data file
-	 * @param testDataFname
-	 *            - file of marc records to be indexed. should end in ".mrc"
-	 *            "marc" or ".xml"
-	 * @deprecated
-	 */
-	public void updateIxOld(String configPropFilename, String solrPath,
-			String solrDataDir, String testDataParentPath, String testDataFname)
-			throws ParserConfigurationException, IOException, SAXException
-	{
-		setSolrSysProperties(solrPath, solrDataDir);
-		setupMarcImporter(configPropFilename, testDataParentPath
-				+ File.separator + testDataFname);
-		int numImported = importer.importRecords();
-		// FIXME: Naomi doesn't think this will work for remote server debugging
-		importer.finish();
-
-		solrProxy = (SolrProxy) importer.getSolrProxy();
-		solrProxy.commit(false);
-		solrJSolrServer = ((SolrServerProxy) solrProxy).getSolrServer();
-	}
-
 	
-	/**
-	 * Given the paths to a marc file to be indexed, the solr directory, and the
-	 * path for the solr index, delete the records from the index.
-	 * 
-	 * @param confPropFilename  name of config.properties file
-	 * @param solrPath  the directory holding the solr instance (think conf files)
-	 * @param solrDataDir  the data directory to hold the index
-	 * @param deletedIdsFilename  file containing record ids to be deleted (including parent path)
-	 * @deprecated
-	 */
-	public void deleteRecordsFromIxOld(String configPropFilename, String solrPath, String solrDataDir, String deletedIdsFilename)
-			throws ParserConfigurationException, IOException, SAXException
-	{
-		setSolrSysProperties(solrPath, solrDataDir);
-		if (deletedIdsFilename != null)
-			System.setProperty("marc.ids_to_delete", deletedIdsFilename);
-		setupMarcImporter(configPropFilename, deletedIdsFilename);
-
-		int numDeleted = importer.deleteRecords();
-		// FIXME: Naomi doesn't think this will work for remote server debugging
-		importer.finish();
-
-		solrProxy = importer.getSolrProxy();
-		solrProxy.commit(false);
-		solrJSolrServer = ((SolrServerProxy) solrProxy).getSolrServer();
-	}
-	
-
 	/**
 	 * delete the records from the test index via HTTP
 	 * 
@@ -317,6 +195,7 @@ public abstract class IndexTest
 		logger.debug("just deleted all docs known to the solrProxy");
 	}
 
+	
 	/**
 	 * delete the records specified  from the test index via HTTP
 	 * Given the paths to a marc file to be indexed, the solr directory, and the
@@ -345,7 +224,6 @@ public abstract class IndexTest
 		logger.debug("just deleted Solr docs per deleted ids file");
 	}
 	
-
 	
 	/**
 	 * close and set solrProxy to null

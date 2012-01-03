@@ -112,7 +112,6 @@ public abstract class AbstractStanfordTest extends IndexTest {
 	}
 
 
-
 	/**
 	 * creates a fresh index from the indicated test file, and initializes 
 	 *  necessary variables
@@ -160,8 +159,6 @@ public abstract class AbstractStanfordTest extends IndexTest {
 
 // FIXME:  set up vars and use the single argument version?		
         updateTestIxOverHTTP(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, testDataFname);
-
-//        updateIxOld(testConfigFname, solrPath, null, testDataParentPath, testDataFname);
 	}
 	
 	/**
@@ -171,19 +168,8 @@ public abstract class AbstractStanfordTest extends IndexTest {
 	public void deleteIxDocs(String deletedIdsFilename) 
 		throws ParserConfigurationException, IOException, SAXException 
 	{
-//		docIDfname = "id";
-//
-//		String solrPath = System.getProperty("solr.path");
-//        if (solrPath == null)
-//            fail("property solr.path must be defined for the tests to run");
-//
-//        String testConfigFname = System.getProperty("test.config.file");
-//        if (testConfigFname == null)
-//            fail("property test.config.file must be defined for the tests to run");
-//        
-//        deleteRecordsFromIxOld(testConfigFname, solrPath, null, deletedIdsFilename);
-		
         String testConfigFname = getRequiredSystemProperty("test.config.file");
+		String testDataParentPath = getRequiredSystemProperty("test.data.path");
 
         String testJettyPortStr = System.getProperty("test.jetty.port");
         if (testJettyPortStr == null)
@@ -195,7 +181,6 @@ public abstract class AbstractStanfordTest extends IndexTest {
 
 		// these properties must be set or MarcHandler can't initialize properly
 		// needed to get through initialization; overridden in individual tests
-		String testDataParentPath = getRequiredSystemProperty("test.data.path");
 		String anyTestFile = new File(testDataParentPath, "pubDateTests.mrc").getAbsolutePath();
 		System.setProperty("marc.source", "FILE");
 		System.setProperty("marc.path", anyTestFile);
