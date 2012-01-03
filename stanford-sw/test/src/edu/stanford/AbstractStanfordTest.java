@@ -7,6 +7,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import static org.junit.Assert.fail;
+
+import org.junit.BeforeClass;
 import org.solrmarc.testUtils.IndexTest;
 import org.solrmarc.testUtils.SolrFieldMappingTest;
 
@@ -75,6 +77,12 @@ public abstract class AbstractStanfordTest extends IndexTest {
 			System.setProperty("solr.data.dir", new File(solrPath + File.separator + "data").getAbsolutePath());		
 	}
 
+@BeforeClass
+	public static void setLoggingLevels() 
+	{
+		setTestLoggingLevels();
+	}
+	
 	/**
 	 * initialization for mapping tests
 	 */
