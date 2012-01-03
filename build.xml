@@ -5,42 +5,18 @@
 	<property file="${site.conf.props}" />  <!-- FIXME: use this? -->
 
 	<!-- CORE properties, in case they aren't already defined -->
-	<property name="core.build.dir" value="${build.dir}" />
-	<property name="dist.dir" value="dist" />
-	<property name="dist.exe.dir" value="bin" />
-<!-- FIXME:  dist.path not defined -->	
-	<property name="dist.exe.path" location="${dist.path}/${dist.exe.dir}" />
 	<property name="core.jar.name" value="SolrMarc" />
 	
-	<!-- CORE TEST properties, in case they aren't already defined -->
-	<property name="core.test.dir" value="${test.dir}/core" />
-	<property name="core.test.config.file" value="${core.test.dir}/test_core_config.properties" />
-	<property name="core.test.data.path" value="${core.test.dir}/data"/>
-	<property name="core.test.solr.orig.dir" value="${test.dir}/solr" />
-	<property name="test.jetty.dir" value="${test.dir}/jetty" />
-	<property name="test.solr.run.dir" value="${test.jetty.dir}/solr" />
-	<property name="test.solr.data.dir" value="${test.solr.run.dir}/data" />
-	<property name="test.solr.url" value="http://localhost:8985/solr" />
+	<!-- Continuous Integration properties -->
 	<property name="cobertura.jar.dir" location="${test.lib.dir}/cobertura-1.9.4.1" />
 	<property name="cobertura.core.data.file" value="${core.instr.dir}/cobertura.ser" />
 
 	<!-- SITE properties, in case they aren't already defined -->
-<!-- FIXME:  site.dirname or site.basename -->	
-	<property name="site.src.dir" location="${src.dir}/${site.basename}" />
-	<property name="site.build.dir" location="${build.dir}/${site.basename}" />
-	<property name="site.indexer.class" value="org.solrmarc.index.SolrIndexer" />
-<!-- FIXME:  trans.map.path not defined -->	
-	<property name="site.map.dir" location="${site.conf.dir}/${trans.map.path}" />
+	<property name="site.map.dir" location="${site.conf.dir}/${trans.map.dir}" />
+<!--FIXME: keep the following two? -->	
 	<property name="site.scripts.dir" location="${site.conf.dir}/${scripts.dir}" />
 	<property name="site.solrconf.dir" location="${site.conf.dir}/solrConf" />
 
-	<!-- SITE TEST properties, in case they aren't already defined -->
-	<property name="site.test.basedir" location="${test.dir}/${site.basename}" />
-	<property name="site.test.src.dir" location="${site.test.basedir}/${src.dir}" />
-	<property name="site.test.data.dir" location="${site.test.basedir}/data" />
-	<property name="site.test.build.dir" location="${build.dir}/${test.dir}/${site.basename}" />
-	<property name="site.test.solr.dir" location="${site.test.basedir}/solr" />
-		
 	
 	<target name="init_core" description="create (empty) generated directories for core code">
 		<mkdir dir="${core.build.dir}" />
@@ -99,6 +75,7 @@
 	<target name="build_site" depends="build_core,compile_site" description="Build custom jar file containing SITE code" >
 		<jar destfile="${site.build.dir}/${site.jar.name}.jar">
 			<fileset dir="${site.build.dir}" includes="**/*.class" />
+			<fileset file="${log4j.props}" />
 			<fileset file="${core.build.dir}/${core.jar.name}.jar" />
 		</jar>
 	</target>
@@ -162,12 +139,11 @@
 
 	<!-- Testing Targets -->
 
+	
+<!--  CORE TEST TARGETS -->	
+	
 	<target name="test_init_core" description="create (empty) generated directories for CORE TEST code">
 		<mkdir dir="${core.test.build.dir}" />
-	</target>
-
-	<target name="test_init_site" depends="test_init_core" description="create (empty) generated directories for site AND core TEST code">
-		<mkdir dir="${site.test.build.dir}" />
 	</target>
 
 	<path id="test.core.build.classpath" description="classes and jars needed to build CORE TEST code">
@@ -189,25 +165,6 @@
 		</javac>
 	</target>
 
-	<path id="test.site.build.classpath" description="classes and jars needed to build SITE TEST code">
-		<fileset dir="${site.test.lib.dir}">
-			<include name="**/*.jar" />
-		</fileset>
-		<pathelement location="${core.test.build.dir}"/>
-		<path refid="test.core.build.classpath" />
-	</path>
-	
-	<target name="test_compile_site" depends="test_compile_core,test_init_site" description="Compile SITE AND CORE TEST source code into the test build directory">
-		<javac destdir="${site.test.build.dir}" srcdir="${site.test.src.dir}" 
-                target="${java.compat.version}" 
-                source="${java.compat.version}" 
-                debug="true" debuglevel="lines,vars,source" 
-                encoding="utf-8" includeAntRuntime="false">
-			<include name="**/*.java" />
-			<classpath refid="test.site.build.classpath" />
-		</javac>
-	</target>
-	
 	<path id="test.core.run.classpath" description="classes and jars needed to run CORE TEST code">
 		<pathelement location="${core.test.build.dir}"/>
 		<fileset dir="${test.solr.run.dir}/lib">
@@ -247,7 +204,7 @@
     	<sysproperty key="test.solr.url" value="${test.solr.url}" />
 			<sysproperty key="test.solr.path" value="${test.solr.run.dir}" />
 			<sysproperty key="solr.data.dir" value="${test.solr.data.dir}" />
-			<sysproperty key="solr.path" value="${test.solr.path}" />
+			<sysproperty key="solr.path" value="${test.solr.run.dir}" />
     	
 			<test name="${core.test.class}" />
 <!--
@@ -326,18 +283,71 @@
 	</target>
 
 	
+<!-- SITE TEST TARGETS -->
+	
+	<target name="test_init_site" depends="test_init_core" description="create (empty) generated directories for site AND core TEST code">
+		<mkdir dir="${site.test.build.dir}" />
+	</target>
+
+	<path id="test.site.build.classpath" description="classes and jars needed to build SITE TEST code">
+		<fileset dir="${site.test.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement location="${site.build.dir}"/>
+		<path refid="site.classpath" />
+		<path refid="test.core.run.classpath" />
+	</path>
+
+<!--	
+	<path id="test.core.build.classpath" description="classes and jars needed to build CORE TEST code">
+		<fileset dir="${test.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement location="${core.build.dir}"/>
+		<path refid="core.classpath" />
+	</path>
+
+	<path id="site.classpath" description="classes and jars needed to build SITE code">
+		<fileset dir="${site.lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement location="${core.build.dir}"/>
+		<path refid="core.classpath" />
+	</path>
+-->
+	
+	
+	<target name="test_compile_site" depends="test_compile_core,test_init_site" description="Compile SITE AND CORE TEST source code into the test build directory">
+		<javac destdir="${site.test.build.dir}" srcdir="${site.test.src.dir}" 
+                target="${java.compat.version}" 
+                source="${java.compat.version}" 
+                debug="true" debuglevel="lines,vars,source" 
+                encoding="utf-8" includeAntRuntime="false">
+			<include name="**/*.java" />
+			<classpath refid="test.site.build.classpath" />
+		</javac>
+	</target>
+	
+	
+	<path id="test.site.run.classpath" description="classes and jars needed to run SITE TEST code">
+		<pathelement location="${site.test.build.dir}"/>
+		<path refid="test.site.build.classpath" />
+		<path refid="test.core.run.classpath" />
+	</path>
+	
 	<target name="site_setup_test_jetty">
 		<echo message="solr path for SITE testing: ${test.solr.run.dir}" />
 		<!-- set up jetty with solr files, including war, configuration, jars ... -->
-		<mkdir dir="${test.jetty.dir}/logs" />
-		<mkdir dir="${test.solr.run.dir}" />
-		<copy todir="${test.solr.run.dir}">
+		<mkdir dir="${site.test.jetty.dir}/logs" />
+		<mkdir dir="${site.test.solr.run.dir}" />
+		<copy todir="${site.test.solr.run.dir}">
 			<fileset dir="${site.test.solr.orig.dir}" includes="**/conf/**,**/lib/**"/>
 		</copy>
 		<!-- copy over the war file -->
 		<copy file="${site.solr.war.path}" tofile="${test.jetty.dir}/webapps/solr.war" failonerror="false" />
 	</target>
-
+	
+	
 	<target name="test_site" depends="test_clean,test_compile_site,site_setup_test_jetty" description="run tests for SITE code">
     <junit showoutput="yes" printsummary="yes" fork="yes" forkmode="perBatch">
 			<classpath refid="test.site.run.classpath" />
@@ -349,12 +359,12 @@
     	<sysproperty key="solrmarc.use_streaming_proxy" value="${site.test.use_streaming_proxy}" />
 			<sysproperty key="test.solr.log.level" value="${test.solr.log.level}" />
 			<sysproperty key="test.solrmarc.log.level" value="${test.solrmarc.log.level}" />
-			<sysproperty key="test.jetty.port" value="${test.jetty.port}" />
-			<sysproperty key="test.jetty.dir" value="${test.jetty.dir}" />
-    	<sysproperty key="test.solr.url" value="${test.solr.url}" />
-			<sysproperty key="test.solr.path" value="${test.solr.run.dir}" />
-			<sysproperty key="solr.data.dir" value="${test.solr.data.dir}" />
-			<sysproperty key="solr.path" value="${test.solr.path}" />
+			<sysproperty key="test.jetty.port" value="${site.test.jetty.port}" />
+			<sysproperty key="test.jetty.dir" value="${site.test.jetty.dir}" />
+    	<sysproperty key="test.solr.url" value="${site.test.solr.url}" />
+			<sysproperty key="test.solr.path" value="${site.test.solr.run.dir}" />
+			<sysproperty key="solr.data.dir" value="${site.test.solr.data.dir}" />
+			<sysproperty key="solr.path" value="${site.test.solr.run.dir}" />
     	
 			<test name="${site.test.class}" />
 		</junit>
@@ -401,9 +411,9 @@
 			<sysproperty key="test.jetty.port" value="${test.jetty.port}" />
 			<sysproperty key="test.jetty.dir" value="${test.jetty.dir}" />
     	<sysproperty key="test.solr.url" value="${test.solr.url}" />
-			<sysproperty key="test.solr.path" value="${test.solr.run.dir}" />
+			<sysproperty key="test.solr.path" value="${site.test.solr.run.dir}" />
 			<sysproperty key="solr.data.dir" value="${test.solr.data.dir}" />
-			<sysproperty key="solr.path" value="${test.solr.path}" />
+			<sysproperty key="solr.path" value="${site.test.solr.run.dir}" />
     	
 			<test name="${site.coverage.test.class}" />
 		</junit>
@@ -428,7 +438,7 @@
 
 	<target name="test_clean_site" description="remove the directories generated for SITE testing">
 		<delete dir="$site.test.build.dir}" />
-		<delete dir="${site.test.solr.dir}/data" quiet="true" />
+		<delete dir="${site.test.solr.data.dir}" quiet="true" />
 	</target>
 	
 	<target name="test_clean" depends="test_clean_site,test_clean_core" description="remove the directories generated for CORE and SITE testing" />
@@ -438,9 +448,15 @@
 	
 	
 	
+	
+	<!-- SITE TEST properties, in case they aren't already defined -->
+	<property name="site.test.solr.dir" location="${site.test.basedir}/solr" />
+		
+
+	
 	<target name="junittest" depends="dist,testJar" description="run junit tests for bib index">
 		<echo message="solr.path: ${solr.path}" />
-		<echo message="solr.path being used for testing: ${site.test.solr.dir}" />
+		<echo message="solr.path being used for testing: ${site.test.solr.run.dir}" />
 		<property name="solr.jar.file.dir" value="${site.test.dir}/tmp_solr_war_jars" />
 		<get_jars_from_solr_war src="${jetty.install.dir}/webapps/solr.war" todir="${solr.jar.file.dir}" />
 		<get_jars_from_solrmarc_onejar junit="test/*.jar"  todir="${site.test.dir}/tmp_solrmarc_jars" />
@@ -456,8 +472,8 @@
              utility classes used by SolrMarc. -->
 		<property name="test.class"  value="org.solrmarc.index.UtilUnitTests" />
 
-		<echo message="test class = ${test.class} " />
-		<echo message="solr.data.dir = ${site.test.solr.dir}/data " />
+		<echo message="test class = ${test.class}" />
+		<echo message="solr.data.dir = ${site.test.solr.data.dir}" />
 
 		<if >
 			<and>
