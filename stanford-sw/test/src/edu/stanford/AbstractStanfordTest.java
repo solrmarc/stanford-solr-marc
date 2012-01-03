@@ -145,8 +145,6 @@ public abstract class AbstractStanfordTest extends IndexTest {
 
 // FIXME:  set up vars and use the single argument version?		
         createFreshTestIxOverHTTP(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, testDataFname);
-
-//        createIxInitVarsOld(testConfigFname, solrPath, null, testDataParentPath, testDataFname);
 	}
 	
 	/**
