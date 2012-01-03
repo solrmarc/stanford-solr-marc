@@ -314,26 +314,9 @@
 		<path refid="test.core.run.classpath" />
 	</path>
 
-<!--	
-	<path id="test.core.build.classpath" description="classes and jars needed to build CORE TEST code">
-		<fileset dir="${test.lib.dir}">
-			<include name="**/*.jar" />
-		</fileset>
-		<pathelement location="${core.build.dir}"/>
-		<path refid="core.classpath" />
-	</path>
-
-	<path id="site.classpath" description="classes and jars needed to build SITE code">
-		<fileset dir="${site.lib.dir}">
-			<include name="*.jar" />
-		</fileset>
-		<pathelement location="${core.build.dir}"/>
-		<path refid="core.classpath" />
-	</path>
--->
-	
-	
 	<target name="test_compile_site" depends="test_compile_core,test_init_site" description="Compile SITE AND CORE TEST source code into the test build directory">
+<!-- FIXME: it makes NO SENSE that this mkdir is needed -->
+		<mkdir dir="${site.test.solr.run.dir}/lib" />
 		<javac destdir="${site.test.build.dir}" srcdir="${site.test.src.dir}" 
                 target="${java.compat.version}" 
                 source="${java.compat.version}" 
@@ -343,7 +326,6 @@
 			<classpath refid="test.site.build.classpath" />
 		</javac>
 	</target>
-	
 	
 	<path id="test.site.run.classpath" description="classes and jars needed to run SITE TEST code">
 		<pathelement location="${site.test.build.dir}"/>
@@ -357,12 +339,15 @@
 		<mkdir dir="${site.test.jetty.dir}/logs" />
 		<mkdir dir="${site.test.solr.run.dir}" />
 		<copy todir="${site.test.solr.run.dir}">
+			<fileset dir="${core.test.solr.orig.dir}" includes="**/conf/**,**/lib/**"/>
+		</copy>
+		<copy todir="${site.test.solr.run.dir}" overwrite="true">
 			<fileset dir="${site.test.solr.orig.dir}" includes="**/conf/**,**/lib/**"/>
 		</copy>
+		<copy file="${site.test.solr.orig.dir}/conf/solrconfig-test.xml" tofile="${site.test.solr.run.dir}/conf/solrconfig.xml" overwrite="true"/>
 		<!-- copy over the war file -->
 		<copy file="${site.solr.war.path}" tofile="${test.jetty.dir}/webapps/solr.war" failonerror="false" />
 	</target>
-	
 	
 	<target name="test_site" depends="test_clean,test_compile_site,site_setup_test_jetty" description="run tests for SITE code">
     <junit showoutput="yes" printsummary="yes" fork="yes" forkmode="perBatch">
@@ -385,6 +370,8 @@
 			<test name="${site.test.class}" />
 		</junit>
 	</target>
+	
+	
 	
 	<!-- NOTE:  this should be used only after a fresh SITE compile -->
 	<target name="instrument_site">
