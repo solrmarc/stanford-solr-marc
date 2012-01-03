@@ -123,9 +123,7 @@ public abstract class MarcHandler {
         //  note the values indexerName and indexerProps are initialized
         //  by the above call to loadProperties
         if (indexerName != null)
-        {
             loadIndexer(indexerName, indexerProps); 
-        }
         
         processAdditionalArgs();
 	}
@@ -203,22 +201,18 @@ public abstract class MarcHandler {
         to_utf_8 = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "marc.to_utf_8"));
         unicodeNormalize = PropertiesUtils.getProperty(configProps, "marc.unicode_normalize");
         if (unicodeNormalize != null) 
-        {
             unicodeNormalize = handleUnicodeNormalizeParm(unicodeNormalize);
-        }
+
         String source = PropertiesUtils.getProperty(configProps, "marc.source", "STDIN").trim();
         if (PropertiesUtils.getProperty(configProps, "marc.override")!= null)
-        {
             System.setProperty("org.marc4j.marc.MarcFactory", PropertiesUtils.getProperty(configProps, "marc.override").trim());
-        }
         else  // no override, tell solrmarc to use the NoSortMarcFactory by default.
-        {
             System.setProperty("org.marc4j.marc.MarcFactory", "org.solrmarc.marcoverride.NoSortMarcFactoryImpl");
-        }
 
         reader = null;
         String fName = PropertiesUtils.getProperty(configProps, "marc.path");
-        if (fName != null)  fName = fName.trim();
+        if (fName != null)  
+        	fName = fName.trim();
 
         loadReader(source, fName);
 	}
@@ -343,9 +337,10 @@ public abstract class MarcHandler {
     }
 
     public void loadReader(String source, String fName)
-	{       
+	{
         if (source.equals("FILE") || source.equals("STDIN"))
         {
+        	// determine input type
         	InputStream is = null;
         	if (source.equals("FILE")) 
         	{
@@ -353,12 +348,19 @@ public abstract class MarcHandler {
                     inputTypeXML = true;
                 else if (fName != null && fName.toLowerCase().endsWith(".json")) 
                     inputTypeJSON = true;
-        		try {
-                    if (showInputFile)
-                        logger.info("Attempting to open data file: "+ new File(fName).getAbsolutePath());
-                    else 
-                        logger.debug("Attempting to open data file: "+ new File(fName).getAbsolutePath());
-					is = new FileInputStream(fName);
+        		try 
+        		{
+            		if (fName == null)
+            			logger.warn("no specified MARC data file");
+            		else
+            		{
+                        if (showInputFile)
+                            logger.info("Attempting to open data file: "+ new File(fName).getAbsolutePath());
+                        else 
+                            logger.debug("Attempting to open data file: "+ new File(fName).getAbsolutePath());
+    					is = new FileInputStream(fName);
+            		}
+
 				} 
         		catch (FileNotFoundException e) 
         		{
@@ -375,7 +377,8 @@ public abstract class MarcHandler {
         	    is = new BufferedInputStream(System.in);
         		is.mark(10);
         		int b = -1;
-        		try { 
+        		try 
+        		{ 
         		    b = is.read();
                     is.reset();
         		}
@@ -384,44 +387,39 @@ public abstract class MarcHandler {
                     logger.error("Fatal error: Exception reading from stdin");
                     throw new IllegalArgumentException("Fatal error: Exception reading from stdin");
         		}
-        		if (b == '<') inputTypeXML = true;
-        		else if (b == '{') inputTypeJSON = true;              
+        		if (b == '<') 
+        			inputTypeXML = true;
+        		else if (b == '{') 
+        			inputTypeJSON = true;  
         	}
+        	
+        	// now set the reader
             if (inputTypeXML)
-            {
                 reader = new MarcUnprettyXmlReader(is);
-            }
             else if (inputTypeJSON)
-            {
                 reader = new MarcJsonReader(is);
-            }
             else if (permissiveReader)
             {
                 errors = new ErrorHandler();
                 reader = new MarcPermissiveStreamReader(is, errors, to_utf_8, defaultEncoding);
             }
             else
-            {
                 reader = new MarcPermissiveStreamReader(is, false, to_utf_8, defaultEncoding);
-            }
         }
         else if (source.equals("DIR"))
-        {
             reader = new MarcDirStreamReader(PropertiesUtils.getProperty(configProps, "marc.path").trim(), permissiveReader, to_utf_8);
-        }
         else if (source.equals("Z3950"))
         {
         	logger.warn("Error: Z3950 not yet implemented");
             reader = null;
         }
+        
         if (reader != null && combineConsecutiveRecordsFields != null)
         {
             String combineLeftField = PropertiesUtils.getProperty(configProps, "marc.combine_records.left_field");
             String combineRightField = PropertiesUtils.getProperty(configProps, "marc.combine_records.right_field");
             if (errors == null)
-            {
                 reader = new MarcCombiningReader(reader, combineConsecutiveRecordsFields, combineLeftField, combineRightField);
-            }
             else
             {
                 ErrorHandler errors2 = errors;
@@ -429,20 +427,19 @@ public abstract class MarcHandler {
                 reader = new MarcCombiningReader(reader, errors, errors2, combineConsecutiveRecordsFields, combineLeftField, combineRightField);
             }
         }
+        
         String marcIncludeIfPresent = PropertiesUtils.getProperty(configProps, "marc.include_if_present");
         String marcIncludeIfMissing = PropertiesUtils.getProperty(configProps, "marc.include_if_missing");
         String marcDeleteSubfields = PropertiesUtils.getProperty(configProps, "marc.delete_subfields");
         if (marcDeleteSubfields != null)  marcDeleteSubfields = marcDeleteSubfields.trim();
         if (reader != null && (marcIncludeIfPresent != null || marcIncludeIfMissing != null || marcDeleteSubfields != null))
-        {
             reader = new MarcFilteredReader(reader, marcIncludeIfPresent, marcIncludeIfMissing, marcDeleteSubfields);
-        }
+
         // Do translating last so that if we are Filtering as well as translating, we don't expend the 
         // effort to translate records, which may then be filtered out and discarded.
         if (reader != null && to_utf_8 && unicodeNormalize != null)
-        {
             reader = new MarcTranslatedReader(reader, unicodeNormalize);
-        }	    
+
         return;
 	}
 
