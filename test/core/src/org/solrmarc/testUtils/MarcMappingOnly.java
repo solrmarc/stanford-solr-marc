@@ -9,6 +9,8 @@ import org.marc4j.marc.Record;
 
 import org.solrmarc.index.*;
 import org.solrmarc.marc.MarcHandler;
+import org.solrmarc.tools.SolrMarcException;
+import org.solrmarc.tools.SolrMarcIndexerException;
 
 /**
  * Reads in marc records and creates mapping of solr field names to solr field
@@ -27,7 +29,6 @@ public class MarcMappingOnly extends MarcHandler
     /** name of unique key field in solr document */
     private String idFldName = null;
     private String argsPlus[] = null;
-    private boolean noConfigFile = false;
 
     /**
      * Constructor
@@ -50,10 +51,7 @@ public class MarcMappingOnly extends MarcHandler
             if (argsPlus.length > 0 && argsPlus[0].length() > 0)
                 args[0] = argsPlus[0];
             else
-            {
                 args[0] = "null.properties";
-                noConfigFile = true;
-            }
         }
         super.init(args);
     }
@@ -87,14 +85,10 @@ public class MarcMappingOnly extends MarcHandler
      * read in the file of marc records indicated, looking for the desired
      * record, and returning the mapping of solr field names to values.
      * 
-     * @param desiredRecId -
-     *            value for solr id field, or pass in a value of null to simply accept 
+     * @param desiredRecId  value for solr id field, or pass in a value of null to simply accept 
      *            the first record that occurs in the specified marc file
-     * @param mrcFileName -
-     *            absolute path of file of marc records (name must end in .mrc
-     *            or .marc or .xml)
-     * @return a mapping of solr field names to solr field values (as Objects
-     *         that are Strings or Collections of Strings)
+     * @param mrcFileName  absolute path of file of marc records (name must end in .mrc or .marc or .xml)
+     * @return a mapping of solr field names to solr field values (as Objects that are Strings or Collections of Strings)
      */
     public Map<String, Object> getIndexMapForRecord(String desiredRecId, String mrcFileName)
     {
@@ -109,7 +103,8 @@ public class MarcMappingOnly extends MarcHandler
                 if (errors != null && includeErrors && errors.hasErrors())
                     solrFldName2ValMap.put("marc_error", errors.getErrors());
                 // FIXME:
-                if (desiredRecId == null || idFldName == null) return(solrFldName2ValMap);
+                if (desiredRecId == null || idFldName == null) 
+                	return solrFldName2ValMap;
                 
                 Object thisRecId = solrFldName2ValMap.get(idFldName);
                 if (thisRecId.equals(desiredRecId))
@@ -119,6 +114,13 @@ public class MarcMappingOnly extends MarcHandler
             {
                 System.err.println("Error reading Marc Record: " + me.getMessage());
             }
+            catch (SolrMarcIndexerException e)
+            {
+            	if (e.getMessage().indexOf(" purposely not indexed ") > -1)
+            		continue;
+            	else
+            		throw e;
+            }
         }
         return null;
     }
@@ -127,14 +129,10 @@ public class MarcMappingOnly extends MarcHandler
      * read in the file of marc records indicated, looking for the desired
      * record, and return the specified field/fields according to the provided fieldSpec
      * 
-     * @param desiredRecId -
-     *            value for solr id field, or pass in a value of null to simply accept 
+     * @param desiredRecId  value for solr id field, or pass in a value of null to simply accept 
      *            the first record that occurs in the specified marc file
-     * @param mrcFileName -
-     *            absolute path of file of marc records (name must end in .mrc
-     *            or .marc or .xml)
-     * @param fieldSpec -
-     *            a raw SolrMarc-type field specification, for testing the lower level functions of 
+     * @param mrcFileName  absolute path of file of marc records (name must end in .mrc or .marc or .xml)
+     * @param fieldSpec  a raw SolrMarc-type field specification, for testing the lower level functions of 
      *            SolrMarc without first processing a full indexing specification.
      * @return the field/subfields from the indicated record as specified by the fieldSpec parameter
      */
