@@ -58,10 +58,12 @@ public abstract class MarcHandler {
         String configProperties = GetDefaultConfig.getConfigName("config.properties");
 
         List<String> addnlArgList = new ArrayList<String>();
-        if(args.length > 0)
+        if (args.length > 0)
         {
             for (String arg : args)
             {
+				if (arg == null)
+					continue;
                 String lc_arg = arg.toLowerCase();
                 if (arg.endsWith(".properties"))
                 {
