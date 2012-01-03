@@ -81,7 +81,7 @@ public abstract class IndexTest
 										String testDataParentPath, String marcTestDataFname) 
 			throws ParserConfigurationException, IOException, SAXException
 	{
-		createFreshTestIxOverHTTPNoCommit(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, 
+		createFreshTestIxOverHTTPNoCommit(configPropFilename, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, 
 											testDataParentPath,	marcTestDataFname);
 		solrProxy.commit(false); // don't optimize
 	}
