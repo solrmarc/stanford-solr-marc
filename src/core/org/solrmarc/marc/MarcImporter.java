@@ -201,6 +201,15 @@ public class MarcImporter extends MarcHandler
     }
 
     /**
+     * you may want to set this for testing purposes
+	 * @param deleteRecordListFilename the deleteRecordListFilename to set
+	 */
+	public void setDeleteRecordListFilename(String deleteRecordListFilename)
+	{
+		this.deleteRecordListFilename = deleteRecordListFilename;
+	}
+
+    /**
      * Delete records from the index
      * @return Number of records deleted
      */
@@ -208,12 +217,10 @@ public class MarcImporter extends MarcHandler
     {
         idsToDeleteCounter = 0;
         recsDeletedCounter = 0;
-        
-        if (deleteRecordListFilename == null || 
-            deleteRecordListFilename.length() == 0) 
-        {
+
+        if (deleteRecordListFilename == null || deleteRecordListFilename.length() == 0) 
             return recsDeletedCounter;
-        }
+        
         String mapPattern = null;
         String mapReplace = null;
         if (deleteRecordIDMapper != null)
@@ -225,31 +232,34 @@ public class MarcImporter extends MarcHandler
                 mapReplace = parts[1];
             }
         }
+        
         BufferedReader is = null;
         File delFile = null;
         try
         {
             if (deleteRecordListFilename.equals("stdin"))
-            {
                 is = new BufferedReader(new InputStreamReader(System.in)); 
-            }
             else
             {
-                delFile = new File(deleteRecordListFilename);
+                delFile = new File(deleteRecordListFilename).getAbsoluteFile();
                 is = new BufferedReader(new FileReader(delFile));
             }
+            
             String line;
             boolean fromCommitted = true;
             boolean fromPending = true;
             while ((line = is.readLine()) != null)
             {
-                if (shuttingDown) break;
+                if (shuttingDown) 
+                	break;
                 line = line.trim();
-                if (line.startsWith("#")) continue;
+                
+                if (line.startsWith("#")) 
+                	continue;
+                
                 if (deleteRecordIDMapper != null)
-                {
                     line = line.replaceFirst(mapPattern, mapReplace);
-                }                
+
                 String id = line;
                 idsToDeleteCounter++;
                 if (verbose) 
@@ -257,7 +267,7 @@ public class MarcImporter extends MarcHandler
                     System.out.println("Deleting record with id :"+ id);
                     logger.info("Deleting record with id :"+ id);
                 }
-// FIXME:  do this with SolrJ call to delete list of ids                
+// FIXME:  do this with SolrJ call to delete list of ids        
                 solrProxy.delete(id, fromCommitted, fromPending);
                 recsDeletedCounter++;
             }            
@@ -273,7 +283,7 @@ public class MarcImporter extends MarcHandler
         return recsDeletedCounter;
     }
 
-    /**
+	/**
      * Iterate over the marc records in the file and add them to the index
      * @return Number of records indexed
      */
