@@ -36,6 +36,15 @@ public class SolrCoreLoader
 //        return loadEmbeddedCore(solrCoreDir, solrDataDir, solrCoreName, true, logger);
 //    }
 
+	/**
+	 * @deprecated
+	 * @param solrCoreDir
+	 * @param solrDataDir
+	 * @param solrCoreName
+	 * @param useBinaryRequestHandler
+	 * @param logger
+	 * @return
+	 */
     public static SolrProxy loadEmbeddedCore(String solrCoreDir, String solrDataDir, String solrCoreName, boolean useBinaryRequestHandler, Logger logger)
     {
     	logger.warn("loading EMBEDDED CORE version of Solr Proxy!!!!");
