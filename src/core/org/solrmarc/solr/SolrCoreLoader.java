@@ -15,27 +15,6 @@ import org.xml.sax.InputSource;
 public class SolrCoreLoader
 {
     
-//    public void initialize(String libDir) throws Exception {
-//        File dependencyDirectory = new File(libDir);
-//        File[] files = dependencyDirectory.listFiles();
-//        ArrayList<URL> urls = new ArrayList<URL>();
-//        for (int i = 0; i < files.length; i++) {
-//            if (files[i].getName().endsWith(".jar")) {
-//            urls.add(files[i].toURL());
-//            //urls.add(files[i].toURI().toURL());
-//            }
-//        }
-//        classLoader = new JarFileClassLoader("Scheduler CL" + System.currentTimeMillis(), 
-//            urls.toArray(new URL[urls.size()]), 
-//            GFClassLoader.class.getClassLoader());
-//        }
-
-	
-//    public static SolrProxy loadCore(String solrCoreDir, String solrDataDir, String solrCoreName, Logger logger)
-//    {
-//        return loadEmbeddedCore(solrCoreDir, solrDataDir, solrCoreName, true, logger);
-//    }
-
 	/**
 	 * @deprecated
 	 * @param solrCoreDir
