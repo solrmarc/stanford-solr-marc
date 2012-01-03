@@ -24,13 +24,18 @@
     <fieldtype name="text" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
+<!--          
         <filter class="schema.UnicodeNormalizationFilterFactory" version="icu4j" composed="false" remove_diacritics="true" remove_modifiers="true" fold="true" />
+-->
+        <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
         <filter class="solr.WordDelimiterFilterFactory" 
           splitOnCaseChange="1" generateWordParts="1" catenateWords="1" 
           splitOnNumerics="0" generateNumberParts="1" catenateNumbers="1" 
           catenateAll="0" preserveOriginal="0" stemEnglishPossessive="1" />
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
+<!--          
         <filter class="solr.LowerCaseFilterFactory" />
+-->        
         <filter class="solr.EnglishPorterFilterFactory" protected="protwords.txt" />
         <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
       </analyzer>
@@ -40,13 +45,18 @@
     <fieldtype name="textNoStem" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
+<!-- 
         <filter class="schema.UnicodeNormalizationFilterFactory" version="icu4j" composed="false" remove_diacritics="true" remove_modifiers="true" fold="true" />
+-->        
+        <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
         <filter class="solr.WordDelimiterFilterFactory" 
           splitOnCaseChange="1" generateWordParts="1" catenateWords="1" 
           splitOnNumerics="0" generateNumberParts="1" catenateNumbers="1" 
           catenateAll="0" preserveOriginal="0" stemEnglishPossessive="0" />
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
+<!--         
         <filter class="solr.LowerCaseFilterFactory" />
+-->        
         <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
       </analyzer>
     </fieldtype>
@@ -55,8 +65,11 @@
     <fieldtype name="alphaSort" class="solr.TextField" sortMissingLast="true" omitNorms="true">
       <analyzer>
         <tokenizer class="solr.KeywordTokenizerFactory" />
+<!--         
         <filter class="schema.UnicodeNormalizationFilterFactory" version="icu4j" composed="false" remove_diacritics="true" remove_modifiers="true" fold="true" />
         <filter class="solr.LowerCaseFilterFactory" />
+-->        
+        <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
         <filter class="solr.TrimFilterFactory" />
       </analyzer>
     </fieldtype>
@@ -68,7 +81,9 @@
       <analyzer>
         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[&amp;:;]" replacement="and" replace="all" />
         <tokenizer class="solr.KeywordTokenizerFactory" />
+<!--         
         <filter class="schema.UnicodeNormalizationFilterFactory" version="icu4j" composed="false" remove_diacritics="true" remove_modifiers="true" fold="true" />
+-->
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
       </analyzer>
     </fieldType>
@@ -106,10 +121,15 @@
     <fieldType name="textSpell" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.StandardTokenizerFactory" />
+<!--         
         <filter class="schema.UnicodeNormalizationFilterFactory" version="icu4j" composed="false" remove_diacritics="true" remove_modifiers="true" fold="true" />
+-->        
+        <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
         <filter class="solr.StandardFilterFactory"/>
+<!--         
         <filter class="solr.LowerCaseFilterFactory" />
+-->        
         <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
       </analyzer>
     </fieldType>

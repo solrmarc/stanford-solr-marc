@@ -16,6 +16,7 @@ import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.*;
 import org.apache.solr.common.params.CommonParams;
+import org.junit.AfterClass;
 import org.solrmarc.marc.MarcImporter;
 import org.solrmarc.solr.*;
 import org.solrmarc.tools.Utils;
@@ -959,6 +960,7 @@ public abstract class IndexTest
 	/**
 	 * stop the Jetty server if it is running
 	 */
+@AfterClass	
 	public static void stopTestJetty()
 	{
 		if (solrJettyProcess != null && solrJettyProcess.isServerRunning())

@@ -15,6 +15,11 @@ import org.solrmarc.testUtils.SolrFieldMappingTest;
  * @author Naomi Dushay
  */
 public abstract class AbstractStanfordTest extends IndexTest {
+
+// FIXME:  ensure log4j.properties is in bin	
+	
+// FIXME: is there a better way of allowing tests to run in eclipse without invoking ant?
+//  can we read build.props?
 	
 	/** testDataParentPath is used for mapping tests - full path is needed */
     String testDataParentPath = null;
@@ -33,28 +38,23 @@ public abstract class AbstractStanfordTest extends IndexTest {
         {
 //            solrPath = "home" + File.separator + "solrmarc" + File.separator
 //                    + "jetty" + File.separator + "solr";
-//    		String ngdeDir = File.separator + "Users" + File.separator + "ndushay" 
-//					+ File.separator + "NGDE";
-//    		solrPath = ngdeDir + File.separator + "solr" + File.separator + "solr1.5";
     		solrPath = "test" + File.separator + "solr";
-            System.setProperty("solr.path", solrPath);
+            System.setProperty("solr.path", new File(solrPath).getAbsolutePath());
         }
+
+        // used to find core translation_maps
+        if (System.getProperty("solrmarc.path") == null)
+            System.setProperty("solrmarc.path", new File("setup" + File.separator + "core").getAbsolutePath());
+		
+        String stanfordswSitePath = "stanford-sw";
+
+		if (System.getProperty("solrmarc.site.path") == null)
+            System.setProperty("solrmarc.site.path", new File(stanfordswSitePath).getAbsolutePath());
+		
         
-        String solrmarcPath = System.getProperty("solrmarc.path");
-        if (solrmarcPath == null) {
-            solrmarcPath = new File("lib" + File.separator + "solrmarc").getAbsolutePath();
-            System.setProperty("solrmarc.path", solrmarcPath);
-        }
-		
-		String solrmarcSitePath = System.getProperty("solrmarc.site.path");
-		if (solrmarcSitePath == null) {
-			solrmarcSitePath = new File("examples" + File.separator + "stanford").getAbsolutePath(); 
-            System.setProperty("solrmarc.site.path", solrmarcSitePath);
-		}
-		
         String configPropDir = System.getProperty("test.config.dir");
         if (configPropDir == null)
-            configPropDir = solrmarcSitePath;
+            configPropDir = stanfordswSitePath;
         
         String configPropFile = System.getProperty("test.config.file");
 		if (configPropFile == null) {
@@ -67,17 +67,12 @@ public abstract class AbstractStanfordTest extends IndexTest {
         {
             testDataParentPath = System.getProperty("test.data.parent.path");
             if (testDataParentPath == null)
-                testDataParentPath = "examples" + File.separator
-                        + "stanford" + File.separator + "test"
-                        + File.separator + "data";
-            // testDir = "test";
-            // testDataParentPath = testDir + File.separator + "data";
-            System.setProperty("test.data.path", testDataParentPath);
+                testDataParentPath = stanfordswSitePath + File.separator + "test" + File.separator + "data";
+            System.setProperty("test.data.path", new File(testDataParentPath).getAbsolutePath());
         }
 		
-		String solrDataDir = System.getProperty("solr.data.dir");
-		if (solrDataDir == null)
-			solrDataDir = solrPath + File.separator + "data";		
+		if (System.getProperty("solr.data.dir") == null)
+			System.setProperty("solr.data.dir", new File(solrPath + File.separator + "data").getAbsolutePath());		
 	}
 
 	/**
@@ -123,7 +118,7 @@ public abstract class AbstractStanfordTest extends IndexTest {
 		String solrPath = System.getProperty("solr.path");
         if (solrPath == null)
             fail("property solr.path must be defined for the tests to run");
-
+        
         String testDataParentPath = System.getProperty("test.data.path");
         if (testDataParentPath == null)
             fail("property test.data.path must be defined for the tests to run");
@@ -132,7 +127,26 @@ public abstract class AbstractStanfordTest extends IndexTest {
         if (testConfigFname == null)
             fail("property test.config.file must be defined for the tests to run");
 
-        createIxInitVarsOld(testConfigFname, solrPath, null, testDataParentPath, testDataFname);
+        // for jetty instance
+        if (System.getProperty("test.solr.path") == null)
+        	System.setProperty("test.solr.path", solrPath);
+        if (System.getProperty("test.jetty.dir") == null)
+        	System.setProperty("test.jetty.dir", "test" + File.separator + "jetty");
+        String testJettyPortStr = System.getProperty("test.jetty.port");
+        if (testJettyPortStr == null)
+        {
+        	testJettyPortStr = "8983";
+        	System.setProperty("test.jetty.port", testJettyPortStr);
+        }
+        String testSolrUrl = "http://localhost:" + testJettyPortStr + "/solr";
+
+		if (solrJettyProcess == null)
+			startTestJetty();
+
+// FIXME:  set up vars and use the single argument version?		
+        createFreshTestIxOverHTTP(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, testDataFname);
+
+//        createIxInitVarsOld(testConfigFname, solrPath, null, testDataParentPath, testDataFname);
 	}
 	
 	/**
