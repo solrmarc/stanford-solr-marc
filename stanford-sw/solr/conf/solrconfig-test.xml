@@ -1271,6 +1271,7 @@
         isbn_search
         issn_search
         oclc
+        barcode_search
         callnum_search
       </str>
       <str name="pf_number">
