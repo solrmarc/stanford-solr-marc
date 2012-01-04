@@ -21,14 +21,9 @@ import edu.stanford.marcUtils.MergeMhldFldsIntoBibsReader;
  */
 public class MergeMhldFldsIntoBibsReaderTests 
 {
-    static String testDir = "test";
-    static String testDataParentPath =  testDir + File.separator + "data";
-    static String smokeTestDir = testDataParentPath + File.separator + "smoketest";
-    static String testConfigFile = smokeTestDir + File.separator + "test_config.properties";
-
-    static String localDir = "examples" + File.separator + "stanford";
-    static String localTestDataParentPath = localDir + File.separator + testDataParentPath;
-
+    static String coreTestDataParentPath =  "test" + File.separator + "core" + File.separator + "data";
+    static String localTestDataParentPath = "stanford-sw" + File.separator + "test" + File.separator + "data";
+    
     static String MERGE_MHLD_CLASS_NAME = "edu.stanford.marcUtils.MergeMhldFldsIntoBibsReader";
     static String MARC_PRINTER_CLASS_NAME = "org.solrmarc.marc.MarcPrinter";
     static String MAIN_METHOD_NAME = "main";
@@ -582,8 +577,8 @@ String MERGED_BIB335_OUTPUT_NO_UMLAUT[] = {
 	public void testGettingOutputAsMapOfRecords() 
 	        throws IOException
 	{
-	    String mhldRecFileName = testDataParentPath + File.separator + "summaryHld_1-1000.mrc";
-	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
+	    String mhldRecFileName = coreTestDataParentPath + File.separator + "summaryHld_1-1000.mrc";
+	    String bibRecFileName = coreTestDataParentPath + File.separator + "u335.mrc";
 	
 	    Map<String, Record> mergedRecs = mergeRecordsAsMap(bibRecFileName, mhldRecFileName);
 
@@ -603,8 +598,8 @@ String MERGED_BIB335_OUTPUT_NO_UMLAUT[] = {
 	public void testMergeToStdOut() 
 	        throws IOException
 	{
-	    String mhldRecFileName = testDataParentPath + File.separator + "summaryHld_1-1000.mrc";
-	    String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
+	    String mhldRecFileName = coreTestDataParentPath + File.separator + "summaryHld_1-1000.mrc";
+	    String bibRecFileName = coreTestDataParentPath + File.separator + "u335.mrc";
 	
 		ByteArrayOutputStream sysBAOS = TestingUtil.getSysMsgsBAOS();
 		MergeMhldFldsIntoBibsReader.mergeMhldRecsIntoBibRecsAsStdOut(bibRecFileName, mhldRecFileName);
@@ -615,15 +610,14 @@ String MERGED_BIB335_OUTPUT_NO_UMLAUT[] = {
 // supporting methods for testing ----------------------------------------------
 
 	/**
-     * 
-     * @param bibRecsFileName name of the file containing Bib records, relative to the testDataParentPath
-     * @param mhldRecsFileName name of the file containing MHLD records, relative to the testDataParentPath
+     * @param bibRecsFileName name of the file containing Bib records, relative to the localTestDataParentPath
+     * @param mhldRecsFileName name of the file containing MHLD records, relative to the localTestDataParentPath
      * @return the resulting merged bib file as a ByteArrayOutputStream
      */
     private ByteArrayOutputStream mergeAsBAOutputStream(String bibRecsFileName, String mhldRecsFileName) 
     {
-        String fullBibRecsFileName = testDataParentPath + File.separator + bibRecsFileName;
-        String fullMhldRecsFileName = testDataParentPath + File.separator + mhldRecsFileName;
+        String fullBibRecsFileName = localTestDataParentPath + File.separator + bibRecsFileName;
+        String fullMhldRecsFileName = localTestDataParentPath + File.separator + mhldRecsFileName;
 
         InputStream inStr = null;
 		ByteArrayOutputStream resultMrcOutStream = TestingUtil.getSysMsgsBAOS();
