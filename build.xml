@@ -299,7 +299,12 @@
 	
 	<target name="test_clean_site" description="remove the directories generated for SITE testing">
 		<delete dir="$site.test.build.dir}" />
-		<delete dir="${site.test.solr.data.dir}" quiet="true" />
+		<delete dir="${site.test.solr.data.dir}" />
+		<delete dir="${site.test.solr.run.dir}" />
+		<delete file="${test.jetty.dir}/webapps/solr.war"/>
+		<delete dir="${site.instr.dir}" />
+		<delete file="${cobertura.site.data.file}" />
+		<delete dir="${site.coverage.dir}" />
 	</target>
 	
 	<target name="test_init_site" depends="test_init_core" description="create (empty) generated directories for site AND core TEST code">
@@ -315,7 +320,7 @@
 		<path refid="test.core.run.classpath" />
 	</path>
 
-	<target name="test_compile_site" depends="test_compile_core,test_init_site" description="Compile SITE AND CORE TEST source code into the test build directory">
+	<target name="test_compile_site" depends="test_compile_core,compile_site,test_init_site" description="Compile SITE AND CORE TEST source code into the test build directory">
 <!-- FIXME: it makes NO SENSE that this mkdir is needed -->
 		<mkdir dir="${site.test.solr.run.dir}/lib" />
 		<javac destdir="${site.test.build.dir}" srcdir="${site.test.src.dir}" 
@@ -428,10 +433,8 @@
 	
 	<target name="test_clean" depends="test_clean_site,test_clean_core" description="remove the directories generated for CORE and SITE testing" />
 	
-	
-	<target name="clean_all" depends="test_clean, clean" description="remove all build, test and dist generated directories">
+	<target name="clean_all" depends="test_clean, clean" description="remove all generated directories for CORE and SITE, including test and dist">
 		<delete dir="${dist.dir}" quiet="true" />
 	</target>
-
 	
 </project>
