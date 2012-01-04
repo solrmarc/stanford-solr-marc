@@ -278,7 +278,7 @@ public class TitleTests extends AbstractStanfordTest {
 		throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "title_sort";
-		createIxInitVars(testFileName);
+		createFreshIx(testFileName);
 		
 		// sort field is indexed (but not tokenized) - search for documents		
 		assertSingleResult("115472", fldName, "\"India and the European Economic Community\"");
@@ -362,7 +362,7 @@ public class TitleTests extends AbstractStanfordTest {
 		throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "title_sort";
-		createIxInitVars(testFileName);
+		createFreshIx(testFileName);
 	
 		assertSingleResult("111", fldName, "\"ind 0 leading quotes\"");
 		assertZeroResults(fldName, "\"\"ind 0 leading quotes\"\"");

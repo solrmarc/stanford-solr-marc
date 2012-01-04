@@ -116,7 +116,7 @@ public abstract class AbstractStanfordTest extends IndexTest {
 	 * creates a fresh index from the indicated test file, and initializes 
 	 *  necessary variables
 	 */
-	public void createIxInitVars(String testDataFname) 
+	public void createFreshIx(String testDataFname) 
 		throws ParserConfigurationException, IOException, SAXException 
 	{
 		docIDfname = "id";
@@ -157,6 +157,9 @@ public abstract class AbstractStanfordTest extends IndexTest {
         }
         String testSolrUrl = "http://localhost:" + testJettyPortStr + "/solr";
 
+		if (solrJettyProcess == null)
+			startTestJetty();
+
 // FIXME:  set up vars and use the single argument version?		
         updateTestIxOverHTTP(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, testDataFname);
 	}
@@ -184,6 +187,9 @@ public abstract class AbstractStanfordTest extends IndexTest {
 		String anyTestFile = new File(testDataParentPath, "pubDateTests.mrc").getAbsolutePath();
 		System.setProperty("marc.source", "FILE");
 		System.setProperty("marc.path", anyTestFile);
+
+		if (solrJettyProcess == null)
+			startTestJetty();
 
 		deleteRecordsFromTestIx(deletedIdsFilename, testSolrUrl, testConfigFname);
 	}

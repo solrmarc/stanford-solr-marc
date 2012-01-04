@@ -18,7 +18,7 @@ public class TitleSearchTests extends AbstractStanfordTest {
 	public final void setup() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("titleTests.mrc");
+		createFreshIx("titleTests.mrc");
 	}
 
 

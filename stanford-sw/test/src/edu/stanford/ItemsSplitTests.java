@@ -202,7 +202,7 @@ public class ItemsSplitTests extends AbstractStanfordTest {
 		String barcodeFldName = "barcode_search";
 
 		// 3195846 is a giant record for "Science"
-		createIxInitVars("3195846.mrc");
+		createFreshIx("3195846.mrc");
 //		createIxInitVars("100817_uni_increment.marc");
 		assertDocPresent("3195846");
 				
@@ -217,7 +217,7 @@ public class ItemsSplitTests extends AbstractStanfordTest {
 
 
 		// 4332640 is a giant record for Buckminster Fuller 
-		createIxInitVars("4332640.mrc");
+		createFreshIx("4332640.mrc");
 //		createIxInitVars("100813_uni_increment.marc");
 		assertDocPresent("4332640");
 
@@ -232,7 +232,7 @@ public class ItemsSplitTests extends AbstractStanfordTest {
 	
 
 		// 7621542 is a moderately large record for Southern Pacific Railroad Group 2
-		createIxInitVars("7621542.mrc");
+		createFreshIx("7621542.mrc");
 		assertDocPresent("7621542");
 
 		// first barcode

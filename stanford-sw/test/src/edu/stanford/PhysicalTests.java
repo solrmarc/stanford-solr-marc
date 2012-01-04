@@ -29,7 +29,7 @@ public class PhysicalTests extends AbstractStanfordTest {
 			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "physical";
-		createIxInitVars("physicalTests.mrc");
+		createFreshIx("physicalTests.mrc");
 
 		assertSingleResult("300111", fldName, "sound disc");
 		assertSingleResult("300111", fldName, "\"1 sound disc (20 min.); analog, 33 1/3 rpm, stereo. ; 12 in.\"");

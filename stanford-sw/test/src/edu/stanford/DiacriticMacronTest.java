@@ -26,7 +26,7 @@ public class DiacriticMacronTest extends AbstractStanfordTest {
 	public final void initVars() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("diacriticTests.mrc");
+		createFreshIx("diacriticTests.mrc");
 	}
 
 	/**

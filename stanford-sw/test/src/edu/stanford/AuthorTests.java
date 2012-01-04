@@ -240,7 +240,7 @@ public class AuthorTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_other_facet";
-		createIxInitVars("authorTests.mrc");
+		createFreshIx("authorTests.mrc");
 	
 		// 110 - trailing period to remove
 		assertSingleResult("110foo", fldName, "\"SAFE Association (U.S.). Symposium\"");
@@ -296,7 +296,7 @@ public class AuthorTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_1xx_search";
-		createIxInitVars("authorTests.mrc");
+		createFreshIx("authorTests.mrc");
 		assertSingleResult("100search", fldName, "100a");
 		assertSingleResult("100search", fldName, "100b");
 		assertSingleResult("100search", fldName, "100c");
@@ -340,7 +340,7 @@ public class AuthorTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "vern_author_1xx_search";
-		createIxInitVars("vernacularSearchTests.mrc");
+		createFreshIx("vernacularSearchTests.mrc");
 		
 		assertSingleResult("100VernSearch", fldName, "vern100a");
 		assertSingleResult("100VernSearch", fldName, "vern100b");
@@ -386,7 +386,7 @@ public class AuthorTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_7xx_search";
-		createIxInitVars("authorTests.mrc");
+		createFreshIx("authorTests.mrc");
 		assertSingleResult("7xxPersonSearch", fldName, "700a");
 		assertSingleResult("7xxPersonSearch", fldName, "700b");
 		assertSingleResult("7xxPersonSearch", fldName, "700c");
@@ -422,7 +422,7 @@ public class AuthorTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "vern_author_7xx_search";
-		createIxInitVars("vernacularSearchTests.mrc");
+		createFreshIx("vernacularSearchTests.mrc");
 		assertSingleResult("7xxVernPersonSearch", fldName, "vern700a");
 		assertSingleResult("7xxVernPersonSearch", fldName, "vern700b");
 		assertSingleResult("7xxVernPersonSearch", fldName, "vern700c");
@@ -469,7 +469,7 @@ public class AuthorTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_7xx_search";
-		createIxInitVars("authorTests.mrc");
+		createFreshIx("authorTests.mrc");
 	
 		assertSingleResult("7xxCorpSearch", fldName, "710a");
 		assertSingleResult("7xxCorpSearch", fldName, "710b");
@@ -505,7 +505,7 @@ public class AuthorTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "vern_author_7xx_search";
-		createIxInitVars("vernacularSearchTests.mrc");
+		createFreshIx("vernacularSearchTests.mrc");
 	
 		assertSingleResult("7xxVernCorpSearch", fldName, "vern710a");
 		assertSingleResult("7xxVernCorpSearch", fldName, "vern710b");
@@ -551,7 +551,7 @@ public class AuthorTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_7xx_search";
-		createIxInitVars("authorTests.mrc");
+		createFreshIx("authorTests.mrc");
 	
 		assertSingleResult("7xxMeetingSearch", fldName, "711a");
 		assertSingleResult("7xxMeetingSearch", fldName, "711c");
@@ -587,7 +587,7 @@ public class AuthorTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "vern_author_7xx_search";
-		createIxInitVars("vernacularSearchTests.mrc");
+		createFreshIx("vernacularSearchTests.mrc");
 	
 		assertSingleResult("7xxVernMeetingSearch", fldName, "vern711a");
 		assertSingleResult("7xxVernMeetingSearch", fldName, "vern711c");
@@ -631,7 +631,7 @@ public class AuthorTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_8xx_search";
-		createIxInitVars("authorTests.mrc");
+		createFreshIx("authorTests.mrc");
 		assertSingleResult("800search", fldName, "800a");
 		assertSingleResult("800search", fldName, "800b");
 		assertSingleResult("800search", fldName, "800c");
@@ -674,7 +674,7 @@ public class AuthorTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "vern_author_8xx_search";
-		createIxInitVars("vernacularSearchTests.mrc");
+		createFreshIx("vernacularSearchTests.mrc");
 		assertSingleResult("800VernSearch", fldName, "vern800a");
 		assertSingleResult("800VernSearch", fldName, "vern800b");
 		assertSingleResult("800VernSearch", fldName, "vern800c");
@@ -877,7 +877,7 @@ public class AuthorTests extends AbstractStanfordTest {
 	public final void testAuthorSortOrder() 
 		throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException
 	{
-		createIxInitVars("authorTests.mrc");
+		createFreshIx("authorTests.mrc");
 
 		// list of doc ids in correct author sort order
 		List<String> expectedOrderList = new ArrayList<String>(30);

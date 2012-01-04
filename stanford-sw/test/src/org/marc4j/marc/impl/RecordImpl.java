@@ -9,6 +9,7 @@ import org.marc4j.marc.*;
  * 
  * @author Bas Peters
  * @version $Revision: 1.4 $
+ * @deprecated
  */
 public class RecordImpl implements Record {
 

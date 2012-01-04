@@ -35,7 +35,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "building_facet";
-		createIxInitVars("buildingTests.mrc");
+		createFreshIx("buildingTests.mrc");
 		
 	    assertSingleResult("229800", fldName, "\"Archive of Recorded Sound\"");
 	    assertSingleResult("345228", fldName, "\"Art & Architecture\"");
@@ -103,7 +103,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "building_facet";
-		createIxInitVars("buildingTests.mrc");
+		createFreshIx("buildingTests.mrc");
 		
 		// APPLIEDPHY (Applied Physics Department is no longer a valid building)
 //	    assertSingleResult("115472", fldName, "\"Applied Physics Department\"");  
@@ -140,7 +140,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "building_facet";
-		createIxInitVars("buildingTests.mrc");
+		createFreshIx("buildingTests.mrc");
 		
 	    assertSingleResult("3743949", fldName, "\"Hoover Library\"");
 	    assertSingleResult("3400092", fldName, "\"Hoover Archives\"");
@@ -155,7 +155,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "barcode_search";
-		createIxInitVars("locationTests.mrc");
+		createFreshIx("locationTests.mrc");
 
 		// single barcode in the record
 		assertSingleResult("115472", fldName, "36105033811451");
@@ -954,7 +954,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
  			throws ParserConfigurationException, IOException, SAXException 
  	{
 		String fldName = "item_display";
-		createIxInitVars("locationTests.mrc");
+		createFreshIx("locationTests.mrc");
 
 		// DISCARD-NS
 		assertZeroResults("id", "345228");
@@ -1362,7 +1362,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException
 	{
 		// single test to make sure this field is created properly
-		createIxInitVars("itemPreferredTests.mrc");
+		createFreshIx("itemPreferredTests.mrc");
 		String fldName = "preferred_barcode";
 		assertDocHasFieldValue("multLC", fldName, "12");
 	}
@@ -1377,7 +1377,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	{
 		String fldName = "item_display";
 		String fileName = "multipleCopies.mrc";
-		createIxInitVars(fileName);
+		createFreshIx(fileName);
 		mappingTestInit();
 	    String testFilePath = testDataParentPath + File.separator + fileName;
 

@@ -21,7 +21,7 @@ public class SortTests extends AbstractStanfordTest {
 	public final void setup() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars(testDataFname);
+		createFreshIx(testDataFname);
 	}
 
 	/**

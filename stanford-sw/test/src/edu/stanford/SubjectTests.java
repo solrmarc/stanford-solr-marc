@@ -26,7 +26,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testTopicSearch() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-        createIxInitVars(searchTestDataFname);
+        createFreshIx(searchTestDataFname);
 		String fldName = "topic_search";
 
 		// all subfields except v, x, y and z from  650, 690, 653, 654
@@ -78,7 +78,7 @@ public class SubjectTests extends AbstractStanfordTest {
 		assertZeroResults(fldName, "654y");
 		assertZeroResults(fldName, "654z");
 
-        createIxInitVars(testDataFname);
+        createFreshIx(testDataFname);
 		assertSingleResult("1261173", fldName, "army");  // 650a
 		assertSingleResult("4698973", fldName, "Multiculturalism");  // 650a
 		assertSingleResult("4698973", fldName, "\"Flyby missions\"");  // 650-2
@@ -97,7 +97,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testVernTopicSearch() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars(searchTestDataFname);
+	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_topic_search";
 	
 		// all subfields except v, x, y and z from  650, 690, 653, 654
@@ -146,7 +146,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testTopicSubdivisionSearch() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars(searchTestDataFname);
+	    createFreshIx(searchTestDataFname);
 		String fldName = "topic_subx_search";
 	
 		// subfield x from all subject fields
@@ -195,7 +195,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testVernTopicSubdivisionSearch() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars(searchTestDataFname);
+	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_topic_subx_search";
 	
 		// subfield x from all subject fields
@@ -245,7 +245,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testGeographicSearch() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars(searchTestDataFname);
+	    createFreshIx(searchTestDataFname);
 		String fldName = "geographic_search";
 	
 		// all subfields except v, x, y, z from  651, 691
@@ -269,7 +269,7 @@ public class SubjectTests extends AbstractStanfordTest {
 		assertZeroResults(fldName, "691y");
 		assertZeroResults(fldName, "691z");
 		
-	    createIxInitVars(testDataFname);
+	    createFreshIx(testDataFname);
 	    docIds.clear();
 		docIds.add("651a");
 		docIds.add("651again");
@@ -293,7 +293,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testVernGeographicSearch() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars(searchTestDataFname);
+	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_geographic_search";
 	
 		// all subfields except v, x, y, z from  651, 691
@@ -319,7 +319,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testGeographicSubdivisionSearch() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars(searchTestDataFname);
+	    createFreshIx(searchTestDataFname);
 		String fldName = "geographic_subz_search";
 	
 		// subfield z from all subject fields
@@ -369,7 +369,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testVernGeographicSubdivisionSearch() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars(searchTestDataFname);
+	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_geographic_subz_search";
 	
 		// subfield z from all subject fields
@@ -420,7 +420,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testSubjectOther61xSearch() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars(searchTestDataFname);
+	    createFreshIx(searchTestDataFname);
 		String fldName = "subject_other_search";
 	
 		// all subfields except v, x, y, z from  600, 610-11, 630, 655-58, 696-699
@@ -503,7 +503,7 @@ public class SubjectTests extends AbstractStanfordTest {
 		assertZeroResults(fldName, "611y");
 		assertZeroResults(fldName, "611z");
 		
-        createIxInitVars(testDataFname);
+        createFreshIx(testDataFname);
 		assertSingleResult("3743949", fldName, "Federico"); // 600a
 		assertSingleResult("3743949", fldName, "1936");  // 600d
 		assertSingleResult("919006", fldName, "Emesa");  // 600c
@@ -536,7 +536,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testVernSubjectOther61xSearch() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars(searchTestDataFname);
+	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_subject_other_search";
 	
 		// all subfields except v, x, y, z from  600, 610-11, 630, 655-58, 696-699
@@ -619,7 +619,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testSubjectOther630Search() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars(searchTestDataFname);
+	    createFreshIx(searchTestDataFname);
 		String fldName = "subject_other_search";
 	
 		// all subfields except v, x, y, z from 630
@@ -647,7 +647,7 @@ public class SubjectTests extends AbstractStanfordTest {
 		assertZeroResults(fldName, "630y");
 		assertZeroResults(fldName, "630z");
 		
-        createIxInitVars(testDataFname);
+        createFreshIx(testDataFname);
 		assertSingleResult("1261173", fldName, "magna carta");  // 630a
 	}
 
@@ -658,7 +658,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testVernSubjectOther630Search() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars(searchTestDataFname);
+	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_subject_other_search";
 	
 		// all subfields except v, x, y, z from 630
@@ -691,7 +691,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testSubjectOther65xSearch() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars(searchTestDataFname);
+	    createFreshIx(searchTestDataFname);
 		String fldName = "subject_other_search";
 	
 		// all subfields except v, x, y, z from 655-58
@@ -735,7 +735,7 @@ public class SubjectTests extends AbstractStanfordTest {
 		assertSingleResult("658search", fldName, "658d");
 		// no sub v,x,y,z in 658
 		
-        createIxInitVars(testDataFname);
+        createFreshIx(testDataFname);
 		assertSingleResult("6552", fldName, "dictionaries");  // 655a
 		
 		assertSingleResult("6553", fldName, "\"Fire Reports\"");  // 655-a
@@ -758,7 +758,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testVernSubjectOther65xSearch() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars(searchTestDataFname);
+	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_subject_other_search";
 	
 		// all subfields except v, x, y, z from 655-58
@@ -798,7 +798,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testSubjectOther69xSearch() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars(searchTestDataFname);
+	    createFreshIx(searchTestDataFname);
 		String fldName = "subject_other_search";
 	
 		// all subfields except v, x, y, z from 696-699
@@ -923,7 +923,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testVernSubjectOther69xSearch() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars(searchTestDataFname);
+	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_subject_other_search";
 	
 		// all subfields except v, x, y, z from 696-699
@@ -1036,7 +1036,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testSubjectOtherSubdivisionSearch() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars(searchTestDataFname);
+	    createFreshIx(searchTestDataFname);
 		String fldName = "subject_other_subvy_search";
 	
 		// subfields v from all subject fields
@@ -1099,12 +1099,12 @@ public class SubjectTests extends AbstractStanfordTest {
 		assertZeroResults(fldName, "699a");
 		
 		// 651v
-	    createIxInitVars(testDataFname);
+	    createFreshIx(testDataFname);
 	    assertSingleResult("6280316", fldName, "Maps."); 
 	    assertSingleResult("6280316", fldName, "map."); 
 	    
 	    // 650y 651y
-		createIxInitVars("eraTests.mrc");
+		createFreshIx("eraTests.mrc");
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("650y");
 		docIds.add("666");
@@ -1128,7 +1128,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testVernSubjectOtherSubdivisionSearch() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars(searchTestDataFname);
+	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_subject_other_subvy_search";
 	
 		// subfields v from all subject fields
@@ -1199,7 +1199,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testLaneBlacklistedTopics() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-	    createIxInitVars("subjectLaneBlacklistTests.mrc");
+	    createFreshIx("subjectLaneBlacklistTests.mrc");
 
 	    // 650a nomesh  (topic_search, topic_facet)
 	    String fldName = "topic_search";
@@ -1237,7 +1237,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testTopicFacet() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-        createIxInitVars(testDataFname);
+        createFreshIx(testDataFname);
         String fldName = "topic_facet";
 		
 		// topic_facet is a copy field from topic_facet, but it is a string
@@ -1336,7 +1336,7 @@ public class SubjectTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException
 	{
 		String fileName = "topicFacetCaseSensitive.mrc";
-		createIxInitVars(fileName);
+		createFreshIx(fileName);
 		mappingTestInit();
 		String fldName = "topic_facet";
 	    String testFilePath = testDataParentPath + File.separator + fileName;
@@ -1363,7 +1363,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	public final void testGeographicFacet()
 			throws ParserConfigurationException, IOException, SAXException
 	{
-        createIxInitVars(testDataFname);
+        createFreshIx(testDataFname);
 		String fldName = "geographic_facet";
 	
 	    // trailing period should be stripped
@@ -1387,7 +1387,7 @@ public class SubjectTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "era_facet";
-		createIxInitVars("eraTests.mrc");
+		createFreshIx("eraTests.mrc");
 	
 	    // trailing period should be stripped
 		Set<String> docIds = new HashSet<String>();

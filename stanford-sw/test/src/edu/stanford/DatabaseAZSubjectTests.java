@@ -91,7 +91,7 @@ public class DatabaseAZSubjectTests extends AbstractStanfordTest {
     public final void testSearched() 
     		throws ParserConfigurationException, IOException, SAXException
     {
-		createIxInitVars("databasesAZsubjectTests.mrc");
+		createFreshIx("databasesAZsubjectTests.mrc");
 		String fldName = "db_az_subject_search";
 		
 		Set<String> docIds = new HashSet<String>();

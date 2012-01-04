@@ -479,7 +479,7 @@ public class CallNumTopFacetTests extends AbstractStanfordTest {
 	public final void testSearchNoStartingDigits()
 			throws IOException, ParserConfigurationException, SAXException 
 	{
-		createIxInitVars(fileName);
+		createFreshIx(fileName);
 		assertZeroResults(fldName, "0*"); 
 		assertZeroResults(fldName, "1*"); 
 		assertZeroResults(fldName, "2*"); 
@@ -499,7 +499,7 @@ public class CallNumTopFacetTests extends AbstractStanfordTest {
 	public final void testSearchNoForbiddenLetters()
 			throws IOException, ParserConfigurationException, SAXException 
 	{
-		createIxInitVars(fileName);
+		createFreshIx(fileName);
 		assertZeroResults(fldName, "I*"); 
 		assertZeroResults(fldName, "O*"); 
 		assertZeroResults(fldName, "W*"); 
@@ -514,7 +514,7 @@ public class CallNumTopFacetTests extends AbstractStanfordTest {
 	public final void testSearchNoBadChars()
 			throws IOException, ParserConfigurationException, SAXException 
 	{
-		createIxInitVars(fileName);
+		createFreshIx(fileName);
 		assertZeroResults(fldName, "\\\""); 
 		assertZeroResults(fldName, "\\("); 
 		assertZeroResults(fldName, "\\-"); 

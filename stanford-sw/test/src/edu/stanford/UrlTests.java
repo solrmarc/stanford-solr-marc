@@ -25,7 +25,7 @@ public class UrlTests extends AbstractStanfordTest {
 	public final void setup() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars(testDataFname);
+		createFreshIx(testDataFname);
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class UrlTests extends AbstractStanfordTest {
 	public final void testRestrictedUrls() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("restrictedUrlTests.mrc");
+		createFreshIx("restrictedUrlTests.mrc");
 		String fldName = "url_restricted";
 			
 		assertDocHasFieldValue("restrictedUrl1", fldName, "http://restricted.org"); 
@@ -171,7 +171,7 @@ public class UrlTests extends AbstractStanfordTest {
 	public final void testFieldOrdering() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("urlOrderingTests.mrc");
+		createFreshIx("urlOrderingTests.mrc");
 //		int solrDocNum = getSingleDocNum(docIDfname, "fulltextOnly");
 //		DocumentProxy doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
 		SolrDocument doc = getDocument("fulltextOnly");

@@ -28,7 +28,7 @@ public class DiacriticTests extends AbstractStanfordTest {
 	public final void initVars() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("diacriticTests.mrc");
+		createFreshIx("diacriticTests.mrc");
 	}
 
 	/**
@@ -251,7 +251,7 @@ public class DiacriticTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		closeSolrProxy();
-		createIxInitVars("aeoeLigatureTests.mrc");
+		createFreshIx("aeoeLigatureTests.mrc");
 		String fldName = "title_245a_search";
 
 		// upper case
@@ -277,7 +277,7 @@ public class DiacriticTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		closeSolrProxy();
-		createIxInitVars("aeoeLigatureTests.mrc");
+		createFreshIx("aeoeLigatureTests.mrc");
 		String fldName = "title_245a_search";
 
 		// upper case

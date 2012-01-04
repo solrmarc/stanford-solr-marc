@@ -23,7 +23,7 @@ public class WordDelimiterTests extends AbstractStanfordTest
 		throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "title_245a_search";
-		createIxInitVars("wdfSearchTest.mrc");
+		createFreshIx("wdfSearchTest.mrc");
 	
 		Set<String> docIds = new HashSet<String>(2);
 		docIds.add("5335304");

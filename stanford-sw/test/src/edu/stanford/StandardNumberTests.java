@@ -32,7 +32,7 @@ public class StandardNumberTests extends AbstractStanfordTest {
 		throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "oclc";
-		createIxInitVars("oclcNumTests.mrc");
+		createFreshIx("oclcNumTests.mrc");
 	
 		assertDocHasFieldValue("035withOCoLC-M", fldName, "656729"); 
 		assertDocHasNoFieldValue("035withOCoLC-MnoParens", fldName, "656729"); 
@@ -183,7 +183,7 @@ public class StandardNumberTests extends AbstractStanfordTest {
 		throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "isbn_search";
-		createIxInitVars("isbnTests.mrc");
+		createFreshIx("isbnTests.mrc");
 		
 		// searches are not exhaustive  (b/c programmer is exhausted)
 	
@@ -215,7 +215,7 @@ public class StandardNumberTests extends AbstractStanfordTest {
 		throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "isbn_search";
-		createIxInitVars("isbnTests.mrc");
+		createFreshIx("isbnTests.mrc");
 
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("020suba10trailingText");
@@ -265,7 +265,7 @@ public class StandardNumberTests extends AbstractStanfordTest {
 		throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "issn_search";
-		createIxInitVars("issnTests.mrc");
+		createFreshIx("issnTests.mrc");
 		// issn is now text, not string, to accommodate the hyphen
 	
 		assertSingleResult("022suba", fldName, "1047-2010");
@@ -302,7 +302,7 @@ public class StandardNumberTests extends AbstractStanfordTest {
 		throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "issn_search";
-		createIxInitVars("issnTests.mrc");
+		createFreshIx("issnTests.mrc");
 	
 		assertSingleResult("022subM", fldName, "0863-4564");
 		assertSingleResult("022subM", fldName, "08634564");
@@ -319,7 +319,7 @@ public class StandardNumberTests extends AbstractStanfordTest {
 		throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "issn_search";
-		createIxInitVars("issnTests.mrc");
+		createFreshIx("issnTests.mrc");
 	
 		assertSingleResult("022subZ", fldName, "1144-585X");
 		assertSingleResult("022subZ", fldName, "1144-585x");
