@@ -23,7 +23,7 @@ public class SeriesTests extends AbstractStanfordTest {
 		throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "series_search";
-		createIxInitVars(fileName);
+		createFreshIx(fileName);
 		assert440search(fldName);
 		assert800search(fldName);
 		assert810search(fldName);
@@ -61,7 +61,7 @@ public class SeriesTests extends AbstractStanfordTest {
 		throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "vern_series_search";
-		createIxInitVars(vernFileName);
+		createFreshIx(vernFileName);
 		assertVern440search(fldName);
 		assertVern800search(fldName);
 		assertVern810search(fldName);

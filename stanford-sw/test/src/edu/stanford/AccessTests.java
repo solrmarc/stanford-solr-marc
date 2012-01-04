@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.*;
+import org.solrmarc.testUtils.IndexTest;
 import org.xml.sax.SAXException;
 
 import edu.stanford.enumValues.Access;
@@ -35,11 +36,12 @@ public class AccessTests extends AbstractStanfordTest {
 	public final void testAccessFldInIx() 
 		throws ParserConfigurationException, IOException, SAXException
 	{
-		createIxInitVars("onlineFormat.mrc");
+		createFreshIx("onlineFormat.mrc");
 //		assertFacetFieldProperties(fldName);
 //		assertFieldMultiValued(fldName);
 		assertEquals("accessMethod string incorrect: ", "Online", onlineFldVal);
 		assertEquals("accessMethod string incorrect: ", "At the Library", atLibraryFldVal);
+		IndexTest.stopTestJetty();
 	}
 
 // NOTE: can have multiple access types 

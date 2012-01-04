@@ -39,7 +39,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest {
 	public void testSerialSuffixIsReverse()
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("callNumVolLopTests.mrc");
+		createFreshIx("callNumVolLopTests.mrc");
 		String callnum = "TX519 .D26S 1954 V.2";
 // TODO: currently look for other suffixes before we resort to year ...
 //		String lopped = "TX519 .D26S";

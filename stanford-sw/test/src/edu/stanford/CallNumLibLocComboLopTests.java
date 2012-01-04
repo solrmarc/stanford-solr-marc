@@ -212,7 +212,7 @@ public class CallNumLibLocComboLopTests extends AbstractStanfordTest {
 	public final void testNonLoppedMatchGetsEllipsis() 
 			throws IOException, ParserConfigurationException, SAXException 
 	{
-		createIxInitVars("callNumEllipsisTests.mrc");
+		createFreshIx("callNumEllipsisTests.mrc");
 		String fldName = "shelfkey";
 		
 		String id = "onlyLoppedLC";

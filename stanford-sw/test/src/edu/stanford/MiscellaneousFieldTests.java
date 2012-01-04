@@ -29,7 +29,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 		throws ParserConfigurationException, SAXException, IOException
 	{
 		String fldName = "id";
-		createIxInitVars("idTests.mrc");
+		createFreshIx("idTests.mrc");
 		
         int numDocs = getNumMatchingDocs("collection", "sirsi");
         assertEquals("Number of documents in index incorrect: ", 3, numDocs);
@@ -57,7 +57,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "language";
-		createIxInitVars("langTests.mrc");
+		createFreshIx("langTests.mrc");
 	
 		assertZeroResults(fldName, "null");
 		assertZeroResults(fldName, "\\?\\?\\?");
@@ -78,7 +78,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "all_search";
-		createIxInitVars("allfieldsTests.mrc");
+		createFreshIx("allfieldsTests.mrc");
 		
 		String docId = "allfields1";
 
@@ -117,7 +117,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 	public final void testMarc21Field() 
 	    throws ParserConfigurationException, IOException, SAXException
 	{
-		createIxInitVars("allfieldsTests.mrc");
+		createFreshIx("allfieldsTests.mrc");
 	    String fldName = "marc21";
 	}
 
@@ -132,7 +132,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 	public final void testDisplayTypeField() 
 	    throws ParserConfigurationException, IOException, SAXException
 	{
-		createIxInitVars("idTests.mrc");
+		createFreshIx("idTests.mrc");
 	    String fldName = "display_type";
 	    
 	    // all MARC records from Symphony
@@ -148,7 +148,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 	public final void testOpenSearch() 
 	    throws ParserConfigurationException, IOException, SAXException
 	{
-		createIxInitVars("allfieldsTests.mrc");
+		createFreshIx("allfieldsTests.mrc");
 	    String fldName = "open_search";
 	    // ensure stemming, single word in multiple word sub field matches ...
 	    assertSingleResult("allfields1", fldName, "skip");
@@ -162,7 +162,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 	public final void testFieldOrdering() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("fieldOrdering.mrc");
+		createFreshIx("fieldOrdering.mrc");
 //		int solrDocNum = getSingleDocNum(docIDfname, "1");
 //		DocumentProxy doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
 		SolrDocument doc = getDocument("1");

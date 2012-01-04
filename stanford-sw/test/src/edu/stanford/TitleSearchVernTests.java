@@ -19,7 +19,7 @@ public class TitleSearchVernTests extends AbstractStanfordTest {
 	public final void setup() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("vernacularSearchTests.mrc");
+		createFreshIx("vernacularSearchTests.mrc");
 	}
 
 
@@ -181,7 +181,7 @@ public class TitleSearchVernTests extends AbstractStanfordTest {
 		throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "vern_title_related_search";
-		createIxInitVars("summaryTests.mrc");
+		createFreshIx("summaryTests.mrc");
 		assertSingleResult("505", fldName, "vern505t");
 		assertZeroResults(fldName, "nope");
 	}

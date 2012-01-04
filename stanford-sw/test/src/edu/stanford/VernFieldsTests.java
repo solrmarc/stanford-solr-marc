@@ -38,7 +38,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 	public final void testIgnored880() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars(vernNonSearchTestFile);
+		createFreshIx(vernNonSearchTestFile);
 		assertSingleResult("allVern", "toc_search", "contents");
 		assertDocHasNoField("allVern", "vern_toc_search");
 		assertDocHasNoField("allVern", "vern_toc_display");
@@ -52,7 +52,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_7xx_search";
-		createIxInitVars(vernNonSearchTestFile);
+		createFreshIx(vernNonSearchTestFile);
 
 		assertSingleResult("two700", fldName, "\"first 700\"");
 
@@ -69,7 +69,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_8xx_search";
-		createIxInitVars(vernNonSearchTestFile);
+		createFreshIx(vernNonSearchTestFile);
 
 		assertSingleResult("DupSubflds", fldName, "\"Wellington, New Zealand\"");
 		fldName = "vern_author_8xx_search";
@@ -84,7 +84,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_person_display";		
-		createIxInitVars(vernNonSearchTestFile);
+		createFreshIx(vernNonSearchTestFile);
 		
 		assertDocHasFieldValue("trailingPunct", fldName, "internal colon : ending period");
 		assertDocHasNoFieldValue("trailingPunct", fldName, "internal colon : ending period.");
@@ -109,7 +109,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "vern_toc_search";
-	    createIxInitVars(unMatched880File);
+	    createFreshIx(unMatched880File);
 
 	    Set<String> docIds = new HashSet<String>();
 		docIds.add("1");
@@ -162,7 +162,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "author_person_display";
-		createIxInitVars(vernNonSearchTestFile);
+		createFreshIx(vernNonSearchTestFile);
 		
 		assertDocHasFieldValue("4160530", fldName, "Xiao, Qian, 1910-");
 		fldName = "vern_author_person_display";
@@ -200,7 +200,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "title_full_display";
-		createIxInitVars(vernNonSearchTestFile);
+		createFreshIx(vernNonSearchTestFile);
 
 		assertDocHasFieldValue("RtoL", fldName, "a is for alligator / c is for crocodile, 1980");
 		fldName = "vern_title_full_display";
@@ -238,7 +238,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "title_full_display";
-		createIxInitVars(vernNonSearchTestFile);
+		createFreshIx(vernNonSearchTestFile);
 
 		assertDocHasFieldValue("hebrew1", fldName, "Alef bet shel Yahadut.");
 		fldName = "vern_title_full_display";

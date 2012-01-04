@@ -73,7 +73,7 @@ public class FormatDatabaseTests extends AbstractStanfordTest {
 	public final void testDatabaseAZOnly() 
 			throws IOException, SAXException, ParserConfigurationException
 	{
-		createIxInitVars("formatDatabaseTests.mrc");
+		createFreshIx("formatDatabaseTests.mrc");
 		assertZeroResults(facetFldName, "\"Database (Other)\"");
 		assertZeroResults(facetFldName, "\"Database (All)\"");
 	}

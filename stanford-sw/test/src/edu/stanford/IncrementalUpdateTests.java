@@ -25,7 +25,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	public void testDeleteButEmptyIndex() 
 		throws ParserConfigurationException, SAXException, IOException
 	{
-		createIxInitVars(null);
+		createFreshIx(null);
 		deleteIxDocs(testDataParentPath + File.separator + "deleteFirstKey.txt");
 	}
 
@@ -36,7 +36,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	public void testDeleteFirstRecord() 
 		throws ParserConfigurationException, SAXException, IOException
 	{
-		createIxInitVars("incrementalIxTests1.mrc");
+		createFreshIx("incrementalIxTests1.mrc");
 		assertDocPresent("1");
 		deleteIxDocs(testDataParentPath + File.separator + "deleteFirstKey.txt");
 		assertDocNotPresent("1");
@@ -50,7 +50,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	public void testDeleteLastRecord() 
 		throws ParserConfigurationException, SAXException, IOException
 	{
-		createIxInitVars("incrementalIxTests1.mrc");
+		createFreshIx("incrementalIxTests1.mrc");
 		assertDocPresent("9");
 		deleteIxDocs(testDataParentPath + File.separator + "deleteLastKey.txt");
 		assertDocNotPresent("9");
@@ -64,7 +64,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	public void testDeletedMultRecords() 
 		throws ParserConfigurationException, SAXException, IOException
 	{
-		createIxInitVars("incrementalIxTests1.mrc");
+		createFreshIx("incrementalIxTests1.mrc");
 		assertDocPresent("1");
 		assertDocPresent("2");
 		assertDocPresent("5");
@@ -90,7 +90,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	{
 		// file also has key that exists
 		// file is also out of numeric order
-		createIxInitVars("incrementalIxTests1.mrc");
+		createFreshIx("incrementalIxTests1.mrc");
 		assertDocNotPresent("666");
 		deleteIxDocs(testDataParentPath + File.separator + "deleteMissingKey.txt");
 		assertDocNotPresent("666");
@@ -104,7 +104,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	public void testNewRecordsEmptyIx() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("incrementalIxTests1.mrc");
+		createFreshIx("incrementalIxTests1.mrc");
 	}
 
 	
@@ -115,7 +115,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	public void testNewRecordsExistingIx() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("incrementalIxTests1.mrc");
+		createFreshIx("incrementalIxTests1.mrc");
 		assertDocPresent("1");
 		assertDocNotPresent("99");
 		updateIx("incrementalIxTests2.mrc");
@@ -135,7 +135,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	{
 		String titleFldName = "title_245a_display";
 		String authorFldName = "author_person_display";
-		createIxInitVars("incrementalIxTests1.mrc");
+		createFreshIx("incrementalIxTests1.mrc");
 
 		// record 2: field that exists in old and records, but changed
 		// record 3: field in new record that wasn't in old record
@@ -166,7 +166,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	{
 		String createDateFldName = "created";
 		String updateDateFldName = "last_updated";
-		createIxInitVars("incrementalIxTests1.mrc");
+		createFreshIx("incrementalIxTests1.mrc");
 		
 		// assert created and last_updated are the same
 		assertFieldValuesEqual("1", createDateFldName, updateDateFldName);

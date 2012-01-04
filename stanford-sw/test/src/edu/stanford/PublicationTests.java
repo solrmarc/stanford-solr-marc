@@ -39,7 +39,7 @@ public class PublicationTests extends AbstractStanfordTest
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "pub_search";
-		createIxInitVars("publicationTests.mrc");
+		createFreshIx("publicationTests.mrc");
 		// test searching
 		assertSingleResult("260aunknown", fldName, "Insight");
 		assertSingleResult("260bunknown", fldName, "victoria"); // downcased
@@ -131,7 +131,7 @@ public class PublicationTests extends AbstractStanfordTest
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "pub_date";
-		createIxInitVars("pubDateTests.mrc");
+		createFreshIx("pubDateTests.mrc");
 		assertZeroResults(fldName, "9999");
 		assertZeroResults(fldName, "6666");
 		assertZeroResults(fldName, "22nd century");
@@ -149,7 +149,7 @@ public class PublicationTests extends AbstractStanfordTest
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "pub_date";
-		createIxInitVars("pubDateTests.mrc");
+		createFreshIx("pubDateTests.mrc");
 		assertZeroResults(fldName, "0000");
 		assertZeroResults(fldName, "0019");
 		assertZeroResults(fldName, "0059");
@@ -208,13 +208,13 @@ public class PublicationTests extends AbstractStanfordTest
 	public final void testPubDateFieldsInIx() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-		createIxInitVars("pubDateTests.mrc");
+		createFreshIx("pubDateTests.mrc");
 		String fldName = "pub_date";
 		// for facet
 		pubDateSearchTests(fldName);
 		
 		fldName = "pub_date_search";
-		createIxInitVars("pubDateTests.mrc");
+		createFreshIx("pubDateTests.mrc");
 		pubDateSearchTests(fldName);
 	}
 
@@ -227,7 +227,7 @@ public class PublicationTests extends AbstractStanfordTest
 			throws ParserConfigurationException, IOException, SAXException, InvocationTargetException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException 
 	{
 		String fldName = "pub_date_sort";
-		createIxInitVars("pubDateTests.mrc");
+		createFreshIx("pubDateTests.mrc");
 	
 		// list of doc ids in correct publish date sort order
 		List<String> expectedOrderList = new ArrayList<String>(50);
@@ -335,7 +335,7 @@ public class PublicationTests extends AbstractStanfordTest
 			throws ParserConfigurationException, IOException, SAXException, NoSuchMethodException, InstantiationException, InvocationTargetException, ClassNotFoundException, IllegalAccessException 
 	{
 		String fldName = "pub_date_sort";
-		createIxInitVars("pubDateTests.mrc");
+		createFreshIx("pubDateTests.mrc");
 		
 		// list of doc ids in correct publish date sort order
 		List<String> expectedOrderList = new ArrayList<String>(50);
@@ -443,7 +443,7 @@ public class PublicationTests extends AbstractStanfordTest
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "pub_date_group_facet";
-		createIxInitVars("pubDateTests.mrc");
+		createFreshIx("pubDateTests.mrc");
 		
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("pubDate2010");

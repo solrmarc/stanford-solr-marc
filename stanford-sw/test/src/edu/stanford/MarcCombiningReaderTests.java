@@ -45,7 +45,7 @@ public class MarcCombiningReaderTests extends AbstractStanfordTest {
 		String filename = "rec6024817.mrc";
 		String recid = "6024817";
 		
-		createIxInitVars(filename);
+		createFreshIx(filename);
 		assertDocNotPresent(recid);
 	}
 
@@ -69,7 +69,7 @@ public class MarcCombiningReaderTests extends AbstractStanfordTest {
 		String testFilePath = testDataParentPath + File.separator + filename;
 		solrFldMapTest.assertSolrFldValue(testFilePath, recid, "id", recid);
 		
-		createIxInitVars(filename);
+		createFreshIx(filename);
 		assertDocPresent(recid);
 	}
 
@@ -90,7 +90,7 @@ public class MarcCombiningReaderTests extends AbstractStanfordTest {
 		String testFilePath = testDataParentPath + File.separator + filename;
 		assertRecordsInMap(testFilePath, ids);
 
-		createIxInitVars(filename);
+		createFreshIx(filename);
 		assertRecordsinIndex(ids);
 	}
 
@@ -111,7 +111,7 @@ public class MarcCombiningReaderTests extends AbstractStanfordTest {
 		String testFilePath = testDataParentPath + File.separator + filename;
 		assertRecordsInMap(testFilePath, ids);
 	
-		createIxInitVars(filename);
+		createFreshIx(filename);
 		assertRecordsinIndex(ids);
 	}
 

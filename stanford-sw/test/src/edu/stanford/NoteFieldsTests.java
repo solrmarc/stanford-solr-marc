@@ -25,7 +25,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
         throws ParserConfigurationException, IOException, SAXException
     {
         String fldName = "toc_search";
-	    createIxInitVars("summaryTests.mrc");
+	    createFreshIx("summaryTests.mrc");
 
         assertSingleResult("505", fldName, "505a");
         assertSingleResult("505", fldName, "505r");
@@ -42,7 +42,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException 
 	{
 		String fldName = "vern_toc_search";
-		createIxInitVars("summaryTests.mrc");
+		createFreshIx("summaryTests.mrc");
 
 		assertSingleResult("505", fldName, "vern505a");
         assertSingleResult("505", fldName, "vern505r");
@@ -59,7 +59,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	    throws ParserConfigurationException, IOException, SAXException
 	{
 	    String fldName = "toc_search";
-	    createIxInitVars("nielsenTests.mrc");
+	    createFreshIx("nielsenTests.mrc");
 	    
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("505");
@@ -91,7 +91,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	    throws ParserConfigurationException, IOException, SAXException
 	{
 	    String fldName = "context_search";
-	    createIxInitVars("summaryTests.mrc");
+	    createFreshIx("summaryTests.mrc");
 
 	    assertSingleResult("518", fldName, "518a");
 
@@ -106,7 +106,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	    throws ParserConfigurationException, IOException, SAXException
 	{
 	    String fldName = "vern_context_search";
-	    createIxInitVars("summaryTests.mrc");
+	    createFreshIx("summaryTests.mrc");
 
 	    assertSingleResult("518", fldName, "vern518a");
 
@@ -121,7 +121,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	    throws ParserConfigurationException, IOException, SAXException
 	{
 	    String fldName = "summary_search";
-	    createIxInitVars("summaryTests.mrc");
+	    createFreshIx("summaryTests.mrc");
 	    
 		assertSingleResult("520", fldName, "520a");
 		assertSingleResult("520", fldName, "520b");
@@ -137,7 +137,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	    throws ParserConfigurationException, IOException, SAXException
 	{
 	    String fldName = "vern_summary_search";
-	    createIxInitVars("summaryTests.mrc");
+	    createFreshIx("summaryTests.mrc");
 
 	    assertSingleResult("520", fldName, "vern520a");
 		assertSingleResult("520", fldName, "vern520b");
@@ -153,7 +153,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	    throws ParserConfigurationException, IOException, SAXException
 	{
 	    String fldName = "summary_search";
-	    createIxInitVars("nielsenTests.mrc");
+	    createFreshIx("nielsenTests.mrc");
 	    
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("520");
@@ -183,7 +183,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	    throws ParserConfigurationException, IOException, SAXException
 	{
 	    String fldName = "award_search";
-	    createIxInitVars("nielsenTests.mrc");
+	    createFreshIx("nielsenTests.mrc");
 	    
 	    assertSingleResult("586", fldName, "New Zealand Post book awards winner");
 	    assertSingleResult("586", fldName, "\\\"586 second award\\\"");

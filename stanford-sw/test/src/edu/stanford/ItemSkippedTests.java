@@ -37,7 +37,7 @@ public class ItemSkippedTests extends AbstractStanfordTest {
 		throws ParserConfigurationException, SAXException, IOException 
 	{
 		String fldName = "id";
-		createIxInitVars(testDataFname);
+		createFreshIx(testDataFname);
 		String id = "skipHomeLoc";
 		assertZeroResults(fldName, id);
 		id = "skipCurrLoc";

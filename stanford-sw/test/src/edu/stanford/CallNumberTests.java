@@ -43,7 +43,7 @@ public class CallNumberTests extends AbstractStanfordTest {
 			throws IOException, ParserConfigurationException, SAXException 
 	{
 		String fldName = "callnum_top_facet";
-		createIxInitVars(fileName);
+		createFreshIx(fileName);
 						
 		assertSingleResult("1033119", fldName, "\"B - Philosophy, Psychology, Religion\"");
 
@@ -508,7 +508,7 @@ public class CallNumberTests extends AbstractStanfordTest {
 	{
 		String fldName = "shelfkey";
 		String revFldName = "reverse_shelfkey";
-		createIxInitVars(fileName);
+		createFreshIx(fileName);
 		
 		// assert searching works
 	
