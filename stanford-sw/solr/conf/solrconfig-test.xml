@@ -8,7 +8,7 @@
 
   <luceneMatchVersion>LUCENE_35</luceneMatchVersion>
 
-  <dataDir>${solr.data.dir:/data/solr}</dataDir>
+  <dataDir>${solr.data.dir:}</dataDir>
 
   <indexDefaults>
     <useCompoundFile>false</useCompoundFile>
