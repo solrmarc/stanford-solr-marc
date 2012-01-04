@@ -2,7 +2,6 @@
 <project name="solrmarc" default="build_core" basedir="." >
 
 	<property file="build.properties" />
-	<property file="${site.conf.props}" />  <!-- FIXME: use this? -->
 
 	<!-- CORE properties, in case they aren't already defined -->
 	<property name="core.jar.name" value="SolrMarc" />
@@ -11,12 +10,6 @@
 	<property name="cobertura.jar.dir" location="${test.lib.dir}/cobertura-1.9.4.1" />
 	<property name="cobertura.core.data.file" value="${core.instr.dir}/cobertura.ser" />
 	<property name="cobertura.site.data.file" value="${site.instr.dir}/cobertura.ser" />
-
-	<!-- SITE properties, in case they aren't already defined -->
-	<property name="site.map.dir" location="${site.conf.dir}/${trans.map.dir}" />
-<!--FIXME: keep the following two? -->	
-	<property name="site.scripts.dir" location="${site.conf.dir}/${scripts.dir}" />
-	<property name="site.solrconf.dir" location="${site.conf.dir}/solrConf" />
 
 
 <!-- ******* CORE basic build targets ********** -->
@@ -60,7 +53,7 @@
 <!-- ******* SITE basic build targets ********** -->
 	
 	<target name="clean_site" description="remove the build directories for SITE">
-		<delete dir="$site.build.dir}" />
+		<delete dir="${site.build.dir}" />
 	</target>
 		
 	<target name="init_site" depends="init_core" description="create (empty) generated directories for site AND core code">
