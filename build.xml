@@ -105,7 +105,7 @@
 		<copy file="${core.solr.war.path}" tofile="${test.jetty.dir}/webapps/solr.war" failonerror="false" />
 	</target>
 
-	<target name="test_core" depends="test_clean,test_compile_core,core_setup_test_jetty" description="run tests for CORE code">
+	<target name="test_core" depends="clean_test,test_compile_core,core_setup_test_jetty" description="run tests for CORE code">
 		<!-- if no core test class is defined, call the Util Unit test -->
 		<property name="core.test.class"  value="org.solrmarc.tools.UtilUnitTests" />
 
@@ -233,7 +233,9 @@
 		  </javadoc>
 	</target>
 
-	<target name="ci_core" depends="javadoc_core,test_core_coverage" description="CORE Continuous Integration: javadoc and tests with coverage" />
+	<target name="clean_core_all" depends="test_clean_core,clean_core" />
+
+	<target name="ci_core" depends="clean_core_all,javadoc_core,test_core_coverage" description="CORE Continuous Integration: javadoc and tests with coverage" />
 	
 
 
@@ -335,7 +337,7 @@
 		<copy file="${site.solr.war.path}" tofile="${test.jetty.dir}/webapps/solr.war" failonerror="false" />
 	</target>
 	
-	<target name="test_site" depends="test_clean,test_compile_site,site_setup_test_jetty" description="run tests for SITE code">
+	<target name="test_site" depends="clean_test,test_compile_site,site_setup_test_jetty" description="run tests for SITE code">
     <junit showoutput="yes" printsummary="yes" fork="yes" forkmode="perBatch" haltonfailure="on">
 			<classpath refid="test.site.run.classpath" />
 			<formatter type="plain" usefile="false" />
@@ -371,7 +373,7 @@
 		</cobertura-instrument>
 	</target>
 	
-	<target name="test_site_coverage" depends="test_clean,test_compile_site,instrument_site,site_setup_test_jetty"
+	<target name="test_site_coverage" depends="clean_test,test_compile_site,instrument_site,site_setup_test_jetty"
 		description="run tests for SITE and capture code coverage" >
 		<delete dir="${site.coverage.dir}" />
 		<mkdir dir="${site.coverage.dir}"/>
@@ -438,7 +440,7 @@
 		  </javadoc>
 	</target>
 	
-	<target name="ci_site" depends="javadoc_site,test_site_coverage" description="SITE Continuous Integration: javadoc and tests with coverage" />
+	<target name="ci_site" depends="clean_all,javadoc_site,test_site_coverage" description="SITE Continuous Integration: javadoc and tests with coverage" />
 	
 	
 <!-- ******* CORE and SITE together targets ********** -->
@@ -486,9 +488,9 @@
 	
 	<target name="clean" depends="clean_site,clean_core" description="remove the build directories for CORE and SITE" />
 
-	<target name="test_clean" depends="test_clean_site,test_clean_core" description="remove the directories generated for CORE and SITE testing" />
+	<target name="clean_test" depends="test_clean_site,test_clean_core" description="remove the directories generated for CORE and SITE testing" />
 	
-	<target name="clean_all" depends="test_clean, clean" description="remove all generated directories for CORE and SITE, including test and dist">
+	<target name="clean_all" depends="clean_test, clean" description="remove all generated directories for CORE and SITE, including test and dist">
 		<delete dir="${dist.dir}" quiet="true" />
 	</target>
 	
