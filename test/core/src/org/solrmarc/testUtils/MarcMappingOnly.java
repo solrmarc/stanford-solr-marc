@@ -30,18 +30,17 @@ public class MarcMappingOnly extends MarcHandler
     private String idFldName = null;
     private String argsPlus[] = null;
 
-    /**
-     * Constructor
-     * @param args - array of Strings:
-     *    arg[0] - name of xxx_config.properties file
-     *    arg[1] - name of unique key field in solr document
-     */
     public MarcMappingOnly()
     {
         super();
     }
     
     
+    /**
+     * @param args - array of Strings:
+     *    arg[0] - name of xxx_config.properties file
+     *    arg[1] - name of unique key field in solr document
+     */
     @Override
     public void init(String args[])
     {

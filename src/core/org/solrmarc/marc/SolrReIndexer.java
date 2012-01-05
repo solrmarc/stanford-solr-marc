@@ -38,12 +38,6 @@ public class SolrReIndexer extends MarcImporter
     // Initialize logging category
     static Logger logger = Logger.getLogger(SolrReIndexer.class.getName());
     
-    /**
-     * Constructor
-     * @param properties path to properties files
-     * @param args additional arguments
-     * @throws IOException
-     */
     public SolrReIndexer()
     {
     }
@@ -245,7 +239,7 @@ public class SolrReIndexer extends MarcImporter
     /**
      * Add information from a document to a map.
      * @param doc
-     * @param map
+     * @param docMap
      */
     protected void addExtraInfoFromDocToMap(SolrDocument doc, Map<String, Object> docMap)
     {

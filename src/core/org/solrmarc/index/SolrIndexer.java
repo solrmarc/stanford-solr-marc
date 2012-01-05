@@ -1217,7 +1217,6 @@ public class SolrIndexer
      * Add a field-value pair to the indexMap representation of a solr doc.
      * @param indexMap - the mapping of solr doc field names to values
      * @param ixFldName - the name of the field to add to the solr doc
-     * @param mapName - the name of a translation map for the field value, or null
      * @param fieldVal - the (untranslated) field value to add to the solr doc field
      */
     protected void addField(Map<String, Object> indexMap, String ixFldName, String fieldVal)
@@ -1572,7 +1571,7 @@ public class SolrIndexer
      *         and with non-filing characters omitted. Null returned if no
      *         title can be found. 
      * 
-     * @see org.solrmarc.index.SolrIndexer.getTitle()
+     * @see #getTitle(Record)
      */
     public String getSortableTitle(Record record)
     {
@@ -1834,7 +1833,7 @@ public class SolrIndexer
      * @param fldTag - the field name, e.g. 245
      * @param subfldsStr - the string containing the desired subfields
      * @param separator - the separator string to insert between subfield items (if null, a " " will be used)
-     * @returns a Set of String, where each string is the concatenated contents
+     * @return a Set of String, where each string is the concatenated contents
      *          of all the desired subfield values from a single instance of the
      *          fldTag
      */
@@ -1901,7 +1900,7 @@ public class SolrIndexer
      * field, returned as  a set of strings to become lucene document field values
      * @param record - the marc record object
      * @param fldTag - the field name, e.g. 008
-     * @param subfldsStr - the string containing the desired subfields
+     * @param subfield - the string containing the desired subfields
      * @param beginIx - the beginning index of the substring of the subfield value
      * @param endIx - the ending index of the substring of the subfield value
      * @return the result set of strings
@@ -2135,9 +2134,6 @@ public class SolrIndexer
      *            the marc fields (e.g. 600:655) in which we will grab the
      *            alphabetic subfield contents for the result set. The field may
      *            not be a control field (must be 010 or greater)
-     * @param multOccurs -
-     *            "first", "join" or "all" indicating how to handle multiple
-     *            occurrences of field values
      * @return a set of strings, where each string is the concatenated values of
      *         all the alphabetic subfields.
      */
@@ -2590,7 +2586,7 @@ public class SolrIndexer
     /**
      * treats indicator 2 as the number of non-filing indicators to exclude,
      * removes ascii punctuation
-     * @param DataField with ind2 containing # non-filing chars, or has value ' '
+     * @param df DataField with ind2 containing # non-filing chars, or has value ' '
      * @param skipSubFldc true if subfield c contents should be skipped
      * @return StringBuffer of the contents of the subfields - with a trailing
      *         space

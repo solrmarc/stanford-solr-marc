@@ -972,7 +972,7 @@ public final class CallNumUtils {
      *  the decimal (adding leading zeroes as necessary) and (digitsAfter 
      *  after the decimal.  In the case of a whole number, there will be no
      *  decimal point.
-     * @param floatStr, the number, as a String
+     * @param floatStr  the number, as a String
      * @param digitsB4 - the number of characters the result should have before the
      *   decimal point (leading zeroes will be added as necessary). A negative 
      *   number means leave whatever digits encountered as is; don't pad with leading zeroes.

@@ -22,7 +22,7 @@ public class PropertiesUtils {
      * for defining the marc.source property to define which file to operate on, in a shell script loop.
      * @param props - property set in which to look.
      * @param propname - name of the property to lookup.
-     * @returns String - value stored for that property (or null if it doesn't exist) 
+     * @return String - value stored for that property (or null if it doesn't exist) 
      */
     public static String getProperty(Properties props, String propname)
     {
@@ -36,7 +36,7 @@ public class PropertiesUtils {
      * @param props - property set in which to look.
      * @param propname - name of the property to lookup.
      * @param defVal - the default value to use if property is not defined
-     * @returns String - value stored for that property (or the  if it doesn't exist) 
+     * @return String - value stored for that property (or the  if it doesn't exist) 
      */
     public static String getProperty(Properties props, String propname, String defVal)
     {

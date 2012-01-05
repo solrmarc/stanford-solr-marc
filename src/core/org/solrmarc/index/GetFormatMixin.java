@@ -201,15 +201,10 @@ public class GetFormatMixin extends SolrIndexerMixin
         EJournal
     }
 
-    private enum ControlType
-    {
-        Archive
-    }
-    
     /**
      * Return the content type and media types, plus electronic, for this record
      * 
-     * @param Record   -  MARC Record
+     * @param record   -  MARC Record
      * @return Set of Strings of content types and media types
      */
     public Set<String> getContentTypesAndMediaTypes(final Record record)
@@ -223,10 +218,9 @@ public class GetFormatMixin extends SolrIndexerMixin
     /**
      * Return the primary content type, plus electronic, for this record
      * 
-     * @param Record  -  MARC Record
+     * @param record  -  MARC Record
      * @return String of primary material types
      */
-
     public Set<String> getPrimaryContentTypePlusOnline(final Record record)
     {
         Set<String> format = new LinkedHashSet<String>();
@@ -244,11 +238,10 @@ public class GetFormatMixin extends SolrIndexerMixin
     /**
      * Add types EBook and Online for electronic items for this record
      * 
-     * @param Record  -  MARC Record
-     * @param Set<String>  - the Set of formats to add the types EBook and Online to 
+     * @param record  -  MARC Record
+     * @param formats Set<String>  - the Set of formats to add the types EBook and Online to 
      * @return String of primary material types
      */
-
     public Set<String> addOnlineTypes(final Record record, Set<String> formats)
     {
         // see if we have full-text link
@@ -272,11 +265,9 @@ public class GetFormatMixin extends SolrIndexerMixin
     /**
      * Return the primary content type for this record
      * 
-     * @param Record
-     *            MARC Record
+     * @param record MARC Record
      * @return String of primary material types
      */
-
     public String getPrimaryContentType(final Record record)
     {
         String primaryFormat = "";
@@ -295,11 +286,9 @@ public class GetFormatMixin extends SolrIndexerMixin
     /**
      * Parse out content types from record
      * 
-     * @param Record
-     *            MARC Record
+     * @param record MARC Record
      * @return List of material types
      */
-
     public boolean isArchive(final Record record)
     {
         // special case for archive
@@ -317,11 +306,9 @@ public class GetFormatMixin extends SolrIndexerMixin
     /**
      * Parse out content types from record
      * 
-     * @param Record
-     *            MARC Record
+     * @param record MARC Record
      * @return List of material types
      */
-
     public Set<String> getContentTypes(final Record record)
     {
         Set<String> materialType = new LinkedHashSet<String>(); // the list of material types
@@ -834,11 +821,9 @@ public class GetFormatMixin extends SolrIndexerMixin
     /**
      * Parse out media / carrier types from record
      * 
-     * @param Record
-     *            MARC Record
+     * @param record   MARC Record
      * @return List of material types
      */
-
     public Set<String> getMediaTypes(final Record record)
     {
         Set<String> form = new LinkedHashSet<String>(); // the list of form
@@ -1721,7 +1706,7 @@ public class GetFormatMixin extends SolrIndexerMixin
      * 
      * @param materialSpecific 
      *              letter for the form of the video (taken from 007/01)
-     * @returns string
+     * @return string
      */
     private String getVideoMediaForm(char materialSpecific)
     {
@@ -1831,7 +1816,6 @@ public class GetFormatMixin extends SolrIndexerMixin
      *            whether this is leader of 006
      * @return array as [type,profile]
      */
-
     protected String[] extractTypeProfile(String field, String source)
     {
         String profile = ""; // we'll use this to determine which positions
@@ -2029,14 +2013,13 @@ public class GetFormatMixin extends SolrIndexerMixin
         return result;
     }
 
+    
     /**
      * Whether the record contains a full-text link
      * 
-     * @param Record
-     *            record
+     * @param record
      * @return Boolean
      */
-
     public Boolean hasFullText(final Record record)
     {
         Set<String> urls = indexer.getFullTextUrls(record);
@@ -2078,9 +2061,7 @@ public class GetFormatMixin extends SolrIndexerMixin
      *
      * @param formats list
      * @param add item to add
-     * @return
      */
-
     protected Set<String> addToTop(Set<String> formats, String add )
     {
         // create a new list, and add ours first

@@ -91,7 +91,7 @@ public class SolrUpdate
      * that server that the indexes have changed, so that it will find the new data
      * with out having to be restarted.
      * 
-     * @param SolrHostUpdateURL  the URL of the Solr server update request handler
+     * @param solrHostUpdateURL  the URL of the Solr server update request handler
      * for example:    http://localhost:8983/solr/update
      */
     public static void sendCommitToSolr(String solrHostUpdateURL) throws IOException
