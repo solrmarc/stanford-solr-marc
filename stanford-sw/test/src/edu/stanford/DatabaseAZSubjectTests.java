@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -89,7 +90,7 @@ public class DatabaseAZSubjectTests extends AbstractStanfordTest {
      */
 @Test
     public final void testSearched() 
-    		throws ParserConfigurationException, IOException, SAXException
+    		throws ParserConfigurationException, IOException, SAXException, SolrServerException
     {
 		createFreshIx("databasesAZsubjectTests.mrc");
 		String fldName = "db_az_subject_search";

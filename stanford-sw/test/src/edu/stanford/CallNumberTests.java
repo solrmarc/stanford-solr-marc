@@ -9,6 +9,7 @@ import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.solrmarc.tools.CallNumUtils;
 import org.xml.sax.SAXException;
@@ -40,7 +41,7 @@ public class CallNumberTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testFacetsInIx() 
-			throws IOException, ParserConfigurationException, SAXException 
+			throws IOException, ParserConfigurationException, SAXException, SolrServerException 
 	{
 		String fldName = "callnum_top_facet";
 		createFreshIx(fileName);
@@ -504,7 +505,7 @@ public class CallNumberTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testShelfkeysInIx() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "shelfkey";
 		String revFldName = "reverse_shelfkey";

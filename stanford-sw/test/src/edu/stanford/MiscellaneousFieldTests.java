@@ -7,6 +7,7 @@ import java.util.HashSet;
 import javax.xml.parsers.ParserConfigurationException;
 
 //import org.solrmarc.solr.DocumentProxy;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrDocument;
 import org.xml.sax.SAXException;
 
@@ -26,7 +27,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 	 */
 @Test 
 	public final void testId() 
-		throws ParserConfigurationException, SAXException, IOException
+		throws ParserConfigurationException, SAXException, IOException, SolrServerException
 	{
 		String fldName = "id";
 		createFreshIx("idTests.mrc");
@@ -54,7 +55,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testMapMissingValue() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "language";
 		createFreshIx("langTests.mrc");
@@ -75,7 +76,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testAllSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "all_search";
 		createFreshIx("allfieldsTests.mrc");
@@ -115,7 +116,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testMarc21Field() 
-	    throws ParserConfigurationException, IOException, SAXException
+	    throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		createFreshIx("allfieldsTests.mrc");
 	    String fldName = "marc21";
@@ -130,7 +131,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testDisplayTypeField() 
-	    throws ParserConfigurationException, IOException, SAXException
+	    throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		createFreshIx("idTests.mrc");
 	    String fldName = "display_type";
@@ -146,7 +147,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testOpenSearch() 
-	    throws ParserConfigurationException, IOException, SAXException
+	    throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		createFreshIx("allfieldsTests.mrc");
 	    String fldName = "open_search";
@@ -160,7 +161,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testFieldOrdering() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		createFreshIx("fieldOrdering.mrc");
 //		int solrDocNum = getSingleDocNum(docIDfname, "1");

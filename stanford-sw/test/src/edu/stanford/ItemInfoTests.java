@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -32,7 +33,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testBuildingFacet() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String fldName = "building_facet";
 		createFreshIx("buildingTests.mrc");
@@ -100,7 +101,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	 */
 @Test
 	public void testSkipBuildingFacet()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "building_facet";
 		createFreshIx("buildingTests.mrc");
@@ -137,7 +138,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	 */
 @Test
 	public void testHoover2Locs()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String fldName = "building_facet";
 		createFreshIx("buildingTests.mrc");
@@ -152,7 +153,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testBarcodeSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "barcode_search";
 		createFreshIx("locationTests.mrc");
@@ -951,7 +952,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	 */
 @Test
  	public final void testItemDisplaySkipLocs()
- 			throws ParserConfigurationException, IOException, SAXException 
+ 			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
  	{
 		String fldName = "item_display";
 		createFreshIx("locationTests.mrc");
@@ -1359,7 +1360,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	 */
 @Test
 	public void testPreferredBarcodeInIx() 
-			throws ParserConfigurationException, IOException, SAXException
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		// single test to make sure this field is created properly
 		createFreshIx("itemPreferredTests.mrc");
@@ -1373,7 +1374,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	 */
 //@Test
 	public final void testMultipleCopies() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "item_display";
 		String fileName = "multipleCopies.mrc";

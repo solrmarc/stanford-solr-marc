@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.xml.sax.SAXException;
 
@@ -24,7 +25,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testTopicSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
         createFreshIx(searchTestDataFname);
 		String fldName = "topic_search";
@@ -95,7 +96,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testVernTopicSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_topic_search";
@@ -144,7 +145,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testTopicSubdivisionSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 	    createFreshIx(searchTestDataFname);
 		String fldName = "topic_subx_search";
@@ -193,7 +194,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testVernTopicSubdivisionSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_topic_subx_search";
@@ -243,7 +244,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testGeographicSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 	    createFreshIx(searchTestDataFname);
 		String fldName = "geographic_search";
@@ -291,7 +292,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testVernGeographicSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_geographic_search";
@@ -317,7 +318,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testGeographicSubdivisionSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 	    createFreshIx(searchTestDataFname);
 		String fldName = "geographic_subz_search";
@@ -367,7 +368,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testVernGeographicSubdivisionSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_geographic_subz_search";
@@ -418,7 +419,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testSubjectOther61xSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 	    createFreshIx(searchTestDataFname);
 		String fldName = "subject_other_search";
@@ -534,7 +535,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testVernSubjectOther61xSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_subject_other_search";
@@ -617,7 +618,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 	@Test
 	public final void testSubjectOther630Search() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 	    createFreshIx(searchTestDataFname);
 		String fldName = "subject_other_search";
@@ -656,7 +657,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testVernSubjectOther630Search() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_subject_other_search";
@@ -689,7 +690,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testSubjectOther65xSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 	    createFreshIx(searchTestDataFname);
 		String fldName = "subject_other_search";
@@ -756,7 +757,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testVernSubjectOther65xSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_subject_other_search";
@@ -796,7 +797,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testSubjectOther69xSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 	    createFreshIx(searchTestDataFname);
 		String fldName = "subject_other_search";
@@ -921,7 +922,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testVernSubjectOther69xSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_subject_other_search";
@@ -1034,7 +1035,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testSubjectOtherSubdivisionSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 	    createFreshIx(searchTestDataFname);
 		String fldName = "subject_other_subvy_search";
@@ -1126,7 +1127,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testVernSubjectOtherSubdivisionSearch() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 	    createFreshIx(searchTestDataFname);
 		String fldName = "vern_subject_other_subvy_search";
@@ -1197,7 +1198,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testLaneBlacklistedTopics() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 	    createFreshIx("subjectLaneBlacklistTests.mrc");
 
@@ -1235,7 +1236,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testTopicFacet() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
         createFreshIx(testDataFname);
         String fldName = "topic_facet";
@@ -1333,7 +1334,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 //@Test
 	public final void testTopicFacetCaseSensitive()
-			throws ParserConfigurationException, IOException, SAXException
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String fileName = "topicFacetCaseSensitive.mrc";
 		createFreshIx(fileName);
@@ -1361,7 +1362,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testGeographicFacet()
-			throws ParserConfigurationException, IOException, SAXException
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
         createFreshIx(testDataFname);
 		String fldName = "geographic_facet";
@@ -1384,7 +1385,7 @@ public class SubjectTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testEraFacet() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "era_facet";
 		createFreshIx("eraTests.mrc");

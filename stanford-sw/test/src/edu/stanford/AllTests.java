@@ -8,7 +8,7 @@ import org.junit.runners.Suite;
     	AccessTests.class,
 //      AuthorTests.class,  // problem with sorting
         AuthorTitleMappingTests.class,
-//works        CallNumberTests.class,
+        CallNumberTests.class,
 //        CallNumLaneJacksonTests.class // bad values
         CallNumLCLoppingUnitTests.class,
 //works        CallNumLibLocComboLopTests.class,

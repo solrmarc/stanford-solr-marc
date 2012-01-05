@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.xml.sax.SAXException;
 
@@ -19,7 +20,7 @@ public class SortTests extends AbstractStanfordTest {
 
 @Before
 	public final void setup() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		createFreshIx(testDataFname);
 	}

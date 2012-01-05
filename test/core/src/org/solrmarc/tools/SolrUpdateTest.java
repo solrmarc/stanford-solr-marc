@@ -4,6 +4,7 @@ import java.io.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.solrmarc.testUtils.IndexTest;
 import org.xml.sax.SAXException;
@@ -60,7 +61,7 @@ public class SolrUpdateTest extends IndexTest
 	 */
 @Test
     public void testSolrUpdate() 
-    		throws IOException, ParserConfigurationException, SAXException
+    		throws IOException, ParserConfigurationException, SAXException, SolrServerException
     {
         initVarsForHttpTestIndexing();
 		createFreshTestIxOverHTTPNoCommit("u2103.mrc");

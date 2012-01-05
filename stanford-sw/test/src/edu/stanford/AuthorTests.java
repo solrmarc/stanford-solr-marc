@@ -9,6 +9,7 @@ import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.junit.*;
@@ -237,7 +238,7 @@ public class AuthorTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testAuthorOtherFacet()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String fldName = "author_other_facet";
 		createFreshIx("authorTests.mrc");
@@ -293,7 +294,7 @@ public class AuthorTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void test1xxSearchAllSubfields()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "author_1xx_search";
 		createFreshIx("authorTests.mrc");
@@ -337,7 +338,7 @@ public class AuthorTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void vern1xxSearchAllSubfields()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "vern_author_1xx_search";
 		createFreshIx("vernacularSearchTests.mrc");
@@ -383,7 +384,7 @@ public class AuthorTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void test7xxPersonSearchAllSubfields()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "author_7xx_search";
 		createFreshIx("authorTests.mrc");
@@ -419,7 +420,7 @@ public class AuthorTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void vern7xxPersonSearchAllSubfields()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "vern_author_7xx_search";
 		createFreshIx("vernacularSearchTests.mrc");
@@ -466,7 +467,7 @@ public class AuthorTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void test7xxCorpSearchAllSubfields()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "author_7xx_search";
 		createFreshIx("authorTests.mrc");
@@ -502,7 +503,7 @@ public class AuthorTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void vern7xxCorpSearchAllSubfields()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "vern_author_7xx_search";
 		createFreshIx("vernacularSearchTests.mrc");
@@ -548,7 +549,7 @@ public class AuthorTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void test7xxMeetingSearchAllSubfields()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "author_7xx_search";
 		createFreshIx("authorTests.mrc");
@@ -584,7 +585,7 @@ public class AuthorTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void vern7xxMeetingSearchAllSubfields()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "vern_author_7xx_search";
 		createFreshIx("vernacularSearchTests.mrc");
@@ -628,7 +629,7 @@ public class AuthorTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void test8xxSearchAllSubfields()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "author_8xx_search";
 		createFreshIx("authorTests.mrc");
@@ -671,7 +672,7 @@ public class AuthorTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void vern8xxSearchAllSubfields()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String fldName = "vern_author_8xx_search";
 		createFreshIx("vernacularSearchTests.mrc");
@@ -875,7 +876,7 @@ public class AuthorTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testAuthorSortOrder() 
-		throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException
+		throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException, SolrServerException
 	{
 		createFreshIx("authorTests.mrc");
 

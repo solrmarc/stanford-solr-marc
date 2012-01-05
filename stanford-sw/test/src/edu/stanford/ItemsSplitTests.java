@@ -4,6 +4,7 @@ import java.io.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.xml.sax.SAXException;
 
@@ -197,7 +198,7 @@ public class ItemsSplitTests extends AbstractStanfordTest {
 	 */
 //@Test
 	public void testAllItemsPresent()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String barcodeFldName = "barcode_search";
 

@@ -6,6 +6,7 @@ import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -28,7 +29,7 @@ public class MarcCombiningReaderTests extends AbstractStanfordTest {
 	 */
 @Test
 	public void testRecord6024816()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		assertSingleRecordFileIndexes("rec6024816.mrc", "6024816");
 	}
@@ -40,7 +41,7 @@ public class MarcCombiningReaderTests extends AbstractStanfordTest {
 // not working;  it seems the "bad" record now loads (parsing code now accommodates the error?)
 // prior to 2011-05-12, this file was not part of AllTests, so this could have been broken for a long time
 	public void testRecord6024817Bad()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String filename = "rec6024817.mrc";
 		String recid = "6024817";
@@ -54,7 +55,7 @@ public class MarcCombiningReaderTests extends AbstractStanfordTest {
 	 */
 @Test
 	public void testRecord6024818()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		assertSingleRecordFileIndexes("rec6024818.mrc", "6024818");
 	}
@@ -64,7 +65,7 @@ public class MarcCombiningReaderTests extends AbstractStanfordTest {
 	 * assert that the file containing a single record cleanly indexes
 	 */
 	private void assertSingleRecordFileIndexes(String filename, String recid)
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String testFilePath = testDataParentPath + File.separator + filename;
 		solrFldMapTest.assertSolrFldValue(testFilePath, recid, "id", recid);
@@ -78,7 +79,7 @@ public class MarcCombiningReaderTests extends AbstractStanfordTest {
 	 */
 @Test
 	public void testRecord6024816and8()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String filename = "rec6024816and8.mrc";
 
@@ -99,7 +100,7 @@ public class MarcCombiningReaderTests extends AbstractStanfordTest {
 	 */
 @Test
 	public void testRecord6024816to8()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String filename = "rec6024816-8.mrc";
 

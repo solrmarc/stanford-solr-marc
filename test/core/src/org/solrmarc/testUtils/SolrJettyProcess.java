@@ -87,6 +87,7 @@ public class SolrJettyProcess
             catch (InterruptedException e)
             {
             }
+            serverIsUp = false;
         }     
     }
 

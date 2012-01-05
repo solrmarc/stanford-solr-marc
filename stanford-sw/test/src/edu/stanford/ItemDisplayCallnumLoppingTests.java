@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import static org.junit.Assert.assertTrue;
 import org.xml.sax.SAXException;
@@ -37,7 +38,7 @@ public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest {
 	 */
 @Test
 	public void testSerialSuffixIsReverse()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		createFreshIx("callNumVolLopTests.mrc");
 		String callnum = "TX519 .D26S 1954 V.2";

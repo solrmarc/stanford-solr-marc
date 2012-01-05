@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.xml.sax.SAXException;
 
@@ -22,7 +23,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
      */
 @Test
     public final void testTOCSearchField() 
-        throws ParserConfigurationException, IOException, SAXException
+        throws ParserConfigurationException, IOException, SAXException, SolrServerException
     {
         String fldName = "toc_search";
 	    createFreshIx("summaryTests.mrc");
@@ -39,7 +40,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void vernTocSearchAllSubfields()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "vern_toc_search";
 		createFreshIx("summaryTests.mrc");
@@ -56,7 +57,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void nielsenTOCSearchField() 
-	    throws ParserConfigurationException, IOException, SAXException
+	    throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 	    String fldName = "toc_search";
 	    createFreshIx("nielsenTests.mrc");
@@ -88,7 +89,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testContextSearchField() 
-	    throws ParserConfigurationException, IOException, SAXException
+	    throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 	    String fldName = "context_search";
 	    createFreshIx("summaryTests.mrc");
@@ -103,7 +104,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testVernContextSearchField() 
-	    throws ParserConfigurationException, IOException, SAXException
+	    throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 	    String fldName = "vern_context_search";
 	    createFreshIx("summaryTests.mrc");
@@ -118,7 +119,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testSummarySearchField() 
-	    throws ParserConfigurationException, IOException, SAXException
+	    throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 	    String fldName = "summary_search";
 	    createFreshIx("summaryTests.mrc");
@@ -134,7 +135,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testVernSummarySearchField() 
-	    throws ParserConfigurationException, IOException, SAXException
+	    throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 	    String fldName = "vern_summary_search";
 	    createFreshIx("summaryTests.mrc");
@@ -150,7 +151,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void nielsenSummarySearchField() 
-	    throws ParserConfigurationException, IOException, SAXException
+	    throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 	    String fldName = "summary_search";
 	    createFreshIx("nielsenTests.mrc");
@@ -180,7 +181,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void nielsenAwardSearchField() 
-	    throws ParserConfigurationException, IOException, SAXException
+	    throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 	    String fldName = "award_search";
 	    createFreshIx("nielsenTests.mrc");

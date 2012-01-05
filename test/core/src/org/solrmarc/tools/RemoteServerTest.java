@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.solrmarc.testUtils.IndexTest;
 import org.xml.sax.SAXException;
@@ -46,7 +47,7 @@ public class RemoteServerTest extends IndexTest
 	 */
 @Test
 	public void testRemoteIndexRecord() 
-			throws ParserConfigurationException, IOException, SAXException
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		initVarsForHttpTestIndexing();
         createFreshTestIxOverHTTP("double_007.mrc");
@@ -58,7 +59,7 @@ public class RemoteServerTest extends IndexTest
      */
 @Test
 	public void testRemoteUpdateIndex()
-			throws ParserConfigurationException, IOException, SAXException
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		initVarsForHttpTestIndexing();
 		createFreshTestIxOverHTTP("mergeInput.mrc");
@@ -71,7 +72,7 @@ public class RemoteServerTest extends IndexTest
 
 // TODO:  rewrite this to something decent.
 	public void testIndexFormats()
-			throws ParserConfigurationException, IOException, SAXException
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		initVarsForHttpTestIndexing();
 		createFreshTestIxOverHTTP("mergeInput.mrc");
@@ -125,7 +126,7 @@ public class RemoteServerTest extends IndexTest
 
 @Test	
 	public void testSolrJNonStreamingBinary()
-			throws ParserConfigurationException, IOException, SAXException
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		closeSolrProxy();  // need to reset the solrProxy to get the right request handling
 		initVarsForHttpTestIndexing();
@@ -141,7 +142,7 @@ public class RemoteServerTest extends IndexTest
 	
 @Test	
 	public void testSolrJNonStreamingNonBinary() 
-			throws ParserConfigurationException, IOException, SAXException
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		closeSolrProxy();  // need to reset the solrProxy to get the right request handling
 		initVarsForHttpTestIndexing();
@@ -157,7 +158,7 @@ public class RemoteServerTest extends IndexTest
 
 @Test	
 	public void testSolrJStreamingBinary()
-			throws ParserConfigurationException, IOException, SAXException
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		closeSolrProxy();  // need to reset the solrProxy to get the right request handling
 		initVarsForHttpTestIndexing();
@@ -173,7 +174,7 @@ public class RemoteServerTest extends IndexTest
 
 @Test	
 	public void testSolrJStreamingNonBinary()
-			throws ParserConfigurationException, IOException, SAXException
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		closeSolrProxy();  // need to reset the solrProxy to get the right request handling
 		initVarsForHttpTestIndexing();

@@ -5,6 +5,7 @@ import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.xml.sax.SAXException;
 
@@ -210,7 +211,7 @@ public class CallNumLibLocComboLopTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testNonLoppedMatchGetsEllipsis() 
-			throws IOException, ParserConfigurationException, SAXException 
+			throws IOException, ParserConfigurationException, SAXException, SolrServerException 
 	{
 		createFreshIx("callNumEllipsisTests.mrc");
 		String fldName = "shelfkey";

@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.xml.sax.SAXException;
 
@@ -477,7 +478,7 @@ public class CallNumTopFacetTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testSearchNoStartingDigits()
-			throws IOException, ParserConfigurationException, SAXException 
+			throws IOException, ParserConfigurationException, SAXException, SolrServerException 
 	{
 		createFreshIx(fileName);
 		assertZeroResults(fldName, "0*"); 
@@ -497,7 +498,7 @@ public class CallNumTopFacetTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testSearchNoForbiddenLetters()
-			throws IOException, ParserConfigurationException, SAXException 
+			throws IOException, ParserConfigurationException, SAXException, SolrServerException 
 	{
 		createFreshIx(fileName);
 		assertZeroResults(fldName, "I*"); 
@@ -512,7 +513,7 @@ public class CallNumTopFacetTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testSearchNoBadChars()
-			throws IOException, ParserConfigurationException, SAXException 
+			throws IOException, ParserConfigurationException, SAXException, SolrServerException
 	{
 		createFreshIx(fileName);
 		assertZeroResults(fldName, "\\\""); 

@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.xml.sax.SAXException;
 
@@ -36,7 +37,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testIgnored880() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		createFreshIx(vernNonSearchTestFile);
 		assertSingleResult("allVern", "toc_search", "contents");
@@ -49,7 +50,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testFieldDups() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String fldName = "author_7xx_search";
 		createFreshIx(vernNonSearchTestFile);
@@ -66,7 +67,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testSubFieldDups() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "author_8xx_search";
 		createFreshIx(vernNonSearchTestFile);
@@ -81,7 +82,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testTrailingPunct() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "author_person_display";		
 		createFreshIx(vernNonSearchTestFile);
@@ -106,7 +107,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testUnmatched880sLinkedField() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "vern_toc_search";
 	    createFreshIx(unMatched880File);
@@ -159,7 +160,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 	 */
 // @Test
 	public final void testChinese() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "author_person_display";
 		createFreshIx(vernNonSearchTestFile);
@@ -197,7 +198,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 	 */
 // @Test
 	public final void testR2LConcat() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "title_full_display";
 		createFreshIx(vernNonSearchTestFile);
@@ -235,7 +236,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 	 */
 // @Test
 	public final void testHebrew() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "title_full_display";
 		createFreshIx(vernNonSearchTestFile);

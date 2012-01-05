@@ -4,6 +4,7 @@ import java.io.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.solrmarc.testUtils.IndexTest;
 import org.xml.sax.SAXException;
@@ -47,7 +48,7 @@ public class IndexSmokeTest extends IndexTest
      */
 @Test
     public final void testForSmoke() 
-    		throws ParserConfigurationException, IOException, SAXException 
+    		throws ParserConfigurationException, IOException, SAXException, SolrServerException 
     {
     	initVarsForHttpTestIndexing();
         createFreshTestIxOverHTTP("double_007.xml");

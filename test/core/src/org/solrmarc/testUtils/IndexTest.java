@@ -58,9 +58,10 @@ public abstract class IndexTest
 	 * records. Uses a bunch of class instance variables.  Sends commit
 	 * 
 	 * @param marcTestDataFname - file of marc records to be indexed. should end in ".mrc", "marc" or ".xml"
+	 * @throws SolrServerException when can't delete all docs before writing new docs
 	 */
 	protected void createFreshTestIxOverHTTP(String marcTestDataFname)
-			throws ParserConfigurationException, IOException, SAXException
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		createFreshTestIxOverHTTP(testConfigFname, testSolrUrl,	useBinaryRequestHandler, useStreamingProxy, 
 									testDataParentPath,	marcTestDataFname);
@@ -75,11 +76,12 @@ public abstract class IndexTest
 	 * @param useStreamingProxy - true to use streaming proxy (multiple records added at a time)
 	 * @param testDataParentPath - directory containing the test data file
 	 * @param marcTestDataFname - file of marc records to be indexed. should end in ".mrc", "marc" or ".xml"
+	 * @throws SolrServerException when can't delete all docs before writing new docs
 	 */
 	public void createFreshTestIxOverHTTP(String configPropFilename, String testSolrUrl, 
 										boolean useBinaryRequestHandler, boolean useStreamingProxy, 
 										String testDataParentPath, String marcTestDataFname) 
-			throws ParserConfigurationException, IOException, SAXException
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		createFreshTestIxOverHTTPNoCommit(configPropFilename, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, 
 											testDataParentPath,	marcTestDataFname);
@@ -91,9 +93,10 @@ public abstract class IndexTest
 	 * records, but doesn't commit. Uses a bunch of class instance variables.
 	 * 
 	 * @param marcTestDataFname - file of marc records to be indexed. should end in ".mrc", "marc" or ".xml"
+	 * @throws SolrServerException when can't delete all docs before writing new docs
 	 */
 	protected void createFreshTestIxOverHTTPNoCommit(String marcTestDataFname)
-			throws ParserConfigurationException, IOException, SAXException
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		createFreshTestIxOverHTTPNoCommit(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, 
 											testDataParentPath,	marcTestDataFname);
@@ -108,11 +111,12 @@ public abstract class IndexTest
 	 * @param useStreamingProxy - true to use streaming proxy (multiple records added at a time)
 	 * @param testDataParentPath - directory containing the test data file
 	 * @param marcTestDataFname - file of marc records to be indexed. should end in ".mrc", "marc" or ".xml"
+	 * @throws SolrServerException when can't delete all docs before writing new docs
 	 */
 	public void createFreshTestIxOverHTTPNoCommit(String configPropFilename, String testSolrUrl, 
 												boolean useBinaryRequestHandler, boolean useStreamingProxy, 
 												String testDataParentPath, String marcTestDataFname) 
-			throws ParserConfigurationException, IOException, SAXException
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		if (solrJettyProcess == null)
 			startTestJetty();
@@ -120,9 +124,11 @@ public abstract class IndexTest
 		solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
 		logger.debug("just set solrProxy to remote server at "	+ testSolrUrl + " - " + solrProxy.toString());
 		solrJSolrServer = ((SolrServerProxy) solrProxy).getSolrServer();
+		
+//		solrProxy.deleteAllDocs();
+//		solrProxy.commit(false); // don't optimize
+		solrJSolrServer.deleteByQuery("*:*");
 
-		solrProxy.deleteAllDocs();
-		solrProxy.commit(false); // don't optimize
 		logger.debug("just deleted all docs known to the solrProxy");
 
 		importer = new MarcImporter(solrProxy);
@@ -194,13 +200,17 @@ public abstract class IndexTest
 		if (solrJettyProcess == null)
 			startTestJetty();
 
-		if (solrProxy == null)
+		solrJSolrServer = ((SolrServerProxy) solrProxy).getSolrServer();
+		try
 		{
-			solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
-			logger.debug("just set solrProxy to remote server at "	+ testSolrUrl + " - " + solrProxy.toString());
+			solrJSolrServer.deleteByQuery("*:*");
+			solrJSolrServer.commit();
 		}
-		solrProxy.deleteAllDocs();
-		solrProxy.commit(false); // don't optimize
+		catch (SolrServerException e)
+		{
+			e.printStackTrace();
+		}
+		
 		logger.debug("just deleted all docs known to the solrProxy");
 	}
 
@@ -754,6 +764,7 @@ public abstract class IndexTest
 	{
 		if (solrJettyProcess != null && solrJettyProcess.isServerRunning())
 			solrJettyProcess.stopServer();
+		solrJettyProcess = null;
 	}
 
 	/**

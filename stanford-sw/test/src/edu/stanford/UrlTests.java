@@ -8,6 +8,7 @@ import java.util.*;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.*;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrDocument;
 //import org.solrmarc.solr.DocumentProxy;
 import org.xml.sax.SAXException;
@@ -23,7 +24,7 @@ public class UrlTests extends AbstractStanfordTest {
 
 @Before
 	public final void setup() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		createFreshIx(testDataFname);
 	}
@@ -131,7 +132,7 @@ public class UrlTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testRestrictedUrls() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		createFreshIx("restrictedUrlTests.mrc");
 		String fldName = "url_restricted";
@@ -169,7 +170,7 @@ public class UrlTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testFieldOrdering() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		createFreshIx("urlOrderingTests.mrc");
 //		int solrDocNum = getSingleDocNum(docIDfname, "fulltextOnly");
