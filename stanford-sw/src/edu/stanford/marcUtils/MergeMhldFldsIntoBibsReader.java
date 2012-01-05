@@ -234,7 +234,6 @@ public class MergeMhldFldsIntoBibsReader  implements MarcReader
      * then write the bib record (whether it had a match or not) to stdout
      * @param bibRecsFileName - the name of the file containing MARC Bibliographic records
      * @param mhldRecsFileName - the name of the file containing MARC MHLD records
-     * @return void, but the bib records will be written to standard out
      */
     public static void mergeMhldRecsIntoBibRecsAsStdOut(String bibRecsFileName, String mhldRecsFileName)
     	throws IOException

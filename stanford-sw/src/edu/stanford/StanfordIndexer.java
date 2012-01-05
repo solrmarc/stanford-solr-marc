@@ -625,7 +625,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * 
 	 * @param record a marc4j Record object
      * @param fieldSpec - which marc fields / subfields to use as values
-     * @param trailingCharsRegEx a regular expression of trailing chars to be
+     * @param charsToReplaceRegEx a regular expression of trailing chars to be
      *   replaced (see java Pattern class).  Note that the regular expression
      *   should NOT have '$' at the end.
      *   (e.g. " *[,/;:]" replaces any commas, slashes, semicolons or colons
@@ -652,7 +652,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/**
 	 * Returns all 651a and the first subfield z in any 6xx field
 	 * @param record a marc4j Record object
-     * @param trailingCharsRegEx a regular expression of trailing chars to be
+     * @param charsToReplaceRegEx a regular expression of trailing chars to be
      *   replaced (see java Pattern class).  Note that the regular expression
      *   should NOT have '$' at the end.
      *   (e.g. " *[,/;:]" replaces any commas, slashes, semicolons or colons
@@ -1402,7 +1402,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * @param record a marc4j Record object
      * @param fieldSpec - which marc fields / subfields need to be sought in 
      *  880 fields (via linkages)
-     * @param trailingCharsRegEx a regular expression of trailing chars to be
+     * @param charsToReplaceRegEx a regular expression of trailing chars to be
      *   replaced (see java Pattern class).  Note that the regular expression
      *   should NOT have '$' at the end.
      *   (e.g. " *[,/;:]" replaces any commas, slashes, semicolons or colons
@@ -1437,7 +1437,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * 
 	 * @param record a marc4j Record object
      * @param fieldSpec - which marc fields / subfields to use as values
-     * @param trailingCharsRegEx a regular expression of trailing chars to be
+     * @param charsToReplaceRegEx a regular expression of trailing chars to be
      *   replaced (see java Pattern class).  Note that the regular expression
      *   should NOT have '$' at the end.
      *   (e.g. " *[,/;:]" replaces any commas, slashes, semicolons or colons
