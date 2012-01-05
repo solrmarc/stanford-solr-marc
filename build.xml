@@ -123,9 +123,7 @@
 			<sysproperty key="test.jetty.dir" value="${test.jetty.dir}" />
     	<sysproperty key="test.solr.url" value="${test.solr.url}" />
 			<sysproperty key="test.solr.path" value="${test.solr.run.dir}" />
-			<sysproperty key="solr.data.dir" value="${test.solr.data.dir}" />
-			<sysproperty key="solr.path" value="${test.solr.run.dir}" />
-    	
+
 			<test name="${core.test.class}" />
 <!--
 			<test name="${core.test.class}" />
@@ -191,9 +189,7 @@
 			<sysproperty key="test.jetty.dir" value="${test.jetty.dir}" />
     	<sysproperty key="test.solr.url" value="${test.solr.url}" />
 			<sysproperty key="test.solr.path" value="${test.solr.run.dir}" />
-			<sysproperty key="solr.data.dir" value="${test.solr.data.dir}" />
-			<sysproperty key="solr.path" value="${test.solr.run.dir}" />
-    	
+
 			<test name="${core.coverage.test.class}" />
 		</junit>
 
@@ -352,8 +348,6 @@
 			<sysproperty key="test.jetty.dir" value="${site.test.jetty.dir}" />
     	<sysproperty key="test.solr.url" value="${site.test.solr.url}" />
 			<sysproperty key="test.solr.path" value="${site.test.solr.run.dir}" />
-			<sysproperty key="solr.data.dir" value="${site.test.solr.data.dir}" />
-			<sysproperty key="solr.path" value="${site.test.solr.run.dir}" />
     	
 			<test name="${site.test.class}" />
 		</junit>
@@ -402,8 +396,6 @@
 			<sysproperty key="test.jetty.dir" value="${site.test.jetty.dir}" />
     	<sysproperty key="test.solr.url" value="${site.test.solr.url}" />
 			<sysproperty key="test.solr.path" value="${site.test.solr.run.dir}" />
-			<sysproperty key="solr.data.dir" value="${site.test.solr.data.dir}" />
-			<sysproperty key="solr.path" value="${site.test.solr.run.dir}" />
     	
 			<test name="${site.coverage.test.class}" />
 		</junit>

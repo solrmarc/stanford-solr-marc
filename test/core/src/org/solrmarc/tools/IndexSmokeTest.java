@@ -50,7 +50,6 @@ public class IndexSmokeTest extends IndexTest
     public final void testForSmoke() 
     		throws ParserConfigurationException, IOException, SAXException, SolrServerException 
     {
-    	initVarsForHttpTestIndexing();
         createFreshTestIxOverHTTP("double_007.xml");
     	assertDocPresent("ocm57136914 ");
     }

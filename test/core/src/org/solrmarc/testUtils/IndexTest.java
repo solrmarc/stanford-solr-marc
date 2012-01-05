@@ -34,24 +34,15 @@ public abstract class IndexTest
 
 	static Logger logger = Logger.getLogger(IndexTest.class.getName());
 
-	protected String testDataParentPath;
-	protected String testConfigFname;
-	protected String testSolrUrl;
+	// initialize these so they can be used for single argument indexing writing methods
+	protected String testDataParentPath = System.getProperty("test.data.path");
+	protected String testConfigFname = System.getProperty("test.config.file");
+	protected String testSolrUrl = System.getProperty("test.solr.url");
 
 	protected boolean useBinaryRequestHandler = Boolean.valueOf(System.getProperty("core.test.use_streaming_proxy"));
 	protected boolean useStreamingProxy = Boolean.valueOf(System.getProperty("core.test.use_binary_request_handler"));
 	protected static String testSolrLogLevel = System.getProperty("test.solr.log.level");
 	protected static String testSolrMarcLogLevel = System.getProperty("test.solrmarc.log.level");
-
-	/**
-	 * initializes the properties used to create an index over http
-	 */
-	protected void initVarsForHttpTestIndexing()
-	{
-		testDataParentPath = getRequiredSystemProperty("test.data.path");
-		testConfigFname = getRequiredSystemProperty("test.config.file");
-		testSolrUrl = getRequiredSystemProperty("test.solr.url");
-	}
 
 	/**
 	 * Creates a pristine Solr index from the indicated test file of marc
@@ -118,6 +109,10 @@ public abstract class IndexTest
 												String testDataParentPath, String marcTestDataFname) 
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
+		testDataParentPath = getRequiredSystemProperty("test.data.path");
+		testConfigFname = getRequiredSystemProperty("test.config.file");
+		testSolrUrl = getRequiredSystemProperty("test.solr.url");
+		
 		if (solrJettyProcess == null)
 			startTestJetty();
 		

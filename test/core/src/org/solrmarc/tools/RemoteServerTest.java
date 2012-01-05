@@ -49,7 +49,6 @@ public class RemoteServerTest extends IndexTest
 	public void testRemoteIndexRecord() 
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
-		initVarsForHttpTestIndexing();
         createFreshTestIxOverHTTP("double_007.mrc");
     	assertDocPresent("ocm57136914 ");
 	}
@@ -61,7 +60,6 @@ public class RemoteServerTest extends IndexTest
 	public void testRemoteUpdateIndex()
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
-		initVarsForHttpTestIndexing();
 		createFreshTestIxOverHTTP("mergeInput.mrc");
 		updateTestIxOverHTTP("u2103.mrc");
 		
@@ -74,7 +72,6 @@ public class RemoteServerTest extends IndexTest
 	public void testIndexFormats()
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
-		initVarsForHttpTestIndexing();
 		createFreshTestIxOverHTTP("mergeInput.mrc");
 		updateTestIxOverHTTP("u2103.mrc");
 
@@ -129,7 +126,6 @@ public class RemoteServerTest extends IndexTest
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		closeSolrProxy();  // need to reset the solrProxy to get the right request handling
-		initVarsForHttpTestIndexing();
         useBinaryRequestHandler = true;
         useStreamingProxy = false;
  		createFreshTestIxOverHTTP("mergeInput.mrc");
@@ -145,7 +141,6 @@ public class RemoteServerTest extends IndexTest
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		closeSolrProxy();  // need to reset the solrProxy to get the right request handling
-		initVarsForHttpTestIndexing();
         useBinaryRequestHandler = false;
         useStreamingProxy = false;
 		createFreshTestIxOverHTTP("mergeInput.mrc");
@@ -161,7 +156,6 @@ public class RemoteServerTest extends IndexTest
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		closeSolrProxy();  // need to reset the solrProxy to get the right request handling
-		initVarsForHttpTestIndexing();
         useBinaryRequestHandler = true;
         useStreamingProxy = true;
 		createFreshTestIxOverHTTP("mergeInput.mrc");
@@ -177,7 +171,6 @@ public class RemoteServerTest extends IndexTest
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		closeSolrProxy();  // need to reset the solrProxy to get the right request handling
-		initVarsForHttpTestIndexing();
         useBinaryRequestHandler = false;
         useStreamingProxy = true;
 		createFreshTestIxOverHTTP("mergeInput.mrc");

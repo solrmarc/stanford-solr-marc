@@ -28,53 +28,45 @@ public abstract class AbstractStanfordTest extends IndexTest {
 	
 	/** SolrFieldMappingTest object to be used in specific tests */
 	protected SolrFieldMappingTest solrFldMapTest = null;
+	
+	protected String siteDir = "stanford-sw";
 
     
+	// set up required properties when tests not invoked via Ant
 	// hardcodings below are only used when the tests are invoked without the
-	//  properties set
-	// the properties ARE set when the tests are invoke via ant.
+	//  properties set (e.g. from eclipse)
 	{
-        // !!! NOTE:  this one is local and must be modified for your installation !!!
-        String solrPath = System.getProperty("solr.path");
-        if (solrPath == null)
+        String testJettyDir = System.getProperty("test.jetty.dir");
+        if (testJettyDir == null)
         {
-//            solrPath = "home" + File.separator + "solrmarc" + File.separator
-//                    + "jetty" + File.separator + "solr";
-    		solrPath = "test" + File.separator + "solr";
-            System.setProperty("solr.path", new File(solrPath).getAbsolutePath());
+        	testJettyDir = "test" + File.separator + "jetty";
+            System.setProperty("test.jetty.dir", testJettyDir);
         }
 
+        String testSolrPath = System.getProperty("test.solr.path");
+        if (testSolrPath == null)
+            System.setProperty("test.solr.path", testJettyDir + File.separator + "solr");
+        
+        String configPropFile = System.getProperty("test.config.file");
+		if (configPropFile == null)
+            System.setProperty("test.config.file", siteDir + File.separator + "sw_config.properties");
+		
         // used to find core translation_maps
         if (System.getProperty("solrmarc.path") == null)
             System.setProperty("solrmarc.path", new File("setup" + File.separator + "core").getAbsolutePath());
-		
-        String stanfordswSitePath = "stanford-sw";
-
+        // use to find site translation_maps
 		if (System.getProperty("solrmarc.site.path") == null)
-            System.setProperty("solrmarc.site.path", new File(stanfordswSitePath).getAbsolutePath());
-		
-        
-        String configPropDir = System.getProperty("test.config.dir");
-        if (configPropDir == null)
-            configPropDir = stanfordswSitePath;
-        
-        String configPropFile = System.getProperty("test.config.file");
-		if (configPropFile == null) {
-		    configPropFile = new File(configPropDir, "sw_config.properties").getAbsolutePath();
-            System.setProperty("test.config.file", configPropFile);
-		}
-		
+            System.setProperty("solrmarc.site.path", siteDir);
+
+		// used to find test data files
 		testDataParentPath = System.getProperty("test.data.path");
         if (testDataParentPath == null)
         {
             testDataParentPath = System.getProperty("test.data.parent.path");
             if (testDataParentPath == null)
-                testDataParentPath = stanfordswSitePath + File.separator + "test" + File.separator + "data";
-            System.setProperty("test.data.path", new File(testDataParentPath).getAbsolutePath());
+                testDataParentPath = siteDir + File.separator + "test" + File.separator + "data";
+            System.setProperty("test.data.path", testDataParentPath);
         }
-		
-		if (System.getProperty("solr.data.dir") == null)
-			System.setProperty("solr.data.dir", new File(solrPath + File.separator + "data").getAbsolutePath());		
 	}
 
 @BeforeClass
@@ -88,21 +80,9 @@ public abstract class AbstractStanfordTest extends IndexTest {
 	 */
 	public void mappingTestInit() 
 	{
-		docIDfname = "id";		
-		String siteDir = "examples" + File.separator + "stanford";
+		docIDfname = "id";
 
-		String anyTestFile = null;
-		String testDataParentPath = System.getProperty("test.data.path");
-		if (testDataParentPath != null)
-			anyTestFile = new File(testDataParentPath, "pubDateTests.mrc").getAbsolutePath();
-		else
-        {
-//            fail("property test.data.path must be defined for the tests to run");
-    		String marcFileDir = siteDir + File.separator + 
-    										"test" + File.separator +
-    										"data" + File.separator;
-    		anyTestFile = marcFileDir + "pubDateTests.mrc";
-        }
+		String anyTestFile = testDataParentPath + File.separator + "pubDateTests.mrc";
 
 		// these properties must be set or MarcHandler can't initialize properly
 		System.setProperty("marc.source", "FILE");
