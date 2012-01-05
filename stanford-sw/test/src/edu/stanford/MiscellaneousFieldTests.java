@@ -1,12 +1,9 @@
 package edu.stanford;
 
 import java.io.IOException;
-import java.util.Set;
-import java.util.HashSet;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-//import org.solrmarc.solr.DocumentProxy;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrDocument;
 import org.xml.sax.SAXException;
@@ -112,19 +109,6 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 
 
 	/**
-	 * raw marc display field should have appropriate properties.
-	 */
-@Test
-	public final void testMarc21Field() 
-	    throws ParserConfigurationException, IOException, SAXException, SolrServerException
-	{
-		createFreshIx("allfieldsTests.mrc");
-	    String fldName = "marc21";
-	}
-
-
-	
-	/**
 	 * display_type is supposed to be a sort of "hidden" facet to allow UI
 	 *  to look at appropriate types of records for different "views" 
 	 *  (e.g.  Images, Maps, Book Reader ...)
@@ -140,7 +124,6 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
         assertEquals("docs aren't all display_type sirsi", 3, getNumMatchingDocs(fldName, "sirsi"));
 	}
 	
-
 
 	/**
 	 * open search field should be stored and indexed
