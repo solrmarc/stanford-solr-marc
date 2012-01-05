@@ -21,29 +21,32 @@ public class ItemUtils {
 	 */	
 	private ItemUtils(){ }
 	
+	
 	/**
 	 * lop call numbers in Item objects if there is more than one Item with
 	 *  the same library-translated home loc-scheme combination; otherwise
 	 *  don't lop the call numbers.  (Don't lop skipped callnumbers)
-	 * SIDE EFFECT: changes state of passed Item objects to reflect lopping
-	 *  as indicated
-	 * @param itemSet - set of Item objects that does NOT include any items
-	 *  to be skipped
+	 * SIDE EFFECT: changes state of passed Item objects to reflect lopping as indicated
+	 * 
+	 * @param itemSet - set of Item objects that does NOT include any items to be skipped
 	 * @param locationMap - mapping from raw locations to translated location
 	 */
 	static void lopItemCallnums(Set<Item> itemSet, Map<String,String> locationMap, boolean isSerial) 
 	{
 		if (itemSet.size() == 0)
 			return;
-		if (itemSet.size() == 1) {
+		if (itemSet.size() == 1) 
+		{
 			Item[] array = new Item[1];
 			Item item = itemSet.toArray(array)[0];
 			item.setLoppedCallnum(item.getCallnum());
 		}
-		else {
+		else 
+		{
 			// set up data structure grouping items by lib/loc/callnum scheme
 			Map<String, Set<Item>> libLocScheme2Items = new HashMap<String, Set<Item>>();
-			for (Item item : itemSet) {
+			for (Item item : itemSet) 
+			{
 				if (item.hasIgnoredCallnum())
 					continue;
 				String library = item.getLibrary();
@@ -61,8 +64,8 @@ public class ItemUtils {
 			}
 			
 			// process Item objects as necessary
-			for (String key : libLocScheme2Items.keySet()) {
-
+			for (String key : libLocScheme2Items.keySet()) 
+			{
 				Set<Item> items = libLocScheme2Items.get(key);
 				Set<String> loppedCallnums = new HashSet<String>(items.size());
 				
@@ -82,10 +85,12 @@ public class ItemUtils {
 				}
 				else
 				{
-					for (Item item : items) {
+					for (Item item : items) 
+					{
 						String fullCallnum = item.getCallnum();
 						String lopped = edu.stanford.CallNumUtils.getLoppedCallnum(fullCallnum, item.getCallnumType(), isSerial);
-						if (!lopped.equals(fullCallnum)) {
+						if (!lopped.equals(fullCallnum)) 
+						{
 							item.setLoppedCallnum(lopped);
 							loppedCallnums.add(lopped);
 						}
@@ -96,6 +101,7 @@ public class ItemUtils {
 		}
 	}
 	
+	
 	/**
 	 * ensure we add ellipsis to item's lopped call number when 
 	 * when there is a lopped call number in the set of items that is the
@@ -104,65 +110,74 @@ public class ItemUtils {
 	 */
 	private static void ensureCorrectEllipsis(Set<String> loppedCallnums, Set<Item> items) 
 	{
-		if (loppedCallnums.size() > 0) {
-			for (Item item : items) {
+		if (loppedCallnums.size() > 0) 
+		{
+			for (Item item : items) 
+			{
 				String fullCallnum = item.getCallnum();
-				if (loppedCallnums.contains(fullCallnum)) {
+				if (loppedCallnums.contains(fullCallnum)) 
 					item.setLoppedCallnum(fullCallnum + " ...");
-				}
 			}
 		}
 	}
 	
+	
 	/**
-	 * Return the barcode of the item with the preferred callnumber.  The 
-	 *  algorithm is:
+	 * Return the barcode of the item with the preferred callnumber.  The algorithm is:
 	 *   1.  if there is only one item, choose it.
 	 *   2.  Select the item with the longest LC call number.
 	 *   3.  if no LC call numbers, select the item with the longest Dewey call number.
-	 *   4.  if no LC or Dewey call numbers, select the item with the longest
-	 *     SUDOC call number.
+	 *   4.  if no LC or Dewey call numbers, select the item with the longest SUDOC call number.
 	 *   5.  otherwise, select the item with the longest call number.
 	 * 
 	 * @param itemSet - the set of items from which selection will be made
 	 * @return the barcode of the item with the preferred callnumber
 	 */
-	static String getPreferredItemBarcode(Set<Item> itemSet) {
+	static String getPreferredItemBarcode(Set<Item> itemSet) 
+	{
 		int longestLCLen = 0;
 		String bestLCBarcode = "";
+		
 		int longestDeweyLen = 0;
 		String bestDeweyBarcode = "";
+		
 		int longestSudocLen = 0;
 		String bestSudocBarcode = "";
+		
 		int longestOtherLen = 0;
 		String bestOtherBarcode = "";
-		for (Item item : itemSet) {
+
+		for (Item item : itemSet) 
+		{
 			if (!item.hasIgnoredCallnum() && !item.hasBadLcLaneJackCallnum() &&
 					!item.isOnline() && !item.hasShelbyLoc() &&
-					!item.isMissingOrLost()) {
+					!item.isMissingOrLost()) 
+			{
 				int callnumLen = item.getCallnum().length();
 				String barcode = item.getBarcode();
-				if (item.getCallnumType() == CallNumberType.LC
-						&& callnumLen > longestLCLen) {
+				if (item.getCallnumType() == CallNumberType.LC && callnumLen > longestLCLen) 
+				{
 					longestLCLen = callnumLen;
 					bestLCBarcode = barcode;
 				}
-				else if (item.getCallnumType() == CallNumberType.DEWEY
-						&& callnumLen > longestDeweyLen) {
+				else if (item.getCallnumType() == CallNumberType.DEWEY && callnumLen > longestDeweyLen) 
+				{
 					longestDeweyLen = callnumLen;
 					bestDeweyBarcode = barcode;
 				}
-				else if (item.getCallnumType() == CallNumberType.SUDOC
-						&& callnumLen > longestSudocLen) {
+				else if (item.getCallnumType() == CallNumberType.SUDOC && callnumLen > longestSudocLen) 
+				{
 					longestSudocLen = callnumLen;
 					bestSudocBarcode = barcode;
 				}
-				else if (callnumLen > longestOtherLen) {
+				else if (callnumLen > longestOtherLen) 
+				{
 					longestOtherLen = callnumLen;
 					bestOtherBarcode = barcode;
 				}
 			}
 		}
+		
 		if (bestLCBarcode.length() > 0)
 			return bestLCBarcode;
 		else if (bestDeweyBarcode.length() > 0)
@@ -175,8 +190,7 @@ public class ItemUtils {
 	
 	
 	/**
-	 * given a set of non-skipped Item objects, return a set of item_display
-	 *   field values
+	 * given a set of non-skipped Item objects, return a set of item_display field values
 	 * @param itemSet - set of Item objects
 	 * @param isSerial - true if the record is a serial, false otherwise
 	 * @param id - record id, used for error messages
@@ -197,7 +211,8 @@ public class ItemUtils {
 		Set<String> result = new LinkedHashSet<String>();
 
 		// itemSet contains all non-skipped items
-		for (Item item : itemSet) {
+		for (Item item : itemSet) 
+		{
 			String homeLoc = item.getHomeLoc();				
 
 			// full call number & lopped call number
@@ -207,21 +222,20 @@ public class ItemUtils {
 			// get shelflist pieces
 			String shelfkey = "";
 			String reversekey = "";
-			if ( item.hasSeparateBrowseCallnum() 
-				 || !(item.hasIgnoredCallnum() || item.hasBadLcLaneJackCallnum() ) ) {
+			if ( item.hasSeparateBrowseCallnum() || !(item.hasIgnoredCallnum() || item.hasBadLcLaneJackCallnum() ) ) 
+			{
 				shelfkey = item.getShelfkey(isSerial);
 				reversekey = item.getReverseShelfkey(isSerial);
 			}
+			
 			// get sortable call number for record view
 			String volSort = "";
 			if (!item.hasIgnoredCallnum())
 				volSort = item.getCallnumVolSort(isSerial);
 			
 			// deal with shelved by title locations
-			if (item.hasShelbyLoc() && 
-					!item.isInProcess() && !item.isOnOrder() && 
-					!item.isOnline()) {
-
+			if (item.hasShelbyLoc() && !item.isInProcess() && !item.isOnOrder() && !item.isOnline()) 
+			{
 				// get volume info to show in record view
 				String volSuffix = null;
 				// ensure we're using a true lopped call number -- if only
@@ -230,19 +244,15 @@ public class ItemUtils {
 				loppedCallnum = CallNumUtils.getLoppedCallnum(fullCallnum, callnumType, isSerial);
 				if (loppedCallnum != null && loppedCallnum.length() > 0)
 					volSuffix = fullCallnum.substring(loppedCallnum.length()).trim();
-				if ( (volSuffix == null || volSuffix.length() == 0) 
-						&& CallNumUtils.callNumIsVolSuffix(fullCallnum))
+				if ( (volSuffix == null || volSuffix.length() == 0) && CallNumUtils.callNumIsVolSuffix(fullCallnum))
 					volSuffix = fullCallnum;
 
-				if (homeLoc.equals("SHELBYTITL")) {
+				if (homeLoc.equals("SHELBYTITL"))
 					loppedCallnum = "Shelved by title";
-				}
-				if (homeLoc.equals("SHELBYSER")) {
+				else if (homeLoc.equals("SHELBYSER"))
 					loppedCallnum = "Shelved by Series title";
-				} 
-				else if (homeLoc.equals("STORBYTITL")) {
+				else if (homeLoc.equals("STORBYTITL")) 
 					loppedCallnum = "Shelved by title";
-				}
 				
 				fullCallnum = loppedCallnum + " " + volSuffix;
 				shelfkey = loppedCallnum.toLowerCase();
@@ -255,6 +265,7 @@ public class ItemUtils {
 				shelfkey = ""; // avoid NPE
 			else
 				shelfkey = shelfkey.toLowerCase();
+			
 			if (reversekey == null)
 				reversekey = "";  // avoid NPE
 			else
@@ -286,12 +297,11 @@ public class ItemUtils {
     					itemDispCallnum + SEP + 
     					(item.isMissingOrLost() ? "" : shelfkey) + SEP + 
     					(item.isMissingOrLost() ? "" : reversekey) + SEP + 
-    					(fullCallnum == null ? "" : fullCallnum) + SEP + 
+    					fullCallnum + SEP + 
     					volSort );
 		} // end loop through items
 
 		return result;
 	}
-
 	
 }
