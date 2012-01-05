@@ -44,7 +44,7 @@ public class SolrServerProxy implements SolrProxy
             }
             catch (SolrServerException e)
             {
-                throw(new SolrRuntimeException("SolrserverException", e));
+                throw(new SolrRuntimeException("SolrServerException", e));
             }
         }
 
@@ -75,7 +75,7 @@ public class SolrServerProxy implements SolrProxy
         }
         catch (SolrServerException e)
         {
-            throw(new SolrRuntimeException("SolrserverException", e));
+            throw(new SolrRuntimeException("SolrServerException", e));
         }
     }
 
@@ -87,7 +87,7 @@ public class SolrServerProxy implements SolrProxy
         }
         catch (SolrServerException e)
         {
-            throw(new SolrRuntimeException("SolrserverException", e));
+            throw(new SolrRuntimeException("SolrServerException", e));
         }
     }
 
@@ -99,7 +99,7 @@ public class SolrServerProxy implements SolrProxy
         }
         catch (SolrServerException e)
         {
-            throw(new SolrRuntimeException("SolrserverException", e));
+            throw(new SolrRuntimeException("SolrServerException", e));
         }
     }
 
