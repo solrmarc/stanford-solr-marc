@@ -235,7 +235,7 @@
 
 	<target name="clean_core_all" depends="test_clean_core,clean_core" />
 
-	<target name="ci_core" depends="clean_core_all,javadoc_core,test_core_coverage" description="CORE Continuous Integration: javadoc and tests with coverage" />
+	<target name="ci_core" depends="clean_core_all,test_core_coverage,javadoc_core" description="CORE Continuous Integration: javadoc and tests with coverage" />
 	
 
 
@@ -440,7 +440,7 @@
 		  </javadoc>
 	</target>
 	
-	<target name="ci_site" depends="clean_all,javadoc_site,test_site_coverage" description="SITE Continuous Integration: javadoc and tests with coverage" />
+	<target name="ci_site" depends="clean_all,test_site_coverage,javadoc_site" description="SITE Continuous Integration: javadoc and tests with coverage" />
 	
 	
 <!-- ******* CORE and SITE together targets ********** -->
