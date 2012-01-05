@@ -3,9 +3,6 @@ package org.solrmarc.marc;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.util.*;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
-import java.util.zip.ZipEntry;
 
 import org.apache.log4j.Logger;
 import org.marc4j.*;
@@ -489,8 +486,6 @@ public abstract class MarcHandler {
                     
 	/**
 	 * Load the Custom Indexer routine
-	 * @param properties
-	 * @throws IOException
 	 */
 	public void loadIndexer(String indexerName, String indexerProps) 
 	{

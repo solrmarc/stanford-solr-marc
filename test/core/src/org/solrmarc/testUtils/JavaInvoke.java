@@ -43,8 +43,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.LogManager;
+//import org.apache.log4j.Logger;
 
 /**
  * Specialized delegate for the invocation of Java processes.
@@ -66,7 +66,7 @@ public class JavaInvoke extends ProcessSpawner {
 	 * @param args Command line arguments to be passed to the invoked main.  These are not arguments to the VM
 	 * but arguments to the Java class.  These will be the contents of the args[] array in the main method on 
 	 * the invoked class.
-	 * @param additionalClassPath additional classpath entries to be added to the beginning of the classpath
+	 * @param additionalClasspath additional classpath entries to be added to the beginning of the classpath
 	 * (to allow for overriding).
 	 * @param environmentToMerge Java environment entries to be merged (overwriting) with the current environment
 	 * to be used as the environment for spawned processes.
@@ -142,7 +142,6 @@ public class JavaInvoke extends ProcessSpawner {
 	 * 
 	 * @param additionalClasspath - classpath entries to place at the front of the classpath.
 	 * @param environment - entries in the 
-	 * @return
 	 */
 	public static final Map<String,String> buildEnvironmentToMerge(List<String> additionalClasspath,
 	                                                               Map<String,String> environment,

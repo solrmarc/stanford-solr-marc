@@ -50,8 +50,8 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.LogManager;
+//import org.apache.log4j.Logger;
 
 public class ProcessSpawner {
 
@@ -66,11 +66,11 @@ public class ProcessSpawner {
 
 	/**
 	 * @param workingDirectory Directory this should run in.
-	 * @param args Command line to be executed 
+	 * @param cmdarray Command line to be executed 
 	 * @param environmentToMerge environment entries to be merged (overwriting) with the current environment
 	 * to be used as the environment for spawned processes.
 	 */
-	public ProcessSpawner(File workingDirectory, String[] cmdarray,Map<String,String> environmentToMerge) {
+	public ProcessSpawner(File workingDirectory, String[] cmdarray, Map<String,String> environmentToMerge) {
 		pb = new ProcessBuilder();
 		// set the working directory
 		if(workingDirectory != null) {
@@ -284,8 +284,6 @@ public class ProcessSpawner {
      * to redirect ouptut back to this JVM's console.
      * 
      * @param tag to tag the Outpiper's output with
-     * @return
-     * @throws IOException
      */
     public Process startStdinStderrInstance(String tag) throws IOException {
         start();
@@ -299,8 +297,6 @@ public class ProcessSpawner {
      * to redirect to the provided output streams
      * 
      * @param tag to tag the Outpiper's output with
-     * @return
-     * @throws IOException
      */
     public Process startStdinStderrInstance(String tag, OutputStream outRedirect, OutputStream errRedirect) throws IOException 
     {
@@ -315,8 +311,6 @@ public class ProcessSpawner {
      * to redirect to the provided output streams
      * 
      * @param tag to tag the Outpiper's output with
-     * @return
-     * @throws IOException
      */
     public Process startStdinStdoutStderrInstance(String tag, InputStream inRedirect, OutputStream outRedirect, OutputStream errRedirect) throws IOException 
     {

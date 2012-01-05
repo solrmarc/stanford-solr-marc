@@ -58,7 +58,7 @@ public class MarcUtils {
 	 *   NOTE:  the method changes the first param's value in addition to 
 	 *   providing the result (which is the same object as the first param's new value)	
 	 * 
-	 * @param Record MARC record object
+	 * @param record MARC record object
 	 * @param fieldsToRemove the fields to be removed, as a regular expression (e.g. "852|866|867")
 	 * @return the Record object without the specifiedfields
 	 */
@@ -599,7 +599,7 @@ public class MarcUtils {
 	 * @param fldTag - the field name, e.g. 245
 	 * @param subfldsStr - the string containing the desired subfields
 	 * @param separator - the separator string to insert between subfield items (if null, a " " will be used)
-	 * @returns a Set of String, where each string is the concatenated contents
+	 * @return a Set of String, where each string is the concatenated contents
 	 *          of all the desired subfield values from a single instance of the
 	 *          fldTag
 	 */
@@ -667,7 +667,7 @@ public class MarcUtils {
 	 * field, returned as  a set of strings to become lucene document field values
 	 * @param record - the marc record object
 	 * @param fldTag - the field name, e.g. 008
-	 * @param subfldsStr - the string containing the desired subfields
+	 * @param subfield - the string containing the desired subfields
 	 * @param beginIx - the beginning index of the substring of the subfield value
 	 * @param endIx - the ending index of the substring of the subfield value
 	 * @return the result set of strings
@@ -732,97 +732,97 @@ public class MarcUtils {
 
 
     /**
-	     * Get the specified subfields from the MARC data field, returned as
-	     *  a string
-	     * @param df - DataField from which to get the subfields
-	     * @param subfldsStr - the string containing the desired subfields
-	     * @param RTL - true if this is a right to left language.  In this case, 
-	     *  each subfield is prepended due to LTR and MARC end-of-subfield punctuation
-	     *  is moved from the last character to the first.
-	     * @returns a set of strings of desired subfields concatenated with space separator
-		 */
-		@SuppressWarnings("unchecked")
-		static Set<String> getSubfieldsAsSet(DataField df, String subfldsStr, boolean RTL) 
-	    {
-			Set<String> resultSet = new LinkedHashSet<String>();
-	
-			if (subfldsStr.length() > 1) {
-				// concatenate desired subfields with space separator
-				StringBuilder buffer = new StringBuilder();
-				List<Subfield> subFlds = df.getSubfields();
-				for (Subfield sf : subFlds) {
-					if (subfldsStr.contains(String.valueOf(sf.getCode()))) {
-	// TODO:  clean this up, if this works, or find a way to test it            		
-	//            		if (RTL) { // right to left language, but this is LTR field+
-	//	                    if (buffer.length() > 0)
-	//	                        buffer.insert(0, ' ');
-	//	                    buffer.insert(0, sf.getData().trim());
-	//            		} else { // left to right language
-						if (buffer.length() > 0)
-							buffer.append(' ');
-						buffer.append(sf.getData().trim());
-	//            		}
-					}
-				}
-				resultSet.add(buffer.toString());
-			} else {
-	        	// for single subfield, each occurrence is separate field in lucene doc
-				List<Subfield> subFlds = df.getSubfields(subfldsStr.charAt(0));
-				for (Subfield sf : subFlds) {
-					resultSet.add(sf.getData().trim());
+     * Get the specified subfields from the MARC data field, returned as
+     *  a string
+     * @param df - DataField from which to get the subfields
+     * @param subfldsStr - the string containing the desired subfields
+     * @param RTL - true if this is a right to left language.  In this case, 
+     *  each subfield is prepended due to LTR and MARC end-of-subfield punctuation
+     *  is moved from the last character to the first.
+     * @return a set of strings of desired subfields concatenated with space separator
+	 */
+	@SuppressWarnings("unchecked")
+	static Set<String> getSubfieldsAsSet(DataField df, String subfldsStr, boolean RTL) 
+    {
+		Set<String> resultSet = new LinkedHashSet<String>();
+
+		if (subfldsStr.length() > 1) {
+			// concatenate desired subfields with space separator
+			StringBuilder buffer = new StringBuilder();
+			List<Subfield> subFlds = df.getSubfields();
+			for (Subfield sf : subFlds) {
+				if (subfldsStr.contains(String.valueOf(sf.getCode()))) {
+// TODO:  clean this up, if this works, or find a way to test it            		
+//            		if (RTL) { // right to left language, but this is LTR field+
+//	                    if (buffer.length() > 0)
+//	                        buffer.insert(0, ' ');
+//	                    buffer.insert(0, sf.getData().trim());
+//            		} else { // left to right language
+					if (buffer.length() > 0)
+						buffer.append(' ');
+					buffer.append(sf.getData().trim());
+//            		}
 				}
 			}
-			return resultSet;
+			resultSet.add(buffer.toString());
+		} else {
+        	// for single subfield, each occurrence is separate field in lucene doc
+			List<Subfield> subFlds = df.getSubfields(subfldsStr.charAt(0));
+			for (Subfield sf : subFlds) {
+				resultSet.add(sf.getData().trim());
+			}
 		}
+		return resultSet;
+	}
 
 
 	/**
-	     * Get the specified subfields from the MARC data field, returned as
-	     *  a string
-	     * @param df - DataField from which to get the subfields
-	     * @param subfldsStr - the string containing the desired subfields
-	     * @param beginIx - the beginning index of the substring of the subfield value
-	     * @param endIx - the end index of the substring of the subfield value
-	     * @param RTL - true if this is a right to left language.  In this case, 
-	     *  each subfield is prepended due to LTR and MARC end-of-subfield punctuation
-	     *  is moved from the last character to the first.
-	     * @returns a set of strings of desired subfields concatenated with space separator
-		 */
-		@SuppressWarnings("unchecked")
-		static Set<String> getSubfieldsAsSet(DataField df, String subfldsStr, int beginIx, int endIx, boolean RTL) 
-	    {
-			Set<String> resultSet = new LinkedHashSet<String>();
-			if (subfldsStr.length() > 1) {
-				// concatenate desired subfields with space separator
-				StringBuilder buffer = new StringBuilder();
-				List<Subfield> subFlds = df.getSubfields();
-				for (Subfield sf : subFlds) {
-					if (subfldsStr.contains(String.valueOf(sf.getCode()))) {
-						if (sf.getData().length() >= endIx) {
-	// TODO:  clean this up, if this works, or find a way to test it            		
-							// if (RTL) { // right to left language
-							// if (buffer.length() > 0)
-							// buffer.insert(0, ' ');
-	//                            buffer.insert(0, sf.getData().trim().substring(beginIx, endIx));
-							// } else { // left to right language
-							if (buffer.length() > 0)
-								buffer.append(' ');
-	                            buffer.append(sf.getData().trim().substring(beginIx, endIx));
-							// }
-						}
+     * Get the specified subfields from the MARC data field, returned as
+     *  a string
+     * @param df - DataField from which to get the subfields
+     * @param subfldsStr - the string containing the desired subfields
+     * @param beginIx - the beginning index of the substring of the subfield value
+     * @param endIx - the end index of the substring of the subfield value
+     * @param RTL - true if this is a right to left language.  In this case, 
+     *  each subfield is prepended due to LTR and MARC end-of-subfield punctuation
+     *  is moved from the last character to the first.
+     * @return a set of strings of desired subfields concatenated with space separator
+	 */
+	@SuppressWarnings("unchecked")
+	static Set<String> getSubfieldsAsSet(DataField df, String subfldsStr, int beginIx, int endIx, boolean RTL) 
+    {
+		Set<String> resultSet = new LinkedHashSet<String>();
+		if (subfldsStr.length() > 1) {
+			// concatenate desired subfields with space separator
+			StringBuilder buffer = new StringBuilder();
+			List<Subfield> subFlds = df.getSubfields();
+			for (Subfield sf : subFlds) {
+				if (subfldsStr.contains(String.valueOf(sf.getCode()))) {
+					if (sf.getData().length() >= endIx) {
+// TODO:  clean this up, if this works, or find a way to test it            		
+						// if (RTL) { // right to left language
+						// if (buffer.length() > 0)
+						// buffer.insert(0, ' ');
+//                            buffer.insert(0, sf.getData().trim().substring(beginIx, endIx));
+						// } else { // left to right language
+						if (buffer.length() > 0)
+							buffer.append(' ');
+                            buffer.append(sf.getData().trim().substring(beginIx, endIx));
+						// }
 					}
 				}
-				resultSet.add(buffer.toString());
-			} else {
-	        	// for single subfield, each occurrence is separate field in lucene doc
-				List<Subfield> subFlds = df.getSubfields(subfldsStr.charAt(0));
-				for (Subfield sf : subFlds) {
-					if (sf.getData().length() >= endIx)
-	            		resultSet.add(sf.getData().trim().substring(beginIx, endIx));
-				}
 			}
-			return resultSet;
+			resultSet.add(buffer.toString());
+		} else {
+        	// for single subfield, each occurrence is separate field in lucene doc
+			List<Subfield> subFlds = df.getSubfields(subfldsStr.charAt(0));
+			for (Subfield sf : subFlds) {
+				if (sf.getData().length() >= endIx)
+            		resultSet.add(sf.getData().trim().substring(beginIx, endIx));
+			}
 		}
+		return resultSet;
+	}
 
 
 	/**
@@ -950,7 +950,7 @@ public class MarcUtils {
 	/**
      * treats indicator 2 as the number of non-filing indicators to exclude,
      * removes ascii punctuation
-     * @param DataField with ind2 containing # non-filing chars, or has value ' '
+     * @param df DataField with ind2 containing # non-filing chars, or has value ' '
      * @param skipSubFldc true if subfield c contents should be skipped
      * @return StringBuilder of the contents of the subfields - with a trailing
      *         space
@@ -1407,12 +1407,11 @@ public class MarcUtils {
 	/**
 	 * Get the title (245ab) from a record, without non-filing chars as
 	 * specified in 245 2nd indicator, and lowercased. 
+	 * see org.solrmarc.index.SolrIndexer.getTitle(Record)
 	 * @param record - the marc record object
 	 * @return 245a and 245b values concatenated, with trailing punct removed,
 	 *         and with non-filing characters omitted. Null returned if no
 	 *         title can be found. 
-	 * 
-	 * @see org.solrmarc.index.SolrIndexer.getTitle()
 	 */
 	public static String getSortableTitle(Record record)
 	{

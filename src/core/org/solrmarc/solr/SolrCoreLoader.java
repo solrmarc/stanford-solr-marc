@@ -22,7 +22,6 @@ public class SolrCoreLoader
 	 * @param solrCoreName
 	 * @param useBinaryRequestHandler
 	 * @param logger
-	 * @return
 	 */
     public static SolrProxy loadEmbeddedCore(String solrCoreDir, String solrDataDir, String solrCoreName, boolean useBinaryRequestHandler, Logger logger)
     {

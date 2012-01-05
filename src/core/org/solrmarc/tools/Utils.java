@@ -240,7 +240,7 @@ public final class Utils {
      * If there is a period at the end of the string, remove the period if it is
      *  immediately preceded by the regular expression
      * @param origStr the string to be cleaned
-     * @param charsB4periodRegEx a regular expression that must immediately 
+     * @param precedingCharsRegEx a regular expression that must immediately 
      *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED. 
      *  Note that the regular expression will NOT have the period or '$' at 
      *  the end. 
@@ -394,7 +394,7 @@ public final class Utils {
      *      values, then the default lookup needs to be done here.  If the spec
      *      for a field is only supposed to return the first matching mappable 
      *      value, then the default mapping should be done in the calling method 
-     * @param fieldVal - the raw value to be mapped
+     * @param set - set of raw vaues to be mapped
      * @param map - the map to be used
      * @param allowDefault - if "displayRawIfMissing" is not a key in the map, 
      *   and this is to true, then if the map contains "__DEFAULT" as a key, 
@@ -532,7 +532,6 @@ public final class Utils {
      * returns true if the 3 letter language code is for a right to left 
      *  language (one written in arabic or hebrew characters)
      * @param langcode
-     * @return
      */
     public final static boolean isRightToLeftLanguage(String langcode) 
     {

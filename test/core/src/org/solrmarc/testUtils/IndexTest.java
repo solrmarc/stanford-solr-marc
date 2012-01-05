@@ -1,7 +1,7 @@
 package org.solrmarc.testUtils;
 
 import static org.junit.Assert.*;
-import static org.solrmarc.testUtils.IndexTest.logger;
+//import static org.solrmarc.testUtils.IndexTest.logger;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -69,7 +69,7 @@ public abstract class IndexTest
 	/**
 	 * Create a pristine Solr index from the marc file, and send a commit.
 	 * 
-	 * @param confPropFilename - name of config.properties file
+	 * @param configPropFilename - name of config.properties file
 	 * @param testSolrUrl - url for test solr instance, as a string
 	 * @param useBinaryRequestHandler - true to use the binary request handler
 	 * @param useStreamingProxy - true to use streaming proxy (multiple records added at a time)
@@ -102,7 +102,7 @@ public abstract class IndexTest
 	/**
 	 * Create a pristine Solr index from the marc file, but don't send commit.
 	 * 
-	 * @param confPropFilename - name of config.properties file
+	 * @param configPropFilename - name of config.properties file
 	 * @param testSolrUrl - url for test solr instance, as a string
 	 * @param useBinaryRequestHandler - true to use the binary request handler
 	 * @param useStreamingProxy - true to use streaming proxy (multiple records added at a time)
@@ -114,6 +114,9 @@ public abstract class IndexTest
 												String testDataParentPath, String marcTestDataFname) 
 			throws ParserConfigurationException, IOException, SAXException
 	{
+		if (solrJettyProcess == null)
+			startTestJetty();
+		
 		solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
 		logger.debug("just set solrProxy to remote server at "	+ testSolrUrl + " - " + solrProxy.toString());
 		solrJSolrServer = ((SolrServerProxy) solrProxy).getSolrServer();
@@ -144,7 +147,7 @@ public abstract class IndexTest
 	/**
 	 * Updates the Solr index from the marc file.
 	 * 
-	 * @param confPropFilename - name of config.properties file
+	 * @param configPropFilename - name of config.properties file
 	 * @param testSolrUrl - url for test solr instance, as a string
 	 * @param useBinaryRequestHandler - true to use the binary request handler
 	 * @param useStreamingProxy - true to use streaming proxy (multiple records added at a time)
@@ -156,6 +159,9 @@ public abstract class IndexTest
 									String testDataParentPath, String marcTestDataFname) 
 			throws ParserConfigurationException, IOException, SAXException
 	{
+		if (solrJettyProcess == null)
+			startTestJetty();
+		
 		logger.debug("solrProxy for " + testSolrUrl + " starting as - " + (solrProxy == null ? "null" : solrProxy.toString()));
 		if (solrProxy == null)
 		{
@@ -185,6 +191,9 @@ public abstract class IndexTest
 	public void deleteAllRecordsFromTestIx(String testSolrUrl)
 			throws ParserConfigurationException, IOException, SAXException
 	{
+		if (solrJettyProcess == null)
+			startTestJetty();
+
 		if (solrProxy == null)
 		{
 			solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
@@ -203,11 +212,14 @@ public abstract class IndexTest
 	 * 
 	 * @param deletedIdsFilename  file containing record ids to be deleted (including parent path)
 	 * @param testSolrUrl - url for test solr instance, as a string; used if solrProxy isn't initialized
-	 * @param confPropFilename  name of config.properties file; used if MarcImporter isn't initialized
+	 * @param configPropFilename  name of config.properties file; used if MarcImporter isn't initialized
 	 */
 	public void deleteRecordsFromTestIx(String deletedIdsFilename, String testSolrUrl, String configPropFilename)
 			throws ParserConfigurationException, IOException, SAXException
 	{
+		if (solrJettyProcess == null)
+			startTestJetty();
+
 		if (solrProxy == null)
 		{
 			solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
@@ -245,7 +257,7 @@ public abstract class IndexTest
 	 * assert there is a single doc in the index with the value indicated
 	 * 
 	 * @param docId - the identifier of the SOLR/Lucene document
-	 * @param fldname - the field to be searched
+	 * @param fldName - the field to be searched
 	 * @param fldVal - field value to be found
 	 */
 	public final void assertSingleResult(String docId, String fldName,
@@ -291,7 +303,6 @@ public abstract class IndexTest
 	/**
 	 * Get the List of Solr Documents with the given value for the given field
 	 * 
-	 * @param doc_id - the unique id of the lucene document in the index
 	 * @return org.apache.solr.common.SolrDocumentList
 	 */
 	public final SolrDocumentList getDocList(String field, String value)
@@ -579,7 +590,7 @@ public abstract class IndexTest
 	 * sort fld
 	 * 
 	 * @param fld - the name of the field to be searched in the lucene index
-	 * @param valuea - the string to be searched in the given field
+	 * @param value - the string to be searched in the given field
 	 * @param sortfld - name of the field by which results should be sorted (ascending)
 	 * @return org.apache.solr.common.SolrDocumentList
 	 */
@@ -739,11 +750,20 @@ public abstract class IndexTest
 	/**
 	 * stop the Jetty server if it is running
 	 */
-@AfterClass	
 	public static void stopTestJetty()
 	{
 		if (solrJettyProcess != null && solrJettyProcess.isServerRunning())
 			solrJettyProcess.stopServer();
+	}
+
+	/**
+	 * stop the jetty server if it is running and release solrProxy
+	 */
+@AfterClass	
+	public static void afterClassDefault()
+	{
+    	stopTestJetty();
+    	closeSolrProxy();
 	}
 
 }
