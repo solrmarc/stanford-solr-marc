@@ -82,12 +82,10 @@ public abstract class AbstractStanfordTest extends IndexTest {
 	{
 		docIDfname = "id";
 
-		String anyTestFile = testDataParentPath + File.separator + "pubDateTests.mrc";
-
 		// these properties must be set or MarcHandler can't initialize properly
 		System.setProperty("marc.source", "FILE");
 		// needed to get through initialization; overridden in individual tests
-		System.setProperty("marc.path", anyTestFile);
+		System.setProperty("marc.path", testDataParentPath + File.separator + "pubDateTests.mrc");
         String testConfigFname = getRequiredSystemProperty("test.config.file");
 		solrFldMapTest = new SolrFieldMappingTest(testConfigFname, docIDfname);
 	}
@@ -103,8 +101,8 @@ public abstract class AbstractStanfordTest extends IndexTest {
 	{
 		docIDfname = "id";
 
-        String testDataParentPath = System.getProperty("test.data.path");
-        String testConfigFname = getRequiredSystemProperty("test.config.file");
+//        String testDataParentPath = getRequiredSystemProperty("test.data.path");
+//        String testConfigFname = getRequiredSystemProperty("test.config.file");
 
         String testJettyPortStr = System.getProperty("test.jetty.port");
         if (testJettyPortStr == null)
