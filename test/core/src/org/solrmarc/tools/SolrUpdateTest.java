@@ -63,7 +63,6 @@ public class SolrUpdateTest extends IndexTest
     public void testSolrUpdate() 
     		throws IOException, ParserConfigurationException, SAXException, SolrServerException
     {
-        initVarsForHttpTestIndexing();
 		createFreshTestIxOverHTTPNoCommit("u2103.mrc");
 
 		assertDocNotPresent("u2103");
