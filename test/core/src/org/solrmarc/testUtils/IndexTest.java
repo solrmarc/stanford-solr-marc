@@ -54,6 +54,10 @@ public abstract class IndexTest
 	protected void createFreshTestIxOverHTTP(String marcTestDataFname)
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
+		testConfigFname = getRequiredSystemProperty("test.config.file");
+		testSolrUrl = getRequiredSystemProperty("test.solr.url");
+		testDataParentPath = getRequiredSystemProperty("test.data.path");
+
 		createFreshTestIxOverHTTP(testConfigFname, testSolrUrl,	useBinaryRequestHandler, useStreamingProxy, 
 									testDataParentPath,	marcTestDataFname);
 	}
@@ -89,6 +93,10 @@ public abstract class IndexTest
 	protected void createFreshTestIxOverHTTPNoCommit(String marcTestDataFname)
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
+		testConfigFname = getRequiredSystemProperty("test.config.file");
+		testSolrUrl = getRequiredSystemProperty("test.solr.url");
+		testDataParentPath = getRequiredSystemProperty("test.data.path");
+
 		createFreshTestIxOverHTTPNoCommit(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, 
 											testDataParentPath,	marcTestDataFname);
 	}
@@ -109,27 +117,14 @@ public abstract class IndexTest
 												String testDataParentPath, String marcTestDataFname) 
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
-		testDataParentPath = getRequiredSystemProperty("test.data.path");
-		testConfigFname = getRequiredSystemProperty("test.config.file");
-		testSolrUrl = getRequiredSystemProperty("test.solr.url");
-		
-		if (solrJettyProcess == null)
-			startTestJetty();
-		
-		solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
-		logger.debug("just set solrProxy to remote server at "	+ testSolrUrl + " - " + solrProxy.toString());
-		solrJSolrServer = ((SolrServerProxy) solrProxy).getSolrServer();
+		prepareToWriteToIndex(useBinaryRequestHandler, useStreamingProxy, testSolrUrl);
 		
 //		solrProxy.deleteAllDocs();
 //		solrProxy.commit(false); // don't optimize
 		solrJSolrServer.deleteByQuery("*:*");
-
 		logger.debug("just deleted all docs known to the solrProxy");
 
-		importer = new MarcImporter(solrProxy);
-		importer.init(new String[] { configPropFilename, testDataParentPath + File.separator + marcTestDataFname });
-		if (marcTestDataFname != null)
-			importer.importRecords();
+		runMarcImporter(configPropFilename, testDataParentPath, marcTestDataFname);
 	}
 
 	/**
@@ -160,26 +155,40 @@ public abstract class IndexTest
 									String testDataParentPath, String marcTestDataFname) 
 			throws ParserConfigurationException, IOException, SAXException
 	{
+		prepareToWriteToIndex(useBinaryRequestHandler, useStreamingProxy, testSolrUrl);
+		runMarcImporter(configPropFilename, testDataParentPath, marcTestDataFname);
+		solrProxy.commit(false); // don't optimize
+	}
+
+	/**
+	 * Check required properties; if needed, assign solrProxy and solrJSolrServer
+	 * @param useBinaryRequestHandler - true to use the binary request handler
+	 * @param useStreamingProxy - true to use streaming proxy (multiple records added at a time)
+	 * @param testSolrUrl - url for test solr instance, as a string
+	 */
+	private void prepareToWriteToIndex(boolean useBinaryRequestHandler, boolean useStreamingProxy, String testSolrUrl)
+	{
 		if (solrJettyProcess == null)
 			startTestJetty();
 		
-		logger.debug("solrProxy for " + testSolrUrl + " starting as - " + (solrProxy == null ? "null" : solrProxy.toString()));
-		if (solrProxy == null)
-		{
-			solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl	+ "/update", useBinaryRequestHandler, useStreamingProxy);
-			logger.debug("just set solrProxy to remote solr server at "	+ testSolrUrl + " - " + solrProxy.toString());
-			solrJSolrServer = ((SolrServerProxy) solrProxy).getSolrServer();
-			logger.debug("just set solrJSolrServer to "	+ solrJSolrServer.toString());
-		}
+		solrProxy = SolrCoreLoader.loadRemoteSolrServer(testSolrUrl + "/update", useBinaryRequestHandler, useStreamingProxy);
+		logger.debug("just set solrProxy to remote server at "	+ testSolrUrl + " - " + solrProxy.toString());
+		solrJSolrServer = ((SolrServerProxy) solrProxy).getSolrServer();
+	}
 
-		if (importer == null)
-			importer = new MarcImporter(solrProxy);
-
-		importer.init(new String[] { configPropFilename, testDataParentPath + File.separator + marcTestDataFname });
+	/**
+	 * set up MarcImporter and import the records in the file
+	 * @param configPropFilename - name of config.properties file
+	 * @param testDataParentPath - directory containing the test data file
+	 * @param marcTestDataFname - file of marc records to be indexed. should end in ".mrc", "marc" or ".xml"
+	 */
+	private void runMarcImporter(String configPropFilename, String testDataParentPath, String marcTestDataFname)
+	{
 		if (marcTestDataFname != null)
 		{
-			int numImported = importer.importRecords();
-			solrProxy.commit(false); // don't optimize
+			importer = new MarcImporter(solrProxy);
+			importer.init(new String[] { configPropFilename, testDataParentPath + File.separator + marcTestDataFname });
+			importer.importRecords();
 		}
 	}
 
