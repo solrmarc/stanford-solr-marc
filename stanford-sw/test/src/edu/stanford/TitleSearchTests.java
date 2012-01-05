@@ -5,6 +5,7 @@ import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.xml.sax.SAXException;
 
@@ -16,7 +17,7 @@ public class TitleSearchTests extends AbstractStanfordTest {
 	
 @Before
 	public final void setup() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		createFreshIx("titleTests.mrc");
 	}

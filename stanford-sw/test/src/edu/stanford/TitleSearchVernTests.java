@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.xml.sax.SAXException;
 
@@ -17,7 +18,7 @@ public class TitleSearchVernTests extends AbstractStanfordTest {
 	
 @Before
 	public final void setup() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		createFreshIx("vernacularSearchTests.mrc");
 	}
@@ -178,7 +179,7 @@ public class TitleSearchVernTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testVernRelatedTitle505Search()
-		throws ParserConfigurationException, IOException, SAXException 
+		throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "vern_title_related_search";
 		createFreshIx("summaryTests.mrc");

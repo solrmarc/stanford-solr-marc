@@ -8,6 +8,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 
 
@@ -33,7 +34,7 @@ public class LanguageTests extends AbstractStanfordTest {
 	 */
 @Test
 	public void testLanguages() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		createFreshIx(fileName);
 

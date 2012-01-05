@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 import org.junit.*;
 
 //import org.solrmarc.solr.DocumentProxy;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 
@@ -36,7 +37,7 @@ public class PublicationTests extends AbstractStanfordTest
 	 */
 @Test
 	public void testPublicationFieldsInIx() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "pub_search";
 		createFreshIx("publicationTests.mrc");
@@ -128,7 +129,7 @@ public class PublicationTests extends AbstractStanfordTest
 	 */
 @Test
 	public void testPubDateTooLate()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "pub_date";
 		createFreshIx("pubDateTests.mrc");
@@ -146,7 +147,7 @@ public class PublicationTests extends AbstractStanfordTest
 	 */
 @Test
 	public void testPubDateTooEarly()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "pub_date";
 		createFreshIx("pubDateTests.mrc");
@@ -206,7 +207,7 @@ public class PublicationTests extends AbstractStanfordTest
 	 */
 @Test
 	public final void testPubDateFieldsInIx() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		createFreshIx("pubDateTests.mrc");
 		String fldName = "pub_date";
@@ -224,7 +225,7 @@ public class PublicationTests extends AbstractStanfordTest
 	 */
 @Test
 	public final void testPubDateSortAsc() 
-			throws ParserConfigurationException, IOException, SAXException, InvocationTargetException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException 
+			throws ParserConfigurationException, IOException, SAXException, InvocationTargetException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, SolrServerException 
 	{
 		String fldName = "pub_date_sort";
 		createFreshIx("pubDateTests.mrc");
@@ -332,7 +333,7 @@ public class PublicationTests extends AbstractStanfordTest
 	 */
 @Test
 	public void testPubDateSortDesc()
-			throws ParserConfigurationException, IOException, SAXException, NoSuchMethodException, InstantiationException, InvocationTargetException, ClassNotFoundException, IllegalAccessException 
+			throws ParserConfigurationException, IOException, SAXException, NoSuchMethodException, InstantiationException, InvocationTargetException, ClassNotFoundException, IllegalAccessException, SolrServerException 
 	{
 		String fldName = "pub_date_sort";
 		createFreshIx("pubDateTests.mrc");
@@ -440,7 +441,7 @@ public class PublicationTests extends AbstractStanfordTest
 	 */
 @Test
 	public final void testPubDateGroupFacet() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "pub_date_group_facet";
 		createFreshIx("pubDateTests.mrc");

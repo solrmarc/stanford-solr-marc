@@ -6,6 +6,7 @@ import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -29,7 +30,7 @@ public class StandardNumberTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testOCLC() 
-		throws IOException, ParserConfigurationException, SAXException 
+		throws IOException, ParserConfigurationException, SAXException, SolrServerException 
 	{
 		String fldName = "oclc";
 		createFreshIx("oclcNumTests.mrc");
@@ -180,7 +181,7 @@ public class StandardNumberTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testISBNsearch() 
-		throws IOException, ParserConfigurationException, SAXException 
+		throws IOException, ParserConfigurationException, SAXException, SolrServerException
 	{
 		String fldName = "isbn_search";
 		createFreshIx("isbnTests.mrc");
@@ -212,7 +213,7 @@ public class StandardNumberTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testISBNSearchCaseInsensitive() 
-		throws IOException, ParserConfigurationException, SAXException 
+		throws IOException, ParserConfigurationException, SAXException, SolrServerException 
 	{
 		String fldName = "isbn_search";
 		createFreshIx("isbnTests.mrc");
@@ -262,7 +263,7 @@ public class StandardNumberTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testISSNsearch() 
-		throws IOException, ParserConfigurationException, SAXException 
+		throws IOException, ParserConfigurationException, SAXException, SolrServerException 
 	{
 		String fldName = "issn_search";
 		createFreshIx("issnTests.mrc");
@@ -299,7 +300,7 @@ public class StandardNumberTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testISSNSearchHyphens() 
-		throws IOException, ParserConfigurationException, SAXException 
+		throws IOException, ParserConfigurationException, SAXException, SolrServerException 
 	{
 		String fldName = "issn_search";
 		createFreshIx("issnTests.mrc");
@@ -316,7 +317,7 @@ public class StandardNumberTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testISSNSearchCaseInsensitive() 
-		throws IOException, ParserConfigurationException, SAXException 
+		throws IOException, ParserConfigurationException, SAXException, SolrServerException 
 	{
 		String fldName = "issn_search";
 		createFreshIx("issnTests.mrc");

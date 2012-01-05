@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.xml.sax.SAXException;
 
@@ -26,7 +27,7 @@ public class DiacriticTests extends AbstractStanfordTest {
 	
 @Before
 	public final void initVars() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		createFreshIx("diacriticTests.mrc");
 	}
@@ -248,7 +249,7 @@ public class DiacriticTests extends AbstractStanfordTest {
 	 */
 //@Test
 	public final void testAeLigature() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		closeSolrProxy();
 		createFreshIx("aeoeLigatureTests.mrc");
@@ -274,7 +275,7 @@ public class DiacriticTests extends AbstractStanfordTest {
 	 */
 //@Test
 	public final void testOeLigature() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		closeSolrProxy();
 		createFreshIx("aeoeLigatureTests.mrc");

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.*;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.xml.sax.SAXException;
 
@@ -20,7 +21,7 @@ public class SeriesTests extends AbstractStanfordTest {
 	 */
 @Test
 	public void testSeriesSearch()
-		throws ParserConfigurationException, IOException, SAXException 
+		throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "series_search";
 		createFreshIx(fileName);
@@ -58,7 +59,7 @@ public class SeriesTests extends AbstractStanfordTest {
 	 */
 @Test
 	public void testVernSeriesSearch()
-		throws ParserConfigurationException, IOException, SAXException 
+		throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String fldName = "vern_series_search";
 		createFreshIx(vernFileName);

@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -34,7 +35,7 @@ public class ItemSkippedTests extends AbstractStanfordTest {
 	 */
 @Test
 	public void testAllSkipped() 
-		throws ParserConfigurationException, SAXException, IOException 
+		throws ParserConfigurationException, SAXException, IOException, SolrServerException
 	{
 		String fldName = "id";
 		createFreshIx(testDataFname);

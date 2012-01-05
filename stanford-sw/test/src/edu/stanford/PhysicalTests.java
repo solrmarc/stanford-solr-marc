@@ -7,6 +7,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 
 /**
@@ -26,7 +27,7 @@ public class PhysicalTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testPhysicalSearch() 
-			throws IOException, ParserConfigurationException, SAXException 
+			throws IOException, ParserConfigurationException, SAXException, SolrServerException 
 	{
 		String fldName = "physical";
 		createFreshIx("physicalTests.mrc");

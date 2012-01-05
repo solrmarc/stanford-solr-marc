@@ -7,6 +7,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.BeforeClass;
 import org.solrmarc.testUtils.IndexTest;
 import org.solrmarc.testUtils.SolrFieldMappingTest;
@@ -115,9 +116,10 @@ public abstract class AbstractStanfordTest extends IndexTest {
 	/**
 	 * creates a fresh index from the indicated test file, and initializes 
 	 *  necessary variables
+	 * @throws SolrServerException when can't delete all docs before writing new docs
 	 */
 	public void createFreshIx(String testDataFname) 
-		throws ParserConfigurationException, IOException, SAXException 
+		throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		docIDfname = "id";
 

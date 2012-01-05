@@ -5,6 +5,7 @@ import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.xml.sax.SAXException;
 
@@ -275,7 +276,7 @@ public class TitleTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testTitleSortNonFiling() 
-		throws ParserConfigurationException, IOException, SAXException
+		throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String fldName = "title_sort";
 		createFreshIx(testFileName);
@@ -359,7 +360,7 @@ public class TitleTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testTitleSortPunct()
-		throws ParserConfigurationException, IOException, SAXException
+		throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String fldName = "title_sort";
 		createFreshIx(testFileName);

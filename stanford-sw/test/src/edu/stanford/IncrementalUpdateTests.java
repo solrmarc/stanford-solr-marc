@@ -5,6 +5,7 @@ import java.io.*;
 import javax.xml.parsers.ParserConfigurationException;
 
 //import org.solrmarc.solr.DocumentProxy;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrDocument;
 import org.xml.sax.SAXException;
 
@@ -23,7 +24,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	 */
 @Test 
 	public void testDeleteButEmptyIndex() 
-		throws ParserConfigurationException, SAXException, IOException
+		throws ParserConfigurationException, SAXException, IOException, SolrServerException
 	{
 		createFreshIx(null);
 		deleteIxDocs(testDataParentPath + File.separator + "deleteFirstKey.txt");
@@ -34,7 +35,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	 */
 @Test 
 	public void testDeleteFirstRecord() 
-		throws ParserConfigurationException, SAXException, IOException
+		throws ParserConfigurationException, SAXException, IOException, SolrServerException
 	{
 		createFreshIx("incrementalIxTests1.mrc");
 		assertDocPresent("1");
@@ -48,7 +49,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	 */
 @Test 
 	public void testDeleteLastRecord() 
-		throws ParserConfigurationException, SAXException, IOException
+		throws ParserConfigurationException, SAXException, IOException, SolrServerException
 	{
 		createFreshIx("incrementalIxTests1.mrc");
 		assertDocPresent("9");
@@ -62,7 +63,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	 */
 @Test 
 	public void testDeletedMultRecords() 
-		throws ParserConfigurationException, SAXException, IOException
+		throws ParserConfigurationException, SAXException, IOException, SolrServerException
 	{
 		createFreshIx("incrementalIxTests1.mrc");
 		assertDocPresent("1");
@@ -86,7 +87,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	 */
 @Test
 	public void testDeleteNonExistentRecords() 
-	    throws ParserConfigurationException, IOException, SAXException
+	    throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		// file also has key that exists
 		// file is also out of numeric order
@@ -102,7 +103,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	 */
 @Test
 	public void testNewRecordsEmptyIx() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		createFreshIx("incrementalIxTests1.mrc");
 	}
@@ -113,7 +114,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	 */
 @Test
 	public void testNewRecordsExistingIx() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		createFreshIx("incrementalIxTests1.mrc");
 		assertDocPresent("1");
@@ -131,7 +132,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	 */
 @Test
 	public void testUpdatedRecords() 
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String titleFldName = "title_245a_display";
 		String authorFldName = "author_person_display";
@@ -162,7 +163,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 	 */
 //@Test
 	public void testDates()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		String createDateFldName = "created";
 		String updateDateFldName = "last_updated";

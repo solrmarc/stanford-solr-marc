@@ -5,6 +5,7 @@ import java.io.*;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -71,7 +72,7 @@ public class FormatDatabaseTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testDatabaseAZOnly() 
-			throws IOException, SAXException, ParserConfigurationException
+			throws IOException, SAXException, ParserConfigurationException, SolrServerException
 	{
 		createFreshIx("formatDatabaseTests.mrc");
 		assertZeroResults(facetFldName, "\"Database (Other)\"");

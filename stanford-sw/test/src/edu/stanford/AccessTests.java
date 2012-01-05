@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.solrmarc.testUtils.IndexTest;
 import org.xml.sax.SAXException;
@@ -34,7 +35,7 @@ public class AccessTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testAccessFldInIx() 
-		throws ParserConfigurationException, IOException, SAXException
+		throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		createFreshIx("onlineFormat.mrc");
 //		assertFacetFieldProperties(fldName);
