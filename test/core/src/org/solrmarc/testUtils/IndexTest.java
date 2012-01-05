@@ -301,6 +301,9 @@ public abstract class IndexTest
 			solrProxy = null;
 		}
 	}
+	
+	
+//************************** Assertion Methods *********************************
 
 	/**
 	 * assert there is a single doc in the index with the value indicated
@@ -309,9 +312,8 @@ public abstract class IndexTest
 	 * @param fldName - the field to be searched
 	 * @param fldVal - field value to be found
 	 */
-	public final void assertSingleResult(String docId, String fldName,
-			String fldVal) throws ParserConfigurationException, SAXException,
-			IOException
+	public final void assertSingleResult(String docId, String fldName, String fldVal) 
+			throws ParserConfigurationException, SAXException, IOException
 	{
 		SolrDocumentList sdl = getDocList(fldName, fldVal);
 		if (sdl.size() == 1)
@@ -334,148 +336,40 @@ public abstract class IndexTest
 	}
 
 	/**
-	 * Get the Lucene document with the given id from the solr index at the solrDataDir
-	 * 
-	 * @param doc_id - the unique id of the lucene document in the index
-	 * @return SolrDocument matching the given id
-	 */
-	public final SolrDocument getDocument(String doc_id)
-	{
-		SolrDocumentList sdl = getDocList(docIDfname, doc_id);
-		for (SolrDocument doc : sdl)
-		{
-			return (doc);
-		}
-		return (null);
-	}
-
-	/**
-	 * Get the List of Solr Documents with the given value for the given field
-	 * 
-	 * @return org.apache.solr.common.SolrDocumentList
-	 */
-	public final SolrDocumentList getDocList(String field, String value)
-	{
-		SolrQuery query = new SolrQuery(field + ":" + value);
-		query.setQueryType("standard");
-		query.setFacet(false);
-		try
-		{
-			QueryResponse response = solrJSolrServer.query(query);
-			return (response.getResults());
-		} catch (SolrServerException e)
-		{
-			e.getCause().printStackTrace();
-			// e.printStackTrace();
-		}
-		return (new SolrDocumentList());
-	}
-
-	/**
 	 * asserts that the document is present in the index
 	 */
 	public final void assertDocPresent(String doc_id)
 	{
-		SolrDocumentList sdl = getDocList(docIDfname, doc_id);
-		assertTrue("Found no document with id \"" + doc_id + "\"", sdl.size() == 1);
+		SolrDocument doc = getDocument(doc_id);
+		assertTrue("Found no document with id \"" + doc_id + "\"", doc != null);
+//		SolrDocumentList sdl = getDocList(docIDfname, doc_id);
+//		assertTrue("Found no document with id \"" + doc_id + "\"", sdl.size() == 1);
 	}
 
     /**
-	 * Request record by id from Solr as JSON, and return the raw value of the 
-	 *  field (note that XML response does not preserve the raw value of the field.) 
-	 *  If the record doesn't exist id or the record doesn't contain that field return null
-	 *  
-	 *  NOTE:  does NOT work for retrieving binary values
-	 *  
-	 *  @param desiredFld - the field from which we want the value 
-	 */
-	public String getFirstFieldValViaJSON(String id, String desiredFld)
-	{
-		SolrDocument doc = null;
-		
-		SolrQuery query = new SolrQuery(docIDfname + ":" + id);
-		query.setQueryType("standard");
-		query.setFacet(false);
-		query.setParam(CommonParams.WT, "json");
-		try
-		{
-			QueryResponse response = ((CommonsHttpSolrServer) solrJSolrServer).query(query);
-			SolrDocumentList docList = response.getResults();
-			for (SolrDocument d : docList)
-				doc = d;
-		} 
-		catch (SolrServerException e)
-		{
-			e.getCause().printStackTrace();
-			// e.printStackTrace();
-		}
-
-		if (doc == null)
-			return null;
-		Object fieldValObj = doc.getFieldValue(desiredFld);
-		if (fieldValObj.getClass() == java.lang.String.class)
-			return (String) fieldValObj;
-		
-		return null;
-	}
-
-    /**
-	 * getFldValPreserveBinary - Request record by id from Solr, and return the raw
-	 *  value of the field. If the record doesn't exist id or the record
-	 * doesn't contain that field return null
-	 *  @param desiredFld - the field from which we want the value 
-	 */
-	public String getFldValPreserveBinary(String id, String desiredFld)
-	{
-		String fieldValue = null;
-		String selectStr = "select/?q=id%3A" + id + "&fl=" + desiredFld + "&rows=1&wt=json&qt=standard&facet=false";
-		try
-		{
-			InputStream is = new URL(testSolrUrl + "/" + selectStr).openStream();
-			String solrResultStr = Utils.readStreamIntoString(is);
-			String fieldLabel = "\"" + desiredFld + "\":";
-			int valStartIx = solrResultStr.indexOf(fieldLabel);
-			int valEndIx = solrResultStr.indexOf("\"}]");
-			if (valStartIx != -1 && valEndIx != -1)
-				fieldValue = solrResultStr.substring(valStartIx + fieldLabel.length(), valEndIx);
-		} 
-		catch (MalformedURLException e)
-		{
-			e.printStackTrace();
-		} 
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return (fieldValue);
-	}
-        
-
-	
-	
-	/**
 	 * asserts that the document is NOT present in the index
 	 */
 	public final void assertDocNotPresent(String doc_id)
 	{
-		SolrDocumentList sdl = getDocList(docIDfname, doc_id);
-		assertTrue("Unexpectedly found document with id \"" + doc_id + "\"", sdl.size() == 0);
+		SolrDocument doc = getDocument(doc_id);
+		assertTrue("Unexpectedly found document with id \"" + doc_id + "\"", doc == null);
 	}
 
 	public final void assertDocHasFieldValue(String doc_id, String fldName,	String fldVal)
 	{
-		// TODO: repeatable field vs. not ...
-		// TODO: check for single occurrence of field value, even for repeatable
-		// field
-		SolrDocumentList sdl = getDocList(docIDfname, doc_id);
-		if (sdl.size() > 0)
+//		SolrDocumentList sdl = getDocList(docIDfname, doc_id);
+//		if (sdl.size() > 0)
+		SolrDocument doc = getDocument(doc_id);
+		if (doc != null)
 		{
-			SolrDocument doc = sdl.get(0);
-			Collection<Object> fields = doc.getFieldValues(fldName);
-			if (fields != null)
-				for (Object field : fields)
+//			SolrDocument doc = sdl.get(0);
+			Collection<Object> valObjs = doc.getFieldValues(fldName);
+System.out.println("DEBUG: num values is " + String.valueOf(valObjs.size()));			
+			if (valObjs != null)
+				for (Object valObj : valObjs)
 				{
-					if (field.toString().equals(fldVal))
+System.out.println("DEBUG: value is " + valObj.toString());					
+					if (valObj.toString().equals(fldVal))
 						// found field with desired value
 						return;
 				}
@@ -485,22 +379,37 @@ public abstract class IndexTest
 	}
 
 	
-	public final void assertDocHasNoFieldValue(String doc_id, String fldName, String fldVal)
+	public final void assertDocHasNoFieldValue(String doc_id, String fldName, String expFldVal)
 	{
-		// TODO: repeatable field vs. not ...
-		// TODO: check for single occurrence of field value, even for repeatable
-		// field
-		SolrDocumentList sdl = getDocList(docIDfname, doc_id);
-		if (sdl.size() > 0)
+//		SolrDocumentList sdl = getDocList(docIDfname, doc_id);
+//		if (sdl.size() > 0)
+//		{
+//			SolrDocument doc = sdl.get(0);
+//			Collection<Object> valObjects = doc.getFieldValues(fldName);
+//			if (valObjects != null)
+//				for (Object valObj : valObjects)
+//				{
+//					if (valObj.toString().equals(expFldVal))
+//						fail("Field " + fldName + " contained value \"" + expFldVal + "\" in doc " + doc_id);
+//				}
+//			return;
+//		}
+//		fail("Document " + doc_id + " was not found");
+		
+		
+		SolrDocument doc = getDocument(doc_id);
+		if (doc != null)
 		{
-			SolrDocument doc = sdl.get(0);
-			Collection<Object> fields = doc.getFieldValues(fldName);
-			if (fields != null)
-				for (Object field : fields)
+			Collection<Object> valObjects = doc.getFieldValues(fldName);
+			if (valObjects != null && valObjects.size() > 0)
+			{
+				for (Object valObj : valObjects)
 				{
-					if (field.toString().equals(fldVal))
-						fail("Field " + fldName + " contained value \"" + fldVal + "\" in doc " + doc_id);
+					if (valObj.toString().equals(expFldVal))
+						fail("Field " + fldName + " contained value \"" + expFldVal + "\" in doc " + doc_id);
 				}
+				return;
+			}
 			return;
 		}
 		fail("Document " + doc_id + " was not found");
@@ -509,17 +418,17 @@ public abstract class IndexTest
 	@SuppressWarnings("unchecked")
 	public final void assertDocHasNoField(String doc_id, String fldName)
 	{
-		SolrDocumentList sdl = getDocList(docIDfname, doc_id);
-		if (sdl.size() > 0)
+		SolrDocument doc = getDocument(doc_id);
+		if (doc == null)
+			fail("Document " + doc_id + " was not found");
+		else
 		{
-			SolrDocument doc = sdl.get(0);
-			Collection<Object> fields = doc.getFieldValues(fldName);
-			if (fields == null || fields.size() == 0)
+			Collection<Object> valObjects = doc.getFieldValues(fldName);
+			if (valObjects == null || valObjects.size() == 0)
 				// Document has no field by that name. yay.
 				return;
 			fail("Field " + fldName + " found in doc \"" + doc_id + "\"");
 		}
-		fail("Document " + doc_id + " was not found");
 	}
 
 	/**
@@ -552,11 +461,11 @@ public abstract class IndexTest
 		fail(msgPrefix + "doc \"" + id + "\" missing from list");
 	}
 
-	public final void assertFieldValues(String fldName, String fldVal, Set<String> docIds)
-	{
-		for (String docId : docIds)
-			assertDocHasFieldValue(docId, fldName, fldVal);
-	}
+//	public final void assertFieldValues(String fldName, String fldVal, Set<String> docIds)
+//	{
+//		for (String docId : docIds)
+//			assertDocHasFieldValue(docId, fldName, fldVal);
+//	}
 
 	/**
 	 * ensure that the value(s) for the two fields in the document are the same
@@ -568,30 +477,39 @@ public abstract class IndexTest
 	public final void assertFieldValuesEqual(String docId, String fldName1, String fldName2) 
 			throws ParserConfigurationException, SAXException, IOException
 	{
-// 		int solrDocNum = getSingleDocNum(docIDfname, docId);
-// 		DocumentProxy doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
 		SolrDocument doc = getDocument(docId);
-// 		String[] fld1Vals = doc.getValues(fldName1);
-// 		int numValsFld1 = fld1Vals.length;
-		Collection<Object> fldObjColl = doc.getFieldValues(fldName1);
-		int numValsFld1 = fldObjColl.size();
-		String[] fld1Vals = fldObjColl.toArray(new String[numValsFld1]);
-// 		String[] fld2Vals = doc.getValues(fldName2);
-// 		int numValsFld2 = fld2Vals.length;
-		fldObjColl = doc.getFieldValues(fldName1);
-		int numValsFld2 = fldObjColl.size();
-		String[] fld2Vals = fldObjColl.toArray(new String[numValsFld2]);
-		String errmsg = "fields " + fldName1 + ", " + fldName2	+ " have different numbers of values";
-		assertEquals(errmsg, numValsFld1, numValsFld2);
-
-		List<String> fld1ValList = Arrays.asList(fld1Vals);
-		List<String> fld2ValList = Arrays.asList(fld2Vals);
-		for (String val : fld1ValList)
+		if (doc != null)
 		{
-			errmsg = "In doc " + docId + ", field " + fldName1 + " has value not in " + fldName2 + ": ";
-			if (!fld2ValList.contains(val))
-				fail(errmsg + val);
+			Collection<Object> fld1ValObjects = doc.getFieldValues(fldName1);
+			int numValsFld1 = fld1ValObjects.size();
+			Collection<Object> fld2ValObjects = doc.getFieldValues(fldName1);
+			int numValsFld2 = fld2ValObjects.size();
+
+			String errmsg = "fields " + fldName1 + ", " + fldName2	+ " have different numbers of values";
+			assertEquals(errmsg, numValsFld1, numValsFld2);
+
+			List<String> fld2ValList = Arrays.asList(fld2ValObjects.toArray(new String[numValsFld2]));
+			for (Object fld1ValObj : fld1ValObjects)
+			{
+				if (!fld2ValList.contains(fld1ValObj.toString()))
+				{
+					errmsg = "In doc " + docId + ", field " + fldName1 + " has value not in " + fldName2 + ": ";
+					fail(errmsg + fld1ValObj.toString());
+				}
+			}
+
+//			String[] fld1Vals = fld1ValObjects.toArray(new String[numValsFld1]);
+//			String[] fld2Vals = fld2ValObjects.toArray(new String[numValsFld2]);
+//			List<String> fld1ValList = Arrays.asList(fld1Vals);
+//			List<String> fld2ValList = Arrays.asList(fld2Vals);
+//			for (String val : fld1ValList)
+//			{
+//				errmsg = "In doc " + docId + ", field " + fldName1 + " has value not in " + fldName2 + ": ";
+//				if (!fld2ValList.contains(val))
+//					fail(errmsg + val);
+//			}
 		}
+		fail("Document " + docId + " was not found");
 	}
 
 	/**
@@ -608,20 +526,10 @@ public abstract class IndexTest
 		assertTrue("Expected " + numExp + " documents for " + fldName + " search \"" + fldVal + "\" but got " + numActual, 
 					numActual == numExp);
 	}
+	
 
-	/**
-	 * Given an index field name and value, return a list of Lucene Documents
-	 * that match the term query sent to the index
-	 * 
-	 * @param fld - the name of the field to be searched in the lucene index
-	 * @param value - the string to be searched in the given field
-	 * @return org.apache.solr.common.SolrDocumentList
-	 */
-	public final SolrDocumentList getAllMatchingDocs(String fld, String value)
-	{
-		return getDocList(fld, value);
-	}
-
+//*********************** Additional Methods **********************************	
+	
 	/**
 	 * return the number of docs that match the implied term query
 	 * 
@@ -693,11 +601,134 @@ public abstract class IndexTest
 //		return (new SolrDocumentList());
 	}
 	
+	/**
+	 * Get the Lucene document with the given id from the solr index at the solrDataDir
+	 * 
+	 * @param doc_id - the unique id of the lucene document in the index
+	 * @return SolrDocument matching the given id
+	 */
+	public final SolrDocument getDocument(String doc_id)
+	{
+		SolrDocumentList sdl = getDocList(docIDfname, doc_id);
+		switch (sdl.size())
+		{
+			case 0:
+				return null;
+			case 1:
+				return sdl.get(0);
+			default:
+				assertTrue("Got multiple docs with id " + doc_id, sdl.size() < 2);
+		}
+		return null;
+
+//		for (SolrDocument doc : sdl)
+//		{
+//			return (doc);
+//		}
+//		return (null);
+	}
+
+	/**
+	 * Get the List of Solr Documents with the given value for the given field
+	 * 
+	 * @param field - the name of the field to be searched in the lucene index
+	 * @param value - the string to be searched in the given field
+	 * @return org.apache.solr.common.SolrDocumentList
+	 */
+	public final SolrDocumentList getDocList(String field, String value)
+	{
+		SolrQuery query = new SolrQuery(field + ":" + value);
+		query.setQueryType("standard");
+		query.setFacet(false);
+		try
+		{
+			QueryResponse response = solrJSolrServer.query(query);
+			return (response.getResults());
+		} catch (SolrServerException e)
+		{
+			e.getCause().printStackTrace();
+			fail("caught exception while searching for value " + value + " in field " + field);
+		}
+		return (new SolrDocumentList());
+	}
+
+	/**
+	 * Request record by id from Solr as JSON, and return the raw value of the 
+	 *  field (note that XML response does not preserve the raw value of the field.) 
+	 *  If the record doesn't exist id or the record doesn't contain that field return null
+	 *  
+	 *  NOTE:  does NOT work for retrieving binary values
+	 *  
+	 *  @param desiredFld - the field from which we want the value 
+	 */
+	public String getFirstFieldValViaJSON(String id, String desiredFld)
+	{
+		SolrDocument doc = null;
+		
+		SolrQuery query = new SolrQuery(docIDfname + ":" + id);
+		query.setQueryType("standard");
+		query.setFacet(false);
+		query.setParam(CommonParams.WT, "json");
+		try
+		{
+			QueryResponse response = ((CommonsHttpSolrServer) solrJSolrServer).query(query);
+			SolrDocumentList docList = response.getResults();
+			for (SolrDocument d : docList)
+				doc = d;
+		} 
+		catch (SolrServerException e)
+		{
+			e.getCause().printStackTrace();
+			// e.printStackTrace();
+		}
+	
+		if (doc == null)
+			return null;
+		Object fieldValObj = doc.getFieldValue(desiredFld);
+		if (fieldValObj.getClass() == java.lang.String.class)
+			return (String) fieldValObj;
+		
+		return null;
+	}
+
+	/**
+	 * getFldValPreserveBinary - Request record by id from Solr, and return the raw
+	 *  value of the field. If the record doesn't exist id or the record
+	 * doesn't contain that field return null
+	 *  @param desiredFld - the field from which we want the value 
+	 */
+	public String getFldValPreserveBinary(String id, String desiredFld)
+	{
+		String fieldValue = null;
+		String selectStr = "select/?q=id%3A" + id + "&fl=" + desiredFld + "&rows=1&wt=json&qt=standard&facet=false";
+		try
+		{
+			InputStream is = new URL(testSolrUrl + "/" + selectStr).openStream();
+			String solrResultStr = Utils.readStreamIntoString(is);
+			String fieldLabel = "\"" + desiredFld + "\":";
+			int valStartIx = solrResultStr.indexOf(fieldLabel);
+			int valEndIx = solrResultStr.indexOf("\"}]");
+			if (valStartIx != -1 && valEndIx != -1)
+				fieldValue = solrResultStr.substring(valStartIx + fieldLabel.length(), valEndIx);
+		} 
+		catch (MalformedURLException e)
+		{
+			e.printStackTrace();
+		} 
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		return (fieldValue);
+	}
+
 	public static void setTestLoggingLevels()
 	{
 		setTestLoggingLevels(testSolrLogLevel, testSolrMarcLogLevel);
 	}
 
+	
+	
 // FIXME: move this to Utils, and also look for logging levels in config.properties
 	/**
 	 * default settings: solr: WARNING; solrmarc: WARN Solr uses
