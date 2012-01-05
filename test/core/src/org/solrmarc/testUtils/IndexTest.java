@@ -592,6 +592,7 @@ public abstract class IndexTest
 	{
 		SolrQuery query = new SolrQuery(field + ":" + value);
 		query.setQueryType("standard");
+		query.setFields("*");
 		query.setFacet(false);
 		try
 		{

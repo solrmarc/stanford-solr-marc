@@ -24,7 +24,7 @@ import org.junit.runners.Suite;
         GeographicFacetTests.class,
         IncrementalUpdateTests.class,
 //        ItemDisplayCallnumLoppingTests.class //bad value for one test
-//        ItemInfoTests.class // bad value for one test
+        ItemInfoTests.class,
         ItemLACTests.class,
         ItemMissingTests.class,
         ItemNoCallNumberTests.class,
