@@ -426,6 +426,37 @@
 	
 	<target name="test_clean" depends="test_clean_site,test_clean_core" description="remove the directories generated for CORE and SITE testing" />
 	
+	<target name="javadoc_core" description="generate javadoc for CORE code">
+		<path id="core.docs.srcpath">
+			<pathelement location="${core.src.dir}"/>
+			<pathelement location="${core.test.src.dir}"/>
+		</path>
+
+		<javadoc
+							destdir="${core.javadoc.dir}"
+							sourcepathref="core.docs.srcpath"
+							classpathref="test.core.build.classpath"
+							author="true"
+							version="true"
+							use="true"
+							windowtitle="SolrMarc CORE from Stanford Fork"
+			>
+		    <doctitle><![CDATA[<h1>SolrMarc CORE API (from Stanford Fork)</h1>]]></doctitle>
+				<package name="org.solrmarc.*" />
+	    	<group title="Core Packages" packages="org.solrmarc.index,org.solrmarc.marc,org.solrmarc.marcoverride,org.solrmarc.solr,org.solrmarc.tools"/>
+		    <group title="Test Utility Classes" packages="org.solrmarc.testUtils*"/>
+	    	<group title="Core Test Classes" packages="org.solrmarc.A*,org.solrmarc.tools.*Test*"/>
+	    	<link href="http://docs.oracle.com/javase/6/docs/api/" />
+				<link href="http://marc4j.tigris.org/doc/apidoc" />
+				<link href="http://logging.apache.org/log4j/1.2/apidocs" />
+				<link href="http://www.beanshell.org/javadoc" />
+				<link href="http://lucene.apache.org/solr/api" />
+		  </javadoc>
+	</target>
+
+	<target name="javadoc_site" description="generate javadoc for SITE code">
+	</target>
+	
 	<target name="clean_all" depends="test_clean, clean" description="remove all generated directories for CORE and SITE, including test and dist">
 		<delete dir="${dist.dir}" quiet="true" />
 	</target>
