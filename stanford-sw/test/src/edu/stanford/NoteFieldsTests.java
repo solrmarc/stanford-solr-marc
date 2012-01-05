@@ -177,7 +177,7 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 
 
 	/**
-	 * Nielsen data is in the 986;  we want to index both 986 and 520
+	 * Nielsen data is in the 986;  we want to index both 986 and 586
 	 */
 @Test
 	public final void nielsenAwardSearchField() 
@@ -187,15 +187,15 @@ public class NoteFieldsTests extends AbstractStanfordTest {
 	    createFreshIx("nielsenTests.mrc");
 	    
 	    assertSingleResult("586", fldName, "New Zealand Post book awards winner");
-	    assertSingleResult("586", fldName, "\\\"586 second award\\\"");
-	    assertSingleResult("986", fldName, "Shortlisted for Montana New Zealand Book Awards\\: History Category 2006.");
-	    assertSingleResult("986", fldName, "\\\"986 second award\\\"");
-	    assertSingleResult("one586two986", fldName, "\\\"986 award1\\\"");
-	    assertSingleResult("one586two986", fldName, "\\\"986 award2\\\"");
-	    assertSingleResult("one586two986", fldName, "\\\"586 award1\\\"");
-	    assertSingleResult("two586one986", fldName, "\\\"986 single award\\\"");
-	    assertSingleResult("two586one986", fldName, "\\\"586 1award\\\"");
-	    assertSingleResult("two586one986", fldName, "\\\"586 1award\\\"");
+	    assertSingleResult("586", fldName, "\"586 second award\"");
+	    assertSingleResult("986", fldName, "\"Shortlisted for Montana New Zealand Book Awards\\: History Category 2006.\"");
+	    assertSingleResult("986", fldName, "\"986 second award\"");
+	    assertSingleResult("one586two986", fldName, "\"986 award1\"");
+	    assertSingleResult("one586two986", fldName, "\"986 award2\"");
+	    assertSingleResult("one586two986", fldName, "\"586 award\"");
+	    assertSingleResult("two586one986", fldName, "\"986 single award\"");
+	    assertSingleResult("two586one986", fldName, "\"586 1award\"");
+	    assertSingleResult("two586one986", fldName, "\"586 1award\"");
 	}
 
 }

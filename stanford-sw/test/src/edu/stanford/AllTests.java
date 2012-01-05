@@ -37,8 +37,8 @@ import org.junit.runners.Suite;
         MarcCombiningReaderTests.class,
         MergeMhldFldsIntoBibsReaderTests.class,
 //        MhldMappingTests.class // probs
-//        MiscellaneousFieldTests.class // I think it should be using Combine... reader, not MarcCombining reader
-//        NoteFieldsTests.class // one test  bad value
+        MiscellaneousFieldTests.class,
+        NoteFieldsTests.class,
         PhysicalTests.class,
 //        PublicationTests.class, // bad sorts, etc.
         SeriesTests.class,
