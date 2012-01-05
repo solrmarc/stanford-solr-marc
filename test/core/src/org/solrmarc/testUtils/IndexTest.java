@@ -342,8 +342,6 @@ public abstract class IndexTest
 	{
 		SolrDocument doc = getDocument(doc_id);
 		assertTrue("Found no document with id \"" + doc_id + "\"", doc != null);
-//		SolrDocumentList sdl = getDocList(docIDfname, doc_id);
-//		assertTrue("Found no document with id \"" + doc_id + "\"", sdl.size() == 1);
 	}
 
     /**
@@ -357,18 +355,13 @@ public abstract class IndexTest
 
 	public final void assertDocHasFieldValue(String doc_id, String fldName,	String fldVal)
 	{
-//		SolrDocumentList sdl = getDocList(docIDfname, doc_id);
-//		if (sdl.size() > 0)
 		SolrDocument doc = getDocument(doc_id);
 		if (doc != null)
 		{
-//			SolrDocument doc = sdl.get(0);
 			Collection<Object> valObjs = doc.getFieldValues(fldName);
-System.out.println("DEBUG: num values is " + String.valueOf(valObjs.size()));			
 			if (valObjs != null)
 				for (Object valObj : valObjs)
 				{
-System.out.println("DEBUG: value is " + valObj.toString());					
 					if (valObj.toString().equals(fldVal))
 						// found field with desired value
 						return;
@@ -381,22 +374,6 @@ System.out.println("DEBUG: value is " + valObj.toString());
 	
 	public final void assertDocHasNoFieldValue(String doc_id, String fldName, String expFldVal)
 	{
-//		SolrDocumentList sdl = getDocList(docIDfname, doc_id);
-//		if (sdl.size() > 0)
-//		{
-//			SolrDocument doc = sdl.get(0);
-//			Collection<Object> valObjects = doc.getFieldValues(fldName);
-//			if (valObjects != null)
-//				for (Object valObj : valObjects)
-//				{
-//					if (valObj.toString().equals(expFldVal))
-//						fail("Field " + fldName + " contained value \"" + expFldVal + "\" in doc " + doc_id);
-//				}
-//			return;
-//		}
-//		fail("Document " + doc_id + " was not found");
-		
-		
 		SolrDocument doc = getDocument(doc_id);
 		if (doc != null)
 		{
@@ -461,12 +438,6 @@ System.out.println("DEBUG: value is " + valObj.toString());
 		fail(msgPrefix + "doc \"" + id + "\" missing from list");
 	}
 
-//	public final void assertFieldValues(String fldName, String fldVal, Set<String> docIds)
-//	{
-//		for (String docId : docIds)
-//			assertDocHasFieldValue(docId, fldName, fldVal);
-//	}
-
 	/**
 	 * ensure that the value(s) for the two fields in the document are the same
 	 * 
@@ -497,17 +468,6 @@ System.out.println("DEBUG: value is " + valObj.toString());
 					fail(errmsg + fld1ValObj.toString());
 				}
 			}
-
-//			String[] fld1Vals = fld1ValObjects.toArray(new String[numValsFld1]);
-//			String[] fld2Vals = fld2ValObjects.toArray(new String[numValsFld2]);
-//			List<String> fld1ValList = Arrays.asList(fld1Vals);
-//			List<String> fld2ValList = Arrays.asList(fld2Vals);
-//			for (String val : fld1ValList)
-//			{
-//				errmsg = "In doc " + docId + ", field " + fldName1 + " has value not in " + fldName2 + ": ";
-//				if (!fld2ValList.contains(val))
-//					fail(errmsg + val);
-//			}
 		}
 		fail("Document " + docId + " was not found");
 	}
@@ -598,7 +558,6 @@ System.out.println("DEBUG: value is " + valObj.toString());
 			e.printStackTrace();
 			return (new SolrDocumentList());
 		}
-//		return (new SolrDocumentList());
 	}
 	
 	/**
@@ -620,12 +579,6 @@ System.out.println("DEBUG: value is " + valObj.toString());
 				assertTrue("Got multiple docs with id " + doc_id, sdl.size() < 2);
 		}
 		return null;
-
-//		for (SolrDocument doc : sdl)
-//		{
-//			return (doc);
-//		}
-//		return (null);
 	}
 
 	/**
