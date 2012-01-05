@@ -63,6 +63,24 @@ public abstract class IndexTest
 	}
 
 	/**
+	 * Creates a pristine Solr index from the indicated test file of marc
+	 * records. Uses a bunch of class instance variables.  Sends commit.
+	 * 
+	 * @param testSolrUrl - url for test solr instance, as a string
+	 * @param marcTestDataFname - file of marc records to be indexed. should end in ".mrc", "marc" or ".xml"
+	 * @throws SolrServerException when can't delete all docs before writing new docs
+	 */
+	protected void createFreshTestIxOverHTTP(String testSolrUrl, String marcTestDataFname)
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
+	{
+		testConfigFname = getRequiredSystemProperty("test.config.file");
+		testDataParentPath = getRequiredSystemProperty("test.data.path");
+
+		createFreshTestIxOverHTTP(testConfigFname, testSolrUrl,	useBinaryRequestHandler, useStreamingProxy, 
+									testDataParentPath,	marcTestDataFname);
+	}
+
+	/**
 	 * Create a pristine Solr index from the marc file, and send a commit.
 	 * 
 	 * @param configPropFilename - name of config.properties file
@@ -136,6 +154,23 @@ public abstract class IndexTest
 	protected void updateTestIxOverHTTP(String marcTestDataFname)
 			throws ParserConfigurationException, IOException, SAXException
 	{
+		updateTestIxOverHTTP(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, 
+							testDataParentPath,	marcTestDataFname);
+	}
+
+	/**
+	 * Updates the Solr index from the indicated test file of marc records, and
+	 * initializes necessary variables. Uses a bunch of class instance variables
+	 * 
+	 * @param testSolrUrl - url for test solr instance, as a string
+	 * @param marcTestDataFname - file of marc records to be indexed. should end in ".mrc", "marc" or ".xml"
+	 */
+	protected void updateTestIxOverHTTP(String testSolrUrl, String marcTestDataFname)
+			throws ParserConfigurationException, IOException, SAXException
+	{
+		testConfigFname = getRequiredSystemProperty("test.config.file");
+		testDataParentPath = getRequiredSystemProperty("test.data.path");
+
 		updateTestIxOverHTTP(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, 
 							testDataParentPath,	marcTestDataFname);
 	}
