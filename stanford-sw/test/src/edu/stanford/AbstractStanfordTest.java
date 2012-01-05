@@ -20,9 +20,6 @@ public abstract class AbstractStanfordTest extends IndexTest {
 
 // FIXME:  ensure log4j.properties is in bin	
 	
-// FIXME: is there a better way of allowing tests to run in eclipse without invoking ant?
-//  can we read build.props?
-	
 	/** testDataParentPath is used for mapping tests - full path is needed */
     String testDataParentPath = null;
 	
@@ -99,25 +96,14 @@ public abstract class AbstractStanfordTest extends IndexTest {
 	public void createFreshIx(String testDataFname) 
 		throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
-		docIDfname = "id";
-
-//        String testDataParentPath = getRequiredSystemProperty("test.data.path");
-//        String testConfigFname = getRequiredSystemProperty("test.config.file");
-
-        String testJettyPortStr = System.getProperty("test.jetty.port");
-        if (testJettyPortStr == null)
-        {
-        	testJettyPortStr = "8983";
-        	System.setProperty("test.jetty.port", testJettyPortStr);
-        }
-        String testSolrUrl = "http://localhost:" + testJettyPortStr + "/solr";
+        String testSolrUrl = getLocalTestingSolrUrl();
 
 		if (solrJettyProcess == null)
 			startTestJetty();
 
-// FIXME:  set up vars and use the single argument version?	
-		createFreshTestIxOverHTTP(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, testDataFname);
+		createFreshTestIxOverHTTP(testSolrUrl, testDataFname);
 	}
+	
 	
 	/**
 	 * updates an existing index from the indicated test file, and initializes 
@@ -126,23 +112,33 @@ public abstract class AbstractStanfordTest extends IndexTest {
 	public void updateIx(String testDataFname) 
 		throws ParserConfigurationException, IOException, SAXException 
 	{
-		testConfigFname = getRequiredSystemProperty("test.config.file");
-		testDataParentPath = getRequiredSystemProperty("test.data.path");
-
-        String testJettyPortStr = System.getProperty("test.jetty.port");
-        if (testJettyPortStr == null)
-        {
-        	testJettyPortStr = "8983";
-        	System.setProperty("test.jetty.port", testJettyPortStr);
-        }
-        String testSolrUrl = "http://localhost:" + testJettyPortStr + "/solr";
+        String testSolrUrl = getLocalTestingSolrUrl();
 
 		if (solrJettyProcess == null)
 			startTestJetty();
 
-// FIXME:  set up vars and use the single argument version?		
-        updateTestIxOverHTTP(testConfigFname, testSolrUrl, useBinaryRequestHandler, useStreamingProxy, testDataParentPath, testDataFname);
+		updateTestIxOverHTTP(testSolrUrl, testDataFname);
 	}
+
+	
+	private String getLocalTestingSolrUrl()
+	{
+		String testSolrUrl = System.getProperty("test.solr.url");
+		if (testSolrUrl == null || testSolrUrl.length() < 7)
+		{
+			String testJettyPortStr = System.getProperty("test.jetty.port");
+	        if (testJettyPortStr == null)
+	        {
+	        	testJettyPortStr = "8983";
+	        	System.setProperty("test.jetty.port", testJettyPortStr);
+	        }
+	        testSolrUrl = "http://localhost:" + testJettyPortStr + "/solr";
+		}
+		
+		return testSolrUrl;
+	}
+	
+	
 	
 	/**
 	 * removes records from the index
@@ -154,13 +150,7 @@ public abstract class AbstractStanfordTest extends IndexTest {
         String testConfigFname = getRequiredSystemProperty("test.config.file");
 		String testDataParentPath = getRequiredSystemProperty("test.data.path");
 
-        String testJettyPortStr = System.getProperty("test.jetty.port");
-        if (testJettyPortStr == null)
-        {
-        	testJettyPortStr = "8983";
-        	System.setProperty("test.jetty.port", testJettyPortStr);
-        }
-        String testSolrUrl = "http://localhost:" + testJettyPortStr + "/solr";
+        String testSolrUrl = getLocalTestingSolrUrl();
 
 		// these properties must be set or MarcHandler can't initialize properly
 		// needed to get through initialization; overridden in individual tests
