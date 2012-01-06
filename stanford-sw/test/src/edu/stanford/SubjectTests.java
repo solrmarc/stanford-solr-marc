@@ -1116,7 +1116,7 @@ public class SubjectTests extends AbstractStanfordTest {
 		docIds.add("777");
 		docIds.add("888");
 		docIds.add("999");
-		assertSearchResults(fldName, "\"To 449\"", docIds);
+		assertSearchResults(fldName, "449", docIds);
 	    assertSingleResult("111", fldName, "\"449-1066\"");
 	    assertSingleResult("222", fldName, "\"1921\"");
 	    assertSingleResult("777", fldName, "\"Roman period, 55 B.C.-449 A.D.\"");
