@@ -1,5 +1,6 @@
 package org.solrmarc.testUtils;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -29,7 +30,8 @@ public class SolrFieldMappingTest
      * @param configPropsName  name of xxx _config.properties file
      * @param idFldName  name of unique key field in Solr document
      */
-    public SolrFieldMappingTest(String configPropsName, String idFldName)
+    public SolrFieldMappingTest(String configPropsName, String idFldName) 
+    		throws FileNotFoundException
     {
         marcMappingTest = new MarcMappingOnly();
         marcMappingTest.init(new String[] { configPropsName, idFldName });
@@ -47,26 +49,34 @@ public class SolrFieldMappingTest
      */
     public void assertSolrFldValue(String mrcFileName, String solrDocId, String expectedFldName, String expectedFldVal)
     {
-        Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(solrDocId, mrcFileName);
-        if (solrFldName2ValMap == null)
-        	fail("There is no document with id " + solrDocId);
-
-        Object solrFldValObj = solrFldName2ValMap.get(expectedFldName);
-        if (solrFldValObj == null)
-            fail("Solr doc " + solrDocId + " has value assigned for Solr field " + expectedFldName);
-        if (solrFldValObj instanceof String)
-            assertEquals("Solr doc " + solrDocId + " didn't have expected value for Solr field " + expectedFldName + ": ", expectedFldVal, solrFldValObj.toString());
-        else if (solrFldValObj instanceof Collection)
+    	try
+    	{
+	        Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(solrDocId, mrcFileName);
+	        if (solrFldName2ValMap == null)
+	        	fail("There is no document with id " + solrDocId);
+	
+	        Object solrFldValObj = solrFldName2ValMap.get(expectedFldName);
+	        if (solrFldValObj == null)
+	            fail("Solr doc " + solrDocId + " has value assigned for Solr field " + expectedFldName);
+	        if (solrFldValObj instanceof String)
+	            assertEquals("Solr doc " + solrDocId + " didn't have expected value for Solr field " + expectedFldName + ": ", expectedFldVal, solrFldValObj.toString());
+	        else if (solrFldValObj instanceof Collection)
+	        {
+	            // look for a match of at least one of the values
+	            boolean foundIt = false;
+	            for (String fldVal : (Collection<String>) solrFldValObj)
+	            {
+	                if (fldVal.equals(expectedFldVal))
+	                    foundIt = true;
+	                // System.out.println("DEBUG: value is [" + fldVal + "]");
+	            }
+	            assertTrue("Solr doc " + solrDocId + " did not have any " + expectedFldName + " fields with value matching " + expectedFldVal, foundIt);
+	        }
+        }
+        catch (FileNotFoundException e)
         {
-            // look for a match of at least one of the values
-            boolean foundIt = false;
-            for (String fldVal : (Collection<String>) solrFldValObj)
-            {
-                if (fldVal.equals(expectedFldVal))
-                    foundIt = true;
-                // System.out.println("DEBUG: value is [" + fldVal + "]");
-            }
-            assertTrue("Solr doc " + solrDocId + " did not have any " + expectedFldName + " fields with value matching " + expectedFldVal, foundIt);
+        	e.printStackTrace();
+        	System.exit(666);
         }
     }
 
@@ -82,21 +92,29 @@ public class SolrFieldMappingTest
      */
     public void assertSolrFldHasNoValue(String mrcFileName, String solrDocId, String expectedFldName, String expectedFldVal)
     {
-        Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(solrDocId, mrcFileName);
-        if (solrFldName2ValMap == null)
-        	fail("there is no document with id " + solrDocId);
-
-        Object solrFldValObj = solrFldName2ValMap.get(expectedFldName);
-        if (solrFldValObj instanceof String)
-            assertFalse("Solr field " + expectedFldName + " unexpectedly has value [" + expectedFldVal + "]", solrFldValObj.toString().equals(expectedFldVal));
-        else if (solrFldValObj instanceof Collection)
+    	try
+    	{
+	        Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(solrDocId, mrcFileName);
+	        if (solrFldName2ValMap == null)
+	        	fail("there is no document with id " + solrDocId);
+	
+	        Object solrFldValObj = solrFldName2ValMap.get(expectedFldName);
+	        if (solrFldValObj instanceof String)
+	            assertFalse("Solr field " + expectedFldName + " unexpectedly has value [" + expectedFldVal + "]", solrFldValObj.toString().equals(expectedFldVal));
+	        else if (solrFldValObj instanceof Collection)
+	        {
+	            // make sure none of the values match
+	            for (String fldVal : (Collection<String>) solrFldValObj)
+	            {
+	                if (fldVal.equals(expectedFldVal))
+	                    fail("Solr field " + expectedFldName + " unexpectedly has value [" + expectedFldVal + "]");
+	            }
+	        }
+        }
+        catch (FileNotFoundException e)
         {
-            // make sure none of the values match
-            for (String fldVal : (Collection<String>) solrFldValObj)
-            {
-                if (fldVal.equals(expectedFldVal))
-                    fail("Solr field " + expectedFldName + " unexpectedly has value [" + expectedFldVal + "]");
-            }
+        	e.printStackTrace();
+        	System.exit(666);
         }
     }
     
@@ -112,23 +130,31 @@ public class SolrFieldMappingTest
      */
     public void assertSolrFldHasNumValues(String mrcFileName, String solrDocId, String expectedFldName, int expectedNumVals)
     {
-        Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(solrDocId, mrcFileName);
-        if (solrFldName2ValMap == null)
-        	fail("there is no document with id " + solrDocId);
-
-        Object solrFldValObj = solrFldName2ValMap.get(expectedFldName);
-        if (solrFldValObj == null && expectedNumVals != 0)
-        	fail("Solr field "+ expectedFldName + " unexpectedly has no values; expected " + String.valueOf(expectedNumVals));
-        if (solrFldValObj instanceof String) 
-        {
-        	if (expectedNumVals != 1) 
-        		fail("Solr field " + expectedFldName + " unexpectedly has a single value " + solrFldValObj.toString() + "; expected " + String.valueOf(expectedNumVals));
-       	}
-        else if (solrFldValObj instanceof Collection)
-        {
-        	int numVals = ((Collection<String>) solrFldValObj).size();
-            assertTrue("Solr field " + expectedFldName + " unexpectedly has " + numVals + " values; expected " + expectedNumVals, expectedNumVals == numVals);
-        }
+    	try
+    	{
+	        Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(solrDocId, mrcFileName);
+	        if (solrFldName2ValMap == null)
+	        	fail("there is no document with id " + solrDocId);
+	
+	        Object solrFldValObj = solrFldName2ValMap.get(expectedFldName);
+	        if (solrFldValObj == null && expectedNumVals != 0)
+	        	fail("Solr field "+ expectedFldName + " unexpectedly has no values; expected " + String.valueOf(expectedNumVals));
+	        if (solrFldValObj instanceof String) 
+	        {
+	        	if (expectedNumVals != 1) 
+	        		fail("Solr field " + expectedFldName + " unexpectedly has a single value " + solrFldValObj.toString() + "; expected " + String.valueOf(expectedNumVals));
+	       	}
+	        else if (solrFldValObj instanceof Collection)
+	        {
+	        	int numVals = ((Collection<String>) solrFldValObj).size();
+	            assertTrue("Solr field " + expectedFldName + " unexpectedly has " + numVals + " values; expected " + expectedNumVals, expectedNumVals == numVals);
+	        }
+	    }
+	    catch (FileNotFoundException e)
+	    {
+	    	e.printStackTrace();
+	    	System.exit(666);
+	    }
     }
     
     /**
@@ -141,13 +167,21 @@ public class SolrFieldMappingTest
      */
     public void assertNoSolrFld(String mrcFileName, String solrDocId, String fldName)
     {
-        Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(solrDocId, mrcFileName);
-        if (solrFldName2ValMap == null)
-        	fail("there is no document with id " + solrDocId);
-        
-        Object solrFldValObj = solrFldName2ValMap.get(fldName);
-        if (solrFldValObj != null)
-            fail("There is a value assigned for Solr field " + fldName + " in Solr document " + solrDocId);
+    	try
+    	{
+	        Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(solrDocId, mrcFileName);
+	        if (solrFldName2ValMap == null)
+	        	fail("there is no document with id " + solrDocId);
+	        
+	        Object solrFldValObj = solrFldName2ValMap.get(fldName);
+	        if (solrFldValObj != null)
+	            fail("There is a value assigned for Solr field " + fldName + " in Solr document " + solrDocId);
+	    }
+	    catch (FileNotFoundException e)
+	    {
+	    	e.printStackTrace();
+	    	System.exit(666);
+	    }
     }
 
 

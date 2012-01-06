@@ -280,6 +280,13 @@ public class BooklistReader extends SolrReIndexer
             //e.printStackTrace();
             System.exit(1);
         }
+        catch (FileNotFoundException e)
+        {
+            logger.error(e.getMessage());
+            System.err.println(e.getMessage());
+            //e.printStackTrace();
+            System.exit(1);
+        }
         
         int exitCode = reader.handleAll();
         System.exit(exitCode);

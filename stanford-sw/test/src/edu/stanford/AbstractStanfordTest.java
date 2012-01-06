@@ -84,7 +84,15 @@ public abstract class AbstractStanfordTest extends IndexTest {
 		// needed to get through initialization; overridden in individual tests
 		System.setProperty("marc.path", testDataParentPath + File.separator + "pubDateTests.mrc");
         String testConfigFname = getRequiredSystemProperty("test.config.file");
-		solrFldMapTest = new SolrFieldMappingTest(testConfigFname, docIDfname);
+        try
+        {
+    		solrFldMapTest = new SolrFieldMappingTest(testConfigFname, docIDfname);
+        }
+        catch (FileNotFoundException e)
+        {
+        	e.printStackTrace();
+        	System.exit(666);
+        }
 	}
 
 

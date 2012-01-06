@@ -1,5 +1,6 @@
 package org.solrmarc.testUtils;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 //import org.apache.log4j.Logger;
@@ -42,7 +43,8 @@ public class MarcMappingOnly extends MarcHandler
      *    arg[1] - name of unique key field in solr document
      */
     @Override
-    public void init(String args[])
+    public void init(String args[]) 
+    		throws FileNotFoundException
     {
         if (args[0].contains("+"))
         {
@@ -89,7 +91,8 @@ public class MarcMappingOnly extends MarcHandler
      * @param mrcFileName  absolute path of file of marc records (name must end in .mrc or .marc or .xml)
      * @return a mapping of solr field names to solr field values (as Objects that are Strings or Collections of Strings)
      */
-    public Map<String, Object> getIndexMapForRecord(String desiredRecId, String mrcFileName)
+    public Map<String, Object> getIndexMapForRecord(String desiredRecId, String mrcFileName) 
+    		throws FileNotFoundException
     {
         loadReader("FILE", mrcFileName);
         while (reader != null && reader.hasNext())
@@ -135,7 +138,8 @@ public class MarcMappingOnly extends MarcHandler
      *            SolrMarc without first processing a full indexing specification.
      * @return the field/subfields from the indicated record as specified by the fieldSpec parameter
      */
-    public Set<String> lookupRawRecordValue(String desiredRecId, String mrcFileName, String fieldSpec)
+    public Set<String> lookupRawRecordValue(String desiredRecId, String mrcFileName, String fieldSpec) 
+    		throws FileNotFoundException
     {
         loadReader("FILE", mrcFileName);
         String propertyFilePathStr = System.getProperty("solrmarc.path");

@@ -217,7 +217,8 @@ public abstract class IndexTest
 	 * @param testDataParentPath - directory containing the test data file
 	 * @param marcTestDataFname - file of marc records to be indexed. should end in ".mrc", "marc" or ".xml"
 	 */
-	private void runMarcImporter(String configPropFilename, String testDataParentPath, String marcTestDataFname)
+	private void runMarcImporter(String configPropFilename, String testDataParentPath, String marcTestDataFname) 
+			throws FileNotFoundException
 	{
 		if (marcTestDataFname != null)
 		{
