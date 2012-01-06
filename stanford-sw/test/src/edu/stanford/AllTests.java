@@ -9,12 +9,12 @@ import org.junit.runners.Suite;
 //      AuthorTests.class,  // problem with sorting
         AuthorTitleMappingTests.class,
         CallNumberTests.class,
-//        CallNumLaneJacksonTests.class // bad values
+        CallNumLaneJacksonTests.class,
         CallNumLCLoppingUnitTests.class,
         CallNumLibLocComboLopTests.class,
-//        CallNumLongestComnPfxTests.class // bad values one test using dewey instead of LC?
+        CallNumLongestComnPfxTests.class,
         CallNumLoppingUnitTests.class,
-//        CallNumTopFacetTests.class // bad values
+        CallNumTopFacetTests.class,
         CallNumUtilsLoppingUnitTests.class,
 //        CombineMultBibsMhldsReaderTest.class // unreadable rec between isn't working right
         DatabaseAZSubjectTests.class, 
@@ -23,7 +23,7 @@ import org.junit.runners.Suite;
         FormatTests.class,
         GeographicFacetTests.class,
         IncrementalUpdateTests.class,
-//        ItemDisplayCallnumLoppingTests.class //bad value for one test
+        ItemDisplayCallnumLoppingTests.class,
         ItemInfoTests.class,
         ItemLACTests.class,
         ItemMissingTests.class,
