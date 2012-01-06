@@ -691,7 +691,15 @@ public class SolrReIndexer extends MarcImporter
         
         SolrReIndexer reader = null;
         reader = new SolrReIndexer();
-        reader.init(newArgs);
+        try
+        {
+        	reader.init(newArgs);
+        }
+        catch (FileNotFoundException e)
+        {
+        	e.printStackTrace();
+        	System.exit(666);
+        }
           
         reader.handleAll();
         
