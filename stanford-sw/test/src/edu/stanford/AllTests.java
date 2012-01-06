@@ -28,7 +28,7 @@ import org.junit.runners.Suite;
         ItemLACTests.class,
         ItemMissingTests.class,
         ItemNoCallNumberTests.class,
-//        ItemObjectTests.class // bad value for one test
+        ItemObjectTests.class,
         ItemOnlineTests.class,
         ItemSkippedTests.class,
         ItemsSplitTests.class,

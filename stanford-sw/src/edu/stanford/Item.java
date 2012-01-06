@@ -419,7 +419,7 @@ public class Item {
 			adjustLCCallnumType(recId);
 		}
 		if (callnumType == CallNumberType.DEWEY
-				&& !CallNumUtils.isValidDewey(normCallnum)) {
+				&& !CallNumUtils.isValidDeweyWithCutter(normCallnum)) {
 			System.err.println("record " + recId + " has invalid DEWEY callnumber: " + normCallnum);
 			callnumType = CallNumberType.OTHER;
 		}
@@ -434,7 +434,7 @@ public class Item {
 	 */
 	private void adjustLCCallnumType(String id) {
 		if (callnumType == CallNumberType.LC) {
-			if (CallNumUtils.isValidDewey(normCallnum)) 
+			if (CallNumUtils.isValidDeweyWithCutter(normCallnum)) 
 				callnumType = CallNumberType.DEWEY;
 			else
 			{
