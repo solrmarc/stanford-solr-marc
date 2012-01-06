@@ -44,7 +44,7 @@ import org.junit.runners.Suite;
         SeriesTests.class,
         StandardNumberTests.class,
         SubjectSearchTests.class,
-//        SubjectTests.class // bad val counts one test
+        SubjectTests.class,
         TitleSearchTests.class,
         TitleSearchVernTests.class,
         TitleTests.class,
