@@ -82,7 +82,7 @@ public class SolrFieldMappingTest
      */
     public void assertSolrFldHasNoValue(String mrcFileName, String solrDocId, String expectedFldName, String expectedFldVal)
     {
-        Map<String, Object> solrFldName2ValMap = marcMappingTest .getIndexMapForRecord(solrDocId, mrcFileName);
+        Map<String, Object> solrFldName2ValMap = marcMappingTest.getIndexMapForRecord(solrDocId, mrcFileName);
         if (solrFldName2ValMap == null)
         	fail("there is no document with id " + solrDocId);
 
