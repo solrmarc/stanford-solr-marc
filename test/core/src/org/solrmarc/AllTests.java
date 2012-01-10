@@ -8,7 +8,7 @@ import org.solrmarc.tools.*;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         CallNumberUnitTests.class,
-//        CommandLineUtilTests.class, // not passing 2011-12-24
+        CommandLineUtilTests.class,
         GetFormatMixinTest.class,
         HathiJsonReaderTest.class,
 //        IndexSmokeTest.class, // duplicated in RemoteServerTest

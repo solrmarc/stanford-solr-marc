@@ -15,7 +15,7 @@ public class PermissiveReaderTest
      */
     public static void main(String[] args)
     {
-        System.setProperty("org.marc4j.marc.MarcFactory", "marcoverride.UVAMarcFactoryImpl");
+		System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
         PrintStream out = System.out;
         try
         {
