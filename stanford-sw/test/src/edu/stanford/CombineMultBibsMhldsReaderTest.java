@@ -522,7 +522,6 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
         	RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "999", 'a', expectedVals);
         	expectedVals.clear();
         	expectedVals.add("mhld1-1");
-        	expectedVals.add("mhld1-2");
         	RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "852", 'b', expectedVals);
             
             // did message go to logger?

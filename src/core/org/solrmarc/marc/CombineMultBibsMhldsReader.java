@@ -198,10 +198,12 @@ public class CombineMultBibsMhldsReader implements MarcReader
      */
 	public Record next()
     {
-        try
+		String idToMatch = null;
+		try
         {
     		if (hasNext())
     		{
+    			// is it the beginning of the file?
     			if (lastRecordRead == null && currentFirstBibRecord == null)
     			{
     				// we are at the beginning of the file
@@ -221,11 +223,16 @@ public class CombineMultBibsMhldsReader implements MarcReader
     	                this.next(); // move on to the next record
     	        	}
     			}
+//    			else if (lastRecordRead == null)
+//    			{
+//    				// we read a bad record after a good one; try again
+//    				lastRecordRead = marcReader.next();
+//    			}
     
                 currentFirstBibRecord = lastRecordRead; 
     
                 // look for following bib or mhld records that need to be merged in
-    			String idToMatch = MarcUtils.getControlFieldData(currentFirstBibRecord, firstBibFldToMatch);
+    			idToMatch = MarcUtils.getControlFieldData(currentFirstBibRecord, firstBibFldToMatch);
     			mergeFollowingRecs(idToMatch);
     				//    marcReader is moved to the next record
     				//    lastRecordRead gets a new value
@@ -235,7 +242,7 @@ public class CombineMultBibsMhldsReader implements MarcReader
         catch (Exception e)
         {
         	if (e instanceof SolrMarcRuntimeException)
-        		throw (RuntimeException) e;
+        			throw (RuntimeException) e;
         	else
         	{
         		// try to get record identifier
@@ -247,6 +254,9 @@ public class CombineMultBibsMhldsReader implements MarcReader
                 	logger.error("Skipping record after " + recCntlNum + "; Couldn't read it:  " + e.toString(), e);
                 else
                 	logger.error("Skipping record; Couldn't read it: " + e.toString(), e);
+
+                if (idToMatch != null)
+                	mergeFollowingRecs(idToMatch);
         	}
         }
 		
@@ -281,16 +291,63 @@ public class CombineMultBibsMhldsReader implements MarcReader
     	lastRecordRead = null;
 		while (stillLooking)
 		{
-			if (marcReader.hasNext())
-				lastRecordRead = marcReader.next();
-			else
+			// encapsulate marcReader.hasNext() in a try block so we can 
+			//  get past a bad record.
+//			try
+//			{
+				if (!marcReader.hasNext())
+				{
+					// if we already read the last record in the file and we're still
+					//  looking, then we're done
+					lastRecordRead = null;  
+					break;
+				}
+//			}
+//			catch (Exception e)
+//			{
+//				// we're unable to continue
+//	        	if (e instanceof SolrMarcRuntimeException) 
+//        			throw (RuntimeException) e;
+//	        	
+//	        	// we can continue by just skipping record
+//	    		// try to get record identifier
+//	            String recCntlNum = null;
+//	            try {  recCntlNum = currentFirstBibRecord.getControlNumber(); }
+//	            catch (NullPointerException npe) { /* ignore */ }
+//	    
+//	            if (recCntlNum != null)
+//	            	logger.error("Skipping record after " + recCntlNum + "; Couldn't read it:  " + e.toString(), e);
+//	            else
+//	            	logger.error("Skipping record; Couldn't read it: " + e.toString(), e);
+//			}
+			
+			// there is another record
+			
+			try
 			{
-				// if we already read the last record in the file and we're still
-				//  looking, then we're done
-				lastRecordRead = null;  
-				break;
+				lastRecordRead = marcReader.next();
+			} 
+			catch (Exception e)
+			{
+				// we're unable to continue
+	        	if (e instanceof SolrMarcRuntimeException) 
+        			throw (RuntimeException) e;
+	        	
+	        	// we can continue by just skipping record
+	    		// try to get record identifier
+	            String recCntlNum = null;
+	            try {  recCntlNum = currentFirstBibRecord.getControlNumber(); }
+	            catch (NullPointerException npe) { /* ignore */ }
+	    
+	            if (recCntlNum != null)
+	            	logger.error("Skipping record after " + recCntlNum + "; Couldn't read it:  " + e.toString(), e);
+	            else
+	            	logger.error("Skipping record; Couldn't read it: " + e.toString(), e);
+	            return mergeFollowingRecs(idToMatch);
 			}
 
+// FIXME: what if lastRecordRead is null?			
+			
     		if (MarcUtils.isMHLDRecord(lastRecordRead)) 
     		{
     			String mhldMatchId = MarcUtils.getControlFieldData(lastRecordRead, mhldFldToMatch);
