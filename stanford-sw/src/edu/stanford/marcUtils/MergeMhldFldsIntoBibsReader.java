@@ -73,7 +73,7 @@ public class MergeMhldFldsIntoBibsReader  implements MarcReader
 
         this.mhldRecsFileName = mhldRecsFileName;
 		this.mhldFldsToMerge = mhldFldsToMerge;
-		System.setProperty("org.marc4j.marc.MarcFactory", "org.solrmarc.marcoverride.NoSortMarcFactoryImpl");
+		System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
 		readMhldFileFromBeginning(mhldRecsFileName);
 	}
 
@@ -269,9 +269,8 @@ public class MergeMhldFldsIntoBibsReader  implements MarcReader
         
         int argoffset = 0;
         if (args.length == 0)
-        {
             System.err.println("Usage: edu.stanford.MergeMhldFldsIntoBibs  -s marcMhldFile.mrc  marcBibsFile.mrc");
-        }
+
         while (argoffset < args.length && args[argoffset].startsWith("-"))
         {
             if (args[argoffset].equals("-s"))
@@ -285,7 +284,7 @@ public class MergeMhldFldsIntoBibsReader  implements MarcReader
         if (args.length > argoffset && (args[argoffset].endsWith(".mrc") || args[argoffset].endsWith(".marc") || args[argoffset].endsWith(".xml")))
         	bibRecsFileName = args[argoffset];
         
-        System.setProperty("org.marc4j.marc.MarcFactory", "org.solrmarc.marcoverride.NoSortMarcFactoryImpl");
+		System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
 
         try 
         {
