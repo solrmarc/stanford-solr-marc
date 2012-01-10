@@ -277,18 +277,14 @@ public class CombineMultBibsMhldsReader implements MarcReader
      *  
      * @param idToMatch  the id to match the next bib or mhld 
      * @param currBibHasMhld  true if currentFirstBibRecord already includes an mhld record
-//     * @return true if we found matches and merged the appropriate fields into currentFirstBibRecord; false if we found no matches
      * @return true if currentFirstBibRecord includes an mhld by the end of processing
      * @throws SolrMarcRuntimeException - if file records aren't in ascending ID order, 
      *  where ID is determined from the firstBibFldToMatch, the lookAheadBibFldToMatch and the mhldFldToMatch
      */
-//    private boolean mergeFollowingRecs(String idToMatch)
     private boolean mergeFollowingRecs(String idToMatch, boolean currBibHasMhld)
     {
     	boolean stillLooking = true;
     	boolean mergedSome = false;
-//    	boolean isFirstMhld = true;
-//    	boolean isFirstMhld = currBibHasMhld;
     	boolean bibHasMhld = currBibHasMhld;
     	lastRecordRead = null;
 		while (stillLooking)
@@ -297,7 +293,7 @@ public class CombineMultBibsMhldsReader implements MarcReader
 			{
 				// if we already read the last record in the file and we're still
 				//  looking, then we're done
-				lastRecordRead = null;  
+				lastRecordRead = null;
 				break;
 			}
 			
@@ -322,7 +318,6 @@ public class CombineMultBibsMhldsReader implements MarcReader
 	            else
 	            	logger.error("Skipping record; Couldn't read it: " + e.toString(), e);
 	            return mergeFollowingRecs(idToMatch, bibHasMhld);
-//	            return mergeFollowingRecs(idToMatch);
 			}
 
 // FIXME: what if lastRecordRead is null?			
@@ -335,11 +330,9 @@ public class CombineMultBibsMhldsReader implements MarcReader
             	if (compareResult == 0)
             	{
                 	// we have a match - merge the mhld into the bib
-//            		if (bibHasMhld)
                		if (!bibHasMhld)
             		{
             			currentFirstBibRecord = MarcUtils.removeFields(currentFirstBibRecord, mhldFldsToMerge);
-//            			bibHasMhld = false;
             			bibHasMhld = true;
             		}
             		
@@ -381,7 +374,6 @@ public class CombineMultBibsMhldsReader implements MarcReader
     		}
 		}
 		
-//    	return mergedSome;
     	return bibHasMhld;
     }
 	  
