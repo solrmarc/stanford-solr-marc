@@ -1,34 +1,10 @@
 package org.solrmarc.tools;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PipedReader;
-import java.io.PipedWriter;
-import java.io.PrintStream;
-import java.io.Reader;
-import java.io.SequenceInputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Vector;
+import java.io.*;
+import java.util.*;
 
-import org.marc4j.MarcException;
-import org.marc4j.MarcReader;
-import org.marc4j.MarcWriter;
-import org.marc4j.MarcStreamWriter;
-import org.marc4j.MarcXmlReader;
-import org.marc4j.marc.DataField;
-import org.marc4j.marc.MarcFactory;
-import org.marc4j.marc.Record;
-import org.marc4j.marc.Subfield;
+import org.marc4j.*;
+import org.marc4j.marc.*;
 import org.marc4j.util.JsonParser;
 import org.xml.sax.InputSource;
 
@@ -55,10 +31,8 @@ public class HathiJsonToMarc implements MarcReader
         this.add856 = add856;
         if (mf == null) 
         {
-            if(System.getProperty("org.marc4j.marc.MarcFactory") == null)
-            {
-                System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.NoSortMarcFactoryImpl");
-            }
+            if (System.getProperty("org.marc4j.marc.MarcFactory") == null)
+            	System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
             mf = MarcFactory.newInstance();
         }
         parser = new JsonParser(0);
@@ -87,10 +61,8 @@ public class HathiJsonToMarc implements MarcReader
         this.add856 = add856;
         if (mf == null) 
         {
-            if(System.getProperty("org.marc4j.marc.MarcFactory") == null)
-            {
-                System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.NoSortMarcFactoryImpl");
-            }
+            if (System.getProperty("org.marc4j.marc.MarcFactory") == null)
+            	System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
             mf = MarcFactory.newInstance();
         }
         parser = new JsonParser(0);
@@ -114,10 +86,8 @@ public class HathiJsonToMarc implements MarcReader
 //        
 //        if (mf == null) 
 //        {
-//            if(System.getProperty("org.marc4j.marc.MarcFactory") == null)
-//            {
-//                System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.NoSortMarcFactoryImpl");
-//            }
+//            if (System.getProperty("org.marc4j.marc.MarcFactory") == null)
+//    			System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
 //            mf = MarcFactory.newInstance();
 //        }
 //        parser = new JsonParser(0);

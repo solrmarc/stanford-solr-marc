@@ -105,7 +105,7 @@ public class MergeSummaryHoldings implements MarcReader
         this.toUtf8 = toUtf8;
         this.defaultEncoding = defaultEncoding;
         this.mhldFldsToMerge = mhldFldsToMerge;
-        System.setProperty("org.marc4j.marc.MarcFactory", "org.solrmarc.marcoverride.NoSortMarcFactoryImpl");
+        System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
         readMhldFileFromBeginning(mhldRecsFileName);
     }
     
@@ -563,7 +563,7 @@ public class MergeSummaryHoldings implements MarcReader
             bibsRawRecRdr = new RawRecordReader(System.in);
         }
 
-        System.setProperty("org.marc4j.marc.MarcFactory", "org.solrmarc.marcoverride.NoSortMarcFactoryImpl");
+		System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
         mergeMhldsIntoBibRecsAsStdOut(bibsRawRecRdr, mhldRecsFileName, outputAllBibs);
         System.exit(0);
     }

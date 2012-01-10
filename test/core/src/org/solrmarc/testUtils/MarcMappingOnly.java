@@ -10,7 +10,6 @@ import org.marc4j.marc.Record;
 
 import org.solrmarc.index.*;
 import org.solrmarc.marc.MarcHandler;
-import org.solrmarc.tools.SolrMarcException;
 import org.solrmarc.tools.SolrMarcIndexerException;
 
 /**
