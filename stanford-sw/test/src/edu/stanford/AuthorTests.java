@@ -909,22 +909,23 @@ public class AuthorTests extends AbstractStanfordTest {
 
 		
 		// get search results sorted by author_sort field
-//		int resultDocIds[] = getAscSortDocs("collection", "sirsi", "author_sort");
 		SolrDocumentList resultDocs = getAscSortDocs("collection", "sirsi", "author_sort");
-		// we know we have documents that are not in the expected order list
-		int expDocIx = 0;
-//		for (int i = 0; i < resultDocIds.length; i++) {
+
+		// we know we have documents that are not in the expected order list, 
+		//  so we must allow for gaps
+		int expDocIx = -1;
 		for (int i = 0; i < resultDocs.size(); i++) {
 			if (expDocIx < expectedOrderList.size() - 1) {
+
 				// we haven't found all docs in the expected list yet
-//				String resultDocId = searcherProxy.getDocIdFromSolrDocNum(resultDocIds[i], docIDfname);
 				String resultDocId = (String) resultDocs.get(i).getFirstValue(docIDfname);
+
+				// is it a match?
 				if (resultDocId.equals(expectedOrderList.get(expDocIx + 1)))
 					expDocIx++;
 			}
 			else break;  // we found all the documents in the expected order list
 		}
-		
 		
 		if (expDocIx != expectedOrderList.size() - 1) {
 			String lastCorrDocId = expectedOrderList.get(expDocIx);
