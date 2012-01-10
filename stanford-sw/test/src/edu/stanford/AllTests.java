@@ -6,7 +6,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
     	AccessTests.class,
-//      AuthorTests.class,  // problem with sorting
+    	AuthorTests.class,
         AuthorTitleMappingTests.class,
         CallNumberTests.class,
         CallNumLaneJacksonTests.class,
@@ -36,11 +36,11 @@ import org.junit.runners.Suite;
         LanguageTests.class,
         MarcCombiningReaderTests.class,
         MergeMhldFldsIntoBibsReaderTests.class,
-//        MhldMappingTests.class // probs
+//        MhldMappingTests.class // probs with sub '='
         MiscellaneousFieldTests.class,
         NoteFieldsTests.class,
         PhysicalTests.class,
-//        PublicationTests.class, // bad sorts, etc.
+//        PublicationTests.class, // bad sorts
         SeriesTests.class,
         StandardNumberTests.class,
         SubjectSearchTests.class,

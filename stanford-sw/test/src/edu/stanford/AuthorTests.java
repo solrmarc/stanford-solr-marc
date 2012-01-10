@@ -913,13 +913,13 @@ public class AuthorTests extends AbstractStanfordTest {
 
 		// we know we have documents that are not in the expected order list, 
 		//  so we must allow for gaps
+		// author_sort isn't stored, so we must look at id field
 		int expDocIx = -1;
-		for (int i = 0; i < resultDocs.size(); i++) {
-			if (expDocIx < expectedOrderList.size() - 1) {
-
-				// we haven't found all docs in the expected list yet
-				String resultDocId = (String) resultDocs.get(i).getFirstValue(docIDfname);
-
+		for (SolrDocument doc : resultDocs)
+		{
+			if (expDocIx < expectedOrderList.size() - 1) 
+			{
+				String resultDocId = (String) doc.getFirstValue(docIDfname);
 				// is it a match?
 				if (resultDocId.equals(expectedOrderList.get(expDocIx + 1)))
 					expDocIx++;
