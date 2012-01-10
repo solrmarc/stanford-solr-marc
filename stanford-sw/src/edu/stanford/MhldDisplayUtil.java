@@ -234,7 +234,7 @@ public class MhldDisplayUtil
 			return;
 
 		resultPrefixFrom852 = libraryCode + SEP + locationCode + SEP + comment + SEP;
-//System.out.println("\nDEBUG:   process852: " + id + " resultPrefixFrom852: " + resultPrefixFrom852);
+//System.out.println("DEBUG:   process852: " + id + " resultPrefixFrom852: " + resultPrefixFrom852);
 
 		String subEquals = MarcUtils.getSubfieldData(df852, '=');
 		if (subEquals != null && subEquals.length() > 0)
