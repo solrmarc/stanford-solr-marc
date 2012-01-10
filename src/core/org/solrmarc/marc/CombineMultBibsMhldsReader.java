@@ -82,6 +82,7 @@ public class CombineMultBibsMhldsReader implements MarcReader
 
     /** the last record that has been read (so far) in the marc file. Set to null before first record is read and after last record is read. */
     Record lastRecordRead = null;
+
     
 	/**
 	 * 
@@ -199,6 +200,7 @@ public class CombineMultBibsMhldsReader implements MarcReader
 	public Record next()
     {
 		String idToMatch = null;
+		boolean currRecHasMhld = false;
 		try
         {
     		if (hasNext())
@@ -223,17 +225,12 @@ public class CombineMultBibsMhldsReader implements MarcReader
     	                this.next(); // move on to the next record
     	        	}
     			}
-//    			else if (lastRecordRead == null)
-//    			{
-//    				// we read a bad record after a good one; try again
-//    				lastRecordRead = marcReader.next();
-//    			}
     
                 currentFirstBibRecord = lastRecordRead; 
     
                 // look for following bib or mhld records that need to be merged in
     			idToMatch = MarcUtils.getControlFieldData(currentFirstBibRecord, firstBibFldToMatch);
-    			mergeFollowingRecs(idToMatch);
+    			currRecHasMhld = mergeFollowingRecs(idToMatch, currRecHasMhld);
     				//    marcReader is moved to the next record
     				//    lastRecordRead gets a new value
     				//    currentFirstBibRecord can get more fields merged in
@@ -256,7 +253,7 @@ public class CombineMultBibsMhldsReader implements MarcReader
                 	logger.error("Skipping record; Couldn't read it: " + e.toString(), e);
 
                 if (idToMatch != null)
-                	mergeFollowingRecs(idToMatch);
+                	currRecHasMhld = mergeFollowingRecs(idToMatch, currRecHasMhld);
         	}
         }
 		
@@ -278,50 +275,31 @@ public class CombineMultBibsMhldsReader implements MarcReader
      *      or to null, if there are no more records to be read.
      *    currentFirstBibRecord can get more fields
      *  
-     * @param idToMatch - the id to match the next bib or mhld 
-     * @return true if we found matches and merged the appropriate fields into currentFirstBibRecord; false if we found no matches
+     * @param idToMatch  the id to match the next bib or mhld 
+     * @param currBibHasMhld  true if currentFirstBibRecord already includes an mhld record
+//     * @return true if we found matches and merged the appropriate fields into currentFirstBibRecord; false if we found no matches
+     * @return true if currentFirstBibRecord includes an mhld by the end of processing
      * @throws SolrMarcRuntimeException - if file records aren't in ascending ID order, 
      *  where ID is determined from the firstBibFldToMatch, the lookAheadBibFldToMatch and the mhldFldToMatch
      */
-    private boolean mergeFollowingRecs(String idToMatch)
+//    private boolean mergeFollowingRecs(String idToMatch)
+    private boolean mergeFollowingRecs(String idToMatch, boolean currBibHasMhld)
     {
     	boolean stillLooking = true;
     	boolean mergedSome = false;
-    	boolean isFirstMhld = true;
+//    	boolean isFirstMhld = true;
+//    	boolean isFirstMhld = currBibHasMhld;
+    	boolean bibHasMhld = currBibHasMhld;
     	lastRecordRead = null;
 		while (stillLooking)
 		{
-			// encapsulate marcReader.hasNext() in a try block so we can 
-			//  get past a bad record.
-//			try
-//			{
-				if (!marcReader.hasNext())
-				{
-					// if we already read the last record in the file and we're still
-					//  looking, then we're done
-					lastRecordRead = null;  
-					break;
-				}
-//			}
-//			catch (Exception e)
-//			{
-//				// we're unable to continue
-//	        	if (e instanceof SolrMarcRuntimeException) 
-//        			throw (RuntimeException) e;
-//	        	
-//	        	// we can continue by just skipping record
-//	    		// try to get record identifier
-//	            String recCntlNum = null;
-//	            try {  recCntlNum = currentFirstBibRecord.getControlNumber(); }
-//	            catch (NullPointerException npe) { /* ignore */ }
-//	    
-//	            if (recCntlNum != null)
-//	            	logger.error("Skipping record after " + recCntlNum + "; Couldn't read it:  " + e.toString(), e);
-//	            else
-//	            	logger.error("Skipping record; Couldn't read it: " + e.toString(), e);
-//			}
-			
-			// there is another record
+			if (!marcReader.hasNext())
+			{
+				// if we already read the last record in the file and we're still
+				//  looking, then we're done
+				lastRecordRead = null;  
+				break;
+			}
 			
 			try
 			{
@@ -343,7 +321,8 @@ public class CombineMultBibsMhldsReader implements MarcReader
 	            	logger.error("Skipping record after " + recCntlNum + "; Couldn't read it:  " + e.toString(), e);
 	            else
 	            	logger.error("Skipping record; Couldn't read it: " + e.toString(), e);
-	            return mergeFollowingRecs(idToMatch);
+	            return mergeFollowingRecs(idToMatch, bibHasMhld);
+//	            return mergeFollowingRecs(idToMatch);
 			}
 
 // FIXME: what if lastRecordRead is null?			
@@ -356,10 +335,12 @@ public class CombineMultBibsMhldsReader implements MarcReader
             	if (compareResult == 0)
             	{
                 	// we have a match - merge the mhld into the bib
-            		if (isFirstMhld)
+//            		if (bibHasMhld)
+               		if (!bibHasMhld)
             		{
             			currentFirstBibRecord = MarcUtils.removeFields(currentFirstBibRecord, mhldFldsToMerge);
-            			isFirstMhld = false;
+//            			bibHasMhld = false;
+            			bibHasMhld = true;
             		}
             		
 // FIXME:  is there any reason the 999s need to be last?            		
@@ -400,7 +381,8 @@ public class CombineMultBibsMhldsReader implements MarcReader
     		}
 		}
 		
-    	return mergedSome;
+//    	return mergedSome;
+    	return bibHasMhld;
     }
 	  
 }

@@ -210,13 +210,12 @@ public class RecordTestingUtils
 	{
 	    List<VariableField> vfList = record.getVariableFields(fieldTag);
 	    Set<String> resultSet = new LinkedHashSet<String>();
-	    for (Iterator iter = vfList.iterator(); iter.hasNext();)
+	    for (VariableField vf : vfList )
 	    {
-	    	DataField df = (DataField) iter.next();
+	    	DataField df = (DataField) vf;
 	    	List<Subfield> sfList = df.getSubfields(subfieldCode);
-	    	for (Iterator iter2 = sfList.iterator(); iter2.hasNext();) 
+	    	for (Subfield sf : sfList) 
 	    	{
-	    		Subfield sf = (Subfield) iter2.next();
 	    		String val = sf.getData();
 	    		resultSet.add(val);
     			assertTrue("Got unexpected value " + val, expectedVals.contains(val));
