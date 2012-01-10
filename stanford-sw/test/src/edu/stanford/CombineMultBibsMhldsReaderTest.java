@@ -757,20 +757,6 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
 
     }
 
-    
-    
-    /**
-     * if the MHLD has more than one instance of a field, all instances should be put in the bib record
-     */
-//@Test
-    public void testRemoveDuplicateMhld852s() 
-    		throws IOException
-    {
-    	org.junit.Assert.fail("implement me");
-    }
-
-
-
 
     
 // supporting methods for testing ---------------------------------------------

@@ -16,7 +16,7 @@ import org.junit.runners.Suite;
         CallNumLoppingUnitTests.class,
         CallNumTopFacetTests.class,
         CallNumUtilsLoppingUnitTests.class,
-//        CombineMultBibsMhldsReaderTest.class // unreadable rec between isn't working right
+        CombineMultBibsMhldsReaderTest.class,
         DatabaseAZSubjectTests.class, 
         DiacriticTests.class,
         FormatDatabaseTests.class,
