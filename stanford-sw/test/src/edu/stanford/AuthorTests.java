@@ -161,80 +161,9 @@ public class AuthorTests extends AbstractStanfordTest {
 
 
 	/**
-	 * Corporate name facet field tests, especially removal of trailing 
-	 * punctuation
-	 */
-@Test
-	public final void testCorporateNameFacet() 
-	{
-		String fldName = "author_corp_facet";
-		String testFilePath = testDataParentPath + File.separator + "authorTests.mrc";
-	
-		// 110 - trailing period to remove
-		solrFldMapTest.assertSolrFldValue(testFilePath, "110foo", fldName, "SAFE Association (U.S.). Symposium");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "110foo", fldName, "SAFE Association (U.S.). Symposium.");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "NYPL", fldName, "New York Public Library");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "NYPL", fldName, "New York Public Library.");
-    	// 710 - trailing period to leave in
-		solrFldMapTest.assertSolrFldValue(testFilePath, "6280316", fldName, "Julius Bien & Co.");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "6280316", fldName, "Julius Bien & Co");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "57136914", fldName, "NetLibrary, Inc.");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "57136914", fldName, "NetLibrary, Inc");
-    	// 710 - last char paren
-		solrFldMapTest.assertSolrFldValue(testFilePath, "987666", fldName, "(this was a value in a non-latin script)");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "987666", fldName, "(this was a value in a non-latin script");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "710corpname", fldName, "Warner Bros. Pictures (1969- )");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "710corpname", fldName, "Warner Bros. Pictures (1969- ");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "710corpname", fldName, "Warner Bros. Pictures (1969-");
-		// 710 - leading space
-		solrFldMapTest.assertSolrFldValue(testFilePath, "710corpname", fldName, "Heyday Films");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "710corpname", fldName, " Heyday Films.");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "710corpname", fldName, "Heyday Films.");
-		
-		// 110 and 710
-		solrFldMapTest.assertSolrFldValue(testFilePath, "110710corpname", fldName, "Thelma");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "110710corpname", fldName, "Thelma.");
-		solrFldMapTest.assertSolrFldValue(testFilePath, "110710corpname", fldName, "Roaring Woman, Louise. 2000-2001");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "110710corpname", fldName, "Roaring Woman, Louise");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "110710corpname", fldName, "Roaring Woman, Louise. 2000-2001.");
-
-		// 810 not included
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "810", fldName, "American Academy in Rome");
-		solrFldMapTest.assertNoSolrFld(testFilePath, "810", fldName);
-	}
-
-	/**
-	 * Meeting name facet tests, especially removal of trailing punctuation
-	 */
-@Test
-	public final void testMeetingNameFacet() 
-	{
-		String fldName = "author_meeting_facet";
-		String testFilePath = testDataParentPath + File.separator + "authorTests.mrc";
-	
-		// 111
-		solrFldMapTest.assertSolrFldValue(testFilePath, "111faim", fldName, "FAIM (Forum)");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "111faim", fldName, "FAIM (Forum).");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "111faim", fldName, "FAIM (Forum");
-		// 111 sub a n d c  - last char paren
-		solrFldMapTest.assertSolrFldValue(testFilePath, "5666387", fldName, "International Jean Sibelius Conference (3rd : 2000 : Helsinki, Finland)");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "5666387", fldName, "International Jean Sibelius Conference (3rd : 2000 : Helsinki, Finland");
-		
-		// 711
-		solrFldMapTest.assertSolrFldValue(testFilePath, "711", fldName, "European Conference on Computer Vision (2006 : Graz, Austria)");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "711", fldName, "European Conference on Computer Vision (2006 : Graz, Austria");
-		
-		// 811 not included
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "811", fldName, "Delaware Symposium on Language Studies");
-		solrFldMapTest.assertNoSolrFld(testFilePath, "811", fldName);
-	}
-
-
-	/**
 	 * Other (meeting and corporate, not person) name facet tests, including 
 	 *  removal of trailing punctuation
 	 * NOTE:  copy field - must test as search
-
 	 */
 @Test
 	public final void testAuthorOtherFacet()

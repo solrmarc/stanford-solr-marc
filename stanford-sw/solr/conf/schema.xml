@@ -228,8 +228,6 @@
     
     <!-- Author Facet Fields -->
     <field name="author_person_facet" type="string" indexed="true" stored="false" multiValued="true" />
-    <field name="author_corp_facet" type="string" indexed="true" stored="false" multiValued="true" />
-    <field name="author_meeting_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <field name="author_other_facet" type="string" indexed="true" stored="false" multiValued="true" />
 
     <field name="author_sort" type="alphaSort" indexed="true" stored="false" />
@@ -369,9 +367,10 @@
   <uniqueKey>id</uniqueKey>
   <defaultSearchField>all_search</defaultSearchField>
 
-  <copyField source="author_corp_facet" dest="author_other_facet" />
-  <copyField source="author_meeting_facet" dest="author_other_facet" />
   <copyField source="pub_date" dest="pub_date_search" />
+
+  <copyField source="db_az_subject" dest="db_az_subject_search" />
+
   <!-- unstemmed search fields: title -->
   <copyField source="title_245a_search" dest="title_245a_unstem_search" />
   <copyField source="title_245_search" dest="title_245_unstem_search" />
@@ -390,10 +389,6 @@
   <copyField source="subject_other_search" dest="subject_other_unstem_search" />
   <copyField source="subject_other_subvy_search" dest="subject_other_subvy_unstem_search" />
   <copyField source="subject_all_search" dest="subject_all_unstem_search" />
-  
-  <copyField source="db_az_subject" dest="db_az_subject_search" />
-  
-  
   <!-- unstemmed search fields: toc/summary -->
   <copyField source="toc_search" dest="toc_unstem_search" />
   <copyField source="context_search" dest="context_unstem_search" />
