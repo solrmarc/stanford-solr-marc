@@ -40,7 +40,7 @@ import org.junit.runners.Suite;
         MiscellaneousFieldTests.class,
         NoteFieldsTests.class,
         PhysicalTests.class,
-//        PublicationTests.class, // bad sorts
+        PublicationTests.class,
         SeriesTests.class,
         StandardNumberTests.class,
         SubjectSearchTests.class,

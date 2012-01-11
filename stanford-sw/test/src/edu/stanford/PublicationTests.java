@@ -278,7 +278,7 @@ public class PublicationTests extends AbstractStanfordTest
 		expectedOrderList.add("v2007");   // "2007"
 		expectedOrderList.add("b2008");   // "2008"
 		expectedOrderList.add("z2009");   // "2009"
-		expectedOrderList.add("pubDate2010");   // "2010"
+		expectedOrderList.add("zpubDate2010");   // "2010"
 		
 		// invalid/missing dates are designated as last in solr schema file
 		//  they are in order of occurrence in the raw data 
@@ -289,31 +289,22 @@ public class PublicationTests extends AbstractStanfordTest
 		expectedOrderList.add("pubDate9999"); 
 		
 		// get search results sorted by pub_date_sort field
-		// pub_date_sort isn't stored, so we must look at id field
-//        List<DocumentProxy> results = getAscSortDocs("collection", "sirsi", "pub_date_sort");
-//		DocumentProxy firstDoc = results.get(0);
-//		assertTrue("9999 pub date should not sort first", firstDoc.getValues(docIDfname)[0] != "pubDate9999");
         SolrDocumentList results = getAscSortDocs("collection", "sirsi", "pub_date_sort");
-		SolrDocument firstDoc = results.get(0);
+
+        SolrDocument firstDoc = results.get(0);
 		assertTrue("9999 pub date should not sort first", (String) firstDoc.getFirstValue(docIDfname) != "pubDate9999");
 		
-		// we know we have documents that are not in the expected order list
-		int expDocIx = 0;
-//		for (DocumentProxy doc : results) 
+		// we know we have documents that are not in the expected order list, 
+		//  so we must allow for gaps
+		// author_sort isn't stored, so we must look at id field
+		int expDocIx = -1;
 		for (SolrDocument doc : results) 
 		{
 			if (expDocIx < expectedOrderList.size() - 1) 
 			{
-				// we haven't found all docs in the expected list yet
-//			    String[] vals = doc.getValues(docIDfname);
-//			    if (vals != null && vals.length > 0) 
-//			    {
-//	                String docId = vals[0];
-//	                if (docId.equals(expectedOrderList.get(expDocIx + 1))) 
-//	                    expDocIx++;
-//			    }
-				String docId = (String) doc.getFirstValue(docIDfname);
-                if (docId.equals(expectedOrderList.get(expDocIx + 1))) 
+				String resultDocId = (String) doc.getFirstValue(docIDfname);
+				// is it a match?
+                if (resultDocId.equals(expectedOrderList.get(expDocIx + 1))) 
                 	expDocIx++;
 			}
 			else break;  // we found all the documents in the expected order list
@@ -335,13 +326,12 @@ public class PublicationTests extends AbstractStanfordTest
 	public void testPubDateSortDesc()
 			throws ParserConfigurationException, IOException, SAXException, NoSuchMethodException, InstantiationException, InvocationTargetException, ClassNotFoundException, IllegalAccessException, SolrServerException 
 	{
-		String fldName = "pub_date_sort";
 		createFreshIx("pubDateTests.mrc");
 		
 		// list of doc ids in correct publish date sort order
 		List<String> expectedOrderList = new ArrayList<String>(50);
 		
-		expectedOrderList.add("pubDate2010");   // "2010"
+		expectedOrderList.add("zpubDate2010");   // "2010"
 		expectedOrderList.add("z2009");   // "2009"
 		expectedOrderList.add("b2008");   // "2008"
 		expectedOrderList.add("v2007");   // "2007"
@@ -397,32 +387,23 @@ public class PublicationTests extends AbstractStanfordTest
 		expectedOrderList.add("pubDate9999"); 
 		
 		// get search results sorted by pub_date_sort field
-//		List<DocumentProxy> results = getDescSortDocs("collection", "sirsi", fldName);
-//		DocumentProxy firstDoc = results.get(0);
-//		assertTrue("0000 pub date should not sort first", firstDoc.getValues(docIDfname)[0] != "pubDate0000");
-		SolrDocumentList results = getDescSortDocs("collection", "sirsi", fldName);
-		SolrDocument firstDoc = results.get(0);
-		assertTrue("0000 pub date should not sort first", (String) firstDoc.getFirstValue(docIDfname) != "pubDate0000");
+        SolrDocumentList results = getDescSortDocs("collection", "sirsi", "pub_date_sort");
 
+        SolrDocument firstDoc = results.get(0);
+		assertTrue("0000 pub date should not sort first", (String) firstDoc.getFirstValue(docIDfname) != "pubDate0000");
 		
-		// we know we have documents that are not in the expected order list
-		int expDocIx = 0;
-//		for (DocumentProxy doc : results) 
-		for (SolrDocument doc : results)
+		// we know we have documents that are not in the expected order list, 
+		//  so we must allow for gaps
+		// author_sort isn't stored, so we must look at id field
+		int expDocIx = -1;
+		for (SolrDocument doc : results) 
 		{
 			if (expDocIx < expectedOrderList.size() - 1) 
 			{
-				// we haven't found all docs in the expected list yet
-//                String[] vals = doc.getValues(docIDfname);
-//                if (vals != null && vals.length > 0) 
-//                {
-//                    String docId = vals[0];
-//                    if (docId.equals(expectedOrderList.get(expDocIx + 1))) 
-//                        expDocIx++;
-//                }
-				String docId = (String) doc.getFirstValue(docIDfname);
-              if (docId.equals(expectedOrderList.get(expDocIx + 1))) 
-            	  expDocIx++;
+				String resultDocId = (String) doc.getFirstValue(docIDfname);
+				// is it a match?
+                if (resultDocId.equals(expectedOrderList.get(expDocIx + 1))) 
+                	expDocIx++;
 			}
 			else break;  // we found all the documents in the expected order list
 		}		
@@ -430,7 +411,7 @@ public class PublicationTests extends AbstractStanfordTest
 		if (expDocIx != expectedOrderList.size() - 1) 
 		{
 			String lastCorrDocId = expectedOrderList.get(expDocIx);
-			fail("Publish Date Desc Sort Order is incorrect.  Last correct document was " + lastCorrDocId);
+			fail("Publish Date Sort Order is incorrect.  Last correct document was " + lastCorrDocId);
 		}
 	}
 
@@ -447,21 +428,24 @@ public class PublicationTests extends AbstractStanfordTest
 		createFreshIx("pubDateTests.mrc");
 		
 		Set<String> docIds = new HashSet<String>();
-		docIds.add("pubDate2010");
+		docIds.add("zpubDate2013");
+		docIds.add("zpubDate2012");
+		docIds.add("zpubDate2011");
 		assertSearchResults(fldName, "\"" + PubDateGroup.THIS_YEAR.toString() + "\"", docIds);
+		docIds.add("zpubDate2010");
 		docIds.add("z2009");
-		docIds.add("b2008");  
 		assertSearchResults(fldName, "\"" + PubDateGroup.LAST_3_YEARS.toString() + "\"", docIds);
+		docIds.add("b2008");  
 		docIds.add("v2007");
 		docIds.add("z2006");
 		docIds.add("j2005");
-		docIds.add("q2001");
 		docIds.add("x200u");
 		docIds.add("pubDate20uu");  
 		docIds.add("o20uu");
 		docIds.add("pubDate0059");  // 2005
 		docIds.add("pubDate0204");  // 2004
 		assertSearchResults(fldName, "\"" + PubDateGroup.LAST_10_YEARS.toString() + "\"", docIds);
+		docIds.add("q2001");
 		docIds.add("f2000");
 		docIds.add("firstDateOnly008"); //2000
 		docIds.add("w1999");
@@ -560,7 +544,7 @@ public class PublicationTests extends AbstractStanfordTest
 	{
 		assertSingleResult("bothDates008", fldName, "\"1964\"");
 		assertSingleResult("pubDate01uu", fldName, "\"2nd century\"");
-		assertSingleResult("pubDate2010", fldName, "\"2010\"");
+		assertSingleResult("zpubDate2010", fldName, "\"2010\"");
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("s195u");
 		docIds.add("pubDate195u");

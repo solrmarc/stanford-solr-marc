@@ -525,16 +525,6 @@
   </record>  
   
 
-  <!-- pubDate this year + 1 (2010) -->
-  <record>
-    <leader>01952cim  2200457Ia 45í0</leader>
-    <controlfield tag="001">apubDate2010</controlfield>
-    <controlfield tag="008">780930c20102010nyu           000 0 eng d</controlfield>
-    <datafield tag="245" ind1="1" ind2="0">
-      <subfield code="a">pubDate 2010</subfield>
-    </datafield>
-  </record>  
-  
   <!-- pubDate too high (6666): 008/7-10 6666 -->
   <record>
     <leader>01952cim  2200457Ia 45í0</leader>
@@ -663,5 +653,51 @@
       <subfield code="a">pubDate 2009</subfield>
     </datafield>
   </record>
+  
+  <record>
+    <leader>01952cim  2200457Ia 45í0</leader>
+    <controlfield tag="001">azpubDate2010</controlfield>
+    <controlfield tag="008">780930c20102010nyu           000 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">pubDate 2010</subfield>
+    </datafield>
+  </record>  
+  
+  <record>
+    <leader>01952cim  2200457Ia 45í0</leader>
+    <controlfield tag="001">azpubDate2011</controlfield>
+    <controlfield tag="008">780930c20112011nyu           000 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">pubDate 2011</subfield>
+    </datafield>
+  </record>  
+  
+  <!-- pubDate this year + 1 (2012) -->
+  <record>
+    <leader>01952cim  2200457Ia 45í0</leader>
+    <controlfield tag="001">azpubDate2012</controlfield>
+    <controlfield tag="008">780930c20122012nyu           000 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">pubDate 2012</subfield>
+    </datafield>
+  </record>  
+
+  <record>
+    <leader>01952cim  2200457Ia 45í0</leader>
+    <controlfield tag="001">azpubDate2013</controlfield>
+    <controlfield tag="008">780930c20132013nyu           000 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">pubDate 2013</subfield>
+    </datafield>
+  </record>  
+
+  <record>
+    <leader>01952cim  2200457Ia 45í0</leader>
+    <controlfield tag="001">azpubDate2014</controlfield>
+    <controlfield tag="008">780930c20142014nyu           000 0 eng d</controlfield>
+    <datafield tag="245" ind1="1" ind2="0">
+      <subfield code="a">pubDate 2014</subfield>
+    </datafield>
+  </record>  
 
 </collection>
