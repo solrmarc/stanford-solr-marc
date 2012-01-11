@@ -549,7 +549,7 @@ public abstract class IndexTest
 		query.setQueryType("standard");
 		query.setFacet(false);
 		query.setSortField(sortfld, sortOrder);
-		query.setRows(100);
+		query.setRows(75);
 		try
 		{
 			QueryResponse response = solrJSolrServer.query(query);
