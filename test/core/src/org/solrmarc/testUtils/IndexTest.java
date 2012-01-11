@@ -596,6 +596,7 @@ public abstract class IndexTest
 		query.setQueryType("standard");
 		query.setFields("*");
 		query.setFacet(false);
+		query.setRows(35);
 		try
 		{
 			QueryResponse response = solrJSolrServer.query(query);
