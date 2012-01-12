@@ -6,7 +6,6 @@ import java.io.*;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.marc4j.MarcPermissiveStreamReader;
 import org.marc4j.MarcReader;

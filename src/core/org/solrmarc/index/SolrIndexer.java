@@ -18,9 +18,7 @@ package org.solrmarc.index;
  */
 
 import java.io.*;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.*;
@@ -31,11 +29,7 @@ import org.marc4j.marc.*;
 import org.solrmarc.marc.MarcImporter;
 import org.solrmarc.tools.*;
 
-import bsh.BshMethod;
-import bsh.EvalError;
-import bsh.Interpreter;
-import bsh.Primitive;
-import bsh.UtilEvalError;
+import bsh.*;
 
 /**
  * 
@@ -1019,15 +1013,17 @@ public class SolrIndexer
             return(deleteIfEmpty);
         else if (returnType.isAssignableFrom(Map.class))
         {
-            if (deleteIfEmpty && ((Map<String, String>) retval).size() == 0) return (true);
-            if (retval != null)  indexMap.putAll((Map<String, String>) retval);
+            if (deleteIfEmpty && ((Map<String, String>) retval).size() == 0) 
+            	return (true);
+            indexMap.putAll((Map<String, String>) retval);
         }
         else if (returnType.isAssignableFrom(Set.class))
         {
             Set<String> fields = (Set<String>) retval;
             if (mapName != null && findMap(mapName) != null)
                 fields = Utils.remap(fields, findMap(mapName), true);
-            if (deleteIfEmpty && fields.size()== 0)  return (true);
+            if (deleteIfEmpty && fields.size()== 0)  
+            	return (true);
             addFields(indexMap, indexField, null, fields);
         }
         else if (returnType.isAssignableFrom(String.class))

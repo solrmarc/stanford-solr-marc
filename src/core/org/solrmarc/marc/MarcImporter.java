@@ -694,7 +694,6 @@ public class MarcImporter extends MarcHandler
             else 
             {
 				checkVarsToLoadEmbeddedCore();
-//                solrProxy = SolrCoreLoader.loadCore(solrCoreDir, solrDataDir, solrCoreName, logger);
                 solrProxy = SolrCoreLoader.loadEmbeddedCore(solrCoreDir, solrDataDir, solrCoreName, useBinaryRequestHandler, logger);
             }
         }
@@ -746,7 +745,6 @@ public class MarcImporter extends MarcHandler
             else 
             {
             	checkVarsToLoadEmbeddedCore();
-              //  solrProxy = SolrCoreLoader.loadCore(solrCoreDir, solrDataDir, solrCoreName, logger);
                 solrProxy = SolrCoreLoader.loadEmbeddedCore(solrCoreDir, solrDataDir, solrCoreName, useBinaryRequestHandler, logger);
             } 
         }
