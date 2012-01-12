@@ -17,12 +17,10 @@ public class GetFormatMixinTest
     @Before
     public void setUp()
     {
-    	String testDataPath = System.getProperty("test.data.path");
-        if (testDataPath == null)
-        {
-            testDataPath = "test" + File.separator + "core" + File.separator + "data";
-            System.setProperty("test.data.path", testDataPath);
-        }
+        if (System.getProperty("test.data.path") == null)
+            System.setProperty("test.data.path", "core" + File.separator + "test" + File.separator + "data");
+        if (System.getProperty("solrmarc.path") == null)
+            System.setProperty("solrmarc.path", "core");
     }
 
     /**
@@ -38,7 +36,6 @@ public class GetFormatMixinTest
         Properties indexingProps = new Properties();
         indexingProps.setProperty("getformatmixin", "custom(org.solrmarc.index.GetFormatMixin), getContentTypesAndMediaTypes");
         indexingProps.setProperty("getformatmixinmapped", "custom(org.solrmarc.index.GetFormatMixin), getContentTypesAndMediaTypes, getformat_mixin_map.properties");
-//        indexingProps.setProperty("getformatmixinmapped", "custom(org.solrmarc.index.GetFormatMixin), getContentTypesAndMediaTypes, conf/core/translation_maps/getformat_mixin_map.properties");
         String verboseStr = System.getProperty("marc.verbose");
         boolean verbose = (verboseStr != null && verboseStr.equalsIgnoreCase("true"));
         ErrorHandler errors = new ErrorHandler();
@@ -53,8 +50,9 @@ public class GetFormatMixinTest
             {
             } 
         }
-//        SolrIndexer testIndexer = SolrIndexer.indexerFromProperties(indexingProps, new String[]{"translation_maps"});
-        SolrIndexer testIndexer = SolrIndexer.indexerFromProperties(indexingProps, new String[]{"setup/core/translation_maps"});
+
+        String solrmarcCorePath = System.getProperty("solrmarc.path");
+        SolrIndexer testIndexer = SolrIndexer.indexerFromProperties(indexingProps, new String[]{solrmarcCorePath + File.separator + "translation_maps"});
         try
         {
             reader = new MarcPermissiveStreamReader(new FileInputStream(new File(testDataParentPath, "formatRecs.mrc")), true, true, "MARC8");

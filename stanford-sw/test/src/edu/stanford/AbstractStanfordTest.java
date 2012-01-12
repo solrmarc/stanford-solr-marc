@@ -51,8 +51,8 @@ public abstract class AbstractStanfordTest extends IndexTest
 		
         // used to find core translation_maps
         if (System.getProperty("solrmarc.path") == null)
-            System.setProperty("solrmarc.path", new File("setup" + File.separator + "core").getAbsolutePath());
-        // use to find site translation_maps
+            System.setProperty("solrmarc.path", new File("core").getAbsolutePath());
+        // used to find site translation_maps
 		if (System.getProperty("solrmarc.site.path") == null)
             System.setProperty("solrmarc.site.path", siteDir);
 

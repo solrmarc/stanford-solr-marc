@@ -43,7 +43,7 @@ public abstract class MarcHandler {
     /** The name of the _index.properties file */
 	private String indexerProps;
     private final static String TRANS_MAP_DIR = "translation_maps";
-    private final static String SCRIPTS_DIR = "index_scripts";
+//    private final static String SCRIPTS_DIR = "index_scripts";
 	
     // Initialize logging category
     static Logger logger = Logger.getLogger(MarcHandler.class.getName());
@@ -449,7 +449,7 @@ public abstract class MarcHandler {
         {
             propertySearchPath.add(pathToAdd);
             propertySearchPath.add(pathToAdd + File.separator + TRANS_MAP_DIR);
-            propertySearchPath.add(pathToAdd + File.separator + SCRIPTS_DIR);
+//            propertySearchPath.add(pathToAdd + File.separator + SCRIPTS_DIR);
             propertySearchSet.add(pathToAdd);
         }
     }

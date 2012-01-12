@@ -34,7 +34,7 @@ public class MergeSummaryHoldingsTests
 	static {
         if (testDataParentPath == null)
         {
-        	testDataParentPath = ".." + File.separator + "test" + File.separator + "core" + File.separator + "data";
+        	testDataParentPath = ".." + File.separator + "core" + File.separator + "test" + File.separator + "data";
             System.setProperty("test.data.path", testDataParentPath);
         }
         if (testConfigFname == null)
@@ -46,7 +46,6 @@ public class MergeSummaryHoldingsTests
     
     static String smokeTestDir = testDataParentPath + File.separator + "smoketest";
 
-    
     
     static String MERGE_MHLD_CLASS_NAME = "org.solrmarc.tools.MergeSummaryHoldings";
     static String MARC_PRINTER_CLASS_NAME = "org.solrmarc.marc.MarcPrinter";

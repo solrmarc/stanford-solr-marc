@@ -21,7 +21,7 @@ import edu.stanford.marcUtils.MergeMhldFldsIntoBibsReader;
  */
 public class MergeMhldFldsIntoBibsReaderTests 
 {
-    static String coreTestDataParentPath =  "test" + File.separator + "core" + File.separator + "data";
+    static String coreTestDataParentPath =  "core" + File.separator + "test" + File.separator + "data";
     static String localTestDataParentPath = "stanford-sw" + File.separator + "test" + File.separator + "data";
     
     static String MERGE_MHLD_CLASS_NAME = "edu.stanford.marcUtils.MergeMhldFldsIntoBibsReader";
