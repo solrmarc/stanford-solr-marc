@@ -20,7 +20,7 @@ public class HathiJsonReaderTest
     	String testDataPath = System.getProperty("test.data.path");
         if (testDataPath == null)
         {
-            testDataPath = "test" + File.separator + "core" + File.separator + "data";
+            testDataPath = "core" + File.separator + "test" + File.separator + "data";
             System.setProperty("test.data.path", testDataPath);
         }
     }
@@ -28,7 +28,7 @@ public class HathiJsonReaderTest
     /**
      * unit test for org.solrmarc.marc.RawRecordReader and org.solrmarc.tools.RawRecord
      */
-    @Test
+@Test
     public void testHathiJsonRecordReader()
     {
         String testDataParentPath = System.getProperty("test.data.path");
@@ -53,10 +53,11 @@ public class HathiJsonReaderTest
             fail("unable to read test record  009888737.json  or  009888737.mrc");
         }
     }
+
     /**
      * unit test for org.solrmarc.marc.RawRecordReader and org.solrmarc.tools.RawRecord
      */
-    @Test
+@Test
     public void testHathiPlunderer()
     {
         String testDataParentPath = System.getProperty("test.data.path");
@@ -78,6 +79,8 @@ public class HathiJsonReaderTest
         }
         assertTrue("Error: Should have read 15 records, actually read: "+ cnt +" record", cnt == 15);
     }
+
+//---------------------- private methods ----------------
     
     private void assertRecordsEquals(String message, Record rec1, Record rec2)
     {
@@ -104,7 +107,8 @@ public class HathiJsonReaderTest
             {
                 ControlField cf1 = (ControlField)f1;
                 ControlField cf2 = (ControlField)f2;
-                if (! cf1.getData().equals(cf2.getData()))  return(1);
+                if (! cf1.getData().equals(cf2.getData()))  
+                	return(1);
             }
             else if (f1 instanceof DataField && f2 instanceof DataField)
             {
@@ -123,15 +127,12 @@ public class HathiJsonReaderTest
                 }
             }
             else 
-            {
                 return(3);
-            }
         }
         // if done with one record but not the other
         if (iter1.hasNext() || iter2.hasNext())
-        {
             return(-1);
-        }
+
         return(0);
     }
 }

@@ -18,7 +18,7 @@ import org.solrmarc.testUtils.IndexTest;
 
 public class CommandLineUtilTests
 {
-    @Before
+@Before
     public void setUp()
     {
 		String testSolrLogLevel = System.getProperty("test.solr.log.level");
@@ -98,11 +98,12 @@ public class CommandLineUtilTests
             };
 
         String testDataParentPath = System.getProperty("test.data.path");
-        String testConfigFile = System.getProperty("test.config.file");
         if (testDataParentPath == null)
             fail("property test.data.path must be defined for the tests to run");
+        String testConfigFile = System.getProperty("test.config.file");
         if (testConfigFile == null)
             fail("property test.config.file be defined for this test to run");
+        
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.tools.MergeSummaryHoldings", "main", null, out1, new String[]{"-s", testDataParentPath+"/summaryHld_1-1000.mrc", testDataParentPath+"/u335.mrc" });
 
@@ -147,11 +148,12 @@ public class CommandLineUtilTests
         };
                                      
         String testDataParentPath = System.getProperty("test.data.path");
-        String testConfigFile = System.getProperty("test.config.file");
         if (testDataParentPath == null)
             fail("property test.data.path must be defined for the tests to run");
-        if (testConfigFile == null)
-            fail("property test.config.file be defined for this test to run");
+//        String testConfigFile = System.getProperty("test.config.file");
+//        if (testConfigFile == null)
+//            fail("property test.config.file be defined for this test to run");
+
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
         Map<String,String> addnlProps = new LinkedHashMap<String,String>();
         addnlProps.put("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
@@ -193,11 +195,12 @@ public class CommandLineUtilTests
         
     	System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
         String testDataParentPath = System.getProperty("test.data.path");
-        String testConfigFile = System.getProperty("test.config.file");
         if (testDataParentPath == null)
             fail("property test.data.path must be defined for the tests to run");
+        String testConfigFile = System.getProperty("test.config.file");
         if (testConfigFile == null)
             fail("property test.config.file be defined for this test to run");
+
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcMerger", "main", null, out1, new String[]{"-min", "u0", "-max", "u14", testDataParentPath+"/mergeInput.mrc", testDataParentPath+"/mergeMod.mrc" });
         
@@ -225,7 +228,7 @@ public class CommandLineUtilTests
     /**
      * unit test for MarcSort and PrintWriter
      */
-//@Test
+@Test
     public void testMarcSort()
     {
         String marcSorterOutput[] = {
@@ -237,11 +240,13 @@ public class CommandLineUtilTests
         
     	System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
         String testDataParentPath = System.getProperty("test.data.path");
-        String testConfigFile = System.getProperty("test.config.file");
         if (testDataParentPath == null)
             fail("property test.data.path must be defined for the tests to run");
+        
+        String testConfigFile = System.getProperty("test.config.file");
         if (testConfigFile == null)
             fail("property test.config.file be defined for this test to run");
+
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcSorter", "main", null, out1, new String[]{testDataParentPath+"/url_test_recs.mrc" });
         
@@ -286,11 +291,12 @@ public class CommandLineUtilTests
         };
     	System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
         String testDataParentPath = System.getProperty("test.data.path");
-        String testConfigFile = System.getProperty("test.config.file");
         if (testDataParentPath == null)
             fail("property test.data.path must be defined for the tests to run");
+        String testConfigFile = System.getProperty("test.config.file");
         if (testConfigFile == null)
             fail("property test.config.file be defined for this test to run");
+        
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPatcher", "main", null, out1, new String[]{testDataParentPath+"/selectedRecs.mrc", testDataParentPath+"/location_sample.txt", "handleAllLocs" });
         
@@ -310,11 +316,12 @@ public class CommandLineUtilTests
     {
     	System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
         String testDataParentPath = System.getProperty("test.data.path");
-        String testConfigFile = System.getProperty("test.config.file");
         if (testDataParentPath == null)
             fail("property test.data.path must be defined for the tests to run");
+        String testConfigFile = System.getProperty("test.config.file");
         if (testConfigFile == null)
             fail("property test.config.file be defined for this test to run");
+        
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", null, out1, new String[]{testConfigFile, testDataParentPath+"/u4.mrc", "to_xml" });
         CommandLineUtils.compareUtilOutputLine(new ByteArrayInputStream(out1.toByteArray()), "    <leader>01218cam a2200313 a 4500</leader>", 2); 
@@ -385,12 +392,14 @@ public class CommandLineUtilTests
     {
     	System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
         String testDataParentPath = System.getProperty("test.data.path");
-        String testConfigFile = System.getProperty("test.config.file");
         if (testDataParentPath == null)
             fail("property test.data.path must be defined for the tests to run");
+        String testConfigFile = System.getProperty("test.config.file");
+        
         if (testConfigFile == null)
             fail("property test.config.file be defined for this test to run");
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
+
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.RawRecordReader", "main", null, out1, new String[]{testDataParentPath+"/selectedRecs.mrc", "u8" });
 
         ByteArrayOutputStream out2 = new ByteArrayOutputStream();
@@ -408,6 +417,7 @@ public class CommandLineUtilTests
         System.out.println("Test testGetRecord is successful");
     }
     
+//FIXME: test not passing    
     /**
      * unit test for MarcImporter and SolrReindexer
      */
@@ -415,13 +425,19 @@ public class CommandLineUtilTests
     public void testIndexRecord()
     {
     	System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
-        String testDataParentPath = System.getProperty("test.data.path");
-        String testConfigFile = System.getProperty("test.config.file");
         String solrPath = System.getProperty("solr.path");
         if (solrPath == null)
-            fail("property solr.path must be defined for the tests to run");
+        {
+            String testSolrPath = System.getProperty("test.solr.path");
+            if (testSolrPath == null)
+                fail("property solr.path OR test.solr.path must be defined for the tests to run");
+            else
+            	System.setProperty("solr.path", testSolrPath);
+        }
+        String testDataParentPath = System.getProperty("test.data.path");
         if (testDataParentPath == null)
             fail("property test.data.path must be defined for the tests to run");
+        String testConfigFile = System.getProperty("test.config.file");
         if (testConfigFile == null)
             fail("property test.config.file be defined for this test to run");
 
@@ -512,7 +528,8 @@ public class CommandLineUtilTests
 
         System.out.println("Test testIndexRecord is successful");
     }
-    
+
+// FIXME:  test not passing
     /**
      * unit test for BooklistReader
      */
@@ -520,13 +537,19 @@ public class CommandLineUtilTests
     public void testBooklistReader()
     {
     	System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
-        String testDataParentPath = System.getProperty("test.data.path");
-        String testConfigFile = System.getProperty("test.config.file");
         String solrPath = System.getProperty("solr.path");
         if (solrPath == null)
-            fail("property solr.path must be defined for the tests to run");
+        {
+            String testSolrPath = System.getProperty("test.solr.path");
+            if (testSolrPath == null)
+                fail("property solr.path OR test.solr.path must be defined for the tests to run");
+            else
+            	System.setProperty("solr.path", testSolrPath);
+        }
+        String testDataParentPath = System.getProperty("test.data.path");
         if (testDataParentPath == null)
             fail("property test.data.path must be defined for the tests to run");
+        String testConfigFile = System.getProperty("test.config.file");
         if (testConfigFile == null)
             fail("property test.config.file be defined for this test to run");
 

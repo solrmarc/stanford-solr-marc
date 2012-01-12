@@ -20,6 +20,7 @@ public class MarcDiff
             System.arraycopy(args, 1, newArgs, 0, args.length-1);
             args = newArgs;
         }
+        
         String fileStr1 = args[0];
         File file1 = new File(fileStr1);
         String fileStr2 = args[1];
@@ -44,13 +45,16 @@ public class MarcDiff
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         RawRecord rec1 = null;
         RawRecord rec2 = null;
         Comparator<String> comp = new StringNaturalCompare();
         while (reader1.hasNext() && reader2.hasNext())
         {
-            if (rec1 == null) rec1 = reader1.next();
-            if (rec2 == null) rec2 = reader2.next();
+            if (rec1 == null) 
+            	rec1 = reader1.next();
+            if (rec2 == null) 
+            	rec2 = reader2.next();
             int compVal = comp.compare(rec1.getRecordId(), rec2.getRecordId());
             if (compVal == 0)
             {
@@ -62,11 +66,10 @@ public class MarcDiff
                     Record r2 = rec2.getAsRecord(true, true, "999", "MARC8");
                     String str1 = r1.toString();
                     String str2 = r2.toString();
-                    if (!verbose) System.out.println("record with id: " + rec1.getRecordId() + " different in file1 and file2");
+                    if (!verbose) 
+                    	System.out.println("record with id: " + rec1.getRecordId() + " different in file1 and file2");
                     if (!str1.equals(str2))
-                    {
                         showDiffs(System.out, str1, str2, verbose, null);
-                    }
                 }
                 
                 rec1 = reader1.next();
@@ -127,13 +130,13 @@ public class MarcDiff
                 {
                     if (normLines[i].equals(permLines[i]))
                     {
-                        if (verbose) out.println("   " + normLines[i]);
+                        if (verbose) 
+                        	out.println("   " + normLines[i]);
                     }
                     else if (map != null)
                     {
                         int index1 = 0; 
                         int index2 = 0;
-                        boolean showLines = false;
                         while (index1 < normLines[i].length() && index2 < permLines[i].length())
                         {
                             while (index1 < normLines[i].length() && index2 < permLines[i].length() &&
@@ -147,9 +150,8 @@ public class MarcDiff
                                 {
                                     Character key = permLines[i].charAt(index2);
                                     map.put(key, normLines[i] + "@@" +  permLines[i]);
-                                    showLines = true; 
-                                    out.println(" "+key+" : " + normLines[i]);
-                                    out.println(" "+key+" : " + permLines[i]);                    
+                                    out.println(" " + key + " : " + normLines[i]);
+                                    out.println(" " + key + " : " + permLines[i]);                    
 
                                 }
                                 index2++;
@@ -167,11 +169,6 @@ public class MarcDiff
                                 }
                             }
                         }
-//                            if (showLines)
-//                            {
-//                                out.println(" < " + normLines[i]);
-//                                out.println(" > " + permLines[i]);                    
-//                            }
                     }
                     else
                     {
@@ -186,7 +183,8 @@ public class MarcDiff
             String permLines[] = strPerm.split("\n");
             for (int i = 0; i < permLines.length; i++)
             {
-                if (verbose) out.println("   " + permLines[i]);
+                if (verbose) 
+                	out.println("   " + permLines[i]);
             }
         }
 

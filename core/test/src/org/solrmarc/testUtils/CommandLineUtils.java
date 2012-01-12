@@ -251,12 +251,14 @@ public class CommandLineUtils
     {
         if (addnlProps != null)
         {
-            for (String key : addnlProps.keySet())
+            for (String addnlPropsKey : addnlProps.keySet())
             {
-                String value = addnlProps.get(key);
-                if (System.getProperty(key) != null) 
-                	saveProps.put(key, System.getProperty(key));
-                System.setProperty(key, value);
+                String addnlPropsValue = addnlProps.get(addnlPropsKey);
+                String sysPropValue = System.getProperty(addnlPropsKey);
+                if (sysPropValue != null) 
+//                	saveProps.put(addnlPropsKey, sysPropValue);
+                	saveProps.put(addnlPropsKey, addnlPropsValue);
+                System.setProperty(addnlPropsKey, addnlPropsValue);
             }
         }
     }
