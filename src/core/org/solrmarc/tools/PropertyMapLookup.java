@@ -1,20 +1,7 @@
 package org.solrmarc.tools;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-
-import org.marc4j.marc.DataField;
-import org.marc4j.marc.Record;
-import org.marc4j.marc.Subfield;
+import java.io.*;
+import java.util.*;
 
 public class PropertyMapLookup
 {
@@ -42,8 +29,7 @@ public class PropertyMapLookup
         String mapKeyPrefix = null;
         // translation map is a separate file
         String transMapFname = null;
-        if (translationMapSpec.contains("(")
-                && translationMapSpec.endsWith(")"))
+        if (translationMapSpec.contains("(") && translationMapSpec.endsWith(")"))
         {
             String mapSpec[] = translationMapSpec.split("(//s|[()])+");
             transMapFname = mapSpec[0];
@@ -123,41 +109,47 @@ public class PropertyMapLookup
     
     public static String getCustomLocation(String curLoc, String homeLoc, String library)
     {
-        String result = null;
-        if (locMapName == null) locMapName = loadTranslationMap("location_map.properties");
-        if (visMapName == null) visMapName = loadTranslationMap("shadowed_location_map.properties");
-        if (libMapName == null) libMapName = loadTranslationMap("library_map.properties");
+        if (locMapName == null) 
+        	locMapName = loadTranslationMap("location_map.properties");
+        if (visMapName == null) 
+        	visMapName = loadTranslationMap("shadowed_location_map.properties");
+        if (libMapName == null) 
+        	libMapName = loadTranslationMap("library_map.properties");
+        
         String mappedHomeVis = Utils.remap(homeLoc, findMap(visMapName), true);
+        if (mappedHomeVis.equals("HIDDEN"))  
+        	return null; // this copy of the item is Hidden, go no further
+
         String mappedHomeLoc = Utils.remap(homeLoc, findMap(locMapName), true);
         if (mappedHomeVis.equals("VISIBLE") && mappedHomeLoc == null)
         {
             String combinedLocMapped = Utils.remap(homeLoc + "__" + "ALDERMAN", findMap(locMapName), true);
-            if (combinedLocMapped != null) mappedHomeLoc = combinedLocMapped;
+            if (combinedLocMapped != null) 
+            	mappedHomeLoc = combinedLocMapped;
         }
+        
         String mappedLib = library;
         if (curLoc != null)
         {
             String mappedCurLoc = Utils.remap(curLoc, findMap(locMapName), true);
             String mappedCurVis = Utils.remap(curLoc, findMap(visMapName), true);
-            if (mappedCurVis.equals("HIDDEN")) return(result); // this copy of the item is Hidden, go no further
+            
+            if (mappedCurVis.equals("HIDDEN")) 
+            	return null; // this copy of the item is Hidden, go no further
+            
             if (mappedCurLoc != null) 
             {
                 if (mappedCurLoc.contains("$m"))
-                {
-      //              mappedCurLoc.replaceAll("$l", mappedHomeLoc);
                     mappedCurLoc = mappedCurLoc.replaceAll("[$]m", mappedLib);
-                }
-                result = mappedCurLoc;
-                return(result);   // Used
+
+                return mappedCurLoc;   // Used
             }
         }
-        if (mappedHomeVis.equals("HIDDEN"))  return(result); // this copy of the item is Hidden, go no further
+        
         if (mappedHomeVis != null && mappedHomeLoc.contains("$"))
-        {
             mappedHomeLoc.replaceAll("$m", mappedLib);
-        }
-        result = mappedHomeLoc;
-        return result;
+
+        return mappedHomeLoc;
     }
 
     /**
@@ -192,9 +184,13 @@ public class PropertyMapLookup
                 if ((part1Mapped == null || part1Mapped.equals("null")) && 
                     (part3Mapped == null || part3Mapped.equals("null"))) 
                     mapValue = "";
-                else if (part1Mapped == null || part1Mapped.equals("null")) mapValue = part3Mapped;
-                else if (part3Mapped == null || part3Mapped.equals("null")) mapValue = part1Mapped;
-                else mapValue = part1Mapped + " ; " + part3Mapped;
+                else if (part1Mapped == null || part1Mapped.equals("null")) 
+                	mapValue = part3Mapped;
+                else if (part3Mapped == null || part3Mapped.equals("null")) 
+                	mapValue = part1Mapped;
+                else 
+                	mapValue = part1Mapped + " ; " + part3Mapped;
+                
                 String newMapValue = getCustomLocation(parts[1], parts[3], "[LibraryName]");
                 System.out.println(parts[1] + "\t" + parts[3] + "\t" + mapValue + "\t" + newMapValue + "\t" + count);
             }

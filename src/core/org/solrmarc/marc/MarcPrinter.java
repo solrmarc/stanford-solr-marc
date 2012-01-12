@@ -17,23 +17,12 @@ package org.solrmarc.marc;
  */
 
 
-import java.io.FileNotFoundException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TreeSet;
+import java.io.*;
+import java.util.*;
 
 import org.apache.log4j.Logger;
 
-import org.marc4j.MarcException;
-import org.marc4j.MarcJsonWriter;
-import org.marc4j.MarcStreamWriter;
-import org.marc4j.MarcWriter;
-import org.marc4j.MarcXmlWriter;
+import org.marc4j.*;
 import org.marc4j.converter.impl.UnicodeToAnsel;
 import org.marc4j.marc.Record;
 

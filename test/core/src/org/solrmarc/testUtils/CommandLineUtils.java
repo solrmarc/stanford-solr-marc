@@ -3,24 +3,11 @@ package org.solrmarc.testUtils;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.Permission;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 public class CommandLineUtils
 {
@@ -50,13 +37,10 @@ public class CommandLineUtils
                 else if (numToCompare > 0 && lineCnt - numLinesToSkip < numToCompare && outputLineExpected.length > lineCnt - numLinesToSkip) 
                 {
                     if (line.equals("Flushing results...") || line.equals("Flushing results done") || line.startsWith("Cobertura:"))
-                    {
                         continue;   // skip this line and don't even count it.  I don't know where these "Flushing Results..." lines are coming from.
-                    }
+
                     if (! line.equals(outputLineExpected[lineCnt - numLinesToSkip]))
-                    {
                         System.out.println("output line ["+ line + "]  doesn't match expected ["+ outputLineExpected[lineCnt - numLinesToSkip]+"]" );
-                    }
 //                    else
 //                    {
 //                        System.out.println("output line ["+ line + "]  matches expected ");
@@ -161,7 +145,6 @@ public class CommandLineUtils
             PrintStream origErr = System.err;
             Class clazz;
             Method method;
-            if (methodName == null) methodName = "main";
             Map<String, String> backupProps = new LinkedHashMap<String, String>();
             Map<String, String> allOrigProps = new LinkedHashMap<String, String>();
             SecurityManager savedSecurityManager = System.getSecurityManager();
@@ -225,11 +208,8 @@ public class CommandLineUtils
                 System.setIn(origIn);
                 System.setOut(origOut);
                 System.setErr(origErr);
-
             }
         }
-        
-
     }
 
     public static void checkpointProps(Map<String, String> allOrigProps)
@@ -258,14 +238,11 @@ public class CommandLineUtils
             {
                 String origValue = allOrigProps.get(key);
                 if (!value.equals(origValue))
-                {
                     System.setProperty(key, origValue);
-                }
             }
             else
-            {
                 System.clearProperty(key);
-            }
+
             allOrigProps.put(key.toString(), value);
         }       
     }
@@ -277,7 +254,8 @@ public class CommandLineUtils
             for (String key : addnlProps.keySet())
             {
                 String value = addnlProps.get(key);
-                if (System.getProperty(key) != null) saveProps.put(key, System.getProperty(key));
+                if (System.getProperty(key) != null) 
+                	saveProps.put(key, System.getProperty(key));
                 System.setProperty(key, value);
             }
         }
@@ -322,6 +300,5 @@ public class CommandLineUtils
             assertEquals(message + "byte at offset "+ i + " not equal", byteArray1[i], byteArray2[i]);
         }        
     }
-
-                                                                
+                                                          
 }

@@ -5,7 +5,7 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 /**
  * Utility Test class to determine if a marc record will map data to the Solr

@@ -26,13 +26,13 @@ public class PermissiveReaderTest
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
+        
         boolean verbose = Boolean.parseBoolean(System.getProperty("marc.verbose"));
         boolean veryverbose = Boolean.parseBoolean(System.getProperty("marc.verbose"));
-        boolean usemap = false;
+
         LinkedHashMap<Character,String> map = null;
         if (args[0].equals("-m")) 
         {
-            usemap = true;
             String newArgs[] = new String[args.length-1];
             System.arraycopy(args, 1, newArgs, 0, args.length-1);
             args = newArgs;
@@ -79,7 +79,7 @@ public class PermissiveReaderTest
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        boolean done = false;
+
         if (args.length > 1)
         {
             try
@@ -99,7 +99,8 @@ public class PermissiveReaderTest
             Record recPerm;
             recPerm = readerPermissive.next();
             String strPerm = recPerm.toString();
-            try {
+            try 
+            {
                 recNorm = readerNormal.next();
             }
             catch (MarcException me)
@@ -112,9 +113,8 @@ public class PermissiveReaderTest
                     out.println("-------------------------------------------------------------------------------------");
                 }
                 if (patchedRecs != null)
-                {
                     patchedRecs.write(recPerm);
-                }
+
                 continue;
             }
             String strNorm = recNorm.toString();
@@ -124,17 +124,13 @@ public class PermissiveReaderTest
                 {
                     dumpErrors(out, errorHandler);
                     showDiffs(out, strNorm, strPerm, verbose, map);
-                    out.println("-------------------------------------------------------------------------------------");
-                    
+                    out.println("-------------------------------------------------------------------------------------");  
                 }
                 else
-                {
                     showDiffs(out, strNorm, strPerm, false, map);
-                }
+
                 if (patchedRecs != null)
-                {
                     patchedRecs.write(recPerm);
-                }
             }
             else if (errorHandler.hasErrors())
             {
@@ -146,15 +142,10 @@ public class PermissiveReaderTest
                     out.println("-------------------------------------------------------------------------------------");
                 }
                 if (patchedRecs != null)
-                {
                     patchedRecs.write(recPerm);
-                }
             }
             else if (veryverbose)
-            {
                 showDiffs(out, strNorm, strPerm, veryverbose, map);                
-            }
-                
         }
     }
 
@@ -170,13 +161,13 @@ public class PermissiveReaderTest
                 {
                     if (normLines[i].equals(permLines[i]))
                     {
-                        if (verbose) out.println("   " + normLines[i]);
+                        if (verbose) 
+                        	out.println("   " + normLines[i]);
                     }
                     else if (map != null)
                     {
                         int index1 = 0; 
                         int index2 = 0;
-                        boolean showLines = false;
                         while (index1 < normLines[i].length() && index2 < permLines[i].length())
                         {
                             while (index1 < normLines[i].length() && index2 < permLines[i].length() &&
@@ -190,7 +181,6 @@ public class PermissiveReaderTest
                                 {
                                     Character key = permLines[i].charAt(index2);
                                     map.put(key, normLines[i] + "@@" +  permLines[i]);
-                                    showLines = true; 
                                     out.println(" "+key+" : " + normLines[i]);
                                     out.println(" "+key+" : " + permLines[i]);                    
 
@@ -210,11 +200,6 @@ public class PermissiveReaderTest
                                 }
                             }
                         }
-//                        if (showLines)
-//                        {
-//                            out.println(" < " + normLines[i]);
-//                            out.println(" > " + permLines[i]);                    
-//                        }
                     }
                     else
                     {
@@ -229,7 +214,8 @@ public class PermissiveReaderTest
             String permLines[] = strPerm.split("\n");
             for (int i = 0; i < permLines.length; i++)
             {
-                if (verbose) out.println("   " + permLines[i]);
+                if (verbose) 
+                	out.println("   " + permLines[i]);
             }
         }
 
