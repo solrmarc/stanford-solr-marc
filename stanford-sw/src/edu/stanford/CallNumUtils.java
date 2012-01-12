@@ -13,9 +13,8 @@ import edu.stanford.enumValues.CallNumberType;
  * 
  * @author Naomi Dushay
  */
-
-public class CallNumUtils {
-	
+public class CallNumUtils 
+{
 
 // TODO:  should have LCcallnum and DeweyCallnum classes, with the call number
 //   pieces as fields.  Then parsing would happen once per call number, not
@@ -59,12 +58,15 @@ public class CallNumUtils {
 		// get suffix to last occurring cutter, if there is one
 		String cut2suffix = org.solrmarc.tools.CallNumUtils.getSecondLCcutterSuffix(rawLCcallnum);
 		String suffix = cut2suffix;
-		if (suffix == null) {
+		if (suffix == null) 
+		{
 			String cut1suffix = org.solrmarc.tools.CallNumUtils.getFirstLCcutterSuffix(rawLCcallnum);
-			if (cut1suffix != null) {
+			if (cut1suffix != null) 
+			{
 				// first cutter suffix may contain second cutter
 				String cut2 = org.solrmarc.tools.CallNumUtils.getSecondLCcutter(rawLCcallnum);
-				if (cut2 != null) {
+				if (cut2 != null) 
+				{
 					int ix = cut1suffix.indexOf(cut2);
 					if (ix != -1)
 						suffix = cut1suffix.substring(0, ix);
@@ -78,35 +80,36 @@ public class CallNumUtils {
 
 		// could put last ditch effort with tightest pattern, but don't want to take out too much		
 
-		if (suffix != null) {
+		if (suffix != null) 
+		{
 			Matcher matcher = VOL_PATTERN.matcher(suffix);
-			if (!matcher.find()) {
+			if (!matcher.find()) 
+			{
 				matcher = VOL_LOOSE_PATTERN.matcher(suffix);
-				if (!matcher.find()) {
+				if (!matcher.find()) 
+				{
 					matcher = VOL_LETTERS_PATTERN.matcher(suffix);
-					if (!matcher.find()) {
+					if (!matcher.find())
 						matcher = ADDL_VOL_PATTERN.matcher(suffix);
-					}
 				}
 			}
+			
 // look for first / last match, not any match (subroutine?)?
-			if (matcher.find(0)) {
+			if (matcher.find(0)) 
+			{
 				// return orig call number with matcher part lopped off.
 				int ix = rawLCcallnum.indexOf(suffix) + matcher.start();
-				if (ix != -1 && ix < rawLCcallnum.length()) {
+				if (ix != -1 && ix < rawLCcallnum.length())
 					lopped = rawLCcallnum.substring(0, ix).trim();
-				}
 			}
 			lopped = removeLooseMonthSuffix(lopped);
 		}
 		else 
 			lopped = removeAddlVolSuffix(rawLCcallnum);
 
-		// make sure lopping wasn't too short - don't lop class 
-		//  digits that look like a year
-		if (lopped.length() < 4) {
+		// make sure lopping wasn't too short - don't lop class digits that look like a year
+		if (lopped.length() < 4)
 			return rawLCcallnum;
-		}
 		
 		if (lopped.endsWith(":") || lopped.endsWith("("))
 			return lopped.substring(0, lopped.length() -1);
@@ -126,8 +129,7 @@ public class CallNumUtils {
 		String lopped = removeLCVolSuffix(rawLCcallnum);
 		String loppedFurther = removeAddlSerialSuffix(lopped);
 		
-		// make sure lopping wasn't too short - don't lop class 
-		//  digits that look like a year
+		// make sure lopping wasn't too short - don't lop class digits that look like a year
 		if (loppedFurther.length() < 4) 
 			return lopped;
 		else
@@ -157,21 +159,22 @@ public class CallNumUtils {
 	static String removeYearSuffix(String callnum)
 	{
 		Matcher matcher = FOUR_DIGIT_YEAR_PATTERN.matcher(callnum);
-		if (matcher.find(0)) {
+		if (matcher.find(0)) 
+		{
 			// return orig call number with matcher part lopped off.
 			int ix = matcher.start();
-			if (ix != -1 && ix < callnum.length()) {
+			if (ix != -1 && ix < callnum.length())
 				return callnum.substring(0, ix).trim();
-			}
 		}
+		
 		// is year is last 4 characters?
 		matcher = FOUR_DIGIT_YEAR_END_PATTERN.matcher(callnum);
-		if (matcher.find(0)) {
+		if (matcher.find(0)) 
+		{
 			// return orig call number with matcher part lopped off.
 			int ix = matcher.start();
-			if (ix != -1 && ix < callnum.length()) {
+			if (ix != -1 && ix < callnum.length())
 				return callnum.substring(0, ix).trim();
-			}
 		}				
 
 		return callnum;
@@ -187,12 +190,12 @@ public class CallNumUtils {
 	static String removeLooseMonthSuffix(String callnum) 
 	{
 		Matcher matcher = LOOSER_MONTHS_PATTERN.matcher(callnum);
-		if (matcher.find(0)) {
+		if (matcher.find(0)) 
+		{
 			// return orig call number with matcher part lopped off.
 			int ix = matcher.start();
-			if (ix != -1 && ix < callnum.length()) {
+			if (ix != -1 && ix < callnum.length())
 				return callnum.substring(0, ix).trim();
-			}
 		}				
 
 		return callnum;
@@ -213,22 +216,23 @@ public class CallNumUtils {
 			return rawDeweyCallnum;
 		
 		Matcher matcher = VOL_PATTERN.matcher(cutSuffix);
-		if (!matcher.find()) {
+		if (!matcher.find()) 
+		{
 			matcher = VOL_LOOSE_PATTERN.matcher(cutSuffix);
-			if (!matcher.find()) {
+			if (!matcher.find()) 
+			{
 				matcher = VOL_LETTERS_PATTERN.matcher(cutSuffix);
-				if (!matcher.find()) {
+				if (!matcher.find())
 					matcher = ADDL_VOL_PATTERN.matcher(cutSuffix);
-				}
 			}
 		}
 		
-		if (matcher.find(0)) {
+		if (matcher.find(0)) 
+		{
 			// return orig call number with matcher part lopped off.
 			int ix = rawDeweyCallnum.indexOf(cutSuffix) + matcher.start();
-			if (ix != -1 && ix < rawDeweyCallnum.length()) {
+			if (ix != -1 && ix < rawDeweyCallnum.length())
 				lopped = rawDeweyCallnum.substring(0, ix).trim();
-			}
 		}
 
 		lopped = removeLooseMonthSuffix(lopped);
@@ -296,19 +300,20 @@ public class CallNumUtils {
 		if (lopped.equals(rawCallnum)) 
 		{
 			Matcher matcher = VOL_PATTERN.matcher(rawCallnum);
-			if (!matcher.find()) {
+			if (!matcher.find()) 
+			{
 				matcher = VOL_LOOSE_PATTERN.matcher(rawCallnum);
-				if (!matcher.find()) {
+				if (!matcher.find())
 					matcher = VOL_LETTERS_PATTERN.matcher(rawCallnum);
-				}
 			}
+			
 // look for first / last match, not any match (subroutine?)?
-			if (matcher.find(0)) {
+			if (matcher.find(0)) 
+			{
 				// return orig call number with matcher part lopped off.
 				int ix = matcher.start();
-				if (ix != -1 && ix < rawCallnum.length()) {
+				if (ix != -1 && ix < rawCallnum.length())
 					lopped = rawCallnum.substring(0, ix).trim();
-				}
 			}
 		}
 		
@@ -332,7 +337,8 @@ public class CallNumUtils {
 			return rawCallnum;
 
 		String lopped = removeNonLCDeweyVolSuffix(rawCallnum, callnumType);
-		if (lopped.length() > 10) {
+		if (lopped.length() > 10) 
+		{
 			String loppedMore = removeAddlSerialSuffix(lopped);
 			if (loppedMore.length() >= 5)
 				lopped = loppedMore;
@@ -352,12 +358,12 @@ public class CallNumUtils {
 	static String removeAddlVolSuffix(String rawCallnum) 
 	{
 		Matcher matcher = ADDL_VOL_PATTERN.matcher(rawCallnum);
-		if (matcher.find()) {
+		if (matcher.find()) 
+		{
 			// return orig call number with matcher part lopped off.
 			int ix = matcher.start();
-			if (ix != -1 && ix < rawCallnum.length()) {
+			if (ix != -1 && ix < rawCallnum.length())
 				return rawCallnum.substring(0, ix).trim();
-			}
 		}
 		return rawCallnum;
 	}
@@ -383,15 +389,17 @@ public class CallNumUtils {
 	 * @param rawCallnum
 	 */
 	static boolean callNumIsVolSuffix(String rawCallnum) {
-		if (rawCallnum != null && rawCallnum.length() > 0) {
+		if (rawCallnum != null && rawCallnum.length() > 0) 
+		{
 			Matcher matcher = VOL_PATTERN.matcher(rawCallnum);
-			if (!matcher.find()) {
+			if (!matcher.find()) 
+			{
 				matcher = VOL_LOOSE_PATTERN.matcher(rawCallnum);
-				if (!matcher.find()) {
+				if (!matcher.find()) 
+				{
 					matcher = VOL_LETTERS_PATTERN.matcher(rawCallnum);
-					if (!matcher.find()) {
+					if (!matcher.find())
 						matcher = ADDL_VOL_PATTERN.matcher(rawCallnum);
-					}
 				}
 			}
 			if (matcher.find(0)) 
@@ -418,9 +426,11 @@ public class CallNumUtils {
 	protected static Set<String> getLCcallnums(Set<Item> itemSet) 
 	{
 		Set<String> result = new HashSet<String>();
-		for (Item item : itemSet) {
+		for (Item item : itemSet) 
+		{
 // FIXME:  shelby locations should be checked for by calling routine??
-			if (item.getCallnumType() == CallNumberType.LC) {
+			if (item.getCallnumType() == CallNumberType.LC) 
+			{
 				String rawCallnum = "";
 				if (item.hasSeparateBrowseCallnum())
 					rawCallnum = item.getBrowseCallnum();
@@ -429,7 +439,8 @@ public class CallNumUtils {
 				           || item.hasIgnoredCallnum() 
 				         ) )
 					rawCallnum = item.getCallnum();
-				if (rawCallnum != null && rawCallnum.length() > 0) {
+				if (rawCallnum != null && rawCallnum.length() > 0) 
+				{
 					String lcCallnum = edu.stanford.CallNumUtils.normalizeLCcallnum(rawCallnum);
 					if (lcCallnum.length() > 0)
 						result.add(lcCallnum);
@@ -447,11 +458,13 @@ public class CallNumUtils {
 	static Set<String> getDeweyNormCallnums(Set<Item> itemSet) 
 	{
 		Set<String> result = new HashSet<String>();
-		for (Item item : itemSet) {
+		for (Item item : itemSet) 
+		{
 // FIXME:  shelby locations should be checked for by calling routine??
 			if (item.getCallnumType() == CallNumberType.DEWEY
 					&& !(item.hasIgnoredCallnum() || item.hasShelbyLoc()
-						 || item.isMissingOrLost() ) ) {
+						 || item.isMissingOrLost() ) ) 
+			{
 				String callnum = getNormalizedDeweyCallNumber(item);
 				if (callnum.length() > 0)
 					result.add(callnum);
@@ -536,7 +549,8 @@ public class CallNumUtils {
 	 * @param isSerial - true if the call number is for a serial, false o.w.
 	 * @return the lopped call number
 	 */
-	static String getLoppedCallnum(String fullCallnum, CallNumberType callnumType, boolean isSerial) {
+	static String getLoppedCallnum(String fullCallnum, CallNumberType callnumType, boolean isSerial) 
+	{
 		String loppedCallnum = fullCallnum;
 		if (callnumType == CallNumberType.LC)
 			if (isSerial)
@@ -564,20 +578,22 @@ public class CallNumUtils {
 	 * @param type - what kind of call number it is (LC, DEWEY ...)
 	 * @param recId - record id, for error messages
 	 */
-	static String getShelfKey(String rawCallnum, CallNumberType type, String recId) {
+	static String getShelfKey(String rawCallnum, CallNumberType type, String recId) 
+	{
 		String result = "";
 		if (rawCallnum.equals(""))
 			return result;
-		try {
+		try 
+		{
 			if (type == CallNumberType.LC)
 				result = type.getPrefix() + org.solrmarc.tools.CallNumUtils.getLCShelfkey(rawCallnum, recId);
 			else if (type == CallNumberType.DEWEY)
 				result = type.getPrefix() + org.solrmarc.tools.CallNumUtils.getDeweyShelfKey(rawCallnum);
 		}
-		catch (Exception e) {
-		}
-		if (result == null || result.equals("") 
-				|| result.equals(rawCallnum)) {
+		catch (Exception e) { /* ignore exception */}
+		
+		if (result.equals("") || result.equals(rawCallnum)) 
+		{
 			result = getNonLCDeweyShelfKey(rawCallnum, recId);
 			if (type != CallNumberType.LC && type != CallNumberType.DEWEY)
 				result = type.getPrefix() + result;
@@ -585,7 +601,7 @@ public class CallNumUtils {
 				result = CallNumberType.OTHER.getPrefix() + result;
 		}
 			
-		if (result == null || result.equals(""))
+		if (result.equals(""))
 			result = CallNumberType.OTHER.getPrefix() + rawCallnum;
 		
 		return result;
@@ -621,7 +637,8 @@ public class CallNumUtils {
 
 			// remove ellipsis if they are present
 			String volSuffix;
-			if (loppedCallnum.endsWith(" ...")) {
+			if (loppedCallnum.endsWith(" ...")) 
+			{
 				volSuffix = rawCallnum.substring(loppedCallnum.length()-4).trim();
 				if (loppedShelfkey.endsWith(" ..."))
 					loppedShelfkey = loppedShelfkey.substring(0, loppedShelfkey.length()-4);
@@ -668,37 +685,46 @@ public class CallNumUtils {
 		String partialYearRegex = "(20|19|18)\\d{0,1}";
 		Pattern partialYearPattern = Pattern.compile(" " + partialYearRegex + "$");
 		Matcher matcher = partialYearPattern.matcher(commonPrefix);
-		if (matcher.find()) {
+		if (matcher.find()) 
+		{
 			String callnum = itemArray[0].getCallnum();
 			// grab common prefix + 3 chars from call number
 			int lenToCheck = commonPrefix.length() + 3;
 			boolean matchedYear = false;
-			if (callnum.length() >= lenToCheck) {
+			if (callnum.length() >= lenToCheck) 
+			{
 				matcher = yearPatternThenChar.matcher(callnum.substring(0, lenToCheck));
-				if (matcher.find()) {
+				if (matcher.find()) 
+				{
 					matchedYear = true;
 					commonPrefix = commonPrefix.substring(0, matcher.start()).trim();					
 				}
 			}
+			
 			// did common prefix end in 2 digits and call number has 2 more chars?
-			if (!matchedYear) {
+			if (!matchedYear) 
+			{
 				lenToCheck = lenToCheck - 1;
-				if (callnum.length() >= lenToCheck) {
+				if (callnum.length() >= lenToCheck) 
+				{
 					matcher = yearPatternAtEnd.matcher(callnum.substring(0, lenToCheck));
-					if (matcher.find()) {
+					if (matcher.find()) 
+					{
 						matchedYear = true;
 						commonPrefix = commonPrefix.substring(0, matcher.start()).trim();
 					}
 				}
 			}
+			
 			// did common prefix end in 3 digits and call number has 1 more char?
-			if (!matchedYear) {
+			if (!matchedYear) 
+			{
 				lenToCheck = lenToCheck - 1;
-				if (callnum.length() >= lenToCheck) {
+				if (callnum.length() >= lenToCheck) 
+				{
 					matcher = yearPatternAtEnd.matcher(callnum.substring(0, lenToCheck));
-					if (matcher.find()) {
+					if (matcher.find()) 
 						commonPrefix = commonPrefix.substring(0, matcher.start()).trim();
-					}
 				}
 			}
 		}
@@ -713,9 +739,8 @@ public class CallNumUtils {
 		matcher = volLettersPattern.matcher(commonPrefix);
 		if (!matcher.find()) 
 			matcher = addlVolPattern.matcher(commonPrefix);
-			if (matcher.find(0)) {
-				commonPrefix = commonPrefix.substring(0, matcher.start()).trim();
-		}
+		if (matcher.find(0))
+			commonPrefix = commonPrefix.substring(0, matcher.start()).trim();
 
 		// remove trailing hyphens, colons, left parens, slashes
 		if (commonPrefix.endsWith("-") || commonPrefix.endsWith(":") || 
@@ -726,9 +751,8 @@ public class CallNumUtils {
 		Pattern tooShortPattern = Pattern.compile(tooShortRegex, Pattern.CASE_INSENSITIVE);
 		matcher = tooShortPattern.matcher(commonPrefix);
 		boolean tooShort = false;
-		if (matcher.find() || commonPrefix.length() <= minLen) { 
+		if (matcher.find() || commonPrefix.length() <= minLen)
 			tooShort = true;
-		}
 		
 		String loppedToReturn = "";
 		for (int i = 0; i < itemArray.length; i++)
@@ -795,20 +819,24 @@ public class CallNumUtils {
 	 */
 	public static void setCallnumsFromBib(Record record, Set<Item> itemSet, boolean isGovDoc) {
 
-		for (Item item: itemSet) {
+		for (Item item: itemSet) 
+		{
 			String callnumFromItem = item.getCallnum();
 			if ((callnumFromItem == null || callnumFromItem.length() == 0 
 				|| item.hasIgnoredCallnum()) 
-				&& !(item.isInProcess() || item.isOnOrder()) ) {
-				
+				&& !(item.isInProcess() || item.isOnOrder()) ) 
+			{
 				// get 086 call number if record is a gov doc 
 				//   (isGovDoc is set by calling routine if there is an 086, among other conditions)
-				if (isGovDoc) {
+				if (isGovDoc) 
+				{
 					// 086 has no sub b
 					List<DataField> df086List = record.getVariableFields("086");
-					for (DataField df : df086List) {
+					for (DataField df : df086List) 
+					{
 						String suba = MarcUtils.getSubfieldData(df, 'a');
-						if (suba != null && suba.length() > 0) {
+						if (suba != null && suba.length() > 0) 
+						{
 							if (df.getIndicator1() == '0')
 								// SUDOC
 								item.setCallnumType(CallNumberType.SUDOC);
@@ -822,19 +850,25 @@ public class CallNumUtils {
 				
 				// if we don't have a call number yet, 
 				// look for valid LC call number
-				if (!item.hasSeparateBrowseCallnum()) {
+				if (!item.hasSeparateBrowseCallnum()) 
+				{
 					List<String> candidates = getSubAB(record, "050");
-					for (String lcCandidate : candidates) {
-						if (org.solrmarc.tools.CallNumUtils.isValidLC(lcCandidate)) {
+					for (String lcCandidate : candidates) 
+					{
+						if (org.solrmarc.tools.CallNumUtils.isValidLC(lcCandidate)) 
+						{
 							item.setCallnumType(CallNumberType.LC);
 							item.setBrowseCallnum(lcCandidate);
 						}
 					}					
 					// if we don't have a call number from 050, look in 090
-					if (!item.hasSeparateBrowseCallnum()) {
+					if (!item.hasSeparateBrowseCallnum()) 
+					{
 						candidates = getSubAB(record, "090");
-						for (String lcCandidate : candidates) {
-							if (org.solrmarc.tools.CallNumUtils.isValidLC(lcCandidate)) {
+						for (String lcCandidate : candidates) 
+						{
+							if (org.solrmarc.tools.CallNumUtils.isValidLC(lcCandidate)) 
+							{
 								item.setCallnumType(CallNumberType.LC);
 								item.setBrowseCallnum(lcCandidate);
 							}
@@ -858,7 +892,8 @@ public class CallNumUtils {
 		List<String> results = new ArrayList<String>();
 
 		List<DataField> dfList = record.getVariableFields(tag);
-		for (DataField df : dfList) {
+		for (DataField df : dfList) 
+		{
 			String suba = MarcUtils.getSubfieldData(df, 'a');
 			String subb = MarcUtils.getSubfieldData(df, 'b');
 			StringBuffer subab = new StringBuffer();
