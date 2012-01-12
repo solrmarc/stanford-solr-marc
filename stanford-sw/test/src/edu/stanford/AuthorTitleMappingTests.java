@@ -9,8 +9,8 @@ import org.junit.Test;
  * junit4 mapping tests for author-title searching fields
  * @author Naomi Dushay
  */
-public class AuthorTitleMappingTests extends AbstractStanfordTest {
-
+public class AuthorTitleMappingTests extends AbstractStanfordTest 
+{
 	private String fldName = "author_title_search";
 	private String testFileName = "authorTitleMappingTests.mrc";
     private String testFilePath = testDataParentPath + File.separator + testFileName;

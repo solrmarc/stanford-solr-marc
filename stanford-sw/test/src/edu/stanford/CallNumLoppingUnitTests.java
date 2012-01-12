@@ -11,13 +11,14 @@ import edu.stanford.enumValues.CallNumberType;
  * unit tests for edu.stanford.CallNumberUtils lopping methods
  * @author Naomi Dushay
  */
-public class CallNumLoppingUnitTests extends AbstractStanfordTest {
-
+public class CallNumLoppingUnitTests extends AbstractStanfordTest 
+{
 	/**
 	 * test that T is not lopped when it shouldn't be
 	 */
 @Test
-	public void testTLopping() {
+	public void testTLopping() 
+	{
 		String callnum;
 		
 		callnum = "519 .D26ST 1965 V.1 TESTS";  // 5621053
@@ -46,7 +47,8 @@ public class CallNumLoppingUnitTests extends AbstractStanfordTest {
 	 *  the first month is used for lopping
 	 */
 @Test 
-	public void testMultipleMonthLopping() {
+	public void testMultipleMonthLopping() 
+	{
 		String callnum = "553.2805 .P117 NOV/DEC 2009";  // 7888686
 		assertEquals("553.2805 .P117", CallNumUtils.removeDeweySerialVolSuffix(callnum));
 		assertEquals("553.2805 .P117", CallNumUtils.removeDeweyVolSuffix(callnum));
@@ -61,7 +63,8 @@ public class CallNumLoppingUnitTests extends AbstractStanfordTest {
 	 *  flavor
 	 */
 @Test
-	public void testSerialYearLopping() {
+	public void testSerialYearLopping() 
+	{
 		String callnum;
 	
 		// year only
@@ -303,8 +306,7 @@ public class CallNumLoppingUnitTests extends AbstractStanfordTest {
 		assertEquals("3781 S78 M", CallNumUtils.removeNonLCDeweySerialVolSuffix(callnum, CallNumberType.OTHER));
 		callnum = "3781 S78 P FIG.3 PHOTODUP";
 		assertEquals("3781 S78 P", CallNumUtils.removeNonLCDeweyVolSuffix(callnum, CallNumberType.OTHER));
-		assertEquals("3781 S78 P", CallNumUtils.removeNonLCDeweySerialVolSuffix(callnum, CallNumberType.OTHER));
-		
+		assertEquals("3781 S78 P", CallNumUtils.removeNonLCDeweySerialVolSuffix(callnum, CallNumberType.OTHER));	
 	}
 	
 	/**

@@ -17,8 +17,8 @@ import static org.junit.Assert.*;
  * junit4 tests for Stanford University revisions to solrmarc
  * @author Naomi Dushay
  */
-public class MiscellaneousFieldTests extends AbstractStanfordTest {
-	
+public class MiscellaneousFieldTests extends AbstractStanfordTest 
+{
 	/**
 	 * Test correct document id - the id is from 001 with an a in front
 	 */
@@ -147,10 +147,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		createFreshIx("fieldOrdering.mrc");
-//		int solrDocNum = getSingleDocNum(docIDfname, "1");
-//		DocumentProxy doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
 		SolrDocument doc = getDocument("1");
-//		String marc21 = doc.getValuesForField("marc21")[0];
 		String marc21 = (String) doc.getFirstValue("marc21");
 		int ix650 = marc21.indexOf("650first");
 		int ix600 = marc21.indexOf("600second");

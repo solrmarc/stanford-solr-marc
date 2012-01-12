@@ -17,8 +17,8 @@ import edu.stanford.enumValues.CallNumberType;
  * @author naomi
  *
  */
-public class ItemsSplitTests extends AbstractStanfordTest {
-
+public class ItemsSplitTests extends AbstractStanfordTest 
+{
 	static String fldName = "item_display";
 	static String SEP = " -|- ";
 	String testFilePath = testDataParentPath + File.separator + "splitItemsTest.mrc";

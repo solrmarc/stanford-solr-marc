@@ -12,8 +12,8 @@ import edu.stanford.enumValues.CallNumberType;
  *   prefix
  * @author Naomi Dushay
  */
-public class CallNumLongestComnPfxTests extends AbstractStanfordTest {
-
+public class CallNumLongestComnPfxTests extends AbstractStanfordTest 
+{
 	private String fldName = "shelfkey";
 	private String fileName = "callnumLongCommPfxTests.mrc";
     private String testFilePath = testDataParentPath + File.separator + fileName;
@@ -142,7 +142,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest {
 	public void testManuscriptCollection() 
 	{
 		String id = "manuColl";
-		String unlop1 = "M1162";
+//		String unlop1 = "M1162";
 		String unlop2 = "M1162 ACCN 2000-260 BOX 1";
 		String unlop3 = "M1162 ACCN 2000-260 BOX 2";
 		String lopped = "M1162 ...";

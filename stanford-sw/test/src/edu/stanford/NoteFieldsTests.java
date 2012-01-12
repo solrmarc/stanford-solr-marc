@@ -10,14 +10,13 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.xml.sax.SAXException;
 
-
 /**
  * tests for Notes fields, such as TOC, Summary, Context, Awards ...
  * 
  * @author Naomi Dushay
  */
-public class NoteFieldsTests extends AbstractStanfordTest {
-	
+public class NoteFieldsTests extends AbstractStanfordTest 
+{
     /**
      * test population of table of contents search field
      */

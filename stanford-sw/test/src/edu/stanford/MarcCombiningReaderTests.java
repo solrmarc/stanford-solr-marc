@@ -16,7 +16,8 @@ import org.xml.sax.SAXException;
  *   (it doesn't stop indexing when it hits a bad record)
  * @author Naomi Dushay
  */
-public class MarcCombiningReaderTests extends AbstractStanfordTest {
+public class MarcCombiningReaderTests extends AbstractStanfordTest 
+{
 
 @Before
 	public final void setup() 

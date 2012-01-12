@@ -11,8 +11,8 @@ import edu.stanford.enumValues.CallNumberType;
  *   cope properly with missing/lost items - display, discoverable  SW-234
  * @author Naomi Dushay
  */
-public class ItemMissingTests extends AbstractStanfordTest {
-
+public class ItemMissingTests extends AbstractStanfordTest 
+{
 	private String fileName = "missingItems.mrc";
     private String testFilePath = testDataParentPath + File.separator + fileName;
 
@@ -26,8 +26,7 @@ public class ItemMissingTests extends AbstractStanfordTest {
 	// record view - display:   item_display   full callnum, sort callnum  should be populated
 	// availability - display (based on current loc, not jenson?):
 	// facets  - not assigned
-	// shelflist  - not assigned  (preferred_barcode, shelfkey, reversekey, item_display)
-	
+	// shelflist  - not assigned  (preferred_barcode, shelfkey, reversekey, item_display)	
 
 	/**
 	 * There should be no call number facet values when item is missing
@@ -65,7 +64,6 @@ public class ItemMissingTests extends AbstractStanfordTest {
 	private static String LCT_RSKEY = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(LCT_SKEY).toLowerCase();
 	private static String LCT_RSKEY_ELLIP = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(LCT_SKEY_ELLIP).toLowerCase();
 	private static String DEWEY_RSKEY = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(DEWEY_SKEY).toLowerCase();
-
 
 	/**
 	 * There should be no shelfkey values when item is missing 

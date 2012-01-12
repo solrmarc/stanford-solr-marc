@@ -19,7 +19,8 @@ import org.xml.sax.SAXException;
  * junit4 tests for Stanford University author fields for blacklight index
  * @author Naomi Dushay
  */
-public class AuthorTests extends AbstractStanfordTest {
+public class AuthorTests extends AbstractStanfordTest 
+{
 
 @Before
 	public final void setup() 
@@ -750,7 +751,6 @@ public class AuthorTests extends AbstractStanfordTest {
 	{
 		String fldName = "author_sort";
 		String testFilePath = testDataParentPath + File.separator + "authorTests.mrc";
-//	    assertSortFldProps(fldName);
 	
 		// 100 
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1006", fldName, "Sox on Fox 100 has sub 6");

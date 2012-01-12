@@ -16,7 +16,8 @@ import org.xml.sax.SAXException;
  * junit4 tests for Stanford University's standard number fields
  * @author Naomi Dushay
  */
-public class StandardNumberTests extends AbstractStanfordTest {
+public class StandardNumberTests extends AbstractStanfordTest 
+{
 
 @Before
 	public final void setup() 

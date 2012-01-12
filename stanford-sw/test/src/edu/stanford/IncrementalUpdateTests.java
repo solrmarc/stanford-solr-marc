@@ -4,9 +4,8 @@ import java.io.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-//import org.solrmarc.solr.DocumentProxy;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.common.SolrDocument;
+//import org.apache.solr.common.SolrDocument;
 import org.xml.sax.SAXException;
 
 import org.junit.*;
@@ -16,8 +15,8 @@ import org.junit.*;
  * junit4 tests for Stanford University revisions to solrmarc
  * @author Naomi Dushay
  */
-public class IncrementalUpdateTests extends AbstractStanfordTest {
-	
+public class IncrementalUpdateTests extends AbstractStanfordTest 
+{
 	
 	/**
 	 * Test deleting record when there is no index
@@ -43,7 +42,6 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 		assertDocNotPresent("1");
 	}
 
-	
 	/**
 	 * Test when deleted record is the last one in the index
 	 */
@@ -184,9 +182,7 @@ public class IncrementalUpdateTests extends AbstractStanfordTest {
 		
 		// assert created < last_updated  2, 3, 4
 		
-//		int solrDocNum = getSingleDocNum(docIDfname, "2");
-//		DocumentProxy doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
-		SolrDocument doc = getDocument("2");
+//		SolrDocument doc = getDocument("2");
 		
 /* won't compile with current build.xml  2010-07-31
 test commented out anyway b/c it's ahead of the actual code being written

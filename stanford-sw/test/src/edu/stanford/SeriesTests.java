@@ -12,8 +12,8 @@ import org.xml.sax.SAXException;
  * junit4 tests for Stanford University series fields for blacklight index
  * @author Naomi Dushay
  */
-public class SeriesTests extends AbstractStanfordTest {
-
+public class SeriesTests extends AbstractStanfordTest 
+{
 	private String fileName = "seriesTests.mrc";
 
 	/**

@@ -11,8 +11,8 @@ import edu.stanford.enumValues.CallNumberType;
  * unit tests for edu.stanford.CallNumUtils lopping methods
  * @author Naomi Dushay
  */
-public class CallNumUtilsLoppingUnitTests {
-
+public class CallNumUtilsLoppingUnitTests 
+{
 	/**
 	 * remove box suffix, if it exists
 	 */
@@ -420,7 +420,6 @@ public class CallNumUtilsLoppingUnitTests {
 		callnum = "QD1 .C59 1975:P.1-742";
 		assertEquals("QD1 .C59", removeYearSuffix(callnum));
 	}
-
 
 	/**
 	 * remove year suffix, if it exists, as part of LC call number

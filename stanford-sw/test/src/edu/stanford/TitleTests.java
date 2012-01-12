@@ -1,7 +1,6 @@
 package edu.stanford;
 
 import java.io.*;
-import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -13,9 +12,8 @@ import org.xml.sax.SAXException;
  * junit4 tests for Stanford University's title fields
  * @author Naomi Dushay
  */
-public class TitleTests extends AbstractStanfordTest {
-	
-	
+public class TitleTests extends AbstractStanfordTest 
+{
 	private String testFileName = "titleTests.mrc";
     private String testFilePath = testDataParentPath + File.separator + testFileName;
     private String dispFileName = "displayFieldsTests.mrc";
@@ -65,7 +63,7 @@ public class TitleTests extends AbstractStanfordTest {
 	/**
 	 * Test title_245c_display field;  trailing punctuation is removed
 	 */
-	@Test
+@Test
 	public final void testTitle245cDisplay() 
 	{
 		String fldName = "title_245c_display";

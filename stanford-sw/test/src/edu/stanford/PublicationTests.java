@@ -7,13 +7,10 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-//import org.apache.lucene.document.*;
-
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import org.junit.*;
 
-//import org.solrmarc.solr.DocumentProxy;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
@@ -26,6 +23,7 @@ import edu.stanford.enumValues.PubDateGroup;
  */
 public class PublicationTests extends AbstractStanfordTest 
 {
+	
 @Before
 	public final void setup() 
 	{
@@ -227,7 +225,6 @@ public class PublicationTests extends AbstractStanfordTest
 	public final void testPubDateSortAsc() 
 			throws ParserConfigurationException, IOException, SAXException, InvocationTargetException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, SolrServerException 
 	{
-		String fldName = "pub_date_sort";
 		createFreshIx("pubDateTests.mrc");
 	
 		// list of doc ids in correct publish date sort order

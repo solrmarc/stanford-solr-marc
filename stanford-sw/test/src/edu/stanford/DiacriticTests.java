@@ -20,8 +20,8 @@ import org.xml.sax.SAXException;
  * 
  * @author Naomi Dushay
  */
-public class DiacriticTests extends AbstractStanfordTest {
-
+public class DiacriticTests extends AbstractStanfordTest 
+{
 	// 100 field contains the diacritics in our test data
 	private String fldName = "author_1xx_search";
 	
@@ -375,7 +375,7 @@ public class DiacriticTests extends AbstractStanfordTest {
 	public final void testHebrew() 
 			throws ParserConfigurationException, IOException, SAXException 
 	{
-								assertSingleResult("13", fldName, "עברית");
+		assertSingleResult("13", fldName, "עברית");
 		assertSingleResult("13", fldName, "ivrit");
 	}
 }

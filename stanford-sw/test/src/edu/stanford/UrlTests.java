@@ -10,7 +10,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.*;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrDocument;
-//import org.solrmarc.solr.DocumentProxy;
 import org.xml.sax.SAXException;
 
 
@@ -18,8 +17,8 @@ import org.xml.sax.SAXException;
  * junit4 tests for Stanford University's url fields
  * @author Naomi Dushay
  */
-public class UrlTests extends AbstractStanfordTest {
-
+public class UrlTests extends AbstractStanfordTest 
+{
 	private final String testDataFname = "onlineFormat.mrc";
 
 @Before
@@ -173,10 +172,7 @@ public class UrlTests extends AbstractStanfordTest {
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
 	{
 		createFreshIx("urlOrderingTests.mrc");
-//		int solrDocNum = getSingleDocNum(docIDfname, "fulltextOnly");
-//		DocumentProxy doc = getSearcherProxy().getDocumentProxyBySolrDocNum(solrDocNum);
 		SolrDocument doc = getDocument("fulltextOnly");
-//		assertFieldOrder(doc.getValuesForField("url_fulltext"));
 		assertFieldOrder(doc.getFieldValues("url_fulltext"));
 		
 		doc = getDocument("fulltextAndRestricted1");
@@ -216,18 +212,12 @@ public class UrlTests extends AbstractStanfordTest {
 		assertFieldOrder(doc.getFieldValues("url_suppl"));
 	}
 
-	private void assertFieldOrder(String[] urls) {
-		assertTrue("urls are NOT in the original order: " + urls[0] + " should be first url.", urls[0].indexOf("first") > 1);
-		assertTrue("urls are NOT in the original order: " + urls[1] + " should be second url.", urls[1].indexOf("second") > 1);
-	}
-
 	private void assertFieldOrder(Collection<Object> urlObjs) {
 		String[] urls = urlObjs.toArray(new String[urlObjs.size()]);
 		assertTrue("urls are NOT in the original order: " + urls[0] + " should be first url.", urls[0].indexOf("first") > 1);
 		assertTrue("urls are NOT in the original order: " + urls[1] + " should be second url.", urls[1].indexOf("second") > 1);
 	}
 
-//	private void assertFulltextUrlFieldOrder(String[] urls) {
 	private void assertFulltextUrlFieldOrder(Collection<Object> urlObjs) {
 		String[] urls = urlObjs.toArray(new String[urlObjs.size()]);
 		String firstUrl = urls[0];
