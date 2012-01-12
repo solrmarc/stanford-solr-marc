@@ -81,8 +81,7 @@ public class MhldMappingTests extends AbstractStanfordTest
     }
     
 
-
-    /**
+	/**
      * ensure output with and without 86x have same number of separators
      */
 @Test
@@ -191,7 +190,6 @@ public class MhldMappingTests extends AbstractStanfordTest
         	solrFldMapTest.assertSolrFldValue(testDataFile, "222", fldName, expected);
     	}
     }
-
 
 
     /**
@@ -572,6 +570,5 @@ public class MhldMappingTests extends AbstractStanfordTest
        }
        assertEquals("Got wrong number of separators for mhld_display field: ",  4, count);
     }
-
 	
 }

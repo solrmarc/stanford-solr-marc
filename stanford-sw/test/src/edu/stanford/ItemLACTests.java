@@ -12,8 +12,8 @@ import edu.stanford.enumValues.CallNumberType;
  *   cope properly with items with current location LAC  SW-314
  * @author Naomi Dushay
  */
-public class ItemLACTests extends AbstractStanfordTest {
-
+public class ItemLACTests extends AbstractStanfordTest 
+{
 	private String fileName = "itemLACcurrentLoc.mrc";
     private String testFilePath = testDataParentPath + File.separator + fileName;
 
@@ -45,7 +45,6 @@ public class ItemLACTests extends AbstractStanfordTest {
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
 
-
 	/**
 	 * if LAC is in a home location, pass it on thru.
 	 * SW-314
@@ -66,8 +65,7 @@ public class ItemLACTests extends AbstractStanfordTest {
 	    String fldVal = firstPart + "ON-ORDER" + lastPart;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	    fldVal = firstPart + "LAC" + lastPart;
-	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-	
+	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	
 	}
 	
 	/**

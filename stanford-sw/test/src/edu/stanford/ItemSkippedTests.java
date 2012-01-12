@@ -16,8 +16,8 @@ import edu.stanford.enumValues.CallNumberType;
  * unit tests for edu.stanford.Item methods
  * @author Naomi Dushay
  */
-public class ItemSkippedTests extends AbstractStanfordTest {
-	
+public class ItemSkippedTests extends AbstractStanfordTest 
+{
 	static String fldName = "item_display";
 	static String SEP = " -|- ";
 	static String testDataFname = "itemSkippedTests.mrc";

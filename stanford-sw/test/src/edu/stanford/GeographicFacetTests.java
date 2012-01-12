@@ -5,8 +5,8 @@ import java.io.File;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GeographicFacetTests  extends AbstractStanfordTest {
-
+public class GeographicFacetTests  extends AbstractStanfordTest 
+{
 	private final String testDataFname = "regionFacet.mrc";
 	String testFilePath = testDataParentPath + File.separator + testDataFname;
 	
@@ -84,6 +84,5 @@ public class GeographicFacetTests  extends AbstractStanfordTest {
 		solrFldMapTest.assertSolrFldHasNumValues(testFilePath, "699", fldName, 1);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "699", fldName, "699z");
 	}
-
 
 }

@@ -13,15 +13,16 @@ import org.junit.*;
  * unit tests for edu.stanford.ItemUtils methods
  * @author Naomi Dushay
  */
-public class ItemUtilsUnitTests extends AbstractStanfordTest {
-
+public class ItemUtilsUnitTests extends AbstractStanfordTest 
+{
 	private static final boolean isSerial = true;
 
 	/**
 	 * test lopping of LC call numbers.  Serial and non-Serial flavor
 	 */
 @Test
-	public void testLCLopping() {
+	public void testLCLopping() 
+	{
 		// no lopping
 		String callnum = "HE270 .I854";
 		assertEquals(callnum, CallNumUtils.getLoppedCallnum(callnum, CallNumberType.LC, isSerial));
@@ -56,7 +57,8 @@ public class ItemUtilsUnitTests extends AbstractStanfordTest {
 	 * test lopping of Dewey call numbers.  Serial and non-Serial flavor
 	 */
 @Test
-	public void testDeweyLopping() {	
+	public void testDeweyLopping() 
+	{	
 		// no lopping
 		String callnum = "553.2805 .P117";
 		assertEquals(callnum, CallNumUtils.getLoppedCallnum(callnum, CallNumberType.DEWEY, isSerial));
@@ -94,7 +96,8 @@ public class ItemUtilsUnitTests extends AbstractStanfordTest {
 	 *  flavor
 	 */
 @Test
-	public void testOtherLopping() {
+	public void testOtherLopping() 
+	{
 		// no lopping
 		String callnum = "HE 20.6209/8:";
 		assertEquals(callnum, CallNumUtils.getLoppedCallnum(callnum, CallNumberType.SUDOC, isSerial));

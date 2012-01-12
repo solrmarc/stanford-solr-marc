@@ -18,8 +18,8 @@ import org.xml.sax.SAXException;
  * 
  * @author Naomi Dushay
  */
-public class DatabaseAZSubjectTests extends AbstractStanfordTest {
-
+public class DatabaseAZSubjectTests extends AbstractStanfordTest 
+{
 	String testFilePath = testDataParentPath + File.separator + "databasesAZsubjectTests.mrc";
 	String facetFldName = "db_az_subject";
 
@@ -111,6 +111,4 @@ public class DatabaseAZSubjectTests extends AbstractStanfordTest {
 		assertSingleResult("6859025", fldName, "Political");
     }
     
-
-
 }

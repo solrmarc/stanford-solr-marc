@@ -1,8 +1,6 @@
 package edu.stanford;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,15 +10,14 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
 import org.xml.sax.SAXException;
 
-
 /**
  * junit4 tests for Stanford University's handling of vernacular fields (880s)
  *  (non-search vernacular fields, that is)
  * 
  * @author Naomi Dushay
  */
-public class VernFieldsTests extends AbstractStanfordTest {
-
+public class VernFieldsTests extends AbstractStanfordTest 
+{
 	String unMatched880File = "unmatched880sTests.mrc";
 	String vernNonSearchTestFile = "vernacularNonSearchTests.mrc";
     String unMatched800FilePath = testDataParentPath + File.separator + unMatched880File;
@@ -244,7 +241,7 @@ public class VernFieldsTests extends AbstractStanfordTest {
 		assertDocHasFieldValue("hebrew1", fldName, "Alef bet shel Yahadut.");
 		fldName = "vern_title_full_display";
 		
-PrintStream ps = new PrintStream(System.out, true, "UTF-16");		
+//PrintStream ps = new PrintStream(System.out, true, "UTF-16");
 //ps.println("DEBUG:  vern_title_full_display contains: " + getDocument("hebrew1").getValues("vern_full_title_display")[0]);		
 								assertDocHasFieldValue("hebrew1", fldName, "אל״ף בי״ת של יהדות הלל צייטלין ; תירגם וערך מנחם ברש־רועי /");
 								assertDocHasFieldValue("hebrew1", fldName, "אל״ף בי״ת של יהדות / הלל צייטלין ; תירגם וערך מנחם ברש־רועי");

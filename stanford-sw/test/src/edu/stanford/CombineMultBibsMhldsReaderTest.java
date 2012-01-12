@@ -24,14 +24,14 @@ import org.solrmarc.tools.*;
  */
 public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
 {
-	
     private Map<String, Record> UNMERGED_FIRST_BIBS = new HashMap<String, Record>();
     private Map<String, Record> MERGED_BIB_MHLD_RECORDS = new HashMap<String, Record>();
     private Map<String, Record> MERGED_MULT_BIBS_RECORDS = new HashMap<String, Record>();
     private Map<String, Record> MERGED_MULT_BOTH_RECORDS = new HashMap<String, Record>();
     
     {
-		try {
+		try 
+		{
 			String filePath = testDataParentPath + File.separator + "combineBibMhld_b1b2b3.mrc";
 			RawRecordReader rawRecRdr = new RawRecordReader(new FileInputStream(new File(filePath)));
 	        while (rawRecRdr.hasNext())
@@ -77,8 +77,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
 		}
     }
 
-	
-	
+		
     /**
      * the first record in the file has a bib and an mhld
      */
@@ -100,7 +99,6 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
 	    id = "a3";
        	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
     }
-
 
     /**
      * a middle record in the file has a bib and an mhld
@@ -145,8 +143,6 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
         id = "a2";
        	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
     }
-
-
 
     /**
      * the first record in the file has multiple bibs (and no mhld)
@@ -215,7 +211,6 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
        	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
     }
     
-
     /**
      * the first record in the file has multiple bibs and multiple mhlds
      */
@@ -237,8 +232,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
         id = "a3";
        	RecordTestingUtils.assertEquals(UNMERGED_FIRST_BIBS.get(id), mergedRecs.get(id));
     }
-    
-    
+       
     /**
      * a middle record in the file has multiple bibs and multiple mhlds
      */
@@ -264,7 +258,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     /**
      * the last record in the file has multiple bibs and multiple mhlds
      */
-    @Test
+@Test
     public void lastHasMultipleBibsAndMhlds() 
     		throws IOException 
     {
@@ -345,8 +339,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
         			e.getMessage().startsWith("CombineMultBibsMhldsReader: bib record a1 came after bib record a2: file isn't sorted."));
         	assertTrue("Output message not as expected: " + e.getMessage(),  
         			e.getMessage().endsWith("STOPPING PROCESSING."));
-		}
-    	
+		}	
     }
 
     /**
@@ -798,7 +791,6 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
         return results;
     }
     
-    
     private Map<String, Record> readIntoRecordMap(String filename, boolean permissive) 
     		throws IOException
     {
@@ -812,6 +804,5 @@ public class CombineMultBibsMhldsReaderTest extends AbstractStanfordTest
     	String filePath = testDataParentPath + File.separator + filename;
         return combineFileRecordsAsMap(filePath, true);
     }
-    
     
 }

@@ -15,8 +15,8 @@ import org.xml.sax.SAXException;
  * junit4 tests for Stanford University's subject fields
  * @author Naomi Dushay
  */
-public class SubjectTests extends AbstractStanfordTest {
-	
+public class SubjectTests extends AbstractStanfordTest 
+{
 	private final String testDataFname = "subjectTests.mrc";
 	private final String searchTestDataFname = "subjectSearchTests.mrc";
 

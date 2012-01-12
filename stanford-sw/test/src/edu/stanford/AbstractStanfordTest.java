@@ -16,7 +16,8 @@ import org.solrmarc.testUtils.SolrFieldMappingTest;
  * Site Specific code used for testing the Stanford Blacklight index
  * @author Naomi Dushay
  */
-public abstract class AbstractStanfordTest extends IndexTest {
+public abstract class AbstractStanfordTest extends IndexTest 
+{
 
 // FIXME:  ensure log4j.properties is in bin	
 	

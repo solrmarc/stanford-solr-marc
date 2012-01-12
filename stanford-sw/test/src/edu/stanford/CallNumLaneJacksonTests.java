@@ -14,8 +14,8 @@ import edu.stanford.enumValues.CallNumberType;
  *   cope properly with strange call numbers from Lane and Jackson
  * @author Naomi Dushay
  */
-public class CallNumLaneJacksonTests extends AbstractStanfordTest {
-
+public class CallNumLaneJacksonTests extends AbstractStanfordTest 
+{
 	private String fileName = "callNumLaneJackTests.mrc";
     private String testFilePath = testDataParentPath + File.separator + fileName;
 
@@ -86,7 +86,6 @@ public class CallNumLaneJacksonTests extends AbstractStanfordTest {
 	private static String LC_RSKEY = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(LC_SKEY).toLowerCase();
 	private static String DEWEY_RSKEY = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(DEWEY_SKEY).toLowerCase();
 	private static String OTHER_RSKEY = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(OTHER_SKEY).toLowerCase();
-
 
 	/**
 	 * There should be no shelfkey values when call number is 

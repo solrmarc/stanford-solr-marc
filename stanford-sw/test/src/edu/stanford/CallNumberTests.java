@@ -21,8 +21,8 @@ import edu.stanford.enumValues.CallNumberType;
  * junit4 tests for Stanford University call number fields for blacklight index
  * @author Naomi Dushay
  */
-public class CallNumberTests extends AbstractStanfordTest {
-
+public class CallNumberTests extends AbstractStanfordTest 
+{
 	private final String govDocStr = "Government Document";
 	private final boolean isSerial = true;
 	private final String ignoredId = "ignored";
@@ -92,8 +92,7 @@ public class CallNumberTests extends AbstractStanfordTest {
 		fldName = "dewey_2digit_facet";
 		fldName = "dewey_b4cutter_facet";
 		assertZeroResults(fldName, "WITHDRAWN");
-		
-		
+				
 		fldName = "callnum_search";
 		assertSingleResult("690002", fldName, "\"159.32 .W211\""); 
 		//  skipped values
@@ -791,7 +790,6 @@ public class CallNumberTests extends AbstractStanfordTest {
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.LC, "fake").toLowerCase();
 		assertEquals("lc m   0453.000000 z0.290000 q0.100000 l v.000002", getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, !isSerial, ignoredId));
 		String reversePrefix = "lc m   0453.000000 z0.290000 q0.100000 l 4" + reversePeriodStr + "zzzzzx";
-		String junk = getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, ignoredId);
 		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, ignoredId).startsWith(reversePrefix));
 		
 		callnum = "M453 .Z29 Q1 L SER.2"; 
@@ -990,15 +988,12 @@ public class CallNumberTests extends AbstractStanfordTest {
 			volSortString2callnum.put(getVolumeSortCallnum(callnum, lopped, loppedShelfkey, CallNumberType.DEWEY, isSerial, ignoredId), callnum);
 		}
 
-		
-		
 		List<String> ordered = new ArrayList<String>(volSortString2callnum.keySet());		
 		Collections.sort(ordered);
 
 		for (int i = 0; i < ordered.size(); i++) {
 			assertEquals("At position " + i + " in list: ", sortedDeweyVolSortList.get(i), volSortString2callnum.get(ordered.get(i)));
 		}
-
 	}
 
 }

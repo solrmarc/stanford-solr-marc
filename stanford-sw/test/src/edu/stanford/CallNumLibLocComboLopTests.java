@@ -18,8 +18,8 @@ import edu.stanford.enumValues.CallNumberType;
 *  combination.
 * @author Naomi Dushay
 */
-public class CallNumLibLocComboLopTests extends AbstractStanfordTest {
-
+public class CallNumLibLocComboLopTests extends AbstractStanfordTest 
+{
 	private String fldName = "shelfkey";
 	private String fileName = "callNumLibLocVolLopTests.mrc";
     private String testFilePath = testDataParentPath + File.separator + fileName;
@@ -39,7 +39,6 @@ public class CallNumLibLocComboLopTests extends AbstractStanfordTest {
 	private String deweyVol1Shelfkey = CallNumUtils.getShelfKey(deweyCallnumVol1, CallNumberType.DEWEY, null).toLowerCase();
 	private String deweyVol2Shelfkey = CallNumUtils.getShelfKey(deweyCallnumVol2, CallNumberType.DEWEY, null).toLowerCase();
 	private String deweyLoppedShelfkey = CallNumUtils.getShelfKey(deweyLoppedCallnum, CallNumberType.DEWEY, null).toLowerCase();
-
 
 @Before
 	public final void setup() 

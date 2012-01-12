@@ -2,10 +2,6 @@ package edu.stanford;
 
 import java.io.*;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
 import org.junit.*;
 
 import edu.stanford.enumValues.Format;
@@ -16,8 +12,8 @@ import edu.stanford.enumValues.Format;
  * Database formats are tested separately in FormatDatabaseTests
  * @author Naomi Dushay
  */
-public class FormatTests extends AbstractStanfordTest {
-	
+public class FormatTests extends AbstractStanfordTest 
+{	
 	private final String testDataFname = "formatTests.mrc";
 	String testFilePath = testDataParentPath + File.separator + testDataFname;
 	String displayFldName = "format";

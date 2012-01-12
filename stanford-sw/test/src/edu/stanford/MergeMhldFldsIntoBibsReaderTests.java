@@ -656,7 +656,6 @@ String MERGED_BIB335_OUTPUT_NO_UMLAUT[] = {
 	    	results.put(MarcUtils.getControlFieldData(bibRecWithPossChanges, "001"), bibRecWithPossChanges);
 	    }
 	    return results;
-	}
-    
+	}   
 
 }

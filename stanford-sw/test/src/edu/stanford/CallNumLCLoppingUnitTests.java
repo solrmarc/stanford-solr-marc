@@ -9,8 +9,8 @@ import edu.stanford.enumValues.CallNumberType;
  * unit tests for edu.stanford.CallNumberUtils LC lopping methods
  * @author Naomi Dushay
  */
-public class CallNumLCLoppingUnitTests extends AbstractStanfordTest {
-
+public class CallNumLCLoppingUnitTests extends AbstractStanfordTest 
+{
 	/**
 	 * test that LC lopping doesn't go after the class number when it looks 
 	 *  like a year - one cutter, no suffix

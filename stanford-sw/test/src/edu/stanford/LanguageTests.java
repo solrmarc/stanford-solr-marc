@@ -16,8 +16,8 @@ import org.junit.*;
  * junit4 tests for Stanford University revisions to solrmarc
  * @author Naomi Dushay
  */
-public class LanguageTests extends AbstractStanfordTest {
-	
+public class LanguageTests extends AbstractStanfordTest 
+{
 	String fldName = "language";
 	String fileName = "langTests.mrc";
 	String testFilePath = testDataParentPath + File.separator + fileName;
@@ -109,6 +109,5 @@ public class LanguageTests extends AbstractStanfordTest {
 		solrFldMapTest.assertSolrFldValue(testFilePath, "041subfields", fldName, "Amharic");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "041subfields", fldName, "Angika");
 	}
-
 
 }

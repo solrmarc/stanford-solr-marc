@@ -17,14 +17,13 @@ import edu.stanford.enumValues.CallNumberType;
  * junit4 tests for Stanford University call number fields for blacklight index
  * @author Naomi Dushay
  */
-public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest {
-
+public class ItemDisplayCallnumLoppingTests extends AbstractStanfordTest 
+{
 	private final String fldName = "item_display";
 	private final boolean isSerial = true;
 	private final String SEP = " -|- ";
 	private final String shelByTitl = "Shelved by title";
 	private String testFilePath = testDataParentPath + File.separator + "callNumVolLopTests.mrc";
-
 
 @Before
 	public void setup() 
