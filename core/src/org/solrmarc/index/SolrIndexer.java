@@ -29,8 +29,6 @@ import org.marc4j.marc.*;
 import org.solrmarc.marc.MarcImporter;
 import org.solrmarc.tools.*;
 
-import bsh.*;
-
 /**
  * 
  * @author Robert Haschart
@@ -58,10 +56,6 @@ public class SolrIndexer
      *  values are the translation maps (hence, it's a map of maps) */
     private Map<String, SolrIndexerMixin> customMixinMap = null;
 
-    /** map of script interpreters.  keys are names of scripts; 
-     *  values are the Interpterers  */
-    private Map<String, Interpreter> scriptMap = null;
-
     /** current datestamp for indexed solr document */
     private Date indexDate = null;
 
@@ -82,7 +76,6 @@ public class SolrIndexer
     {
         fieldMap = new HashMap<String, String[]>();
         transMapMap = new HashMap<String, Map<String, String>>();
-        scriptMap = new HashMap<String, Interpreter>();
         customMethodMap = new HashMap<String, Method>();
         customMixinMap = new HashMap<String, SolrIndexerMixin>();
         indexDate = new Date();
@@ -722,30 +715,6 @@ public class SolrIndexer
                     }
                 }
             }
-            else if (indexType.startsWith("script"))
-            {
-                try {
-                    handleScript(indexMap, indexType, indexField, mapName, record, indexParm);
-                }
-                catch(SolrMarcIndexerException e)
-                {
-                    String recCntlNum = null;
-                    try {
-                        recCntlNum = record.getControlNumber();
-                    }
-                    catch (NullPointerException npe) { /* ignore */ }
-
-                    if (e.getLevel() == SolrMarcIndexerException.DELETE)
-                    {
-                        logger.error("Record " + (recCntlNum != null ? recCntlNum : "") + " purposely not indexed because " + key + " field is empty -- " + e.getMessage(), e);
-                    }
-                    else
-                    {
-                        logger.error("Unable to index record " + (recCntlNum != null ? recCntlNum : "") + " due to field " + key + " -- " + e.getMessage(), e);
-                        throw(e);
-                    }
-                }
-            }
         }
         this.errors = null;
         return indexMap;
@@ -799,17 +768,20 @@ public class SolrIndexer
      * @param indexParm - contains the name of the custom method to invoke, as well as the 
      *                    additional parameters to pass to that method.
      */
-    private void handleCustom(Map<String, Object> indexMap,
-            String indexType, String indexField, String mapName, Record record,
-            String indexParm)  throws SolrMarcIndexerException
+    private void handleCustom(Map<String, Object> indexMap, String indexType, String indexField, 
+    							String mapName, Record record, String indexParm)  
+    		throws SolrMarcIndexerException
     {
         Object retval = null;
         Class<?> returnType = null;
+        
+        // grab the record id in case we want to use it in an exception message
         String recCntlNum = null;
         try {
         	recCntlNum = record.getControlNumber();
         }
         catch (NullPointerException npe) { /* ignore as this is for error msgs only*/ }
+
         String className = null;
         Class<?> classThatContainsMethod = this.getClass();
         Object objectThatContainsMethod = this;
@@ -860,136 +832,44 @@ public class SolrIndexer
         catch (SecurityException e)
         {
             // e.printStackTrace();
-//            logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
             logger.error("Error while indexing " + indexField + " for record " + (recCntlNum != null ? recCntlNum : "") + " -- " + e.getCause());
         }
         catch (NoSuchMethodException e)
         {
             // e.printStackTrace();
-//            logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
             logger.error("Error while indexing " + indexField + " for record " + (recCntlNum != null ? recCntlNum : "") + " -- " + e.getCause());
         }
         catch (IllegalArgumentException e)
         {
             // e.printStackTrace();
-//            logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
             logger.error("Error while indexing " + indexField + " for record " + (recCntlNum != null ? recCntlNum : "") + " -- " + e.getCause());
         }
         catch (IllegalAccessException e)
         {
             // e.printStackTrace();
-//            logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
             logger.error("Error while indexing " + indexField + " for record " + (recCntlNum != null ? recCntlNum : "") + " -- " + e.getCause());
         }
         catch (InvocationTargetException e)
         {
             if (e.getTargetException() instanceof SolrMarcIndexerException)
-            {
                 throw((SolrMarcIndexerException)e.getTargetException());
-            }
+
             e.printStackTrace();   // DEBUG
-//            logger.error(record.getControlNumber() + " " + indexField + " " + e.getCause());
             logger.error("Error while indexing " + indexField + " for record " + (recCntlNum != null ? recCntlNum : "") + " -- " + e.getCause());
         }
+        
         boolean deleteIfEmpty = false;
         if (indexType.equals("customDeleteRecordIfFieldEmpty")) 
             deleteIfEmpty = true;
-        boolean result = finishCustomOrScript(indexMap, indexField, mapName, returnType, retval, deleteIfEmpty);
-        if (result == true) throw new SolrMarcIndexerException(SolrMarcIndexerException.DELETE);
+        
+        boolean stopOrDelete = finishCustomMethod(indexMap, indexField, mapName, returnType, retval, deleteIfEmpty);
+
+        if (stopOrDelete == true) 
+        	throw new SolrMarcIndexerException(SolrMarcIndexerException.DELETE);
     }
 
     /**
-     * Analogous to handleCustom, however instead of calling a custom method defined 
-     * in a user-supplied custom subclass SolrIndexer, this will invoke a custom BeanShell 
-     * script method found in a script file that is referenced in the index specification
-     * in parentheses following the keyword "script".  
-     * 
-     * @param indexMap - The map contain the solr index record that is being constructed for this MARC record.
-     * @param indexType - Indicates whether the the solr record should be deleted if no value 
-     *                    is generated by this custom indexing script
-     * @param indexField - The name of the field to be added to the solr index record.  Note that 
-     *                     in that case of a custom index method that returns a Map, the keys of the map 
-     *                     define the names of the fields to be added, and this value is then simply a dummy.
-     * @param mapName - The name (or file and name) of a translation map to use to convert 
-     *                  the data in the specified fields of the MARC record to the desired values 
-     *                  to be included in the Solr index record.  (If mapName is null, the values 
-     *                  in the record will be returned as-is.) 
-     * @param record -  The MARC record that is being indexed.
-     * @param indexParm - contains the name of the custom BeanShell script method to invoke, as well as the 
-     *                    additional parameters to pass to that method.
-     */
-    private void handleScript(Map<String, Object> indexMap, String indexType, String indexField, String mapName, Record record, String indexParm)
-    {
-        String scriptFileName = indexType.replaceFirst("script[A-Za-z]*[(]", "").replaceFirst("[)]$", "");
-        Interpreter bsh = getInterpreterForScript(scriptFileName);
-        Object retval;
-        Class<?> returnType;
-        String functionName = null;
-        try {
-            bsh.set("indexer", this);
-            BshMethod bshmethod;
-            if (indexParm.indexOf("(") != -1)
-            {
-                functionName = indexParm.substring(0, indexParm.indexOf('('));
-                String parmStr = indexParm.substring(indexParm.indexOf('(')+1, indexParm.lastIndexOf(')'));
-                // parameters are separated by unescaped commas
-                String parms[] = parmStr.trim().split("(?<=[^\\\\]),");
-                int numparms = parms.length;
-                Class parmClasses[] = new Class[numparms + 1];
-                parmClasses[0] = Record.class;
-                Object objParms[] = new Object[numparms + 1];
-                objParms[0] = record;
-                for (int i = 0; i < numparms; i++)
-                {
-                    parmClasses[i + 1] = String.class;
-                    objParms[i + 1] = dequote(parms[i].trim());
-                }
-                bshmethod = bsh.getNameSpace().getMethod(functionName, parmClasses);
-                if (bshmethod == null)
-                {
-                    throw new IllegalArgumentException("Unable to find Specified method " + functionName + " in  script: " + scriptFileName);
-                }
-                else
-                {    
-                    returnType = bshmethod.getReturnType();
-                    retval = bshmethod.invoke(objParms, bsh);
-                }
-            }
-            else
-            {
-                bshmethod = bsh.getNameSpace().getMethod(indexParm, new Class[]{Record.class});
-                if (bshmethod == null)
-                {
-                    throw new IllegalArgumentException("Unable to find Specified method " + indexParm + " in  script: " + scriptFileName);
-                }
-                else
-                {    
-                    returnType = bshmethod.getReturnType();
-                    retval = bshmethod.invoke(new Object[] { record }, bsh);
-                }
-            }
-            if (returnType == null && retval != null) 
-                returnType = retval.getClass();
-        }
-        catch (EvalError e)
-        {
-            throw new IllegalArgumentException("Error while trying to evaluate script: " + scriptFileName, e);
-        }
-        catch (UtilEvalError e)
-        {
-            throw new IllegalArgumentException("Unable to find Specified method " + functionName + " in  script: " + scriptFileName, e);
-        } 
-        boolean deleteIfEmpty = false;
-        if (indexType.startsWith("scriptDeleteRecordIfFieldEmpty")) 
-            deleteIfEmpty = true;
-        if (retval == Primitive.NULL)  
-            retval = null;
-        boolean result = finishCustomOrScript(indexMap, indexField, mapName, returnType, retval, deleteIfEmpty);
-        if (result == true) throw new SolrMarcIndexerException(SolrMarcIndexerException.DELETE);
-    }
-
-    /**
-     * Finish up the processing for a custom indexing function or a custom BeanShell script method 
+     * Finish up the processing for a custom indexing function
      * @param indexMap - The map contain the solr index record that is being constructed for this MARC record.
      * @param indexField - The name of the field to be added to the solr index record.  Note that 
      *                     in that case of a custom index method that returns a Map, the keys of the map 
@@ -1006,7 +886,7 @@ public class SolrIndexer
      *                        was generated.
      * @return returns true if the indexing process should stop and the solr record should be deleted.
      */
-    private boolean finishCustomOrScript(Map<String, Object> indexMap, String indexField, String mapName,
+    private boolean finishCustomMethod(Map<String, Object> indexMap, String indexField, String mapName,
                                          Class<?> returnType, Object retval, boolean deleteIfEmpty)
     {
         if (returnType == null || retval == null)
@@ -1036,44 +916,6 @@ public class SolrIndexer
         return false;
     }
     
-    /**
-     * First checks whether a given BeanShell script has been already loaded, and if so returns the
-     * BeanShell Interpreter created from that script.  Is it hasn't been loaded this function will 
-     * read in the named script file, create a new BeanShell Interpreter, and have that Interpreter 
-     * process the named script. 
-     * @param scriptFileName
-     * @return
-     */
-    private Interpreter getInterpreterForScript(String scriptFileName)
-    {
-        if (scriptMap.containsKey(scriptFileName))
-        {
-            return(scriptMap.get(scriptFileName));
-        }
-        Interpreter bsh = new Interpreter();
-        bsh.setClassLoader(this.getClass().getClassLoader());
-        String paths[] = new String[propertyFilePaths.length+1];
-        System.arraycopy(propertyFilePaths, 0, paths, 1, propertyFilePaths.length);
-        paths[0] = "scripts";
-        InputStream script = PropertiesUtils.getPropertyFileInputStream(paths, scriptFileName);
-        String scriptContents;
-        try
-        {
-            scriptContents = Utils.readStreamIntoString(script);
-            bsh.eval(scriptContents);
-        }
-        catch (IOException e)
-        {
-            throw new IllegalArgumentException("Unable to read script: " + scriptFileName, e);
-        }
-        catch (EvalError e)
-        {
-            throw new IllegalArgumentException("Unable to evaluate script: " + scriptFileName, e);
-        }
-        scriptMap.put(scriptFileName, bsh);
-        return(bsh);
-    }
-
     /**
      * if the first and last characters of the string are quote marks ("), then
      * delete them.
