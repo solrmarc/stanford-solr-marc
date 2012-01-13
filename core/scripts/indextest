@@ -1,7 +1,7 @@
 #! /bin/bash
 # indextest.sh
-# Diagnostic program to show how a set of marc records would be indexed,
-# without actually adding any records to Solr.
+# Show how a set of marc records would be indexed, without actually adding any 
+#   records to Solr.
 # $Id: indextest.sh 
 
 E_BADARGS=65
@@ -23,12 +23,7 @@ then
   fi
 fi
 
-if [[ "$SOLRMARC_MEM_ARGS" == "" ]] 
-then
-    SOLRMARC_MEM_ARGS='@MEM_ARGS@'
-fi
-
-java $SOLRMARC_MEM_ARGS -Dmarc.just_index_dont_add="true" -jar $scriptdir/SolrMarc.jar $1 $2 $3 
+java -Dsolrmarc.main.class="org.solrmarc.marc.MarcPrinter" -jar $scriptdir/SolrMarc.jar index $1 $2 $3
 
 exit 0
 
