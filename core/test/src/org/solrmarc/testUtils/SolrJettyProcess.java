@@ -65,7 +65,7 @@ public class SolrJettyProcess
             serverIsUp = checkServerIsUp(5000, 100, getServerAddress(), jettyPort);
         }
         else
-        	serverIsUp = checkServerIsUp(15000, 100, getServerAddress(), jettyPort);
+        	serverIsUp = checkServerIsUp(45000, 100, getServerAddress(), jettyPort);
 
         return(serverIsUp);
     }
