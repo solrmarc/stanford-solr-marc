@@ -130,7 +130,8 @@
 
 # Test 48 
 #test using beanshell scripting custom indexing method
-+, selectedRecs.mrc(u21), 'script(deweyfacet.bsh), getDeweyFacet(dewey_callnumber_map.properties)', 300s - Social Sciences|340s - Law
+# This FORK doesn't support bsh
+#+, selectedRecs.mrc(u21), 'script(deweyfacet.bsh), getDeweyFacet(dewey_callnumber_map.properties)', 300s - Social Sciences|340s - Law
 
 # Test 49
 #test using "first" directive
