@@ -1,7 +1,7 @@
 #! /bin/bash
-# to_marc8.sh
-# Diagnostic program to display marc records.
-# $Id: to_marc8.sh 
+# indexfile.sh
+# Import a single marc file into a Solr index
+# $Id: indexfile.sh 
 
 E_BADARGS=65
 
@@ -22,7 +22,7 @@ then
   fi
 fi
 
-java -Dsolrmarc.main.class="org.solrmarc.marc.MarcPrinter" -jar $scriptdir/SolrMarc.jar untranslate $1 $2 
+java -Xmx1g -jar $scriptdir/SolrMarc.jar $1 $2 $3
 
 exit 0
 

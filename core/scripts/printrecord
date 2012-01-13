@@ -1,7 +1,7 @@
 #! /bin/bash
-# index_file.sh
-# Import a single marc file into a Solr index
-# $Id: indexfile.sh 
+# printrecord.sh
+# Display marc records from a file
+# $Id: printrecord.sh 
 
 E_BADARGS=65
 
@@ -22,12 +22,7 @@ then
   fi
 fi
 
-if [[ "$SOLRMARC_MEM_ARGS" == "" ]] 
-then
-    SOLRMARC_MEM_ARGS='@MEM_ARGS@'
-fi
-
-java $SOLRMARC_MEM_ARGS -jar $scriptdir/SolrMarc.jar $1 $2 $3
+java -Dsolrmarc.main.class="org.solrmarc.marc.MarcPrinter" -jar $scriptdir/SolrMarc.jar print $1 $2 
 
 exit 0
 

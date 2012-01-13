@@ -1,7 +1,8 @@
 #! /bin/bash
-# to_marc8.sh
-# Diagnostic program to display marc records.
-# $Id: to_marc8.sh 
+# indextest2.sh
+# Show how a set of marc records would be indexed, without actually adding any 
+#   records to Solr.
+# $Id: indextest2.sh 
 
 E_BADARGS=65
 
@@ -22,7 +23,7 @@ then
   fi
 fi
 
-java -Dsolrmarc.main.class="org.solrmarc.marc.MarcPrinter" -jar $scriptdir/SolrMarc.jar to_xml $1 $2 
+java -Xmx1g -Dmarc.just_index_dont_add="true" -jar $scriptdir/SolrMarc.jar $1 $2 $3 
 
 exit 0
 
