@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="solrmarc" default="build_core" basedir="." >
+<project name="solrmarc" default="dist_site" basedir="." >
 
 	<property file="build.properties" />
 
-	<!-- CORE properties, in case they aren't already defined -->
-	<property name="core.jar.name" value="SolrMarc" />
-	
 	<!-- Continuous Integration properties -->
 	<property name="cobertura.jar.dir" location="${test.lib.dir}/cobertura-1.9.4.1" />
 	<property name="cobertura.core.data.file" value="${core.instr.dir}/cobertura.ser" />
 	<property name="cobertura.site.data.file" value="${site.instr.dir}/cobertura.ser" />
 
 
-<!-- ******* CORE non-test targets ********** -->
+<!-- ************ CORE non-test targets ********** -->
 	
 	<target name="clean_core" description="remove the build directories for CORE">
 		<delete dir="${core.build.dir}" />
@@ -42,15 +39,16 @@
 		</javac>
 	</target>
 
-	<target name="build_core" depends="compile_core" description="Build custom jar file containing CORE code and log4j.properties" >
+	<target name="jar_core" depends="compile_core" description="Build custom jar file containing CORE code and log4j.properties" >
 		<jar destfile="${core.build.dir}/${core.jar.name}.jar">
-			<fileset dir="${core.build.dir}" includes="**/*.class" />
-			<fileset file="${log4j.props}" />
+			<fileset dir="${core.build.dir}" includes="**/*.class" excludes="test/**"/>
+			<fileset file="${core.log4j.props}" />
+			<fileset dir="${core.basedir}" includes="${trans.map.dir}/**" />
 		</jar>
 	</target>
 
 	
-<!-- ******* CORE TEST targets ********** -->
+<!-- ************ CORE TEST targets ********** -->
 	
 	<target name="test_clean_core" description="remove the directories generated for CORE testing">
 		<delete dir="${core.test.build.dir}" />
@@ -134,6 +132,9 @@
 		</junit>
 	</target>
 	
+	
+<!-- ************ CORE continuous integration targets ********** -->
+		
 	<path id="cobertura.classpath">
 		<fileset dir="${cobertura.jar.dir}">
 			<include name="cobertura.jar" />
@@ -199,8 +200,6 @@
 	</target>
 	
 	
-<!-- ******* CORE continuous integration targets ********** -->
-	
 	<target name="javadoc_core" description="generate javadoc for CORE code">
 		<path id="core.docs.srcpath">
 			<pathelement location="${core.src.dir}"/>
@@ -235,10 +234,11 @@
 	
 
 
-<!-- ******* SITE basic build targets ********** -->
+<!-- ************ SITE basic build targets ********** -->
 	
 	<target name="clean_site" description="remove the build directories for SITE">
 		<delete dir="${site.build.dir}" />
+		<delete dir="${site.dist.dir}" />
 	</target>
 		
 	<target name="init_site" depends="init_core" description="create (empty) generated directories for site AND core code">
@@ -264,16 +264,45 @@
 		</javac>
 	</target>
 	
-	<target name="build_site" depends="build_core,compile_site" description="Build custom jar file containing SITE code" >
+	<target name="jar_site" depends="jar_core,compile_site" description="Build custom jar file containing SITE code" >
 		<jar destfile="${site.build.dir}/${site.jar.name}.jar">
-			<fileset dir="${site.build.dir}" includes="**/*.class" />
-			<fileset file="${log4j.props}" />
-			<fileset file="${core.build.dir}/${core.jar.name}.jar" />
+			<fileset dir="${site.build.dir}" includes="**/*.class" excludes="test/**"/>
+			<fileset file="${site.log4j.props}" />
+			<fileset dir="${site.basedir}" includes="*.properties,${trans.map.dir}/**" />
+			 
+			<manifest file="MANIFEST.MF">
+				<attribute name="Default-Config-File" value="${site.config.file.name}"/>
+				<attribute name="Jar-Date" value="${TODAY}"/>
+				<attribute name="Class-Path" value="${core.build.dir}/${core.jar.name}.jar"/>
+				<attribute name="Main-Class" value="org.solrmarc.marc.MarcImporter"/>
+			</manifest>
 		</jar>
 	</target>
-
 	
-<!-- ******* SITE TEST targets ********** -->
+	<target name="dist_site" depends="clean,jar_site"
+             description="Copy necessary files to the SITE dist directory to make a runnable instance of SITE SolrMarc">
+		<echo message="!!! Make sure the Solr instance used for indexing has correct conf, lib, etc. files before running code out of dist. !!!" />
+		
+		<mkdir dir="${site.dist.dir}" />
+		<copy todir="${site.dist.dir}">
+			<!-- site code jar -->
+			<fileset file="${site.build.dir}/${site.jar.name}.jar" />
+			<fileset file="${site.log4j.props}" />
+			<!-- core code jar -->
+			<fileset file="${core.build.dir}/${core.jar.name}.jar" />
+			<!-- jars from solrmarc lib dir, including solrj-lib dir -->
+			<zipfileset dir="${lib.dir}" includes="**/*.jar" />
+			<!-- site lib jars -->
+			<zipfileset dir="${site.lib.dir}" includes="*.jar" />
+			<!-- site scripts  -->
+			<fileset dir="${site.scripts.dir}" includes="**" />
+			<!-- core scripts  -->
+			<fileset dir="${core.scripts.dir}" includes="**" />
+		</copy>
+	</target>
+	
+	
+<!-- ************ SITE TEST targets ********** -->
 	
 	<target name="test_clean_site" description="remove the directories generated for SITE testing">
 		<delete dir="$site.test.build.dir}" />
@@ -285,7 +314,7 @@
 		<delete dir="${site.coverage.dir}" />
 	</target>
 	
-	<target name="test_init_site" depends="test_init_core" description="create (empty) generated directories for site AND core TEST code">
+	<target name="test_init_site" depends="test_init_core" description="create (empty) generated directories for SITE and CORE TEST code">
 		<mkdir dir="${site.test.build.dir}" />
 	</target>
 
@@ -298,7 +327,7 @@
 		<path refid="test.core.run.classpath" />
 	</path>
 
-	<target name="test_compile_site" depends="test_compile_core,compile_site,test_init_site" description="Compile SITE AND CORE TEST source code into the test build directory">
+	<target name="test_compile_site" depends="test_compile_core,compile_site,test_init_site" description="Compile SITE and CORE TEST source code into the test build directory">
 <!-- FIXME: it makes NO SENSE that this mkdir is needed -->
 		<mkdir dir="${site.test.solr.run.dir}/lib" />
 		<javac destdir="${site.test.build.dir}" srcdir="${site.test.src.dir}" 
@@ -353,6 +382,8 @@
 		</junit>
 	</target>
 
+	
+<!-- ************ SITE continuous integration targets ********** -->
 		
 	<!-- NOTE:  this should be used only after a fresh SITE compile -->
 	<target name="instrument_site">
@@ -406,15 +437,12 @@
 	</target>
 	
 	
-<!-- ******* SITE continuous integration targets ********** -->
-	
 	<target name="javadoc_site" description="generate javadoc for SITE code">
 		<path id="site.docs.srcpath">
 			<pathelement location="${site.src.dir}"/>
 		</path>
 
-		<javadoc
-							destdir="${site.javadoc.dir}"
+		<javadoc	destdir="${site.javadoc.dir}"
 							sourcepathref="site.docs.srcpath"
 							classpathref="test.site.build.classpath"
 							author="true"
@@ -429,61 +457,20 @@
 				<link href="http://marc4j.tigris.org/doc/apidoc" />
 				<link href="http://logging.apache.org/log4j/1.2/apidocs" />
 				<link href="http://lucene.apache.org/solr/api" />
-		  </javadoc>
+		</javadoc>
 	</target>
 	
 	<target name="ci_site" depends="clean_all,test_site_coverage,javadoc_site" description="SITE Continuous Integration: javadoc and tests with coverage" />
 	
 	
-<!-- ******* CORE and SITE together targets ********** -->
-	
-<!-- FIXME:  dist.path not defined -->	
-	
-	<target name="dist" depends="build_core" unless="dist.already.run"
-             description="Copy necessary files to the dist directory, to make a runnable instance of SolrMarc">
-		<mkdir dir="${dist.path}" />
-		<copy todir="${dist.path}" >
-			<fileset dir="${site.base.dir}" includes="${trans.map.dir}/**,${scripts.dir}/**" />
-		</copy>
-		<copy_solrmarc_set_default_config config="${default.config}" todir="${dist.path}" />
-		<copy todir="${dist.path}" >
-			<flattenmapper/>
-			<fileset dir="${site.build.dir}" includes="*.jar" />
-			<fileset dir="${site.base.dir}" includes="*_index.properties,marc*.properties" />
-		</copy>
-		<if >
-			<available file="${site.build.dir}/${custom.jar.name}.jar" />
-			<then>
-				<property name="custom.jar.name.jar" value="${custom.jar.name}.jar" />
-			</then>
-			<else>
-				<property name="custom.jar.name.jar" value="" />
-			</else>
-		</if>
-		<copy_libs_set_property />
-		<copy todir="${dist.path}" overwrite="true" >
-			<fileset dir="${site.base.dir}" includes="*_config.properties,import.properties" />
-			<filterchain>
-				<expandproperties />
-				<tokenfilter>
-					<replaceregex pattern="(solrmarc[.]custom[.]jar[.]path=.*)" replace="\1${add.lib.to.custom.jar.line}" />
-				</tokenfilter>
-				<fixcrlf />
-			</filterchain>
-		</copy>
-
-		<copy_scripts />
-		<copy_jetty />
-		<copy_solr />
-		<property name="dist.already.run" value="true" />
-	</target>
+<!-- ************ CORE and SITE together targets ********** -->
 	
 	<target name="clean" depends="clean_site,clean_core" description="remove the build directories for CORE and SITE" />
 
 	<target name="clean_test" depends="test_clean_site,test_clean_core" description="remove the directories generated for CORE and SITE testing" />
 	
 	<target name="clean_all" depends="clean_test, clean" description="remove all generated directories for CORE and SITE, including test and dist">
-		<delete dir="${dist.dir}" quiet="true" />
+		<delete dir="${site.dist.dir}" quiet="true" />
 	</target>
 	
 </project>
