@@ -288,9 +288,21 @@
 			<fileset file="${site.build.dir}/${site.jar.name}.jar" />
 -->			
 			<fileset file="${core.build.dir}/${core.jar.name}.jar" />
-			<fileset file="${site.log4j.props}" />
 		</copy>
 
+		
+<!-- FIXME:  should be able to have config props and trans maps in jar, no? -->		
+		<!-- copy .properties and translation maps to SITE (dist) directory -->
+		<copy todir="${site.dist.dir}">
+			<fileset dir="${site.basedir}" includes="*.properties" />
+			<fileset file="${site.log4j.props}" />
+		</copy>
+		<mkdir dir="${site.dist.dir}/${trans.map.dir}" />
+		<copy todir="${site.dist.dir/${trans.map.dir}}">
+			<fileset dir="${site.basedir}/${trans.map.dir}" includes="*.properties" />
+			<fileset dir="${core.basedir}/${trans.map.dir}" includes="*.properties" />
+		</copy>
+		
 		<!-- copy jars used by SolrMarc to SITE (dist)/lib directory -->
 		<mkdir dir="${site.dist.dir}/lib" />
 		<copy todir="${site.dist.dir}/lib" flatten="yes">
@@ -312,7 +324,8 @@
 			<fileset dir="${core.scripts.dir}" includes="**" />
 		</copy>
 		<chmod dir="${site.dist.script.dir}/${core.basedir}" perm="755" includes="*"/>
-		
+	
+<!-- FIXME:  there's probably a more elegant way to get the manifest classpath, but I couldn't figure it out -->		
 		
 		<!-- flesh out the manifest Class-Path in the SITE jar with jars in dist -->
 		<property name="canonical.path" location="${site.dist.dir}" /> <!-- ensures path is "canonical" -->
@@ -325,25 +338,20 @@
 		   <fileset refid="dist.lib.jars"/>
 		</path>
 		
-<!--		
-		<pathconvert property="manifest.classpath" refid="dist.jar.classpath" pathsep=" " dirsep="/">
-			<map from="${canonical.path}" to="${site.dist.dir}" />
-		</pathconvert>
--->
-		
 		<!-- convert lib folder to string property for use in manifest classpath-->
 		<pathconvert property="manifest.classpath" pathsep=" ">
 			<path refid="dist.jar.classpath" />
 			<map from="${canonical.path}" to="." />
 		</pathconvert>
 
-<!--		
-		<manifestclasspath property="manifest.classpath" jarfile="${site.build.dir}/${site.jar.name}.jar">
-		   <classpath refid="dist.jar.classpath" />
-		</manifestclasspath>
--->
-		
 <!-- FIXME:  there should be a way to just update the manifest classpath for the existing jar, but I'm having trouble -->
+<!--		
+		<jar update="true" destfile="${site.build.dir}/${site.jar.name}.jar" filesetmanifest="merge">
+			<manifest>
+				<attribute name="Class-Path" value="${manifest.classpath}"/>
+			</manifest>
+		</jar>
+-->		
 
 		<!-- create jar with jars from dist classpath in manifest -->
 		<jar destfile="${site.dist.dir}/${site.jar.name}.jar">
@@ -352,20 +360,12 @@
 			<fileset file="${site.log4j.props}" />
 			<fileset dir="${site.basedir}" includes="*.properties,${trans.map.dir}/**" />
 			<manifest>
-				<attribute name="Default-Config-File" value="${site.config.file.name}"/>
+				<attribute name="Config-Properties-File" value="${site.config.file.name}"/>
 				<attribute name="Class-Path" value="${manifest.classpath}"/>
 				<attribute name="Main-Class" value="org.solrmarc.marc.MarcImporter"/>
 			</manifest>
 		</jar>
-
 		
-<!--		
-		<jar update="true" destfile="${site.build.dir}/${site.jar.name}.jar" filesetmanifest="merge">
-			<manifest>
-				<attribute name="Class-Path" value="${manifest.classpath}"/>
-			</manifest>
-		</jar>
--->		
 		<echo message="" />
 		<echo message="*** ALERT *** ALERT *** ALERT *** ALERT *** ALERT *** ALERT ***" />
 		<echo message="!!! Make sure the Solr instance used for indexing has correct conf, lib, etc. files before running code out of dist. !!!" />
