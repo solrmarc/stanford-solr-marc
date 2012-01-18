@@ -298,7 +298,7 @@
 			<fileset file="${site.log4j.props}" />
 		</copy>
 		<mkdir dir="${site.dist.dir}/${trans.map.dir}" />
-		<copy todir="${site.dist.dir/${trans.map.dir}}">
+		<copy todir="${site.dist.dir}/${trans.map.dir}}">
 			<fileset dir="${site.basedir}/${trans.map.dir}" includes="*.properties" />
 			<fileset dir="${core.basedir}/${trans.map.dir}" includes="*.properties" />
 		</copy>
