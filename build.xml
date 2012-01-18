@@ -266,14 +266,13 @@
 	
 	<target name="jar_site" depends="jar_core,compile_site" description="Build custom jar file containing SITE code" >
 		<jar destfile="${site.build.dir}/${site.jar.name}.jar">
+			<!-- SITE classes, etc. -->
 			<fileset dir="${site.build.dir}" includes="**/*.class" excludes="test/**"/>
 			<fileset file="${site.log4j.props}" />
 			<fileset dir="${site.basedir}" includes="*.properties,${trans.map.dir}/**" />
-			 
 			<manifest>
 				<attribute name="Default-Config-File" value="${site.config.file.name}"/>
-				<attribute name="Jar-Date" value="${TODAY}"/>
-				<attribute name="Class-Path" value="${core.build.dir}/${core.jar.name}.jar"/>
+				<attribute name="Class-Path" value=". ${core.jar.name}.jar"/>
 				<attribute name="Main-Class" value="org.solrmarc.marc.MarcImporter"/>
 			</manifest>
 		</jar>
@@ -281,12 +280,13 @@
 	
 	<target name="dist_site" depends="clean,jar_site"
              description="Copy necessary files to the SITE dist directory to make a runnable instance of SITE SolrMarc">
-		<echo message="!!! Make sure the Solr instance used for indexing has correct conf, lib, etc. files before running code out of dist. !!!" />
 		
 		<!-- copy jars of SolrMarc code to SITE (dist) directory -->
 		<mkdir dir="${site.dist.dir}" />
 		<copy todir="${site.dist.dir}">
+<!--			
 			<fileset file="${site.build.dir}/${site.jar.name}.jar" />
+-->			
 			<fileset file="${core.build.dir}/${core.jar.name}.jar" />
 			<fileset file="${site.log4j.props}" />
 		</copy>
@@ -300,16 +300,56 @@
 		</copy>
 
 		<!-- copy SITE scripts to SITE (dist)/bin directory -->
-		<mkdir dir="${site.dist.dir}/bin" />
-		<copy todir="${site.dist.dir}/bin">
+		<mkdir dir="${site.dist.script.dir}" />
+		<copy todir="${site.dist.script.dir}">
 			<fileset dir="${site.scripts.dir}" includes="**" />
 		</copy>
+		<chmod dir="${site.dist.script.dir}/" perm="755" includes="*"/>
 
 		<!-- copy CORE scripts to SITE (dist)/bin/(core) directory -->
-		<mkdir dir="${site.dist.dir}/bin/${core.basedir}" />
-		<copy todir="${site.dist.dir}/bin/${core.basedir}">
+		<mkdir dir="${site.dist.script.dir}/${core.basedir}" />
+		<copy todir="${site.dist.script.dir}/${core.basedir}">
 			<fileset dir="${core.scripts.dir}" includes="**" />
 		</copy>
+		<chmod dir="${site.dist.script.dir}/${core.basedir}" perm="755" includes="*"/>
+		
+		
+		<!-- flesh out the manifest Class-Path in the SITE jar with jars in dist -->
+		<path id="dist.jar.classpath">
+		   <fileset dir="${site.dist.dir}" includes="*.jar"/>
+		   <fileset dir="${site.dist.dir}/lib" includes="*.jar"/>
+		</path>
+		<manifestclasspath property="manifest.classpath" jarfile="${site.build.dir}/${site.jar.name}.jar">
+		   <classpath refid="dist.jar.classpath" />
+		</manifestclasspath>
+		
+		<!-- FIXME:  there should be a way to just update the manifest classpath, but I'm having trouble -->
+		<!-- create jar with jars from dist classpath in manifest -->
+		<jar destfile="${site.dist.dir}/${site.jar.name}.jar">
+			<!-- SITE classes, etc. -->
+			<fileset dir="${site.build.dir}" includes="**/*.class" excludes="test/**"/>
+			<fileset file="${site.log4j.props}" />
+			<fileset dir="${site.basedir}" includes="*.properties,${trans.map.dir}/**" />
+			<manifest>
+				<attribute name="Default-Config-File" value="${site.config.file.name}"/>
+				<attribute name="Class-Path" value=". ${manifest.classpath}"/>
+				<attribute name="Main-Class" value="org.solrmarc.marc.MarcImporter"/>
+			</manifest>
+		</jar>
+
+		
+<!--		
+		<jar update="true" destfile="${site.build.dir}/${site.jar.name}.jar" filesetmanifest="merge">
+			<manifest>
+				<attribute name="Class-Path" value="${manifest.classpath}"/>
+			</manifest>
+		</jar>
+-->		
+		<echo message="" />
+		<echo message="*** ALERT *** ALERT *** ALERT *** ALERT *** ALERT *** ALERT ***" />
+		<echo message="!!! Make sure the Solr instance used for indexing has correct conf, lib, etc. files before running code out of dist. !!!" />
+		<echo message="*** ALERT *** ALERT *** ALERT *** ALERT *** ALERT *** ALERT ***" />
+
 	</target>
 	
 	
