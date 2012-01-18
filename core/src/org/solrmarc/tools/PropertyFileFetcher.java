@@ -16,17 +16,17 @@ public class PropertyFileFetcher {
 		
         if (args.length > 0 && args[0].endsWith("jar")) 
         {
-            byte[] buffer = new byte[1024];
-            int    bytesRead;
             String jarFile = args[0];
             String directory = ".";
             if (args.length > 1)
-            {
                 directory = args[1]; 
-            }
+
             InputStream in = PropertiesUtils.getPropertyFileInputStream(null, jarFile);
             File outputFile = new File(directory, jarFile);
-            try {
+            int bytesRead;
+            byte[] buffer = new byte[1024];
+            try 
+            {
                 FileOutputStream out = new FileOutputStream(outputFile);
                 while ((bytesRead = in.read(buffer)) != -1) 
                 {
@@ -45,15 +45,14 @@ public class PropertyFileFetcher {
         
         String propertyFile = null;
         if (args.length > 0 && args[0].endsWith("properties")) 
-        {
             propertyFile = args[0];
-        }
         if (propertyFile == null) 
-        {
-            propertyFile = GetDefaultConfig.getConfigName("");
-        }
+            propertyFile = GetDefaultConfig.getConfigPropsFileName("");
+
         String homeDir = GetDefaultConfig.getJarFileName();
-        if (homeDir != null) homeDir = new File(homeDir).getParent();
+        if (homeDir != null) 
+        	homeDir = new File(homeDir).getParent();
+
         InputStream in = PropertiesUtils.getPropertyFileInputStream(new String[]{homeDir}, propertyFile);
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         String line;

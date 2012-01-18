@@ -27,18 +27,14 @@ public class SolrUpdate
             for (String arg : args)
             {
                 if (arg.startsWith("http"))
-                {
                     solrServerURL = arg;
-                }
                 if (arg.equals("-v"))
-                {
                     verbose = true;
-                }
             }
         }
         if (solrServerURL == null)
         {
-            String configProperties = GetDefaultConfig.getConfigName(null);
+            String configProperties = GetDefaultConfig.getConfigPropsFileName(null);
             if (configProperties != null)
             {
                 String homeDir = getHomeDir();
@@ -80,7 +76,8 @@ public class SolrUpdate
             result = new File(".").getAbsolutePath();
             logger.debug("Setting homeDir to \".\"");
         }
-        if (result != null) result = new File(result).getParent();
+        if (result != null) 
+        	result = new File(result).getParent();
         logger.debug("Setting homeDir to: "+ result);
         return(result);
     }
