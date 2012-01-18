@@ -9,3 +9,4 @@ ci/*
 dist/*
 test/jetty/solr/*
 test/jetty/webapps/*
+test/logs/*
