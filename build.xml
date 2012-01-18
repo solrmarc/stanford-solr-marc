@@ -270,7 +270,7 @@
 			<fileset file="${site.log4j.props}" />
 			<fileset dir="${site.basedir}" includes="*.properties,${trans.map.dir}/**" />
 			 
-			<manifest file="MANIFEST.MF">
+			<manifest>
 				<attribute name="Default-Config-File" value="${site.config.file.name}"/>
 				<attribute name="Jar-Date" value="${TODAY}"/>
 				<attribute name="Class-Path" value="${core.build.dir}/${core.jar.name}.jar"/>
@@ -283,20 +283,31 @@
              description="Copy necessary files to the SITE dist directory to make a runnable instance of SITE SolrMarc">
 		<echo message="!!! Make sure the Solr instance used for indexing has correct conf, lib, etc. files before running code out of dist. !!!" />
 		
+		<!-- copy jars of SolrMarc code to SITE (dist) directory -->
 		<mkdir dir="${site.dist.dir}" />
 		<copy todir="${site.dist.dir}">
-			<!-- site code jar -->
 			<fileset file="${site.build.dir}/${site.jar.name}.jar" />
-			<fileset file="${site.log4j.props}" />
-			<!-- core code jar -->
 			<fileset file="${core.build.dir}/${core.jar.name}.jar" />
+			<fileset file="${site.log4j.props}" />
+		</copy>
+
+		<!-- copy jars used by SolrMarc to SITE (dist)/lib directory -->
+		<mkdir dir="${site.dist.dir}/lib" />
+		<copy todir="${site.dist.dir}/lib" flatten="yes">
+			<fileset dir="${site.lib.dir}" includes="*.jar" />
 			<!-- jars from solrmarc lib dir, including solrj-lib dir -->
-			<zipfileset dir="${lib.dir}" includes="**/*.jar" />
-			<!-- site lib jars -->
-			<zipfileset dir="${site.lib.dir}" includes="*.jar" />
-			<!-- site scripts  -->
+			<fileset dir="${lib.dir}" includes="**/*.jar" />
+		</copy>
+
+		<!-- copy SITE scripts to SITE (dist)/bin directory -->
+		<mkdir dir="${site.dist.dir}/bin" />
+		<copy todir="${site.dist.dir}/bin">
 			<fileset dir="${site.scripts.dir}" includes="**" />
-			<!-- core scripts  -->
+		</copy>
+
+		<!-- copy CORE scripts to SITE (dist)/bin/(core) directory -->
+		<mkdir dir="${site.dist.dir}/bin/${core.basedir}" />
+		<copy todir="${site.dist.dir}/bin/${core.basedir}">
 			<fileset dir="${core.scripts.dir}" includes="**" />
 		</copy>
 	</target>
