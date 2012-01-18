@@ -2,7 +2,10 @@ package org.solrmarc.marc;
 
 import java.io.*;
 import java.lang.reflect.Constructor;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.*;
+import java.util.jar.Manifest;
 
 import org.apache.log4j.Logger;
 import org.marc4j.*;
@@ -52,11 +55,53 @@ public abstract class MarcHandler {
 	{
 	}
 	
+    /** 
+     * Extract the manifest attribute Default-Config-File from the top level jar file 
+     */
+    public String getConfigPropsFileName()
+    { 
+    	String configPropsFname = null;
+
+    	// look for it in the manifest of the first jar loaded
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL manifestUrl = classLoader.getResource("META-INF/MANIFEST.MF");
+        Manifest manifest = null;
+        try
+        {
+        	manifest = new Manifest (manifestUrl.openStream());
+        }
+        catch (IOException e)
+        {
+        	//ignore;
+        }
+        if (manifest != null)
+        	configPropsFname = manifest.getMainAttributes().getValue("Config-Properties-File");
+        
+        // if we didn't find it, look for the first file ending _config.properties in the jar's classpath
+        if (configPropsFname == null || configPropsFname.length() == 0)
+        {
+        	// look for file ending in _config.properties
+            //Get the URLs
+            URL[] urls = ((URLClassLoader) classLoader).getURLs();
+            for (int i=0; i< urls.length; i++)
+            {
+            	String fname = urls[i].getFile();
+            	if (fname.endsWith("_config.properties"))
+            	{
+            		configPropsFname = fname;
+            		break;
+            	}
+            }
+        }
+        return(configPropsFname);
+    }
+	
 	public void init(String args[]) 
 			throws FileNotFoundException
 	{
-        String configPropsFname = GetDefaultConfig.getConfigName("config.properties");
-
+        String configPropsFname = getConfigPropsFileName();
+        
+        
     	// set the System properties for marc data sources and 
     	//   solr.commit_at_end;  put rest in addnlArgs list
         List<String> addnlArgList = new ArrayList<String>();
@@ -239,14 +284,15 @@ public abstract class MarcHandler {
 
     private String getHomeDir()
     {
-	    String result = GetDefaultConfig.getJarFileName();       
-        if (result == null)
-        {
-            result = new File(".").getAbsolutePath();
+//	    String result = GetDefaultConfig.getJarFileName();       
+//        if (result == null)
+//        {
+//            result = new File(".").getAbsolutePath();
+            String result = new File(".").getAbsolutePath();
             logger.debug("Setting homeDir to \".\"");
-        }
-        if (result != null) 
-        	result = new File(result).getParent();
+//        }
+//        if (result != null) 
+//        	result = new File(result).getParent();
         logger.debug("Setting homeDir to: "+ result);
         return(result);
     }
