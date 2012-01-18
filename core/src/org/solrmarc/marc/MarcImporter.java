@@ -478,23 +478,26 @@ public class MarcImporter extends MarcHandler
      */
     public void finish()
     {
-        if (commitAtEnd)
-        {
-			try
-			{
-				logger.info("Calling commit");
-				solrProxy.commit(shuttingDown ? false : optimizeAtEnd);
-				logger.info("Done with the commit, closing Solr");
-			} 
-			catch (IOException ioe)
-			{
-				logger.error("Final commit and optimization failed: " + ioe.getMessage());
-				logger.debug(ioe);
-			}
-        }
-        
-        solrProxy.close();
-        solrProxy = null;
+    	if (solrProxy != null)
+    	{
+            if (commitAtEnd)
+            {
+    			try
+    			{
+    				logger.info("Calling commit");
+    				solrProxy.commit(shuttingDown ? false : optimizeAtEnd);
+    				logger.info("Done with the commit, closing Solr");
+    			} 
+    			catch (IOException ioe)
+    			{
+    				logger.error("Final commit and optimization failed: " + ioe.getMessage());
+    				logger.debug(ioe);
+    			}
+            }
+            
+            solrProxy.close();
+            solrProxy = null;
+    	}
         logger.info("Setting Solr closed flag");
         isShutDown = true;
     }
@@ -637,9 +640,6 @@ public class MarcImporter extends MarcHandler
         
         // calculate the time taken
         float indexingRate = numImported*1000 / totalTime;
-        
-        //System.out.println("Indexed " + numImported + " at a rate of about " + indexingRate + "per sec");
-        //System.out.println("Deleted " + numDeleted + " records");
         
         logger.info("Indexed " + numImported + " at a rate of about " + indexingRate + " per sec");
         logger.info("Deleted " + numDeleted + " records");
