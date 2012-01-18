@@ -315,15 +315,36 @@
 		
 		
 		<!-- flesh out the manifest Class-Path in the SITE jar with jars in dist -->
-		<path id="dist.jar.classpath">
-		   <fileset dir="${site.dist.dir}" includes="*.jar"/>
-		   <fileset dir="${site.dist.dir}/lib" includes="*.jar"/>
+		<property name="canonical.path" location="${site.dist.dir}" /> <!-- ensures path is "canonical" -->
+		
+		<fileset id="dist.top.level.jars" dir="${canonical.path}" includes="*.jar"/>
+		<fileset id="dist.lib.jars" dir="${canonical.path}/lib" includes="*.jar"/>
+
+		<path id="dist.jar.classpath" location="${site.dist.dir}">
+		   <fileset refid="dist.top.level.jars"/>
+		   <fileset refid="dist.lib.jars"/>
 		</path>
+		
+<!--		
+		<pathconvert property="manifest.classpath" refid="dist.jar.classpath" pathsep=" " dirsep="/">
+			<map from="${canonical.path}" to="${site.dist.dir}" />
+		</pathconvert>
+-->
+		
+		<!-- convert lib folder to string property for use in manifest classpath-->
+		<pathconvert property="manifest.classpath" pathsep=" ">
+			<path refid="dist.jar.classpath" />
+			<map from="${canonical.path}" to="." />
+		</pathconvert>
+
+<!--		
 		<manifestclasspath property="manifest.classpath" jarfile="${site.build.dir}/${site.jar.name}.jar">
 		   <classpath refid="dist.jar.classpath" />
 		</manifestclasspath>
+-->
 		
-		<!-- FIXME:  there should be a way to just update the manifest classpath, but I'm having trouble -->
+<!-- FIXME:  there should be a way to just update the manifest classpath for the existing jar, but I'm having trouble -->
+
 		<!-- create jar with jars from dist classpath in manifest -->
 		<jar destfile="${site.dist.dir}/${site.jar.name}.jar">
 			<!-- SITE classes, etc. -->
@@ -332,7 +353,7 @@
 			<fileset dir="${site.basedir}" includes="*.properties,${trans.map.dir}/**" />
 			<manifest>
 				<attribute name="Default-Config-File" value="${site.config.file.name}"/>
-				<attribute name="Class-Path" value=". ${manifest.classpath}"/>
+				<attribute name="Class-Path" value="${manifest.classpath}"/>
 				<attribute name="Main-Class" value="org.solrmarc.marc.MarcImporter"/>
 			</manifest>
 		</jar>
