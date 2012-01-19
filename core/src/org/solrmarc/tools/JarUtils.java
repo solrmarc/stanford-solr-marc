@@ -29,18 +29,20 @@ public class JarUtils
     public static String getJarFileName()
     { 
         String jarFilename = null; 
-        Class<?> bootClass;
-        try
-        {
-//        	bootClass = Class.forName("com.simontuffs.onejar.Boot");
-            bootClass = Class.forName("org.solrmarc.marc.MarcImporter");
-            jarFilename = bootClass.getMethod("getMyJarPath").invoke(null).toString();
-        }
-        catch (Exception e)
-        {
-            // Program not running from within a OneJar 
-            jarFilename = null;
-        }
+// FIXME:  hardcoding a value from build.properties!  Bad!  Need system property for this?  Or use value in _config.properties, if we don't get jar file first??        
+        jarFilename = "SolrMarc";
+//        Class<?> bootClass;
+//        try
+//        {
+////        	bootClass = Class.forName("com.simontuffs.onejar.Boot");
+//            bootClass = Class.forName("org.solrmarc.marc.MarcImporter");
+//            jarFilename = bootClass.getMethod("getMyJarPath").invoke(null).toString();
+//        }
+//        catch (Exception e)
+//        {
+//            // Program not running from within a OneJar 
+//            jarFilename = null;
+//        }
         return(jarFilename);
     }
     
