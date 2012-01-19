@@ -66,19 +66,19 @@ public abstract class MarcHandler {
         //  no need to look for the configPropsFname in classes.jar manifest
 
 		// look for jar, then look for manifest inside jar or _config.properties file inside jar
-	    URL[] classLoaderUrls = ((URLClassLoader) classLoader).getURLs();
-	    for (URL classLoaderUrl : classLoaderUrls)
-	    {
-	    	String fname = classLoaderUrl.getFile();
-	    	if (fname.endsWith(".jar"))
-	    	{
-	    		configPropsFname = JarUtils.getConfigPropsFileNameFromJar(fname, null);
-	    		if (configPropsFname != null && configPropsFname.length() > 0)
-	    			break;
-	    	}
-	    }
+        URL[] classLoaderUrls = ((URLClassLoader) classLoader).getURLs();
+        for (URL classLoaderUrl : classLoaderUrls)
+		{
+			String fname = classLoaderUrl.getFile();
+			if (fname.endsWith(".jar"))
+			{
+				configPropsFname = JarUtils.getConfigPropsFileNameFromJar(fname, null);
+				if (configPropsFname != null && configPropsFname.length() > 0)
+					break;
+			}
+		}
 
-        logger.info("using config.properties file: " + configPropsFname);
+        logger.debug("MarcHandler.getConfigPropsFileName() returns: " + configPropsFname);
         return(configPropsFname);
     }
 	
@@ -192,12 +192,12 @@ public abstract class MarcHandler {
         siteSpecificPath = normalizePathsProperty(homeDir, siteSpecificPath);
  
         // class name of SolrIndexer or the subclass to be used
-        indexerClassName = PropertiesUtils.getProperty(configProps, "solr.indexer");
+        indexerClassName = PropertiesUtils.getProperty(configProps, "solrmarc.indexing.class");
         if (indexerClassName == null) 
         	indexerClassName = SolrIndexer.class.getName();
         
         // _index.properties file
-        indexPropsFname = PropertiesUtils.getProperty(configProps, "solrmarc.index.properties");
+        indexPropsFname = PropertiesUtils.getProperty(configProps, "solrmarc.indexing.properties");
 
         combineConsecutiveRecordsFields = PropertiesUtils.getProperty(configProps, "marc.combine_records");
         if (combineConsecutiveRecordsFields != null && combineConsecutiveRecordsFields.length() == 0) 
@@ -487,40 +487,39 @@ public abstract class MarcHandler {
     
     protected String[] makePropertySearchPath(String solrmarcPath, String siteSpecificPath, String configFilePath, String homeDir)
     {
-        ArrayList<String> propertySearchPath = new ArrayList<String>();
-        Set<String> propertySearchSet = new HashSet<String>();
-        if (siteSpecificPath != null)
-        {
-            String sitePaths[] = siteSpecificPath.split("[|]");
-            for (String site : sitePaths)
-            {
-                addToPropertySearchPath(site, propertySearchPath, propertySearchSet);
-            }
-            
-        }
-        if (solrmarcPath != null)
-        {
-            String smPaths[] = solrmarcPath.split("[|]");
-            for (String path : smPaths)
-            {
-                addToPropertySearchPath(path, propertySearchPath, propertySearchSet);
-            }
-            
-        }
-        if (configFilePath != null)
-            addToPropertySearchPath(configFilePath, propertySearchPath, propertySearchSet);
-        if (homeDir != null)
-            addToPropertySearchPath(homeDir, propertySearchPath, propertySearchSet);
-        
+		ArrayList<String> propertySearchPath = new ArrayList<String>();
+		Set<String> propertySearchSet = new HashSet<String>();
+		if (siteSpecificPath != null)
+		{
+			String sitePaths[] = siteSpecificPath.split("[|]");
+			for (String site : sitePaths)
+			{
+				addToPropertySearchPath(site, propertySearchPath, propertySearchSet);
+			}
+		}
+		if (solrmarcPath != null)
+		{
+			String smPaths[] = solrmarcPath.split("[|]");
+		    for (String path : smPaths)
+		    {
+		    	addToPropertySearchPath(path, propertySearchPath, propertySearchSet);
+		    }
+		}
+		if (configFilePath != null)
+			addToPropertySearchPath(configFilePath, propertySearchPath, propertySearchSet);
+		if (homeDir != null)
+			addToPropertySearchPath(homeDir, propertySearchPath, propertySearchSet);
+
+//FIXME:  this is a horrid way to get "dist" directory for production scripts without "hardcoding"        
 		// add parent path of any jars in classpath
-        ClassLoader classLoader = getClass().getClassLoader();
-	    URL[] classLoaderUrls = ((URLClassLoader) classLoader).getURLs();
-	    for (URL classLoaderUrl : classLoaderUrls)
-	    {
-	    	String fname = classLoaderUrl.getFile();
-	    	if (fname.endsWith(".jar"))
-	    		addToPropertySearchPath(new File(fname).getParent(), propertySearchPath, propertySearchSet);
-	    }
+		ClassLoader classLoader = getClass().getClassLoader();
+		URL[] classLoaderUrls = ((URLClassLoader) classLoader).getURLs();
+		for (URL classLoaderUrl : classLoaderUrls)
+		{
+			String fname = classLoaderUrl.getFile();
+			if (fname.endsWith(".jar"))
+				addToPropertySearchPath(new File(fname).getParent(), propertySearchPath, propertySearchSet);
+		}
 
         return(propertySearchPath.toArray(new String[0]));
     }
