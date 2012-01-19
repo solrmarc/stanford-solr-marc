@@ -136,36 +136,6 @@ public class JarUtils
             }
         }
         return(configPropsFileName);
-//    	
-//        String jarName = getJarFileName();
-//        if (jarName != null)
-//        {
-//            try { 
-//                JarFile jarFile = new JarFile(jarName); 
-//                Manifest manifest = jarFile.getManifest(); 
-//                String defConfig = manifest.getMainAttributes().getValue("Config-Properties-File"); 
-//                if (defConfig != null && defConfig.length() > 0) 
-//                    configPropsFileName = defConfig; 
-//                else 
-//                { 
-//                    Enumeration entries = jarFile.entries(); 
-//                    while (entries.hasMoreElements()) 
-//                    { 
-//                        ZipEntry entry = (ZipEntry)entries.nextElement(); 
-//                        if (entry.getName().contains("config.properties")) 
-//                            configPropsFileName = entry.getName(); 
-//                    } 
-//                } 
-//            } 
-//            catch (Exception e) 
-//            { 
-//                // no manifest property defining the config 
-//            }
-//        }
-//        
-//        if (configPropsFileName == null)
-//            configPropsFileName = defaultValue;
-//
-//        return(configPropsFileName);
     }
+    
 }
