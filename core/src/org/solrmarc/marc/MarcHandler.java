@@ -5,7 +5,8 @@ import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
-import java.util.jar.Manifest;
+import java.util.jar.*;
+import java.util.zip.ZipEntry;
 
 import org.apache.log4j.Logger;
 import org.marc4j.*;
@@ -64,35 +65,24 @@ public abstract class MarcHandler {
 
     	// look for it in the manifest of the first jar loaded
         ClassLoader classLoader = getClass().getClassLoader();
-        URL manifestUrl = classLoader.getResource("META-INF/MANIFEST.MF");
-        Manifest manifest = null;
-        try
-        {
-        	manifest = new Manifest (manifestUrl.openStream());
-        }
-        catch (IOException e)
-        {
-        	//ignore;
-        }
-        if (manifest != null)
-        	configPropsFname = manifest.getMainAttributes().getValue("Config-Properties-File");
-        
-        // if we didn't find it, look for the first file ending _config.properties in the jar's classpath
-        if (configPropsFname == null || configPropsFname.length() == 0)
-        {
-        	// look for file ending in _config.properties
-            //Get the URLs
-            URL[] urls = ((URLClassLoader) classLoader).getURLs();
-            for (int i=0; i< urls.length; i++)
-            {
-            	String fname = urls[i].getFile();
-            	if (fname.endsWith("_config.properties"))
-            	{
-            		configPropsFname = fname;
-            		break;
-            	}
-            }
-        }
+
+        // Note that the first jar loaded is the java classes.jar file, so 
+        //  no need to look for the configPropsFname in classes.jar manifest
+
+		// look for jar, then look for manifest inside jar (?)
+	    URL[] classLoaderUrls = ((URLClassLoader) classLoader).getURLs();
+	    for (URL classLoaderUrl : classLoaderUrls)
+	    {
+	    	String fname = classLoaderUrl.getFile();
+	    	if (fname.endsWith(".jar"))
+	    	{
+	    		configPropsFname = JarUtils.getConfigPropsFileNameFromJar(fname, null);
+	    		if (configPropsFname != null && configPropsFname.length() > 0)
+	    			break;
+	    	}
+	    }
+
+        logger.info("using config.properties file: " + configPropsFname);
         return(configPropsFname);
     }
 	
@@ -190,6 +180,7 @@ public abstract class MarcHandler {
 	{
         homeDir = getHomeDir();
         logger.debug("Current Directory = "+ (new File(".").getAbsolutePath()));
+        
         if (configPropsFname.equals("null.properties"))
             configProps = new Properties();
         else
@@ -284,15 +275,7 @@ public abstract class MarcHandler {
 
     private String getHomeDir()
     {
-//	    String result = GetDefaultConfig.getJarFileName();       
-//        if (result == null)
-//        {
-//            result = new File(".").getAbsolutePath();
-            String result = new File(".").getAbsolutePath();
-            logger.debug("Setting homeDir to \".\"");
-//        }
-//        if (result != null) 
-//        	result = new File(result).getParent();
+    	String result = new File(".").getAbsolutePath();
         logger.debug("Setting homeDir to: "+ result);
         return(result);
     }
