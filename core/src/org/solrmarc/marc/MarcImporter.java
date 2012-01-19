@@ -473,34 +473,32 @@ public class MarcImporter extends MarcHandler
         map.put("marc_error", errors.getErrors());
     }
 
-    /**
-     * 
-     */
-    public void finish()
-    {
-    	if (solrProxy != null)
-    	{
-            if (commitAtEnd)
-            {
-    			try
-    			{
-    				logger.info("Calling commit");
-    				solrProxy.commit(shuttingDown ? false : optimizeAtEnd);
-    				logger.info("Done with the commit, closing Solr");
-    			} 
-    			catch (IOException ioe)
-    			{
-    				logger.error("Final commit and optimization failed: " + ioe.getMessage());
-    				logger.debug(ioe);
-    			}
-            }
-            
-            solrProxy.close();
-            solrProxy = null;
-    	}
-        logger.info("Setting Solr closed flag");
-        isShutDown = true;
-    }
+
+	public void finish()
+	{
+		if (solrProxy != null)
+		{
+			if (commitAtEnd)
+			{
+				try
+				{
+					logger.info("Calling commit");
+					solrProxy.commit(shuttingDown ? false : optimizeAtEnd);
+					logger.info("Done with the commit, closing Solr");
+				} 
+				catch (IOException ioe)
+				{
+					logger.error("Final commit and optimization failed: " + ioe.getMessage());
+					logger.debug(ioe);
+				}
+			}
+			
+			solrProxy.close();
+			solrProxy = null;
+		}
+		logger.info("Setting Solr closed flag");
+		isShutDown = true;
+	}
     
 
 // FIXME:  couldn't this method be replaced by solrProxy.commit()  ?????    
