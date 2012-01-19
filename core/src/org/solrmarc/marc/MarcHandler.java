@@ -5,8 +5,6 @@ import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
-import java.util.jar.*;
-import java.util.zip.ZipEntry;
 
 import org.apache.log4j.Logger;
 import org.marc4j.*;
@@ -24,7 +22,7 @@ public abstract class MarcHandler {
 	protected ErrorHandler errors = null;
 	protected boolean includeErrors = false;
     /** The full class name of SolrIndexer or the subclass to be used */
-	protected String indexerName;
+	protected String indexerClassName;
 	protected String addnlArgs[] = null;
 	protected Properties configProps;
     protected boolean inputTypeXML = false;
@@ -33,7 +31,7 @@ public abstract class MarcHandler {
 	protected String defaultEncoding;
     protected boolean to_utf_8;
     protected String combineConsecutiveRecordsFields = null;
-	// FIXME:  should just have the reader class declared outright rather than indirectly
+// FIXME:  should just have the reader class declared outright rather than indirectly
     /** set to true to use CombineMultBibsMhldsReader */  
     protected boolean useStanfordCombiningReader = false;
 	protected boolean showConfig = false;
@@ -45,9 +43,8 @@ public abstract class MarcHandler {
     protected String homeDir = ".";
 
     /** The name of the _index.properties file */
-	private String indexerProps;
+	private String indexPropsFname;
     private final static String TRANS_MAP_DIR = "translation_maps";
-//    private final static String SCRIPTS_DIR = "index_scripts";
 	
     // Initialize logging category
     static Logger logger = Logger.getLogger(MarcHandler.class.getName());
@@ -63,13 +60,12 @@ public abstract class MarcHandler {
     { 
     	String configPropsFname = null;
 
-    	// look for it in the manifest of the first jar loaded
         ClassLoader classLoader = getClass().getClassLoader();
 
         // Note that the first jar loaded is the java classes.jar file, so 
         //  no need to look for the configPropsFname in classes.jar manifest
 
-		// look for jar, then look for manifest inside jar (?)
+		// look for jar, then look for manifest inside jar or _config.properties file inside jar
 	    URL[] classLoaderUrls = ((URLClassLoader) classLoader).getURLs();
 	    for (URL classLoaderUrl : classLoaderUrls)
 	    {
@@ -86,6 +82,7 @@ public abstract class MarcHandler {
         return(configPropsFname);
     }
 	
+    
 	public void init(String args[]) 
 			throws FileNotFoundException
 	{
@@ -147,8 +144,8 @@ public abstract class MarcHandler {
         //  note the values of class vars indexerName and indexerProps 
         //  are initialized from the values in the config properties file, 
         //  loaded in the call to loadProperties above.
-        if (indexerName != null)
-            loadIndexer(indexerName, indexerProps); 
+        if (indexerClassName != null)
+            loadIndexer(indexerClassName, indexPropsFname); 
         
         processAdditionalArgs();
 	}
@@ -195,12 +192,12 @@ public abstract class MarcHandler {
         siteSpecificPath = normalizePathsProperty(homeDir, siteSpecificPath);
  
         // class name of SolrIndexer or the subclass to be used
-        indexerName = PropertiesUtils.getProperty(configProps, "solr.indexer");
-        if (indexerName == null) 
-        	indexerName = SolrIndexer.class.getName();
+        indexerClassName = PropertiesUtils.getProperty(configProps, "solr.indexer");
+        if (indexerClassName == null) 
+        	indexerClassName = SolrIndexer.class.getName();
         
         // _index.properties file
-        indexerProps = PropertiesUtils.getProperty(configProps, "solr.indexer.properties");
+        indexPropsFname = PropertiesUtils.getProperty(configProps, "solrmarc.index.properties");
 
         combineConsecutiveRecordsFields = PropertiesUtils.getProperty(configProps, "marc.combine_records");
         if (combineConsecutiveRecordsFields != null && combineConsecutiveRecordsFields.length() == 0) 
@@ -472,13 +469,18 @@ public abstract class MarcHandler {
         return;
 	}
 
+    /**
+     * add path and path/TRANS_MAP_DIR to propertySearchPath; add path to propertySearchSet
+     * @param pathToAdd
+     * @param propertySearchPath
+     * @param propertySearchSet
+     */
     static protected void addToPropertySearchPath(String pathToAdd, ArrayList<String> propertySearchPath, Set<String> propertySearchSet)
     {
         if (!propertySearchSet.contains(pathToAdd))
         {
             propertySearchPath.add(pathToAdd);
             propertySearchPath.add(pathToAdd + File.separator + TRANS_MAP_DIR);
-//            propertySearchPath.add(pathToAdd + File.separator + SCRIPTS_DIR);
             propertySearchSet.add(pathToAdd);
         }
     }
@@ -509,6 +511,16 @@ public abstract class MarcHandler {
             addToPropertySearchPath(configFilePath, propertySearchPath, propertySearchSet);
         if (homeDir != null)
             addToPropertySearchPath(homeDir, propertySearchPath, propertySearchSet);
+        
+		// add parent path of any jars in classpath
+        ClassLoader classLoader = getClass().getClassLoader();
+	    URL[] classLoaderUrls = ((URLClassLoader) classLoader).getURLs();
+	    for (URL classLoaderUrl : classLoaderUrls)
+	    {
+	    	String fname = classLoaderUrl.getFile();
+	    	if (fname.endsWith(".jar"))
+	    		addToPropertySearchPath(new File(fname).getParent(), propertySearchPath, propertySearchSet);
+	    }
 
         return(propertySearchPath.toArray(new String[0]));
     }
@@ -516,7 +528,7 @@ public abstract class MarcHandler {
 	/**
 	 * Load the Custom Indexer routine
 	 */
-	public void loadIndexer(String indexerName, String indexerProps) 
+	public void loadIndexer(String indexerName, String indexPropsFname) 
 	{
 	    // Setup the SolrMarc Indexer
         Class<?> indexerClass = null;
@@ -536,8 +548,6 @@ public abstract class MarcHandler {
             catch (ClassNotFoundException e1)
             {
                 logger.fatal("Cannot find custom indexer class named: "+ indexerName);
-                logger.fatal("Jar file containing that class MUST be referenced via the property:  solrmarc.custom.jar.path");
-                logger.fatal("Please define this property in your config.properties file");	
                 throw new IllegalArgumentException("Error configuring Indexer from properties file.  Exiting...");
             }
         }
@@ -546,7 +556,8 @@ public abstract class MarcHandler {
 	        Constructor<?> constructor = indexerClass.getConstructor(new Class[]{String.class, String[].class});
 	        String configFilePath = PropertiesUtils.getProperty(configProps, "config.file.dir");
 	        String propertySearchPath[] = makePropertySearchPath(solrmarcPath, siteSpecificPath, configFilePath, homeDir);
-	        Object instance = constructor.newInstance(indexerProps, propertySearchPath);
+
+	        Object instance = constructor.newInstance(indexPropsFname, propertySearchPath);
 	
 	        if (instance instanceof SolrIndexer)
 	            indexer = (SolrIndexer)instance;
