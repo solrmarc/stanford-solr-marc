@@ -3,22 +3,26 @@ package org.solrmarc.tools;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Enumeration;
+import java.util.jar.JarFile;
 import java.util.jar.Manifest; 
+import java.util.zip.ZipEntry;
 
-public class GetDefaultConfig 
+public class JarUtils 
 { 
+	public final static String MANIFEST_CONFIG_PROPS_FILE_NAME = "Config-Properties-File";
 
     /** 
      * @param args 
      */ 
     public static void main(String[] args) 
     {
-        String configProperties = GetDefaultConfig.getConfigPropsFileName("");
+        String configProperties = JarUtils.getConfigPropsFnameFromClassLoader(null);
         System.out.println(configProperties); 
     }
 
     /** 
-     * Extract the manifest attribute Default-Config-File from the top level jar file 
+     * Get the jar file name from the onejar.Boot jar
      *  I think this is fooched now that I'm not using "onejar"
      * @deprecated 
      */
@@ -40,11 +44,62 @@ public class GetDefaultConfig
         return(jarFilename);
     }
     
+    /** 
+     * Extract the manifest attribute Default-Config-File from the top level jar file;
+     *   if there is no such manifest entry, then look for a jar file entry ending
+     *   in _config.properties.
+     */
+    public static String getConfigPropsFileNameFromJar(String jarName, String defaultValue)
+    {
+    	String configPropsFileName = null;
+
+        if (jarName != null)
+        {
+            try 
+            { 
+                JarFile jarFile = new JarFile(jarName); 
+                Manifest manifest = jarFile.getManifest(); 
+                configPropsFileName = getConfigPropsFnameFromManifest(manifest);
+                if (configPropsFileName != null && configPropsFileName.length() > 0)
+                	return configPropsFileName;
+                else 
+                { 
+                    Enumeration entries = jarFile.entries(); 
+                    while (entries.hasMoreElements()) 
+                    { 
+                        ZipEntry entry = (ZipEntry) entries.nextElement(); 
+                    	String fname = entry.getName();
+                    	if (fname.endsWith("_config.properties"))
+                            configPropsFileName = fname; 
+                    } 
+                } 
+            } 
+            catch (Exception e) {  /* no manifest property defining the config */ }
+        }
+        
+        if (configPropsFileName == null)
+            configPropsFileName = defaultValue;
+
+        return configPropsFileName;
+    }
+
+    
+    public static String getConfigPropsFnameFromManifest(Manifest manifest)
+    {
+        String configPropsFileName = manifest.getMainAttributes().getValue(MANIFEST_CONFIG_PROPS_FILE_NAME);
+        if (configPropsFileName != null && configPropsFileName.length() > 0)
+        	return configPropsFileName;
+        else 
+        	return null;
+    	
+    }
+    
+    
 // FIXME: code duplicates MarcHandler.getConfigPropsFileName()    
     /** 
      * Extract the manifest attribute Default-Config-File from the top level jar file 
      */
-    public static String getConfigPropsFileName(String defaultValue)
+    public static String getConfigPropsFnameFromClassLoader(String defaultValue)
     {
     	String configPropsFileName = null;
 
@@ -62,7 +117,7 @@ public class GetDefaultConfig
         	//ignore;
         }
         if (manifest != null)
-        	configPropsFileName = manifest.getMainAttributes().getValue("Config-Properties-File");
+        	configPropsFileName = manifest.getMainAttributes().getValue(MANIFEST_CONFIG_PROPS_FILE_NAME);
         
         // if we didn't find it, look for the first file ending _config.properties in the jar's classpath
         if (configPropsFileName == null || configPropsFileName.length() == 0)

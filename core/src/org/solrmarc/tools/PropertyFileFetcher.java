@@ -47,9 +47,9 @@ public class PropertyFileFetcher {
         if (args.length > 0 && args[0].endsWith("properties")) 
             propertyFile = args[0];
         if (propertyFile == null) 
-            propertyFile = GetDefaultConfig.getConfigPropsFileName("");
+            propertyFile = JarUtils.getConfigPropsFnameFromClassLoader(null);
 
-        String homeDir = GetDefaultConfig.getJarFileName();
+        String homeDir = JarUtils.getJarFileName();
         if (homeDir != null) 
         	homeDir = new File(homeDir).getParent();
 
