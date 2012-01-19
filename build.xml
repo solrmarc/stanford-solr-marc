@@ -263,10 +263,13 @@
 			<classpath refid="site.classpath" />
 		</javac>
 	</target>
-	
+
+<!--	
 	<target name="jar_site" depends="jar_core,compile_site" description="Build custom jar file containing SITE code" >
 		<jar destfile="${site.build.dir}/${site.jar.name}.jar">
+-->		
 			<!-- SITE classes, etc. -->
+<!--	
 			<fileset dir="${site.build.dir}" includes="**/*.class" excludes="test/**"/>
 			<fileset file="${site.log4j.props}" />
 			<fileset dir="${site.basedir}" includes="*.properties,${trans.map.dir}/**" />
@@ -277,16 +280,14 @@
 			</manifest>
 		</jar>
 	</target>
+-->
 	
-	<target name="dist_site" depends="clean,jar_site"
+	<target name="dist_site" depends="clean,jar_core,compile_site"
              description="Copy necessary files to the SITE dist directory to make a runnable instance of SITE SolrMarc">
 		
 		<!-- copy jars of SolrMarc code to SITE (dist) directory -->
 		<mkdir dir="${site.dist.dir}" />
 		<copy todir="${site.dist.dir}">
-<!--			
-			<fileset file="${site.build.dir}/${site.jar.name}.jar" />
--->			
 			<fileset file="${core.build.dir}/${core.jar.name}.jar" />
 		</copy>
 
