@@ -335,11 +335,6 @@
 
     <field name="parent_coll_ckey" type="string" indexed="true" stored="true" omitNorms="true"></field>
 
-    <!-- *************** additional fields for DOR objects  ****************** -->
-    <field name="druid" type="string" indexed="true" stored="true" />
-    <field name="addl_id" type="string" indexed="false" stored="true" multivalued="true"/>
-    <field name="modsxml" type="string" indexed="false" stored="true" />
-
   </fields>
 
   <uniqueKey>id</uniqueKey>
