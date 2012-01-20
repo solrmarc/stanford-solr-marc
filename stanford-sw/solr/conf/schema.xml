@@ -9,7 +9,7 @@
     <fieldType name="long" class="solr.TrieLongField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
     <fieldType name="double" class="solr.TrieDoubleField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
     <fieldType name="date" class="solr.TrieDateField" omitNorms="true" precisionStep="0" positionIncrementGap="0"/>
-    <!-- t fields are for accelerating range queries -->
+		<!-- t fields are for accelerating range queries -->
     <fieldType name="tint" class="solr.TrieIntField" precisionStep="8" omitNorms="true" positionIncrementGap="0"/>
     <fieldType name="tfloat" class="solr.TrieFloatField" precisionStep="8" omitNorms="true" positionIncrementGap="0"/>
     <fieldType name="tlong" class="solr.TrieLongField" precisionStep="8" omitNorms="true" positionIncrementGap="0"/>
@@ -32,7 +32,6 @@
           splitOnCaseChange="1" generateWordParts="1" catenateWords="1"
           splitOnNumerics="0" generateNumberParts="1" catenateNumbers="1"
           catenateAll="0" preserveOriginal="0" stemEnglishPossessive="1" />
-        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
         <filter class="solr.EnglishPorterFilterFactory" protected="protwords.txt" />
         <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
       </analyzer>
@@ -47,7 +46,6 @@
           splitOnCaseChange="1" generateWordParts="1" catenateWords="1"
           splitOnNumerics="0" generateNumberParts="1" catenateNumbers="1"
           catenateAll="0" preserveOriginal="0" stemEnglishPossessive="0" />
-        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
         <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
       </analyzer>
     </fieldtype>
@@ -56,19 +54,24 @@
     <fieldtype name="alphaSort" class="solr.TextField" sortMissingLast="true" omitNorms="true">
       <analyzer>
         <tokenizer class="solr.KeywordTokenizerFactory" />
-        <filter class="solr.ICUCollationKeyFilterFactory" locale="en" strength="primary"/>
+				<filter class="solr.ICUCollationKeyFilterFactory" locale="en" strength="primary"/>
         <filter class="solr.TrimFilterFactory" />
       </analyzer>
     </fieldtype>
 
-    <!-- single token with stopwords removed so dismax doesn't look for stopwords in these fields-->
-    <!-- On client side, Lucene query parser breaks things up by whitespace *before* field analysis for dismax  -->
-    <!-- so some pattern matching to change punctuation (& : ;) into stopwords to allow results from other fields when these chars are surrounded by spaces in query -->
+    <!-- single token with punctuation terms removed so dismax doesn't look for punctuation terms in these fields -->
+    <!-- On client side, Lucene query parser breaks things up by whitespace *before* field analysis for dismax -->
+    <!-- so punctuation terms (& : ;) are stopwords to allow results from other fields when these chars are surrounded by spaces in query -->
     <fieldType name="string_analyzed" class="solr.TextField" omitNorms="true">
-      <analyzer>
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[&amp;:;]" replacement="and" replace="all" />
+      <analyzer type="index">
         <tokenizer class="solr.KeywordTokenizerFactory" />
-        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
+        <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.KeywordTokenizerFactory" />
+        <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
+        <!-- removing punctuation for Lucene query parser issues -->
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_punctuation.txt" enablePositionIncrements="true" />
       </analyzer>
     </fieldType>
 
@@ -82,7 +85,6 @@
         <!-- prepend yyyy to string so searches can be left anchored -->
         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^ *([^ ]{1})" replacement="yyyy$1"/>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
-        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
         <filter class="solr.LowerCaseFilterFactory" />
       </analyzer>
       <!-- Note that the query string could be a partial call number, so we can't combine all patterns -->
@@ -96,8 +98,7 @@
         <!-- prepend yyyy to string so searches can be left anchored -->
         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^ *([^ ]{1})" replacement="yyyy$1"/>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
-        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
-        <filter class="solr.LowerCaseFilterFactory" />
+	      <filter class="solr.LowerCaseFilterFactory" />
       </analyzer>
     </fieldType>
 
@@ -106,7 +107,6 @@
       <analyzer>
         <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
-        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
         <filter class="solr.StandardFilterFactory"/>
         <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
       </analyzer>
@@ -362,6 +362,7 @@
   <copyField source="subject_other_search" dest="subject_other_unstem_search" />
   <copyField source="subject_other_subvy_search" dest="subject_other_subvy_unstem_search" />
   <copyField source="subject_all_search" dest="subject_all_unstem_search" />
+
   <!-- unstemmed search fields: toc/summary -->
   <copyField source="toc_search" dest="toc_unstem_search" />
   <copyField source="context_search" dest="context_unstem_search" />
