@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <config>
-  <!-- NOTE: various comments and unused configuration possibilities have been purged 
+  <!-- NOTE: various comments and unused configuration possibilities have been purged
      from this file.  Please refer to http://wiki.apache.org/solr/SolrConfigXml,
      as well as the default solrconfig file included with solr -->
 
@@ -20,11 +20,11 @@
     -->
     <!--<maxBufferedDocs>1000</maxBufferedDocs>-->
     <ramBufferSizeMB>32</ramBufferSizeMB>
-<!--     
+<!--
     <maxMergeDocs>2147483647</maxMergeDocs>
 -->
     <writeLockTimeout>1000</writeLockTimeout>
-    <commitLockTimeout>10000</commitLockTimeout>   
+    <commitLockTimeout>10000</commitLockTimeout>
     <lockType>single</lockType>
   </indexDefaults>
 
@@ -33,7 +33,7 @@
     <useCompoundFile>false</useCompoundFile>
     <ramBufferSizeMB>128</ramBufferSizeMB>
     <mergeFactor>10</mergeFactor>
-<!-- 
+<!--
     <maxMergeDocs>2147483647</maxMergeDocs>
 -->
     <maxFieldLength>2147483647</maxFieldLength>
@@ -65,7 +65,7 @@
     <useFilterForSortedQuery>true</useFilterForSortedQuery>
 
     <queryResultWindowSize>80</queryResultWindowSize>
-    
+
     <queryResultMaxDocsCached>100</queryResultMaxDocsCached>
 
     <HashDocSet maxSize="200000" loadFactor="0.75"/>
@@ -76,7 +76,7 @@
       <arr name="queries">
         <!-- default query for all objects, front page facets -->
         <lst>
-          <int name="rows">0</int> 
+          <int name="rows">0</int>
           <str name="fl">score</str>
           <bool name="facet">true</bool>
           <int name="facet.mincount">1</int>
@@ -139,7 +139,7 @@
       <arr name="queries">
         <!-- default query for all objects, front page facets -->
         <lst>
-          <int name="rows">0</int> 
+          <int name="rows">0</int>
           <str name="fl">score</str>
           <bool name="facet">true</bool>
           <int name="facet.mincount">1</int>
@@ -160,7 +160,7 @@
           <str name="facet.field">language</str>
         </lst>
         <!-- single object query to populate filter cache -->
-        <lst> 
+        <lst>
           <str name="q">id:666</str>
           <str name="qt">standard</str>
           <int name="rows">0</int>
@@ -194,7 +194,7 @@
         </lst>
       </arr>
     </listener>
-    
+
     <useColdSearcher>true</useColdSearcher>
     <maxWarmingSearchers>2</maxWarmingSearchers>
   </query>
@@ -211,9 +211,9 @@
     <lst name="defaults">
       <str name="defType">dismax</str>
       <str name="echoParams">explicit</str>
-      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
+      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
       <str name="q.alt">*:*</str>
-      <str name="mm">4&lt;-1 4&lt;90%</str>
+      <str name="mm">6&lt;-1 6&lt;90%</str>
       <int name="qs">1</int>
       <str name="qf">
         title_245a_unstem_search^100000
@@ -285,12 +285,12 @@
         title_variant_search^40000     vern_title_variant_search^40000
         title_related_unstem_search^7500
         title_related_search^2500      vern_title_related_search^2500
-        
+
         topic_unstem_search^2400
         topic_search^2000              vern_topic_search^2000
         geographic_unstem_search^1750
         geographic_search^1500         vern_geographic_search^1500
-        
+
         author_1xx_unstem_search^1400
         subject_other_unstem_search^1400
         author_1xx_search^1000         vern_author_1xx_search^1000
@@ -311,7 +311,7 @@
         subject_other_subvy_search^25  vern_subject_other_subvy_search^25
         subject_all_search^25          vern_subject_all_search^25
         db_az_subject_search^25
-        
+
         pub_date_search^2
         physical^2                     vern_physical^2
         award_search^20
@@ -321,14 +321,14 @@
       </str>
       <int name="ps">3</int>
       <float name="tie">0.01</float>
-      
+
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int> 
+      <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
-      <str name="facet.field">building_facet</str>          
+      <str name="facet.field">building_facet</str>
       <str name="facet.field">callnum_top_facet</str>
       <str name="facet.field">lc_alpha_facet</str>
       <str name="facet.field">lc_b4cutter_facet</str>
@@ -348,7 +348,7 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
+
       <str name="fl">
         score,
         id,
@@ -387,18 +387,18 @@
         vern_title_display,
         vern_title_uniform_display
       </str>
-      
+
     </lst>
-  </requestHandler>  
-  
-  <!-- request handler for title searches -->  
+  </requestHandler>
+
+  <!-- request handler for title searches -->
   <requestHandler name="search_title" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">dismax</str>
       <str name="echoParams">explicit</str>
-      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
+      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
       <str name="q.alt">*:*</str>
-      <str name="mm">4&lt;-1 4&lt;90%</str>
+      <str name="mm">6&lt;-1 6&lt;90%</str>
       <int name="qs">1</int>
       <str name="qf">
         title_245a_unstem_search^50000
@@ -428,7 +428,7 @@
       </str>
       <int name="ps">3</int>
       <float name="tie">0.01</float>
-      
+
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int>
@@ -455,7 +455,7 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
+
       <str name="fl">
         score,
         id,
@@ -496,15 +496,15 @@
       </str>
     </lst>
   </requestHandler>
-  
-  <!-- author search request handler -->  
+
+  <!-- author search request handler -->
   <requestHandler name="search_author" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">dismax</str>
       <str name="echoParams">explicit</str>
-      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
+      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
       <str name="q.alt">*:*</str>
-      <str name="mm">4&lt;-1 4&lt;90%</str>
+      <str name="mm">6&lt;-1 6&lt;90%</str>
       <int name="qs">1</int>
       <str name="qf">
         author_1xx_unstem_search^200
@@ -524,10 +524,10 @@
       </str>
       <int name="ps">3</int>
       <float name="tie">0.01</float>
-      
+
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int> 
+      <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -551,7 +551,7 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
+
       <str name="fl">
         score,
         id,
@@ -591,17 +591,17 @@
         vern_title_uniform_display
       </str>
     </lst>
-  </requestHandler>    
-  
-  <!-- subject search request handler -->  
+  </requestHandler>
+
+  <!-- subject search request handler -->
   <requestHandler name="search_subject" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">dismax</str>
       <str name="echoParams">explicit</str>
-      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
+      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
       <str name="q.alt">*:*</str>
       <int name="qs">1</int>
-      <str name="mm">4&lt;-1 4&lt;90%</str>
+      <str name="mm">6&lt;-1 6&lt;90%</str>
 
       <str name="qf">
         topic_unstem_search^500
@@ -610,7 +610,7 @@
         geographic_search^100          vern_geographic_search^100
         subject_other_unstem_search^75
         subject_other_search^50        vern_subject_other_search^50
-        
+
         topic_subx_unstem_search^10
         geographic_subz_unstem_search^10
         subject_other_subvy_unstem_search^10
@@ -628,7 +628,7 @@
         geographic_search^1000         vern_geographic_search^1000
         subject_other_unstem_search^750
         subject_other_search^500       vern_subject_other_search^500
-        
+
         topic_subx_unstem_search^25
         geographic_subz_unstem_search^25
         subject_other_subvy_unstem_search^25
@@ -639,13 +639,13 @@
         subject_all_search^20          vern_subject_all_search^20
         db_az_subject_search^20
       </str>
-      
+
       <int name="ps">3</int>
       <float name="tie">0.01</float>
-      
+
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int> 
+      <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -669,7 +669,7 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
+
       <str name="fl">
         score,
         id,
@@ -709,27 +709,27 @@
         vern_title_uniform_display
       </str>
     </lst>
-  </requestHandler>    
-  
-  <!-- series search request handler -->  
+  </requestHandler>
+
+  <!-- series search request handler -->
   <requestHandler name="search_series" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">dismax</str>
       <str name="echoParams">explicit</str>
-      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
+      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
       <str name="q.alt">*:*</str>
       <int name="qs">1</int>
-      <str name="mm">4&lt;-1 4&lt;90%</str>
-      
+      <str name="mm">6&lt;-1 6&lt;90%</str>
+
       <str name="qf">series_search     vern_series_search</str>
       <str name="pf">series_search^20  vern_series_search^20</str>
-      
+
       <int name="ps">3</int>
       <float name="tie">0.01</float>
-      
+
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int> 
+      <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -753,7 +753,7 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
+
       <str name="fl">
         score,
         id,
@@ -793,21 +793,21 @@
         vern_title_uniform_display
       </str>
     </lst>
-  </requestHandler>    
-  
-  <!-- callnum search request handler -->  
+  </requestHandler>
+
+  <!-- callnum search request handler -->
   <requestHandler name="search_callnum" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="echoParams">explicit</str>
-      <int name="rows">20</int> 
-      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
+      <int name="rows">20</int>
+      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
       <str name="defType">lucene</str>
-      <str name="df">callnum_search</str> 
-      <str name="q.op">AND</str> 
-      
+      <str name="df">callnum_search</str>
+      <str name="q.op">AND</str>
+
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int> 
+      <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -831,7 +831,7 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
+
       <str name="fl">
         score,
         id,
@@ -871,17 +871,17 @@
         vern_title_uniform_display
       </str>
     </lst>
-  </requestHandler>    
-  
-  
+  </requestHandler>
+
+
   <!-- request handler for different searches in the pulldown menu for the single search box -->
   <requestHandler name="search_pulldown" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="defType">dismax</str>
       <str name="echoParams">explicit</str>
-      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
+      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
       <str name="q.alt">*:*</str>
-      <str name="mm">4&lt;-1 4&lt;90%</str>
+      <str name="mm">6&lt;-1 6&lt;90%</str>
       <int name="ps">3</int>
       <float name="tie">0.01</float>
       <int name="qs">1</int>
@@ -896,29 +896,29 @@
         title_variant_search^2000      vern_title_variant_search^2000
         title_related_unstem_search^1750
         title_related_search^1250      vern_title_related_search^1250
-        
+
         topic_unstem_search^1200
         topic_search^1000              vern_topic_search^1000
         geographic_unstem_search^900
         geographic_search^750          vern_geographic_search^750
-        
+
         author_1xx_unstem_search^700
         author_7xx_unstem_search^700
         author_8xx_unstem_search^700
         author_1xx_search^500          vern_author_1xx_search^500
-        
+
         subject_other_unstem_search^650
         subject_other_search^500       vern_subject_other_search^500
-        
+
         author_7xx_search^125          vern_author_7xx_search^125
-        
+
         toc_unstem_search^120
         toc_search^100                 vern_toc_search^100
-        
+
         author_8xx_search^50           vern_author_8xx_search^50
 
         series_search^30               vern_series_search^30
-        
+
         topic_subx_unstem_search^29
         geographic_subz_unstem_search^29
         subject_other_subvy_unstem_search^29
@@ -928,7 +928,7 @@
         subject_other_subvy_search^25  vern_subject_other_subvy_search^25
         subject_all_search^10          vern_subject_all_search^10
         db_az_subject_search
-        
+
         pub_date_search^10
         isbn_search^2
         issn_search^2
@@ -953,12 +953,12 @@
         title_variant_search^40000     vern_title_variant_search^40000
         title_related_unstem_search^7500
         title_related_search^2500      vern_title_related_search^2500
-        
+
         topic_unstem_search^2400
         topic_search^2000              vern_topic_search^2000
         geographic_unstem_search^1750
         geographic_search^1500         vern_geographic_search^1500
-        
+
         author_1xx_unstem_search^1400
         subject_other_unstem_search^1400
         author_1xx_search^1000         vern_author_1xx_search^1000
@@ -979,13 +979,13 @@
         subject_other_subvy_search^25  vern_subject_other_subvy_search^25
         subject_all_search^25          vern_subject_all_search^25
         db_az_subject_search^25
-        
+
         pub_date_search^2
         physical^2                     vern_physical^2
         award_search^20
         all_search^2
       </str>
-      
+
       <str name="qf_title">
         title_245a_unstem_search^50000
         title_245_unstem_search^25000
@@ -1012,7 +1012,7 @@
         title_related_search^150      vern_title_related_search^150
         series_search^75              vern_series_search^75
       </str>
-      
+
       <str name="qf_author">
         author_1xx_unstem_search^200
         author_7xx_unstem_search^50
@@ -1029,7 +1029,7 @@
         author_8xx_unstem_search^250
         author_8xx_search^200        vern_author_8xx_search^200
       </str>
-      
+
       <str name="qf_subject">
         topic_unstem_search^500
         geographic_unstem_search^500
@@ -1037,7 +1037,7 @@
         geographic_search^100          vern_geographic_search^100
         subject_other_unstem_search^75
         subject_other_search^50        vern_subject_other_search^50
-        
+
         topic_subx_unstem_search^10
         geographic_subz_unstem_search^10
         subject_other_subvy_unstem_search^10
@@ -1055,7 +1055,7 @@
         geographic_search^1000         vern_geographic_search^1000
         subject_other_unstem_search^750
         subject_other_search^500       vern_subject_other_search^500
-        
+
         topic_subx_unstem_search^25
         geographic_subz_unstem_search^25
         subject_other_subvy_unstem_search^25
@@ -1066,18 +1066,18 @@
         subject_all_search^20          vern_subject_all_search^20
         db_az_subject_search^20
       </str>
-      
+
       <str name="qf_series">series_search     vern_series_search</str>
       <str name="pf_series">series_search^20  vern_series_search^20</str>
 
-      
+
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int> 
+      <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
-      <str name="facet.field">building_facet</str>          
+      <str name="facet.field">building_facet</str>
       <str name="facet.field">callnum_top_facet</str>
       <str name="facet.field">lc_alpha_facet</str>
       <str name="facet.field">lc_b4cutter_facet</str>
@@ -1097,7 +1097,7 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
+
       <str name="fl">
         score,
         id,
@@ -1136,12 +1136,12 @@
         vern_title_display,
         vern_title_uniform_display
       </str>
-      
+
     </lst>
-  </requestHandler>  
-  
-  
-  
+  </requestHandler>
+
+
+
   <!-- single document requests; use id=666 instead of q=id:666 -->
   <requestHandler name="document" class="solr.SearchHandler" >
     <lst name="defaults">
@@ -1157,15 +1157,15 @@
     <lst name="defaults">
       <str name="defType">lucene</str>
       <str name="echoParams">explicit</str>
-      <int name="rows">20</int> 
-      <str name="df">all_search</str> 
-      <str name="q.op">AND</str> 
+      <int name="rows">20</int>
+      <str name="df">all_search</str>
+      <str name="q.op">AND</str>
       <int name="qs">1</int>
-      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
+      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
 
       <!-- used for dismax query parser -->
       <str name="mm">1</str> <!-- mm must be 1 to make all search terms "optional" -->
-      <int name="ps">3</int> 
+      <int name="ps">3</int>
       <float name="tie">0.01</float>
       <!-- for user query terms in author text box -->
       <str name="qf_author">
@@ -1184,7 +1184,7 @@
         author_8xx_unstem_search^250
         author_8xx_search^200        vern_author_8xx_search^200
       </str>
-      
+
       <!-- for user query terms in title text box -->
       <str name="qf_title">
         title_245a_unstem_search^50000
@@ -1221,7 +1221,7 @@
         geographic_search^100          vern_geographic_search^100
         subject_other_unstem_search^75
         subject_other_search^50        vern_subject_other_search^50
-      
+
         topic_subx_unstem_search^10
         geographic_subz_unstem_search^10
         subject_other_subvy_unstem_search^10
@@ -1239,7 +1239,7 @@
         geographic_search^1000         vern_geographic_search^1000
         subject_other_unstem_search^750
         subject_other_search^500       vern_subject_other_search^500
-        
+
         topic_subx_unstem_search^25
         geographic_subz_unstem_search^25
         subject_other_subvy_unstem_search^25
@@ -1264,7 +1264,7 @@
         pub_country^10
         pub_date_search^10
       </str>
-      
+
       <!-- for user query terms in number text box -->
       <str name="qf_number">
         id
@@ -1277,7 +1277,7 @@
       <str name="pf_number">
         callnum_search^10
       </str>
-      
+
       <!-- for user query terms in summary text box -->
       <str name="qf_summary">
         toc_unstem_search^10
@@ -1301,7 +1301,7 @@
         summary_search^20
         vern_summary_search^20
       </str>
-      
+
       <!-- for user query terms in description text box -->
       <str name="qf_description">all_search</str>
       <str name="pf_description">all_search^10</str>
@@ -1332,7 +1332,7 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
+
       <str name="fl">
         score,
         id,
@@ -1373,20 +1373,20 @@
       </str>
     </lst>
   </requestHandler>
-  
-  <!-- standard request handler used for nearby-on-shelf ... 
+
+  <!-- standard request handler used for nearby-on-shelf ...
     looking for set of documents matching a set of values for a field -->
   <requestHandler name="standard" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">lucene</str>
       <str name="echoParams">explicit</str>
-      <int name="rows">20</int> 
-      <str name="df">all_search</str> 
-      <str name="q.op">AND</str> 
-      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
+      <int name="rows">20</int>
+      <str name="df">all_search</str>
+      <str name="q.op">AND</str>
+      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int> 
+      <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
@@ -1410,7 +1410,7 @@
       <str name="facet.field">pub_date_group_facet</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
-      
+
       <str name="fl">
         score,
         id,
@@ -1452,39 +1452,39 @@
       </str>
     </lst>
   </requestHandler>
-  
+
   <!-- barcode requests; use /barcode?q=1234567890 -->
   <requestHandler name="/barcode" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="echoParams">explicit</str>
       <str name="fl">id</str>
-      <str name="q">{!field f=barcode_search v=$n}</str> 
+      <str name="q">{!field f=barcode_search v=$n}</str>
     </lst>
   </requestHandler>
-  
+
   <searchComponent name="termsComp" class="solr.TermsComponent"/>
-  
+
   <!-- used to get consecutive terms for browsing -->
   <requestHandler name="/alphaTerms" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="echoParams">explicit</str>
       <bool name="terms">true</bool>
-      <bool name="terms.lower.incl">true</bool> 
+      <bool name="terms.lower.incl">true</bool>
     </lst>
     <arr name="components">
       <str>termsComp</str>
     </arr>
   </requestHandler>
-  
-  <!-- OpenSearch request handler: as user types chars in UI, queries are sent to this -->  
+
+  <!-- OpenSearch request handler: as user types chars in UI, queries are sent to this -->
   <!-- FIXME:  this should be a lucene queryparser, no?  and they should be prefix searches (?) -->
   <requestHandler name="open_search" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">dismax</str>
       <str name="echoParams">explicit</str>
-      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
+      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
       <str name="q.alt">*:*</str>
-      <str name="mm">4&lt;-1 4&lt;90%</str>
+      <str name="mm">6&lt;-1 6&lt;90%</str>
       <str name="qf">open_search</str>
       <str name="pf">open_search^10</str>
       <float name="tie">0.01</float>
@@ -1502,7 +1502,7 @@
         title_uniform_display
       </str>
     </lst>
-  </requestHandler>        
+  </requestHandler>
 
   <!-- there are other possible request handlers not included here -->
   <searchComponent name="tvComponent" class="org.apache.solr.handler.component.TermVectorComponent"/>
@@ -1540,5 +1540,5 @@
       <bool name="debugQuery">true</bool>
     </lst>
   </requestHandler>
-    
+
 </config>
