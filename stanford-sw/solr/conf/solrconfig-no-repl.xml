@@ -6,11 +6,15 @@
 
   <abortOnConfigurationError>${solr.abortOnConfigurationError:true}</abortOnConfigurationError>
 
+  <luceneMatchVersion>LUCENE_35</luceneMatchVersion>
+
   <dataDir>${solr.data.dir:/data/solr}</dataDir>
 
   <indexDefaults>
     <useCompoundFile>false</useCompoundFile>
     <mergeFactor>10</mergeFactor>
+    <reopenReaders>true</reopenReaders>
+
     <!--
       If both ramBufferSizeMB and maxBufferedDocs is set, then Lucene will flush based on whichever limit is hit first.
     -->
