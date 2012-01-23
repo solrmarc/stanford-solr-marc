@@ -1,7 +1,7 @@
 #! /bin/bash
 # build_test_index.sh
 # Import a single marc file into a test Solr index  (Stanford SearchWorks)
-#  updated 2012-01-16
+#  updated for Naomi's FORK of solrmarc 2012-01-16
 #  Naomi Dushay 2008-10-12
 
 # temporary! - take an argument for the name of the log subdirectory
@@ -14,7 +14,7 @@ RAW_DATA_DIR=$SOLRMARC_BASEDIR/stanford-sw/test/data
 
 JAVA_HOME=/usr/lib/jvm/java
 
-# create new dist files
+# create fresh dist files
 #ant -buildfile $SOLRMARC_BASEDIR/build.xml dist_site
 
 # set up the classpath
