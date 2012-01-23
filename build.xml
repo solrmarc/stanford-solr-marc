@@ -313,11 +313,13 @@
 		</copy>
 
 		<!-- copy SITE scripts to SITE (dist)/bin directory -->
+<!-- not for Stanford
 		<mkdir dir="${site.dist.script.dir}" />
 		<copy todir="${site.dist.script.dir}">
 			<fileset dir="${site.scripts.dir}" includes="**" />
 		</copy>
 		<chmod dir="${site.dist.script.dir}/" perm="755" includes="*"/>
+-->
 
 		<!-- copy CORE scripts to SITE (dist)/bin/(core) directory -->
 		<mkdir dir="${site.dist.script.dir}/${core.basedir}" />
