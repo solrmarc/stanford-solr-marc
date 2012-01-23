@@ -1,8 +1,9 @@
 #! /bin/bash
 # index_all_sirsi.sh
-# Import all marc files from sirsi full dump into a Solr index  (Stanford Blacklight flavor)
-#  updated for Naomi's FORK of solrmarc 2011-01-23
-#  Naomi Dushay 2008-10-12
+# Import all marc files from sirsi full dump into a Solr index  (SearchWorks flavor)
+#
+# updated for Naomi's FORK of solrmarc 2011-01-23
+# Naomi Dushay 2008-10-12
 
 # temporary! - take an argument for the date of the log subdirectory
 # TODO: determine today's date and create log dir with today's date, with a suffix if necessary
