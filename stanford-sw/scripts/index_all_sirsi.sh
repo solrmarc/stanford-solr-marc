@@ -1,38 +1,33 @@
 #! /bin/bash
 # index_all_sirsi.sh
 # Import all marc files from sirsi full dump into a Solr index  (Stanford Blacklight flavor)
+#  updated for Naomi's FORK of solrmarc 2011-01-23
 #  Naomi Dushay 2008-10-12
 
-BLACKLIGHT_HOMEDIR=/home/blacklight
-SOLRMARC_BASEDIR=$BLACKLIGHT_HOMEDIR/solrmarc-sw
+# temporary! - take an argument for the date of the log subdirectory
+# TODO: determine today's date and create log dir with today's date, with a suffix if necessary
+echo "   Usage: `basename $0` log_subdir(yyyy-mm-dd)"
+LOG_SUBDIR=$1
+
+HOMEDIR=/home/blacklight
+SOLRMARC_BASEDIR=$HOMEDIR/solrmarc-sw
 
 RAW_DATA_DIR=/data/sirsi/latest
 
 JAVA_HOME=/usr/lib/jvm/java
 
-# TODO: determine today's date and create log dir with today's date, with a suffix if necessary
-
-# temporary! - take an argument for the date of the log subdirectory
- echo "   Usage: `basename $0` log_subdir(yyyy-mm-dd)"
-LOG_SUBDIR=$1
-
-# create new dist jar and other files
-rm -rf $SOLRMARC_BASEDIR/local_build
-ant -buildfile $SOLRMARC_BASEDIR/build.xml -Dexample.configuration=stanford -Dinput.continue.processing.with.not.uptodate=c dist
+# create fresh dist files
+ant -buildfile $SOLRMARC_BASEDIR/build.xml dist_site
 
 # set up the classpath
 DIST_DIR=$SOLRMARC_BASEDIR/dist
-SITE_JAR=$DIST_DIR/StanfordIndexer.jar
-CORE_JAR=$DIST_DIR/SolrMarc.jar
-CP=$SITE_JAR:$CORE_JAR:$DIST_DIR
+SITE_JAR=$DIST_DIR/StanfordSearchWorksSolrMarc.jar
+#CORE_JAR=$DIST_DIR/SolrMarc.jar # core jar included inside classpath of StanfordSearchWorksSolrMarc.jar
+CP=$SITE_JAR:$DIST_DIR:$DIST_DIR/lib
 
 # get index directories ready
 SOLR_DATA_DIR=/data/solr/dataBuild
 mv $SOLR_DATA_DIR/index $SOLR_DATA_DIR/index_b4_$LOG_SUBDIR
-# no longer using spellcheck as of 2010-01 (?)
-#mv $SOLR_DATA_DIR/spellchecker $SOLR_DATA_DIR/spellchecker_b4_$LOG_SUBDIR
-#mv $SOLR_DATA_DIR/spellcheckerFile $SOLR_DATA_DIR/spellcheckerFile_b4_$LOG_SUBDIR
-#mv $SOLR_DATA_DIR/spellcheckerJaroWin $SOLR_DATA_DIR/spellcheckerJaroWin_b4_$LOG_SUBDIR
 
 # create log directory
 LOG_PARENT_DIR=$RAW_DATA_DIR/logs
