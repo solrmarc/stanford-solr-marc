@@ -1,12 +1,11 @@
 #! /bin/bash
-# index_incr_sirsi.sh
-# Remove deleted records from index and update index per marc records given
-#  Naomi Dushay 2010-01-08
+# index_incr_sirsi_optmz.sh
+# Remove deleted records (per file of ids) from index and update index
+#  (with marc records in file), optimizing the index at the end
+# updated for Naomi's FORK of solrmarc 2011-01-23
+# Naomi Dushay 2010-01-08
 
-#SOLR_DATA_DIR=/data/solr/dataBuild
-SOLR_DATA_DIR=/data/solr
-
-# get filename date
+# get filename date, either from command line or default to today's date
 if [ $1 ] ; then
   COUNTS_FNAME=$1"_dates_counts"
   DEL_KEYS_FNAME=$1"_ckeys_delete.del"
@@ -26,19 +25,17 @@ DEL_ARG="-Dmarc.ids_to_delete="$RAW_DATA_DIR/$DEL_KEYS_FNAME
 JAVA_HOME=/usr/lib/jvm/java
 
 # set up the classpath
-BLACKLIGHT_HOMEDIR=/home/blacklight
-SOLRMARC_BASEDIR=$BLACKLIGHT_HOMEDIR/solrmarc-sw
+HOMEDIR=/home/blacklight
+SOLRMARC_BASEDIR=$HOMEDIR/solrmarc-sw
 DIST_DIR=$SOLRMARC_BASEDIR/dist
-SITE_JAR=$DIST_DIR/StanfordIndexer.jar
-CORE_JAR=$DIST_DIR/SolrMarc.jar
-CP=$SITE_JAR:$CORE_JAR:$DIST_DIR
+SITE_JAR=$DIST_DIR/StanfordSearchWorksSolrMarc.jar
+CP=$SITE_JAR:$DIST_DIR:$DIST_DIR/lib
 
 # create log directory
-LOG_PARENT_DIR=$RAW_DATA_DIR/logs
-LOG_DIR=$LOG_PARENT_DIR
+LOG_DIR=$RAW_DATA_DIR/logs
 mkdir -p $LOG_DIR
 
 # index the files
-nohup java -Xmx16g -Xms16g -Dsolr.data.dir=$SOLR_DATA_DIR $DEL_ARG -Dsolr.optimize_at_end="true" -cp $CP -jar $CORE_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
+nohup java -Xmx16g -Xms16g $DEL_ARG -Dsolr.optimize_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
 
 exit 0

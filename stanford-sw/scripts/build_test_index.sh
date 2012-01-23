@@ -1,13 +1,15 @@
 #! /bin/bash
 # build_test_index.sh
 # Import a single marc file into a test Solr index  (Stanford SearchWorks)
-#  updated for Naomi's FORK of solrmarc 2012-01-16
-#  Naomi Dushay 2008-10-12
+#
+# updated for Naomi's FORK of solrmarc 2012-01-16
+# Naomi Dushay 2008-10-12
 
 # temporary! - take an argument for the name of the log subdirectory
 LOG_SUBDIR=$1
 
 HOMEDIR=/Users/ndushay/searchworks
+#HOMEDIR=/home/blacklight
 SOLRMARC_BASEDIR=$HOMEDIR/solrmarc-sw
 
 RAW_DATA_DIR=$SOLRMARC_BASEDIR/stanford-sw/test/data
