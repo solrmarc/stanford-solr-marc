@@ -6,7 +6,7 @@
 
 # temporary! - take an argument for the date of the log subdirectory
 # TODO: determine today's date and create log dir with today's date, with a suffix if necessary
-echo "   Usage: `basename $0` log_subdir(yyyy-mm-dd)"
+#echo "   Usage: `basename $0` log_subdir(yyyy-mm-dd)"
 LOG_SUBDIR=$1
 
 HOMEDIR=/home/blacklight
