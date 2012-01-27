@@ -64,7 +64,7 @@
     <!-- single token with stopwords removed so dismax doesn't look for stopwords in these fields-->
     <!-- On client side, Lucene query parser breaks things up by whitespace *before* field analysis for dismax  -->
     <!-- so some pattern matching to change punctuation (& : ;) into stopwords to allow results from other fields when these chars are surrounded by spaces in query -->
-    <fieldType name="string_analyzed" class="solr.TextField" omitNorms="true">
+    <fieldType name="string_punct_stop" class="solr.TextField" omitNorms="true">
       <analyzer>
         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[&amp;:;]" replacement="and" replace="all" />
         <tokenizer class="solr.KeywordTokenizerFactory" />
@@ -116,13 +116,13 @@
 
   <fields>
     <!-- id: Unique id for indexed document -->
-    <field name="id" type="string_analyzed" indexed="true" stored="true" required="true" />
+    <field name="id" type="string_punct_stop" indexed="true" stored="true" required="true" />
     <field name="created" type="date" indexed="true" stored="true" default="NOW/SECOND" />
     <field name="last_updated" type="date" indexed="true" stored="true" default="NOW/SECOND" />
     <!-- entire marc bib record -->
     <field name="marcxml" type="string" indexed="false" stored="true" />
     <!-- collection: allow searching within collections for aggr. colls -->
-    <field name="collection" type="string_analyzed" indexed="true" stored="true" multiValued="true" omitNorms="true" />
+    <field name="collection" type="string_punct_stop" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <!-- display_type is a hidden facet for "views" e.g. Images, Maps ... -->
     <field name="display_type" type="string" indexed="true" stored="false" multiValued="true" omitNorms="true" />
     <!-- the catch-all field for all text -->
@@ -146,7 +146,7 @@
     <field name="isbn_display" type="string" indexed="false" stored="true" multiValued="true" />
     <field name="issn_display" type="string" indexed="false" stored="true" multiValued="true" />
     <field name="lccn" type="string" indexed="false" stored="true" />
-    <field name="oclc" type="string_analyzed" indexed="true" stored="true" multiValued="true" />
+    <field name="oclc" type="string_punct_stop" indexed="true" stored="true" multiValued="true" />
 
     <!-- Title Search Fields -->
     <field name="title_245a_search" type="text" indexed="true" stored="false" />
@@ -305,7 +305,7 @@
     <field name="shelfkey" type="alphaSort" indexed="true" stored="false" multiValued="true"/>
     <field name="reverse_shelfkey" type="alphaSort" indexed="true" stored="false" multiValued="true"/>
 
-    <field name="barcode_search" type="string_analyzed" indexed="true" stored="false" multiValued="true" />
+    <field name="barcode_search" type="string_punct_stop" indexed="true" stored="false" multiValued="true" />
     <field name="preferred_barcode" type="string" indexed="false" stored="true" />
     <field name="access_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <field name="building_facet" type="string" indexed="true" stored="false" multiValued="true" />
@@ -324,7 +324,7 @@
 
     <!-- Medium, Media (what is original object made of), how is it physically supported -->
     <field name="medium_search" type="text" indexed="true" stored="false" multiValued="true" />
-    <field name="medium" type="string_analyzed" indexed="true" stored="true" multiValued="true" />  <!-- facet and display -->
+    <field name="medium" type="string_punct_stop" indexed="true" stored="true" multiValued="true" />  <!-- facet and display -->
 
     <!-- for Reid Dennis -->
     <field name="possessor" type="text" indexed="true" stored="true"/> <!-- search and display -->
