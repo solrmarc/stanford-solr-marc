@@ -54,7 +54,7 @@
     <fieldtype name="alphaSort" class="solr.TextField" sortMissingLast="true" omitNorms="true">
       <analyzer>
         <tokenizer class="solr.KeywordTokenizerFactory" />
-				<filter class="solr.ICUCollationKeyFilterFactory" locale="en" strength="primary"/>
+        <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
         <filter class="solr.TrimFilterFactory" />
       </analyzer>
     </fieldtype>
