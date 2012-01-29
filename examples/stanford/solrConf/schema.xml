@@ -200,8 +200,6 @@
     
     <!-- Author Facet Fields -->
     <field name="author_person_facet" type="string" indexed="true" stored="false" multiValued="true" />
-    <field name="author_corp_facet" type="string" indexed="true" stored="false" multiValued="true" />
-    <field name="author_meeting_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <field name="author_other_facet" type="string" indexed="true" stored="false" multiValued="true" />
 
     <field name="author_sort" type="alphaSort" indexed="true" stored="false" />
@@ -341,8 +339,6 @@
   <uniqueKey>id</uniqueKey>
   <defaultSearchField>all_search</defaultSearchField>
 
-  <copyField source="author_corp_facet" dest="author_other_facet" />
-  <copyField source="author_meeting_facet" dest="author_other_facet" />
   <copyField source="pub_date" dest="pub_date_search" />
   <!-- unstemmed search fields: title -->
   <copyField source="title_245a_search" dest="title_245a_unstem_search" />
