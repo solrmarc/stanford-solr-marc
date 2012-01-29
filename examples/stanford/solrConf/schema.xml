@@ -120,7 +120,7 @@
     <field name="created" type="date" indexed="true" stored="true" default="NOW/SECOND" />
     <field name="last_updated" type="date" indexed="true" stored="true" default="NOW/SECOND" />
     <!-- entire marc bib record -->
-    <field name="marc21" type="string" indexed="false" stored="true" />
+    <field name="marcxml" type="string" indexed="false" stored="true" />
     <!-- collection: allow searching within collections for aggr. colls -->
     <field name="collection" type="string_no_stop" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <!-- display_type is a hidden facet for "views" e.g. Images, Maps ... -->
