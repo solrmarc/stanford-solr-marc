@@ -54,7 +54,11 @@
     <fieldtype name="alphaSort" class="solr.TextField" sortMissingLast="true" omitNorms="true">
       <analyzer>
         <tokenizer class="solr.KeywordTokenizerFactory" />
-        <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
+<!--
+        <filter class="solr.ICUFoldingFilterFactory"/>
+				<filter class="solr.CollationKeyFilterFactory" language="" />
+--> <!-- The Unicode default or ROOT locale has rules that are designed to work well for most languages. -->
+				<filter class="solr.ICUCollationKeyFilterFactory" locale="" />
         <filter class="solr.TrimFilterFactory" />
       </analyzer>
     </fieldtype>
