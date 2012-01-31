@@ -62,10 +62,11 @@ nohup java -Xmx16g -Xms16g -Dsolr.data.dir=$SOLR_DATA_DIR -cp $CP -jar $CORE_JAR
 nohup java -Xmx16g -Xms16g -Dsolr.data.dir=$SOLR_DATA_DIR -Dsolr.optimize_at_end="true" -cp $CP -jar $CORE_JAR $RAW_DATA_DIR/uni_09000000_09499999.marc &>$LOG_DIR/log900-949.txt
 
 # include Image Gallery images
-curl http://sw-solr-gen:8983/solr/update?commit=true -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/reid-dennis/ReidDennisSolrDocs_20110722_0001.xml
-curl http://sw-solr-gen:8983/solr/update?commit=true -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/kolb/KolbSolrDocs_20110722_0001.xml
-curl http://sw-solr-gen:8983/solr/update?commit=true -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/kolb/KolbSolrDocs_20110722_0002.xml
+#curl http://sw-solr-gen:8983/solr/update?commit=true -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/reid-dennis/ReidDennisSolrDocs_20110722_0001.xml
+#curl http://sw-solr-gen:8983/solr/update?commit=true -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/kolb/KolbSolrDocs_20110722_0001.xml
+#curl http://sw-solr-gen:8983/solr/update?commit=true -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/kolb/KolbSolrDocs_20110722_0002.xml
 
-echo "!!! RUN SEARCHWORKS TESTS before putting index into production !!!"
+echo "!!! RUN IMAGE GALLERY INDEXING SCRIPT !!!"
+echo "!!!   RUN SEARCHWORKS TESTS before putting index into production !!!"
 
 exit 0
