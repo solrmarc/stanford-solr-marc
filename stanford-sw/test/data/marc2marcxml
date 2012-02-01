@@ -1,1 +1,1 @@
-java -cp ../../../lib/marc4j-2.5.beta.jar:../../../lib/normalizer_solrmarc.jar org.marc4j.util.MarcXmlDriver 
+java -cp ../../../dist/StanfordSearchWorksSolrMarc.jar:../../../dist/SolrMarc.jar:../../../lib/marc4j-2.5.1.beta.jar:../../../lib/normalizer_solrmarc.jar org.marc4j.util.MarcXmlDriver 
