@@ -1,4 +1,7 @@
 bin/*
+build/*
+ci/*
+test/jetty/*
 .project
 .classpath
 dist/*
