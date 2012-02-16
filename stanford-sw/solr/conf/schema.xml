@@ -24,7 +24,7 @@
 
     <!-- Analyzed Text, general case -->
     <!-- if we used synonyms, they would be used only for the queries, and they would appear after the unicodeNormalization and before the StopFilter -->
-    <fieldtype name="text" class="solr.TextField" positionIncrementGap="100">
+    <fieldtype name="text" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
         <filter class="solr.WordDelimiterFilterFactory"
@@ -38,7 +38,7 @@
     </fieldtype>
 
     <!-- Analyzed Text, no Stemming or Synonyms -->
-    <fieldtype name="textNoStem" class="solr.TextField" positionIncrementGap="100">
+    <fieldtype name="textNoStem" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
         <filter class="solr.WordDelimiterFilterFactory"
@@ -50,7 +50,7 @@
       </analyzer>
     </fieldtype>
 
-    <!-- analyzed text, for sorting.  Punctuation is significant. -->
+    <!-- single token analyzed text, for sorting.  Punctuation is significant. -->
     <fieldtype name="alphaSort" class="solr.TextField" sortMissingLast="true" omitNorms="true">
       <analyzer>
         <tokenizer class="solr.KeywordTokenizerFactory" />
@@ -76,7 +76,7 @@
     </fieldType>
 
     <!-- field designed for LC call number searching -->
-    <fieldType name="callnum_ws" class="solr.TextField" omitNorms="true">
+    <fieldType name="callnum_ws" class="solr.TextField" omitNorms="true" autoGeneratePhraseQueries="true">
       <analyzer type="index">
         <!-- LC: no space between class letters and digits; normalize to " ." before first cutter, no leading space -->
         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^ *([A-Za-z]{1,3}) ?(\d{1,4}(\.\d+)?) ?\.?([A-Za-z]\d+)" replacement="$1$2 .$4"/>
