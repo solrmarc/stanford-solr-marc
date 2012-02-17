@@ -134,8 +134,10 @@
     <field name="last_updated" type="date" indexed="true" stored="true" default="NOW/SECOND" />
     <!-- entire marc bib record -->
     <field name="marcxml" type="string" indexed="false" stored="true" />
+    <!-- collection field: facet and display -->
+    <field name="collection" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <!-- collection: allow searching within collections for aggr. colls -->
-    <field name="collection" type="string_punct_stop" indexed="true" stored="true" multiValued="true" omitNorms="true" />
+    <field name="collection_search" type="string_punct_stop" indexed="true" stored="false" multiValued="true" omitNorms="true" />
     <!-- display_type is a hidden facet for "views" e.g. Images, Maps ... -->
     <field name="display_type" type="string" indexed="true" stored="false" multiValued="true" omitNorms="true" />
     <!-- the catch-all field for all text -->
@@ -353,6 +355,7 @@
   <defaultSearchField>all_search</defaultSearchField>
 
 	<!-- copy fields -->
+  <copyField source="collection" dest="collection_search" />
   <copyField source="pub_date" dest="pub_date_search" />
   <copyField source="db_az_subject" dest="db_az_subject_search" />
 

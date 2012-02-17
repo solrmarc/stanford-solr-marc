@@ -156,7 +156,7 @@
         id
         oclc
         barcode_search
-        collection
+        collection_search
         medium
 <!-- callnum_search removed so searches with stopwords can have matches
         callnum_search
@@ -204,7 +204,7 @@
         physical^2                     vern_physical^2
         award_search^20
         all_search^2
-        collection^20
+        collection_search^20
         medium^20
       </str>
       <int name="ps">3</int>
