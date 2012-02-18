@@ -62,18 +62,6 @@
     <!-- single token with punctuation terms removed so dismax doesn't look for punctuation terms in these fields -->
     <!-- On client side, Lucene query parser breaks things up by whitespace *before* field analysis for dismax -->
     <!-- so punctuation terms (& : ;) are stopwords to allow results from other fields when these chars are surrounded by spaces in query -->
-    <fieldType name="string_punct_stop_not_used" class="solr.TextField" omitNorms="true">
-      <analyzer type="index">
-        <tokenizer class="solr.KeywordTokenizerFactory" />
-        <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
-      </analyzer>
-      <analyzer type="query">
-        <tokenizer class="solr.KeywordTokenizerFactory" />
-        <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
-        <!-- removing punctuation for Lucene query parser issues -->
-        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_punctuation.txt" enablePositionIncrements="true" />
-      </analyzer>
-    </fieldType>
     <!--  do not lowercase -->
     <fieldType name="string_punct_stop" class="solr.TextField" omitNorms="true">
       <analyzer type="index">
