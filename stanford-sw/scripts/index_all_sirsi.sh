@@ -49,7 +49,9 @@ nohup java -Xmx16g -Xms16g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_07000000_074
 nohup java -Xmx16g -Xms16g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_07500000_07999999.marc &>$LOG_DIR/log750-799.txt
 nohup java -Xmx16g -Xms16g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_08000000_08499999.marc &>$LOG_DIR/log800-849.txt
 nohup java -Xmx16g -Xms16g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_08500000_08999999.marc &>$LOG_DIR/log850-899.txt
-nohup java -Xmx16g -Xms16g -Dsolr.optimize_at_end="true" -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_09000000_09499999.marc &>$LOG_DIR/log900-949.txt
+nohup java -Xmx16g -Xms16g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_09000000_09499999.marc &>$LOG_DIR/log900-949.txt
+nohup java -Xmx16g -Xms16g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_09500000_09999999.marc &>$LOG_DIR/log950-999.txt
+#nohup java -Xmx16g -Xms16g -Dsolr.optimize_at_end="true" -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_09500000_09999999.marc &>$LOG_DIR/log950-999.txt
 
 # include Image Gallery images
 curl http://sw-solr-gen:8983/solr/update?commit=true -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/reid-dennis/ReidDennisSolrDocs_20110722_0001.xml
