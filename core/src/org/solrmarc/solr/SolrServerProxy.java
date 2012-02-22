@@ -6,6 +6,7 @@ import java.util.*;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
+import org.solrmarc.tools.SolrObjectUtils;
 
 /**
  * An implementation of SolrProxy utilizing a SolrServer from SolrJ.
@@ -24,30 +25,12 @@ public class SolrServerProxy implements SolrProxy
     /**
      * given a map of field names and values, create a Document and add it to
      *  the index
-     * @param fields2ValuesMap - map of field names and values to add to the document
-     * @return a string representation of the document
+     * @param fldNames2ValsMap keys are Solr field names, values are String or Collection objects containing values for Solr field
+     * @return a string representation of the document when verbose is true or addDocToIndex is false
      */
-    public String addDoc(Map<String, Object> fields2ValuesMap, boolean verbose, boolean addDocToIndex) throws IOException
+    public String addDoc(Map<String, Object> fldNames2ValsMap, boolean verbose, boolean addDocToIndex) throws IOException
     {
-        SolrInputDocument inputDoc = new SolrInputDocument();
-        Iterator<String> keys = fields2ValuesMap.keySet().iterator();
-        while (keys.hasNext())
-        {
-            String fldName = keys.next();
-            Object fldValObject = fields2ValuesMap.get(fldName);
-            if (fldValObject instanceof Collection<?>)
-            {
-                Collection<?> collValObject = (Collection<?>)fldValObject;
-                for (Object item : collValObject)
-                {
-                    inputDoc.addField(fldName, item, 1.0f );
-                }
-            }
-            else if (fldValObject instanceof String)
-            {
-                inputDoc.addField(fldName, fldValObject, 1.0f );
-            }
-        }
+        SolrInputDocument inputDoc = SolrObjectUtils.createSolrInputDoc(fldNames2ValsMap);
         if (addDocToIndex)
         {
             try
