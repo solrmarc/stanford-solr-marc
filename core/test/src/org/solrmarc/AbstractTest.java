@@ -1,34 +1,31 @@
-package edu.stanford;
+package org.solrmarc;
 
 import java.io.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.xml.sax.SAXException;
-
-
 import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.BeforeClass;
 import org.solrmarc.testUtils.IndexTest;
 import org.solrmarc.testUtils.SolrFieldMappingTest;
+import org.xml.sax.SAXException;
 
 /**
- * Site Specific code used for testing the Stanford SearchWorks code
+ * @author ndushay
+ *
+ */
+/**
+ * Instance variables and methods used for testing
  * @author Naomi Dushay
  */
-public abstract class AbstractStanfordTest extends IndexTest
+public abstract class AbstractTest extends IndexTest
 {
 
-// FIXME:  ensure log4j.properties is in bin
-
 	/** testDataParentPath is used for mapping tests - full path is needed */
-    String testDataParentPath = null;
+    protected String testDataParentPath = null;
 
 	/** SolrFieldMappingTest object to be used in specific tests */
 	protected SolrFieldMappingTest solrFldMapTest = null;
-
-	protected String siteDir = "stanford-sw";
-
 
 	// set up required properties when tests not invoked via Ant
 	// hardcodings below are only used when the tests are invoked without the
@@ -45,26 +42,9 @@ public abstract class AbstractStanfordTest extends IndexTest
         if (testSolrPath == null)
             System.setProperty("test.solr.path", testJettyDir + File.separator + "solr");
 
-        String configPropFile = System.getProperty("test.config.file");
-		if (configPropFile == null)
-            System.setProperty("test.config.file", siteDir + File.separator + "sw_config.properties");
-
         // used to find core translation_maps
         if (System.getProperty("solrmarc.path") == null)
             System.setProperty("solrmarc.path", new File("core").getAbsolutePath());
-        // used to find site translation_maps
-		if (System.getProperty("solrmarc.site.path") == null)
-            System.setProperty("solrmarc.site.path", siteDir);
-
-		// used to find test data files
-		testDataParentPath = System.getProperty("test.data.path");
-        if (testDataParentPath == null)
-        {
-            testDataParentPath = System.getProperty("test.data.parent.path");
-            if (testDataParentPath == null)
-                testDataParentPath = siteDir + File.separator + "test" + File.separator + "data";
-            System.setProperty("test.data.path", testDataParentPath);
-        }
 	}
 
 @BeforeClass
@@ -172,5 +152,6 @@ public abstract class AbstractStanfordTest extends IndexTest
 
 		deleteRecordsFromTestIx(deletedIdsFilename, testSolrUrl, testConfigFname);
 	}
+
 
 }
