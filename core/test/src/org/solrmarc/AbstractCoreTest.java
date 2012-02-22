@@ -8,6 +8,9 @@ import java.io.*;
  */
 public abstract class AbstractCoreTest extends AbstractTest
 {
+	
+// FIXME:  ensure log4j.properties is in bin
+
 	protected String coreTestDir = "core" + File.separator + "test";
 
 	// set up required properties when tests not invoked via Ant
