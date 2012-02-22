@@ -10,7 +10,7 @@ import org.solrmarc.tools.SolrObjectUtils;
 
 /**
  * An implementation of SolrProxy utilizing a SolrServer from SolrJ.
- * @author Bob Haschart, with modifications by ndushay
+ * @author Bob Haschart, with modifications by Naomi Dushay
  */
 public class SolrServerProxy implements SolrProxy
 {

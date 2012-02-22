@@ -16,8 +16,7 @@ import org.junit.runners.Suite;
         CallNumLoppingUnitTests.class,
         CallNumTopFacetTests.class,
         CallNumUtilsLoppingUnitTests.class,
-        CombineMultBibsMhldsReaderTest.class,
-        DatabaseAZSubjectTests.class, 
+        DatabaseAZSubjectTests.class,
         DiacriticTests.class,
         FormatDatabaseTests.class,
         FormatTests.class,
@@ -34,7 +33,6 @@ import org.junit.runners.Suite;
         ItemsSplitTests.class,
         ItemUtilsUnitTests.class,
         LanguageTests.class,
-        MarcCombiningReaderTests.class,
         MergeMhldFldsIntoBibsReaderTests.class,
         MhldMappingTests.class,
         MiscellaneousFieldTests.class,
@@ -53,7 +51,7 @@ import org.junit.runners.Suite;
         WordDelimiterTests.class
         })
 
-        
-public class AllTests 
+
+public class AllTests
 {
 }

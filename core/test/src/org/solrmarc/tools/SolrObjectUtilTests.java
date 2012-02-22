@@ -103,7 +103,7 @@ public class SolrObjectUtilTests extends IndexTest
 
 
 @Test
-	public void getXMLFieldsAndWrapper()
+	public void getXMLFieldsAndWrapperTests()
 	{
     	Map<String, Object> fldNames2ValsMap = createTestFldNames2ValsMap();
 		SolrInputDocument solrInputDoc = SolrObjectUtils.createSolrInputDoc(fldNames2ValsMap);
