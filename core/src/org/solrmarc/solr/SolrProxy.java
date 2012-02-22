@@ -14,10 +14,10 @@ public interface SolrProxy
     /**
      * given a map of field names and values, create a Document and add it to 
      *  the index
-     * @param fieldsMap - map of field names and values to add to the document
+     * @param fields2ValuesMap - map of field names and values to add to the document
      * @return a string representation of the document
      */
-    public abstract String addDoc(Map<String, Object> fieldsMap, boolean verbose, boolean addDocToIndex) throws IOException;
+    public abstract String addDoc(Map<String, Object> fields2ValuesMap, boolean verbose, boolean addDocToIndex) throws IOException;
 
     /**
      * delete doc from the index

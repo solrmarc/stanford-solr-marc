@@ -172,7 +172,7 @@ public class MarcPrinter extends MarcHandler
                     String recStr = record.toString();
                     if (verbose) out.println(recStr);
                     try {
-                        Map<String,Object> indexMap = indexer.map(record, errors);
+                        Map<String,Object> indexMap = indexer.createFldNames2ValsMap(record, errors);
                         if (errors != null && includeErrors)
                         {
                             if (errors.hasErrors())

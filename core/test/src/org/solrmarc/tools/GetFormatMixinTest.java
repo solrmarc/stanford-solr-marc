@@ -59,7 +59,7 @@ public class GetFormatMixinTest
             while (reader.hasNext())
             {
                 Record record = reader.next();
-                Map<String,Object> indexedRecord = testIndexer.map(record, errors);
+                Map<String,Object> indexedRecord = testIndexer.createFldNames2ValsMap(record, errors);
                 String id = record.getControlNumber();
                 Object result = indexedRecord.get("getformatmixin");
                 showResults(result, "raw   ", verbose, out, id);
@@ -76,7 +76,7 @@ public class GetFormatMixinTest
                     }
                     out.println(record.toString());
                 }
-                indexedRecord = testIndexer.map(record);
+                indexedRecord = testIndexer.createFldNames2ValsMap(record);
                 errors.reset();
             }
         }

@@ -215,7 +215,7 @@ public class SolrReIndexer extends MarcImporter
                     
                 if (record != null)
                 {
-                    Map<String, Object> docMap = indexer.map(record, errors);
+                    Map<String, Object> docMap = indexer.createFldNames2ValsMap(record, errors);
                     addExtraInfoFromDocToMap(doc, docMap);
                     if (update && docMap != null && docMap.size() != 0)
                     {
