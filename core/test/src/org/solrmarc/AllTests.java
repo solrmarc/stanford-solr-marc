@@ -12,14 +12,15 @@ import org.solrmarc.tools.*;
         GetFormatMixinTest.class,
         HathiJsonReaderTest.class,
 //        IndexSmokeTest.class, // duplicated in RemoteServerTest
-        MergeSummaryHoldingsTests.class, 
+        MergeSummaryHoldingsTests.class,
         RecordReaderTest.class,
         RemoteServerTest.class,
+        SolrObjectUtilTests.class,
         SolrUpdateTest.class,
         StringNaturalCompareTest.class,
         UtilUnitTests.class
         })
-        
-public class AllTests 
+
+public class AllTests
 {
 }
