@@ -416,8 +416,8 @@ public class MarcImporter extends MarcHandler
     {
         try 
         {
-            Map<String, Object> fieldsMap = indexer.map(record, errors); 
-            String docStr = addToIndex(fieldsMap);
+            Map<String, Object> fields2ValuesMap = indexer.createFldNames2ValsMap(record, errors); 
+            String docStr = addToIndex(fields2ValuesMap);
 
             if (verbose || justIndexDontAdd)
             {
@@ -450,22 +450,22 @@ public class MarcImporter extends MarcHandler
     
     /**
      * Add a document to the index according to the fields map
-     * @param fieldsMap marc record to add as a fields map
+     * @param fields2ValuesMap marc record to add as a fields map
      * @return the document added, as a String
      */
-    protected String addToIndex(Map<String, Object> fieldsMap)
+    protected String addToIndex(Map<String, Object> fields2ValuesMap)
         throws IOException
     {
-        if (fieldsMap.size() == 0) 
+        if (fields2ValuesMap.size() == 0) 
             return null;
         if (errors != null && includeErrors)
         {
             if (errors.hasErrors())
-                addErrorsToMap(fieldsMap, errors);
+                addErrorsToMap(fields2ValuesMap, errors);
         }
 
         // NOTE: exceptions are dealt with by calling class
-        return solrProxy.addDoc(fieldsMap, verbose, !justIndexDontAdd);
+        return solrProxy.addDoc(fields2ValuesMap, verbose, !justIndexDontAdd);
     }
             
     private void addErrorsToMap(Map<String, Object> map, ErrorHandler errors2)

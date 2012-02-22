@@ -10,15 +10,16 @@ import org.marc4j.marc.Record;
 
 import org.solrmarc.index.*;
 import org.solrmarc.marc.MarcHandler;
+import org.solrmarc.tools.MarcUtils;
 import org.solrmarc.tools.SolrMarcIndexerException;
 
 /**
  * Reads in marc records and creates mapping of solr field names to solr field
  * values per configuration files. Only creates the mapping; does not write out
  * to file or to index.
- * 
+ *
  * based on org.solrmarc.marc.MarcPrinter by Bob Haschart
- * 
+ *
  * @author Naomi Dushay
  * @version $Id$
  */
@@ -34,15 +35,15 @@ public class MarcMappingOnly extends MarcHandler
     {
         super();
     }
-    
-    
+
+
     /**
      * @param args - array of Strings:
      *    arg[0] - name of xxx_config.properties file
      *    arg[1] - name of unique key field in solr document
      */
     @Override
-    public void init(String args[]) 
+    public void init(String args[])
     		throws FileNotFoundException
     {
         if (args[0].contains("+"))
@@ -55,7 +56,7 @@ public class MarcMappingOnly extends MarcHandler
         }
         super.init(args);
     }
-    
+
     @Override
     protected void loadLocalProperties()
     {
@@ -73,24 +74,24 @@ public class MarcMappingOnly extends MarcHandler
         }
     }
 
-    /** 
+    /**
      * processAdditionalArgs - local init for subclasses of MarcHandler
      */
     protected void processAdditionalArgs()
     {
         idFldName = addnlArgs[0];
-    }  
+    }
 
     /**
      * read in the file of marc records indicated, looking for the desired
      * record, and returning the mapping of solr field names to values.
-     * 
-     * @param desiredRecId  value for solr id field, or pass in a value of null to simply accept 
+     *
+     * @param desiredRecId  value for solr id field, or pass in a value of null to simply accept
      *            the first record that occurs in the specified marc file
      * @param mrcFileName  absolute path of file of marc records (name must end in .mrc or .marc or .xml)
      * @return a mapping of solr field names to solr field values (as Objects that are Strings or Collections of Strings)
      */
-    public Map<String, Object> getIndexMapForRecord(String desiredRecId, String mrcFileName) 
+    public Map<String, Object> getIndexMapForRecord(String desiredRecId, String mrcFileName)
     		throws FileNotFoundException
     {
         loadReader("FILE", mrcFileName);
@@ -100,13 +101,13 @@ public class MarcMappingOnly extends MarcHandler
             {
                 Record record = reader.next();
 
-                Map<String, Object> solrFldName2ValMap = indexer.map(record, errors);
+                Map<String, Object> solrFldName2ValMap = indexer.createFldNames2ValsMap(record, errors);
                 if (errors != null && includeErrors && errors.hasErrors())
                     solrFldName2ValMap.put("marc_error", errors.getErrors());
                 // FIXME:
-                if (desiredRecId == null || idFldName == null) 
+                if (desiredRecId == null || idFldName == null)
                 	return solrFldName2ValMap;
-                
+
                 Object thisRecId = solrFldName2ValMap.get(idFldName);
                 if (thisRecId.equals(desiredRecId))
                     return solrFldName2ValMap;
@@ -125,19 +126,19 @@ public class MarcMappingOnly extends MarcHandler
         }
         return null;
     }
-    
+
     /**
      * read in the file of marc records indicated, looking for the desired
      * record, and return the specified field/fields according to the provided fieldSpec
-     * 
-     * @param desiredRecId  value for solr id field, or pass in a value of null to simply accept 
+     *
+     * @param desiredRecId  value for solr id field, or pass in a value of null to simply accept
      *            the first record that occurs in the specified marc file
      * @param mrcFileName  absolute path of file of marc records (name must end in .mrc or .marc or .xml)
-     * @param fieldSpec  a raw SolrMarc-type field specification, for testing the lower level functions of 
+     * @param fieldSpec  a raw SolrMarc-type field specification, for testing the lower level functions of
      *            SolrMarc without first processing a full indexing specification.
      * @return the field/subfields from the indicated record as specified by the fieldSpec parameter
      */
-    public Set<String> lookupRawRecordValue(String desiredRecId, String mrcFileName, String fieldSpec) 
+    public Set<String> lookupRawRecordValue(String desiredRecId, String mrcFileName, String fieldSpec)
     		throws FileNotFoundException
     {
         loadReader("FILE", mrcFileName);
@@ -162,14 +163,14 @@ public class MarcMappingOnly extends MarcHandler
                 }
                 if (fieldSpec.matches("^[0-9].*") || fieldSpec.matches("^LNK[0-9].*")) // if it is a standard 245a type field spec
                 {
-                    result = SolrIndexer.getFieldList(record, fieldSpec);
+                    result = MarcUtils.getFieldList(record, fieldSpec);
                     if (translationMap != null)
                     {
                         Properties indexingProps = new Properties();
                         indexingProps.setProperty("marcmappingtest", fieldSpec + ", " + translationMap );
                         indexer.reinitFromProperties(indexingProps);
                         String translationMapName = indexer.loadTranslationMap(translationMap);
-                        result = org.solrmarc.tools.Utils.remap(result, indexer.findMap(translationMapName), true);
+                        result = org.solrmarc.tools.Utils.remap(result, indexer.findTranslationMap(translationMapName), true);
                     }
                 }
                 else if (fieldSpec.contains("(rec"))
@@ -181,7 +182,7 @@ public class MarcMappingOnly extends MarcHandler
                     else
                         indexingProps.setProperty("marcmappingtest", "custom, "+ indexParm);
                     indexer.reinitFromProperties(indexingProps);
-                    Map<String, Object> indexMap = indexer.map(record);
+                    Map<String, Object> indexMap = indexer.createFldNames2ValsMap(record);
                     Object tmpResult = indexMap.get("marcmappingtest");
                     if (tmpResult instanceof Set)
                     {
@@ -198,7 +199,7 @@ public class MarcMappingOnly extends MarcHandler
                     Properties indexingProps = new Properties();
                     indexingProps.setProperty("marcmappingtest", fieldSpec);
                     indexer.reinitFromProperties(indexingProps);
-                    Map<String, Object> indexMap = indexer.map(record);
+                    Map<String, Object> indexMap = indexer.createFldNames2ValsMap(record);
                     Object tmpResult = indexMap.get("marcmappingtest");
                     if (tmpResult instanceof Set)
                     {
@@ -216,7 +217,7 @@ public class MarcMappingOnly extends MarcHandler
                     Properties indexingProps = new Properties();
                     indexingProps.setProperty("marcmappingtest", indexParm);
                     indexer.reinitFromProperties(indexingProps);
-                    Map<String, Object> indexMap = indexer.map(record);
+                    Map<String, Object> indexMap = indexer.createFldNames2ValsMap(record);
                     Object tmpResult = indexMap.get("marcmappingtest");
                     if (tmpResult instanceof Set)
                     {
