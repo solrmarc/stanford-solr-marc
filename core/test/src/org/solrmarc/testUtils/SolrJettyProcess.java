@@ -6,6 +6,8 @@ import java.util.*;
 
 import javax.net.SocketFactory;
 
+import org.solrmarc.tools.Utils;
+
 public class SolrJettyProcess
 {
     private JavaInvoke vmspawner = null;
@@ -20,14 +22,14 @@ public class SolrJettyProcess
         vmspawner = startJettyWithSolrAsBackgroundProcess(solrHomeDir, jettyPath, jettyTestPortStr);
         jettyPort = Integer.parseInt(jettyTestPortStr);
     }
-    
-    private static JavaInvoke startJettyWithSolrAsBackgroundProcess(String solrHomeDir, String jettyPath, String jettyTestPortStr) 
+
+    private static JavaInvoke startJettyWithSolrAsBackgroundProcess(String solrHomeDir, String jettyPath, String jettyTestPortStr)
     {
         JavaInvoke vmspawner;
-        
+
 		String testSolrLogLevel = System.getProperty("test.solr.log.level");
 		String testSolrmarcLogLevel = System.getProperty("test.solrmarc.log.level");
-		IndexTest.setTestLoggingLevels(testSolrLogLevel, testSolrmarcLogLevel);
+		Utils.setLoggingLevels(testSolrLogLevel, testSolrmarcLogLevel);
 
         Map<String, String> javaProps = new LinkedHashMap<String, String>();
         javaProps.put("solr.solr.home", myGetCanonicalPath(new File(solrHomeDir)));
@@ -37,25 +39,25 @@ public class SolrJettyProcess
         System.out.println("Starting Jetty Solr server at " + myGetCanonicalPath(new File(jettyPath)) + " port " + jettyTestPortStr);
 
         vmspawner = new JavaInvoke("org.mortbay.start.Main",
-                                   new File(myGetCanonicalPath(new File(jettyPath))), 
-                                   javaProps, 
+                                   new File(myGetCanonicalPath(new File(jettyPath))),
+                                   javaProps,
                                    null,
                                    addnlClassPath,
                                    null, false);
         return(vmspawner);
     }
-    
-    
+
+
     /**
-     * spawns the Jetty Process, grabbing stdin and stdout.  Waits for the 
+     * spawns the Jetty Process, grabbing stdin and stdout.  Waits for the
      *  Jetty server to respond to a socket connection before returning.
      */
-    public boolean startProcessWaitUntilSolrIsReady() 
-    		throws IOException 
+    public boolean startProcessWaitUntilSolrIsReady()
+    		throws IOException
     {
         serverOut = new ByteArrayOutputStream();
         serverErr = new ByteArrayOutputStream();
-        
+
         jettyProcess = vmspawner.startStdinStderrInstance("JETTY", serverOut, serverErr);
         serverIsUp = false;
         if (jettyPort == 0)
@@ -70,7 +72,7 @@ public class SolrJettyProcess
         return(serverIsUp);
     }
 
-    
+
     /**
      * stops the jettyProcess, waiting for the process to terminate before returning.
      */
@@ -88,7 +90,7 @@ public class SolrJettyProcess
             {
             }
             serverIsUp = false;
-        }     
+        }
     }
 
 
@@ -104,33 +106,33 @@ public class SolrJettyProcess
         }
         return(pathStr);
     }
-    
+
     /**
      * This will return an InetAddress object either for 127.0.0.1 or localhost,
      *  using InetAddress.getByName(null)
      * @see http://docs.oracle.com/javase/1.4.2/docs/api/java/net/InetAddress.html#getByName%28java.lang.String%29
      */
-    private static InetAddress getServerAddress() 
-    		throws UnknownHostException 
+    private static InetAddress getServerAddress()
+    		throws UnknownHostException
     {
         return InetAddress.getByName(null);
     }
-    
+
     /**
      * Repeats a TCP connection check every <em>sleepTime</em> milliseconds until it either succeeds
      * or times out after <em>timeout</em> milliseconds.
-     * 
+     *
      * @see Server#checkServerIsUp(InetAddress, int) An explanation of the TCP checking mechanism.
-     * 
-     * @param timeout If no check is successful after this many milliseconds has passed, fail the 
+     *
+     * @param timeout If no check is successful after this many milliseconds has passed, fail the
      * overall checking process.
      * @param sleepTime How long to wait (in milliseconds) between checks of the service.
      * @param server address of server to check.
      * @param port port to check.
-     * @return true if a connection attempt succeeds, false in the case of error or 
+     * @return true if a connection attempt succeeds, false in the case of error or
      * no connection attempt successful.
      */
-    private static String waitServerIsUp(long timeout, long sleepTime, ByteArrayOutputStream out, String patternToWatchFor1, String patternToWatchFor2  ) 
+    private static String waitServerIsUp(long timeout, long sleepTime, ByteArrayOutputStream out, String patternToWatchFor1, String patternToWatchFor2  )
     {
         long start = System.currentTimeMillis();
         String socketStr = "0";
@@ -153,43 +155,43 @@ public class SolrJettyProcess
                 }
             }
             lastLineRead = lines.length;
-            try 
+            try
             {
                 Thread.sleep(sleepTime);
-            } 
-            catch (InterruptedException e) 
+            }
+            catch (InterruptedException e)
             {
                 return socketStr;
             }
         }
         return socketStr;
     }
-    
+
     /**
      * Repeats a TCP connection check every <em>sleepTime</em> milliseconds until it either succeeds
      * or times out after <em>timeout</em> milliseconds.
-     * 
+     *
      * @see Server#checkServerIsUp(InetAddress, int) An explanation of the TCP checking mechanism.
-     * 
-     * @param timeout If no check is successful after this many milliseconds has passed, fail the 
+     *
+     * @param timeout If no check is successful after this many milliseconds has passed, fail the
      * overall checking process.
      * @param sleepTime How long to wait (in milliseconds) between checks of the service.
      * @param server address of server to check.
      * @param port port to check.
-     * @return true if a connection attempt succeeds, false in the case of error or 
+     * @return true if a connection attempt succeeds, false in the case of error or
      * no connection attempt successful.
      */
-    private static boolean checkServerIsUp(long timeout, long sleepTime, InetAddress server, int port ) 
+    private static boolean checkServerIsUp(long timeout, long sleepTime, InetAddress server, int port )
     {
         long start = System.currentTimeMillis();
         while ((System.currentTimeMillis() - start) < timeout)
         {
             if (!checkServerIsUp(server, port))
-                try 
+                try
                 {
                     Thread.sleep(sleepTime);
-                } 
-                catch (InterruptedException e) 
+                }
+                catch (InterruptedException e)
                 {
                     return false;
                 }
@@ -198,37 +200,37 @@ public class SolrJettyProcess
         }
         return false;
     }
-    
+
     /**
      * Performs a simple TCP connection check to the specified address and port.
-     * 
+     *
      * @param server address of the server to contact.
      * @param port TCP port to connect to on the specified server.
-     * @return true if that port is accepting connections, 
+     * @return true if that port is accepting connections,
      * false in all other cases: no listening and/or connection error will be thrown
      */
-    private static boolean checkServerIsUp(InetAddress server, int port) 
+    private static boolean checkServerIsUp(InetAddress server, int port)
     {
     	Socket sock = null;
-        try 
-        {        	
+        try
+        {
             sock = SocketFactory.getDefault().createSocket(server, port);
             sock.setSoLinger(true, 0);
             return true;
-        } 
-        catch (IOException e) 
-        { 
+        }
+        catch (IOException e)
+        {
             return false;
         }
         finally
         {
             if (sock != null)
             {
-                try 
+                try
                 {
                     sock.close();
-                } 
-                catch (IOException e) 
+                }
+                catch (IOException e)
                 {
                     // don't care
                 }
@@ -237,10 +239,10 @@ public class SolrJettyProcess
     }
 
     /**
-     * Use if you need to see the output generated after the jetty server is up 
-     * and running, but the amount in the buffer is too large to see the later 
+     * Use if you need to see the output generated after the jetty server is up
+     * and running, but the amount in the buffer is too large to see the later
      * log info.
-     * 
+     *
      * In general this routine won't be needed.
      */
     public void outputReset()
@@ -248,7 +250,7 @@ public class SolrJettyProcess
         serverErr.reset();
         serverOut.reset();
     }
-    
+
     public int getJettyPort()
     {
         return jettyPort;
@@ -259,5 +261,5 @@ public class SolrJettyProcess
         return serverIsUp;
     }
 
-    
+
 }

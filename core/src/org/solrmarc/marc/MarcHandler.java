@@ -24,7 +24,9 @@ public abstract class MarcHandler {
     /** The full class name of SolrIndexer or the subclass to be used */
 	protected String indexerClassName;
 	protected String addnlArgs[] = null;
+	/** the xx_config.properties file as a Properties object */
 	protected Properties configProps;
+// FIXME: should use an enumerated type for input type
     protected boolean inputTypeXML = false;
     protected boolean inputTypeJSON = false;
 	protected boolean permissiveReader;
@@ -32,12 +34,12 @@ public abstract class MarcHandler {
     protected boolean to_utf_8;
     protected String combineConsecutiveRecordsFields = null;
 // FIXME:  should just have the reader class declared outright rather than indirectly
-    /** set to true to use CombineMultBibsMhldsReader */  
+    /** set to true to use CombineMultBibsMhldsReader */
     protected boolean useStanfordCombiningReader = false;
 	protected boolean showConfig = false;
 	protected boolean showInputFile = false;
 	protected String unicodeNormalize = null;
-	
+
 	private String solrmarcPath;
 	private String siteSpecificPath;
     protected String homeDir = ".";
@@ -45,24 +47,24 @@ public abstract class MarcHandler {
     /** The name of the _index.properties file */
 	private String indexPropsFname;
     private final static String TRANS_MAP_DIR = "translation_maps";
-	
+
     // Initialize logging category
     static Logger logger = Logger.getLogger(MarcHandler.class.getName());
-	    
+
 	public MarcHandler()
 	{
 	}
-	
-    /** 
-     * Extract the manifest attribute Default-Config-File from the top level jar file 
+
+    /**
+     * Extract the manifest attribute Default-Config-File from the top level jar file
      */
     public String getConfigPropsFileName()
-    { 
+    {
     	String configPropsFname = null;
 
         ClassLoader classLoader = getClass().getClassLoader();
 
-        // Note that the first jar loaded is the java classes.jar file, so 
+        // Note that the first jar loaded is the java classes.jar file, so
         //  no need to look for the configPropsFname in classes.jar manifest
 
 		// look for jar, then look for manifest inside jar or _config.properties file inside jar
@@ -81,15 +83,15 @@ public abstract class MarcHandler {
         logger.debug("MarcHandler.getConfigPropsFileName() returns: " + configPropsFname);
         return(configPropsFname);
     }
-	
-    
-	public void init(String args[]) 
+
+
+	public void init(String args[])
 			throws FileNotFoundException
 	{
         String configPropsFname = getConfigPropsFileName();
-        
-        
-    	// set the System properties for marc data sources and 
+
+
+    	// set the System properties for marc data sources and
     	//   solr.commit_at_end;  put rest in addnlArgs list
         List<String> addnlArgList = new ArrayList<String>();
         if (args.length > 0)
@@ -112,6 +114,7 @@ public abstract class MarcHandler {
                     System.setProperty("marc.source", "FILE");
                 }
                 else if (arg.equals("NONE"))
+                	// used by SolrReIndexer, which gets the marc from the Solr index
                     System.setProperty("marc.source", "NONE");
                 else if (lc_arg.endsWith(".xml"))
                 {
@@ -132,83 +135,83 @@ public abstract class MarcHandler {
             }
         }
         addnlArgs = addnlArgList.toArray(new String[0]);
-        
+
         initLocal();
-        if (configPropsFname != null) 
+        if (configPropsFname != null)
         {
             logger.debug("Loading config properties from " + configPropsFname);
             loadProperties(configPropsFname);
         }
 
         //  Load the custom Indexer (or the standard one)
-        //  note the values of class vars indexerName and indexerProps 
-        //  are initialized from the values in the config properties file, 
+        //  note the values of class vars indexerName and indexerProps
+        //  are initialized from the values in the config properties file,
         //  loaded in the call to loadProperties above.
         if (indexerClassName != null)
-            loadIndexer(indexerClassName, indexPropsFname); 
-        
+            loadIndexer(indexerClassName, indexPropsFname);
+
         processAdditionalArgs();
 	}
-		
-    /** 
+
+    /**
      * initLocal - local init for subclasses of MarcHandler
      */
 	protected void initLocal()
     {
         // do nothing here, override in subclasses.
     }
-    
-    /** 
+
+    /**
      * processAdditionalArgs - local init for subclasses of MarcHandler
      */
     protected void processAdditionalArgs()
     {
         // do nothing here, override in subclasses.
     }
-    
-    
+
+
 	/**
 	 * Initialize class variables form values in the config properties file
 	 * @param configPropsFname name of the _config.properties file
 	 * @throws FileNotFoundException if marc record file not found
 	 */
-	public void loadProperties(String configPropsFname) 
+	public void loadProperties(String configPropsFname)
 			throws FileNotFoundException
 	{
         homeDir = getHomeDir();
         logger.debug("Current Directory = "+ (new File(".").getAbsolutePath()));
-        
+
         if (configPropsFname.equals("null.properties"))
             configProps = new Properties();
         else
             configProps = PropertiesUtils.loadProperties(new String[]{homeDir}, configPropsFname, showConfig, "config.file.dir");
 
         loadLocalProperties();
-        
+
         solrmarcPath = PropertiesUtils.getProperty(configProps, "solrmarc.path");
         solrmarcPath = normalizePathsProperty(homeDir, solrmarcPath);
 
         siteSpecificPath = PropertiesUtils.getProperty(configProps, "solrmarc.site.path");
         siteSpecificPath = normalizePathsProperty(homeDir, siteSpecificPath);
- 
+
         // class name of SolrIndexer or the subclass to be used
         indexerClassName = PropertiesUtils.getProperty(configProps, "solrmarc.indexing.class");
-        if (indexerClassName == null) 
+        if (indexerClassName == null)
         	indexerClassName = SolrIndexer.class.getName();
-        
+
         // _index.properties file
         indexPropsFname = PropertiesUtils.getProperty(configProps, "solrmarc.indexing.properties");
 
         combineConsecutiveRecordsFields = PropertiesUtils.getProperty(configProps, "marc.combine_records");
-        if (combineConsecutiveRecordsFields != null && combineConsecutiveRecordsFields.length() == 0) 
+        if (combineConsecutiveRecordsFields != null && combineConsecutiveRecordsFields.length() == 0)
             combineConsecutiveRecordsFields = null;
-        
+
         useStanfordCombiningReader = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "stanford.combining.reader"));
-        
+
         permissiveReader = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "marc.permissive"));
-        
+
         if (PropertiesUtils.getProperty(configProps, "marc.default_encoding") != null)
-            defaultEncoding = PropertiesUtils.getProperty(configProps, "marc.default_encoding").trim();    
+            defaultEncoding = PropertiesUtils.getProperty(configProps, "marc.default_encoding").trim();
         else
             defaultEncoding = "BESTGUESS";
 
@@ -219,7 +222,7 @@ public abstract class MarcHandler {
         to_utf_8 = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "marc.to_utf_8"));
 
         unicodeNormalize = PropertiesUtils.getProperty(configProps, "marc.unicode_normalize");
-        if (unicodeNormalize != null) 
+        if (unicodeNormalize != null)
             unicodeNormalize = handleUnicodeNormalizeParm(unicodeNormalize);
 
         // assign MarcFactory
@@ -235,27 +238,27 @@ public abstract class MarcHandler {
         String source = PropertiesUtils.getProperty(configProps, "marc.source", "STDIN").trim();
         if (source.equals("FILE") && marcRecsFname == null)
         	return;
-        if (marcRecsFname != null)  
+        if (marcRecsFname != null)
         	marcRecsFname = marcRecsFname.trim();
 
         loadReader(source, marcRecsFname);
 	}
-	
-    /** 
+
+    /**
      * loadLocalProperties - local init for subclasses of MarcHandler
      */
     protected void loadLocalProperties()
     {
         // do nothing here, override in subclasses.
     }
-    
+
 	/**
-	 *  We only get here if the parm (unicodeNormalize2) is not null 
+	 *  We only get here if the parm (unicodeNormalize2) is not null
 	 *  compare it against the valid values and return the correct value to use as the parm
 	 */
 	private String handleUnicodeNormalizeParm(String parm)
     {
-	    if (parm == null) 
+	    if (parm == null)
 	    	return null;
         if (parm.equalsIgnoreCase("KC") || parm.equalsIgnoreCase("CompatibilityCompose"))
             parm = "KC";
@@ -265,7 +268,7 @@ public abstract class MarcHandler {
             parm = "D";
         else if (parm.equalsIgnoreCase("KD") || parm.equalsIgnoreCase("CompatibiltyDecompose"))
             parm = "KD";
-        else 
+        else
             parm = null;
         return parm;
     }
@@ -276,13 +279,13 @@ public abstract class MarcHandler {
         logger.debug("Setting homeDir to: "+ result);
         return(result);
     }
-	
+
     /**
      * normalizePathsProperty - normalize one or more : separated paths using the normalizePathProperty
      *     method
-     *     
+     *
      * @param homeDir - directory where the OneJar jar file containing all of the program is found
-     * @param path - one or more : separated paths to be normalized. 
+     * @param path - one or more : separated paths to be normalized.
      * @return  normalized form of  "homeDir/path"
      */
     private String normalizePathsProperty(String homeDir, String path)
@@ -293,24 +296,24 @@ public abstract class MarcHandler {
         for (String part : paths)
         {
             String resolved = normalizePathProperty(homeDir, part);
-            if (result.length() > 0) 
+            if (result.length() > 0)
             	result.append("|");
             result.append(resolved);
         }
         return(result.toString());
     }
-    
+
     /**
-	 * normalizePathProperty - if the passed in path is a relative path, make it be relative 
+	 * normalizePathProperty - if the passed in path is a relative path, make it be relative
 	 *     to the "home" directory (which is where the OneJar jar file containing all of the program
-	 *     is found) rather than being relative to the "current" directory (which is whatever directory 
+	 *     is found) rather than being relative to the "current" directory (which is whatever directory
 	 *     the user happens to be in when the the JVM was started. Also resolve the property strings
 	 *     ${config.file.dir} as the directory containing the config file  and
 	 *     ${solrmarc.jar.dir} as the directory containing the OneJar jar file.
 	 *     Note if the passed-in path is null, or is already an absolute path, simply return that value.
-	 *     
+	 *
 	 * @param homeDir - directory where the OneJar jar file containing all of the program is found
-	 * @param path - a possibly relative file path to be normalized. 
+	 * @param path - a possibly relative file path to be normalized.
 	 * @return  normalized form of  "homeDir/path"
 	 */
 	private String normalizePathProperty(String homeDir, String path)
@@ -323,7 +326,7 @@ public abstract class MarcHandler {
                 path = path.replace("${solrmarc.jar.dir}", homeDir);
             while (path.matches(".*$\\{[a-z.]+\\}.*"))
             {
-                String pattern = path.replaceFirst("$\\{([a-z.]+)\\}", "$1"); 
+                String pattern = path.replaceFirst("$\\{([a-z.]+)\\}", "$1");
                 String replace = PropertiesUtils.getProperty(configProps, pattern);
                 if (pattern != null && replace != null)
                     path.replace("${"+pattern+"}", replace);
@@ -331,7 +334,7 @@ public abstract class MarcHandler {
                     break;
             }
             File smPath = new File(path);
-            if (smPath != null && !smPath.isAbsolute()) 
+            if (smPath != null && !smPath.isAbsolute())
             {
                 smPath = new File(homeDir, path);
                 try
@@ -352,20 +355,20 @@ public abstract class MarcHandler {
 	 * @param source  "FILE" or "STDIN" or null (same as FILE)
 	 * @param marcRecsFilename - name of file containing marc records
 	 */
-    public void loadReader(String source, String marcRecsFilename) 
+    public void loadReader(String source, String marcRecsFilename)
     		throws FileNotFoundException
 	{
         if (source.equals("FILE") || source.equals("STDIN"))
         {
         	// setup the input source
         	InputStream marcRecsInputStream = null;
-        	if (source.equals("FILE")) 
+        	if (source.equals("FILE"))
         	{
-                if (marcRecsFilename != null && marcRecsFilename.toLowerCase().endsWith(".xml")) 
+                if (marcRecsFilename != null && marcRecsFilename.toLowerCase().endsWith(".xml"))
                     inputTypeXML = true;
-                else if (marcRecsFilename != null && marcRecsFilename.toLowerCase().endsWith(".json")) 
+                else if (marcRecsFilename != null && marcRecsFilename.toLowerCase().endsWith(".json"))
                     inputTypeJSON = true;
-        		try 
+        		try
         		{
             		if (marcRecsFilename == null)
             			logger.warn("no specified MARC data file");
@@ -373,13 +376,13 @@ public abstract class MarcHandler {
             		{
                         if (showInputFile)
                             logger.info("Attempting to open data file: "+ new File(marcRecsFilename).getAbsolutePath());
-                        else 
+                        else
                             logger.debug("Attempting to open data file: "+ new File(marcRecsFilename).getAbsolutePath());
     					marcRecsInputStream = new FileInputStream(marcRecsFilename);
             		}
 
-				} 
-        		catch (FileNotFoundException e) 
+				}
+        		catch (FileNotFoundException e)
         		{
 		        	logger.fatal("Fatal error: Unable to open specified MARC data file: " + marcRecsFilename);
 		        	throw new IllegalArgumentException("Fatal error: Unable to open specified MARC data file: " + marcRecsFilename);
@@ -392,12 +395,12 @@ public abstract class MarcHandler {
                 else
                     logger.debug("Attempting to read data from stdin ");
         	    marcRecsInputStream = new BufferedInputStream(System.in);
-        	    
+
         	    // read a little bit to try it
         		marcRecsInputStream.mark(10);
         		int firstByte = -1;
-        		try 
-        		{ 
+        		try
+        		{
         		    firstByte = marcRecsInputStream.read();
                     marcRecsInputStream.reset();
         		}
@@ -406,14 +409,14 @@ public abstract class MarcHandler {
                     logger.fatal("Fatal error: Exception reading from stdin");
                     throw new IllegalArgumentException("Fatal error: Exception reading from stdin");
         		}
-        		if (firstByte == '<') 
+        		if (firstByte == '<')
         			inputTypeXML = true;
-        		else if (firstByte == '{') 
-        			inputTypeJSON = true;  
+        		else if (firstByte == '{')
+        			inputTypeJSON = true;
         	}
-        	
+
         	// marcRecInputStream should be instantiated now
-        	
+
         	// instantiate reader (the MarcReader)
             if (inputTypeXML)
                 reader = new MarcUnprettyXmlReader(marcRecsInputStream);
@@ -431,7 +434,7 @@ public abstract class MarcHandler {
             reader = new MarcDirStreamReader(PropertiesUtils.getProperty(configProps, "marc.path").trim(), permissiveReader, to_utf_8);
 
         // reader is now set up for particular input source
-        
+
         // do we need to wrap in a CombiningReader?
         if (reader != null && combineConsecutiveRecordsFields != null)
         {
@@ -451,17 +454,17 @@ public abstract class MarcHandler {
 	            }
         	}
         }
-        
+
         // do we need to wrap in a MarcFilteredReader?
         String marcIncludeIfPresent = PropertiesUtils.getProperty(configProps, "marc.include_if_present");
         String marcIncludeIfMissing = PropertiesUtils.getProperty(configProps, "marc.include_if_missing");
         String marcDeleteSubfields = PropertiesUtils.getProperty(configProps, "marc.delete_subfields");
-        if (marcDeleteSubfields != null)  
+        if (marcDeleteSubfields != null)
         	marcDeleteSubfields = marcDeleteSubfields.trim();
         if (reader != null && (marcIncludeIfPresent != null || marcIncludeIfMissing != null || marcDeleteSubfields != null))
             reader = new MarcFilteredReader(reader, marcIncludeIfPresent, marcIncludeIfMissing, marcDeleteSubfields);
 
-        // Do translating last so that if we are Filtering as well as translating, we don't expend the 
+        // Do translating last so that if we are Filtering as well as translating, we don't expend the
         // effort to translate records, which may then be filtered out and discarded.
         if (reader != null && to_utf_8 && unicodeNormalize != null)
             reader = new MarcTranslatedReader(reader, unicodeNormalize);
@@ -484,7 +487,7 @@ public abstract class MarcHandler {
             propertySearchSet.add(pathToAdd);
         }
     }
-    
+
     protected String[] makePropertySearchPath(String solrmarcPath, String siteSpecificPath, String configFilePath, String homeDir)
     {
 		ArrayList<String> propertySearchPath = new ArrayList<String>();
@@ -510,7 +513,7 @@ public abstract class MarcHandler {
 		if (homeDir != null)
 			addToPropertySearchPath(homeDir, propertySearchPath, propertySearchSet);
 
-//FIXME:  this is a horrid way to get "dist" directory for production scripts without "hardcoding"        
+//FIXME:  this is a horrid way to get "dist" directory for production scripts without "hardcoding"
 		// add parent path of any jars in classpath
 		ClassLoader classLoader = getClass().getClassLoader();
 		URL[] classLoaderUrls = ((URLClassLoader) classLoader).getURLs();
@@ -523,11 +526,11 @@ public abstract class MarcHandler {
 
         return(propertySearchPath.toArray(new String[0]));
     }
-                    
+
 	/**
 	 * Load the Custom Indexer routine
 	 */
-	public void loadIndexer(String indexerName, String indexPropsFname) 
+	public void loadIndexer(String indexerName, String indexPropsFname)
 	{
 	    // Setup the SolrMarc Indexer
         Class<?> indexerClass = null;
@@ -557,7 +560,7 @@ public abstract class MarcHandler {
 	        String propertySearchPath[] = makePropertySearchPath(solrmarcPath, siteSpecificPath, configFilePath, homeDir);
 
 	        Object instance = constructor.newInstance(indexPropsFname, propertySearchPath);
-	
+
 	        if (instance instanceof SolrIndexer)
 	            indexer = (SolrIndexer)instance;
 	        else
@@ -569,13 +572,13 @@ public abstract class MarcHandler {
 	    catch (Exception e)
 	    {
 	        e.printStackTrace();
-	
+
 	        if (e instanceof IllegalArgumentException)
 	        {
 	            logger.fatal("Error configuring Indexer from properties file.  Exiting...");
 	            throw ((IllegalArgumentException) e);
-	        }            
-	
+	        }
+
 	        logger.fatal("Unable to load Custom indexer: " + indexerName);
 	        throw new IllegalArgumentException("Error configuring Indexer from properties file.  Exiting...");
 	    }

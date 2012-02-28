@@ -11,7 +11,7 @@ import org.solrmarc.marc.RawRecordReader;
 import org.solrmarc.testUtils.*;
 
 /**
- * Note that actual use of MergeSummaryHoldings is a call to main() from a 
+ * Note that actual use of MergeSummaryHoldings is a call to main() from a
  *  shell script, so these tests must use the CommandLineUtils
  * @author Naomi Dushay
  *
@@ -30,7 +30,7 @@ public class MergeSummaryHoldingsTests
             fail("property test.config.file must be defined for the tests to run");
 //      static String testConfigFile = smokeTestDir + File.separator + "test_config.properties";
     }
-    
+
 	static {
         if (testDataParentPath == null)
         {
@@ -43,14 +43,14 @@ public class MergeSummaryHoldingsTests
             System.setProperty("test.config.file", testConfigFname);
         }
 	}
-    
+
     static String smokeTestDir = testDataParentPath + File.separator + "smoketest";
 
-    
+
     static String MERGE_MHLD_CLASS_NAME = "org.solrmarc.tools.MergeSummaryHoldings";
     static String MARC_PRINTER_CLASS_NAME = "org.solrmarc.marc.MarcPrinter";
     static String MAIN_METHOD_NAME = "main";
-    
+
     // for vetting results - no point in loading these constants for each test
     static Map<String, Record> ALL_MERGED_BIB_RESULTS = new HashMap<String, Record>();
     static Map<String, Record> ALL_UNMERGED_BIBS = new HashMap<String, Record>();
@@ -70,7 +70,7 @@ public class MergeSummaryHoldingsTests
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        
+
         bibFilePath = testDataParentPath + File.separator + "mhldMerged1346.mrc";
         try {
             RawRecordReader rawRecRdr = new RawRecordReader(new FileInputStream(new File(bibFilePath)));
@@ -86,26 +86,26 @@ public class MergeSummaryHoldingsTests
             e.printStackTrace();
         }
     }
-    
+
 
 @Before
     public void setUp()
     {
     	String testSolrLogLevel = System.getProperty("test.solr.log.level");
     	String testSolrmarcLogLevel = System.getProperty("test.solrmarc.log.level");
-    	IndexTest.setTestLoggingLevels(testSolrLogLevel, testSolrmarcLogLevel);
+    	Utils.setLoggingLevels(testSolrLogLevel, testSolrmarcLogLevel);
 
     	testDataParentPath = System.getProperty("test.data.path");
         testConfigFname = System.getProperty("test.config.file");
         //System.out.println("-----testDataParentPath = "+testDataParentPath);
     }
-        
+
     /**
      * code should output the unchanged bib records if no mhlds match
      */
 @Test
-    public void testNoMatches() 
-            throws IOException 
+    public void testNoMatches()
+            throws IOException
     {
         // bib46, mhld235
         System.out.println("Starting testNoMatches()");
@@ -126,28 +126,28 @@ public class MergeSummaryHoldingsTests
         RecordTestingUtils.assertEquals(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
         System.out.println("Finishing testNoMatches()");
     }
-    
+
     /**
      * code should end smoothly if it encounters no matches between bib and mhld
      */
 @Test
-    public void testNoOutputMessagesWhenNoMatches() 
-            throws IOException 
+    public void testNoOutputMessagesWhenNoMatches()
+            throws IOException
     {
         // bib46, mhld235
         System.out.println("Starting testNoOutputMessagesWhenNoMatches()");
      //   String commandLinePathPrefix = ".." + File.separator + ".." + File.separator;
         String bibFilePath =  testDataParentPath + File.separator + "mhldMergeBibs46.mrc";
         String mhldFilePath = testDataParentPath + File.separator + "mhldMergeMhlds235.mrc";
-    
+
         // ensure no error message was printed
         ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
     //    PrintStream sysMsgs = new PrintStream(sysBAOS);
     //    System.setErr(sysMsgs);
     //    System.setOut(sysMsgs);
-    
+
         mergeBibAndMhldFiles(bibFilePath, mhldFilePath, sysBAOS);
-    
+
         // ensure no error message was printed
         assertTrue("Output messages unexpectedly written: " + sysBAOS.toString(),  sysBAOS.size() == 0);
     //  System.setOut(System.out);
@@ -156,20 +156,20 @@ public class MergeSummaryHoldingsTests
     }
 
 
-// first record in file tests ----------    
+// first record in file tests ----------
     /**
      * code should find a match when first bib matches first mhld
      */
 @Test
-    public void testBothFirstRecsMatch() 
-            throws IOException 
+    public void testBothFirstRecsMatch()
+            throws IOException
     {
         // bib346, mhld34
         System.out.println("Starting testBothFirstRecsMatch()");
         String bibFilePath = testDataParentPath + File.separator + "mhldMergeBibs346.mrc";
         String mhldFilePath = testDataParentPath + File.separator + "mhldMergeMhlds34.mrc";
         Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
-        
+
         // there should be 3 results
         Set<String> mergedRecIds = mergedRecs.keySet();
         assertEquals(3, mergedRecIds.size());
@@ -189,7 +189,7 @@ public class MergeSummaryHoldingsTests
      * code should find a match when first bib matches non-first mhld
      */
 @Test
-    public void testFirstBibMatchesNonFirstMhld() 
+    public void testFirstBibMatchesNonFirstMhld()
             throws IOException
     {
         //bib346, mhld235
@@ -197,11 +197,11 @@ public class MergeSummaryHoldingsTests
         String bibFilePath = testDataParentPath + File.separator + "mhldMergeBibs346.mrc";
         String mhldFilePath = testDataParentPath + File.separator + "mhldMergeMhlds235.mrc";
         Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
-        
+
         // there should be 3 results
         Set<String> mergedRecIds = mergedRecs.keySet();
         assertEquals(3, mergedRecIds.size());
-    
+
         // result bib 3 only should have the mhld fields
         String id = "a3";
         RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
@@ -217,18 +217,18 @@ public class MergeSummaryHoldingsTests
      * code should find a match when non-first bib matches first mhld
      */
 @Test
-    public void testNonFirstBibMatchesFirstMhld() 
+    public void testNonFirstBibMatchesFirstMhld()
             throws IOException
     {
         //bib134, mhld345
         String bibFilePath = testDataParentPath + File.separator + "mhldMergeBibs134.mrc";
         String mhldFilePath = testDataParentPath + File.separator + "mhldMergeMhlds345.mrc";
         Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
-        
+
         // there should be 3 results
         Set<String> mergedRecIds = mergedRecs.keySet();
         assertEquals(3, mergedRecIds.size());
-    
+
         // result bibs 3 and 4 only should have the mhld fields
         String id = "a1";
         RecordTestingUtils.assertEqualsIgnoreLeader(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
@@ -243,18 +243,18 @@ public class MergeSummaryHoldingsTests
      * code should find a match when last bib matches last mhld
      */
 @Test
-    public void testBothLastRecsMatch() 
+    public void testBothLastRecsMatch()
             throws IOException
     {
         //bib46, mhld236
         String bibFilePath = testDataParentPath + File.separator + "mhldMergeBibs46.mrc";
         String mhldFilePath = testDataParentPath + File.separator + "mhldMergeMhlds236.mrc";
         Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
-        
+
         // there should be 2 results
         Set<String> mergedRecIds = mergedRecs.keySet();
         assertEquals(2, mergedRecIds.size());
-    
+
         // result bib 6 only should have the mhld fields
         String id = "a4";
            RecordTestingUtils.assertEqualsIgnoreLeader(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
@@ -266,18 +266,18 @@ public class MergeSummaryHoldingsTests
      * code should find a match when last bib matches non-last mhld
      */
 @Test
-    public void testLastBibMatchesNonLastMhld() 
+    public void testLastBibMatchesNonLastMhld()
         throws IOException
     {
         //bib134, mhld345
         String bibFilePath = testDataParentPath + File.separator + "mhldMergeBibs134.mrc";
         String mhldFilePath = testDataParentPath + File.separator + "mhldMergeMhlds345.mrc";
         Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
-        
+
         // there should be 3 results
         Set<String> mergedRecIds = mergedRecs.keySet();
         assertEquals(3, mergedRecIds.size());
-    
+
         // result bibs 3 and 4 only should have the mhld fields
         String id = "a1";
            RecordTestingUtils.assertEqualsIgnoreLeader(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
@@ -291,18 +291,18 @@ public class MergeSummaryHoldingsTests
      * code should find a match when non-last bib matches last mhld
      */
 @Test
-    public void testNonLastBibMatchesLastMhld() 
+    public void testNonLastBibMatchesLastMhld()
             throws IOException
     {
         //bib46, mhld34
         String bibFilePath = testDataParentPath + File.separator + "mhldMergeBibs46.mrc";
         String mhldFilePath = testDataParentPath + File.separator + "mhldMergeMhlds34.mrc";
         Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
-        
+
         // there should be 2 results
         Set<String> mergedRecIds = mergedRecs.keySet();
         assertEquals(2, mergedRecIds.size());
-    
+
         // result bib 6 only should have the mhld fields
         String id = "a4";
            RecordTestingUtils.assertEqualsIgnoreLeader(ALL_MERGED_BIB_RESULTS.get(id), mergedRecs.get(id));
@@ -310,7 +310,7 @@ public class MergeSummaryHoldingsTests
            RecordTestingUtils.assertEqualsIgnoreLeader(ALL_UNMERGED_BIBS.get(id), mergedRecs.get(id));
     }
 
-    
+
     /**
      * need to ensure all the MHLD data is included, not just the first record
      */
@@ -319,11 +319,11 @@ public class MergeSummaryHoldingsTests
     public void testMultMHLDsWithSameID()
             throws IOException
     {
-        //bib134, multMhlds1        
+        //bib134, multMhlds1
         String bibFilePath = testDataParentPath + File.separator + "mhldMergeBibs134.mrc";
         String mhldFilePath = testDataParentPath + File.separator + "mhldMergeMhlds1Mult.mrc";
         Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibFilePath, mhldFilePath);
-        
+
         Record mergedRec = mergedRecs.get("a1");
         assertEquals("Expected three 852", 3, mergedRec.getVariableFields("852").size());
         Set<String> expectedVals = new HashSet<String>();
@@ -335,68 +335,68 @@ public class MergeSummaryHoldingsTests
         expectedVals.add("(month)");
         expectedVals.add("(season)");
         RecordTestingUtils.assertSubfieldHasExpectedValues(mergedRec, "853", 'b', expectedVals);
-        
+
         assertEquals("Expected one 863", 2, mergedRec.getVariableFields("863").size());
         assertEquals("Expected one 866", 1, mergedRec.getVariableFields("866").size());
         //fail("Implement me");
     }
-    
+
     /**
      * the MHLD fields should only be merged into ONE of the bibs, if the bibs will be combined?
      * Or it's probably ok if they are in each bib, as they should be removed from the bib after processing?
      */
 //@Test
-    public void testMultBibsWithSameID() 
+    public void testMultBibsWithSameID()
     {
         // multBibs4, mhld 34
         fail("Implement me");
     }
-    
+
     /**
      * need to ensure all the MHLD data is included, not just the first record
      */
-    public void testMultBothWithSameID() 
+    public void testMultBothWithSameID()
     {
-        
+
     }
-    
-    
-    
+
+
+
     /**
      * the bib record should only get the fields specified
      */
-    public void testFieldsToMerge() 
+    public void testFieldsToMerge()
     {
     }
 
     /**
      * the bib record should not get any MHLD fields that aren't indicated for the merge
      */
-    public void testFieldsNotToMerge() 
+    public void testFieldsNotToMerge()
     {
     }
-    
+
     /**
      * if the MHLD has more than one instance of a field, all instances should be put in the bib record
      */
-    public void testMultOccurFieldsToMerge() 
+    public void testMultOccurFieldsToMerge()
     {
     }
-    
-    
+
+
     /**
      * if the bib rec has existing MHLD fields (not from another MHLD record?) then it should
      * remove them before adding the MHLD fields
      */
 //@Test
-    public void testCrashingBibFieldsRemoved() 
+    public void testCrashingBibFieldsRemoved()
     {
         //bibWmhldFlds, completeMhld
         fail("implement me");
     }
-    
 
-// Tests for very basic functionality of code, including Bob's original test (with some modifications to run as a more typical junit test)    
+
+// Tests for very basic functionality of code, including Bob's original test (with some modifications to run as a more typical junit test)
 
 String mergedSummaryHoldingsOutput[] = {
         "LEADER 02429nas a2200481 a 4500",
@@ -488,28 +488,28 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
      */
 // FIXME:  this test passes when the class is run alone, but fails when run with all the core tests
 //@Test
-    public void origTestOfRewritingMHLDtoSameBib() 
+    public void origTestOfRewritingMHLDtoSameBib()
             throws IOException
     {
         String mhldRecFileName = testDataParentPath + File.separator + "summaryHld_1-1000.mrc";
         String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
-    
+
         InputStream inStr = null;
         ByteArrayOutputStream resultMrcOutStream = new ByteArrayOutputStream();
         String[] mergeMhldArgs = new String[]{"-s", mhldRecFileName, bibRecFileName };
-    
+
         // call the code for mhldfile summaryHld_1-1000.mrc  and bibfile u335.mrc
         CommandLineUtils.runCommandLineUtil(MERGE_MHLD_CLASS_NAME, MAIN_METHOD_NAME, inStr, resultMrcOutStream, mergeMhldArgs);
-    
+
         RecordTestingUtils.assertMarcRecsEqual(mergedSummaryHoldingsOutput, resultMrcOutStream);
-        
+
         // Now merge record again to test the deleting of existing summary holdings info
         ByteArrayInputStream mergedMarcBibRecAsInStream = new ByteArrayInputStream(resultMrcOutStream.toByteArray());
         resultMrcOutStream.close();
         resultMrcOutStream = new ByteArrayOutputStream();
         //  do the merge by piping the bib record in to the merge class
         CommandLineUtils.runCommandLineUtil(MERGE_MHLD_CLASS_NAME, MAIN_METHOD_NAME, mergedMarcBibRecAsInStream, resultMrcOutStream, new String[]{"-s", mhldRecFileName } );
-        
+
         RecordTestingUtils.assertMarcRecsEqual(mergedSummaryHoldingsOutput, resultMrcOutStream);
     }
 
@@ -518,20 +518,20 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
      * test methods that return Map of ids to Records and no sysout stuff
      */
 @Test
-    public void testGettingOutputAsMapOfRecords() 
+    public void testGettingOutputAsMapOfRecords()
             throws IOException
     {
         String mhldRecFileName = testDataParentPath + File.separator + "summaryHld_1-1000.mrc";
         String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
-    
+
         Map<String, Record> mergedRecs = MergeSummaryHoldings.mergeMhldsIntoBibRecordsAsMap(bibRecFileName, mhldRecFileName);
 
         junit.framework.Assert.assertEquals("results should have 1 record", 1, mergedRecs.size());
         String expId = "u335";
         assertTrue("Record with id " + expId + " should be in results", mergedRecs.containsKey(expId));
-        
+
         Record resultRec = mergedRecs.get(expId);
-        RecordTestingUtils.assertEqualsIgnoreLeader(mergedSummaryHoldingsOutputNoUmlaut, resultRec);        
+        RecordTestingUtils.assertEqualsIgnoreLeader(mergedSummaryHoldingsOutputNoUmlaut, resultRec);
     }
 
 
@@ -540,18 +540,18 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
      */
 //FIXME:  this test passes when the class is run alone, but fails when run with all the core tests
 //@Test
-    public void testMergeToStdOut2() 
+    public void testMergeToStdOut2()
             throws IOException
     {
         String mhldRecFileName = testDataParentPath + File.separator + "summaryHld_1-1000.mrc";
         String bibRecFileName = testDataParentPath + File.separator + "u335.mrc";
-    
+
         ByteArrayOutputStream sysBAOS = new ByteArrayOutputStream();
         PrintStream sysMsgs = new PrintStream(sysBAOS);
         System.setOut(sysMsgs);
 
         MergeSummaryHoldings.mergeMhldRecsIntoBibRecsAsStdOut2(bibRecFileName, mhldRecFileName);
-    
+
         RecordTestingUtils.assertMarcRecsEqual(mergedSummaryHoldingsOutput, sysBAOS);
     }
 
@@ -559,13 +559,13 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
 // supporting methods for testing ----------------------------------------------
 
     /**
-     * 
+     *
      * @param bibRecsFileName name of the file containing Bib records, relative to the testDataParentPath
      * @param mhldRecsFileName name of the file containing MHLD records, relative to the testDataParentPath
      * @param outStream name of the a ByteArrayOutputStream to be used for output from running the command
      * @return the resulting merged bib file as a ByteArrayOutputStream
      */
-    private ByteArrayOutputStream mergeBibAndMhldFiles(String bibRecsFileName, String mhldRecsFileName, ByteArrayOutputStream outStream) 
+    private ByteArrayOutputStream mergeBibAndMhldFiles(String bibRecsFileName, String mhldRecsFileName, ByteArrayOutputStream outStream)
     {
     //    String fullBibRecsFileName = testDataParentPath + File.separator + bibRecsFileName;
     //   String fullMhldRecsFileName = testDataParentPath + File.separator + mhldRecsFileName;
@@ -578,5 +578,5 @@ String mergedSummaryHoldingsOutputNoUmlaut[] = {
         CommandLineUtils.runCommandLineUtil(MERGE_MHLD_CLASS_NAME, MAIN_METHOD_NAME, inStr, outStream, mergeMhldArgs);
         return outStream;
     }
-    
+
 }
