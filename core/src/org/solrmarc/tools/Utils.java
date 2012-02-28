@@ -20,26 +20,24 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.*;
 
-import org.apache.log4j.Appender;
-import org.apache.log4j.AsyncAppender;
-import org.apache.log4j.Logger;
+import org.apache.log4j.*;
 
 /**
  * General utility functions for solrmarc
- * 
+ *
  * @author Wayne Graham
  * @version $Id: Utils.java 868 2009-09-18 19:05:15Z rh9ec@virginia.edu $
  */
 
 public final class Utils {
-    
+
     protected static Logger logger = Logger.getLogger(Utils.class.getName());
-    
+
     /**
      * Default Constructor,  private, so it can't be instantiated by other objects
-     */    
+     */
     private Utils(){ }
-    
+
     /**
      * return an int for the passed string, catching NumberFormatException
      *  and ignoring it
@@ -60,31 +58,31 @@ public final class Utils {
         }
         return (value);
     }
-	
-    
+
+
     /**
      * Takes an InputStream, reads the entire contents into a String
      * @param stream - the stream to read in.
      * @return String containing entire contents of stream.
      */
-    public static String readStreamIntoString(InputStream stream) throws IOException 
+    public static String readStreamIntoString(InputStream stream) throws IOException
     {
         Reader in = new BufferedReader(new InputStreamReader(stream));
 
         StringBuilder sb = new StringBuilder();
         char[] chars = new char[4096];
         int length;
-        
+
         while ((length = in.read(chars)) > 0) {
           sb.append(chars, 0, length);
         }
 
         return sb.toString();
      }
-    
+
     /**
      * Removes trailing characters (space, comma, slash, semicolon, colon),
-     *  trailing period if it is preceded by at least three letters, 
+     *  trailing period if it is preceded by at least three letters,
      *  and single square bracket characters if they are the start and/or end
      *  chars of the cleaned string
      *
@@ -93,12 +91,12 @@ public final class Utils {
      */
     public static String cleanData(String origStr)
     {
-        String currResult = origStr; 
+        String currResult = origStr;
         String prevResult;
         do {
             prevResult = currResult;
             currResult = currResult.trim();
-    
+
             currResult = currResult.replaceAll(" *([,/;:])$", "");
 
             // trailing period removed in certain circumstances
@@ -124,11 +122,11 @@ public final class Utils {
                 return currResult;
 
         } while (! currResult.equals(prevResult));
-        
-//        if (!currResult.equals(origStr))  
-//            System.out.println(origStr + " -> "+ currResult); 
 
-        return currResult;       
+//        if (!currResult.equals(origStr))
+//            System.out.println(origStr + " -> "+ currResult);
+
+        return currResult;
     }
 
     /**
@@ -150,8 +148,8 @@ public final class Utils {
 
 
     /**
-     * Repeatedly removes trailing characters indicated in regular expression, 
-     * PLUS trailing period if it is preceded by its regular expression 
+     * Repeatedly removes trailing characters indicated in regular expression,
+     * PLUS trailing period if it is preceded by its regular expression
      *
      * @param origStr String to clean
      * @param trailingCharsRegEx a regular expression of trailing chars to be
@@ -160,11 +158,11 @@ public final class Utils {
      *   (e.g. " *[,/;:]" replaces any commas, slashes, semicolons or colons
      *     at the end of the string, and these chars may optionally be preceded
      *     by a space)
-     * @param charsB4periodRegEx a regular expression that must immediately 
-     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED. 
-     *  Note that the regular expression will NOT have the period or '$' at 
-     *  the end. 
-     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately 
+     * @param charsB4periodRegEx a regular expression that must immediately
+     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED.
+     *  Note that the regular expression will NOT have the period or '$' at
+     *  the end.
+     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately
      *   precede the period for it to be removed.)
      * @return cleaned string
      */
@@ -173,7 +171,7 @@ public final class Utils {
         if (origStr == null)
             return null;
 
-        String currResult = origStr; 
+        String currResult = origStr;
         String prevResult;
         do {
             prevResult = currResult;
@@ -184,9 +182,9 @@ public final class Utils {
 
         } while (! currResult.equals(prevResult));
 
-        return currResult;       
+        return currResult;
     }
-    
+
     /**
      * Removes trailing characters indicated in regular expression, PLUS
      *  trailing period if it is preceded by its regular expression.
@@ -198,11 +196,11 @@ public final class Utils {
      *   (e.g. " *[,/;:]" replaces any commas, slashes, semicolons or colons
      *     at the end of the string, and these chars may optionally be preceded
      *     by a space)
-     * @param charsB4periodRegEx a regular expression that must immediately 
-     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED. 
-     *  Note that the regular expression will NOT have the period or '$' at 
-     *  the end. 
-     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately 
+     * @param charsB4periodRegEx a regular expression that must immediately
+     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED.
+     *  Note that the regular expression will NOT have the period or '$' at
+     *  the end.
+     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately
      *   precede the period for it to be removed.)
      * @return cleaned string
      */
@@ -214,42 +212,42 @@ public final class Utils {
         String result = removeTrailingChar(origStr, trailingCharsRegEx);
 
         result = removeTrailingPeriod(result, charsB4periodRegEx);
-            
-        return result ;       
+
+        return result ;
     }
-    
+
     /**
      * Remove the characters per the regular expression if they are at the end
      *  of the string.
      * @param origStr string to be cleaned
      * @param charsToReplaceRegEx - a regular expression of the trailing string/chars
-     *   to be removed e.g. " *([,/;:])" meaning last character is a comma, 
+     *   to be removed e.g. " *([,/;:])" meaning last character is a comma,
      *   slash, semicolon, colon, possibly preceded by one or more spaces.
      * @see Pattern class in java api
      * @return the string with the specified trailing characters removed
      */
-    public static String removeTrailingChar(String origStr, String charsToReplaceRegEx) 
+    public static String removeTrailingChar(String origStr, String charsToReplaceRegEx)
     {
         if (origStr == null)
             return origStr;
            // get rid of reg ex specified chars at the end of the string
         return origStr.trim().replaceAll(charsToReplaceRegEx + "$", "");
     }
-    
+
     /**
      * If there is a period at the end of the string, remove the period if it is
      *  immediately preceded by the regular expression
      * @param origStr the string to be cleaned
-     * @param precedingCharsRegEx a regular expression that must immediately 
-     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED. 
-     *  Note that the regular expression will NOT have the period or '$' at 
-     *  the end. 
-     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately 
+     * @param precedingCharsRegEx a regular expression that must immediately
+     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED.
+     *  Note that the regular expression will NOT have the period or '$' at
+     *  the end.
+     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately
      *   precede the period for it to be removed.)
      * @return the string without a trailing period iff the regular expression
      *   param was found immediately before the trailing period
      */
-    public static String removeTrailingPeriod(String origStr, String precedingCharsRegEx) 
+    public static String removeTrailingPeriod(String origStr, String precedingCharsRegEx)
     {
         if (origStr == null)
             return origStr;
@@ -260,40 +258,40 @@ public final class Utils {
            return result;
      }
 
-    
+
     /**
      * Remove single square bracket characters if they are the start and/or end
      *  chars (matched or unmatched) and are the only square bracket chars in
      *  the string.
      */
-    public static String removeOuterBrackets(String origStr) 
+    public static String removeOuterBrackets(String origStr)
     {
         if (origStr == null || origStr.length() == 0)
             return origStr;
 
         String result = origStr.trim();
-                
+
         if (result.length() > 0)
         {
             boolean openBracketFirst = result.charAt(0) == '[';
             boolean closeBracketLast = result.endsWith("]");
-            if (openBracketFirst && closeBracketLast && 
-                    result.indexOf('[', 1) == -1 && 
+            if (openBracketFirst && closeBracketLast &&
+                    result.indexOf('[', 1) == -1 &&
                     result.lastIndexOf(']', result.length()-2) == -1)
                 // only square brackets are at beginning and end
                 result = result.substring(1, result.length()-1);
             else if (openBracketFirst && result.indexOf(']') == -1)
                 // starts with '[' but no ']'; remove open bracket
-                result = result.substring(1);                
+                result = result.substring(1);
             else if (closeBracketLast && result.indexOf('[') == -1)
                 // ends with ']' but no '['; remove close bracket
-                result = result.substring(0, result.length()-1);                
+                result = result.substring(0, result.length()-1);
         }
 
         return result.trim();
     }
 
-    
+
     /**
      * Test if a String has a numeric equivalent
      * @param number String representation of a number
@@ -302,7 +300,7 @@ public final class Utils {
     public static boolean isNumber(final String number)
     {
         boolean isNumber; // fix for dd-anomaly
-        
+
         try {
             Integer.parseInt(number);
             isNumber = true;
@@ -312,8 +310,8 @@ public final class Utils {
             // eat the exception
             isNumber = false;
         }
-        
-        return isNumber;        
+
+        return isNumber;
     }
 
     /**
@@ -321,26 +319,26 @@ public final class Utils {
      *   if "displayRawIfMissing" is a key in the map, then the raw field value
      *   is used.
      *   if "displayRawIfMissing" is not a key in the map, and the allowDefault
-     *   param is set to true, then if the map contains "__DEFAULT" as a key, 
+     *   param is set to true, then if the map contains "__DEFAULT" as a key,
      *   the value of "__DEFAULT" in the map is used;  if allowDefault is true
      *   and there is neither "displayRawIfMissing" nor "__DEFAULT", as a key
      *   in the map, then if the map contains an empty key, the map value of the
      *   empty key is used.
-     *     NOTE:  If the spec for a field is supposed to contain all matching 
+     *     NOTE:  If the spec for a field is supposed to contain all matching
      *      values, then the default lookup needs to be done here.  If the spec
-     *      for a field is only supposed to return the first matching mappable 
-     *      value, then the default mapping should be done in the calling method 
+     *      for a field is only supposed to return the first matching mappable
+     *      value, then the default mapping should be done in the calling method
      * @param fieldVal - the raw value to be mapped
      * @param map - the map to be used
-     * @param allowDefault - if "displayRawIfMissing" is not a key in the map, 
-     *   and this is to true, then if the map contains "__DEFAULT" as a key, 
-     *   the value of "__DEFAULT" in the map is used.  
+     * @param allowDefault - if "displayRawIfMissing" is not a key in the map,
+     *   and this is to true, then if the map contains "__DEFAULT" as a key,
+     *   the value of "__DEFAULT" in the map is used.
      * @return the new value, as determined by the mapping.
      */
     public static String remap(String fieldVal, Map<String, String> map, boolean allowDefault)
     {
         String result = null;
-        
+
         if (map.keySet().contains("pattern_0"))
         {
             for (int i = 0; i < map.keySet().size(); i++)
@@ -355,7 +353,7 @@ public final class Utils {
                         newVal = fieldVal.replaceAll(parts[0], parts[1]);
                         fieldVal = newVal;
                     }
-                    result = newVal;                    
+                    result = newVal;
                 }
             }
         }
@@ -363,42 +361,42 @@ public final class Utils {
         {
             result = map.get(fieldVal);
         }
-        else if (map.containsKey("displayRawIfMissing")) 
+        else if (map.containsKey("displayRawIfMissing"))
         {
             result = fieldVal;
         }
         else if (allowDefault && map.containsKey("__DEFAULT"))
         {
             result = map.get("__DEFAULT");
-        }                      
+        }
         else if (allowDefault && map.containsKey(""))
         {
             result = map.get("");
-        }                      
+        }
         if (result == null || result.length() == 0) return null;
         return result;
     }
 
     /**
-     * Remap a set of field values.  If a field value is not present in the map, 
+     * Remap a set of field values.  If a field value is not present in the map,
      * then:
      *   if "displayRawIfMissing" is a key in the map, then the raw field value
      *   is used.
      *   if "displayRawIfMissing" is not a key in the map, and the allowDefault
-     *   param is set to true, then if the map contains "__DEFAULT" as a key, 
+     *   param is set to true, then if the map contains "__DEFAULT" as a key,
      *   the value of "__DEFAULT" in the map is used;  if allowDefault is true
      *   and there is neither "displayRawIfMissing" nor "__DEFAULT", as a key
      *   in the map, then if the map contains an empty key, the map value of the
      *   empty key is used.
-     *     NOTE:  If the spec for a field is supposed to contain all matching 
+     *     NOTE:  If the spec for a field is supposed to contain all matching
      *      values, then the default lookup needs to be done here.  If the spec
-     *      for a field is only supposed to return the first matching mappable 
-     *      value, then the default mapping should be done in the calling method 
+     *      for a field is only supposed to return the first matching mappable
+     *      value, then the default mapping should be done in the calling method
      * @param set - set of raw vaues to be mapped
      * @param map - the map to be used
-     * @param allowDefault - if "displayRawIfMissing" is not a key in the map, 
-     *   and this is to true, then if the map contains "__DEFAULT" as a key, 
-     *   the value of "__DEFAULT" in the map is used.  
+     * @param allowDefault - if "displayRawIfMissing" is not a key in the map,
+     *   and this is to true, then if the map contains "__DEFAULT" as a key,
+     *   the value of "__DEFAULT" in the map is used.
      * @return the new value, as determined by the mapping.
      */
     public static Set<String> remap(Set<String> set, Map<String, String> map, boolean allowDefault)
@@ -406,7 +404,7 @@ public final class Utils {
         if (map == null)  return(set);
         Iterator<String> iter = set.iterator();
         Set<String> result = new LinkedHashSet<String>();
-        
+
         while(iter.hasNext())
         {
             String val = iter.next();
@@ -427,15 +425,15 @@ public final class Utils {
                         }
                         else
                         {
-                            result.add(newVal); 
+                            result.add(newVal);
                         }
                         tmpResult = newVal;
                     }
                 }
-                if (tmpResult != null) result.add(tmpResult); 
+                if (tmpResult != null) result.add(tmpResult);
             }
             else
-            {            
+            {
                 String mappedVal = remap(val, map, allowDefault);
                 if (mappedVal != null)
                 {
@@ -449,14 +447,14 @@ public final class Utils {
     private static boolean containsMatch(String val, String pattern)
     {
         String rep = val.replaceFirst(pattern, "###match###");
-        
+
         if (!rep.equals(val)) {
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
      * Test if a set contains a specified pattern
      * @param set Set of marc fields to test
@@ -468,25 +466,25 @@ public final class Utils {
         if (set.isEmpty()) {
             return(false);
         }
-        
-        Iterator<String> iter = set.iterator();        
-       
+
+        Iterator<String> iter = set.iterator();
+
         while (iter.hasNext())
         {
             String value = (String)iter.next();
-            
+
             if (containsMatch(value, pattern)) {
                 return true;
             }
-                
+
         }
         return false;
-    }  
+    }
 
     /**
      * Join two fields together with seperator
      * @param set Set of marc fields to join
-     * @param separator Separation character to put between 
+     * @param separator Separation character to put between
      * @return Joined fields
      */
     public static String join(Set<String> set, String separator)
@@ -494,7 +492,7 @@ public final class Utils {
         Iterator<String> iter = set.iterator();
         //String result = "";
         StringBuilder result = new StringBuilder("");
-       
+
         while(iter.hasNext())
         {
             //result += iter.next();
@@ -504,7 +502,7 @@ public final class Utils {
                 result.append(separator);
             }
         }
-        
+
         return result.toString();
     }
 
@@ -520,55 +518,55 @@ public final class Utils {
             for (int j = 0; j < size; j++)
             {
                 if (i == j) continue;
-                if (locArr[j].toString().contains(locArr[i].toString())) { copyStrI = false; break; }                       
+                if (locArr[j].toString().contains(locArr[i].toString())) { copyStrI = false; break; }
             }
-            if (copyStrI == false) locations.remove(locArr[i]);   
+            if (copyStrI == false) locations.remove(locArr[i]);
         }
         return locations;
     }
 
-    
+
     /**
-     * returns true if the 3 letter language code is for a right to left 
+     * returns true if the 3 letter language code is for a right to left
      *  language (one written in arabic or hebrew characters)
      * @param langcode
      */
-    public final static boolean isRightToLeftLanguage(String langcode) 
+    public final static boolean isRightToLeftLanguage(String langcode)
     {
         if (
                // arabic characters
-               langcode.equals("ara") || langcode.equals("per") || langcode.equals("urd")        
-            || 
+               langcode.equals("ara") || langcode.equals("per") || langcode.equals("urd")
+            ||
             // hebrew characters
             langcode.equals("heb") || langcode.equals("yid") || langcode.equals("lad")
-            || langcode.equals("jpr") || langcode.equals("jrb") 
+            || langcode.equals("jpr") || langcode.equals("jrb")
             )
             return true;
         else
             return false;
     }
-    
+
 
     /**
      * return the index within this string of the first occurrence of an open
      *  parenthesis that isn't escaped with a backslash.
      * @param str
-     * @return if an unescaped open parenthesis occurs within this object, 
+     * @return if an unescaped open parenthesis occurs within this object,
      * return the index of the first open paren; -1 if no unescaped open paren.
      */
-    public final static int getIxUnescapedOpenParen(String str) 
+    public final static int getIxUnescapedOpenParen(String str)
     {
         if (str.startsWith("("))
             return 0;
         Pattern p = Pattern.compile(".*[^\\\\](\\().*");
         Matcher m = p.matcher(str);
         if (m.matches())
-            return m.start(1); 
+            return m.start(1);
         else
             return -1;
     }
 
-    
+
     /**
      * return the index within this string of the first occurrence of a comma
      *  that isn't escaped with a backslash.
@@ -576,21 +574,21 @@ public final class Utils {
      * @return if an unescaped comma occurs within this object, the index of the
      *  first comma; -1 if no unescaped comma.
      */
-    public final static int getIxUnescapedComma(String str) 
+    public final static int getIxUnescapedComma(String str)
     {
         if (str.startsWith(","))
             return 0;
         Pattern p = Pattern.compile(".*[^\\\\](,).*");
         Matcher m = p.matcher(str);
         if (m.matches())
-            return m.start(1); 
+            return m.start(1);
         else
             return -1;
     }
-    
+
     /**
      * Look for Strings in the set, that start with the given prefix.  If found,
-     *  remove the prefix, trim the result and add it to the returned set of 
+     *  remove the prefix, trim the result and add it to the returned set of
      *  Strings to be returned.
      * @param valueSet
      * @param prefix
@@ -612,7 +610,7 @@ public final class Utils {
         }
         return resultSet;
     }
-    
+
     /**
      * remove prefix from the beginning of the value string.
      */
@@ -624,7 +622,7 @@ public final class Utils {
         }
         return null;
     }
-    
+
     /**
      * returns the valid ISBN(s) from the set of candidate Strings
      * @return Set of strings containing valid ISBN numbers
@@ -634,8 +632,8 @@ public final class Utils {
         // NOTE 1: last digit of ISBN is a check digit and may be "X" (0,1,2,3,4,5,6.7.8.9.X)
         // NOTE 2: ISBN can be 10 or 13 digits (and may end with X).
         // NOTE 3: 13 digit ISBN must start with 978 or 979.
-        // NOTE 4: there may be text after the ISBN, which should be removed 
-        
+        // NOTE 4: there may be text after the ISBN, which should be removed
+
         Set<String> isbnSet = new LinkedHashSet<String>();
 
         Pattern p10 = Pattern.compile("^\\d{9}[\\dX].*");
@@ -646,21 +644,21 @@ public final class Utils {
         for (String cand : candidates) {
         	String value = cand.trim();
             // check we have the right pattern, and remove trailing text
-            if (p13.matcher(value).matches()) 
+            if (p13.matcher(value).matches())
                 isbnSet.add(value.substring(0, 13));
-            else if (p10.matcher(value).matches() && !p13any.matcher(value).matches()) 
+            else if (p10.matcher(value).matches() && !p13any.matcher(value).matches())
                 isbnSet.add(value.substring(0, 10));
         }
-        return isbnSet;            
+        return isbnSet;
     }
-    
+
     /**
      * given a latin letter with a diacritic, return the latin letter without
      *  the diacritic.
      * Shamelessly stolen from UnicodeCharUtil class of UnicodeNormalizeFilter
-     *  by Bob Haschart 
+     *  by Bob Haschart
      */
-    public static char foldDiacriticLatinChar ( char c ) 
+    public static char foldDiacriticLatinChar ( char c )
     {
         switch (c) {
             case 0x0181:  return(0x0042);    //  LATIN CAPITAL LETTER B WITH HOOK -> LATIN CAPITAL LETTER B
@@ -739,41 +737,7 @@ public final class Utils {
             default:      return(0x00);
         }
     }
-    
-    /**
-     * loop through all the log4j loggers under the root and set them to the
-     *  new log4j level.
-     * @param newLevel
-     */
-   @SuppressWarnings("unchecked")
-    public static void setLog4jLogLevel(org.apache.log4j.Level newLevel)
-    {
-        Logger rootLogger = org.apache.log4j.Logger.getRootLogger();
-        Enumeration<Logger> enLogger = rootLogger.getLoggerRepository().getCurrentLoggers();
-        // loop through all loggers under root 
-        while(enLogger.hasMoreElements())
-        {
-            Logger tmpLogger = (Logger)(enLogger.nextElement());
-            tmpLogger.setLevel(newLevel);
-        }
-        Enumeration<Appender> enAppenders = rootLogger.getAllAppenders();
-        Appender appender;
-        while(enAppenders.hasMoreElements())
-        {
-            appender = (Appender)enAppenders.nextElement();
-            
-            if(appender instanceof AsyncAppender)
-            {
-                AsyncAppender asyncAppender = (AsyncAppender)appender;
-                asyncAppender.activateOptions();
-//                    rfa = (RollingFileAppender)asyncAppender.getAppender("R");
-//                    rfa.activateOptions();
-//                    ca = (ConsoleAppender)asyncAppender.getAppender("STDOUT");
-//                    ca.activateOptions();
-            }
-        }
 
-    }
 
 	/**
 	 * delete the directory indicated by the argument.
@@ -782,13 +746,13 @@ public final class Utils {
 	public static final void deleteDirContents(String dirPath) {
 		File d = new File(dirPath);
 		File[] files = d.listFiles();
-		if (files != null)	
+		if (files != null)
 			for (File file: files)
 			{	// recursively remove files and directories
 				deleteDir(file.getAbsolutePath());
 			}
 	}
-	
+
 	/**
 	 * delete the directory indicated by the argument.
 	 * @param dirPath - path of directory to be deleted.
@@ -796,7 +760,7 @@ public final class Utils {
 	public static final void deleteDir(String dirPath) {
 		File d = new File(dirPath);
 		File[] files = d.listFiles();
-		if (files != null)	
+		if (files != null)
 			for (File file: files)
 			{	// recursively remove files and directories
 				deleteDir(file.getAbsolutePath());
@@ -805,9 +769,9 @@ public final class Utils {
 		d.delete();
 	}
 
-   
+
    /** compares two strings after removing periods and spaces */
-   public static Comparator<String> compareNoPeriodsOrSpaces = new Comparator<String>() 
+   public static Comparator<String> compareNoPeriodsOrSpaces = new Comparator<String>()
    {
        public int compare(String s1, String s2)
        {
@@ -816,14 +780,14 @@ public final class Utils {
            return s1Norm.compareToIgnoreCase(s2Norm);
        }
    };
-   
+
 	/**
 	 * return the longest prefix common to both strings by checking each
 	 *  character from the beginning for equality.
 	 * @param str1 - first string to be compared
 	 * @param str2 - second string to be compared
 	 * @param comp - comparator used to determine equality of strings
-	 * @return longest prefix common to both strings 
+	 * @return longest prefix common to both strings
 	 */
    public static String getCommonPrefix(String str1, String str2, Comparator<String> comp)
    {
@@ -839,6 +803,76 @@ public final class Utils {
        }
        return (str1.substring(0, prefixLen));
    }
-	
+
+	/**
+	 * default settings: solr: WARNING; solrmarc: WARN Solr uses
+	 * java.util.logging; level settings for solr logging: OFF, SEVERE, WARNING, INFO, FINE, FINER, FINEST, ALL
+	 * SolrMarc uses log4j logging; level settings for solrmarc logging: OFF, FATAL, WARN, INFO, DEBUG, ALL
+	 */
+	public static void setLoggingLevels(String solrLogLevel, String solrmarcLogLevel)
+	{
+		java.util.logging.Level solrLevel = java.util.logging.Level.WARNING;
+
+		if (solrLogLevel != null)
+		{
+			if (solrLogLevel.equals("OFF"))	solrLevel = java.util.logging.Level.OFF;
+			if (solrLogLevel.equals("SEVERE")) solrLevel = java.util.logging.Level.SEVERE;
+			if (solrLogLevel.equals("WARNING"))	solrLevel = java.util.logging.Level.WARNING;
+			if (solrLogLevel.equals("INFO")) solrLevel = java.util.logging.Level.INFO;
+			if (solrLogLevel.equals("FINE")) solrLevel = java.util.logging.Level.FINE;
+			if (solrLogLevel.equals("FINER")) solrLevel = java.util.logging.Level.FINER;
+			if (solrLogLevel.equals("FINEST")) solrLevel = java.util.logging.Level.FINEST;
+			if (solrLogLevel.equals("ALL")) solrLevel = java.util.logging.Level.ALL;
+		}
+		java.util.logging.Logger.getLogger("org.apache.solr").setLevel(solrLevel);
+
+		org.apache.log4j.Level solrmarcLevel = org.apache.log4j.Level.WARN;
+		if (solrmarcLogLevel != null)
+		{
+			if (solrmarcLogLevel.equals("OFF")) solrmarcLevel = Level.OFF;
+			if (solrmarcLogLevel.equals("FATAL")) solrmarcLevel = Level.FATAL;
+			if (solrmarcLogLevel.equals("WARN")) solrmarcLevel = Level.WARN;
+			if (solrmarcLogLevel.equals("INFO")) solrmarcLevel = Level.INFO;
+			if (solrmarcLogLevel.equals("DEBUG")) solrmarcLevel = Level.DEBUG;
+			if (solrmarcLogLevel.equals("ALL"))	solrmarcLevel = Level.ALL;
+		}
+		setLog4jLogLevel(solrmarcLevel);
+	}
+
+    /**
+     * loop through all the log4j loggers under the root and set them to the
+     *  new log4j level.
+     * @param newLevel
+     */
+   @SuppressWarnings("unchecked")
+    public static void setLog4jLogLevel(org.apache.log4j.Level newLevel)
+    {
+        Logger rootLogger = org.apache.log4j.Logger.getRootLogger();
+        Enumeration<Logger> enLogger = rootLogger.getLoggerRepository().getCurrentLoggers();
+        // loop through all loggers under root
+        while(enLogger.hasMoreElements())
+        {
+            Logger tmpLogger = (Logger)(enLogger.nextElement());
+            tmpLogger.setLevel(newLevel);
+        }
+        Enumeration<Appender> enAppenders = rootLogger.getAllAppenders();
+        Appender appender;
+        while(enAppenders.hasMoreElements())
+        {
+            appender = (Appender)enAppenders.nextElement();
+
+            if(appender instanceof AsyncAppender)
+            {
+                AsyncAppender asyncAppender = (AsyncAppender)appender;
+                asyncAppender.activateOptions();
+//                    rfa = (RollingFileAppender)asyncAppender.getAppender("R");
+//                    rfa.activateOptions();
+//                    ca = (ConsoleAppender)asyncAppender.getAppender("STDOUT");
+//                    ca.activateOptions();
+            }
+        }
+
+    }
+
 
 }

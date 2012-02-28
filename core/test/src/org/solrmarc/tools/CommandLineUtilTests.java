@@ -23,7 +23,7 @@ public class CommandLineUtilTests
     {
 		String testSolrLogLevel = System.getProperty("test.solr.log.level");
 		String testSolrmarcLogLevel = System.getProperty("test.solrmarc.log.level");
-		IndexTest.setTestLoggingLevels(testSolrLogLevel, testSolrmarcLogLevel);
+		Utils.setLoggingLevels(testSolrLogLevel, testSolrmarcLogLevel);
 /*
         String testDataPath = System.getProperty("test.data.path");
         if (testDataPath == null)
@@ -45,8 +45,8 @@ public class CommandLineUtilTests
         }
 */
     }
-    
-    
+
+
 
 
     /**
@@ -103,32 +103,32 @@ public class CommandLineUtilTests
         String testConfigFile = System.getProperty("test.config.file");
         if (testConfigFile == null)
             fail("property test.config.file be defined for this test to run");
-        
+
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.tools.MergeSummaryHoldings", "main", null, out1, new String[]{"-s", testDataParentPath+"/summaryHld_1-1000.mrc", testDataParentPath+"/u335.mrc" });
 
         ByteArrayInputStream in2 = new ByteArrayInputStream(out1.toByteArray());
         ByteArrayOutputStream out2 = new ByteArrayOutputStream();
         ByteArrayOutputStream err2 = new ByteArrayOutputStream();
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in2, out2, err2, new String[]{testConfigFile, "print"}); 
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in2, out2, err2, new String[]{testConfigFile, "print"});
 
-        CommandLineUtils.compareUtilOutput(new ByteArrayInputStream(out2.toByteArray()), mergedSummaryHoldingsOutput); 
+        CommandLineUtils.compareUtilOutput(new ByteArrayInputStream(out2.toByteArray()), mergedSummaryHoldingsOutput);
 
         // Now merge record again to test the deleting of existing summary holdings info
 
         ByteArrayInputStream in3 = new ByteArrayInputStream(out1.toByteArray());
         ByteArrayOutputStream out3 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.tools.MergeSummaryHoldings", "main", in3, out3, new String[]{"-s", testDataParentPath+"/summaryHld_1-1000.mrc" } );
-        
-        
+
+
         ByteArrayInputStream in4 = new ByteArrayInputStream(out3.toByteArray());
         ByteArrayOutputStream out4 = new ByteArrayOutputStream();
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in4, out4, new String[]{testConfigFile, "print"}); 
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in4, out4, new String[]{testConfigFile, "print"});
 
-        CommandLineUtils.compareUtilOutput(new ByteArrayInputStream(out4.toByteArray()), mergedSummaryHoldingsOutput); 
+        CommandLineUtils.compareUtilOutput(new ByteArrayInputStream(out4.toByteArray()), mergedSummaryHoldingsOutput);
         System.out.println("Test testMergeSummaryHoldings is successful");
     }
-    
+
     /**
      * unit test for MarcDiff
      */
@@ -146,7 +146,7 @@ public class CommandLineUtilTests
             " < 999   $aNA1547 .P6 T9 1982$wLC$c1$iX000815679$d5/19/2008$e4/9/2008$lFA-OVERSZE$mFINE-ARTS$n16$q1$rY$sY$tBOOK$u6/28/1996$xH-NOTIS",
             " > 999   $aNA1547 .P6 T9 1982$wLC$c1$iX000815679$d5/19/2008$e4/9/2008$lFA-OVERSZE$mFINE-ARTS$n16$q1$rY$sY$tBOOK$u6/28/1996$xH-NOTIS$o.STAFF.  *arts"
         };
-                                     
+
         String testDataParentPath = System.getProperty("test.data.path");
         if (testDataParentPath == null)
             fail("property test.data.path must be defined for the tests to run");
@@ -192,7 +192,7 @@ public class CommandLineUtilTests
         };
         String marcMergerOutput3[] ={
             "u4", "u5", "u10", "u13", "u15" };
-        
+
     	System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
         String testDataParentPath = System.getProperty("test.data.path");
         if (testDataParentPath == null)
@@ -203,24 +203,24 @@ public class CommandLineUtilTests
 
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcMerger", "main", null, out1, new String[]{"-min", "u0", "-max", "u14", testDataParentPath+"/mergeInput.mrc", testDataParentPath+"/mergeMod.mrc" });
-        
+
         ByteArrayInputStream in2 = new ByteArrayInputStream(out1.toByteArray());
         ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in2, out2, new String[]{testConfigFile, "print", "001"}); 
-        CommandLineUtils.compareUtilOutput(new ByteArrayInputStream(out2.toByteArray()), marcMergerOutput1); 
-        
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in2, out2, new String[]{testConfigFile, "print", "001"});
+        CommandLineUtils.compareUtilOutput(new ByteArrayInputStream(out2.toByteArray()), marcMergerOutput1);
+
         ByteArrayOutputStream out3 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcMerger", "main", null, out3, new String[]{testDataParentPath+"/mergeInput.mrc", testDataParentPath+"/mergeMod.mrc" });
-        
+
         ByteArrayInputStream in4 = new ByteArrayInputStream(out3.toByteArray());
         ByteArrayOutputStream out4 = new ByteArrayOutputStream();
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in4, out4, new String[]{testConfigFile, "print", "001"}); 
-        CommandLineUtils.compareUtilOutput(new ByteArrayInputStream(out4.toByteArray()), marcMergerOutput2); 
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in4, out4, new String[]{testConfigFile, "print", "001"});
+        CommandLineUtils.compareUtilOutput(new ByteArrayInputStream(out4.toByteArray()), marcMergerOutput2);
 
         ByteArrayOutputStream out5 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcMerger", "main", null, out5, new String[]{testDataParentPath+"/mergeMod.del", testDataParentPath+"/mergeMod.mrc" });
-        
-        CommandLineUtils.compareUtilOutput(new ByteArrayInputStream(out5.toByteArray()), marcMergerOutput3); 
+
+        CommandLineUtils.compareUtilOutput(new ByteArrayInputStream(out5.toByteArray()), marcMergerOutput3);
         System.out.println("Test testMarcMerger is successful");
     }
 
@@ -237,27 +237,27 @@ public class CommandLineUtilTests
            "001 u1563789",
            "001 u2020731"
         };
-        
+
     	System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
         String testDataParentPath = System.getProperty("test.data.path");
         if (testDataParentPath == null)
             fail("property test.data.path must be defined for the tests to run");
-        
+
         String testConfigFile = System.getProperty("test.config.file");
         if (testConfigFile == null)
             fail("property test.config.file be defined for this test to run");
 
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcSorter", "main", null, out1, new String[]{testDataParentPath+"/url_test_recs.mrc" });
-        
+
         ByteArrayInputStream in2 = new ByteArrayInputStream(out1.toByteArray());
         ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in2, out2, new String[]{testConfigFile, "print", "001"}); 
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in2, out2, new String[]{testConfigFile, "print", "001"});
 
-        CommandLineUtils.compareUtilOutput(new ByteArrayInputStream(out2.toByteArray()), marcSorterOutput); 
+        CommandLineUtils.compareUtilOutput(new ByteArrayInputStream(out2.toByteArray()), marcSorterOutput);
         System.out.println("Test testMarcSort is successful");
     }
-    
+
     /**
      * unit test for MarcSort and PrintWriter
      */
@@ -296,18 +296,18 @@ public class CommandLineUtilTests
         String testConfigFile = System.getProperty("test.config.file");
         if (testConfigFile == null)
             fail("property test.config.file be defined for this test to run");
-        
+
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPatcher", "main", null, out1, new String[]{testDataParentPath+"/selectedRecs.mrc", testDataParentPath+"/location_sample.txt", "handleAllLocs" });
-        
+
         ByteArrayInputStream in2 = new ByteArrayInputStream(out1.toByteArray());
         ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in2, out2, new String[]{testConfigFile, "print", "001|999"}); 
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in2, out2, new String[]{testConfigFile, "print", "001|999"});
 
-        CommandLineUtils.compareUtilOutput(new ByteArrayInputStream(out2.toByteArray()), marcPatcherOutput); 
+        CommandLineUtils.compareUtilOutput(new ByteArrayInputStream(out2.toByteArray()), marcPatcherOutput);
         System.out.println("Test testMarcPatcher is successful");
     }
-   
+
     /**
      * unit test for other modes of MarcPrinter
      */
@@ -321,28 +321,28 @@ public class CommandLineUtilTests
         String testConfigFile = System.getProperty("test.config.file");
         if (testConfigFile == null)
             fail("property test.config.file be defined for this test to run");
-        
+
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", null, out1, new String[]{testConfigFile, testDataParentPath+"/u4.mrc", "to_xml" });
-        CommandLineUtils.compareUtilOutputLine(new ByteArrayInputStream(out1.toByteArray()), "    <leader>01218cam a2200313 a 4500</leader>", 2); 
-        CommandLineUtils.compareUtilOutputLine(new ByteArrayInputStream(out1.toByteArray()), "      <subfield code=\"a\">The princes of Hà-tiên (1682-1867) /</subfield>", 39); 
+        CommandLineUtils.compareUtilOutputLine(new ByteArrayInputStream(out1.toByteArray()), "    <leader>01218cam a2200313 a 4500</leader>", 2);
+        CommandLineUtils.compareUtilOutputLine(new ByteArrayInputStream(out1.toByteArray()), "      <subfield code=\"a\">The princes of Hà-tiên (1682-1867) /</subfield>", 39);
 //        System.out.println("Test1 testMarcPrinter is successful");
-        
+
         ByteArrayInputStream in2 = new ByteArrayInputStream(out1.toByteArray());
         ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in2, out2, new String[]{testConfigFile, "translate"}); 
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in2, out2, new String[]{testConfigFile, "translate"});
 
         ByteArrayInputStream in3 = new ByteArrayInputStream(out2.toByteArray());
         ByteArrayOutputStream out3 = new ByteArrayOutputStream();
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in3, out3, new String[]{testConfigFile, "print"}); 
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in3, out3, new String[]{testConfigFile, "print"});
 
-        CommandLineUtils.compareUtilOutputLine(new ByteArrayInputStream(out3.toByteArray()), "LEADER 01222cam a2200313 a 4500", 0); 
-        CommandLineUtils.compareUtilOutputLine(new ByteArrayInputStream(out3.toByteArray()), "245 14$aThe princes of Hà-tiên (1682-1867) /$cNicholas Sellers.", 13); 
+        CommandLineUtils.compareUtilOutputLine(new ByteArrayInputStream(out3.toByteArray()), "LEADER 01222cam a2200313 a 4500", 0);
+        CommandLineUtils.compareUtilOutputLine(new ByteArrayInputStream(out3.toByteArray()), "245 14$aThe princes of Hà-tiên (1682-1867) /$cNicholas Sellers.", 13);
 //        System.out.println("Test2 testMarcPrinter is successful");
 
         ByteArrayInputStream in4 = new ByteArrayInputStream(out2.toByteArray());
         ByteArrayOutputStream out4 = new ByteArrayOutputStream();
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in4, out4, new String[]{testConfigFile, "untranslate"}); 
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in4, out4, new String[]{testConfigFile, "untranslate"});
 
         File origfile = new File(testDataParentPath+"/u4.mrc");
         ByteArrayOutputStream outOrig = null;
@@ -364,12 +364,12 @@ public class CommandLineUtilTests
         {
             fail("Error reading from file: "+ testDataParentPath+"/u4.mrc");
         }
-        CommandLineUtils.assertArrayEquals("original MARC8 record, and roundtripped MARC8 record ", out4.toByteArray(), outOrig.toByteArray()); 
+        CommandLineUtils.assertArrayEquals("original MARC8 record, and roundtripped MARC8 record ", out4.toByteArray(), outOrig.toByteArray());
 //        System.out.println("Test3 testMarcPrinter is successful");
 
         ByteArrayInputStream in6 = new ByteArrayInputStream(out4.toByteArray());
         ByteArrayOutputStream out6 = new ByteArrayOutputStream();
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in6, out6, new String[]{testConfigFile, "index", "title_display"}); 
+        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", in6, out6, new String[]{testConfigFile, "index", "title_display"});
 //        System.out.println("Test3 testConfigFile is "+testConfigFile);
 //        try
 //        {
@@ -380,10 +380,10 @@ public class CommandLineUtilTests
 //            // TODO Auto-generated catch block
 //            e.printStackTrace();
 //        }
-        CommandLineUtils.compareUtilOutputLine(new ByteArrayInputStream(out6.toByteArray()), "u4 : title_display = The princes of Hà-tiên (1682-1867)", 0); 
+        CommandLineUtils.compareUtilOutputLine(new ByteArrayInputStream(out6.toByteArray()), "u4 : title_display = The princes of Hà-tiên (1682-1867)", 0);
         System.out.println("Test testMarcPrinter is successful");
     }
-    
+
     /**
      * unit test for GetRecord and FilterRecord
      */
@@ -395,7 +395,7 @@ public class CommandLineUtilTests
         if (testDataParentPath == null)
             fail("property test.data.path must be defined for the tests to run");
         String testConfigFile = System.getProperty("test.config.file");
-        
+
         if (testConfigFile == null)
             fail("property test.config.file be defined for this test to run");
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
@@ -405,7 +405,7 @@ public class CommandLineUtilTests
         ByteArrayOutputStream out2 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.RawRecordReader", "main", null, out2, new String[]{testDataParentPath+"/selectedRecs.mrc", testDataParentPath+"/getrecord_select_u8.txt" });
 
-        CommandLineUtils.assertArrayEquals("record via GetRecord with parm, and record via GetRecord with selection file ", out1.toByteArray(), out2.toByteArray()); 
+        CommandLineUtils.assertArrayEquals("record via GetRecord with parm, and record via GetRecord with selection file ", out1.toByteArray(), out2.toByteArray());
 
         ByteArrayOutputStream out3 = new ByteArrayOutputStream();
         Map<String,String> addnlProps3 = new LinkedHashMap<String,String>();
@@ -413,11 +413,11 @@ public class CommandLineUtilTests
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcPrinter", "main", null, out3, new String[]{testConfigFile, testDataParentPath+"/selectedRecs.mrc", "untranslate" }, addnlProps3);
         System.clearProperty("marc.include_if_present");
 
-        CommandLineUtils.assertArrayEquals("record via GetRecord, and record via FilterRecord ", out1.toByteArray(), out3.toByteArray()); 
+        CommandLineUtils.assertArrayEquals("record via GetRecord, and record via FilterRecord ", out1.toByteArray(), out3.toByteArray());
         System.out.println("Test testGetRecord is successful");
     }
-    
-//FIXME: test not passing    
+
+//FIXME: test not passing
     /**
      * unit test for MarcImporter and SolrReindexer
      */
@@ -443,7 +443,7 @@ public class CommandLineUtilTests
 
         // ensure we start in a sane state
 //        IndexTest.deleteAllRecordsEmbedded(testConfigFile, solrPath );
-        
+
         // index a small set of records
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
         ByteArrayOutputStream err1 = new ByteArrayOutputStream();
@@ -463,29 +463,29 @@ public class CommandLineUtilTests
         addnlProps2.put("solr.log.level", "OFF");
         addnlProps2.put("solrmarc.log.level", "OFF");
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.SolrReIndexer", "main", null, out2, err2, new String[]{testConfigFile, "id:u3", "marc_display"}, addnlProps2);
-        
+
         // retrieve record u3 from the original input file
         ByteArrayOutputStream out3 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.RawRecordReader", "main", null, out3, new String[]{testDataParentPath+"/mergeInput.mrc", "u3" });
-        
+
         // compare the results
-        CommandLineUtils.assertArrayEquals("record via GetFromSolr(raw), and record via GetRecord ", out2.toByteArray(), out3.toByteArray()); 
-        
-        // retrieve record u3 from the index (from marc_xml_display field) 
+        CommandLineUtils.assertArrayEquals("record via GetFromSolr(raw), and record via GetRecord ", out2.toByteArray(), out3.toByteArray());
+
+        // retrieve record u3 from the index (from marc_xml_display field)
         ByteArrayOutputStream out4 = new ByteArrayOutputStream();
         ByteArrayOutputStream err4 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.SolrReIndexer", "main", null, out4, err4, new String[]{testConfigFile, "id:u3", "marc_xml_display"}, addnlProps2);
-        
-        // compare the results
-        CommandLineUtils.assertArrayEquals("record via GetFromSolr(xml) through filter, and record via GetRecord ", out4.toByteArray(), out3.toByteArray()); 
 
-        // retrieve record u3 from the index (from marc_json_display field) 
+        // compare the results
+        CommandLineUtils.assertArrayEquals("record via GetFromSolr(xml) through filter, and record via GetRecord ", out4.toByteArray(), out3.toByteArray());
+
+        // retrieve record u3 from the index (from marc_json_display field)
         ByteArrayOutputStream out4a = new ByteArrayOutputStream();
         ByteArrayOutputStream err4a = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.SolrReIndexer", "main", null, out4a, err4a, new String[]{testConfigFile, "id:u3", "marc_json_display"}, addnlProps2);
-        
+
         // compare the results
-        CommandLineUtils.assertArrayEquals("record via GetFromSolr(xml) through filter, and record via GetRecord ", out4a.toByteArray(), out3.toByteArray()); 
+        CommandLineUtils.assertArrayEquals("record via GetFromSolr(xml) through filter, and record via GetRecord ", out4a.toByteArray(), out3.toByteArray());
 
         // index some more records as well as delete some
         ByteArrayOutputStream out6 = new ByteArrayOutputStream();
@@ -498,13 +498,13 @@ public class CommandLineUtilTests
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.SolrReIndexer", "main", null, out7, err7, new String[]{testConfigFile, "id:u4", "marc_display"}, addnlProps2);
 
         // compare the results
-        CommandLineUtils.assertArrayEquals("record via GetFromSolr, and empty record ", out7.toByteArray(), new byte[0]); 
-        
+        CommandLineUtils.assertArrayEquals("record via GetFromSolr, and empty record ", out7.toByteArray(), new byte[0]);
+
         // lastly check that the entire contents of index (don't try this at home)
         ByteArrayOutputStream out8 = new ByteArrayOutputStream();
         ByteArrayOutputStream err8 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.SolrReIndexer", "main", null, out8, err8, new String[]{testConfigFile, "*:*", "marc_display"}, addnlProps2);
-        
+
         // sort the records returned
         ByteArrayInputStream in9 = new ByteArrayInputStream(out8.toByteArray());
         ByteArrayOutputStream out9 = new ByteArrayOutputStream();
@@ -514,7 +514,7 @@ public class CommandLineUtilTests
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.MarcMerger", "main", null, out10, new String[]{testDataParentPath+"/mergeInput.mrc", testDataParentPath+"/mergeMod.mrc" });
 
         // compare the results
-        CommandLineUtils.assertArrayEquals("all records via GetFromSolr, all record via MarcMerger ", out9.toByteArray(), out10.toByteArray()); 
+        CommandLineUtils.assertArrayEquals("all records via GetFromSolr, all record via MarcMerger ", out9.toByteArray(), out10.toByteArray());
 
         // now delete all of the records in the index to make test order not matter
 //        IndexTest.deleteAllRecordsEmbedded(testConfigFile, solrPath );
@@ -523,8 +523,8 @@ public class CommandLineUtilTests
         ByteArrayOutputStream out11 = new ByteArrayOutputStream();
         ByteArrayOutputStream err11 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.SolrReIndexer", "main", null, out11, err11, new String[]{testConfigFile, "*:*", "marc_display"}, addnlProps2);
-        
-        CommandLineUtils.assertArrayEquals("record via GetFromSolr, and empty record ", out11.toByteArray(), new byte[0]); 
+
+        CommandLineUtils.assertArrayEquals("record via GetFromSolr, and empty record ", out11.toByteArray(), new byte[0]);
 
         System.out.println("Test testIndexRecord is successful");
     }
@@ -570,25 +570,25 @@ public class CommandLineUtilTests
         ByteArrayOutputStream err2 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.SolrReIndexer", "main", null, out2, err2, new String[]{testConfigFile, "fund_code_facet:AL-APV-HUMSOC", "marc_display"}, addnlProps1);
 
-        CommandLineUtils.assertArrayEquals("record via GetFromSolr, and empty record ", out2.toByteArray(), new byte[0]); 
-        
+        CommandLineUtils.assertArrayEquals("record via GetFromSolr, and empty record ", out2.toByteArray(), new byte[0]);
+
         // now run the booklist reader program that will find and re-index records appearing in the provided sample booklist.txt file
         ByteArrayOutputStream out3 = new ByteArrayOutputStream();
         ByteArrayOutputStream err3 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.BooklistReader", "main", null, out3, err3, new String[]{testDataParentPath+"/booklists_sample.txt", testConfigFile}, addnlProps1);
-        
+
         // check that there now is one record with funcode_facet of AL-APV-HUMSOC
         ByteArrayOutputStream out4 = new ByteArrayOutputStream();
         ByteArrayOutputStream err4 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.SolrReIndexer", "main", null, out4, err4, new String[]{testConfigFile, "fund_code_facet:AL-APV-HUMSOC", "marc_display"}, addnlProps1);
-        
+
         // check that there now is one record with funcode_facet of AL-APV-HUMSOC
         ByteArrayOutputStream out5 = new ByteArrayOutputStream();
         ByteArrayOutputStream err5 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.SolrReIndexer", "main", null, out5, err5, new String[]{testConfigFile, "id:u5157597", "marc_display"}, addnlProps1);
 
-        CommandLineUtils.assertArrayEquals("record via GetFromSolr by id, and record via GetFromSolr by fund_code_facet ", out4.toByteArray(), out5.toByteArray()); 
-        
+        CommandLineUtils.assertArrayEquals("record via GetFromSolr by id, and record via GetFromSolr by fund_code_facet ", out4.toByteArray(), out5.toByteArray());
+
         // now delete all of the records in the index to make test order not matter
 //        IndexTest.deleteAllRecordsEmbedded(testConfigFile, solrPath );
 
@@ -596,10 +596,10 @@ public class CommandLineUtilTests
         ByteArrayOutputStream out13 = new ByteArrayOutputStream();
         ByteArrayOutputStream err13 = new ByteArrayOutputStream();
         CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.SolrReIndexer", "main", null, out13, err13, new String[]{testConfigFile, "*:*", "marc_display"}, addnlProps1);
-        
-        CommandLineUtils.assertArrayEquals("record via GetFromSolr, and empty record ", out13.toByteArray(), new byte[0]); 
-        
+
+        CommandLineUtils.assertArrayEquals("record via GetFromSolr, and empty record ", out13.toByteArray(), new byte[0]);
+
         System.out.println("Test testBooklistReader is successful");
     }
-    
+
 }
