@@ -26,9 +26,6 @@ public abstract class MarcHandler {
 	protected String addnlArgs[] = null;
 	/** the xx_config.properties file as a Properties object */
 	protected Properties configProps;
-// FIXME: should use an enumerated type for input type
-    protected boolean inputTypeXML = false;
-    protected boolean inputTypeJSON = false;
 	protected boolean permissiveReader;
 	protected String defaultEncoding;
     protected boolean to_utf_8;
@@ -358,16 +355,19 @@ public abstract class MarcHandler {
     public void loadReader(String source, String marcRecsFilename)
     		throws FileNotFoundException
 	{
+
         if (source.equals("FILE") || source.equals("STDIN"))
         {
+        	RecordFormat recFormat = RecordFormat.MARC21;
+
         	// setup the input source
         	InputStream marcRecsInputStream = null;
         	if (source.equals("FILE"))
         	{
                 if (marcRecsFilename != null && marcRecsFilename.toLowerCase().endsWith(".xml"))
-                    inputTypeXML = true;
+                	recFormat = RecordFormat.XML;
                 else if (marcRecsFilename != null && marcRecsFilename.toLowerCase().endsWith(".json"))
-                    inputTypeJSON = true;
+                	recFormat = RecordFormat.JSON;
         		try
         		{
             		if (marcRecsFilename == null)
@@ -410,17 +410,17 @@ public abstract class MarcHandler {
                     throw new IllegalArgumentException("Fatal error: Exception reading from stdin");
         		}
         		if (firstByte == '<')
-        			inputTypeXML = true;
+        			recFormat = RecordFormat.XML;
         		else if (firstByte == '{')
-        			inputTypeJSON = true;
+        			recFormat = RecordFormat.JSON;
         	}
 
         	// marcRecInputStream should be instantiated now
 
         	// instantiate reader (the MarcReader)
-            if (inputTypeXML)
+            if (recFormat == RecordFormat.XML)
                 reader = new MarcUnprettyXmlReader(marcRecsInputStream);
-            else if (inputTypeJSON)
+            else if (recFormat == RecordFormat.JSON)
                 reader = new MarcJsonReader(marcRecsInputStream);
             else if (permissiveReader)
             {
@@ -583,4 +583,13 @@ public abstract class MarcHandler {
 	        throw new IllegalArgumentException("Error configuring Indexer from properties file.  Exiting...");
 	    }
 	}
+
+
+	private enum RecordFormat
+	{
+		MARC21,
+		JSON,
+		XML
+	}
+
 }
