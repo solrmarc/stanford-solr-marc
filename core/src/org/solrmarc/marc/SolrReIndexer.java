@@ -91,8 +91,7 @@ public class SolrReIndexer extends MarcImporter
         String queryparts[] = queryForRecordsToUpdate.split(":");
         if (queryparts.length != 2)
         {
-            //System.err.println("Error query must be of the form    field:term");
-            logger.error("Error query must be of the form    field:term");
+            logger.error("Error:  query must be of the form    field:term");
             System.out.println("Error: query must be of the form    field:term  " + queryForRecordsToUpdate);
             return;
         }
