@@ -6,7 +6,7 @@ import java.util.*;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
-import org.solrmarc.tools.SolrObjectUtils;
+import org.solrmarc.tools.SolrUtils;
 
 /**
  * An implementation of SolrProxy utilizing a SolrServer from SolrJ.
@@ -30,7 +30,7 @@ public class SolrServerProxy implements SolrProxy
      */
     public String addDoc(Map<String, Object> fldNames2ValsMap, boolean verbose, boolean addDocToIndex) throws IOException
     {
-        SolrInputDocument inputDoc = SolrObjectUtils.createSolrInputDoc(fldNames2ValsMap);
+        SolrInputDocument inputDoc = SolrUtils.createSolrInputDoc(fldNames2ValsMap);
         if (addDocToIndex)
         {
             try

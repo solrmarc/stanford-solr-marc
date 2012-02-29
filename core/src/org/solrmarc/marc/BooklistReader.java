@@ -11,9 +11,9 @@ import org.apache.log4j.Logger;
 import org.solrmarc.tools.SolrMarcIndexerException;
 
 /**
- * 
- * 
- * @author Robert Haschart 
+ *
+ *
+ * @author Robert Haschart
  * @version $Id: BooklistReader.java 1378 2010-10-26 15:56:08Z rh9ec@virginia.edu $
  *
  */
@@ -24,10 +24,10 @@ public class BooklistReader extends SolrReIndexer
     static Logger logger = Logger.getLogger(BooklistReader.class.getName());
     String booklistFilename = null;
 
-    public BooklistReader() 
+    public BooklistReader()
     {
     }
-    
+
     static String[] addArg(String args[], String toAdd)
     {
         String result[] = new String[args.length + 1];
@@ -35,19 +35,19 @@ public class BooklistReader extends SolrReIndexer
         result[0] = toAdd;
         return(result);
     }
-    
+
     @Override
     protected void loadLocalProperties()
     {
         super.loadLocalProperties();
-        if (solrFieldContainingEncodedMarcRecord == null) 
+        if (solrFieldContainingEncodedMarcRecord == null)
         {
             solrFieldContainingEncodedMarcRecord = "marc_display";
         }
     }
-    
+
     @Override
-    protected void processAdditionalArgs() 
+    protected void processAdditionalArgs()
     {
         super.processAdditionalArgs();
         booklistFilename = addnlArgs.length > 0 ? addnlArgs[0] : "booklists.txt";
@@ -59,7 +59,7 @@ public class BooklistReader extends SolrReIndexer
         Runtime.getRuntime().addShutdownHook(new MyShutdownThread(this));
 
         Date start = new Date();
-        
+
         try {
             readBooklist(booklistFilename);
         }
@@ -68,9 +68,9 @@ public class BooklistReader extends SolrReIndexer
             System.err.println("Exception: "+e.getMessage());
             e.printStackTrace();
         }
-        
-        finish(); 
-        
+
+        finish();
+
         try
 		{
 			sendCommitToSolrUrl();
@@ -82,7 +82,7 @@ public class BooklistReader extends SolrReIndexer
 
         return(0);
     }
-        
+
     /**
      * Read a book list
      * @param filename Path to the book list file
@@ -98,7 +98,7 @@ public class BooklistReader extends SolrReIndexer
                 URLConnection conn = url.openConnection();
                 input = new InputStreamReader(conn.getInputStream());
             }
-            else        
+            else
             {
                 String fileNameAll = filename;
                 try {
@@ -116,7 +116,7 @@ public class BooklistReader extends SolrReIndexer
             while ((line = reader.readLine()) != null)
             {
                 if (shuttingDown) break;
-                
+
                 String fields[] = line.split("\\|");
                 Map<String, String> valuesToAdd = new LinkedHashMap<String, String>();
                 valuesToAdd.put("fund_code_facet", fields[11]);
@@ -124,7 +124,7 @@ public class BooklistReader extends SolrReIndexer
                 DateFormat format = new SimpleDateFormat("yyyyMMdd");
                 Date dateReceived = format.parse(fields[0], new ParsePosition(0));
                 if (dateReceived.after(today)) continue;
-                
+
                 String docID = "u"+fields[9];
                 try {
                     Map<String, Object> docMap = getDocumentMap(docID);
@@ -134,7 +134,7 @@ public class BooklistReader extends SolrReIndexer
                         documentCache.put(docID, docMap);
                         if (doUpdate && docMap != null && docMap.size() != 0)
                         {
-                            update(docMap);
+                            updateSolrIndex(docMap);
                         }
                     }
                 }
@@ -142,15 +142,15 @@ public class BooklistReader extends SolrReIndexer
                 {
                     if (e.getLevel() == SolrMarcIndexerException.IGNORE)
                     {
-                        logger.error("Indexing routine says record "+ docID + " should be ignored");                                   
+                        logger.error("Indexing routine says record "+ docID + " should be ignored");
                     }
                     else if (e.getLevel() == SolrMarcIndexerException.DELETE)
                     {
-                        logger.error("Indexing routine says record "+ docID + " should be deleted");                                   
+                        logger.error("Indexing routine says record "+ docID + " should be deleted");
                     }
                     if (e.getLevel() == SolrMarcIndexerException.EXIT)
                     {
-                        logger.error("Indexing routine says processing should be terminated by record "+ docID); 
+                        logger.error("Indexing routine says processing should be terminated by record "+ docID);
                         break;
                     }
 
@@ -170,10 +170,10 @@ public class BooklistReader extends SolrReIndexer
         }
 
     }
-    
+
     /**
      * Get the documentMap for the the given marc id
-     * @param docID 
+     * @param docID
      * @return The map of index fields
      */
     private Map<String, Object> getDocumentMap(String docID)
@@ -185,7 +185,7 @@ public class BooklistReader extends SolrReIndexer
         }
         else
         {
-            docMap = readAndIndexDoc("id", docID, false);
+            docMap = retrieveAndReIndexDocs("id", docID, false);
         }
         return docMap;
     }
@@ -197,10 +197,10 @@ public class BooklistReader extends SolrReIndexer
         {
             String keyVal = keyIter.next();
             String addnlFieldVal = valuesToAdd.get(keyVal);
-            addToMap(docMap, keyVal, addnlFieldVal); 
-        }        
+            addValToFldNames2ValsMap(docMap, keyVal, addnlFieldVal);
+        }
     }
-    
+
 //    private Record lookup(String doc_id)
 //    {
 //        RefCounted<SolrIndexSearcher> rs = solrCore.getSearcher();
@@ -233,11 +233,11 @@ public class BooklistReader extends SolrReIndexer
 //
 //                XPathExpression  xPathExpression=
 //                    xPath.compile("/response/result/doc/arr[@name='marc_display']/str");
-//                
+//
 //                InputSource inputSource = new InputSource(stream);
 //                marcRecord = xPathExpression.evaluate(inputSource);
 //            }
-//            
+//
 //            MarcXmlReader reader = new MarcXmlReader(new ByteArrayInputStream(marcRecord.getBytes("UTF8")));
 //            if (reader.hasNext())
 //            {
@@ -263,10 +263,10 @@ public class BooklistReader extends SolrReIndexer
      * @param args
      */
 
-    public static void main(String[] args) 
+    public static void main(String[] args)
     {
         logger.info("Starting Booklist processing.");
-        
+
         BooklistReader reader = null;
         try
         {
@@ -287,7 +287,7 @@ public class BooklistReader extends SolrReIndexer
             //e.printStackTrace();
             System.exit(1);
         }
-        
+
         int exitCode = reader.handleAll();
         System.exit(exitCode);
     }

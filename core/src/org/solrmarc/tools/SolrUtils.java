@@ -2,15 +2,48 @@ package org.solrmarc.tools;
 
 import java.util.*;
 
+import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
+import org.apache.solr.client.solrj.*;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 
 /**
- * Utility methods for manipulating Solr objects
+ * Utility methods for interacting with Solr and Solr objects
  * @author Naomi Dushay
  */
-public class SolrObjectUtils
+public class SolrUtils
 {
+
+	/**
+	 * Given a Solr field name and value and the name of a requestHandler,
+	 *  query Solr and return the matching Solr documents
+	 * @param SolrServer - the initialized SolrJ SolrServer object to be used
+	 *  to interact with the Solr index.
+	 * @param solrFldName - the name of the field to be matched
+	 * @param solrFldVal - the field value to be matched
+	 * @param requestHandlerName - the name of the request handler to be used
+	 * @return the matching Solr documents, as a SolrDocumentList
+	 */
+	public static SolrDocumentList getDocsFromFieldedQuery(SolrServer solrServer, String solrFldName, String solrFldVal, String requestHandlerName)
+	{
+	    SolrQuery query = new SolrQuery();
+	    query.setQuery(solrFldName + ":" + solrFldVal);
+	    query.setQueryType(requestHandlerName);
+	    query.setFacet(false);
+	    try
+	    {
+	        QueryResponse response = solrServer.query(query);
+	        return response.getResults();
+	    }
+	    catch (SolrServerException e)
+	    {
+	        e.printStackTrace();
+	    }
+
+	    return null;
+	}
+
 
     /**
      * create a SolrInputDocument from a Map of Solr field names to values
