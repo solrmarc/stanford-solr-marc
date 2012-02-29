@@ -5,6 +5,7 @@ import java.util.*;
 
 import org.marc4j.*;
 import org.marc4j.marc.Record;
+import org.solrmarc.solr.SolrProxy;
 import org.solrmarc.solr.SolrServerProxy;
 import org.solrmarc.tools.*;
 
@@ -35,6 +36,17 @@ public class SolrReIndexer extends MarcImporter
     public SolrReIndexer()
     {
     }
+
+
+    /**
+     * Constructs an instance using given SolrProxy
+     */
+    public SolrReIndexer(SolrProxy solrProxy)
+    {
+    	this();
+    	this.solrProxy = solrProxy;
+    }
+
 
     @Override
     public int handleAll()
