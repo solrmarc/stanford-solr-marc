@@ -18,7 +18,7 @@ import org.solrmarc.tools.*;
         MarcCombiningReaderTests.class,
         RecordReaderTest.class,
         RemoteServerTest.class,
-        SolrObjectUtilTests.class,
+        SolrUtilTests.class,
         SolrUpdateTest.class,
         StringNaturalCompareTest.class,
         UtilUnitTests.class

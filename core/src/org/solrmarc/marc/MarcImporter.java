@@ -830,7 +830,6 @@ public class MarcImporter extends MarcHandler
 
 
 
-
     /**
      * Main program instantiation for doing the indexing
      * @param args
