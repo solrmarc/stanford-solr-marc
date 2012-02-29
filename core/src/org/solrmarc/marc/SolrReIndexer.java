@@ -80,6 +80,24 @@ public class SolrReIndexer extends MarcImporter
     }
 
 
+    /**
+	 * Retrieve a single document from the solr index, given the implied fielded
+	 *  search (which assumes a request handler named "standard" that uses
+	 *  the Lucene QueryParser), then get the marc record stored in the indicated
+	 *  Solr field, then re-index the marc record and return the SolrInputDocument
+	 *  created (new SolrInputDocument is not written to the index.)
+	 * @param solrFldName field name for Solr query (fielded search)
+	 * @param solrFldVal  field value for Solr query (fielded search)
+     * @param marcRecFldName the name of the Solr field containing the full Marc Record
+     * @return a populated SolrInputDocument that has not been written to the Solr Index
+     */
+    public SolrInputDocument getSolrInputDoc(String solrFldName, String solrFldVal, String marcRecFldName)
+    {
+    	SolrDocument solrDoc = getSingleSolrDocumentFromSolr(solrFldName, solrFldVal);
+    	Record marcRecObj = getMarcRecObjFromSolrDoc(solrDoc, marcRecFldName);
+    	return getSolrInputDocFromMarcRec(marcRecObj);
+    }
+
 
     /**
 	 * Retrieve a single document from the solr index, given the implied fielded
@@ -89,7 +107,7 @@ public class SolrReIndexer extends MarcImporter
 	 * @param solrFldVal  field value for Solr query (fielded search)
 	 * @return the single matching SolrDocument
 	 */
-    public SolrDocument getMatchingSolrDocumentFromSolr(String solrFldName, String solrFldVal)
+    public SolrDocument getSingleSolrDocumentFromSolr(String solrFldName, String solrFldVal)
     {
 	    SolrDocumentList sdl = SolrUtils.getDocsFromFieldedQuery(solrServer, solrFldName, solrFldVal, "standard");
 	    if (sdl == null || sdl.size() != 1)
@@ -104,17 +122,18 @@ public class SolrReIndexer extends MarcImporter
 
     /**
      * Retrieve the marc information from the Solr document
-     * @param doc SolrDocument from the index
+     * @param solrDoc SolrDocument from the index
+     * @param marcRecFldName the name of the Solr field containing the full Marc Record
      * @return marc4j Record
      */
-    public Record getMarcRecordFromSolrDoc(SolrDocument doc)
+    public Record getMarcRecObjFromSolrDoc(SolrDocument solrDoc, String marcRecFldName)
     {
         String field = null;
-        field = doc.getFirstValue(solrFieldContainingEncodedMarcRecord).toString();
+        field = solrDoc.getFirstValue(marcRecFldName).toString();
         if (field == null || field.length() == 0)
         {
             //System.err.println("field: "+ solrFieldContainingEncodedMarcRecord + " not found in solr document");
-            logger.warn("field: "+ solrFieldContainingEncodedMarcRecord + " not found in solr document");
+            logger.warn("field: "+ marcRecFldName + " not found in solr document");
             return(null);
         }
 
@@ -125,6 +144,17 @@ public class SolrReIndexer extends MarcImporter
         	return MarcReadingUtils.getRecordFromJSONString(marcRecordStr, verbose);
         else
             return MarcReadingUtils.getRecordFromBinaryMarc(marcRecordStr, verbose);
+    }
+
+
+    /**
+     * Retrieve the marc information from the Solr document
+     * @param solrDoc SolrDocument from the index
+     * @return marc4j Record
+     */
+    public Record getMarcRecObjFromSolrDoc(SolrDocument solrDoc)
+    {
+    	return getMarcRecObjFromSolrDoc(solrDoc, solrFieldContainingEncodedMarcRecord);
     }
 
 
@@ -225,7 +255,7 @@ public class SolrReIndexer extends MarcImporter
                 for (SolrDocument doc : sdl)
                 {
                     totalProcessed++;
-                    Record record = getMarcRecordFromSolrDoc(doc);
+                    Record record = getMarcRecObjFromSolrDoc(doc);
                     if (output != null && record != null)
                     {
                         output.write(record);
@@ -255,7 +285,7 @@ public class SolrReIndexer extends MarcImporter
 	    SolrDocumentList sdl = SolrUtils.getDocsFromFieldedQuery(solrServer, solrFldName, solrFldVal, "standard");
         for (SolrDocument solrDoc : sdl)
         {
-            Record marcRec = getMarcRecordFromSolrDoc(solrDoc);
+            Record marcRec = getMarcRecObjFromSolrDoc(solrDoc);
             if (marcRec != null)
             {
                 Map<String, Object> fldNames2ValsMap = indexer.createFldNames2ValsMap(marcRec, errors);
