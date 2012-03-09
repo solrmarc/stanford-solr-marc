@@ -308,6 +308,16 @@
     <!-- lib -|- location -|- note -|- holdings summary -|- last received  -->
     <field name="mhld_display" type="string" indexed="false" stored="true" multiValued="true" />
 
+    <!-- Course ReserveFields -->
+    <field name="crez_course_id_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
+    <field name="crez_course_name_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
+    <field name="crez_instructor_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
+    <field name="crez_course_facet" type="string" indexed="true" stored="false" multiValued="true" />
+    <field name="crez_instructor_facet" type="string" indexed="true" stored="false" multiValued="true" />
+    <field name="dept_facet" type="string" indexed="true" stored="false" multiValued="true" />
+    <field name="crez_desk_facet" type="string" indexed="true" stored="false" multiValued="true" />
+    <field name="crez_display" type="string" indexed="false" stored="true" multiValued="true" />
+
     <!-- *************** additional fields for Image collections  ****************** -->
 
     <field name="rights" type="string" indexed="false" stored="true"/>
@@ -326,6 +336,14 @@
     <field name="ig_id" type="string" indexed="true" stored="true" omitNorms="true" />
 
     <field name="parent_coll_ckey" type="string" indexed="true" stored="true" omitNorms="true"></field>
+
+    <!-- *************** dynamic field types  ****************** -->
+<!--
+    <dynamicField name="*_search" type="text" indexed="true" stored="false" multiValued="true" />
+    <dynamicField name="*_facet" type="string" indexed="true" stored="false" multiValued="true" />
+    <dynamicField name="*_display" type="string" indexed="false" stored="true" multiValued="true"/>
+    <dynamicField name="*_sort" type="alphaSort" indexed="true" stored="false"/>
+-->
 
   </fields>
 
@@ -360,6 +378,9 @@
   <copyField source="toc_search" dest="toc_unstem_search" />
   <copyField source="context_search" dest="context_unstem_search" />
   <copyField source="summary_search" dest="summary_unstem_search" />
+
+  <!-- course reserve fields -->
+  <copyField source="crez_instructor_search" dest="crez_instructor_facet" />
 
   <!-- image fields -->
   <copyField source="medium" dest="medium_search" />
