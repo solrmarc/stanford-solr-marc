@@ -895,14 +895,19 @@
   <!-- request handler for different searches in the pulldown menu for the single search box -->
   <requestHandler name="search_local_params" class="solr.SearchHandler">
     <lst name="defaults">
-      <str name="defType">dismax</str>
+      <str name="defType">lucene</str>
       <str name="echoParams">explicit</str>
+      <int name="rows">20</int>
+      <str name="df">all_search</str>
+      <str name="q.op">AND</str>
+      <int name="qs">1</int>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
-      <str name="q.alt">*:*</str>
+
+      <!-- used for dismax query parser -->
       <str name="mm">6&lt;-1 6&lt;90%</str>
       <int name="ps">3</int>
       <float name="tie">0.01</float>
-      <int name="qs">1</int>
+      <str name="q.alt">*:*</str>
       <str name="qf">
         title_245a_unstem_search^100000
         title_245a_search^75000        vern_title_245a_search^75000
@@ -1097,6 +1102,7 @@
       	crez_instructor_search^20
       	crez_course_name_search^20
       </str>
+      <str name="sort_crez">score desc, title_sort asc, pub_date_sort desc</str>
 
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
