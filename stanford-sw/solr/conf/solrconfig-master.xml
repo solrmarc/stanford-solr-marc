@@ -73,7 +73,7 @@
 
 <!-- no warm up queries for (indexing) master -->
     <useColdSearcher>true</useColdSearcher>
-    <maxWarmingSearchers>2</maxWarmingSearchers>
+    <maxWarmingSearchers>4</maxWarmingSearchers>
   </query>
 
   <!-- Let the dispatch filter handler /select?qt=XXX -->
