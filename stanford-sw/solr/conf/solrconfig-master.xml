@@ -218,13 +218,14 @@
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
       <str name="facet.field">callnum_top_facet</str>
-      <str name="facet.field">lc_alpha_facet</str>
-      <str name="facet.field">lc_b4cutter_facet</str>
-      <str name="facet.field">dewey_1digit_facet</str>
-      <str name="facet.field">dewey_2digit_facet</str>
-      <str name="facet.field">dewey_b4cutter_facet</str>
-      <str name="facet.field">gov_doc_type_facet</str>
+	      <str name="facet.field">lc_alpha_facet</str>
+	      <str name="facet.field">lc_b4cutter_facet</str>
+	      <str name="facet.field">dewey_1digit_facet</str>
+	      <str name="facet.field">dewey_2digit_facet</str>
+	      <str name="facet.field">dewey_b4cutter_facet</str>
+	      <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">collection</str>
+      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
@@ -285,13 +286,14 @@
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
       <str name="facet.field">callnum_top_facet</str>
-      <str name="facet.field">lc_alpha_facet</str>
-      <str name="facet.field">lc_b4cutter_facet</str>
-      <str name="facet.field">dewey_1digit_facet</str>
-      <str name="facet.field">dewey_2digit_facet</str>
-      <str name="facet.field">dewey_b4cutter_facet</str>
-      <str name="facet.field">gov_doc_type_facet</str>
+	      <str name="facet.field">lc_alpha_facet</str>
+	      <str name="facet.field">lc_b4cutter_facet</str>
+	      <str name="facet.field">dewey_1digit_facet</str>
+	      <str name="facet.field">dewey_2digit_facet</str>
+	      <str name="facet.field">dewey_b4cutter_facet</str>
+	      <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">collection</str>
+      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
@@ -342,13 +344,14 @@
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
       <str name="facet.field">callnum_top_facet</str>
-      <str name="facet.field">lc_alpha_facet</str>
-      <str name="facet.field">lc_b4cutter_facet</str>
-      <str name="facet.field">dewey_1digit_facet</str>
-      <str name="facet.field">dewey_2digit_facet</str>
-      <str name="facet.field">dewey_b4cutter_facet</str>
-      <str name="facet.field">gov_doc_type_facet</str>
+	      <str name="facet.field">lc_alpha_facet</str>
+	      <str name="facet.field">lc_b4cutter_facet</str>
+	      <str name="facet.field">dewey_1digit_facet</str>
+	      <str name="facet.field">dewey_2digit_facet</str>
+	      <str name="facet.field">dewey_b4cutter_facet</str>
+	      <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">collection</str>
+      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
@@ -428,6 +431,7 @@
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">collection</str>
+      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
@@ -466,13 +470,14 @@
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
       <str name="facet.field">callnum_top_facet</str>
-      <str name="facet.field">lc_alpha_facet</str>
-      <str name="facet.field">lc_b4cutter_facet</str>
-      <str name="facet.field">dewey_1digit_facet</str>
-      <str name="facet.field">dewey_2digit_facet</str>
-      <str name="facet.field">dewey_b4cutter_facet</str>
-      <str name="facet.field">gov_doc_type_facet</str>
+	      <str name="facet.field">lc_alpha_facet</str>
+	      <str name="facet.field">lc_b4cutter_facet</str>
+	      <str name="facet.field">dewey_1digit_facet</str>
+	      <str name="facet.field">dewey_2digit_facet</str>
+	      <str name="facet.field">dewey_b4cutter_facet</str>
+	      <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">collection</str>
+      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
@@ -506,12 +511,13 @@
       <str name="facet.field">building_facet</str>
       <str name="facet.field">callnum_top_facet</str>
       <str name="facet.field">lc_alpha_facet</str>
-      <str name="facet.field">lc_b4cutter_facet</str>
-      <str name="facet.field">dewey_1digit_facet</str>
-      <str name="facet.field">dewey_2digit_facet</str>
-      <str name="facet.field">dewey_b4cutter_facet</str>
-      <str name="facet.field">gov_doc_type_facet</str>
+	      <str name="facet.field">lc_b4cutter_facet</str>
+	      <str name="facet.field">dewey_1digit_facet</str>
+	      <str name="facet.field">dewey_2digit_facet</str>
+	      <str name="facet.field">dewey_b4cutter_facet</str>
+	      <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">collection</str>
+      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
@@ -528,7 +534,7 @@
 
 
   <!-- request handler for different searches in the pulldown menu for the single search box -->
-  <requestHandler name="search_pulldown" class="solr.SearchHandler">
+  <requestHandler name="search_local_params" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="defType">dismax</str>
       <str name="echoParams">explicit</str>
@@ -723,6 +729,15 @@
       <str name="qf_series">series_search     vern_series_search</str>
       <str name="pf_series">series_search^20  vern_series_search^20</str>
 
+      <str name="qf_crez">
+      	crez_instructor_search
+      	crez_course_name_search
+				crez_course_id_search
+      </str>
+      <str name="pf_crez">
+      	crez_instructor_search^20
+      	crez_course_name_search^20
+      </str>
 
       <bool name="facet">false</bool>
       <int name="facet.mincount">1</int>
@@ -732,13 +747,14 @@
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
       <str name="facet.field">callnum_top_facet</str>
-      <str name="facet.field">lc_alpha_facet</str>
-      <str name="facet.field">lc_b4cutter_facet</str>
-      <str name="facet.field">dewey_1digit_facet</str>
-      <str name="facet.field">dewey_2digit_facet</str>
-      <str name="facet.field">dewey_b4cutter_facet</str>
-      <str name="facet.field">gov_doc_type_facet</str>
+	      <str name="facet.field">lc_alpha_facet</str>
+	      <str name="facet.field">lc_b4cutter_facet</str>
+	      <str name="facet.field">dewey_1digit_facet</str>
+	      <str name="facet.field">dewey_2digit_facet</str>
+	      <str name="facet.field">dewey_b4cutter_facet</str>
+	      <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">collection</str>
+      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
@@ -927,13 +943,14 @@
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
       <str name="facet.field">callnum_top_facet</str>
-      <str name="facet.field">lc_alpha_facet</str>
-      <str name="facet.field">lc_b4cutter_facet</str>
-      <str name="facet.field">dewey_1digit_facet</str>
-      <str name="facet.field">dewey_2digit_facet</str>
-      <str name="facet.field">dewey_b4cutter_facet</str>
-      <str name="facet.field">gov_doc_type_facet</str>
+	      <str name="facet.field">lc_alpha_facet</str>
+	      <str name="facet.field">lc_b4cutter_facet</str>
+	      <str name="facet.field">dewey_1digit_facet</str>
+	      <str name="facet.field">dewey_2digit_facet</str>
+	      <str name="facet.field">dewey_b4cutter_facet</str>
+	      <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">collection</str>
+      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
@@ -967,12 +984,13 @@
       <str name="facet.field">building_facet</str>
       <str name="facet.field">callnum_top_facet</str>
       <str name="facet.field">lc_alpha_facet</str>
-      <str name="facet.field">lc_b4cutter_facet</str>
-      <str name="facet.field">dewey_1digit_facet</str>
-      <str name="facet.field">dewey_2digit_facet</str>
-      <str name="facet.field">dewey_b4cutter_facet</str>
-      <str name="facet.field">gov_doc_type_facet</str>
+	      <str name="facet.field">lc_b4cutter_facet</str>
+	      <str name="facet.field">dewey_1digit_facet</str>
+	      <str name="facet.field">dewey_2digit_facet</str>
+	      <str name="facet.field">dewey_b4cutter_facet</str>
+	      <str name="facet.field">gov_doc_type_facet</str>
       <str name="facet.field">collection</str>
+      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
