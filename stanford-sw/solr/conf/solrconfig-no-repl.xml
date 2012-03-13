@@ -50,27 +50,19 @@
 
   <query>
     <maxBooleanClauses>1024</maxBooleanClauses>
-<!-- TODO:  decrease size??? -->
-    <filterCache class="solr.FastLRUCache"
-      size="100000" initialSize="5120" minSize="65000" acceptableSize="75000" autowarmCount="1280" cleanupThread="true"/>
 
-    <!-- The fieldValueCache is created by default even if not configured here.
-    -->
-    <fieldValueCache class="solr.FastLRUCache"
-        size="25" initialSize="25" minSize="17" autowarmCount="25" showItems="64"/>
+    <filterCache class="solr.FastLRUCache" size="50000" initialSize="12500" autowarmCount="48" cleanupThread="true"/>
+    <useFilterForSortedQuery>true</useFilterForSortedQuery>
+
+    <!-- The fieldValueCache is created by default even if not configured here. -->
+    <fieldValueCache class="solr.FastLRUCache" size="25" initialSize="25" autowarmCount="25" showItems="64"/>
 
 <!-- turned off due to hit ratio < 20%
-    <queryResultCache class="solr.LRUCache"
-      size="102400" initialSize="8192" autowarmCount="1024"/>
+    <queryResultCache class="solr.LRUCache" size="102400" initialSize="8192" autowarmCount="1024"/>
 -->
 
-<!-- TODO:  decrease size??? -->
-    <documentCache class="solr.LRUCache"
-      size="20480" initialSize="8192" autowarmCount="0"/>
-
+    <documentCache class="solr.LRUCache" size="40960" initialSize="8192" autowarmCount="0"/>
     <enableLazyFieldLoading>true</enableLazyFieldLoading>
-
-    <useFilterForSortedQuery>true</useFilterForSortedQuery>
 
     <queryResultWindowSize>80</queryResultWindowSize>
 
