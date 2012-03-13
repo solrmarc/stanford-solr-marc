@@ -324,7 +324,7 @@
         collection_search^20
         medium^20
       </str>
-      <int name="ps">3</int>
+      <int name="ps">0</int>
       <float name="tie">0.01</float>
 
       <bool name="facet">true</bool>
@@ -443,7 +443,7 @@
         title_related_search^150      vern_title_related_search^150
         series_search^75              vern_series_search^75
       </str>
-      <int name="ps">3</int>
+      <int name="ps">0</int>
       <float name="tie">0.01</float>
 
       <bool name="facet">true</bool>
@@ -551,7 +551,7 @@
         author_8xx_unstem_search^250
         author_8xx_search^200        vern_author_8xx_search^200
       </str>
-      <int name="ps">3</int>
+      <int name="ps">0</int>
       <float name="tie">0.01</float>
 
       <bool name="facet">true</bool>
@@ -681,7 +681,7 @@
         db_az_subject_search^20
       </str>
 
-      <int name="ps">3</int>
+      <int name="ps">0</int>
       <float name="tie">0.01</float>
 
       <bool name="facet">true</bool>
@@ -777,7 +777,7 @@
       <str name="qf">series_search     vern_series_search</str>
       <str name="pf">series_search^20  vern_series_search^20</str>
 
-      <int name="ps">3</int>
+      <int name="ps">0</int>
       <float name="tie">0.01</float>
 
       <bool name="facet">true</bool>
@@ -964,7 +964,7 @@
 
       <!-- used for dismax query parser -->
       <str name="mm">6&lt;-1 6&lt;90%</str>
-      <int name="ps">3</int>
+      <int name="ps">0</int>
       <float name="tie">0.01</float>
       <str name="q.alt">*:*</str>
       <str name="qf">
@@ -1269,7 +1269,7 @@
 
       <!-- used for dismax query parser -->
       <str name="mm">1</str> <!-- mm must be 1 to make all search terms "optional" -->
-      <int name="ps">3</int>
+      <int name="ps">0</int>
       <float name="tie">0.01</float>
       <!-- for user query terms in author text box -->
       <str name="qf_author">
@@ -1646,27 +1646,11 @@
     </arr>
   </requestHandler>
 
-
   <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" startup="lazy"/>
   <requestHandler name="/update/javabin" class="solr.BinaryUpdateRequestHandler" startup="lazy"/>
-  <requestHandler name="/update/csv" class="solr.CSVRequestHandler" startup="lazy" />
   <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" />
-  <requestHandler name="/admin/ping" class="PingRequestHandler">
-    <lst name="defaults">
-      <str name="qt">standard</str>
-      <str name="q">id:666</str>
-      <str name="echoParams">all</str>
-    </lst>
-  </requestHandler>
   <admin>
     <defaultQuery>id:666</defaultQuery>
   </admin>
-  <requestHandler name="/debug/dump" class="solr.DumpRequestHandler" >
-    <lst name="defaults">
-      <str name="echoParams">explicit</str> <!-- for all params (including the default etc) use: 'all' -->
-      <bool name="echoHandler">true</bool>
-      <bool name="debugQuery">true</bool>
-    </lst>
-  </requestHandler>
 
 </config>
