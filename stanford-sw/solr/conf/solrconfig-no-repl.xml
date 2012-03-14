@@ -71,7 +71,8 @@
     <HashDocSet maxSize="200000" loadFactor="0.75"/>
 
     <!-- a newSearcher event is fired whenever a new searcher is being prepared
-         and there is a current searcher handling requests (aka registered). -->
+         and there is a current searcher handling requests (aka registered).
+         It should only have the most common facets -->
     <listener event="newSearcher" class="solr.QuerySenderListener">
       <arr name="queries">
         <!-- default query for all objects, front page facets -->
@@ -92,7 +93,7 @@
             <str name="f.format.facet.method">enum</str>
           <str name="facet.field">language</str>
         </lst>
-        <!-- single object query to populate filter cache -->
+        <!-- single object query to populate filter and fieldValue cache -->
         <lst>
           <str name="q">id:666</str>
           <str name="qt">standard</str>
@@ -153,7 +154,7 @@
             <str name="f.format.facet.method">enum</str>
           <str name="facet.field">language</str>
         </lst>
-        <!-- single object query to populate filter cache -->
+        <!-- single object query to populate filter and fieldValue cache -->
         <lst>
           <str name="q">id:666</str>
           <str name="qt">standard</str>
