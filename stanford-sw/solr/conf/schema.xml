@@ -312,11 +312,10 @@
     <field name="crez_course_id_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="crez_course_name_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="crez_instructor_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
-    <field name="crez_course_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <field name="crez_instructor_facet" type="string" indexed="true" stored="false" multiValued="true" />
-    <field name="dept_facet" type="string" indexed="true" stored="false" multiValued="true" />
+    <field name="crez_dept_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <field name="crez_desk_facet" type="string" indexed="true" stored="false" multiValued="true" />
-    <field name="crez_display" type="string" indexed="false" stored="true" multiValued="true" />
+    <field name="crez_course_info" type="string" indexed="true" stored="true" multiValued="true" />
 
     <!-- *************** additional fields for Image collections  ****************** -->
 

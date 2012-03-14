@@ -182,7 +182,9 @@
               <str name="f.gov_doc_type_facet.facet.method">enum</str>
           <str name="facet.field">collection</str>
             <str name="f.collection.facet.method">enum</str>
-          <str name="facet.field">crez_course_facet</str>
+          <str name="facet.field">crez_course_info</str>
+            <str name="f.crez_course_info.facet.sort">index</str>
+            <str name="f.crez_course_info.facet.limit">-1</str>
           <str name="facet.field">db_az_subject</str>
             <str name="f.db_az_subject.facet.sort">false</str>
           <str name="facet.field">display_type</str>
@@ -349,7 +351,6 @@
           <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
-      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
         <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
@@ -372,7 +373,7 @@
         author_person_display,
         author_person_full_display,
         collection,
-        crez_display,
+        crez_course_info,
         db_az_subject,
         format,
         img_info,
@@ -467,7 +468,6 @@
           <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
-      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
         <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
@@ -490,7 +490,7 @@
         author_person_display,
         author_person_full_display,
         collection,
-        crez_display,
+        crez_course_info,
         db_az_subject,
         format,
         img_info,
@@ -574,7 +574,6 @@
           <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
-      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
         <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
@@ -597,7 +596,7 @@
         author_person_display,
         author_person_full_display,
         collection,
-        crez_display,
+        crez_course_info,
         db_az_subject,
         format,
         img_info,
@@ -703,7 +702,6 @@
           <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
-      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
         <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
@@ -726,7 +724,7 @@
         author_person_display,
         author_person_full_display,
         collection,
-        crez_display,
+        crez_course_info,
         db_az_subject,
         format,
         img_info,
@@ -798,7 +796,6 @@
           <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
-      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
         <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
@@ -821,7 +818,7 @@
         author_person_display,
         author_person_full_display,
         collection,
-        crez_display,
+        crez_course_info,
         db_az_subject,
         format,
         img_info,
@@ -887,7 +884,6 @@
           <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
-      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
         <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
@@ -910,7 +906,7 @@
         author_person_display,
         author_person_full_display
         collection,
-        crez_display,
+        crez_course_info,
         db_az_subject,
         format,
         img_info,
@@ -1179,7 +1175,6 @@
           <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
-      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
         <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
@@ -1202,7 +1197,7 @@
         author_person_display,
         author_person_full_display,
         collection,
-        crez_display,
+        crez_course_info,
         db_az_subject,
         format,
         img_info,
@@ -1425,7 +1420,6 @@
           <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
-      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
         <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
@@ -1448,7 +1442,7 @@
         author_person_display,
         author_person_full_display,
         collection,
-        crez_display,
+        crez_course_info,
         db_az_subject,
         format,
         img_info,
@@ -1514,7 +1508,6 @@
           <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
-      <str name="facet.field">crez_course_facet</str>
       <str name="facet.field">db_az_subject</str>
         <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
@@ -1537,7 +1530,7 @@
         author_person_display,
         author_person_full_display,
         collection,
-        crez_display,
+        crez_course_info,
         db_az_subject,
         format,
         img_info,
