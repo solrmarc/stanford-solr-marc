@@ -55,7 +55,7 @@
     <useFilterForSortedQuery>true</useFilterForSortedQuery>
 
     <!-- The fieldValueCache is created by default even if not configured here. -->
-    <fieldValueCache class="solr.FastLRUCache" size="25" initialSize="25" autowarmCount="25" showItems="64"/>
+    <fieldValueCache class="solr.FastLRUCache" size="25" initialSize="25" autowarmCount="0" showItems="64"/>
 
 <!-- turned off due to hit ratio < 20%
     <queryResultCache class="solr.LRUCache" size="102400" initialSize="8192" autowarmCount="1024"/>
@@ -191,7 +191,6 @@
             <str name="f.format.facet.method">enum</str>
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">language</str>
-          <str name="facet.field">medium</str>
           <str name="facet.field">pub_date_group_facet</str>
             <str name="f.pub_date_group_facet.facet.method">enum</str>
           <str name="facet.field">pub_date</str>
@@ -359,7 +358,6 @@
         <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
         <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
@@ -478,7 +476,6 @@
         <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
         <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
@@ -586,7 +583,6 @@
         <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
         <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
@@ -716,7 +712,6 @@
         <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
         <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
@@ -812,7 +807,6 @@
         <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
         <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
@@ -902,7 +896,6 @@
         <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
         <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
@@ -1195,7 +1188,6 @@
         <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
         <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
@@ -1442,7 +1434,6 @@
         <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
         <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
@@ -1532,7 +1523,6 @@
         <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
         <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
