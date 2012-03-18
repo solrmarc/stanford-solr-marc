@@ -52,18 +52,13 @@
     <maxBooleanClauses>1024</maxBooleanClauses>
 <!-- no filterCache or query cache for (indexing) master -->
 
-    <!-- The fieldValueCache is created by default even if not configured here.
-    -->
-    <fieldValueCache class="solr.FastLRUCache"
-        size="25" initialSize="25" minSize="17" autowarmCount="0" showItems="64"/>
-
-<!-- TODO:  decrease size??? -->
-    <documentCache class="solr.LRUCache"
-      size="20480" initialSize="8192" autowarmCount="0"/>
-
-    <enableLazyFieldLoading>true</enableLazyFieldLoading>
-
     <useFilterForSortedQuery>true</useFilterForSortedQuery>
+
+    <!-- The fieldValueCache is created by default even if not configured here. -->
+    <fieldValueCache class="solr.FastLRUCache" size="25" initialSize="25" autowarmCount="0" showItems="64"/>
+
+    <documentCache class="solr.LRUCache" size="40960" initialSize="8192" autowarmCount="0"/>
+    <enableLazyFieldLoading>true</enableLazyFieldLoading>
 
     <queryResultWindowSize>80</queryResultWindowSize>
 
@@ -207,34 +202,42 @@
         collection_search^20
         medium^20
       </str>
-      <int name="ps">3</int>
+      <int name="ps">0</int>
       <float name="tie">0.01</float>
 
       <bool name="facet">false</bool>
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
+        <str name="f.access_facet.facet.method">enum</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
+        <str name="f.building_facet.facet.method">enum</str>
       <str name="facet.field">callnum_top_facet</str>
+        <str name="f.callnum_top_facet.facet.method">enum</str>
 	      <str name="facet.field">lc_alpha_facet</str>
+          <str name="f.lc_alpha_facet.facet.method">enum</str>
 	      <str name="facet.field">lc_b4cutter_facet</str>
 	      <str name="facet.field">dewey_1digit_facet</str>
+          <str name="f.dewey_1digit_facet.facet.method">enum</str>
 	      <str name="facet.field">dewey_2digit_facet</str>
 	      <str name="facet.field">dewey_b4cutter_facet</str>
 	      <str name="facet.field">gov_doc_type_facet</str>
+          <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
-      <str name="facet.field">crez_course_facet</str>
+        <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
+        <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+        <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
+        <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
     </lst>
@@ -275,34 +278,42 @@
         title_related_search^150      vern_title_related_search^150
         series_search^75              vern_series_search^75
       </str>
-      <int name="ps">3</int>
+      <int name="ps">0</int>
       <float name="tie">0.01</float>
 
       <bool name="facet">false</bool>
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
+        <str name="f.access_facet.facet.method">enum</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
+        <str name="f.building_facet.facet.method">enum</str>
       <str name="facet.field">callnum_top_facet</str>
+        <str name="f.callnum_top_facet.facet.method">enum</str>
 	      <str name="facet.field">lc_alpha_facet</str>
+          <str name="f.lc_alpha_facet.facet.method">enum</str>
 	      <str name="facet.field">lc_b4cutter_facet</str>
 	      <str name="facet.field">dewey_1digit_facet</str>
+          <str name="f.dewey_1digit_facet.facet.method">enum</str>
 	      <str name="facet.field">dewey_2digit_facet</str>
 	      <str name="facet.field">dewey_b4cutter_facet</str>
 	      <str name="facet.field">gov_doc_type_facet</str>
+          <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
-      <str name="facet.field">crez_course_facet</str>
+        <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
+        <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+        <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
+        <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
     </lst>
@@ -333,34 +344,42 @@
         author_8xx_unstem_search^250
         author_8xx_search^200        vern_author_8xx_search^200
       </str>
-      <int name="ps">3</int>
+      <int name="ps">0</int>
       <float name="tie">0.01</float>
 
       <bool name="facet">false</bool>
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
+        <str name="f.access_facet.facet.method">enum</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
+        <str name="f.building_facet.facet.method">enum</str>
       <str name="facet.field">callnum_top_facet</str>
+        <str name="f.callnum_top_facet.facet.method">enum</str>
 	      <str name="facet.field">lc_alpha_facet</str>
+          <str name="f.lc_alpha_facet.facet.method">enum</str>
 	      <str name="facet.field">lc_b4cutter_facet</str>
 	      <str name="facet.field">dewey_1digit_facet</str>
+          <str name="f.dewey_1digit_facet.facet.method">enum</str>
 	      <str name="facet.field">dewey_2digit_facet</str>
 	      <str name="facet.field">dewey_b4cutter_facet</str>
 	      <str name="facet.field">gov_doc_type_facet</str>
+          <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
-      <str name="facet.field">crez_course_facet</str>
+        <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
+        <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+        <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
+        <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
     </lst>
@@ -413,34 +432,42 @@
         db_az_subject_search^20
       </str>
 
-      <int name="ps">3</int>
+      <int name="ps">0</int>
       <float name="tie">0.01</float>
 
       <bool name="facet">false</bool>
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
+        <str name="f.access_facet.facet.method">enum</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
+        <str name="f.building_facet.facet.method">enum</str>
       <str name="facet.field">callnum_top_facet</str>
+        <str name="f.callnum_top_facet.facet.method">enum</str>
       <str name="facet.field">lc_alpha_facet</str>
+          <str name="f.lc_alpha_facet.facet.method">enum</str>
       <str name="facet.field">lc_b4cutter_facet</str>
       <str name="facet.field">dewey_1digit_facet</str>
+          <str name="f.dewey_1digit_facet.facet.method">enum</str>
       <str name="facet.field">dewey_2digit_facet</str>
       <str name="facet.field">dewey_b4cutter_facet</str>
       <str name="facet.field">gov_doc_type_facet</str>
+          <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
-      <str name="facet.field">crez_course_facet</str>
+        <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
+        <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+        <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
+        <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
     </lst>
@@ -459,34 +486,42 @@
       <str name="qf">series_search     vern_series_search</str>
       <str name="pf">series_search^20  vern_series_search^20</str>
 
-      <int name="ps">3</int>
+      <int name="ps">0</int>
       <float name="tie">0.01</float>
 
       <bool name="facet">false</bool>
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
+        <str name="f.access_facet.facet.method">enum</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
+        <str name="f.building_facet.facet.method">enum</str>
       <str name="facet.field">callnum_top_facet</str>
+        <str name="f.callnum_top_facet.facet.method">enum</str>
 	      <str name="facet.field">lc_alpha_facet</str>
+          <str name="f.lc_alpha_facet.facet.method">enum</str>
 	      <str name="facet.field">lc_b4cutter_facet</str>
 	      <str name="facet.field">dewey_1digit_facet</str>
+          <str name="f.dewey_1digit_facet.facet.method">enum</str>
 	      <str name="facet.field">dewey_2digit_facet</str>
 	      <str name="facet.field">dewey_b4cutter_facet</str>
 	      <str name="facet.field">gov_doc_type_facet</str>
+          <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
-      <str name="facet.field">crez_course_facet</str>
+        <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
+        <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+        <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
+        <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
     </lst>
@@ -506,27 +541,35 @@
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
+        <str name="f.access_facet.facet.method">enum</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
+        <str name="f.building_facet.facet.method">enum</str>
       <str name="facet.field">callnum_top_facet</str>
+        <str name="f.callnum_top_facet.facet.method">enum</str>
       <str name="facet.field">lc_alpha_facet</str>
+          <str name="f.lc_alpha_facet.facet.method">enum</str>
 	      <str name="facet.field">lc_b4cutter_facet</str>
 	      <str name="facet.field">dewey_1digit_facet</str>
+          <str name="f.dewey_1digit_facet.facet.method">enum</str>
 	      <str name="facet.field">dewey_2digit_facet</str>
 	      <str name="facet.field">dewey_b4cutter_facet</str>
 	      <str name="facet.field">gov_doc_type_facet</str>
+          <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
-      <str name="facet.field">crez_course_facet</str>
+        <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
+        <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+        <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
+        <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
     </lst>
@@ -546,7 +589,7 @@
 
       <!-- used for dismax query parser -->
       <str name="mm">6&lt;-1 6&lt;90%</str>
-      <int name="ps">3</int>
+      <int name="ps">0</int>
       <float name="tie">0.01</float>
       <str name="q.alt">*:*</str>
       <str name="qf">
@@ -749,27 +792,35 @@
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
+        <str name="f.access_facet.facet.method">enum</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
+        <str name="f.building_facet.facet.method">enum</str>
       <str name="facet.field">callnum_top_facet</str>
+        <str name="f.callnum_top_facet.facet.method">enum</str>
 	      <str name="facet.field">lc_alpha_facet</str>
+          <str name="f.lc_alpha_facet.facet.method">enum</str>
 	      <str name="facet.field">lc_b4cutter_facet</str>
 	      <str name="facet.field">dewey_1digit_facet</str>
+          <str name="f.dewey_1digit_facet.facet.method">enum</str>
 	      <str name="facet.field">dewey_2digit_facet</str>
 	      <str name="facet.field">dewey_b4cutter_facet</str>
 	      <str name="facet.field">gov_doc_type_facet</str>
+          <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
-      <str name="facet.field">crez_course_facet</str>
+        <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
+        <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+        <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
+        <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
     </lst>
@@ -800,7 +851,7 @@
 
       <!-- used for dismax query parser -->
       <str name="mm">1</str> <!-- mm must be 1 to make all search terms "optional" -->
-      <int name="ps">3</int>
+      <int name="ps">0</int>
       <float name="tie">0.01</float>
       <!-- for user query terms in author text box -->
       <str name="qf_author">
@@ -945,27 +996,35 @@
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int>   <!-- language uses more than 11 in advanced search -->
       <str name="facet.field">access_facet</str>
+        <str name="f.access_facet.facet.method">enum</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
+        <str name="f.building_facet.facet.method">enum</str>
       <str name="facet.field">callnum_top_facet</str>
+        <str name="f.callnum_top_facet.facet.method">enum</str>
 	      <str name="facet.field">lc_alpha_facet</str>
+          <str name="f.lc_alpha_facet.facet.method">enum</str>
 	      <str name="facet.field">lc_b4cutter_facet</str>
 	      <str name="facet.field">dewey_1digit_facet</str>
+          <str name="f.dewey_1digit_facet.facet.method">enum</str>
 	      <str name="facet.field">dewey_2digit_facet</str>
 	      <str name="facet.field">dewey_b4cutter_facet</str>
 	      <str name="facet.field">gov_doc_type_facet</str>
+          <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
-      <str name="facet.field">crez_course_facet</str>
+        <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
+        <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+        <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
+        <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
     </lst>
@@ -985,27 +1044,35 @@
       <int name="facet.mincount">1</int>
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
+        <str name="f.access_facet.facet.method">enum</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
+        <str name="f.building_facet.facet.method">enum</str>
       <str name="facet.field">callnum_top_facet</str>
+        <str name="f.callnum_top_facet.facet.method">enum</str>
       <str name="facet.field">lc_alpha_facet</str>
+          <str name="f.lc_alpha_facet.facet.method">enum</str>
 	      <str name="facet.field">lc_b4cutter_facet</str>
 	      <str name="facet.field">dewey_1digit_facet</str>
+          <str name="f.dewey_1digit_facet.facet.method">enum</str>
 	      <str name="facet.field">dewey_2digit_facet</str>
 	      <str name="facet.field">dewey_b4cutter_facet</str>
 	      <str name="facet.field">gov_doc_type_facet</str>
+          <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
-      <str name="facet.field">crez_course_facet</str>
+        <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
       <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
+        <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+        <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
-      <str name="facet.field">medium</str>
       <str name="facet.field">pub_date_group_facet</str>
+        <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">topic_facet</str>
     </lst>
@@ -1079,24 +1146,9 @@
 
   <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" startup="lazy"/>
   <requestHandler name="/update/javabin" class="solr.BinaryUpdateRequestHandler" startup="lazy"/>
-  <requestHandler name="/update/csv" class="solr.CSVRequestHandler" startup="lazy" />
   <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" />
-  <requestHandler name="/admin/ping" class="PingRequestHandler">
-    <lst name="defaults">
-      <str name="qt">standard</str>
-      <str name="q">id:666</str>
-      <str name="echoParams">all</str>
-    </lst>
-  </requestHandler>
   <admin>
     <defaultQuery>id:666</defaultQuery>
   </admin>
-  <requestHandler name="/debug/dump" class="solr.DumpRequestHandler" >
-    <lst name="defaults">
-      <str name="echoParams">explicit</str> <!-- for all params (including the default etc) use: 'all' -->
-      <bool name="echoHandler">true</bool>
-      <bool name="debugQuery">true</bool>
-    </lst>
-  </requestHandler>
 
 </config>
