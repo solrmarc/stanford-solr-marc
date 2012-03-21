@@ -312,10 +312,14 @@
     <field name="crez_course_id_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="crez_course_name_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="crez_instructor_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
-    <field name="crez_instructor_facet" type="string" indexed="true" stored="false" multiValued="true" />
+    <!--  instructor, course facet field names are exposed to end users in SW -->
+    <field name="instructor" type="string" indexed="true" stored="false" multiValued="true" />
+    <field name="course" type="string" indexed="true" stored="false" multiValued="true" />
+    <!-- crez_course_info is a facet and display field at this time (2012-03-21) -->
+    <field name="crez_course_info" type="string" indexed="true" stored="true" multiValued="true" />
+    <!-- the next two facets are not used in SW at this time -->
     <field name="crez_dept_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <field name="crez_desk_facet" type="string" indexed="true" stored="false" multiValued="true" />
-    <field name="crez_course_info" type="string" indexed="true" stored="true" multiValued="true" />
 
     <!-- *************** additional fields for Image collections  ****************** -->
 
@@ -379,7 +383,8 @@
   <copyField source="summary_search" dest="summary_unstem_search" />
 
   <!-- course reserve fields -->
-  <copyField source="crez_instructor_search" dest="crez_instructor_facet" />
+  <copyField source="crez_instructor_search" dest="instructor" />
+  <copyField source="crez_course_id_search" dest="course" />
 
   <!-- image fields -->
   <copyField source="medium" dest="medium_search" />
