@@ -1,6 +1,6 @@
 #! /bin/bash
 # pullThenIndexSirsiIncr.sh
-# Pull over the latest incremental update files from Sirsi, then 
+# Pull over the latest incremental update files from Sirsi, then
 #  Remove deleted records (per file of ids) from index and update index (with marc records in file)
 #
 # updated for Naomi's FORK of solrmarc 2011-01-23
@@ -22,7 +22,7 @@ else
   DEL_KEYS_FNAME=$TODAY"_ckeys_delete.del"
   RECORDS_FNAME=$TODAY"_uni_increment.marc"
 fi
-    
+
 #  sftp remote files with today's datestamp to "latest/updates"
 
 sftp -o 'IdentityFile=~/.ssh/id_rsa' apache@jenson:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
@@ -51,7 +51,7 @@ REC_FNAME=$LATEST_DATA_DIR/$RECORDS_FNAME
 DEL_ARG="-Dmarc.ids_to_delete="$LATEST_DATA_DIR/$DEL_KEYS_FNAME
 
 # index the files
-nohup java -Xmx4g -Xms4g $DEL_ARG -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
+nohup java -Xmx4g -Xms4g $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
 
 echo " "
 cat $LOG_DIR/$RECORDS_FNAME".txt"

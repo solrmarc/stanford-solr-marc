@@ -1,3 +1,4 @@
+# revise this so there is only one commit at the end of all.
 /home/blacklight/solrmarc-sw/stanford-sw/scripts/pullThenIndexSirsiIncr.sh 120121
 /home/blacklight/solrmarc-sw/stanford-sw/scripts/pullThenIndexSirsiIncr.sh 120122
 /home/blacklight/solrmarc-sw/stanford-sw/scripts/pullThenIndexSirsiIncr.sh 120123
