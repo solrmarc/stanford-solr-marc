@@ -54,8 +54,8 @@ nohup java -Xmx16g -Xms16g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_09500000_099
 #nohup java -Xmx16g -Xms16g -Dsolr.optimize_at_end="true" -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_09500000_09999999.marc &>$LOG_DIR/log950-999.txt
 
 # include Image Gallery images
-curl http://sw-solr-gen:8983/solr/update?commit=true -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/reid-dennis/ReidDennisSolrDocs_20110722_0001.xml
-curl http://sw-solr-gen:8983/solr/update?commit=true -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/kolb/KolbSolrDocs_20110722_0001.xml
+curl http://sw-solr-gen:8983/solr/update -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/reid-dennis/ReidDennisSolrDocs_20110722_0001.xml
+curl http://sw-solr-gen:8983/solr/update -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/kolb/KolbSolrDocs_20110722_0001.xml
 curl http://sw-solr-gen:8983/solr/update?commit=true -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/kolb/KolbSolrDocs_20110722_0002.xml
 
 echo "!!! RUN SEARCHWORKS TESTS before putting index into production !!!"
