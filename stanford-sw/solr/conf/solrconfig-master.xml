@@ -12,7 +12,7 @@
 
   <indexDefaults>
     <useCompoundFile>false</useCompoundFile>
-    <mergeFactor>10</mergeFactor>
+    <mergeFactor>8</mergeFactor>
     <reopenReaders>true</reopenReaders>
 
     <!--
