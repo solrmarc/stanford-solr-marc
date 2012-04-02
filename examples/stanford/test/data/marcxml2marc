@@ -1,1 +1,0 @@
-java -cp ../../../../bin:../../../../lib/marc4j.jar:../../../../lib/normalizer.jar org.marc4j.util.XmlMarcDriver 
