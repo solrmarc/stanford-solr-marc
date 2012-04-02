@@ -344,6 +344,7 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -461,6 +462,7 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -567,6 +569,7 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -695,6 +698,7 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -789,6 +793,7 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -877,6 +882,7 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -1168,6 +1174,7 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -1413,6 +1420,7 @@
       <int name="facet.limit">30</int>   <!-- language uses more than 11 in advanced search -->
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -1501,6 +1509,7 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
