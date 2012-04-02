@@ -32,7 +32,7 @@
     <!-- options specific to the main on-disk lucene index -->
     <useCompoundFile>false</useCompoundFile>
     <ramBufferSizeMB>128</ramBufferSizeMB>
-    <mergeFactor>10</mergeFactor>
+    <mergeFactor>8</mergeFactor>
 <!--
     <maxMergeDocs>2147483647</maxMergeDocs>
 -->
