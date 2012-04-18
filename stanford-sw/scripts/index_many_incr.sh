@@ -1,3 +1,5 @@
+#! /bin/bash
+
 # revise this so there is only one commit at the end of all.
 /home/blacklight/solrmarc-sw/stanford-sw/scripts/pullThenIndexSirsiIncr.sh 120317
 /home/blacklight/solrmarc-sw/stanford-sw/scripts/pullThenIndexSirsiIncr.sh 120318
@@ -27,3 +29,6 @@
 /home/blacklight/solrmarc-sw/stanford-sw/scripts/pullThenIndexSirsiIncr.sh 120411
 /home/blacklight/solrmarc-sw/stanford-sw/scripts/pullThenIndexSirsiIncr.sh 120412
 #/home/blacklight/solrmarc-sw/stanford-sw/scripts/pullThenIndexSirsiIncrOpt.sh 120217
+
+echo "!!! RUN SEARCHWORKS TESTS before putting index into production !!!"
+echo "!!! CHGRP before putting index into production !!!"
