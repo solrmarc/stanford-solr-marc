@@ -59,5 +59,6 @@ curl http://sw-solr-gen:8983/solr/update -H 'Content-type:text/xml; charset=utf-
 curl http://sw-solr-gen:8983/solr/update?commit=true -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/kolb/KolbSolrDocs_20110722_0002.xml
 
 echo "!!! RUN SEARCHWORKS TESTS before putting index into production !!!"
+echo "!!! CHGRP before putting index into production !!!"
 
 exit 0
