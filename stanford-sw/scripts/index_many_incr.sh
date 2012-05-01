@@ -30,5 +30,12 @@
 /home/blacklight/solrmarc-sw/stanford-sw/scripts/pullThenIndexSirsiIncr.sh 120412
 #/home/blacklight/solrmarc-sw/stanford-sw/scripts/pullThenIndexSirsiIncrOpt.sh 120217
 
+# include latest course reserves data
+JRUBY_OPTS="--1.9"
+export JRUBY_OPTS
+/usr/local/rvm/wrappers/jruby-1.6.7\@crez-sw-ingest /home/blacklight/crez-sw-ingest/bin/pull_and_index_latest -s prod
+# source /home/blacklight/crez-sw-ingest/bin/index_latest.sh -s prod
+
+
 echo "!!! RUN SEARCHWORKS TESTS before putting index into production !!!"
 echo "!!! CHGRP before putting index into production !!!"

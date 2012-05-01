@@ -58,6 +58,12 @@ curl http://sw-solr-gen:8983/solr/update -H 'Content-type:text/xml; charset=utf-
 curl http://sw-solr-gen:8983/solr/update -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/kolb/KolbSolrDocs_20110722_0001.xml
 curl http://sw-solr-gen:8983/solr/update?commit=true -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/kolb/KolbSolrDocs_20110722_0002.xml
 
+# include latest course reserves data if not doing incr updates immediately
+#JRUBY_OPTS="--1.9"
+#export JRUBY_OPTS
+#/usr/local/rvm/wrappers/jruby-1.6.7\@crez-sw-ingest /home/blacklight/crez-sw-ingest/bin/pull_and_index_latest -s prod
+# source /home/blacklight/crez-sw-ingest/bin/index_latest.sh -s prod
+
 echo "!!! RUN SEARCHWORKS TESTS before putting index into production !!!"
 echo "!!! CHGRP before putting index into production !!!"
 

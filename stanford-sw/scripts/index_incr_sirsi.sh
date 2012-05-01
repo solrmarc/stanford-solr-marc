@@ -38,4 +38,10 @@ mkdir -p $LOG_DIR
 # index the files
 nohup java -Xmx4g -Xms4g $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
 
+# include latest course reserves data
+JRUBY_OPTS="--1.9"
+export JRUBY_OPTS
+#/usr/local/rvm/wrappers/jruby-1.6.7\@crez-sw-ingest /home/blacklight/crez-sw-ingest/bin/pull_and_index_latest -s prod
+source /home/blacklight/crez-sw-ingest/bin/index_latest.sh -s prod
+
 exit 0
