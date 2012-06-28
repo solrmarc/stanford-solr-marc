@@ -129,6 +129,21 @@ public class MarcMappingOnly extends MarcHandler
 
     /**
      * read in the file of marc records indicated, looking for the desired
+     * record, and returning the mapping of solr field names to values.
+     *
+     * @param record the Marc Record object to be mapped
+     * @return a mapping of solr field names to solr field values (as Objects that are Strings or Collections of Strings)
+     */
+    public Map<String, Object> getIndexMapForRecord(Record record)
+    {
+    	Map<String, Object> solrFldName2ValMap = indexer.createFldNames2ValsMap(record, errors);
+    	if (errors != null && includeErrors && errors.hasErrors())
+    		solrFldName2ValMap.put("marc_error", errors.getErrors());
+        return solrFldName2ValMap;
+    }
+
+    /**
+     * read in the file of marc records indicated, looking for the desired
      * record, and return the specified field/fields according to the provided fieldSpec
      *
      * @param desiredRecId  value for solr id field, or pass in a value of null to simply accept
