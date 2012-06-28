@@ -11,39 +11,39 @@ import edu.stanford.enumValues.PubDateGroup;
 
 /**
  * Publication Data Utility methods for StanfordIndexer in SolrMarc project
- * 
+ *
  * @author Naomi Dushay
  */
 public class PublicationUtils {
 
 	private static int currYearAsInt = Calendar.getInstance().get(Calendar.YEAR);
 	private static String currYearAsStr = Integer.toString(currYearAsInt);
-	
+
 	/**
 	 * Default Constructor: private, so it can't be instantiated by other objects
-	 */	
+	 */
 	private PublicationUtils(){ }
-	
-	
+
+
 	/**
-	 * Gets 260ab but ignore s.l in 260a and s.n. in 260b
-	 * @param vf260List - a List of the 260 fields as VariableField objects
+	 * Gets 260ab and 264ab but ignore s.l in 260a and s.n. in 260b
+	 * @param vf26xList - a List of the 260 and 264 fields as VariableField objects
      * @param fieldSpec - which marc fields / subfields to use as values
-	 * @return Set of strings containing values in 260ab, without s.l in 260a 
-	 *  and without s.n. in 260b
+	 * @return Set of strings containing values in 260ab and 264ab, without
+	 *  s.l in 260a and without s.n. in 260b
 	 */
     @SuppressWarnings("unchecked")
-	static Set<String> getPublication(List<VariableField> vf260List) 
-    { 
+	static Set<String> getPublication(List<VariableField> vf26xList)
+    {
 		Set<String> resultSet = new LinkedHashSet<String>();
-		for (VariableField vf260 : vf260List) 
+		for (VariableField vf260 : vf26xList)
 		{
 			DataField df260 = (DataField) vf260;
 			List<Subfield> subFlds = df260.getSubfields();
 			StringBuilder buffer = new StringBuilder("");
-			for (Subfield sf : subFlds) 
+			for (Subfield sf : subFlds)
 			{
-				// 
+				//
 				char sfcode = sf.getCode();
 				String sfdata = sf.getData();
 				boolean addIt = false;
@@ -51,7 +51,7 @@ public class PublicationUtils {
 					addIt = true;
 				else if (sfcode == 'b' && !sfdata.matches("(?i).*s\\.n\\..*"))
 					addIt = true;
-				if (addIt) 
+				if (addIt)
 				{
 					if (buffer.length() > 0)
 						buffer.append(" ");
@@ -66,17 +66,17 @@ public class PublicationUtils {
 
 	/**
 	 * returns the publication date from a record, if it is present and not
-     *  beyond the current year + 1 (and not earlier than 0500 if it is a 
+     *  beyond the current year + 1 (and not earlier than 0500 if it is a
      *  4 digit year
      *   four digit years < 0500 trigger an attempt to get a 4 digit date from 260c
-     * Side Effects:  errors in pub date are logged 
+     * Side Effects:  errors in pub date are logged
      * @param date008 - characters 7-10 (0 based index) in 008 field
 	 * @param date260c - the date string extracted from the 260c field
 	 * @param id - record id for error messages
 	 * @param logger - the logger for error messages
 	 * @return String containing publication date, or null if none
 	 */
-	static String getPubDate(final String date008, String date260c, String id, Logger logger) 
+	static String getPubDate(final String date008, String date260c, String id, Logger logger)
 	{
 		if (date008 != null) {
 			String errmsg = "Bad Publication Date in record " + id + " from 008/07-10: " + date008;
@@ -105,7 +105,7 @@ public class PublicationUtils {
 
 		return null;
 	}
-	
+
 	/**
      * returns the sortable publication date from a record, if it is present
      *  and not beyond the current year + 1, and not earlier than 0500 if
@@ -141,7 +141,7 @@ public class PublicationUtils {
 
 	/**
 	 * returns the publication date groupings from a record, if pub date is
-     *  given and is no later than the current year + 1, and is not earlier 
+     *  given and is no later than the current year + 1, and is not earlier
      *  than 0500 if it is a 4 digit year.
      *   four digit years < 0500 trigger an attempt to get a 4 digit date from 260c
      *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
@@ -149,7 +149,7 @@ public class PublicationUtils {
 	 * @return Set of Strings containing the publication date groupings
 	 *         associated with the publish date
 	 */
-	static Set<String> getPubDateGroups(String date008, String date260c) 
+	static Set<String> getPubDateGroups(String date008, String date260c)
 	{
 		Set<String> resultSet = new HashSet<String>();
 
@@ -167,7 +167,7 @@ public class PublicationUtils {
 						resultSet.add(PubDateGroup.LAST_3_YEARS.toString());
 					resultSet.addAll(getPubDateGroupsForYear(year));
 				}
-			} 
+			}
 			else if (isdddu(date008)) // decade
 			{
 				String first3Str = date008.substring(0, 3);
@@ -180,8 +180,8 @@ public class PublicationUtils {
 						resultSet.add(PubDateGroup.LAST_10_YEARS.toString());
 						if (currYearAsInt % 10 <= 3)
 							resultSet.add(PubDateGroup.LAST_3_YEARS.toString());
-					} 
-					else 
+					}
+					else
 					{ // not current decade
 						if (currYearAsInt % 10 <= 4) // which half of decade?
 						{
@@ -193,7 +193,7 @@ public class PublicationUtils {
 								resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
 							else
 								resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
-						} 
+						}
 						else {
 							// second half of decade - current year ends in 5-9
 							if (first3int > (currYearAsInt / 10) - 5)
@@ -204,7 +204,7 @@ public class PublicationUtils {
 					}
 
 				}
-			} 
+			}
 			else if (isdduu(date008)) { // century
 				String first2Str = date008.substring(0, 2);
 				int first2int = Integer.parseInt(first2Str);
@@ -216,16 +216,16 @@ public class PublicationUtils {
 
 						if (currYearAsInt % 100 <= 19)
 							resultSet.add(PubDateGroup.LAST_10_YEARS.toString());
-					} 
+					}
 					else {
-						if (first2int == (currYearAsInt / 100) - 1) 
+						if (first2int == (currYearAsInt / 100) - 1)
 						{
 							// previous century
 							if (currYearAsInt % 100 <= 25)
 								resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
 							else
 								resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
-						} 
+						}
 						else
 							resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
 					}
@@ -239,7 +239,7 @@ public class PublicationUtils {
 
 
 	/**
-     * check if a 4 digit year for a pub date is within the range.  If not, 
+     * check if a 4 digit year for a pub date is within the range.  If not,
      *  check for a 4 digit date in the 260c that is in range
 	 * @param dateToCheck - String containing 4 digit date to check
 	 * @param upperLimit - highest valid year (inclusive)
@@ -265,12 +265,12 @@ public class PublicationUtils {
 		return null;
 	}
 
-	
+
 	static int getCurrentYearAsInt() {
 		return currYearAsInt;
 	}
-	
-	static Set<String> getPubDateGroupsForYear(int year) 
+
+	static Set<String> getPubDateGroupsForYear(int year)
 	{
 		Set<String> resultSet = new HashSet<String>();
 
@@ -324,7 +324,7 @@ public class PublicationUtils {
 	static boolean isdddd(String str) {
 		return ddddPattern.matcher(str).matches();
 	}
-	
+
 	static boolean isdddu(String str) {
 		return ddduPattern.matcher(str).matches();
 	}
