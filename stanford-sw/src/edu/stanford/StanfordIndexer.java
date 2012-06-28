@@ -17,10 +17,10 @@ import edu.stanford.enumValues.*;
  */
 public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 {
-	/** name of map used to translate raw location code to display value 
+	/** name of map used to translate raw location code to display value
 	 *   map used to determine if call numbers should be lopped */
 	private static String LOCATION_MAP_NAME = null;
-	
+
 	/** locations indicating item should not be displayed */
 	static Set<String> SKIPPED_LOCS = null;
 	/** locations indicating item is missing or lost */
@@ -36,12 +36,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/**
 	 * Default constructor
-     * @param indexingPropsFile the name of xxx_index.properties file mapping 
+     * @param indexingPropsFile the name of xxx_index.properties file mapping
      *  solr field names to values in the marc records
      * @param propertyDirs - array of directories holding properties files
 	 */
 	public StanfordIndexer(String indexingPropsFile, String[] propertyDirs)
-    		throws FileNotFoundException, IOException, ParseException 
+    		throws FileNotFoundException, IOException, ParseException
     {
 		super(indexingPropsFile, propertyDirs);
         try
@@ -52,7 +52,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         {
 			e.printStackTrace();
 		}
-        
+
         SKIPPED_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_skipped_list.properties");
         MISSING_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_missing_list.properties");
         ONLINE_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_online_list.properties");
@@ -91,7 +91,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	ControlField cf008 = null;
 	/** date008 is bytes 7-10 (0 based index) in 008 field */
 	String date008 = null;
-	/** date260c is a four character String containing year from 260c 
+	/** date260c is a four character String containing year from 260c
 	 * "cleaned" per DateUtils.cleanDate() */
 	String date260c = null;
 	/** Set of 020 subfield a */
@@ -106,7 +106,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/** all items without skipped locations (shadowed, withdrawn) as a Set of
 	 *  Item objects */
 	Set<Item> itemSet;
-	
+
 	/** true if the record has items, false otherwise.  Used to detect on-order records */
 	boolean has999s = false;
 
@@ -133,13 +133,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		f020subz = MarcUtils.getFieldList(record, "020z");
 		f655suba = MarcUtils.getFieldList(record, "655a");
 		f956subu = MarcUtils.getFieldList(record, "956u");
-		
+
 		List<DataField> list999df = (List<DataField>) record.getVariableFields("999");
 		has999s = !list999df.isEmpty();
 
-		setId(record);		
+		setId(record);
 		boolean getBrowseCallnumFromBib = true;
-		
+
 		itemSet.clear();
 		for (DataField df999 : list999df) {
 			Item item = new Item(df999, id);
@@ -147,10 +147,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				itemSet.add(item);
 			// we need to get a browseable call number from bib only if
 			//   all items are online, or all items have callnum of "NO CALL NUMBER"
-			if (getBrowseCallnumFromBib) {				
+			if (getBrowseCallnumFromBib) {
 				if (!item.isOnline() && !item.hasIgnoredCallnum())
 					getBrowseCallnumFromBib = false;
-			}	
+			}
 		}
 
 		setFormats(record);
@@ -168,10 +168,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		}
 
 		setShelfkeys(record);
-		
+
 		lcCallnums = CallNumUtils.getLCcallnums(itemSet);
 		for (String callnum : lcCallnums) {
-			if (!org.solrmarc.tools.CallNumUtils.isValidLC(callnum)) 
+			if (!org.solrmarc.tools.CallNumUtils.isValidLC(callnum))
 				lcCallnums.remove(callnum);
 		}
 
@@ -189,15 +189,15 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
-	 * Assign id of record to be the ckey. Our ckeys are in 001 subfield a. 
-	 * Marc4j is unhappy with subfields in a control field so this is a kludge 
+	 * Assign id of record to be the ckey. Our ckeys are in 001 subfield a.
+	 * Marc4j is unhappy with subfields in a control field so this is a kludge
 	 * work around.
 	 */
-	private void setId(final Record record) 
+	private void setId(final Record record)
 	{
 		id = null;
 		ControlField fld = (ControlField) record.getVariableField("001");
-		if (fld != null && fld.getData() != null) 
+		if (fld != null && fld.getData() != null)
 		{
 			String rawVal = fld.getData();
 			if (rawVal.startsWith("a"))
@@ -214,7 +214,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * @return Set of strings containing format values for the resource
 	 * @param record a marc4j Record object
 	 */
-	public Set<String> getFormats(final Record record) 
+	public Set<String> getFormats(final Record record)
 	{
 		return formats;
 	}
@@ -226,14 +226,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 *  Hughes, and Jennifer Vine dated July 23, 2008.
 	 */
 	@SuppressWarnings("unchecked")
-	private void setFormats(final Record record) 
+	private void setFormats(final Record record)
 	{
 		formats.clear();
 
 		// assign formats based on leader chars 06, 07 and chars in 008
 		String leaderStr = record.getLeader().marshal();
 		formats.addAll(FormatUtils.getFormatsPerLdrAnd008(leaderStr, cf008));
-		
+
 		if (formats.isEmpty()) {
 			// see if it's a serial for format assignment
 			char leaderChar07 = leaderStr.charAt(7);
@@ -242,7 +242,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			if (serialFormat != null)
 				formats.add(serialFormat);
 		}
-		
+
 		// look for conference proceedings in 6xx
 		List<DataField> dfList = (List<DataField>) record.getDataFields();
 		for (DataField df : dfList) {
@@ -270,31 +270,31 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				else if (callnum.startsWith("ZDVD") || callnum.startsWith("ADVD"))
 					formats.add(Format.VIDEO.toString());
 			}
-			if (item.getType().equalsIgnoreCase("DATABASE"))				
+			if (item.getType().equalsIgnoreCase("DATABASE"))
 				formats.add(Format.DATABASE_A_Z.toString());
 		}
 
 		if (FormatUtils.isMicroformat(record))
 			formats.add(Format.MICROFORMAT.toString());
-			
+
 		if (FormatUtils.isThesis(record))
 			formats.add(Format.THESIS.toString());
-			
+
 		// if we still don't have a format, it's an "other"
 		if (formats.isEmpty() || formats.size() == 0)
-			formats.add(Format.OTHER.toString());		
+			formats.add(Format.OTHER.toString());
 	}
 // Format Methods  ---------------- End ------------------------- Format Methods
 
 // Language Methods ---------------- Begin -------------------- Language Methods
-	
+
 	/**
 	 * returns the language codes from the 008, 041a and 041d fields, splitting
 	 *  out separate lang codes from 041a if they are smushed together.
 	 * @param record a marc4j Record object
 	 * @return Set of strings containing three letter language codes
 	 */
-	public Set<String> getLanguages(final Record record) 
+	public Set<String> getLanguages(final Record record)
 	{
 		Set<String> langResultSet = MarcUtils.getFieldList(record, "008[35-37]:041d:041e:041j");
 
@@ -309,11 +309,11 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				}
 			}
 		}
-		
+
 		return langResultSet;
 	}
 
-	
+
 // Language Methods ----------------- End --------------------- Language Methods
 
 // Standard Number Methods --------- Begin ------------- Standard Number Methods
@@ -325,7 +325,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * @param record a marc4j Record object
 	 * @return Set of strings containing ISBN numbers
 	 */
-	public Set<String> getISBNs(final Record record) 
+	public Set<String> getISBNs(final Record record)
 	{
 		// ISBN algorithm
 		// 1. all 020 subfield a starting with 10 or 13 digits (last "digit" may be X). Ignore following text.
@@ -347,13 +347,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * @param record
 	 * @return Set of strings containing ISBN numbers
 	 */
-	public Set<String> getUserISBNs(final Record record) 
+	public Set<String> getUserISBNs(final Record record)
 	{
 		// ISBN algorithm - more inclusive
     	// 1. all 020 subfield a starting with 10 or 13 digits (last "digit" may be X). Ignore following text.
 		// AND
 		// 2. all 020 subfield z starting with 10 or 13 digits (last "digit" may be X). Ignore following text.
-		
+
 		// per SW-522
 		//  77x-78x subfield z
 
@@ -370,7 +370,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/**
      * returns the ISSN(s) from a record.  As ISSN is rarely multivalued, but
      *  MAY be multivalued, Naomi has decreed
-     * This is a custom routine because we want multiple ISSNs only if they are 
+     * This is a custom routine because we want multiple ISSNs only if they are
      * subfield a.
 	 * @param record a marc4j Record object
 	 * @return Set of strings containing ISSN numbers
@@ -415,7 +415,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     	//      use 079 field subfield a, value prefixed "ocm" or "ocn" - remove prefix
     	//      (If the id is eight digits in length, the prefix is "ocm", if 9 digits, "ocn")
     	//      Id's that are smaller than eight digits are padded with leading zeros.
-    	// 3. if no "(OCoLC-M)" 035 subfield a and no "ocm" or "ocn" 079 field subfield a, 
+    	// 3. if no "(OCoLC-M)" 035 subfield a and no "ocm" or "ocn" 079 field subfield a,
 		// use 035 subfield a, value prefixed "(OCoLC)" - remove prefix
 
 		Set<String> oclcSet = new LinkedHashSet<String>();
@@ -426,14 +426,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			// check for 079 prefixed "ocm" or "ocn"
 			// 079 is not repeatable
 			String val = MarcUtils.getFirstFieldVal(record, "079a");
-			if (val != null && val.length() != 0) 
+			if (val != null && val.length() != 0)
 			{
 				String good = null;
 				if (val.startsWith("ocm"))
 					good = Utils.removePrefix(val, "ocm");
 				else if (val.startsWith("ocn"))
 					good = Utils.removePrefix(val, "ocn");
-				if (good != null && good.length() != 0) 
+				if (good != null && good.length() != 0)
 				{
 					oclcSet.add(good.trim());
 					return oclcSet;
@@ -445,21 +445,21 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		return oclcSet;
 	}
 
-// Standard Number Methods --------- End --------------- Standard Number Methods    
+// Standard Number Methods --------- End --------------- Standard Number Methods
 
 
-// Title Methods ------------------- Begin ----------------------- Title Methods    
-        
+// Title Methods ------------------- Begin ----------------------- Title Methods
+
 	/**
      * returns string for title sort:  a string containing
-     *  1. the uniform title (130), if there is one - not including non-filing chars 
+     *  1. the uniform title (130), if there is one - not including non-filing chars
      *      as noted in 2nd indicator
      * followed by
      *  2.  the 245 title, not including non-filing chars as noted in ind 2
-     *  
+     *
 	 * @param record a marc4j Record object
 	 */
-	public String getSortTitle(final Record record) 
+	public String getSortTitle(final Record record)
     {
 		StringBuilder resultBuf = new StringBuilder();
 
@@ -476,7 +476,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		return resultBuf.toString().trim();
 	}
 
-// Title Methods -------------------- End ------------------------ Title Methods    
+// Title Methods -------------------- End ------------------------ Title Methods
 
 	/**
 	 * return a set of "author-title" strings derived from:
@@ -485,17 +485,17 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 *   	if there is a subfield t, all alpha except e, x
 	 *   800,810,811 - if no subfield t, ignore
 	 *   	if there is a subfield t, all alpha except e, v, w, x
-	 *   
+	 *
 	 *   vern1xx all alpha except e + vern240; if no vern240, vern245a; if no vern240 and no vern 245a, then skip.
 	 *   vern7xx - as above
-	 *   vern8xx - as above 
-	 * 
+	 *   vern8xx - as above
+	 *
 	 * @param record a marc4j Record object
 	 */
 	public Set<String> getAuthorTitleSearch(final Record record)
 	{
 		Set<String> resultSet = new HashSet<String>(10);
-		
+
 		String one_xx_spec = "100[a-df-z]:110[a-df-z]:111[a-hj-z]";
 		String two40_spec = "240[a-z]";
 		String two45_spec = "245a";
@@ -509,7 +509,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			}
 			resultSet.add(one_xx + " " + two4x);
 		}
-				
+
 		// 880 version of 1xx + 24x
 		// 	vern1xx all alpha except e + vern240; if no vern240, vern245a; if no vern240 and no vern 245a, then skip.
 		Set<String> vern_one_xx_set = MarcUtils.getLinkedField(record, one_xx_spec);
@@ -530,35 +530,35 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				resultSet.add(vern_one_xx + " " + verntwo4x);
 		}
 
-		
+
 		String desiredTagFldSpec = "700:710:711:800:810:811";
 
-		List<VariableField> fieldList = MarcUtils.getVariableFields(record, desiredTagFldSpec);		
+		List<VariableField> fieldList = MarcUtils.getVariableFields(record, desiredTagFldSpec);
 		resultSet.addAll(getAuthTitleStringsFrom7xx8xx(fieldList, false));
 
 		// linked versions
 		fieldList = MarcUtils.getLinkedVariableFields(record, desiredTagFldSpec);
 		resultSet.addAll(getAuthTitleStringsFrom7xx8xx(fieldList, true));
-		
+
 		return resultSet;
 	}
-	
-	
+
+
 	/**
-	 * given a List of VariableField objects return a set of "author-title" 
+	 * given a List of VariableField objects return a set of "author-title"
 	 *  strings derived from:
 	 *   7xx - if no subfield t, ignore
 	 *   	if there is a subfield t, all alpha except e, x
 	 *   8xx - if no subfield t, ignore
 	 *   	if there is a subfield t, all alpha except e, v, w, x
-	 *   
-	 * @param fieldList - a List of VariableField objects containing 7xx and 
+	 *
+	 * @param fieldList - a List of VariableField objects containing 7xx and
 	 *    8xx fields (or their linked versions) desired for author-title searching
 	 * @param linked - true if the field list is for linked fields (880 fields
 	 *    corresponding to 7xx and 8xx fields).
 	 */
 	@SuppressWarnings("unchecked")
-	private List<String> getAuthTitleStringsFrom7xx8xx(List<VariableField> fieldList, boolean linked) 
+	private List<String> getAuthTitleStringsFrom7xx8xx(List<VariableField> fieldList, boolean linked)
 	{
 		List<String> result = new ArrayList<String>();
 
@@ -591,15 +591,15 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	                        buffer.append(sf.getData());
                     }
                 }
-                
+
                 if (buffer.length() > 0)
-                	result.add(buffer.toString());				
+                	result.add(buffer.toString());
 			} // end if |t
 		}
 		return result;
 	}
 
-// Subject Methods ----------------- Begin --------------------- Subject Methods    
+// Subject Methods ----------------- Begin --------------------- Subject Methods
 
 	/**
 	 * Gets the value strings, but skips over 655a values when Lane is one of
@@ -608,7 +608,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      * @param fieldSpec - which marc fields / subfields to use as values
 	 * @return Set of strings containing values without Lane 655a or 650a nomesh
 	 */
-    public Set<String> getTopicAllAlphaExcept(final Record record, final String fieldSpec) 
+    public Set<String> getTopicAllAlphaExcept(final Record record, final String fieldSpec)
     {
 		Set<String> resultSet = MarcUtils.getAllAlphaExcept(record, fieldSpec);
 		if (buildings.contains("LANE-MED"))
@@ -622,7 +622,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * the locations. Also ignores 650a with value "nomesh". Removes trailing
 	 * characters indicated in regular expression, PLUS trailing period if it is
 	 * preceded by its regular expression.
-	 * 
+	 *
 	 * @param record a marc4j Record object
      * @param fieldSpec - which marc fields / subfields to use as values
      * @param charsToReplaceRegEx a regular expression of trailing chars to be
@@ -631,16 +631,16 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      *   (e.g. " *[,/;:]" replaces any commas, slashes, semicolons or colons
      *     at the end of the string, and these chars may optionally be preceded
      *     by a space)
-     * @param charsB4periodRegEx a regular expression that must immediately 
-     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED. 
-     *  Note that the regular expression will NOT have the period or '$' at 
-     *  the end. 
-     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately 
-     *   precede the period for it to be removed.) 
+     * @param charsB4periodRegEx a regular expression that must immediately
+     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED.
+     *  Note that the regular expression will NOT have the period or '$' at
+     *  the end.
+     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately
+     *   precede the period for it to be removed.)
 	 * @return Set of strings containing values without trailing characters and
 	 *         without Lane 655a or 650a nomesh
 	 */
-    public Set<String> getTopicWithoutTrailingPunct(final Record record, final String fieldSpec, String charsToReplaceRegEx, String charsB4periodRegEx) 
+    public Set<String> getTopicWithoutTrailingPunct(final Record record, final String fieldSpec, String charsToReplaceRegEx, String charsB4periodRegEx)
     {
     	Set<String> resultSet = removeTrailingPunct(record, fieldSpec, charsToReplaceRegEx, charsB4periodRegEx);
 		if (buildings.contains("LANE-MED"))
@@ -658,20 +658,20 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      *   (e.g. " *[,/;:]" replaces any commas, slashes, semicolons or colons
      *     at the end of the string, and these chars may optionally be preceded
      *     by a space)
-     * @param charsB4periodRegEx a regular expression that must immediately 
-     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED. 
-     *  Note that the regular expression will NOT have the period or '$' at 
-     *  the end. 
-     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately 
-     *   precede the period for it to be removed.) 
-	 * 
+     * @param charsB4periodRegEx a regular expression that must immediately
+     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED.
+     *  Note that the regular expression will NOT have the period or '$' at
+     *  the end.
+     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately
+     *   precede the period for it to be removed.)
+	 *
 	 * @return Set of strings containing geographic_facet values without trailing chars
 	 */
     @SuppressWarnings("unchecked")
-	public Set<String> getGeographicFacet(final Record record, String charsToReplaceRegEx, String charsB4periodRegEx) 
+	public Set<String> getGeographicFacet(final Record record, String charsToReplaceRegEx, String charsB4periodRegEx)
     {
 		Set<String> values = MarcUtils.getFieldList(record, "651a");
-		
+
 		// look for first subfield z in 6xx
 		List<DataField> dfList = (List<DataField>) record.getDataFields();
 		for (DataField df : dfList) {
@@ -681,7 +681,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					values.add(subList.get(0));
 			}
 		}
-		
+
 		// remove trailing punctuataion
 		Set<String> resultSet = new LinkedHashSet<String>();
 		for (String val : values) {
@@ -700,7 +700,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * @param record - marc4j Record object
 	 * @return Set of strings database A-Z subject codes from 099a
 	 */
-	public Set<String> getDbAZSubjects(final Record record) 
+	public Set<String> getDbAZSubjects(final Record record)
 	{
 		Set<String> subjectsSet = new LinkedHashSet<String>();
 		if (formats.contains(Format.DATABASE_A_Z.toString())) {
@@ -711,7 +711,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			subjectsSet.add("BP2");
 		if (subjectsSet.contains("BQ"))
 			subjectsSet.add("BQ2");
-		
+
 		if (subjectsSet.contains("GF"))
 			subjectsSet.add("GF2");
 
@@ -740,9 +740,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 
-// Subject Methods ----------------- End ----------------------- Subject Methods    
+// Subject Methods ----------------- End ----------------------- Subject Methods
 
-// Access Methods ----------------- Begin ----------------------- Access Methods    
+// Access Methods ----------------- Begin ----------------------- Access Methods
 
 	/**
 	 * returns the access facet values for a record. A record can have multiple
@@ -750,7 +750,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * @param record a marc4j Record object
 	 * @return Set of Strings containing access facet values.
 	 */
-	public Set<String> getAccessMethods(final Record record) 
+	public Set<String> getAccessMethods(final Record record)
 	{
 		Set<String> resultSet = new HashSet<String>();
 
@@ -769,9 +769,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		return resultSet;
 	}
 
-// Access Methods -----------------  End  ----------------------- Access Methods    
+// Access Methods -----------------  End  ----------------------- Access Methods
 
-// URL Methods -------------------- Begin -------------------------- URL Methods    
+// URL Methods -------------------- Begin -------------------------- URL Methods
 
     /**
      * returns a set of strings containing the sfx urls in a record.  Returns
@@ -786,7 +786,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	/**
 	 * assign sfxUrls to be strings containing the sfx urls in a record.
 	 */
-	private void setSFXUrls() 
+	private void setSFXUrls()
 	{
 		sfxUrls.clear();
 		// all 956 subfield u contain fulltext urls that aren't SFX
@@ -800,7 +800,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * returns the URLs for the full text of a resource described by the 856u
 	 * @param record a marc4j Record object
 	 */
-	public Set<String> getFullTextUrls(final Record record) 
+	public Set<String> getFullTextUrls(final Record record)
 	{
 		return fullTextUrls;
 	}
@@ -815,7 +815,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		// get full text urls from 856, then check for gsb forms
 		fullTextUrls = super.getFullTextUrls(record);
-		
+
 		// avoid ConcurrentModificationException  SW-322
 		String[] urlArray = new String[fullTextUrls.size()];
 		urlArray = fullTextUrls.toArray(urlArray);
@@ -825,7 +825,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
          		     possUrl.startsWith("https://www.gsb.stanford.edu/jacksonlibrary/services/"))
 				fullTextUrls.remove(possUrl);
 		}
-		
+
 //		for (String possUrl : fullTextUrls) {
 //       		if (possUrl.startsWith("http://www.gsb.stanford.edu/jacksonlibrary/services/") ||
 //          		     possUrl.startsWith("https://www.gsb.stanford.edu/jacksonlibrary/services/"))
@@ -843,13 +843,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 
 	/**
-	 * returns the URLs for restricted full text of a resource described 
+	 * returns the URLs for restricted full text of a resource described
 	 *  by the 856u.  Restricted is determined by matching a string against
 	 *  the 856z.  ("available to stanford-affiliated users at:")
 	 * @param record a marc4j Record object
 	 */
 	@SuppressWarnings("unchecked")
-	public Set<String> getRestrictedUrls(final Record record) 
+	public Set<String> getRestrictedUrls(final Record record)
 	{
 		// get full text urls from 856, then check for restricted access clause
         Set<String> resultSet = new LinkedHashSet<String>();
@@ -861,20 +861,20 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         {
             DataField df = (DataField) vf;
             List<String> subzs = MarcUtils.getSubfieldStrings(df, 'z');
-            if (subzs.size() > 0) 
+            if (subzs.size() > 0)
             {
             	boolean restricted = false;
-            	for (String subz : subzs) 
+            	for (String subz : subzs)
             	{
         			Matcher matcher = RESTRICTED_PATTERN.matcher(subz);
-        			if (matcher.find()) 
+        			if (matcher.find())
         			{
         				restricted = true;
         				break;
-        			}        			
+        			}
             	}
 
-            	if (restricted) 
+            	if (restricted)
             	{
                     List<String> possUrls = MarcUtils.getSubfieldStrings(df, 'u');
                     if (possUrls.size() > 0)
@@ -900,7 +900,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		return resultSet;
 	}
 
-	
+
 	private boolean isSFXUrl(String urlStr) {
     	if (urlStr.startsWith("http://caslon.stanford.edu:3210/sfxlcl3?") ||
         	 urlStr.startsWith("http://library.stanford.edu/sfx?") )
@@ -909,33 +909,33 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			return false;
 	}
 
-// URL Methods --------------------  End  -------------------------- URL Methods    
+// URL Methods --------------------  End  -------------------------- URL Methods
 
 
-// Publication Methods  -------------- Begin --------------- Publication Methods    
-    
+// Publication Methods  -------------- Begin --------------- Publication Methods
+
 	/**
-	 * Gets 260ab but ignore s.l in 260a and s.n. in 260b
+	 * Gets 260ab and 264ab  but ignore s.l in 260a and s.n. in 260b
 	 * @param record a marc4j Record object
-	 * @return Set of strings containing values in 260ab, without s.l in 260a 
+	 * @return Set of strings containing values in 260ab and 264ab, without s.l in 260a
 	 *  and without s.n. in 260b
 	 */
     @SuppressWarnings("unchecked")
-	public Set<String> getPublication(final Record record) 
-    { 
-    	return PublicationUtils.getPublication(record.getVariableFields("260"));
+	public Set<String> getPublication(final Record record)
+    {
+    	return PublicationUtils.getPublication(record.getVariableFields(new String[]{"260", "264"}));
 	}
 
 	/**
 	 * returns the publication date from a record, if it is present and not
-     *  beyond the current year + 1 (and not earlier than 0500 if it is a 
+     *  beyond the current year + 1 (and not earlier than 0500 if it is a
      *  4 digit year
      *   four digit years < 0500 trigger an attempt to get a 4 digit date from 260c
-     * Side Effects:  errors in pub date are logged 
+     * Side Effects:  errors in pub date are logged
 	 * @param record a marc4j Record object
 	 * @return String containing publication date, or null if none
 	 */
-	public String getPubDate(final Record record) 
+	public String getPubDate(final Record record)
 	{
 		return PublicationUtils.getPubDate(date008, date260c, id, logger);
 	}
@@ -955,7 +955,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/**
 	 * returns the publication date groupings from a record, if pub date is
-     *  given and is no later than the current year + 1, and is not earlier 
+     *  given and is no later than the current year + 1, and is not earlier
      *  than 0500 if it is a 4 digit year.
      *   four digit years < 0500 trigger an attempt to get a 4 digit date from 260c
      *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
@@ -963,16 +963,16 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * @return Set of Strings containing the publication date groupings
 	 *         associated with the publish date
 	 */
-	public Set<String> getPubDateGroups(final Record record) 
+	public Set<String> getPubDateGroups(final Record record)
 	{
 		return PublicationUtils.getPubDateGroups(date008, date260c);
 	}
 
-// Pub Date Methods  --------------  End  --------------------- Pub Date Methods    
+// Pub Date Methods  --------------  End  --------------------- Pub Date Methods
 
-	
-// AllFields Methods  --------------- Begin ------------------ AllFields Methods    
-		
+
+// AllFields Methods  --------------- Begin ------------------ AllFields Methods
+
 	/**
 	 * fields in the 0xx range (not including control fields) that should be
 	 * indexed in allfields
@@ -986,12 +986,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/**
 	 * Returns all subfield contents of all the data fields (non control fields)
-	 *  between 100 and 899 inclusive, as a single string 
+	 *  between 100 and 899 inclusive, as a single string
 	 *  plus the "keeper" fields
 	 * @param record Marc record to extract data from
 	 */
 	@SuppressWarnings("unchecked")
-	public String getAllFields(final Record record) 
+	public String getAllFields(final Record record)
 	{
 		StringBuilder result = new StringBuilder(5000);
 		List<DataField> dataFieldList = record.getDataFields();
@@ -1008,11 +1008,11 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		return result.toString().trim();
 	}
 
-// AllFields Methods  ---------------  End  ------------------ AllFields Methods    
+// AllFields Methods  ---------------  End  ------------------ AllFields Methods
 
 
-// Item Related Methods ------------- Begin --------------- Item Related Methods    
-	
+// Item Related Methods ------------- Begin --------------- Item Related Methods
+
 	/**
 	 * get buildings holding a copy of this resource
 	 * @param record a marc4j Record object
@@ -1025,7 +1025,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * set buildings from the 999 subfield m
 	 * @param record a marc4j Record object
 	 */
-	private void setBuildings(final Record record) 
+	private void setBuildings(final Record record)
 	{
 		buildings.clear();
 		for (Item item : itemSet) {
@@ -1052,7 +1052,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		String barcode = ItemUtils.getPreferredItemBarcode(itemSet);
 		if (barcode == null || barcode.length() == 0) {
 			for (Item item : itemSet) {
-				if ( ( item.isOnline() || item.hasIgnoredCallnum() ) 
+				if ( ( item.isOnline() || item.hasIgnoredCallnum() )
 					 && item.hasSeparateBrowseCallnum()) {
 					String skey = item.getShelfkey(isSerial);
 					if (skey != null && skey.length() > 0)
@@ -1063,14 +1063,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		return barcode;
 	}
-	
+
 	/**
 	 * for search results and record view displays:
-	 * @return set of fields containing individual item information 
+	 * @return set of fields containing individual item information
 	 *  (callnums, lib, location, status ...)
 	 * @param record a marc4j Record object
 	 */
-	public Set<String> getItemDisplay(final Record record) 
+	public Set<String> getItemDisplay(final Record record)
 	{
 		Set<String> result = new LinkedHashSet<String>();
 
@@ -1093,32 +1093,32 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		return result;
 	}
 
-// Item Related Methods -------------  End  --------------- Item Related Methods    
+// Item Related Methods -------------  End  --------------- Item Related Methods
 
-// Mhld Methods ---------------------- Begin ---------------------- Mhld Methods    
-	
+// Mhld Methods ---------------------- Begin ---------------------- Mhld Methods
+
 	/**
 	 * for search results and record view displays:
-	 * @return set of fields containing summary holdings information 
+	 * @return set of fields containing summary holdings information
 	 *  (lib, location, holdings, latest received ...)
 	 * @param record a marc4j Record object
 	 */
-	public Set<String> getMhldDisplay(final Record record) 
+	public Set<String> getMhldDisplay(final Record record)
 	{
 		MhldDisplayUtil mhldDisplayUtil = new MhldDisplayUtil(record, id);
 		return mhldDisplayUtil.getMhldDisplayValues();
 	}
-	
-// Mhld Methods ---------------------- End ------------------------ Mhld Methods    
-	
-// Call Number Methods -------------- Begin ---------------- Call Number Methods    
+
+// Mhld Methods ---------------------- End ------------------------ Mhld Methods
+
+// Call Number Methods -------------- Begin ---------------- Call Number Methods
 
 	/**
 	 * Get our local call numbers from subfield a in 999. Does not get call
 	 * number when item or callnum should be ignored, or for online items.
 	 * @param record a marc4j Record object
 	 */
-	public Set<String> getLocalCallNums(final Record record) 
+	public Set<String> getLocalCallNums(final Record record)
 	{
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) {
@@ -1133,13 +1133,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
-	 * Get values for top level call number facet:  
+	 * Get values for top level call number facet:
 	 *   for LC, the first character + description
 	 *   for Dewey, DEWEY
 	 *   for Gov Doc, GOV_DOC_FACET_VAL
 	 * @param record a marc4j Record object
 	 */
-	public Set<String> getCallNumsLevel1(final Record record) 
+	public Set<String> getCallNumsLevel1(final Record record)
 	{
 		Set<String> result = new HashSet<String>();
 		for (String callnum : lcCallnums) {
@@ -1232,7 +1232,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		return result;
 	}
 
-	
+
 	/**
 	 * Get type(s) of government doc based on location.
 	 * @param record a marc4j Record object
@@ -1248,7 +1248,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 *   presence of 086 field (use all 99s that aren't to be skipped)
 	 * @param record a marc4j Record object
 	 */
-	private void setGovDocCats(final Record record) 
+	private void setGovDocCats(final Record record)
 	{
 		govDocCats.clear();
 
@@ -1257,7 +1257,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		for (Item item : itemSet) {
 			if (item.hasGovDocLoc() || has086
 				|| item.getCallnumType() == CallNumberType.SUDOC) {
-				String rawLoc = item.getHomeLoc(); 
+				String rawLoc = item.getHomeLoc();
 				govDocCats.add(CallNumUtils.getGovDocTypeFromLocCode(rawLoc));
 			}
 		}
@@ -1275,11 +1275,11 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
-	 * Assign shelfkeys to sortable versions of "lopped" call numbers (call 
+	 * Assign shelfkeys to sortable versions of "lopped" call numbers (call
 	 * numbers without volume info)
 	 * @param record a marc4j Record object
 	 */
-	private void setShelfkeys(final Record record) 
+	private void setShelfkeys(final Record record)
 	{
 		shelfkeys.clear();
 		shelfkeys.addAll(CallNumUtils.getShelfkeys(itemSet, id, isSerial));
@@ -1291,26 +1291,26 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * (used to get previous callnums ...)
 	 * @param record a marc4j Record object
 	 */
-	public Set<String> getReverseShelfkeys(final Record record) 
+	public Set<String> getReverseShelfkeys(final Record record)
 	{
 		return CallNumUtils.getReverseShelfkeys(itemSet, isSerial);
 	}
-	
+
 // Call Number Methods -------------- End ---------------- Call Number Methods
 
 
-// Vernacular Methods --------------- Begin ----------------- Vernacular Methods    
+// Vernacular Methods --------------- Begin ----------------- Vernacular Methods
 
 	/**
 	 * Get the vernacular (880) field based which corresponds to the fieldSpec
 	 * in the subfield 6 linkage, handling multiple occurrences as indicated
 	 * @param record a marc4j Record object
-     * @param fieldSpec - which marc fields / subfields need to be sought in 
+     * @param fieldSpec - which marc fields / subfields need to be sought in
      *  880 fields (via linkages)
      * @param multOccurs - "first", "join" or "all" indicating how to handle
      *  multiple occurrences of field values
 	 */
-	public final Set<String> getVernacular(final Record record, String fieldSpec, String multOccurs) 
+	public final Set<String> getVernacular(final Record record, String fieldSpec, String multOccurs)
 	{
 		Set<String> result = MarcUtils.getLinkedField(record, fieldSpec);
 
@@ -1337,16 +1337,16 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
-	 * 
+	 *
 	 * For each occurrence of a marc field in the fieldSpec list, get the
      * matching vernacular (880) field (per subfield 6) and extract the
-     * contents of all subfields except the ones specified, concatenate the 
+     * contents of all subfields except the ones specified, concatenate the
      * subfield contents with a space separator and add the string to the result
      * set.
      * @param record - the marc record
      * @param fieldSpec - the marc fields (e.g. 600:655) for which we will grab
      *  the corresponding 880 field containing subfields other than the ones
-     *  indicated.  
+     *  indicated.
      * @return a set of strings, where each string is the concatenated values
      *  of all the alphabetic subfields in the 880s except those specified.
 	 */
@@ -1356,10 +1356,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		Set<String> resultSet = new LinkedHashSet<String>();
 
 		String[] fldTags = fieldSpec.split(":");
-		for (int i = 0; i < fldTags.length; i++) 
+		for (int i = 0; i < fldTags.length; i++)
 		{
 			String fldTag = fldTags[i].substring(0, 3);
-			if (fldTag.length() < 3 || Integer.parseInt(fldTag) < 10) 
+			if (fldTag.length() < 3 || Integer.parseInt(fldTag) < 10)
 			{
 				System.err.println("Invalid marc field specified for getAllAlphaExcept: " + fldTag);
 				continue;
@@ -1369,17 +1369,17 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 			Set<VariableField> vernFlds = MarcUtils.getVernacularFields(record, fldTag);
 
-			for (VariableField vf : vernFlds) 
+			for (VariableField vf : vernFlds)
 			{
 				StringBuilder buffer = new StringBuilder(500);
 				DataField df = (DataField) vf;
-				if (df != null) 
+				if (df != null)
 				{
 					List<Subfield> subfields = df.getSubfields();
-					for (Subfield sf : subfields) 
+					for (Subfield sf : subfields)
 					{
 						if (Character.isLetter(sf.getCode())
-								&& tabooSubfldTags.indexOf(sf.getCode()) == -1) 
+								&& tabooSubfldTags.indexOf(sf.getCode()) == -1)
 						{
 							if (buffer.length() > 0)
 								buffer.append(' ' + sf.getData());
@@ -1400,7 +1400,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * Get the vernacular (880) field based which corresponds to the fieldSpec
 	 * in the subfield 6 linkage, handling trailing punctuation as incidated
 	 * @param record a marc4j Record object
-     * @param fieldSpec - which marc fields / subfields need to be sought in 
+     * @param fieldSpec - which marc fields / subfields need to be sought in
      *  880 fields (via linkages)
      * @param charsToReplaceRegEx a regular expression of trailing chars to be
      *   replaced (see java Pattern class).  Note that the regular expression
@@ -1408,33 +1408,33 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      *   (e.g. " *[,/;:]" replaces any commas, slashes, semicolons or colons
      *     at the end of the string, and these chars may optionally be preceded
      *     by a space)
-     * @param charsB4periodRegEx a regular expression that must immediately 
-     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED. 
-     *  Note that the regular expression will NOT have the period or '$' at 
-     *  the end. 
-     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately 
-     *   precede the period for it to be removed.) 
+     * @param charsB4periodRegEx a regular expression that must immediately
+     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED.
+     *  Note that the regular expression will NOT have the period or '$' at
+     *  the end.
+     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately
+     *   precede the period for it to be removed.)
 	 */
-	public final Set<String> vernRemoveTrailingPunc(final Record record, String fieldSpec, String charsToReplaceRegEx, String charsB4periodRegEx) 
+	public final Set<String> vernRemoveTrailingPunc(final Record record, String fieldSpec, String charsToReplaceRegEx, String charsB4periodRegEx)
 	{
 		Set<String> origVals = MarcUtils.getLinkedField(record, fieldSpec);
 		Set<String> result = new LinkedHashSet<String>();
 
 		for (String val : origVals) {
-			result.add(Utils.removeAllTrailingCharAndPeriod(val, 
+			result.add(Utils.removeAllTrailingCharAndPeriod(val,
 					"(" + charsToReplaceRegEx + ")+", charsB4periodRegEx));
 		}
 		return result;
 	}
 
-// Vernacular Methods ---------------  End  ----------------- Vernacular Methods    
-    
-// Generic Methods ---------------- Begin ---------------------- Generic Methods    
-    
+// Vernacular Methods ---------------  End  ----------------- Vernacular Methods
+
+// Generic Methods ---------------- Begin ---------------------- Generic Methods
+
 	/**
 	 * Removes trailing characters indicated in regular expression, PLUS
 	 * trailing period if it is preceded by its regular expression.
-	 * 
+	 *
 	 * @param record a marc4j Record object
      * @param fieldSpec - which marc fields / subfields to use as values
      * @param charsToReplaceRegEx a regular expression of trailing chars to be
@@ -1443,16 +1443,16 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      *   (e.g. " *[,/;:]" replaces any commas, slashes, semicolons or colons
      *     at the end of the string, and these chars may optionally be preceded
      *     by a space)
-     * @param charsB4periodRegEx a regular expression that must immediately 
-     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED. 
-     *  Note that the regular expression will NOT have the period or '$' at 
-     *  the end. 
-     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately 
-     *   precede the period for it to be removed.) 
-	 * 
+     * @param charsB4periodRegEx a regular expression that must immediately
+     *  precede a trailing period IN ORDER FOR THE PERIOD TO BE REMOVED.
+     *  Note that the regular expression will NOT have the period or '$' at
+     *  the end.
+     *   (e.g. "[a-zA-Z]{3,}" means at least three letters must immediately
+     *   precede the period for it to be removed.)
+	 *
 	 * @return Set of strings containing values without trailing characters
 	 */
-    public Set<String> removeTrailingPunct(final Record record, final String fieldSpec, String charsToReplaceRegEx, String charsB4periodRegEx) 
+    public Set<String> removeTrailingPunct(final Record record, final String fieldSpec, String charsToReplaceRegEx, String charsB4periodRegEx)
     {
 		Set<String> resultSet = new LinkedHashSet<String>();
 		for (String val : MarcUtils.getFieldList(record, fieldSpec)) {
@@ -1464,5 +1464,5 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 // Generic Methods ------------------ End ---------------------- Generic Methods
-    
+
 }
