@@ -137,6 +137,61 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
+	 * assure pub_search field ignores the unknown-ish phrases
+	 */
+@Test
+	public void test264IgnoreUnknownPubSearch()
+	{
+		MarcFactory factory = MarcFactory.newInstance();
+		Record record = factory.newRecord();
+	    DataField df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', "[Place of publication not identified] :"));
+	    df.addSubfield(factory.newSubfield('b', "b1"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', "[Place of Publication not identified]"));
+	    df.addSubfield(factory.newSubfield('b', "b2"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', "Place of publication Not Identified"));
+	    df.addSubfield(factory.newSubfield('b', "b3"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', "[Place of publication not identified]"));
+	    record.addVariableField(df);
+
+		String fldName = "pub_search";
+	    solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 3);
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "b1");
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "b2");
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "b3");
+
+		record = factory.newRecord();
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', "a1"));
+	    df.addSubfield(factory.newSubfield('b', "[publisher not identified], "));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', "a2"));
+	    df.addSubfield(factory.newSubfield('b', "[Publisher not identified]"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', "a3"));
+	    df.addSubfield(factory.newSubfield('b', "Publisher Not Identified"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('b', "[publisher not identified]"));
+	    record.addVariableField(df);
+
+
+	    solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 3);
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "a1");
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "a2");
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "a3");
+	}
+
+
+	/**
 	 * assure publication field is populated correctly
 	 */
 @Test

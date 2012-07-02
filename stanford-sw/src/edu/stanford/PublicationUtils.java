@@ -43,13 +43,12 @@ public class PublicationUtils {
 			StringBuilder buffer = new StringBuilder("");
 			for (Subfield sf : subFlds)
 			{
-				//
 				char sfcode = sf.getCode();
 				String sfdata = sf.getData();
 				boolean addIt = false;
-				if (sfcode == 'a' && !sfdata.matches("(?i).*s\\.l\\..*"))
+				if (sfcode == 'a' && !sfdata.matches("(?i).*s\\.l\\..*") && !sfdata.matches("(?i).*place of publication not identified.*"))
 					addIt = true;
-				else if (sfcode == 'b' && !sfdata.matches("(?i).*s\\.n\\..*"))
+				else if (sfcode == 'b' && !sfdata.matches("(?i).*s\\.n\\..*") && !sfdata.matches("(?i).*publisher not identified.*"))
 					addIt = true;
 				if (addIt)
 				{
