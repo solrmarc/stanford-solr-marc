@@ -210,7 +210,7 @@
   <!-- Let the dispatch filter handler /select?qt=XXX -->
   <requestDispatcher handleSelect="true" >
     <!--Make sure your system has some authentication before enabling remote streaming!  -->
-    <requestParsers enableRemoteStreaming="true" multipartUploadLimitInKB="2048" />
+    <requestParsers enableRemoteStreaming="true" multipartUploadLimitInKB="2048000" />
     <httpCaching lastModifiedFrom="openTime" etagSeed="Solr" />
   </requestDispatcher>
 
@@ -335,6 +335,7 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -452,6 +453,7 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -558,6 +560,7 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -686,6 +689,7 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -780,6 +784,7 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -868,6 +873,7 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -1159,6 +1165,7 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -1404,6 +1411,7 @@
       <int name="facet.limit">30</int>   <!-- language uses more than 11 in advanced search -->
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -1492,6 +1500,7 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
+        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -1635,8 +1644,15 @@
   <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" startup="lazy"/>
   <requestHandler name="/update/javabin" class="solr.BinaryUpdateRequestHandler" startup="lazy"/>
   <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" />
+  <requestHandler name="/admin/ping" class="solr.PingRequestHandler">
+    <lst name="invariants">
+      <str name="q">ping test query</str>
+      <str name="qt">search</str>
+    </lst>
+  </requestHandler>
+
   <admin>
-    <defaultQuery>id:666</defaultQuery>
+    <defaultQuery>admin test query</defaultQuery>
   </admin>
 
 </config>
