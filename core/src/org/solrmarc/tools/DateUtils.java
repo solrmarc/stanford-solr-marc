@@ -18,13 +18,13 @@ public class DateUtils
 	}
 
 	// possible strings for year
-	private final static String VALID_YR_REGEX_STR = "(20|19|18|17|16|15)[0-9][0-9]\\D?";
-	private final static Pattern YEAR_PATTERN_STARTS_15_THRU_20 = Pattern.compile(VALID_YR_REGEX_STR);
-	private final static Pattern YEAR_PATTERN_PREC_C_OR_P = Pattern.compile("[©Ⓟcp]" + VALID_YR_REGEX_STR);
+	private final static String VALID_YR_REGEX_STR = "(20|19|18|17|16|15|14|13|12|11|10)[0-9][0-9]";
+	private final static Pattern YEAR_PATTERN_STARTS_10_THRU_20 = Pattern.compile(VALID_YR_REGEX_STR + "\\D?");
+	private final static Pattern YEAR_PATTERN_PREC_C_OR_P = Pattern.compile("[©Ⓟcp]" + VALID_YR_REGEX_STR + "\\D?");
 	private final static Pattern YEAR_PATTERN_LAST_DIG_UNCLEAR = Pattern.compile("(20|19|18|17|16|15)[0-9][-?]");
 	private final static Pattern YEAR_PATTERN_FIRST_LET_L = Pattern.compile("l(9|8|7|6|5)\\d{2,2}\\D?");
 
-	private final static Pattern YEAR_PATTERN_PREC_IE = Pattern.compile("i.e. " + VALID_YR_REGEX_STR);
+	private final static Pattern YEAR_PATTERN_PREC_IE = Pattern.compile("i.e. " + VALID_YR_REGEX_STR + "\\D?");
 	private final static Pattern BC_DATE_PATTERN = Pattern.compile("[0-9]+ [Bb][.]?[Cc][.]?");
 
 	// square bracket fun
@@ -45,7 +45,7 @@ public class DateUtils
 	 */
 	public static String getYearFromString(final String dateStr)
 	{
-		Matcher starts15thru20Matcher = YEAR_PATTERN_STARTS_15_THRU_20.matcher(dateStr);
+		Matcher starts10thru20Matcher = YEAR_PATTERN_STARTS_10_THRU_20.matcher(dateStr);
 		Matcher outerBracesTightMatcher = YEAR_PATTERN_BRACES.matcher(dateStr);
 		Matcher outerBracesLooseMatcher = YEAR_PATTERN_W_TEXT_IN_BRACES.matcher(dateStr);
 		Matcher precSymMatcher = YEAR_PATTERN_PREC_C_OR_P.matcher(dateStr);
@@ -57,8 +57,8 @@ public class DateUtils
 
 		String cleanDate = null; // raises DD-anomaly
 
-		if (starts15thru20Matcher.matches())  // starts with four digit match
-			cleanDate = starts15thru20Matcher.group().substring(0, 4);
+		if (starts10thru20Matcher.matches())  // starts with four digit match
+			cleanDate = starts10thru20Matcher.group().substring(0, 4);
 		else if (outerBracesTightMatcher.find())
 			cleanDate = Utils.removeOuterBrackets(outerBracesTightMatcher.group());
 		else if (precSymMatcher.matches())

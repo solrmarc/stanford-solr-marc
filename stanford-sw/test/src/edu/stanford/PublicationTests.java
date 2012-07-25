@@ -478,12 +478,12 @@ public class PublicationTests extends AbstractStanfordTest
 		record = factory.newRecord();
 		record.addVariableField(factory.newControlField("008", "       0000"));
 	    df = factory.newDataField("260", ' ', ' ');
-	    df.addSubfield(factory.newSubfield('c', "1260"));
+	    df.addSubfield(factory.newSubfield('c', "1560"));
 	    record.addVariableField(df);
 	    df = factory.newDataField("264", ' ', ' ');
-	    df.addSubfield(factory.newSubfield('c', "1264"));
+	    df.addSubfield(factory.newSubfield('c', "1564"));
 	    record.addVariableField(df);
-	    solrFldMapTest.assertSolrFldValue(record, fldName, "1260");
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "1560");
 	}
 
 

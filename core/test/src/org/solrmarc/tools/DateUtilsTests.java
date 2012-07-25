@@ -30,12 +30,13 @@ public class DateUtilsTests
 		String nextYearStr = String.valueOf(nextYear);
 
 		// patterns that should be recognized  (no earlier than 15xx)
-		for (String validYear : Arrays.asList(nextYearStr, "2002", "1980", "1577"))
+		for (String validYear : Arrays.asList(nextYearStr, "2002", "1980", "1577", "1293", "1020"))
 		{
 			assertEquals(validYear, getYearFromString(validYear));
 			// patterns the method copes with
 			assertEquals(validYear, getYearFromString('[' + validYear + ']'));
 			assertEquals(validYear, getYearFromString('[' + validYear + " text]"));
+			assertEquals(validYear, getYearFromString('[' + validYear + " ?]"));
 			assertEquals(validYear, getYearFromString('Ⓟ' + validYear));
 			assertEquals(validYear, getYearFromString('p' + validYear));
 			assertEquals(validYear, getYearFromString('©' + validYear));
@@ -55,7 +56,7 @@ public class DateUtilsTests
 
 		// unrecognizable dates
 		String yearAfterStr = String.valueOf(nextYear + 1);
-		for (String invalidYear : Arrays.asList(yearAfterStr, "3047", "1293", "0965", "522", "0000", "ab", "19555"))
+		for (String invalidYear : Arrays.asList(yearAfterStr, "3047",  "0965", "522", "0000", "ab", "19555"))
 		{
 			String result = getYearFromString(invalidYear);
 			assertNull("Unexpectedly got " + result + " for " + invalidYear, result);

@@ -274,7 +274,7 @@ public class PublicationUtils {
 		    					String yearStr = String.valueOf(date264int);
 		    					if (ind2 == '1')
 			    					return yearStr;
-		    					else
+		    					else if (usable264cdateStr == null)
 		    						usable264cdateStr = yearStr;
 		    				}
 						}
@@ -283,14 +283,14 @@ public class PublicationUtils {
 						}
 					}
 				}
-				if (usable264cdateStr != null)
-					return usable264cdateStr;
 				if (date260c != null) {
 					int date260int = Integer.parseInt(DateUtils.getYearFromString(date260c));
     				if (date260int != 0 &&
     					date260int <= upperLimit && date260int >= lowerLimit)
 						return String.valueOf(date260int);
 				}
+				if (usable264cdateStr != null)
+					return usable264cdateStr;
 			}
 		}
 		return null;
