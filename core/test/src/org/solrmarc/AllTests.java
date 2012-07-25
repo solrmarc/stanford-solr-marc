@@ -11,6 +11,7 @@ import org.solrmarc.tools.*;
         CallNumberUnitTests.class,
         CombineMultBibsMhldsReaderTest.class,
         CommandLineUtilTests.class,
+        DateUtilsTests.class,
         GetFormatMixinTest.class,
         HathiJsonReaderTest.class,
 //        IndexSmokeTest.class, // duplicated in RemoteServerTest
@@ -18,8 +19,8 @@ import org.solrmarc.tools.*;
         MarcCombiningReaderTests.class,
         RecordReaderTest.class,
         RemoteServerTest.class,
-        SolrUtilTests.class,
         SolrUpdateTest.class,
+        SolrUtilTests.class,
         StringNaturalCompareTest.class,
         UtilUnitTests.class
         })
