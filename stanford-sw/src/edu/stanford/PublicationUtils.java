@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
-import org.solrmarc.tools.Utils;
+import org.solrmarc.tools.*;
 import org.marc4j.marc.*;
 
 import edu.stanford.enumValues.PubDateGroup;
@@ -46,9 +46,9 @@ public class PublicationUtils {
 				char sfcode = sf.getCode();
 				String sfdata = sf.getData();
 				boolean addIt = false;
-				if (sfcode == 'a' && !sfdata.matches("(?i).*s\\.l\\..*") && !sfdata.matches("(?i).*place of publication not identified.*"))
+				if (sfcode == 'a' && !sfdata.matches("(?i).*s\\.l\\..*") && !sfdata.matches("(?i).*place of .* not identified.*"))
 					addIt = true;
-				else if (sfcode == 'b' && !sfdata.matches("(?i).*s\\.n\\..*") && !sfdata.matches("(?i).*publisher not identified.*"))
+				else if (sfcode == 'b' && !sfdata.matches("(?i).*s\\.n\\..*") && !sfdata.matches("(?i).*r not identified.*"))
 					addIt = true;
 				if (addIt)
 				{
@@ -71,16 +71,17 @@ public class PublicationUtils {
      * Side Effects:  errors in pub date are logged
      * @param date008 - characters 7-10 (0 based index) in 008 field
 	 * @param date260c - the date string extracted from the 260c field
+	 * @param df264list  - a List of 264 fields as DataField objects
 	 * @param id - record id for error messages
 	 * @param logger - the logger for error messages
 	 * @return String containing publication date, or null if none
 	 */
-	static String getPubDate(final String date008, String date260c, String id, Logger logger)
+	static String getPubDate(final String date008, String date260c, List<DataField> df264list, String id, Logger logger)
 	{
 		if (date008 != null) {
 			String errmsg = "Bad Publication Date in record " + id + " from 008/07-10: " + date008;
 			if (PublicationUtils.isdddd(date008)) {
-				String result = PublicationUtils.getValidPubDate(date008, currYearAsInt + 1, 500, date260c);
+				String result = PublicationUtils.getValidPubDate(date008, currYearAsInt + 1, 500, date260c, df264list);
 				if (result != null)
 					return result;
 				else
@@ -113,14 +114,15 @@ public class PublicationUtils {
      *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
      * @param date008 - characters 7-10 (0 based index) in 008 field
 	 * @param date260c - the date string extracted from the 260c field
+	 * @param df264list  - a List of 264 fields as DataField objects
 	 * @return String containing publication date, or null if none
 	 */
-	static String getPubDateSort(String date008, String date260c) {
+	static String getPubDateSort(String date008, String date260c, List<DataField> df264list) {
 		if (date008 != null) {
 			// hyphens sort before 0, so the lexical sorting will be correct. I
 			// think.
 			if (PublicationUtils.isdddd(date008))
-				return PublicationUtils.getValidPubDate(date008, currYearAsInt + 1, 500, date260c);
+				return PublicationUtils.getValidPubDate(date008, currYearAsInt + 1, 500, date260c, df264list);
 			else if (PublicationUtils.isdddu(date008)) {
 				int myFirst3 = Integer.parseInt(date008.substring(0, 3));
 				int currFirst3 = Integer.parseInt(currYearAsStr.substring(0, 3));
@@ -145,10 +147,11 @@ public class PublicationUtils {
      *   four digit years < 0500 trigger an attempt to get a 4 digit date from 260c
      *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
 	 * @param date260c - the date string extracted from the 260c field
+	 * @param df264list  - a List of 264 fields as DataField objects
 	 * @return Set of Strings containing the publication date groupings
 	 *         associated with the publish date
 	 */
-	static Set<String> getPubDateGroups(String date008, String date260c)
+	static Set<String> getPubDateGroups(String date008, String date260c, List<DataField> df264list)
 	{
 		Set<String> resultSet = new HashSet<String>();
 
@@ -156,7 +159,7 @@ public class PublicationUtils {
 		if (date008 != null) {
 			if (isdddd(date008)) // exact year
 			{
-				String myDate = getValidPubDate(date008, currYearAsInt + 1, 500, date260c);
+				String myDate = getValidPubDate(date008, currYearAsInt + 1, 500, date260c, df264list);
 				if (myDate != null) {
 					int year = Integer.parseInt(myDate);
 					// "this year" and "last three years" are for 4 digits only
@@ -244,20 +247,49 @@ public class PublicationUtils {
 	 * @param upperLimit - highest valid year (inclusive)
 	 * @param lowerLimit - lowest valid year (inclusive)
 	 * @param date260c - the date string extracted from the 260c field
+	 * @param df264list  - a List of 264 fields as DataField objects
 	 * @return String containing a 4 digit valid publication date, or null
 	 */
-    static String getValidPubDate(String dateToCheck, int upperLimit, int lowerLimit, String date260c) {
+    static String getValidPubDate(String dateToCheck, int upperLimit, int lowerLimit, String date260c, List<DataField> df264list)
+    {
 		int dateInt = Integer.parseInt(dateToCheck);
 		if (dateInt <= upperLimit) {
 			if (dateInt >= lowerLimit)
 				return dateToCheck;
 			else {
 				// try to correct year < lowerLimit
+				String usable264cdateStr = null;
+				for (DataField df264 : df264list)
+				{
+					char ind2 = df264.getIndicator2();
+					List<String> subcList = MarcUtils.getSubfieldStrings(df264, 'c');
+					for (String date264cStr : subcList)
+					{
+						try
+						{
+							int date264int = Integer.parseInt(DateUtils.getYearFromString(date264cStr));
+		    				if (date264int != 0 &&
+		    					date264int <= upperLimit && date264int >= lowerLimit)
+		    				{
+		    					String yearStr = String.valueOf(date264int);
+		    					if (ind2 == '1')
+			    					return yearStr;
+		    					else
+		    						usable264cdateStr = yearStr;
+		    				}
+						}
+						catch (NumberFormatException e)
+						{
+						}
+					}
+				}
+				if (usable264cdateStr != null)
+					return usable264cdateStr;
 				if (date260c != null) {
-					int date260int = Integer.parseInt(date260c);
+					int date260int = Integer.parseInt(DateUtils.getYearFromString(date260c));
     				if (date260int != 0 &&
     					date260int <= upperLimit && date260int >= lowerLimit)
-						return date260c;
+						return String.valueOf(date260int);
 				}
 			}
 		}

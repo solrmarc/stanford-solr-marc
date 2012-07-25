@@ -1499,7 +1499,7 @@ public class MarcUtils {
 	    String date = getFieldVals(record, "260c", ", ");
 	    if (date == null || date.length() == 0)
 	        return (null);
-	    return DateUtils.cleanDate(date);
+	    return DateUtils.getYearFromString(date);
 	}
 
 
