@@ -937,7 +937,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public String getPubDate(final Record record)
 	{
-		return PublicationUtils.getPubDate(date008, date260c, id, logger);
+		return PublicationUtils.getPubDate(date008, date260c, record.getVariableFields("264"), id, logger);
 	}
 
 	/**
@@ -950,7 +950,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * @return String containing publication date, or null if none
 	 */
 	public String getPubDateSort(final Record record) {
-		return PublicationUtils.getPubDateSort(date008, date260c);
+		return PublicationUtils.getPubDateSort(date008, date260c, record.getVariableFields("264"));
 	}
 
 	/**
@@ -965,7 +965,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getPubDateGroups(final Record record)
 	{
-		return PublicationUtils.getPubDateGroups(date008, date260c);
+		return PublicationUtils.getPubDateGroups(date008, date260c, record.getVariableFields("264"));
 	}
 
 // Pub Date Methods  --------------  End  --------------------- Pub Date Methods

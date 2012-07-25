@@ -94,7 +94,6 @@ public class PublicationTests extends AbstractStanfordTest
 	}
 
 
-
 	/**
 	 * assure pub_search field is populated from 264 correctly
 	 */
@@ -118,7 +117,6 @@ public class PublicationTests extends AbstractStanfordTest
         record.addVariableField(df);
 
 		String fldName = "pub_search";
-
         solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 3);
         solrFldMapTest.assertSolrFldValue(record, fldName, "264a");
         solrFldMapTest.assertSolrFldValue(record, fldName, "264b");
@@ -129,9 +127,6 @@ public class PublicationTests extends AbstractStanfordTest
         df.addSubfield(factory.newSubfield('a', "260a"));
         record.addVariableField(df);
         solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 4);
-        solrFldMapTest.assertSolrFldValue(record, fldName, "264a");
-        solrFldMapTest.assertSolrFldValue(record, fldName, "264b");
-        solrFldMapTest.assertSolrFldValue(record, fldName, "264a 264b");
         solrFldMapTest.assertSolrFldValue(record, fldName, "260a");
 	}
 
@@ -149,15 +144,15 @@ public class PublicationTests extends AbstractStanfordTest
 	    df.addSubfield(factory.newSubfield('b', "b1"));
 	    record.addVariableField(df);
 	    df = factory.newDataField("264", ' ', ' ');
-	    df.addSubfield(factory.newSubfield('a', "[Place of Publication not identified]"));
+	    df.addSubfield(factory.newSubfield('a', "[Place of Production not identified]"));
 	    df.addSubfield(factory.newSubfield('b', "b2"));
 	    record.addVariableField(df);
 	    df = factory.newDataField("264", ' ', ' ');
-	    df.addSubfield(factory.newSubfield('a', "Place of publication Not Identified"));
+	    df.addSubfield(factory.newSubfield('a', "Place of manufacture Not Identified"));
 	    df.addSubfield(factory.newSubfield('b', "b3"));
 	    record.addVariableField(df);
 	    df = factory.newDataField("264", ' ', ' ');
-	    df.addSubfield(factory.newSubfield('a', "[Place of publication not identified]"));
+	    df.addSubfield(factory.newSubfield('a', "[Place of distribution not identified]"));
 	    record.addVariableField(df);
 
 		String fldName = "pub_search";
@@ -173,16 +168,15 @@ public class PublicationTests extends AbstractStanfordTest
 	    record.addVariableField(df);
 	    df = factory.newDataField("264", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('a', "a2"));
-	    df.addSubfield(factory.newSubfield('b', "[Publisher not identified]"));
+	    df.addSubfield(factory.newSubfield('b', "[Producer not identified]"));
 	    record.addVariableField(df);
 	    df = factory.newDataField("264", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('a', "a3"));
-	    df.addSubfield(factory.newSubfield('b', "Publisher Not Identified"));
+	    df.addSubfield(factory.newSubfield('b', "Manufacturer Not Identified"));
 	    record.addVariableField(df);
 	    df = factory.newDataField("264", ' ', ' ');
-	    df.addSubfield(factory.newSubfield('b', "[publisher not identified]"));
+	    df.addSubfield(factory.newSubfield('b', "[distributor not identified]"));
 	    record.addVariableField(df);
-
 
 	    solrFldMapTest.assertSolrFldHasNumValues(record, fldName, 3);
 	    solrFldMapTest.assertSolrFldValue(record, fldName, "a1");
@@ -202,7 +196,6 @@ public class PublicationTests extends AbstractStanfordTest
 		// 260ab from 880
 		solrFldMapTest.assertSolrFldValue(publTestFilePath, "vern260abc", fldName, "vern260a : vern260b");
 		solrFldMapTest.assertSolrFldValue(publTestFilePath, "vern260abcg", fldName, "vern260a : vern260b");
-
 
 		MarcFactory factory = MarcFactory.newInstance();
 		Record record = factory.newRecord();
@@ -237,6 +230,29 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
+	 * assure pub_date field ignores the unknown-ish phrases
+	 */
+@Test
+	public void test264IgnoreUnknownPubDate()
+	{
+		MarcFactory factory = MarcFactory.newInstance();
+		Record record = factory.newRecord();
+	    DataField df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "[Date of publication not identified] :"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "[Date of Production not identified]"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "Date of manufacture Not Identified"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "[Date of distribution not identified]"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertNoSolrFld(record, "pub_date");
+	}
+
+	/**
 	 * assure pub dates later than current year +1 are ignored
 	 */
 @Test
@@ -251,6 +267,22 @@ public class PublicationTests extends AbstractStanfordTest
 		assertZeroResults(fldName, "23rd century");
 		assertZeroResults(fldName, "24th century");
 		assertZeroResults(fldName, "8610s");
+
+		MarcFactory factory = MarcFactory.newInstance();
+		Record record = factory.newRecord();
+	    DataField df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "9999"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "6666"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "22nd century"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "8610s"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertNoSolrFld(record, "pub_date");
 	}
 
 
@@ -268,6 +300,22 @@ public class PublicationTests extends AbstractStanfordTest
 		assertZeroResults(fldName, "0059");
 		assertZeroResults(fldName, "0197");
 		assertZeroResults(fldName, "0204");
+
+		MarcFactory factory = MarcFactory.newInstance();
+		Record record = factory.newRecord();
+	    DataField df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "0000"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "0036"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "0197"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "0204"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertNoSolrFld(record, "pub_date");
 	}
 
 	/**
@@ -311,6 +359,131 @@ public class PublicationTests extends AbstractStanfordTest
 //		solrFldMapTest.assertSolrFldValue(testFilePath, "pubDate0999", fldName, "1999");
 
 		solrFldMapTest.assertNoSolrFld(testFilePath, "410024", fldName);
+	}
+
+
+
+	/**
+	 * assure pub dates later than current year +1 are ignored
+	 */
+@Test
+	public void test264PubDate()
+	{
+		String fldName = "pub_date";
+		MarcFactory factory = MarcFactory.newInstance();
+		Record record = factory.newRecord();
+		record.addVariableField(factory.newControlField("008", "       0000"));
+	    DataField df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "2002"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "2002");
+
+	    // preceding copyright symbol
+		record = factory.newRecord();
+		record.addVariableField(factory.newControlField("008", "       0000"));
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "©2002"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "2002");
+
+	    // preceding publication symbol
+		record = factory.newRecord();
+		record.addVariableField(factory.newControlField("008", "       0000"));
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "Ⓟ1983 "));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "1983");
+
+	    // square brackets
+		record = factory.newRecord();
+		record.addVariableField(factory.newControlField("008", "       0000"));
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "[2011]"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "2011");
+
+	    // square brackets with question mark
+		record = factory.newRecord();
+		record.addVariableField(factory.newControlField("008", "       0000"));
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "[1940?]"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "1940");
+
+	    // preceding text
+		record = factory.newRecord();
+		record.addVariableField(factory.newControlField("008", "       0000"));
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "copyright 2005"));
+	    record.addVariableField(df);
+// FIXME
+//	    solrFldMapTest.assertSolrFldValue(record, fldName, "2005");
+
+	    // two values - take the first one?
+		record = factory.newRecord();
+		record.addVariableField(factory.newControlField("008", "       0000"));
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "[2011]"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', '4');
+	    df.addSubfield(factory.newSubfield('c', "©2009"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "2011");
+
+		record = factory.newRecord();
+		record.addVariableField(factory.newControlField("008", "       0000"));
+	    df = factory.newDataField("264", ' ', '2');
+	    df.addSubfield(factory.newSubfield('c', "2012."));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', '4');
+	    df.addSubfield(factory.newSubfield('c', "©2009"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "2012");
+
+	    // test  264 handling if not parseable
+
+	    // test  autocorrect on 264
+		record = factory.newRecord();
+		record.addVariableField(factory.newControlField("008", "       0000"));
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "197?"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "1970");
+
+		record = factory.newRecord();
+		record.addVariableField(factory.newControlField("008", "       0000"));
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "[197?]"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "1970");
+
+		record = factory.newRecord();
+		record.addVariableField(factory.newControlField("008", "       0000"));
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "0019"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertNoSolrFld(record, fldName);
+
+	    // test:  if both 260 and 264, take 264c if 2nd indicator is 1, else take 260c
+		record = factory.newRecord();
+		record.addVariableField(factory.newControlField("008", "       0000"));
+	    df = factory.newDataField("260", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "1260"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', '1');
+	    df.addSubfield(factory.newSubfield('c', "1264"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "1264");
+
+		record = factory.newRecord();
+		record.addVariableField(factory.newControlField("008", "       0000"));
+	    df = factory.newDataField("260", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "1260"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("264", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "1264"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, fldName, "1260");
 	}
 
 
