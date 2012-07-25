@@ -9,54 +9,54 @@ import org.apache.log4j.*;
 
 public class PropertiesUtils {
 
-    protected static Logger logger = Logger.getLogger(PropertiesUtils.class.getName());    
+    protected static Logger logger = Logger.getLogger(PropertiesUtils.class.getName());
 
     /**
      * Default Constructor,  private, so it can't be instantiated by other objects
-     */    
+     */
     private PropertiesUtils(){ }
 
     /**
-     * Check first for a particular property in the System Properties, so that the -Dprop="value" command line arg 
+     * Check first for a particular property in the System Properties, so that the -Dprop="value" command line arg
      * mechanism can be used to override values defined in the passed in property file.  This is especially useful
      * for defining the marc.source property to define which file to operate on, in a shell script loop.
      * @param props - property set in which to look.
      * @param propname - name of the property to lookup.
-     * @return String - value stored for that property (or null if it doesn't exist) 
+     * @return String - value stored for that property (or null if it doesn't exist)
      */
     public static String getProperty(Properties props, String propname)
     {
         return getProperty(props, propname, null);
     }
-    
+
     /**
-     * Check first for a particular property in the System Properties, so that the -Dprop="value" command line arg 
+     * Check first for a particular property in the System Properties, so that the -Dprop="value" command line arg
      * mechanism can be used to override values defined in the passed in property file.  This is especially useful
      * for defining the marc.source property to define which file to operate on, in a shell script loop.
      * @param props - property set in which to look.
      * @param propname - name of the property to lookup.
      * @param defVal - the default value to use if property is not defined
-     * @return String - value stored for that property (or the  if it doesn't exist) 
+     * @return String - value stored for that property (or the  if it doesn't exist)
      */
     public static String getProperty(Properties props, String propname, String defVal)
     {
-        String prop;
-        if ((prop = System.getProperty(propname)) != null)
-        {
+        String prop = System.getProperty(propname);
+        if (prop != null)
             return(prop);
-        }
-        if ((prop = props.getProperty(propname)) != null)
+        else
         {
-            return(prop);
+        	prop = props.getProperty(propname);
+            if (prop != null)
+                return(prop);
         }
         return defVal;
     }
-    
+
     /**
      * load a properties file into a Properties object
      * @param propertyPaths the directories to search for the properties file
      * @param propertyFileName name of the sought properties file
-     * @return Properties object 
+     * @return Properties object
      */
     public static Properties loadProperties(String propertyPaths[], String propertyFileName)
     {
@@ -67,7 +67,7 @@ public class PropertiesUtils {
      * @param propertyPaths the directories to search for the properties file
      * @param propertyFileName name of the sought properties file
      * @param showName whether the name of the file/resource being read should be shown.
-     * @return Properties object 
+     * @return Properties object
      */
     public static Properties loadProperties(String propertyPaths[], String propertyFileName, boolean showName)
     {
@@ -78,14 +78,14 @@ public class PropertiesUtils {
      * @param propertyPaths the directories to search for the properties file
      * @param propertyFileName name of the sought properties file
      * @param showName whether the name of the file/resource being read should be shown.
-     * @return Properties object 
+     * @return Properties object
      */
     public static Properties loadProperties(String propertyPaths[], String propertyFileName, boolean showName, String filenameProperty)
     {
         String inputStreamSource[] = new String[]{null};
         InputStream in = getPropertyFileInputStream(propertyPaths, propertyFileName, showName, inputStreamSource);
         String errmsg = "Fatal error: Unable to find specified properties file: " + propertyFileName;
-        
+
         // load the properties
         Properties props = new Properties();
         try
@@ -95,7 +95,7 @@ public class PropertiesUtils {
             if (filenameProperty != null && inputStreamSource[0] != null)
             {
                 File tmpFile = new File(inputStreamSource[0]);
-                
+
                 props.setProperty(filenameProperty, tmpFile.getParent());
             }
         }
@@ -105,19 +105,19 @@ public class PropertiesUtils {
         }
         return props;
     }
-   
-    
-    public static InputStream getPropertyFileInputStream(String[] propertyPaths, String propertyFileName) 
+
+
+    public static InputStream getPropertyFileInputStream(String[] propertyPaths, String propertyFileName)
     {
         return(getPropertyFileInputStream(propertyPaths, propertyFileName, false));
     }
-    
-    public static InputStream getPropertyFileInputStream(String[] propertyPaths, String propertyFileName, boolean showName) 
+
+    public static InputStream getPropertyFileInputStream(String[] propertyPaths, String propertyFileName, boolean showName)
     {
         return(getPropertyFileInputStream(propertyPaths, propertyFileName, false, null));
     }
-    
-    public static InputStream getPropertyFileInputStream(String[] propertyPaths, String propertyFileName, boolean showName, String inputSource[]) 
+
+    public static InputStream getPropertyFileInputStream(String[] propertyPaths, String propertyFileName, boolean showName, String inputSource[])
         {
         InputStream in = null;
         // look for properties file in paths
@@ -126,7 +126,7 @@ public class PropertiesUtils {
             File propertyFile = new File(propertyFileName);
 
             int pathCnt = 0;
-            do 
+            do
             {
                 if (propertyFile.exists() && propertyFile.isFile() && propertyFile.canRead())
                 {
@@ -145,7 +145,7 @@ public class PropertiesUtils {
                     catch (FileNotFoundException e)
                     {
                         // simply eat this exception since we should only try to open the file if we previously
-                        // determined that the file exists and is readable. 
+                        // determined that the file exists and is readable.
                     }
                     break;   // we found it!
                 }
@@ -162,7 +162,7 @@ public class PropertiesUtils {
         {
             PropertiesUtils utilObj = new PropertiesUtils();
             URL url = utilObj.getClass().getClassLoader().getResource(propertyFileName);
-            if (url == null)  
+            if (url == null)
                 url = utilObj.getClass().getResource("/" + propertyFileName);
             if (url == null)
             {
@@ -175,9 +175,9 @@ public class PropertiesUtils {
                 logger.debug("Opening resource via URL: "+ url.toString());
 
 /*
-            if (url == null) 
+            if (url == null)
                 url = utilObj.getClass().getClassLoader().getResource(propertyPath + "/" + propertyFileName);
-            if (url == null) 
+            if (url == null)
                 url = utilObj.getClass().getResource("/" + propertyPath + "/" + propertyFileName);
 */
             if (url != null)
@@ -196,7 +196,7 @@ public class PropertiesUtils {
     }
 
 	/**
-	 * load list contained in the file.  list file should contain a series of 
+	 * load list contained in the file.  list file should contain a series of
 	 * values (one per line);  comments are preceded by a '#' character
 	 * @param listFilename the name of the file containing the data
 	 * @param possiblePaths array of paths in which to seek the list file
@@ -224,6 +224,6 @@ public class PropertiesUtils {
 	    }
 	    return result;
 	}
-    
-    
+
+
 }
