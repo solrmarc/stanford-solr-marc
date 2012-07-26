@@ -95,6 +95,23 @@ public abstract class AbstractTest extends IndexTest
 
 
 	/**
+	 * creates a fresh index from the indicated test file, and initializes
+	 *  necessary variables
+	 * @throws SolrServerException when can't delete all docs before writing new docs
+	 */
+	public void createFreshIx(String testDataFname, boolean useBinaryRequestHandler, boolean useStreamingProxy)
+		throws ParserConfigurationException, IOException, SAXException, SolrServerException
+	{
+        String testSolrUrl = getLocalTestingSolrUrl();
+
+		if (solrJettyProcess == null)
+			startTestJetty();
+
+		createFreshTestIxOverHTTP(testSolrUrl, testDataFname, useBinaryRequestHandler, useStreamingProxy);
+	}
+
+
+	/**
 	 * updates an existing index from the indicated test file, and initializes
 	 *  necessary variables
 	 */
