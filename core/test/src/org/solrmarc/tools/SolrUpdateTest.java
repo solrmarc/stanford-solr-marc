@@ -11,7 +11,7 @@ import org.xml.sax.SAXException;
 
 
 /**
- * 
+ *
  * @author Naomi Dushay
  */
 public class SolrUpdateTest extends IndexTest
@@ -21,12 +21,12 @@ public class SolrUpdateTest extends IndexTest
      *  and set the logging levels
      */
 @BeforeClass
-    public static void setupTestClass() 
-    {    	
+    public static void setupTestClass()
+    {
 		setTestLoggingLevels();
     	startTestJetty();
-//    	DEBUG        
-//System.err.println("DEBUG: just started Jetty for SolrUpdateTest as beforeClass.");    	
+//    	DEBUG
+//System.err.println("DEBUG: just started Jetty for SolrUpdateTest as beforeClass.");
 //      try
 //      {
 //      Thread.sleep(1000 * 30); // do nothing for 30 seconds
@@ -41,12 +41,12 @@ public class SolrUpdateTest extends IndexTest
      * Stop the Jetty server we spun up for testing
      */
 @AfterClass
-    public static void stopJetty() throws Exception 
+    public static void stopJetty() throws Exception
     {
     	stopTestJetty();
     }
-    
-  
+
+
 	/**
 	 * test the SolrUpdate class which is used to send a commit message to Solr
 	 *  NOTE:  Naomi thinks SolrUpdate class can be replaced with a simple
@@ -60,9 +60,12 @@ public class SolrUpdateTest extends IndexTest
 	 *    org.solrmarc.tools.SolrUpdate.sendCommitToSolr()
 	 */
 @Test
-    public void testSolrUpdate() 
+    public void testSolrUpdate()
     		throws IOException, ParserConfigurationException, SAXException, SolrServerException
     {
+		closeSolrProxy();  // need to reset the solrProxy to get the right request handling
+	    useBinaryRequestHandler = true;
+	    useStreamingProxy = false;
 		createFreshTestIxOverHTTPNoCommit("u2103.mrc");
 
 		assertDocNotPresent("u2103");
