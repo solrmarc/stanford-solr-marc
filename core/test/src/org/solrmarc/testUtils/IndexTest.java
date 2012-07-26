@@ -39,9 +39,7 @@ public abstract class IndexTest
 	protected String testConfigFname = System.getProperty("test.config.file");
 	protected String testSolrUrl = System.getProperty("test.solr.url");
 
-// FIXME:  tests fail when using BinaryRequestHandler
-//	protected boolean useBinaryRequestHandler = Boolean.valueOf(System.getProperty("core.test.use_binary_request_handler", "true"));
-	protected boolean useBinaryRequestHandler = Boolean.valueOf(System.getProperty("core.test.use_binary_request_handler"));
+	protected boolean useBinaryRequestHandler = Boolean.valueOf(System.getProperty("core.test.use_binary_request_handler", "true"));
 	protected boolean useStreamingProxy = Boolean.valueOf(System.getProperty("core.test.use_streaming_proxy", "true"));
 	protected static String testSolrLogLevel = System.getProperty("test.solr.log.level");
 	protected static String testSolrMarcLogLevel = System.getProperty("test.solrmarc.log.level");
@@ -73,6 +71,27 @@ public abstract class IndexTest
 	 * @throws SolrServerException when can't delete all docs before writing new docs
 	 */
 	protected void createFreshTestIxOverHTTP(String testSolrUrl, String marcTestDataFname)
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
+	{
+		testConfigFname = getRequiredSystemProperty("test.config.file");
+		testDataParentPath = getRequiredSystemProperty("test.data.path");
+
+		createFreshTestIxOverHTTP(testConfigFname, testSolrUrl,	useBinaryRequestHandler, useStreamingProxy,
+									testDataParentPath,	marcTestDataFname);
+	}
+
+	/**
+	 * Creates a pristine Solr index from the indicated test file of marc
+	 * records. Uses some class instance variables.  Sends commit.
+	 *
+	 * @param testSolrUrl - url for test solr instance, as a string
+	 * @param marcTestDataFname - file of marc records to be indexed. should end in ".mrc", "marc" or ".xml"
+	 * @param useBinaryRequestHandler - true to use the binary request handler
+	 * @param useStreamingProxy - true to use streaming proxy (multiple records added at a time)
+	 * @throws SolrServerException when can't delete all docs before writing new docs
+	 */
+	protected void createFreshTestIxOverHTTP(String testSolrUrl, String marcTestDataFname,
+											boolean useBinaryRequestHandler, boolean useStreamingProxy)
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		testConfigFname = getRequiredSystemProperty("test.config.file");
