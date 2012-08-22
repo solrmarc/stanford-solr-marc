@@ -8,7 +8,7 @@ import org.solrmarc.tools.MarcUtils;
 
 /**
  * Use this class to get mhld_display field values
- * 
+ *
  * @author Naomi Dushay
  */
 public class MhldDisplayUtil
@@ -27,18 +27,18 @@ public class MhldDisplayUtil
 	private boolean noCommentFrom852 = true;
 	/** the part of a result string derived from the 852 */
 	private String resultPrefixFrom852 = "";
-	
+
 	/** all the 866 fields for a given 852 */
 	private List<DataField> list866 = new ArrayList<DataField>();
 	/** all the 867 fields for a given 852 */
 	private List<DataField> list867 = new ArrayList<DataField>();
 	/** all the 868 fields for a given 852 */
 	private List<DataField> list868 = new ArrayList<DataField>();
-	
+
 	/** for each 852, we need to have all the patterns in the 853 fields
 	 * available so we can turn the correct 863 field into a sensible
-	 * "Latest Received" string. 
-	 *   key: linkage number from 853 sub 8 
+	 * "Latest Received" string.
+	 *   key: linkage number from 853 sub 8
 	 *   value: 853 DataField object
 	 */
 	private Map<Integer, DataField> patternFieldMap = new HashMap<Integer, DataField>();
@@ -71,14 +71,14 @@ public class MhldDisplayUtil
 	}
 
 	/**
-	 * return the set of mhld_display values based on mhld fields 
+	 * return the set of mhld_display values based on mhld fields
 	 *  (852, 853, 863, 866, 867, 868 ...)
-	 * 
-	 * @return Set of strings in format: 
-	 *    library + SEP + 
-	 *    location + SEP + 
-	 *    comment + SEP + 
-	 *    library has + SEP + 
+	 *
+	 * @return Set of strings in format:
+	 *    library + SEP +
+	 *    location + SEP +
+	 *    comment + SEP +
+	 *    library has + SEP +
 	 *    latest received
 	 */
 	Set<String> getMhldDisplayValues()
@@ -112,10 +112,10 @@ public class MhldDisplayUtil
 		return result;
 	}
 
-	
+
 	/**
 	 * adds values to the result set for a single mhld record (starting with 852)
-	 * 
+	 *
 	 * spec:
 	 *  if 866 field ends with a hyphen (open holdings), display the most recent 863 (user friendly version)
 	 *    if there are multiple 866s ending with a hyphen, write error message to the indexing logs;  display Latest Received for first open holdings only.
@@ -127,7 +127,7 @@ public class MhldDisplayUtil
 	{
 		if (resultPrefixFrom852.length() == 0)
 			return;
-		
+
 		boolean latestRecdOut = false;
 		boolean has866 = false;
 		boolean has867 = false;
@@ -138,7 +138,7 @@ public class MhldDisplayUtil
 			String suba = MarcUtils.getSubfieldData(df866, 'a');
 			if (suba == null)
 				suba = "";
-			if (suba.endsWith("-")) 
+			if (suba.endsWith("-"))
 			{
 				if (latestRecdOut == false)
 				{
@@ -179,7 +179,7 @@ public class MhldDisplayUtil
 				result.add(resultPrefixFrom852 + "Index: " + suba + SEP);
 			has868 = true;
 		}
-		
+
 		if (!has866 && !has867 && !has868)
 		{
 			if (df852hasEqualsSubfield)
@@ -192,8 +192,8 @@ public class MhldDisplayUtil
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * given an 852 field, process it, changing class variables as appropriate
 	 *  if the 852 is not skipped, sets resultPrefixFrom852, a portion of a
@@ -212,7 +212,7 @@ public class MhldDisplayUtil
 			comment = sub3;
 
 		List<String> subzSet = MarcUtils.getSubfieldStrings(df852, 'z');
-		for (String subz : subzSet) 
+		for (String subz : subzSet)
 		{
 			// skip mhld if 852z has "All holdings transferred"
 			if (subz.toLowerCase().contains("all holdings transferred"))
@@ -267,7 +267,7 @@ public class MhldDisplayUtil
 	/**
 	 * for each 852, we need to have all the patterns in the 853 fields
 	 *  available so we can turn the 863 field into a sensible "Latest Received" string.
-	 * 
+	 *
 	 * @param df853 - an 853 field as a DataField object
 	 */
 	private void addFieldToPatternFieldsMap(DataField df853)
@@ -276,7 +276,7 @@ public class MhldDisplayUtil
 		try
 		{
 			patternFieldMap.put(Integer.valueOf(linkSeqNum), df853);
-		} 
+		}
 		catch (NumberFormatException e)
 		{
 			logger.error(id	+ " has mhld 853 with a non-integer value in sub 8: " + linkSeqNum);
@@ -286,12 +286,12 @@ public class MhldDisplayUtil
 
 	/**
 	 * we need mostRecent863 to be the 863 field with the highest link and
-	 *  sequence number. 
-	 * this method can assign: 
+	 *  sequence number.
+	 * this method can assign:
 	 *   mostRecent863linkNum
-	 *   mostRecent863seqNum 
+	 *   mostRecent863seqNum
 	 *   mostRecent863
-	 * 
+	 *
 	 * @param df863
 	 */
 	private void setMostRecent863(DataField df863)
@@ -311,7 +311,7 @@ public class MhldDisplayUtil
 		{
 			dfLinkNum = Integer.valueOf(dfLinkNumStr);
 			dfSeqNum = Integer.valueOf(dfSeqNumStr);
-		} 
+		}
 		catch (NumberFormatException e)
 		{
 			logger.error(id + " has mhld 863 with a non-integer value for link or sequence number: " + sub8);
@@ -352,9 +352,9 @@ public class MhldDisplayUtil
 	 * captions from the 853 must be applied to the values in the 863. NOTE: the
 	 * match between the 853 and 863 linkage numbers should be done before
 	 * calling this method.
-	 * 
+	 *
 	 * @author Bob Haschart, with some revisions by Naomi Dushay
-	 * 
+	 *
 	 * @param df863 - the 863 DataField object to be transformed
 	 * @param pattern853df - the 853 DataField containing the pattern for the 863 field.
 	 * @return a user friendly string representation of the information in the
@@ -442,7 +442,7 @@ public class MhldDisplayUtil
 	 * http://www.loc.gov/marc/holdings/hd853855.html, captions within parens
 	 * should not be output, and the values for (month) and (season) captions
 	 * should be translated to an appropriate display value.
-	 * 
+	 *
 	 * @param caption
 	 *            - string from an 853 subfield
 	 * @param value
@@ -479,6 +479,10 @@ public class MhldDisplayUtil
 		value = value.replaceAll("10", "October");
 		value = value.replaceAll("11", "November");
 		value = value.replaceAll("12", "December");
+		value = value.replaceAll("13", "Spring");
+		value = value.replaceAll("14", "Summer");
+		value = value.replaceAll("15", "Autumn");
+		value = value.replaceAll("16", "Winter");
 		value = value.replaceAll("21", "Spring");
 		value = value.replaceAll("22", "Summer");
 		value = value.replaceAll("23", "Autumn");
