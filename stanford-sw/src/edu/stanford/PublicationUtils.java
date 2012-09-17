@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2012.  The Board of Trustees of the Leland Stanford Junior University. All rights reserved.
+ *
+ * Redistribution and use of this distribution in source and binary forms, with or without modification, are permitted provided that: The above copyright notice and this permission notice appear in all copies and supporting documentation; The name, identifiers, and trademarks of The Board of Trustees of the Leland Stanford Junior University are not used in advertising or publicity without the express prior written permission of The Board of Trustees of the Leland Stanford Junior University; Recipients acknowledge that this distribution is made available as a research courtesy, "as is", potentially with defects, without any obligation on the part of The Board of Trustees of the Leland Stanford Junior University to provide support, services, or repair;
+ *
+ * THE BOARD OF TRUSTEES OF THE LELAND STANFORD JUNIOR UNIVERSITY DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, WITH REGARD TO THIS SOFTWARE, INCLUDING WITHOUT LIMITATION ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, AND IN NO EVENT SHALL THE BOARD OF TRUSTEES OF THE LELAND STANFORD JUNIOR UNIVERSITY BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, TORT (INCLUDING NEGLIGENCE) OR STRICT LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+*/
 package edu.stanford;
 
 import java.util.*;
@@ -16,8 +23,11 @@ import edu.stanford.enumValues.PubDateGroup;
  */
 public class PublicationUtils {
 
-	private static int currYearAsInt = Calendar.getInstance().get(Calendar.YEAR);
-	private static String currYearAsStr = Integer.toString(currYearAsInt);
+	private static int CURRENT_YEAR_AS_INT = Calendar.getInstance().get(Calendar.YEAR);
+	private static String CURRENT_YEAR_AS_STR = Integer.toString(CURRENT_YEAR_AS_INT);
+
+	private static int EARLIEST_VALID_YEAR = 500;
+	private static int LATEST_VALID_YEAR = CURRENT_YEAR_AS_INT + 1;
 
 	/**
 	 * Default Constructor: private, so it can't be instantiated by other objects
@@ -65,9 +75,9 @@ public class PublicationUtils {
 
 	/**
 	 * returns the publication date from a record, if it is present and not
-     *  beyond the current year + 1 (and not earlier than 0500 if it is a
+     *  beyond the current year + 1 (and not earlier than EARLIEST_VALID_YEAR if it is a
      *  4 digit year
-     *   four digit years < 0500 trigger an attempt to get a 4 digit date from 260c
+     *   four digit years < EARLIEST_VALID_YEAR trigger an attempt to get a 4 digit date from 260c
      * Side Effects:  errors in pub date are logged
      * @param date008 - characters 7-10 (0 based index) in 008 field
 	 * @param date260c - the date string extracted from the 260c field
@@ -81,21 +91,21 @@ public class PublicationUtils {
 		if (date008 != null) {
 			String errmsg = "Bad Publication Date in record " + id + " from 008/07-10: " + date008;
 			if (PublicationUtils.isdddd(date008)) {
-				String result = PublicationUtils.getValidPubDate(date008, currYearAsInt + 1, 500, date260c, df264list);
+				String result = PublicationUtils.getValidPubDate(date008, date260c, df264list);
 				if (result != null)
 					return result;
 				else
 					logger.error(errmsg);
 			} else if (PublicationUtils.isdddu(date008)) {
 				int myFirst3 = Integer.parseInt(date008.substring(0, 3));
-				int currFirst3 = Integer.parseInt(currYearAsStr.substring(0, 3));
+				int currFirst3 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 3));
 				if (myFirst3 <= currFirst3)
 					return date008.substring(0, 3) + "0s";
 				else
 					logger.error(errmsg);
 			} else if (PublicationUtils.isdduu(date008)) {
 				int myFirst2 = Integer.parseInt(date008.substring(0, 2));
-				int currFirst2 = Integer.parseInt(currYearAsStr.substring(0, 2));
+				int currFirst2 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 2));
 				if (myFirst2 <= currFirst2)
 					return PublicationUtils.getCenturyString(date008.substring(0, 2));
 				else
@@ -108,9 +118,9 @@ public class PublicationUtils {
 
 	/**
      * returns the sortable publication date from a record, if it is present
-     *  and not beyond the current year + 1, and not earlier than 0500 if
+     *  and not beyond the current year + 1, and not earlier than EARLIEST_VALID_YEAR if
      *   a four digit year
-     *   four digit years < 0500 trigger an attempt to get a 4 digit date from 260c
+     *   four digit years < EARLIEST_VALID_YEAR trigger an attempt to get a 4 digit date from 260c
      *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
      * @param date008 - characters 7-10 (0 based index) in 008 field
 	 * @param date260c - the date string extracted from the 260c field
@@ -122,15 +132,15 @@ public class PublicationUtils {
 			// hyphens sort before 0, so the lexical sorting will be correct. I
 			// think.
 			if (PublicationUtils.isdddd(date008))
-				return PublicationUtils.getValidPubDate(date008, currYearAsInt + 1, 500, date260c, df264list);
+				return PublicationUtils.getValidPubDate(date008, date260c, df264list);
 			else if (PublicationUtils.isdddu(date008)) {
 				int myFirst3 = Integer.parseInt(date008.substring(0, 3));
-				int currFirst3 = Integer.parseInt(currYearAsStr.substring(0, 3));
+				int currFirst3 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 3));
 				if (myFirst3 <= currFirst3)
 					return date008.substring(0, 3) + "-";
 			} else if (PublicationUtils.isdduu(date008)) {
 				int myFirst2 = Integer.parseInt(date008.substring(0, 2));
-				int currFirst2 = Integer.parseInt(currYearAsStr.substring(0, 2));
+				int currFirst2 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 2));
 				if (myFirst2 <= currFirst2)
 					return date008.substring(0, 2) + "--";
 			}
@@ -141,10 +151,51 @@ public class PublicationUtils {
 
 
 	/**
+     * returns the sortable publication date from a record, if it is present
+     *  and not beyond the current year + 1, and not earlier than EARLIEST_VALID_YEAR if
+     *   a four digit year
+     *   four digit years < EARLIEST_VALID_YEAR trigger an attempt to get a 4 digit date from 260c
+     *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
+     * @param date008 - characters 7-10 (0 based index) in 008 field
+	 * @param date260c - the date string extracted from the 260c field
+	 * @param df264list  - a List of 264 fields as DataField objects
+	 * @return String containing publication date, or null if none
+	 */
+	static Set<String> getPubDateSliderVals(ControlField cf008, String date260c, List<DataField> df264list)
+	{
+		Set<String> results = new HashSet<String>();
+		if (cf008 != null && cf008.getData().length() >= 15)
+		{
+			char char6 = cf008.getData().charAt(6);
+			String date1 = cf008.getData().substring(7, 11);
+			String date2 = cf008.getData().substring(11, 15);
+
+			// hyphens sort before 0, so the lexical sorting will be correct. I
+			// think.
+			if (PublicationUtils.isdddd(date1))
+				results.add(PublicationUtils.getValidPubDate(date1, date260c, df264list));
+			else if (PublicationUtils.isdddu(date1)) {
+				int myFirst3 = Integer.parseInt(date1.substring(0, 3));
+				int currFirst3 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 3));
+				if (myFirst3 <= currFirst3)
+					results.add(date1.substring(0, 3) + "0");
+			} else if (PublicationUtils.isdduu(date1)) {
+				int myFirst2 = Integer.parseInt(date1.substring(0, 2));
+				int currFirst2 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 2));
+				if (myFirst2 <= currFirst2)
+					results.add(date1.substring(0, 2) + "00");
+			}
+		}
+
+		return results;
+	}
+
+
+	/**
 	 * returns the publication date groupings from a record, if pub date is
      *  given and is no later than the current year + 1, and is not earlier
-     *  than 0500 if it is a 4 digit year.
-     *   four digit years < 0500 trigger an attempt to get a 4 digit date from 260c
+     *  than EARLIEST_VALID_YEAR if it is a 4 digit year.
+     *   four digit years < EARLIEST_VALID_YEAR trigger an attempt to get a 4 digit date from 260c
      *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
 	 * @param date260c - the date string extracted from the 260c field
 	 * @param df264list  - a List of 264 fields as DataField objects
@@ -159,13 +210,13 @@ public class PublicationUtils {
 		if (date008 != null) {
 			if (isdddd(date008)) // exact year
 			{
-				String myDate = getValidPubDate(date008, currYearAsInt + 1, 500, date260c, df264list);
+				String myDate = getValidPubDate(date008, date260c, df264list);
 				if (myDate != null) {
 					int year = Integer.parseInt(myDate);
 					// "this year" and "last three years" are for 4 digits only
-					if (year >= (currYearAsInt - 1))
+					if (year >= (CURRENT_YEAR_AS_INT - 1))
 						resultSet.add(PubDateGroup.THIS_YEAR.toString());
-					if (year >= (currYearAsInt - 3))
+					if (year >= (CURRENT_YEAR_AS_INT - 3))
 						resultSet.add(PubDateGroup.LAST_3_YEARS.toString());
 					resultSet.addAll(getPubDateGroupsForYear(year));
 				}
@@ -174,31 +225,31 @@ public class PublicationUtils {
 			{
 				String first3Str = date008.substring(0, 3);
 				int first3int = Integer.parseInt(first3Str);
-				int currFirst3 = Integer.parseInt(currYearAsStr.substring(0, 3));
+				int currFirst3 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 3));
 				if (first3int <= currFirst3) {
-					if (first3Str.equals(currYearAsStr.substring(0, 3))) // this decade?
+					if (first3Str.equals(CURRENT_YEAR_AS_STR.substring(0, 3))) // this decade?
 					{
 						resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
 						resultSet.add(PubDateGroup.LAST_10_YEARS.toString());
-						if (currYearAsInt % 10 <= 3)
+						if (CURRENT_YEAR_AS_INT % 10 <= 3)
 							resultSet.add(PubDateGroup.LAST_3_YEARS.toString());
 					}
 					else
 					{ // not current decade
-						if (currYearAsInt % 10 <= 4) // which half of decade?
+						if (CURRENT_YEAR_AS_INT % 10 <= 4) // which half of decade?
 						{
 							// first half of decade - current year ends in 0-4
-							if (first3int == (currYearAsInt / 10) - 1)
+							if (first3int == (CURRENT_YEAR_AS_INT / 10) - 1)
 								resultSet.add(PubDateGroup.LAST_10_YEARS.toString());
 
-							if (first3int >= (currYearAsInt / 10) - 5)
+							if (first3int >= (CURRENT_YEAR_AS_INT / 10) - 5)
 								resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
 							else
 								resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
 						}
 						else {
 							// second half of decade - current year ends in 5-9
-							if (first3int > (currYearAsInt / 10) - 5)
+							if (first3int > (CURRENT_YEAR_AS_INT / 10) - 5)
 								resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
 							else
 								resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
@@ -210,20 +261,20 @@ public class PublicationUtils {
 			else if (isdduu(date008)) { // century
 				String first2Str = date008.substring(0, 2);
 				int first2int = Integer.parseInt(first2Str);
-				int currFirst2 = Integer.parseInt(currYearAsStr.substring(0, 2));
+				int currFirst2 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 2));
 				if (first2int <= currFirst2) {
-					if (first2Str.equals(currYearAsStr.substring(0, 2))) {
+					if (first2Str.equals(CURRENT_YEAR_AS_STR.substring(0, 2))) {
 						// current century
 						resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
 
-						if (currYearAsInt % 100 <= 19)
+						if (CURRENT_YEAR_AS_INT % 100 <= 19)
 							resultSet.add(PubDateGroup.LAST_10_YEARS.toString());
 					}
 					else {
-						if (first2int == (currYearAsInt / 100) - 1)
+						if (first2int == (CURRENT_YEAR_AS_INT / 100) - 1)
 						{
 							// previous century
-							if (currYearAsInt % 100 <= 25)
+							if (CURRENT_YEAR_AS_INT % 100 <= 25)
 								resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
 							else
 								resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
@@ -239,6 +290,19 @@ public class PublicationUtils {
 		return resultSet;
 	}
 
+
+	/**
+     * check if a 4 digit year for a pub date is within the range.  If not,
+     *  check for a 4 digit date in the 260c that is in range
+	 * @param dateToCheck - String containing 4 digit date to check
+	 * @param date260c - the date string extracted from the 260c field
+	 * @param df264list  - a List of 264 fields as DataField objects
+	 * @return String containing a 4 digit valid publication date, or null
+	 */
+	static String getValidPubDate(String dateToCheck, String date260c, List<DataField> df264list)
+	{
+		return getValidPubDate(dateToCheck, LATEST_VALID_YEAR, EARLIEST_VALID_YEAR, date260c, df264list);
+	}
 
 	/**
      * check if a 4 digit year for a pub date is within the range.  If not,
@@ -267,16 +331,20 @@ public class PublicationUtils {
 					{
 						try
 						{
-							int date264int = Integer.parseInt(DateUtils.getYearFromString(date264cStr));
-		    				if (date264int != 0 &&
-		    					date264int <= upperLimit && date264int >= lowerLimit)
-		    				{
-		    					String yearStr = String.valueOf(date264int);
-		    					if (ind2 == '1')
-			    					return yearStr;
-		    					else if (usable264cdateStr == null)
-		    						usable264cdateStr = yearStr;
-		    				}
+							String possYear = DateUtils.getYearFromString(date264cStr);
+							if (possYear != null)
+							{
+								int date264int = Integer.parseInt(possYear);
+			    				if (date264int != 0 &&
+			    					date264int <= upperLimit && date264int >= lowerLimit)
+			    				{
+			    					String yearStr = String.valueOf(date264int);
+			    					if (ind2 == '1')
+				    					return yearStr;
+			    					else if (usable264cdateStr == null)
+			    						usable264cdateStr = yearStr;
+			    				}
+							}
 						}
 						catch (NumberFormatException e)
 						{
@@ -284,10 +352,14 @@ public class PublicationUtils {
 					}
 				}
 				if (date260c != null) {
-					int date260int = Integer.parseInt(DateUtils.getYearFromString(date260c));
-    				if (date260int != 0 &&
-    					date260int <= upperLimit && date260int >= lowerLimit)
-						return String.valueOf(date260int);
+					String possYear = DateUtils.getYearFromString(date260c);
+					if (possYear != null)
+					{
+						int date260int = Integer.parseInt(possYear);
+	    				if (date260int != 0 &&
+	    					date260int <= upperLimit && date260int >= lowerLimit)
+							return String.valueOf(date260int);
+					}
 				}
 				if (usable264cdateStr != null)
 					return usable264cdateStr;
@@ -298,18 +370,18 @@ public class PublicationUtils {
 
 
 	static int getCurrentYearAsInt() {
-		return currYearAsInt;
+		return CURRENT_YEAR_AS_INT;
 	}
 
 	static Set<String> getPubDateGroupsForYear(int year)
 	{
 		Set<String> resultSet = new HashSet<String>();
 
-		if (year >= (currYearAsInt - 10))
+		if (year >= (CURRENT_YEAR_AS_INT - 10))
 			resultSet.add(PubDateGroup.LAST_10_YEARS.toString());
-		if (year >= (currYearAsInt - 50))
+		if (year >= (CURRENT_YEAR_AS_INT - 50))
 			resultSet.add(PubDateGroup.LAST_50_YEARS.toString());
-		if (year < (currYearAsInt - 50) && (year > -1.0))
+		if (year < (CURRENT_YEAR_AS_INT - 50) && (year > -1.0))
 			resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
 		return resultSet;
 	}
