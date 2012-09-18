@@ -44,7 +44,7 @@ public class PublicationUtilsUnitTests
 	    df = factory.newDataField("264", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('c', "[Date of distribution not identified]"));
 	    f264list.add(df);
-	    assertNull("getValidPubDate should return null when it only finds 264 sub c with ignored values ", getValidPubDate("0000", null, f264list));
+	    assertNull("getValidPubDate should return null when it only finds 264 sub c with ignored values ", getValidPubDateStr(null, null, f264list));
 	}
 
 
@@ -73,7 +73,7 @@ public class PublicationUtilsUnitTests
 	    df.addSubfield(factory.newSubfield('c', Integer.toString(upperLimit + 1)));
 	    f264list.add(df);
 
-	    assertNull("getValidPubDate should return null when it only finds 264c with vals that are greater than the upper limit", getValidPubDate("0000", upperLimit, 500, null, f264list));
+	    assertNull("getValidPubDate should return null when it only finds 264c with vals that are greater than the upper limit", getValidPubDateStr(null, upperLimit, 500, null, f264list));
 	}
 
 
@@ -97,7 +97,7 @@ public class PublicationUtilsUnitTests
 	    df.addSubfield(factory.newSubfield('c', "0204"));
 	    f264list.add(df);
 	    int lowerLimit = 500;
-	    assertNull("getValidPubDate should return null when it only finds 264c with vals that are < the lower limit", getValidPubDate("0000", 2022, lowerLimit, null, f264list));
+	    assertNull("getValidPubDate should return null when it only finds 264c with vals that are < the lower limit", getValidPubDateStr(null, 2022, lowerLimit, null, f264list));
 	}
 
 
@@ -107,10 +107,10 @@ public class PublicationUtilsUnitTests
 @Test
 	public void testGetPubDateAutoCorrectsWith260c()
 	{
-	    assertEquals("getValidPubDate should return its fourth argument when the first argument isn't a valid date", "2009", getValidPubDate("0059", "2009.", new ArrayList()));
-	    assertEquals("getValidPubDate should return its fourth argument when the first argument isn't a valid date", "1970", getValidPubDate("0197", "[197?]", new ArrayList()));
-	    assertEquals("getValidPubDate should return its fourth argument when the first argument isn't a valid date", "2004", getValidPubDate("0204", "[2004]", new ArrayList()));
-	    assertNull("getValidPubDate should return null when it only finds 260c with invalid date", getValidPubDate("0019", "invalid", new ArrayList()));
+	    assertEquals("getValidPubDate should return its fourth argument when the first argument isn't a valid date", "2009", getValidPubDateStr("0059", "2009.", new ArrayList()));
+	    assertEquals("getValidPubDate should return its fourth argument when the first argument isn't a valid date", "1970", getValidPubDateStr("0197", "[197?]", new ArrayList()));
+	    assertEquals("getValidPubDate should return its fourth argument when the first argument isn't a valid date", "2004", getValidPubDateStr("0204", "[2004]", new ArrayList()));
+	    assertNull("getValidPubDate should return null when it only finds 260c with invalid date", getValidPubDateStr(null, "invalid", new ArrayList()));
 	}
 
 
@@ -118,26 +118,20 @@ public class PublicationUtilsUnitTests
 	public void test008DDDDForPubDateSlider()
 	{
 		ControlField f008 = factory.newControlField("008", "      b1960    ");
-		Set<String> result = getPubDateSliderVals(f008, null, null);
-		assertEquals("getPubDateSliderVals should have a single result", 1, result.size());
-		assertEquals("getPubDateSliderVals should get date from 008 bytes 7-10 when 4 digits", "1960", result.toArray()[0]);
+		assertSingleResult(getPubDateSliderVals(f008, null, null), "1960");
 	}
 
 @Test
 	public void test008DDDUForPubDateSlider()
 	{
 		ControlField f008 = factory.newControlField("008", "      b196u    ");
-		Set<String> result = getPubDateSliderVals(f008, null, null);
-		assertEquals("getPubDateSliderVals should have a single result", 1, result.size());
-		assertEquals("getPubDateSliderVals should get date ending in 0 from 008 bytes 7-10 when dddu", "1960", result.toArray()[0]);
+		assertSingleResult(getPubDateSliderVals(f008, null, null), "1960");
 	}
 @Test
 	public void test008DDUUForPubDateSlider()
 	{
 		ControlField f008 = factory.newControlField("008", "      b19uu    ");
-		Set<String> result = getPubDateSliderVals(f008, null, null);
-		assertEquals("getPubDateSliderVals should have a single result", 1, result.size());
-		assertEquals("getPubDateSliderVals should get date ending in 00 from 008 bytes 7-10 when dduu", "1900", result.toArray()[0]);
+		assertSingleResult(getPubDateSliderVals(f008, null, null), "1900");
 	}
 @Test
 	public void test008DUUUForPubDateSlider()
@@ -147,14 +141,14 @@ public class PublicationUtilsUnitTests
 		assertEquals("getPubDateSliderVals should have no results from 008 bytes 7-10 when duuu and no other options", 0, result.size());
 	}
 
-//@Test
-	public void test008DateBad()
+@Test
+	public void test008FirstDateBadForPubDateSlider()
 	{
 		ControlField f008 = factory.newControlField("008", "      bnope    ");
 		Set<String> result = getPubDateSliderVals(f008, null, null);
 		assertEquals("getPubDateSliderVals should have no results if bad 008 and no other options", 0, result.size());
 
-		result = getPubDateSliderVals(f008, "1960", new ArrayList());
+		result = getPubDateSliderVals(f008, "1960", new ArrayList<DataField>());
 		assertEquals("getPubDateSliderVals should get single result from second arg if 008 has bad value", "1960", result.toArray()[0]);
 
 		List<DataField> f264list = new ArrayList<DataField>();
@@ -165,24 +159,82 @@ public class PublicationUtilsUnitTests
 		assertEquals("getPubDateSliderVals should get single result from third arg if 008 has bad value and no second arg", "1970", result.toArray()[0]);
 	}
 
-//@Test
-	public void	testIndexMultipleDates()
-	{
-		fail("implement me");
-	}
-
-//@Test
+@Test
 	public void testIndexOneDate()
 	{
-		Record record = factory.newRecord();
-		record.addVariableField(factory.newControlField("008", "      b1960"));
-		fail("implement me");
+		ControlField f008 = factory.newControlField("008", "      b19671969");
+		assertSingleResult(getPubDateSliderVals(f008, null, null), "1967");
+
+		f008 = factory.newControlField("008", "      c19671969");
+		assertSingleResult(getPubDateSliderVals(f008, null, null), "1967");
+
+		f008 = factory.newControlField("008", "      e19671969");
+		assertSingleResult(getPubDateSliderVals(f008, null, null), "1967");
+
+		f008 = factory.newControlField("008", "      n19671969");
+		assertSingleResult(getPubDateSliderVals(f008, null, null), "1967");
+
+		f008 = factory.newControlField("008", "      s19671969");
+		assertSingleResult(getPubDateSliderVals(f008, null, null), "1967");
+
+		f008 = factory.newControlField("008", "      u19671969");
+		assertSingleResult(getPubDateSliderVals(f008, null, null), "1967");
+
+		f008 = factory.newControlField("008", "      z19671969");
+		assertSingleResult(getPubDateSliderVals(f008, null, null), "1967");
 	}
 
-//@Test
-	public void testMdate2is9999()
+@Test
+	public void	testIndexMultipleDates()
 	{
-		fail("implement me");
+		ControlField f008 = factory.newControlField("008", "      p19671969");
+		String[] expected = new String[] {"1967", "1969" };
+		assertMultipleResults(getPubDateSliderVals(f008, null, null), expected);
+		f008 = factory.newControlField("008", "      r19671969");
+		assertMultipleResults(getPubDateSliderVals(f008, null, null), expected);
+		f008 = factory.newControlField("008", "      t19671969");
+		assertMultipleResults(getPubDateSliderVals(f008, null, null), expected);
+
+		expected = new String[] {"1967", "1969", "1968" };
+		f008 = factory.newControlField("008", "      d19671969");
+		assertMultipleResults(getPubDateSliderVals(f008, null, null), expected);
+		f008 = factory.newControlField("008", "      i19671969");
+		assertMultipleResults(getPubDateSliderVals(f008, null, null), expected);
+		f008 = factory.newControlField("008", "      k19671969");
+		assertMultipleResults(getPubDateSliderVals(f008, null, null), expected);
+		f008 = factory.newControlField("008", "      q19671969");
+		assertMultipleResults(getPubDateSliderVals(f008, null, null), expected);
 	}
+
+@Test
+	public void test008Mdate2is9999()
+	{
+		ControlField f008 = factory.newControlField("008", "      m19679999");
+		assertSingleResult(getPubDateSliderVals(f008, null, null), "1967");
+	}
+
+@Test
+	public void test008Mdate2isNot9999()
+	{
+		ControlField f008 = factory.newControlField("008", "      m19671969");
+		String[] expected = new String[] {"1967", "1969", "1968" };
+		assertMultipleResults(getPubDateSliderVals(f008, null, null), expected);
+	}
+
+// -----  private ------
+
+	private void assertSingleResult(Set<String> resultSet, String expectedResult)
+	{
+		assertEquals("getPubDateSliderVals: expected a single result", 1, resultSet.size());
+		assertEquals("getPubDateSliderVals: should get the date " + expectedResult, expectedResult, resultSet.toArray()[0]);
+	}
+
+	private void assertMultipleResults(Set<String> resultSet, String[] expectedResults)
+	{
+		int expNum = expectedResults.length;
+		assertEquals("getPubDateSliderVals: expected " + String.valueOf(expNum) + " results", expNum, resultSet.size());
+		assertArrayEquals("getPubDateSliderVals should get the dates from 008", expectedResults, resultSet.toArray());
+	}
+
 
 }
