@@ -39,6 +39,7 @@ import org.junit.runners.Suite;
         NoteFieldsTests.class,
         PhysicalTests.class,
         PublicationTests.class,
+        PublicationUtilsUnitTests.class,
         SeriesTests.class,
         StandardNumberTests.class,
         SubjectSearchTests.class,
