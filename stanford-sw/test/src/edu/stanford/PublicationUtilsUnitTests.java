@@ -44,7 +44,7 @@ public class PublicationUtilsUnitTests
 	    df = factory.newDataField("264", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('c', "[Date of distribution not identified]"));
 	    f264list.add(df);
-	    assertNull("getValidPubDate should return null when it only finds 264 sub c with ignored values ", getValidPubDateStr(null, null, f264list));
+	    assertNull("getValidPubDateStr should return null when it only finds 264 sub c with ignored values ", getValidPubDateStr(null, null, f264list));
 	}
 
 
@@ -73,7 +73,7 @@ public class PublicationUtilsUnitTests
 	    df.addSubfield(factory.newSubfield('c', Integer.toString(upperLimit + 1)));
 	    f264list.add(df);
 
-	    assertNull("getValidPubDate should return null when it only finds 264c with vals that are greater than the upper limit", getValidPubDateStr(null, upperLimit, 500, null, f264list));
+	    assertNull("getValidPubDateStr should return null when it only finds 264c with vals that are greater than the upper limit", getValidPubDateStr(null, upperLimit, 500, null, f264list));
 	}
 
 
@@ -97,7 +97,7 @@ public class PublicationUtilsUnitTests
 	    df.addSubfield(factory.newSubfield('c', "0204"));
 	    f264list.add(df);
 	    int lowerLimit = 500;
-	    assertNull("getValidPubDate should return null when it only finds 264c with vals that are < the lower limit", getValidPubDateStr(null, 2022, lowerLimit, null, f264list));
+	    assertNull("getValidPubDateStr should return null when it only finds 264c with vals that are < the lower limit", getValidPubDateStr(null, 2022, lowerLimit, null, f264list));
 	}
 
 
@@ -107,10 +107,10 @@ public class PublicationUtilsUnitTests
 @Test
 	public void testGetPubDateAutoCorrectsWith260c()
 	{
-	    assertEquals("getValidPubDate should return its fourth argument when the first argument isn't a valid date", "2009", getValidPubDateStr("0059", "2009.", new ArrayList()));
-	    assertEquals("getValidPubDate should return its fourth argument when the first argument isn't a valid date", "1970", getValidPubDateStr("0197", "[197?]", new ArrayList()));
-	    assertEquals("getValidPubDate should return its fourth argument when the first argument isn't a valid date", "2004", getValidPubDateStr("0204", "[2004]", new ArrayList()));
-	    assertNull("getValidPubDate should return null when it only finds 260c with invalid date", getValidPubDateStr(null, "invalid", new ArrayList()));
+	    assertEquals("getValidPubDateStr should return its fourth argument when the first argument isn't a valid date", "2009", getValidPubDateStr("0059", "2009.", new ArrayList()));
+	    assertEquals("getValidPubDateStr should return its fourth argument when the first argument isn't a valid date", "1970", getValidPubDateStr("0197", "[197?]", new ArrayList()));
+	    assertEquals("getValidPubDateStr should return its fourth argument when the first argument isn't a valid date", "2004", getValidPubDateStr("0204", "[2004]", new ArrayList()));
+	    assertNull("getValidPubDateStr should return null when it only finds 260c with invalid date", getValidPubDateStr(null, "invalid", new ArrayList()));
 	}
 
 
@@ -160,7 +160,7 @@ public class PublicationUtilsUnitTests
 	}
 
 @Test
-	public void testIndexOneDate()
+	public void testIndexOneDate4PubDateSlider()
 	{
 		ControlField f008 = factory.newControlField("008", "      b19671969");
 		assertSingleResult(getPubDateSliderVals(f008, null, null), "1967");
@@ -185,7 +185,7 @@ public class PublicationUtilsUnitTests
 	}
 
 @Test
-	public void	testIndexMultipleDates()
+	public void	testIndexMultipleDates4PubDateSlider()
 	{
 		ControlField f008 = factory.newControlField("008", "      p19671969");
 		String[] expected = new String[] {"1967", "1969" };
@@ -207,14 +207,14 @@ public class PublicationUtilsUnitTests
 	}
 
 @Test
-	public void test008Mdate2is9999()
+	public void test008Mdate2is9999PubDateSlider()
 	{
 		ControlField f008 = factory.newControlField("008", "      m19679999");
 		assertSingleResult(getPubDateSliderVals(f008, null, null), "1967");
 	}
 
 @Test
-	public void test008Mdate2isNot9999()
+	public void test008Mdate2isNot9999PubDateSlider()
 	{
 		ControlField f008 = factory.newControlField("008", "      m19671969");
 		String[] expected = new String[] {"1967", "1969", "1968" };

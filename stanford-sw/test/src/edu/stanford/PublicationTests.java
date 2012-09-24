@@ -33,7 +33,7 @@ public class PublicationTests extends AbstractStanfordTest
 	}
 
 	/**
-	 * test the publication fields (not pub date fields) in the context of the index
+	 * integration test: the publication fields (not pub date fields)
 	 */
 @Test
 	public void testPublicationFieldsInIx()
@@ -65,7 +65,7 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
-	 * assure publication field is populated correctly
+	 * functional test: assure publication field is populated correctly
 	 */
 @Test
 	public void testPublication()
@@ -95,7 +95,7 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
-	 * assure pub_search field is populated from 264 correctly
+	 * functional test: assure pub_search field is populated from 264 correctly
 	 */
 @Test
 	public void test264PubSearch()
@@ -132,7 +132,7 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
-	 * assure pub_search field ignores the unknown-ish phrases
+	 * functional test: assure pub_search field ignores the unknown-ish phrases
 	 */
 @Test
 	public void test264IgnoreUnknownPubSearch()
@@ -186,7 +186,7 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
-	 * assure publication field is populated correctly
+	 * functional test: assure publication field is populated correctly
 	 */
 @Test
 	public void testVernPublication()
@@ -216,7 +216,7 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
-	 * assure publication country field is populated correctly
+	 * functional test: assure publication country field is populated correctly
 	 */
 @Test
 	public void testPublicationCountry()
@@ -230,7 +230,7 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
-	 * assure pub_date field ignores the unknown-ish phrases
+	 * functional test: assure pub_date field ignores the unknown-ish phrases
 	 */
 @Test
 	public void test264IgnoreUnknownPubDate()
@@ -253,7 +253,7 @@ public class PublicationTests extends AbstractStanfordTest
 	}
 
 	/**
-	 * assure pub dates later than current year +1 are ignored
+	 * integration test: assure pub dates later than current year +1 are ignored
 	 */
 @Test
 	public void testPubDateTooLate()
@@ -287,7 +287,7 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
-	 * assure pub dates of < 500 are ignored
+	 * integration test: assure pub dates of < 500 are ignored
 	 */
 @Test
 	public void testPubDateTooEarly()
@@ -319,7 +319,7 @@ public class PublicationTests extends AbstractStanfordTest
 	}
 
 	/**
-	 * test that auto-correction of pub date in 008 by checking value in 260c
+	 * functional test: auto-correction of pub date in 008 by checking value in 260c
 	 */
 @Test
 	public void testPubDateAutoCorrect()
@@ -364,7 +364,7 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
-	 * assure pub dates later than current year +1 are ignored
+	 * functional test: assure pub dates later than current year +1 are ignored
 	 */
 @Test
 	public void test264PubDate()
@@ -488,7 +488,7 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
-	 * test pub_date and pub_date_search field properties and searching.
+	 * integration test: pub_date and pub_date_search field properties and searching.
 	 */
 @Test
 	public final void testPubDateFieldsInIx()
@@ -506,7 +506,7 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
-	 * test pub_date_sort field population and ascending sort.
+	 * integration test: pub_date_sort field population and ascending sort.
 	 */
 @Test
 	public final void testPubDateSortAsc()
@@ -603,7 +603,7 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
-	 * pub date descending sort should start with oldest and go to newest
+	 * integration test: pub date descending sort should start with oldest and go to newest
 	 *  (missing dates sort order tested in another method)
 	 */
 @Test
@@ -701,7 +701,7 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
-	 * test pub_date_group_facet field population.
+	 * integration test: pub_date_group_facet field
 	 *   NOTE:  This test has to be changed when the year changes!
 	 */
 @Test
@@ -779,7 +779,7 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
-	 * test pub_date_display field population.
+	 * functional test: pub_date_display field
 	 */
 @Test
 	public final void testPubDateForDisplay()
