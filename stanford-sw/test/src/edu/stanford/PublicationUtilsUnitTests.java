@@ -18,6 +18,7 @@ import org.junit.*;
 import org.marc4j.marc.*;
 
 /**
+ * unit tests for methods in PublicationUtils
  * @author Naomi Dushay
  *
  */
