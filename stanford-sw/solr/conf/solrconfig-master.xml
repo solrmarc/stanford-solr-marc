@@ -89,7 +89,7 @@
     </lst>
   </requestHandler>
 
-  <!-- everywhere/unfielded search request handler -->
+  <!-- deprecated 2012-09-24: use search_local_params instead;  everywhere/unfielded search request handler -->
   <requestHandler name="search" class="solr.SearchHandler" default="true">
     <lst name="defaults">
       <str name="defType">dismax</str>
@@ -243,7 +243,7 @@
     </lst>
   </requestHandler>
 
-  <!-- request handler for title searches -->
+  <!--  deprecated 2012-09-24: use search_local_params instead; request handler for title searches -->
   <requestHandler name="search_title" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">dismax</str>
@@ -319,7 +319,7 @@
     </lst>
   </requestHandler>
 
-  <!-- author search request handler -->
+  <!--  deprecated 2012-09-24: use search_local_params instead;  author search request handler -->
   <requestHandler name="search_author" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">dismax</str>
@@ -385,7 +385,7 @@
     </lst>
   </requestHandler>
 
-  <!-- subject search request handler -->
+  <!-- deprecated 2012-09-24: use search_local_params instead;  subject search request handler -->
   <requestHandler name="search_subject" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">dismax</str>
@@ -473,7 +473,7 @@
     </lst>
   </requestHandler>
 
-  <!-- series search request handler -->
+  <!-- deprecated 2012-09-24: use search_local_params instead;  series search request handler -->
   <requestHandler name="search_series" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">dismax</str>
@@ -527,7 +527,7 @@
     </lst>
   </requestHandler>
 
-  <!-- callnum search request handler -->
+  <!-- deprecated 2012-09-24: use search_local_params instead;  callnum search request handler -->
   <requestHandler name="search_callnum" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="echoParams">explicit</str>
@@ -576,7 +576,7 @@
   </requestHandler>
 
 
-  <!-- request handler for different searches in the pulldown menu for the single search box -->
+  <!-- request handler for searches in the pulldown menu for the single search box, as well as others -->
   <requestHandler name="search_local_params" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="defType">lucene</str>
@@ -645,6 +645,8 @@
         id
         oclc
         barcode_search
+        collection_search
+        medium
 <!-- callnum_search removed so searches with stopwords can have matches
         callnum_search
 -->
@@ -690,6 +692,8 @@
         pub_date_search^2
         physical^2                     vern_physical^2
         award_search^20
+        collection_search^20
+        medium^20
         all_search^2
       </str>
 
@@ -799,19 +803,19 @@
         <str name="f.building_facet.facet.method">enum</str>
       <str name="facet.field">callnum_top_facet</str>
         <str name="f.callnum_top_facet.facet.method">enum</str>
-	      <str name="facet.field">lc_alpha_facet</str>
+        <str name="facet.field">lc_alpha_facet</str>
           <str name="f.lc_alpha_facet.facet.method">enum</str>
-	      <str name="facet.field">lc_b4cutter_facet</str>
-	      <str name="facet.field">dewey_1digit_facet</str>
+        <str name="facet.field">lc_b4cutter_facet</str>
+        <str name="facet.field">dewey_1digit_facet</str>
           <str name="f.dewey_1digit_facet.facet.method">enum</str>
-	      <str name="facet.field">dewey_2digit_facet</str>
-	      <str name="facet.field">dewey_b4cutter_facet</str>
-	      <str name="facet.field">gov_doc_type_facet</str>
+        <str name="facet.field">dewey_2digit_facet</str>
+        <str name="facet.field">dewey_b4cutter_facet</str>
+        <str name="facet.field">gov_doc_type_facet</str>
           <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
-      <str name="f.db_az_subject.facet.sort">false</str>
+        <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
         <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
@@ -1003,19 +1007,19 @@
         <str name="f.building_facet.facet.method">enum</str>
       <str name="facet.field">callnum_top_facet</str>
         <str name="f.callnum_top_facet.facet.method">enum</str>
-	      <str name="facet.field">lc_alpha_facet</str>
+        <str name="facet.field">lc_alpha_facet</str>
           <str name="f.lc_alpha_facet.facet.method">enum</str>
-	      <str name="facet.field">lc_b4cutter_facet</str>
-	      <str name="facet.field">dewey_1digit_facet</str>
+        <str name="facet.field">lc_b4cutter_facet</str>
+        <str name="facet.field">dewey_1digit_facet</str>
           <str name="f.dewey_1digit_facet.facet.method">enum</str>
-	      <str name="facet.field">dewey_2digit_facet</str>
-	      <str name="facet.field">dewey_b4cutter_facet</str>
-	      <str name="facet.field">gov_doc_type_facet</str>
+        <str name="facet.field">dewey_2digit_facet</str>
+        <str name="facet.field">dewey_b4cutter_facet</str>
+        <str name="facet.field">gov_doc_type_facet</str>
           <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
-      <str name="f.db_az_subject.facet.sort">false</str>
+        <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
         <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
@@ -1051,19 +1055,19 @@
         <str name="f.building_facet.facet.method">enum</str>
       <str name="facet.field">callnum_top_facet</str>
         <str name="f.callnum_top_facet.facet.method">enum</str>
-      <str name="facet.field">lc_alpha_facet</str>
+        <str name="facet.field">lc_alpha_facet</str>
           <str name="f.lc_alpha_facet.facet.method">enum</str>
-	      <str name="facet.field">lc_b4cutter_facet</str>
-	      <str name="facet.field">dewey_1digit_facet</str>
+        <str name="facet.field">lc_b4cutter_facet</str>
+        <str name="facet.field">dewey_1digit_facet</str>
           <str name="f.dewey_1digit_facet.facet.method">enum</str>
-	      <str name="facet.field">dewey_2digit_facet</str>
-	      <str name="facet.field">dewey_b4cutter_facet</str>
-	      <str name="facet.field">gov_doc_type_facet</str>
+        <str name="facet.field">dewey_2digit_facet</str>
+        <str name="facet.field">dewey_b4cutter_facet</str>
+        <str name="facet.field">gov_doc_type_facet</str>
           <str name="f.gov_doc_type_facet.facet.method">enum</str>
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
-      <str name="f.db_az_subject.facet.sort">false</str>
+        <str name="f.db_az_subject.facet.sort">false</str>
       <str name="facet.field">display_type</str>
         <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
@@ -1142,7 +1146,6 @@
       <str>tvComponent</str>
     </arr>
   </requestHandler>
-
 
   <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" startup="lazy"/>
   <requestHandler name="/update/javabin" class="solr.BinaryUpdateRequestHandler" startup="lazy"/>
