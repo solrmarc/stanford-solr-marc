@@ -211,7 +211,7 @@
     <httpCaching lastModifiedFrom="openTime" etagSeed="Solr" />
   </requestDispatcher>
 
-  <!-- everywhere/unfielded search request handler -->
+  <!-- deprecated 2012-09-24: use search_local_params instead;  everywhere/unfielded search request handler -->
   <requestHandler name="search" class="solr.SearchHandler" default="true">
     <lst name="defaults">
       <str name="defType">dismax</str>
@@ -332,7 +332,6 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
-        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -407,7 +406,7 @@
     </lst>
   </requestHandler>
 
-  <!-- request handler for title searches -->
+  <!--  deprecated 2012-09-24: use search_local_params instead; request handler for title searches -->
   <requestHandler name="search_title" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">dismax</str>
@@ -450,7 +449,6 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
-        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -524,7 +522,7 @@
     </lst>
   </requestHandler>
 
-  <!-- author search request handler -->
+  <!--  deprecated 2012-09-24: use search_local_params instead;  author search request handler -->
   <requestHandler name="search_author" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">dismax</str>
@@ -557,7 +555,6 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
-        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -631,7 +628,7 @@
     </lst>
   </requestHandler>
 
-  <!-- subject search request handler -->
+  <!-- deprecated 2012-09-24: use search_local_params instead;  subject search request handler -->
   <requestHandler name="search_subject" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">dismax</str>
@@ -686,7 +683,6 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
-        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -760,7 +756,7 @@
     </lst>
   </requestHandler>
 
-  <!-- series search request handler -->
+  <!-- deprecated 2012-09-24: use search_local_params instead;  series search request handler -->
   <requestHandler name="search_series" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">dismax</str>
@@ -781,7 +777,6 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
-        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -855,7 +850,7 @@
     </lst>
   </requestHandler>
 
-  <!-- callnum search request handler -->
+  <!-- deprecated 2012-09-24: use search_local_params instead;  callnum search request handler -->
   <requestHandler name="search_callnum" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="echoParams">explicit</str>
@@ -870,7 +865,6 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
-        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -945,7 +939,7 @@
   </requestHandler>
 
 
-  <!-- request handler for different searches in the pulldown menu for the single search box -->
+  <!-- request handler for searches in the pulldown menu for the single search box, as well as others -->
   <requestHandler name="search_local_params" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="defType">lucene</str>
@@ -1014,6 +1008,8 @@
         id
         oclc
         barcode_search
+        collection_search
+        medium
 <!-- callnum_search removed so searches with stopwords can have matches
         callnum_search
 -->
@@ -1059,6 +1055,8 @@
         pub_date_search^2
         physical^2                     vern_physical^2
         award_search^20
+        collection_search^20
+        medium^20
         all_search^2
       </str>
 
@@ -1162,7 +1160,6 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
-        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -1408,7 +1405,6 @@
       <int name="facet.limit">30</int>   <!-- language uses more than 11 in advanced search -->
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
-        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -1497,7 +1493,6 @@
       <int name="facet.limit">30</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
-        <str name="f.access_facet.facet.limit">2</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
@@ -1636,7 +1631,6 @@
       <str>tvComponent</str>
     </arr>
   </requestHandler>
-
 
   <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" startup="lazy"/>
   <requestHandler name="/update/javabin" class="solr.BinaryUpdateRequestHandler" startup="lazy"/>
