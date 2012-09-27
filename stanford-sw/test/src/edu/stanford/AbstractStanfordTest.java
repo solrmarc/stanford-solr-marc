@@ -38,4 +38,13 @@ public abstract class AbstractStanfordTest extends AbstractTest
         }
 	}
 
+	/**
+	 * initialization for mapping tests
+	 */
+	public void mappingTestInit()
+	{
+		luceneReqHandler = "search_local_params";
+		super.mappingTestInit();
+	}
+
 }
