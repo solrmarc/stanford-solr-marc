@@ -13,33 +13,35 @@ public class RemoteSolrSearcher
 {
     static boolean verbose = false;
     static boolean veryverbose = false;
-    Object solrSearcher = null;
     String solrBaseURL;
-    String solrFieldContainingEncodedMarcRecord;
-    MarcStreamWriter output;
     String query;
-    
-    public RemoteSolrSearcher(String solrBaseURL, String query, String solrFieldContainingEncodedMarcRecord)
+    /** solr field containing encoding marc record */
+    String marcRecFld;
+    /** name of Solr field containing ids */
+    String id_fname;
+    /** a reqHandler with deftype lucene (for id matching) */
+    String defaultReqHandler;
+
+    public RemoteSolrSearcher(String solrBaseURL, String query, String marcRecFld)
     {
-//      refedSolrSearcher = solrCore.getSearcher();
-//      solrSearcher = refedSolrSearcher.get();
-        this.solrBaseURL = solrBaseURL;  
-        this.solrFieldContainingEncodedMarcRecord = solrFieldContainingEncodedMarcRecord;
+    	this(solrBaseURL, query, marcRecFld, "id", "standard");
+    }
+
+    public RemoteSolrSearcher(String solrBaseURL, String query, String marcRecFld, String id_fname, String defaultReqHandler)
+    {
+        this.solrBaseURL = solrBaseURL;
+        this.marcRecFld = marcRecFld;
+        this.id_fname = id_fname;
+        this.defaultReqHandler = defaultReqHandler;
         this.query = query;
         if (verbose) System.err.println("URL = "+ solrBaseURL + "  query = "+ query);
     }
-    
+
     public int handleAll()
     {
-        output = new MarcStreamWriter(System.out, "UTF8", true);
-        if (solrFieldContainingEncodedMarcRecord == null) solrFieldContainingEncodedMarcRecord = "marc_display";
-        /*String queryparts[] = query.split(":");
-        if (queryparts.length != 2) 
-        {
-            //System.err.println("Error query must be of the form    field:term");
-            System.out.println("Error: query must be of the form    field:term  " + query);
-            return 0;
-        }*/
+    	MarcStreamWriter output = new MarcStreamWriter(System.out, "UTF8", true);
+        if (marcRecFld == null) marcRecFld = "marc_display";
+
         String encQuery;
         try
         {
@@ -49,26 +51,23 @@ public class RemoteSolrSearcher
         {
             encQuery = query;
         }
+
         if (verbose) System.err.println("encoded query = "+ encQuery);
+
         String resultSet[] = getIdSet(encQuery);
         String recordStr = null;
         for (String id : resultSet)
         {
-            recordStr = getFieldFromDocumentGivenDocID(id, solrFieldContainingEncodedMarcRecord);
+            recordStr = getFieldFromDocumentGivenDocID(id, marcRecFld);
             Record record = null;
             if (recordStr.startsWith("<?xml version"))
-            {
-                record = getRecordFromXMLString(recordStr);            
-            }
+                record = getRecordFromXMLString(recordStr);
             else if (recordStr.startsWith("{\""))
-            {
                 record = getRecordFromJsonString(recordStr);
-            }
             else
-            {
                 record = getRecordFromRawMarc(recordStr);
-            }
-            if (record != null)  
+
+            if (record != null)
             {
                 output.write(record);
                 System.out.flush();
@@ -77,10 +76,22 @@ public class RemoteSolrSearcher
         output.close();
         return 0;
     }
-   
+
     private String getFieldFromDocumentGivenDocID(String id, String solrFieldContainingEncodedMarcRecord2)
     {
-        String fullURLStr = solrBaseURL + "/select/?q=id%3A"+id+"&wt=json&indent=on&qt=standard&fl="+solrFieldContainingEncodedMarcRecord2;
+    	return getFieldFromDocumentGivenDocID(id, solrFieldContainingEncodedMarcRecord2, defaultReqHandler);
+    }
+
+    /**
+     *
+     * @param id the id of the record sought
+     * @param marcRecFld Solr field containing the encoded marc record
+     * @param reqHandler name of Solr request handler with deftype lucene
+     * @return
+     */
+    private String getFieldFromDocumentGivenDocID(String id, String marcRecFld, String reqHandler)
+    {
+        String fullURLStr = solrBaseURL + "/select/?q=" + id_fname + "%3A"+ id + "&qt=" + reqHandler + "&fl="+marcRecFld + "&wt=json&indent=on";
         if (verbose) System.err.println("encoded document retrieval url = "+ fullURLStr);
         URL fullURL = null;
         try
@@ -89,9 +100,9 @@ public class RemoteSolrSearcher
         }
         catch (MalformedURLException e1)
         {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
+
         BufferedReader sIn = null;
         try
         {
@@ -107,15 +118,14 @@ public class RemoteSolrSearcher
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         String line;
-        int numFound = 0;
         String result = null;
-        int count = 0;
         try
         {
             while ((line = sIn.readLine()) != null)
             {
-                if (line.contains(solrFieldContainingEncodedMarcRecord2+"\":"))
+                if (line.contains(marcRecFld+"\":"))
                 {
                     if (line.contains("\"<?xml version"))
                     {
@@ -123,14 +133,14 @@ public class RemoteSolrSearcher
                         result = result.replaceFirst("</collection>.*", "</collection>");
                         result = result.replaceAll("\\\\\"", "\"");
                     }
-                    else if (line.contains(solrFieldContainingEncodedMarcRecord2+"\":[\"{"))
+                    else if (line.contains(marcRecFld+"\":[\"{"))
                     {
                         result = line.replaceFirst("[^:]*:\\[\"[{]", "{");
                         result = result.replaceFirst("\\\\n\"][}]]", "");
                         result = result.replaceAll("\\\\\"", "\"");
                         result = result.replace("\\\\", "\\");
                     }
-                    else 
+                    else
                     {
                         result = line.replaceFirst("[^:]*:\"", "");
                         result = result.replaceFirst("\"}]$", "");
@@ -139,59 +149,65 @@ public class RemoteSolrSearcher
                     }
                 }
                 else
-                {
                     continue;
-                }
             }
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return(result);
     }
 
-    private String normalizeUnicode(String string)
+    private String normalizeUnicode(String origStr)
     {
         Pattern pattern = Pattern.compile("(\\\\u([0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f]))|(#(29|30|31);)");
-        Matcher matcher = pattern.matcher(string);
+        Matcher matcher = pattern.matcher(origStr);
         StringBuffer result = new StringBuffer();
         int prevEnd = 0;
         while(matcher.find())
         {
-            result.append(string.substring(prevEnd, matcher.start()));
+            result.append(origStr.substring(prevEnd, matcher.start()));
             result.append(getChar(matcher.group()));
             prevEnd = matcher.end();
         }
-        result.append(string.substring(prevEnd));
-        string = result.toString();
-        return(string);
+        result.append(origStr.substring(prevEnd));
+        return(result.toString());
     }
-    
+
     private String getChar(String charCodePoint)
     {
         int charNum;
         if (charCodePoint.startsWith("\\u"))
-        {
             charNum = Integer.parseInt(charCodePoint.substring(2), 16);
-        }
         else
-        {
             charNum = Integer.parseInt(charCodePoint.substring(1, 3));
-        }
-        String result = ""+((char)charNum);
-        return(result);
+
+        return ("" + ((char)charNum));
     }
-    
-    
-    public String[] getIdSet(String query) 
+
+
+    public String[] getIdSet(String query)
+    {
+    	return getIdSet(query, defaultReqHandler);
+    }
+
+
+    /**
+     *
+     * @param query
+     * @param reqHandler Solr request handler for query
+     * @return array of Strings matching the query
+     */
+    public String[] getIdSet(String query, String reqHandler)
     {
         int setSize = getIdSetSize(query);
         String resultSet[] = new String[setSize];
 
-        String fullURLStr = solrBaseURL + "/select/?q="+query+"&wt=json&qt=standard&indent=on&fl=id&start=0&rows="+setSize;
+        String fullURLStr = solrBaseURL + "/select/?q=" + query + "&qt=" + reqHandler + "&fl="+ id_fname + "&rows=" + setSize + "&start=0&wt=json&indent=on";
+
         if (verbose) System.err.println("Full URL for search = "+ fullURLStr);
+
         URL fullURL = null;
         try
         {
@@ -202,6 +218,7 @@ public class RemoteSolrSearcher
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
+
         BufferedReader sIn = null;
         try
         {
@@ -217,37 +234,47 @@ public class RemoteSolrSearcher
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        String line;
-        int numFound = 0;
-        int count = 0;
+
         try
         {
+            String line;
+            int count = 0;
             while ((line = sIn.readLine()) != null)
             {
-                if (line.contains("\"id\":")) 
+                if (line.contains("\"" + id_fname + "\":"))
                 {
                     String id = line.replaceFirst(".*:[^\"]?\"([-A-Za-z0-9_]*).*", "$1");
-                    if (veryverbose) System.err.println("record num = "+ (count) + "  id = " + id);
+                    if (veryverbose)
+                    	System.err.println("record num = "+ (count) +" "+ id_fname +" = " + id);
                     resultSet[count++] = id;
                 }
             }
         }
         catch (NumberFormatException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return(resultSet);
     }
-    
-    public int getIdSetSize(String query) 
+
+
+    public int getIdSetSize(String query)
     {
-        String fullURLStr = solrBaseURL + "/select/?q="+query+"&wt=json&qt=standard&indent=on&start=0&rows=0";
+    	return getIdSetSize(query, defaultReqHandler);
+    }
+
+    /**
+     * @param query
+     * @param reqHandler Solr request handler
+     * @return number of documents matching the query
+     */
+    public int getIdSetSize(String query, String reqHandler)
+    {
+        String fullURLStr = solrBaseURL + "/select/?q=" + query + "&qt=" + reqHandler + "&wt=json&indent=on&start=0&rows=0";
         if (verbose) System.err.println("Full URL for search = "+ fullURLStr);
         URL fullURL = null;
         try
@@ -256,9 +283,9 @@ public class RemoteSolrSearcher
         }
         catch (MalformedURLException e1)
         {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
+
         BufferedReader sIn = null;
         try
         {
@@ -266,18 +293,17 @@ public class RemoteSolrSearcher
         }
         catch (UnsupportedEncodingException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        String line;
+
         int numFound = 0;
         try
         {
+            String line;
             while ((line = sIn.readLine()) != null)
             {
                 if (line.contains("\"numFound\""))
@@ -290,16 +316,17 @@ public class RemoteSolrSearcher
         }
         catch (NumberFormatException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         return(numFound);
     }
+
+
     /**
      * Extract the marc record from binary marc
      * @param marcRecordStr
@@ -315,7 +342,7 @@ public class RemoteSolrSearcher
                 reader = new MarcStreamReader(new ByteArrayInputStream(marcRecordStr.getBytes("UTF8")));
                 if (reader.hasNext())
                 {
-                    Record record = reader.next(); 
+                    Record record = reader.next();
                     return(record);
                 }
             }
@@ -330,6 +357,7 @@ public class RemoteSolrSearcher
         } while (tryAgain);
         return(null);
     }
+
     /**
      * Extract the marc record from JSON string
      * @param marcRecordStr
@@ -345,7 +373,7 @@ public class RemoteSolrSearcher
                 reader = new MarcJsonReader(new ByteArrayInputStream(marcRecordStr.getBytes("UTF8")));
                 if (reader.hasNext())
                 {
-                    Record record = reader.next(); 
+                    Record record = reader.next();
                     return(record);
                 }
             }
@@ -360,10 +388,10 @@ public class RemoteSolrSearcher
         } while (tryAgain);
         return(null);
     }
-    
+
     // error output
     static BufferedWriter errOut = null;
-    
+
     /**
      * Extract marc record from MarcXML
      * @param marcRecordStr MarcXML string
@@ -379,7 +407,7 @@ public class RemoteSolrSearcher
                 reader = new MarcXmlReader(new ByteArrayInputStream(marcRecordStr.getBytes("UTF8")));
                 if (reader.hasNext())
                 {
-                    Record record = reader.next(); 
+                    Record record = reader.next();
 //                    if (verbose)
 //                    {
 //                        System.out.println(record.toString());
@@ -447,8 +475,8 @@ public class RemoteSolrSearcher
         return(null);
 
     }
-        
- 
+
+
     /**
      * Extract the leader from the marc record string
      * @param marcRecordStr marc record as a String
@@ -471,7 +499,6 @@ public class RemoteSolrSearcher
     {
         String baseURLStr = "http://localhost:8983/solr";
         String query = null;
-        String maxRows = "20000";
         String field = "marc_display";
         for (int i = 0; i < args.length; i++)
         {

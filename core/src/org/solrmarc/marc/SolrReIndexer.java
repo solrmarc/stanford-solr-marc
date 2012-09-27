@@ -29,6 +29,10 @@ public class SolrReIndexer extends MarcImporter
     protected MarcWriter output = null;
     protected SolrServer solrServer= null;
     private boolean getIdsOnly = false;
+    /** name of Solr field containing ids */
+    String id_fname = "id";
+    /** a reqHandler with deftype lucene (uses Lucene QueryParser) */
+    String luceneReqHandler = "standard";
 
     // Initialize logging category
     static Logger logger = Logger.getLogger(SolrReIndexer.class.getName());
@@ -94,8 +98,7 @@ public class SolrReIndexer extends MarcImporter
 
     /**
 	 * Retrieve a single document from the solr index, given the implied fielded
-	 *  search (which assumes a request handler named "standard" that uses
-	 *  the Lucene QueryParser), then get the marc record stored in the indicated
+	 *  search, then get the marc record stored in the indicated
 	 *  Solr field, then re-index the marc record and return the SolrInputDocument
 	 *  created (new SolrInputDocument is not written to the index.)
 	 * @param solrFldName field name for Solr query (fielded search)
@@ -112,16 +115,27 @@ public class SolrReIndexer extends MarcImporter
 
 
     /**
-	 * Retrieve a single document from the solr index, given the implied fielded
-	 *  search (which assumes a request handler named "standard" that uses
-	 *  the Lucene QueryParser
+	 * Retrieve a single document from the solr index, given the implied fielded search
 	 * @param solrFldName field name for Solr query (fielded search)
 	 * @param solrFldVal  field value for Solr query (fielded search)
 	 * @return the single matching SolrDocument
 	 */
     public SolrDocument getSingleSolrDocumentFromSolr(String solrFldName, String solrFldVal)
     {
-	    SolrDocumentList sdl = SolrUtils.getDocsFromFieldedQuery(solrServer, solrFldName, solrFldVal, "standard");
+    	return getSingleSolrDocumentFromSolr(solrFldName, solrFldVal, luceneReqHandler);
+    }
+
+
+    /**
+	 * Retrieve a single document from the solr index, given the implied fielded search
+	 * @param solrFldName field name for Solr query (fielded search)
+	 * @param solrFldVal  field value for Solr query (fielded search)
+	 * @param reqHandler  name of Solr request handler with deftype lucene
+	 * @return the single matching SolrDocument
+	 */
+    public SolrDocument getSingleSolrDocumentFromSolr(String solrFldName, String solrFldVal, String reqHandler)
+    {
+	    SolrDocumentList sdl = SolrUtils.getDocsFromFieldedQuery(solrServer, solrFldName, solrFldVal, reqHandler);
 	    if (sdl == null || sdl.size() != 1)
 	    {
             logger.warn("Didn't find single Solr document with value " + solrFldVal + " in field " + solrFldName);
@@ -190,6 +204,16 @@ public class SolrReIndexer extends MarcImporter
      */
     public void outputAllMatchingIds(String queryForRecordsToUpdate)
     {
+    	outputAllMatchingIds(queryForRecordsToUpdate, luceneReqHandler);
+    }
+
+    /**
+     * Get marc records from the index using passed query and write ids to System.out
+     * @param queryForRecordsToUpdate
+     * @param reqHandler name of Solr request handler with deftype lucene
+     */
+    public void outputAllMatchingIds(String queryForRecordsToUpdate, String reqHandler)
+    {
         String queryparts[] = queryForRecordsToUpdate.split(":");
         if (queryparts.length != 2)
         {
@@ -200,7 +224,7 @@ public class SolrReIndexer extends MarcImporter
 
         SolrQuery query = new SolrQuery();
         query.setQuery(queryForRecordsToUpdate);
-        query.setQueryType("standard");
+        query.setQueryType(reqHandler);
         query.setFacet(false);
         query.setRows(1000);
         query.setFields("id");
@@ -239,6 +263,16 @@ public class SolrReIndexer extends MarcImporter
      */
     public void outputAllMatchingDocs(String queryForRecordsToUpdate)
     {
+    	outputAllMatchingDocs(queryForRecordsToUpdate, luceneReqHandler);
+    }
+
+    /**
+     * Get marc records from the index using passed query and write marc records to System.out
+     * @param queryForRecordsToUpdate
+     * @param reqHandler name of Solr request handler with deftype lucene
+     */
+    public void outputAllMatchingDocs(String queryForRecordsToUpdate, String reqHandler)
+    {
         String queryparts[] = queryForRecordsToUpdate.split(":");
         if (queryparts.length != 2)
         {
@@ -251,7 +285,7 @@ public class SolrReIndexer extends MarcImporter
         // grab them 1000 at a time
         SolrQuery query = new SolrQuery();
         query.setQuery(queryForRecordsToUpdate);
-        query.setQueryType("standard");
+        query.setQueryType(reqHandler);
         query.setFacet(false);
         query.setRows(1000);
         int totalHits = -1;
@@ -294,7 +328,23 @@ public class SolrReIndexer extends MarcImporter
 	 */
 	public Map<String, Object> retrieveAndReIndexDocs(String solrFldName, String solrFldVal, boolean update)
 	{
-	    SolrDocumentList sdl = SolrUtils.getDocsFromFieldedQuery(solrServer, solrFldName, solrFldVal, "standard");
+		return retrieveAndReIndexDocs(solrFldName, solrFldVal, update, luceneReqHandler);
+	}
+
+
+    /**
+	 * Retrieve docs from the solr index and re-index them by extracting
+	 *  the full marc stored in the document, running it through the indexer
+	 *  and then writing the result to solr.
+	 * @param solrFldName field name for Solr query (fielded search)
+	 * @param solrFldVal  field value for Solr query (fielded search)
+	 * @param update set to true to update the record
+	 * @param reqHandler name of Solr request handler with deftype of lucene
+	 * @return Map of the solr fields
+	 */
+	public Map<String, Object> retrieveAndReIndexDocs(String solrFldName, String solrFldVal, boolean update, String reqHandler)
+	{
+	    SolrDocumentList sdl = SolrUtils.getDocsFromFieldedQuery(solrServer, solrFldName, solrFldVal, reqHandler);
         for (SolrDocument solrDoc : sdl)
         {
             Record marcRec = getMarcRecObjFromSolrDoc(solrDoc);

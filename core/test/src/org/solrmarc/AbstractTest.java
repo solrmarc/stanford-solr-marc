@@ -59,6 +59,7 @@ public abstract class AbstractTest extends IndexTest
 	public void mappingTestInit()
 	{
 		docIDfname = "id";
+		luceneReqHandler = "search_local_params";
 
 		// these properties must be set or MarcHandler can't initialize properly
 		System.setProperty("marc.source", "FILE");

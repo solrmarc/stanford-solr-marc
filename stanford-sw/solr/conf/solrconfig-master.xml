@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!-- this is the solrconfig for the master in the Solr replication scheme.  
+<!-- this is the solrconfig for the master in the Solr replication scheme.
   The configurations are optimized for indexing, not searching. -->
 <config>
   <!-- NOTE: various comments and unused configuration possibilities have been purged
@@ -1036,7 +1036,8 @@
     </lst>
   </requestHandler>
 
-  <!-- standard request handler used for nearby-on-shelf ...
+  <!-- deprecated 2012-09-26: use search_local_params instead (as sw app git master does);
+    standard request handler used for nearby-on-shelf ...
     looking for set of documents matching a set of values for a field -->
   <requestHandler name="standard" class="solr.SearchHandler" >
     <lst name="defaults">

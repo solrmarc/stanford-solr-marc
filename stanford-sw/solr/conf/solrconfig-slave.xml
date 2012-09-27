@@ -1491,7 +1491,8 @@
     </lst>
   </requestHandler>
 
-  <!-- standard request handler used for nearby-on-shelf ...
+  <!-- deprecated 2012-09-26: use search_local_params instead (as sw app git master does);
+    standard request handler used for nearby-on-shelf ...
     looking for set of documents matching a set of values for a field -->
   <requestHandler name="standard" class="solr.SearchHandler" >
     <lst name="defaults">
