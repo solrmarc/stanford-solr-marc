@@ -31,6 +31,8 @@ public abstract class IndexTest
 	protected static SolrJettyProcess solrJettyProcess = null;
 
 	protected static String docIDfname = "id";
+	/** name of Solr request handler with deftype of lucene */
+	protected static String luceneReqHandler = "standard";
 
 	static Logger logger = Logger.getLogger(IndexTest.class.getName());
 
@@ -566,8 +568,25 @@ public abstract class IndexTest
 	 */
 	public final SolrDocumentList getSortedDocs(String fld, String value, String sortfld, SolrQuery.ORDER sortOrder)
 	{
+		return getSortedDocs(fld, value, sortfld, sortOrder, luceneReqHandler);
+	}
+
+	/**
+	 * Given an index field name and value, return a list of Documents that
+	 * match the term query sent to the index, sorted in descending order per
+	 * the sort fld
+	 *
+	 * @param fld - the name of the field to be searched in the lucene index
+	 * @param value - the string to be searched in the given field
+	 * @param sortfld - name of the field by which results should be sorted (descending)
+	 * @param sortOrder - SolrQuery.ORDER.asc  or  SolrQuery.ORDER.desc
+	 * @param reqHandler - the Solr request handler to be used
+	 * @return org.apache.solr.common.SolrDocumentList
+	 */
+	public final SolrDocumentList getSortedDocs(String fld, String value, String sortfld, SolrQuery.ORDER sortOrder, String reqHandler)
+	{
 		SolrQuery query = new SolrQuery(fld + ":" + value);
-		query.setQueryType("standard");
+		query.setQueryType(reqHandler);
 		query.setFacet(false);
 		query.setSortField(sortfld, sortOrder);
 		query.setRows(75);
@@ -613,8 +632,21 @@ public abstract class IndexTest
 	 */
 	public final SolrDocumentList getDocList(String field, String value)
 	{
+		return getDocList(field, value, luceneReqHandler);
+	}
+
+	/**
+	 * Get the List of Solr Documents with the given value for the given field
+	 *
+	 * @param field - the name of the field to be searched in the lucene index
+	 * @param value - the string to be searched in the given field
+	 * @param reqHandler - the Solr request handler to use
+	 * @return org.apache.solr.common.SolrDocumentList
+	 */
+	public final SolrDocumentList getDocList(String field, String value, String reqHandler)
+	{
 		SolrQuery query = new SolrQuery(field + ":" + value);
-		query.setQueryType("standard");
+		query.setQueryType(reqHandler);
 		query.setFields("*");
 		query.setFacet(false);
 		query.setRows(35);
@@ -641,10 +673,25 @@ public abstract class IndexTest
 	 */
 	public String getFirstFieldValViaJSON(String id, String desiredFld)
 	{
+		return getFirstFieldValViaJSON(id, desiredFld, luceneReqHandler);
+	}
+
+	/**
+	 * Request record by id from Solr as JSON, and return the raw value of the
+	 *  field (note that XML response does not preserve the raw value of the field.)
+	 *  If the record doesn't exist id or the record doesn't contain that field return null
+	 *
+	 *  NOTE:  does NOT work for retrieving binary values
+	 *
+	 *  @param desiredFld - the field from which we want the value
+	 *  @param reqHandler - the Solr request handler to use
+	 */
+	public String getFirstFieldValViaJSON(String id, String desiredFld, String reqHandler)
+	{
 		SolrDocument doc = null;
 
 		SolrQuery query = new SolrQuery(docIDfname + ":" + id);
-		query.setQueryType("standard");
+		query.setQueryType(reqHandler);
 		query.setFacet(false);
 		query.setParam(CommonParams.WT, "json");
 		try
@@ -677,8 +724,20 @@ public abstract class IndexTest
 	 */
 	public String getFldValPreserveBinary(String id, String desiredFld)
 	{
+		return getFirstFieldValViaJSON(id, desiredFld, luceneReqHandler);
+	}
+
+	/**
+	 * getFldValPreserveBinary - Request record by id from Solr, and return the raw
+	 *  value of the field. If the record doesn't exist id or the record
+	 * doesn't contain that field return null
+	 *  @param desiredFld - the field from which we want the value
+	 *  @param reqHandler - the Solr request handler
+	 */
+	public String getFldValPreserveBinary(String id, String desiredFld, String reqHandler)
+	{
 		String fieldValue = null;
-		String selectStr = "select/?q=id%3A" + id + "&fl=" + desiredFld + "&rows=1&wt=json&qt=standard&facet=false";
+		String selectStr = "select/?q=id%3A" + id + "&fl=" + desiredFld + "&rows=1&wt=json&qt=" + reqHandler + "&facet=false";
 		try
 		{
 			InputStream is = new URL(testSolrUrl + "/" + selectStr).openStream();
