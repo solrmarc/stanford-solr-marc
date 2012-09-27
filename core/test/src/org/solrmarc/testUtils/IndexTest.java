@@ -724,7 +724,7 @@ public abstract class IndexTest
 	 */
 	public String getFldValPreserveBinary(String id, String desiredFld)
 	{
-		return getFirstFieldValViaJSON(id, desiredFld, luceneReqHandler);
+		return getFldValPreserveBinary(id, desiredFld, luceneReqHandler);
 	}
 
 	/**
