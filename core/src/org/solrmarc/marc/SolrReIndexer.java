@@ -52,6 +52,18 @@ public class SolrReIndexer extends MarcImporter
     }
 
 
+    /**
+     * Constructs an instance using given SolrProxy
+     * @param luceneReqHandler - the name of a Solr request handler with a defType of "lucene"
+     */
+    public SolrReIndexer(SolrProxy solrProxy, String luceneReqHandler)
+    {
+    	this();
+    	this.solrProxy = solrProxy;
+    	this.luceneReqHandler = luceneReqHandler;
+    }
+
+
     @Override
     public int handleAll()
     {
