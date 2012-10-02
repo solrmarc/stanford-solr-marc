@@ -568,7 +568,7 @@
     </lst>
   </requestHandler>
 
-	<!--  FIXME: on sw-solr-master:    used by crez-sw-index to find individual docs -- could use qt=document instead -->
+	<!--  FIXME:  used by solrmarc_wrapper to find individual docs  -->
   <!-- deprecated 2012-09-26: use search_local_params instead (as sw app git master does);
     standard request handler used for nearby-on-shelf ...
     looking for set of documents matching a set of values for a field -->
