@@ -198,6 +198,8 @@
           <str name="facet.field">pub_date_group_facet</str>
             <str name="f.pub_date_group_facet.facet.method">enum</str>
           <str name="facet.field">pub_date</str>
+          <str name="facet.field">pub_date_i</str>
+            <str name="f.pub_date_i.facet.sort">index</str>
           <str name="facet.field">topic_facet</str>
         </lst>
         <!-- should there be warming for different sorts? -->
@@ -1157,6 +1159,62 @@
       <str name="qf_series">series_search     vern_series_search</str>
       <str name="pf_series">series_search^20  vern_series_search^20</str>
 
+      <!-- for publisher in advanced -->
+      <str name="qf_pub_info">
+        pub_search
+        vern_pub_search
+        pub_country
+        pub_date_search
+      </str>
+      <str name="pf_pub_info">
+        pub_search^10
+        vern_pub_search^10
+        pub_country^10
+        pub_date_search^10
+      </str>
+      
+      <!-- for number in advanced -->
+      <str name="qf_number">
+        id
+        isbn_search
+        issn_search
+        oclc
+        barcode_search
+        callnum_search
+      </str>
+      <str name="pf_number">
+        callnum_search^10
+      </str>
+      
+      <!-- for summary in advanced -->
+      <str name="qf_summary">
+        toc_unstem_search^10
+        toc_search
+        vern_toc_search
+        context_unstem_search^10
+        context_search
+        vern_context_search
+        summary_unstem_search^10
+        summary_search
+        vern_summary_search
+      </str>
+      <str name="pf_summary">
+        toc_unstem_search^100
+        toc_search^20
+        vern_toc_search^20
+        context_unstem_search^100
+        context_search^20
+        vern_context_search^20
+        summary_unstem_search^100
+        summary_search^20
+        vern_summary_search^20
+      </str>
+      
+      <!-- TODO:  remove this as it is default field? -->
+      <!-- for description in advanced -->
+      <str name="qf_description">all_search</str>
+      <str name="pf_description">all_search^10</str>
+      
       <str name="qf_crez">
       	crez_instructor_search
       	crez_course_name_search
