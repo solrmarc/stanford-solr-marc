@@ -828,6 +828,8 @@
       <str name="facet.field">pub_date_group_facet</str>
         <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
+      <str name="facet.field">pub_date_i</str>
+        <str name="f.pub_date_i.facet.sort">index</str>
       <str name="facet.field">topic_facet</str>
     </lst>
   </requestHandler>
@@ -1032,6 +1034,8 @@
       <str name="facet.field">pub_date_group_facet</str>
         <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
+      <str name="facet.field">pub_date_i</str>
+        <str name="f.pub_date_i.facet.sort">index</str>
       <str name="facet.field">topic_facet</str>
     </lst>
   </requestHandler>

@@ -941,6 +941,19 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
+	 * returns the publication dates from a record, if it is present and not
+     *  beyond the current year + 1 (and not earlier than 0500 if it is a
+     *  4 digit year
+     *   four digit years < 0500 trigger an attempt to get a 4 digit date from 260c
+	 * @param record a marc4j Record object
+	 * @return Set of Strings (to be converted to int by Solr) containing publication dates for pub date slider (facet)
+	 */
+	public Set<String> getPubDateSliderVals(final Record record)
+	{
+		return PublicationUtils.getPubDateSliderVals(cf008, date260c, record.getVariableFields("264"));
+	}
+
+	/**
      * returns the sortable publication date from a record, if it is present
      *  and not beyond the current year + 1, and not earlier than 0500 if
      *   a four digit year

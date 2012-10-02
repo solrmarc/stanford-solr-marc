@@ -253,6 +253,7 @@
     <field name="pub_date_group_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <!-- pub_date is facet and display -->
     <field name="pub_date" type="string" indexed="true" stored="true" />
+    <field name="pub_date_i" type="tint" indexed="true" stored="false" multiValued="true" />
     <field name="pub_display" type="string" indexed="false" stored="true" multiValued="true"/>
 
     <!-- URL Fields -->

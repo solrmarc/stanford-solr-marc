@@ -502,13 +502,57 @@ public class PublicationTests extends AbstractStanfordTest
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		createFreshIx("pubDateTests.mrc");
-		String fldName = "pub_date";
 		// for facet
+		String fldName = "pub_date";
 		pubDateSearchTests(fldName);
 
 		fldName = "pub_date_search";
-		createFreshIx("pubDateTests.mrc");
 		pubDateSearchTests(fldName);
+	}
+
+
+	/**
+	 * integration test: pub_date_i
+	 */
+@Test
+	public final void testPubDateForSlider()
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
+	{
+		createFreshIx("pubDateTests.mrc");
+		String fldName = "pub_date_i";
+		Set<String> docIds = new HashSet<String>();
+
+		assertSingleResult("zpubDate2010", fldName, "2010");
+
+		// multiple dates
+		assertSingleResult("pubDate195u", fldName, "1957");
+		assertSingleResult("pubDate195u", fldName, "1982");
+		docIds.add("pubDate195u");
+		docIds.add("bothDates008");
+		assertSearchResults(fldName, "1964", docIds);
+		docIds.remove("bothDates008");
+		docIds.add("s195u");
+		assertSearchResults(fldName, "1950", docIds);
+
+		// future dates are ignored/skipped
+		assertZeroResults(fldName, "6666");
+		assertZeroResults(fldName, "8610");
+		assertZeroResults(fldName, "9999");
+
+		// dates before 500 are ignored/skipped
+		assertZeroResults(fldName, "0000");
+		assertZeroResults(fldName, "0019");
+
+		// corrected values
+		docIds.clear();
+		docIds.add("pubDate0059");
+		docIds.add("j2005");
+		assertSearchResults(fldName, "2005", docIds);
+		docIds.clear();
+		docIds.add("pubDate195u");
+		docIds.add("pubDate0197-1");
+		docIds.add("pubDate0197-2");
+		assertSearchResults(fldName, "1970", docIds);
 	}
 
 
