@@ -291,6 +291,60 @@
         callnum_search
 -->
       </str>
+      <str name="qf_exact">
+        title_245a_unstem_search^100000
+         vern_title_245a_search^75000
+        title_245_unstem_search^50000
+         vern_title_245_search^30000
+        title_uniform_unstem_search^10000
+         vern_title_uniform_search^2500
+        title_variant_unstem_search^2225
+         vern_title_variant_search^2000
+        title_related_unstem_search^1750
+         vern_title_related_search^1250
+        topic_unstem_search^1200
+         vern_topic_search^1000
+        geographic_unstem_search^900
+         vern_geographic_search^750
+        author_1xx_unstem_search^700
+        author_7xx_unstem_search^700
+        author_8xx_unstem_search^700
+         vern_author_1xx_search^500
+        subject_other_unstem_search^650
+         vern_subject_other_search^500
+         vern_author_7xx_search^125
+        toc_unstem_search^120
+         vern_toc_search^100
+         vern_author_8xx_search^50
+         vern_series_search^30
+        topic_subx_unstem_search^29
+        geographic_subz_unstem_search^29
+        subject_other_subvy_unstem_search^29
+        subject_all_unstem_search^29
+         vern_topic_subx_search^25
+         vern_geographic_subz_search^25
+         vern_subject_other_subvy_search^25
+         vern_subject_all_search^10
+         vern_physical
+      </str>
+      <str name="qf_exact2">
+        title_245a_unstem_search^100000
+        title_245_unstem_search^50000
+        title_uniform_unstem_search^10000
+        title_variant_unstem_search^2225
+        title_related_unstem_search^1750
+        topic_unstem_search^1200
+        geographic_unstem_search^900
+        author_1xx_unstem_search^700
+        author_7xx_unstem_search^700
+        author_8xx_unstem_search^700
+        subject_other_unstem_search^650
+        toc_unstem_search^120
+        topic_subx_unstem_search^29
+        geographic_subz_unstem_search^29
+        subject_other_subvy_unstem_search^29
+        subject_all_unstem_search^29
+      </str>
       <str name="pf">
         title_245a_unstem_search^300000
         title_245a_search^250000        vern_title_245a_search^250000
@@ -350,6 +404,26 @@
         title_related_search^5      vern_title_related_search^5
         series_search               vern_series_search
       </str>
+      <str name="qf_title_exact">
+        title_245a_unstem_search^50000
+        title_245_unstem_search^25000
+        title_uniform_unstem_search^10000
+         vern_title_245a_search^5000
+         vern_title_245_search^1000
+         vern_title_uniform_search^250
+        title_variant_unstem_search^150
+         vern_title_variant_search^50
+        title_related_unstem_search^45
+         vern_title_related_search^5
+         vern_series_search
+      </str>
+      <str name="qf_title_exact2">
+        title_245a_unstem_search^50000
+        title_245_unstem_search^25000
+        title_uniform_unstem_search^10000
+        title_variant_unstem_search^150
+        title_related_unstem_search^45
+      </str>
       <str name="pf_title">
         title_245a_unstem_search^200000
         title_245_unstem_search^75000
@@ -372,6 +446,19 @@
         author_7xx_search^5        vern_author_7xx_search^5
         author_8xx_search          vern_author_8xx_search
       </str>
+      <str name="qf_author_exact">
+        author_1xx_unstem_search^200
+        author_7xx_unstem_search^50
+        author_8xx_unstem_search^10
+         vern_author_1xx_search^20
+         vern_author_7xx_search^5
+         vern_author_8xx_search
+      </str>
+      <str name="qf_author_exact2">
+        author_1xx_unstem_search^200
+        author_7xx_unstem_search^50
+        author_8xx_unstem_search^10
+      </str>
       <str name="pf_author">
         author_1xx_unstem_search^5000
         author_7xx_unstem_search^3000
@@ -388,7 +475,6 @@
         geographic_search^100          vern_geographic_search^100
         subject_other_unstem_search^75
         subject_other_search^50        vern_subject_other_search^50
-
         topic_subx_unstem_search^10
         geographic_subz_unstem_search^10
         subject_other_subvy_unstem_search^10
@@ -398,6 +484,31 @@
         subject_other_subvy_search     vern_subject_other_subvy_search
         subject_all_search             vern_subject_all_search
         db_az_subject_search
+      </str>
+      <str name="qf_subject_exact">
+        topic_unstem_search^500
+        geographic_unstem_search^500
+         vern_topic_search^100
+         vern_geographic_search^100
+        subject_other_unstem_search^75
+         vern_subject_other_search^50
+        topic_subx_unstem_search^10
+        geographic_subz_unstem_search^10
+        subject_other_subvy_unstem_search^10
+        subject_all_unstem_search^10
+         vern_topic_subx_search
+         vern_geographic_subz_search
+         vern_subject_other_subvy_search
+         vern_subject_all_search
+      </str>
+      <str name="qf_subject_exact2">
+        topic_unstem_search^500
+        geographic_unstem_search^500
+        subject_other_unstem_search^75
+        topic_subx_unstem_search^10
+        geographic_subz_unstem_search^10
+        subject_other_subvy_unstem_search^10
+        subject_all_unstem_search^10
       </str>
       <str name="pf_subject">
         topic_unstem_search^5000
@@ -434,7 +545,7 @@
         pub_country^10
         pub_date_search^10
       </str>
-      
+
       <!-- for number in advanced -->
       <str name="qf_number">
         id
@@ -447,7 +558,7 @@
       <str name="pf_number">
         callnum_search^10
       </str>
-      
+
       <!-- for summary in advanced -->
       <str name="qf_summary">
         toc_unstem_search^10
@@ -460,6 +571,19 @@
         summary_search
         vern_summary_search
       </str>
+      <str name="qf_summary_exact">
+        toc_unstem_search^10
+        vern_toc_search
+        context_unstem_search^10
+        vern_context_search
+        summary_unstem_search^10
+        vern_summary_search
+      </str>
+      <str name="qf_summary_exact2">
+        toc_unstem_search^10
+        context_unstem_search^10
+        summary_unstem_search^10
+      </str>
       <str name="pf_summary">
         toc_unstem_search^100
         toc_search^20
@@ -471,12 +595,12 @@
         summary_search^20
         vern_summary_search^20
       </str>
-      
+
       <!-- TODO:  remove this as it is default field? -->
       <!-- for description in advanced -->
       <str name="qf_description">all_search</str>
       <str name="pf_description">all_search^10</str>
-      
+
       <str name="qf_crez">
       	crez_instructor_search
       	crez_course_name_search
