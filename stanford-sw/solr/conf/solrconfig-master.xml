@@ -558,8 +558,6 @@
     </lst>
   </requestHandler>
 
-
-
   <!-- single document requests; use id=666 instead of q=id:666 -->
   <requestHandler name="document" class="solr.SearchHandler" >
     <lst name="defaults">
@@ -570,9 +568,7 @@
     </lst>
   </requestHandler>
 
-
-
-	<!--  FIXME: on sw-solr-master:    used by crez to find individual docs -- could use qt=document instead -->
+	<!--  FIXME: on sw-solr-master:    used by crez-sw-index to find individual docs -- could use qt=document instead -->
   <!-- deprecated 2012-09-26: use search_local_params instead (as sw app git master does);
     standard request handler used for nearby-on-shelf ...
     looking for set of documents matching a set of values for a field -->
