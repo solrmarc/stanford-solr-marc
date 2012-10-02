@@ -167,15 +167,15 @@ public class PublicationUtils {
 		if (cf008 != null && cf008.getData().length() >= 15)
 		{
 			char f008char6 = cf008.getData().charAt(6);
-			String date1 = getValidPubYearStrOrNull(cf008.getData().substring(7, 11), date260c, df264list);
+			String date1Str = getValidPubYearStrOrNull(cf008.getData().substring(7, 11), date260c, df264list);
 			int date1Int = -1;
-			if (date1 != null)
-				date1Int = Integer.valueOf(date1);
+			if (date1Str != null)
+				date1Int = Integer.valueOf(date1Str);
 			String rawDate2 = cf008.getData().substring(11, 15);
-			String date2 = getValidPubYearStrOrNull(rawDate2);
+			String date2Str = getValidPubYearStrOrNull(rawDate2);
 			int date2Int = -1;
-			if (date2 != null)
-				date2Int = Integer.valueOf(date2);
+			if (date2Str != null)
+				date2Int = Integer.valueOf(date2Str);
 
 			switch (f008char6)
 			{
@@ -184,10 +184,10 @@ public class PublicationUtils {
 				case 'k':
 				case 'q':
 					// index start, end and years in between
-					if (date1 != null)
-						results.add(date1);
-					if (date2 != null)
-						results.add(date2);
+					if (date1Str != null)
+						results.add(date1Str);
+					if (date2Str != null)
+						results.add(date2Str);
 					if (date1Int != -1 && date2Int != -1)
 					{
 						for (int year = date1Int; year < date2Int; year++)
@@ -195,12 +195,12 @@ public class PublicationUtils {
 					}
 					break;
 				case 'm':
-					if (date1 != null)
-						results.add(date1);
-					if (!rawDate2.equals("9999") && date2 != null)
+					if (date1Str != null)
+						results.add(date1Str);
+					if (!rawDate2.equals("9999") && date2Str != null)
 					{
 						// index end date and dates between
-						results.add(date2);
+						results.add(date2Str);
 						if (date1Int != -1 && date2Int != -1)
 						{
 							for (int year = date1Int; year < date2Int; year++)
@@ -212,10 +212,10 @@ public class PublicationUtils {
 				case 'r':
 				case 't':
 					// index only start and end
-					if (date1 != null)
-						results.add(date1);
-					if (date2 != null)
-						results.add(date2);
+					if (date1Str != null)
+						results.add(date1Str);
+					if (date2Str != null)
+						results.add(date2Str);
 					break;
 				case 'b':
 				case 'c':
@@ -224,17 +224,14 @@ public class PublicationUtils {
 				case 's':
 				case 'u':
 				default:
-					if (date1 != null)
-						results.add(date1);
+					if (date1Str != null)
+						results.add(date1Str);
 					break;
-			}
-
-		}
+			} // end switch
+		} // end if 008
 
 		return results;
 	}
-
-
 
 
 	/**
@@ -350,18 +347,19 @@ public class PublicationUtils {
 	 */
 	private static String getValidPubYearStrOrNull(String dateFrom008, String date260c, List<DataField> df264list)
 	{
+		String resultStr = null;
 		if (PublicationUtils.isdddd(dateFrom008))
 			return PublicationUtils.getValidPubDateStr(dateFrom008, date260c, df264list);
 		else if (PublicationUtils.isdddu(dateFrom008)) {
 			int myFirst3 = Integer.parseInt(dateFrom008.substring(0, 3));
 			int currFirst3 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 3));
 			if (myFirst3 <= currFirst3)
-				return dateFrom008.substring(0, 3) + "0";
+				resultStr = dateFrom008.substring(0, 3) + "0";
 		} else if (PublicationUtils.isdduu(dateFrom008)) {
 			int myFirst2 = Integer.parseInt(dateFrom008.substring(0, 2));
 			int currFirst2 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 2));
 			if (myFirst2 <= currFirst2)
-				return dateFrom008.substring(0, 2) + "00";
+				resultStr = dateFrom008.substring(0, 2) + "00";
 		} else {
 			// last ditch try from 264 and 260c
 			String validDate = PublicationUtils.getValidPubDateStr("-1", date260c, df264list);
@@ -369,6 +367,8 @@ public class PublicationUtils {
 				return validDate;
 		}
 
+		if (yearIsValid(resultStr))
+			return resultStr;
 		return null;
 	}
 
