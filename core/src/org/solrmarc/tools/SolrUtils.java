@@ -44,8 +44,36 @@ public class SolrUtils
 	    return null;
 	}
 
+	/**
+	 * Do a fielded query using the requestHandler, return the matching Solr
+	 * documents with all their (stored) fields
+	 * @param SolrServer - the initialized SolrJ SolrServer object to be used to interact with the Solr index.
+	 * @param solrFldName - the name of the field to be matched
+	 * @param solrFldVal - the field value to be matched
+	 * @param requestHandlerName - the name of the request handler to be used
+	 * @return the matching Solr documents, as a SolrDocumentList
+	 */
+	public static SolrDocumentList getFullDocsFromFieldedQuery(SolrServer solrServer, String solrFldName, String solrFldVal, String requestHandlerName)
+	{
+	    SolrQuery query = new SolrQuery();
+	    query.setQuery(solrFldName + ":" + solrFldVal);
+	    query.setQueryType(requestHandlerName);
+	    query.setFacet(false);
+	    query.setParam("fl", "*");
+	    try
+	    {
+	        QueryResponse response = solrServer.query(query);
+	        return response.getResults();
+	    }
+	    catch (SolrServerException e)
+	    {
+	        e.printStackTrace();
+	    }
 
-    /**
+	    return null;
+	}
+
+	/**
      * create a SolrInputDocument from a Map of Solr field names to values
      * @param fldNames2ValsMap keys are Solr field names, values are String or Collection objects containing values for Solr field
      * @return SolrInputDocument with fields indicated by fields2ValuesMap;
