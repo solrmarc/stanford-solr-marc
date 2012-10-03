@@ -961,35 +961,6 @@
     </arr>
   </requestHandler>
 
-  <!-- OpenSearch request handler: as user types chars in UI, queries are sent to this -->
-  <!-- FIXME:  this should be a lucene queryparser, no?  and they should be prefix searches (?) -->
-  <requestHandler name="open_search" class="solr.SearchHandler" >
-    <lst name="defaults">
-      <str name="defType">dismax</str>
-      <str name="echoParams">explicit</str>
-      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
-      <str name="q.alt">*:*</str>
-      <str name="mm">6&lt;-1 6&lt;90%</str>
-      <str name="qf">open_search</str>
-      <str name="pf">open_search^10</str>
-      <float name="tie">0.01</float>
-      <str name="fl">
-        score,
-        id,
-        open_search,
-        author_corp_display,
-        author_meeting_display,
-        author_person_display,
-        author_person_full_display,
-        title_245a_display,
-        title_display,
-        title_full_display,
-        title_uniform_display
-      </str>
-    </lst>
-  </requestHandler>
-
-  <!-- there are other possible request handlers not included here -->
   <searchComponent name="tvComponent" class="org.apache.solr.handler.component.TermVectorComponent"/>
   <requestHandler name="tvrh" class="org.apache.solr.handler.component.SearchHandler">
     <lst name="defaults">

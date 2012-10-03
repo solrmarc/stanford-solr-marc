@@ -568,8 +568,8 @@
     </lst>
   </requestHandler>
 
-	<!--  FIXME:  used by solrmarc_wrapper to find individual docs  -->
   <!-- deprecated 2012-09-26: use search_local_params instead (as sw app git master does);
+    was used by solrmarc_wrapper to find individual docs
     standard request handler used for nearby-on-shelf ...
     looking for set of documents matching a set of values for a field -->
   <requestHandler name="standard" class="solr.SearchHandler" >
