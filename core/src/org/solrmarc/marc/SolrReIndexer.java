@@ -127,6 +127,43 @@ public class SolrReIndexer extends MarcImporter
 
 
     /**
+	 * Retrieve a single document from the solr index, given the implied fielded
+	 *  search, then get the marc record stored in the indicated
+	 *  Solr field, then re-index the marc record and return the SolrInputDocument
+	 *  created (new SolrInputDocument is not written to the index.)
+	 * @param solrFldName field name for Solr query (fielded search)
+	 * @param solrFldVal  field value for Solr query (fielded search)
+     * @param marcRecFldName the name of the Solr field containing the full Marc Record
+	 * @param reqHandler  name of Solr request handler with deftype lucene
+     * @return a populated SolrInputDocument that has not been written to the Solr Index
+     */
+    public SolrInputDocument getSolrInputDoc(String solrFldName, String solrFldVal, String marcRecFldName, String reqHandler)
+    {
+    	SolrDocument solrDoc = getSingleSolrDocWithAllFlds(solrFldName, solrFldVal, reqHandler);
+    	Record marcRecObj = getMarcRecObjFromSolrDoc(solrDoc, marcRecFldName);
+    	return getSolrInputDocFromMarcRec(marcRecObj);
+    }
+
+    /**
+	 * Retrieve a single document from the solr index, given the implied fielded search
+	 *  retrieves ALL (stored) fields for the doc
+	 * @param solrFldName field name for Solr query (fielded search)
+	 * @param solrFldVal  field value for Solr query (fielded search)
+	 * @return the single matching SolrDocument
+	 */
+    public SolrDocument getSingleSolrDocWithAllFlds(String solrFldName, String solrFldVal, String reqHandler)
+    {
+	    SolrDocumentList sdl = SolrUtils.getFullDocsFromFieldedQuery(solrServer, solrFldName, solrFldVal, reqHandler);
+	    if (sdl == null || sdl.size() != 1)
+	    {
+            logger.warn("Didn't find single Solr document with value " + solrFldVal + " in field " + solrFldName);
+	    	return null;
+	    }
+	    else
+	    	return sdl.get(0);
+    }
+
+    /**
 	 * Retrieve a single document from the solr index, given the implied fielded search
 	 * @param solrFldName field name for Solr query (fielded search)
 	 * @param solrFldVal  field value for Solr query (fielded search)
