@@ -5,7 +5,7 @@
 <config>
   <!-- NOTE: various comments and unused configuration possibilities have been purged
      from this file.  Please refer to http://wiki.apache.org/solr/SolrConfigXml,
-     as well as the default solrconfig file included with solr -->
+     as well as the default solrconfig file included with Solr -->
 
   <abortOnConfigurationError>${solr.abortOnConfigurationError:true}</abortOnConfigurationError>
 
@@ -17,17 +17,8 @@
     <useCompoundFile>false</useCompoundFile>
     <mergeFactor>10</mergeFactor>
     <reopenReaders>true</reopenReaders>
-
-    <!--
-      If both ramBufferSizeMB and maxBufferedDocs is set, then Lucene will flush based on whichever limit is hit first.
-    -->
-    <!--<maxBufferedDocs>1000</maxBufferedDocs>-->
     <ramBufferSizeMB>128</ramBufferSizeMB>
-<!--
-    <maxMergeDocs>2147483647</maxMergeDocs>
--->
     <writeLockTimeout>1000</writeLockTimeout>
-    <commitLockTimeout>10000</commitLockTimeout>
     <lockType>single</lockType>
   </indexDefaults>
 
@@ -36,9 +27,6 @@
     <useCompoundFile>false</useCompoundFile>
     <ramBufferSizeMB>128</ramBufferSizeMB>
     <mergeFactor>10</mergeFactor>
-<!--
-    <maxMergeDocs>2147483647</maxMergeDocs>
--->
     <maxFieldLength>2147483647</maxFieldLength>
     <unlockOnStartup>false</unlockOnStartup>
     <deletionPolicy class="solr.SolrDeletionPolicy">
@@ -70,6 +58,9 @@
     <queryResultMaxDocsCached>100</queryResultMaxDocsCached>
 
     <HashDocSet maxSize="200000" loadFactor="0.75"/>
+
+    <useColdSearcher>true</useColdSearcher>
+    <maxWarmingSearchers>2</maxWarmingSearchers>
 
     <!-- a newSearcher event is fired whenever a new searcher is being prepared
          and there is a current searcher handling requests (aka registered).
@@ -205,9 +196,6 @@
         <!-- should there be warming for different sorts? -->
       </arr>
     </listener>
-
-    <useColdSearcher>true</useColdSearcher>
-    <maxWarmingSearchers>4</maxWarmingSearchers>
   </query>
 
   <!-- Let the dispatch filter handler /select?qt=XXX -->
