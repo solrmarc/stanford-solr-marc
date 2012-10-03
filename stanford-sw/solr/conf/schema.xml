@@ -21,8 +21,6 @@
     <field name="display_type" type="string" indexed="true" stored="false" multiValued="true" omitNorms="true" />
     <!-- the catch-all field for all text -->
     <field name="all_search" type="text" indexed="true" stored="false" />
-    <!-- for OpenSearch string completion; requires a stored field -->
-    <field name="open_search" type="text" indexed="true" stored="true" multiValued="true"/>
 
     <!-- Format Field: facet and display -->
     <field name="format" type="string" indexed="true" stored="true" multiValued="true" />
@@ -297,22 +295,6 @@
   <copyField source="title_variant_search" dest="title_variant_display" />
   <copyField source="summary_search" dest="summary_display" />
   <copyField source="pub_search" dest="pub_display" />
-
-  <!-- field to populate OpenSearch queries -->
-  <copyField source="title_245_search" dest="open_search" />
-  <copyField source="title_uniform_search" dest="open_search" />
-  <copyField source="title_variant_search" dest="open_search" />
-  <copyField source="title_related_search" dest="open_search" />
-  <copyField source="series_search" dest="open_search" />
-  <copyField source="author_1xx_search" dest="open_search" />
-  <copyField source="author_7xx_search" dest="open_search" />
-  <copyField source="author_8xx_search" dest="open_search" />
-  <copyField source="topic_search" dest="open_search" />
-  <copyField source="topic_subx_search" dest="open_search" />
-  <copyField source="geographic_search" dest="open_search" />
-  <copyField source="geographic_subz_search" dest="open_search" />
-  <copyField source="subject_other_search" dest="open_search" />
-  <copyField source="subject_other_subvy_search" dest="open_search" />
 
   <types>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" />

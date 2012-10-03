@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!-- this is the solrconfig for the slaves in the Solr replication scheme.  
+<!-- this is the solrconfig for the slaves in the Solr replication scheme.
   Per the "replication" request handler below, this config file will replicate from sw-solr-master:8983
   The configurations are optimized for searching, not indexing. -->
 <config>
@@ -1284,7 +1284,7 @@
         pub_country^10
         pub_date_search^10
       </str>
-      
+
       <!-- for number in advanced -->
       <str name="qf_number">
         id
@@ -1297,7 +1297,7 @@
       <str name="pf_number">
         callnum_search^10
       </str>
-      
+
       <!-- for summary in advanced -->
       <str name="qf_summary">
         toc_unstem_search^10
@@ -1334,12 +1334,12 @@
         summary_search^20
         vern_summary_search^20
       </str>
-      
+
       <!-- TODO:  remove this as it is default field? -->
       <!-- for description in advanced -->
       <str name="qf_description">all_search</str>
       <str name="pf_description">all_search^10</str>
-      
+
       <str name="qf_crez">
       	crez_instructor_search
       	crez_course_name_search
@@ -1679,7 +1679,7 @@
   </requestHandler>
 
   <!-- deprecated 2012-09-26: use search_local_params instead (as sw app git master does);
-    standard request handler used for nearby-on-shelf ...
+    standard request handler used for nearby-on-shelf ... and by solr_wrapper gem
     looking for set of documents matching a set of values for a field -->
   <requestHandler name="standard" class="solr.SearchHandler" >
     <lst name="defaults">
@@ -1777,9 +1777,8 @@
     </lst>
   </requestHandler>
 
-  <searchComponent name="termsComp" class="solr.TermsComponent"/>
-
   <!-- used to get consecutive terms for browsing -->
+  <searchComponent name="termsComp" class="solr.TermsComponent"/>
   <requestHandler name="/alphaTerms" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="echoParams">explicit</str>
@@ -1791,35 +1790,6 @@
     </arr>
   </requestHandler>
 
-  <!-- OpenSearch request handler: as user types chars in UI, queries are sent to this -->
-  <!-- FIXME:  this should be a lucene queryparser, no?  and they should be prefix searches (?) -->
-  <requestHandler name="open_search" class="solr.SearchHandler" >
-    <lst name="defaults">
-      <str name="defType">dismax</str>
-      <str name="echoParams">explicit</str>
-      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
-      <str name="q.alt">*:*</str>
-      <str name="mm">6&lt;-1 6&lt;90%</str>
-      <str name="qf">open_search</str>
-      <str name="pf">open_search^10</str>
-      <float name="tie">0.01</float>
-      <str name="fl">
-        score,
-        id,
-        open_search,
-        author_corp_display,
-        author_meeting_display,
-        author_person_display,
-        author_person_full_display,
-        title_245a_display,
-        title_display,
-        title_full_display,
-        title_uniform_display
-      </str>
-    </lst>
-  </requestHandler>
-
-  <!-- there are other possible request handlers not included here -->
   <searchComponent name="tvComponent" class="org.apache.solr.handler.component.TermVectorComponent"/>
   <requestHandler name="tvrh" class="org.apache.solr.handler.component.SearchHandler">
     <lst name="defaults">

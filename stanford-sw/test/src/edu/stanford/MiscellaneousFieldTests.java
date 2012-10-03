@@ -128,20 +128,6 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest
 
 
 	/**
-	 * open search field should be stored and indexed
-	 */
-@Test
-	public final void testOpenSearch()
-	    throws ParserConfigurationException, IOException, SAXException, SolrServerException
-	{
-		createFreshIx("allfieldsTests.mrc");
-	    String fldName = "open_search";
-	    // ensure stemming, single word in multiple word sub field matches ...
-	    assertSingleResult("allfields1", fldName, "skip");
-	}
-
-
-	/**
 	 * test preservation of field ordering from marc input to marc stored in record
 	 */
 @Test
