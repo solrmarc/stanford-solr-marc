@@ -3,48 +3,29 @@
 <config>
   <!-- NOTE: various comments and unused configuration possibilities have been purged
      from this file.  Please refer to http://wiki.apache.org/solr/SolrConfigXml,
-     as well as the default solrconfig file included with solr -->
+     as well as the default solrconfig file included with Solr -->
 
   <abortOnConfigurationError>${solr.abortOnConfigurationError:true}</abortOnConfigurationError>
 
-  <luceneMatchVersion>LUCENE_35</luceneMatchVersion>
+  <luceneMatchVersion>LUCENE_36</luceneMatchVersion>
 
   <dataDir>${solr.data.dir:/data/solr}</dataDir>
 
-  <indexDefaults>
-    <useCompoundFile>false</useCompoundFile>
-    <mergeFactor>10</mergeFactor>
-    <reopenReaders>true</reopenReaders>
-
-    <!--
-      If both ramBufferSizeMB and maxBufferedDocs is set, then Lucene will flush based on whichever limit is hit first.
-    -->
-    <!--<maxBufferedDocs>1000</maxBufferedDocs>-->
-    <ramBufferSizeMB>128</ramBufferSizeMB>
-<!--
-    <maxMergeDocs>2147483647</maxMergeDocs>
--->
-    <writeLockTimeout>1000</writeLockTimeout>
-    <commitLockTimeout>10000</commitLockTimeout>
-    <lockType>single</lockType>
-  </indexDefaults>
-
-  <mainIndex>
-    <!-- options specific to the main on-disk lucene index -->
-    <useCompoundFile>false</useCompoundFile>
-    <ramBufferSizeMB>128</ramBufferSizeMB>
-    <mergeFactor>10</mergeFactor>
-<!--
-    <maxMergeDocs>2147483647</maxMergeDocs>
--->
+  <indexConfig>
     <maxFieldLength>2147483647</maxFieldLength>
+    <writeLockTimeout>1000</writeLockTimeout>
+    <useCompoundFile>false</useCompoundFile>
+    <ramBufferSizeMB>128</ramBufferSizeMB>
+    <mergeFactor>10</mergeFactor>
+    <lockType>simple</lockType>
     <unlockOnStartup>false</unlockOnStartup>
+    <reopenReaders>true</reopenReaders>
     <deletionPolicy class="solr.SolrDeletionPolicy">
-      <str name="keepOptimizedOnly">false</str>
+      <str name="keepOptimizedOnly">false</str>  <!--  FIXME: no longer used since Solr 3? -->
       <str name="maxCommitsToKeep">1</str>
       <str name="maxOptimizedCommitsToKeep">0</str>
     </deletionPolicy>
-  </mainIndex>
+  </indexConfig>
 
   <!-- See docs re: autoCommit -->
   <updateHandler class="solr.DirectUpdateHandler2" />
@@ -68,6 +49,9 @@
     <queryResultMaxDocsCached>100</queryResultMaxDocsCached>
 
     <HashDocSet maxSize="200000" loadFactor="0.75"/>
+
+    <useColdSearcher>true</useColdSearcher>
+    <maxWarmingSearchers>1</maxWarmingSearchers>
 
     <!-- a newSearcher event is fired whenever a new searcher is being prepared
          and there is a current searcher handling requests (aka registered).
@@ -203,9 +187,6 @@
         <!-- should there be warming for different sorts? -->
       </arr>
     </listener>
-
-    <useColdSearcher>true</useColdSearcher>
-    <maxWarmingSearchers>4</maxWarmingSearchers>
   </query>
 
   <!-- Let the dispatch filter handler /select?qt=XXX -->
