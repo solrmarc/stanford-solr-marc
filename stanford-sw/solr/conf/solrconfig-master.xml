@@ -40,25 +40,17 @@
 
   <query>
     <maxBooleanClauses>1024</maxBooleanClauses>
-<!-- no filterCache or query cache for (indexing) master -->
-
+    <!-- no filterCache or query cache for (indexing) master -->
     <useFilterForSortedQuery>true</useFilterForSortedQuery>
-
-    <!-- The fieldValueCache is created by default even if not configured here. -->
     <fieldValueCache class="solr.FastLRUCache" size="25" initialSize="25" autowarmCount="0" showItems="64"/>
-
     <documentCache class="solr.LRUCache" size="40960" initialSize="8192" autowarmCount="0"/>
     <enableLazyFieldLoading>true</enableLazyFieldLoading>
-
     <queryResultWindowSize>80</queryResultWindowSize>
-
     <queryResultMaxDocsCached>100</queryResultMaxDocsCached>
-
     <HashDocSet maxSize="200000" loadFactor="0.75"/>
-
-<!-- no warm up queries for (indexing) master -->
     <useColdSearcher>true</useColdSearcher>
     <maxWarmingSearchers>4</maxWarmingSearchers>
+    <!-- no warm up queries for (indexing) master -->
   </query>
 
   <!-- Let the dispatch filter handler /select?qt=XXX -->
