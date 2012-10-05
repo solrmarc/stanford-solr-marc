@@ -205,7 +205,7 @@
     </lst>
   </requestHandler>
 
-  <!-- deprecated 2012-09-24: use search_local_params instead;  everywhere/unfielded search request handler -->
+  <!-- deprecated 2012-09-24: use search_local_params instead (with defType=dismax) -->
   <requestHandler name="search" class="solr.SearchHandler" default="true">
     <lst name="defaults">
       <str name="defType">dismax</str>
@@ -269,9 +269,6 @@
         barcode_search
         collection_search
         medium
-<!-- callnum_search removed so searches with stopwords can have matches
-        callnum_search
--->
       </str>
       <str name="pf">
         title_245a_unstem_search^300000
@@ -933,7 +930,11 @@
   </requestHandler>
 
 
-  <!-- request handler for searches in the pulldown menu for the single search box, as well as others -->
+  <!-- for Blacklight's pulldown menu for the single search box, and most other searches
+       usage:   q=terms anywhere&defType=dismax
+                q={!qf=$qf_title pf=$pf_title}a book title&defType=dismax
+                q={!qf=$qf_author pf=$pf_author}author name&defType=dismax
+       and so on -->
   <requestHandler name="search_local_params" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="defType">lucene</str>
@@ -1250,79 +1251,10 @@
       <str name="qf_series">series_search     vern_series_search</str>
       <str name="pf_series">series_search^20  vern_series_search^20</str>
 
-      <!-- for publisher in advanced -->
-      <str name="qf_pub_info">
-        pub_search
-        vern_pub_search
-        pub_country
-        pub_date_search
-      </str>
-      <str name="pf_pub_info">
-        pub_search^10
-        vern_pub_search^10
-        pub_country^10
-        pub_date_search^10
-      </str>
-
-      <!-- for number in advanced -->
-      <str name="qf_number">
-        id
-        isbn_search
-        issn_search
-        oclc
-        barcode_search
-        callnum_search
-      </str>
-      <str name="pf_number">
-        callnum_search^10
-      </str>
-
-      <!-- for summary in advanced -->
-      <str name="qf_summary">
-        toc_unstem_search^10
-        toc_search
-        vern_toc_search
-        context_unstem_search^10
-        context_search
-        vern_context_search
-        summary_unstem_search^10
-        summary_search
-        vern_summary_search
-      </str>
-      <str name="qf_summary_exact">
-        toc_unstem_search^10
-        vern_toc_search
-        context_unstem_search^10
-        vern_context_search
-        summary_unstem_search^10
-        vern_summary_search
-      </str>
-      <str name="qf_summary_exact2">
-        toc_unstem_search^10
-        context_unstem_search^10
-        summary_unstem_search^10
-      </str>
-      <str name="pf_summary">
-        toc_unstem_search^100
-        toc_search^20
-        vern_toc_search^20
-        context_unstem_search^100
-        context_search^20
-        vern_context_search^20
-        summary_unstem_search^100
-        summary_search^20
-        vern_summary_search^20
-      </str>
-
-      <!-- TODO:  remove this as it is default field? -->
-      <!-- for description in advanced -->
-      <str name="qf_description">all_search</str>
-      <str name="pf_description">all_search^10</str>
-
       <str name="qf_crez">
       	crez_instructor_search
       	crez_course_name_search
-				crez_course_id_search
+        crez_course_id_search
       </str>
       <str name="pf_crez">
       	crez_instructor_search^20
@@ -1411,19 +1343,8 @@
     </lst>
   </requestHandler>
 
-
-
-  <!-- single document requests; use id=666 instead of q=id:666 -->
-  <requestHandler name="document" class="solr.SearchHandler" >
-    <lst name="defaults">
-      <str name="echoParams">explicit</str>
-      <str name="fl">*</str>
-      <int name="rows">1</int>
-      <str name="q">{!raw f=id v=$id}</str> <!-- use id=666 instead of q=id:666 -->
-    </lst>
-  </requestHandler>
-
   <!-- advanced search requests; use q=_query_:"{!dismax qf=$qf1 pf=$pf1 mm=$mm ps=$ps tie=$tie}[transformed-q1] AND query_:"{!dismax qf=$qf2 pf=$pf2}[transformed-q2] -->
+  <!-- 2012-10: cannot fold this into single request handler because the SearchWorks app also uses the qt=advanced param as a flag for advanced search UI behaviors  -->
   <requestHandler name="advanced" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">lucene</str>
@@ -1447,6 +1368,19 @@
         author_7xx_search^5        vern_author_7xx_search^5
         author_8xx_search          vern_author_8xx_search
       </str>
+      <str name="qf_author_exact">
+        author_1xx_unstem_search^200
+        author_7xx_unstem_search^50
+        author_8xx_unstem_search^10
+         vern_author_1xx_search^20
+         vern_author_7xx_search^5
+         vern_author_8xx_search
+      </str>
+      <str name="qf_author_exact2">
+        author_1xx_unstem_search^200
+        author_7xx_unstem_search^50
+        author_8xx_unstem_search^10
+      </str>
       <str name="pf_author">
         author_1xx_unstem_search^5000
         author_7xx_unstem_search^3000
@@ -1469,6 +1403,26 @@
         title_related_unstem_search^45
         title_related_search^5      vern_title_related_search^5
         series_search               vern_series_search
+      </str>
+      <str name="qf_title_exact">
+        title_245a_unstem_search^50000
+        title_245_unstem_search^25000
+        title_uniform_unstem_search^10000
+         vern_title_245a_search^5000
+         vern_title_245_search^1000
+         vern_title_uniform_search^250
+        title_variant_unstem_search^150
+         vern_title_variant_search^50
+        title_related_unstem_search^45
+         vern_title_related_search^5
+         vern_series_search
+      </str>
+      <str name="qf_title_exact2">
+        title_245a_unstem_search^50000
+        title_245_unstem_search^25000
+        title_uniform_unstem_search^10000
+        title_variant_unstem_search^150
+        title_related_unstem_search^45
       </str>
       <str name="pf_title">
         title_245a_unstem_search^200000
@@ -1502,6 +1456,31 @@
         subject_other_subvy_search     vern_subject_other_subvy_search
         subject_all_search             vern_subject_all_search
         db_az_subject_search
+      </str>
+      <str name="qf_subject_exact">
+        topic_unstem_search^500
+        geographic_unstem_search^500
+         vern_topic_search^100
+         vern_geographic_search^100
+        subject_other_unstem_search^75
+         vern_subject_other_search^50
+        topic_subx_unstem_search^10
+        geographic_subz_unstem_search^10
+        subject_other_subvy_unstem_search^10
+        subject_all_unstem_search^10
+         vern_topic_subx_search
+         vern_geographic_subz_search
+         vern_subject_other_subvy_search
+         vern_subject_all_search
+      </str>
+      <str name="qf_subject_exact2">
+        topic_unstem_search^500
+        geographic_unstem_search^500
+        subject_other_unstem_search^75
+        topic_subx_unstem_search^10
+        geographic_subz_unstem_search^10
+        subject_other_subvy_unstem_search^10
+        subject_all_unstem_search^10
       </str>
       <str name="pf_subject">
         topic_unstem_search^5000
@@ -1560,6 +1539,19 @@
         summary_unstem_search^10
         summary_search
         vern_summary_search
+      </str>
+      <str name="qf_summary_exact">
+        toc_unstem_search^10
+        vern_toc_search
+        context_unstem_search^10
+        vern_context_search
+        summary_unstem_search^10
+        vern_summary_search
+      </str>
+      <str name="qf_summary_exact2">
+        toc_unstem_search^10
+        context_unstem_search^10
+        summary_unstem_search^10
       </str>
       <str name="pf_summary">
         toc_unstem_search^100
@@ -1747,6 +1739,16 @@
     </lst>
   </requestHandler>
 
+  <!-- single document requests; use id=666 instead of q=id:666 -->
+  <requestHandler name="document" class="solr.SearchHandler" >
+    <lst name="defaults">
+      <str name="echoParams">explicit</str>
+      <str name="fl">*</str>
+      <int name="rows">1</int>
+      <str name="q">{!raw f=id v=$id}</str> <!-- use id=666 instead of q=id:666 -->
+    </lst>
+  </requestHandler>
+
   <!-- barcode requests; use /barcode?q=1234567890 -->
   <requestHandler name="/barcode" class="solr.SearchHandler" >
     <lst name="defaults">
@@ -1788,7 +1790,8 @@
   <requestHandler name="/admin/ping" class="solr.PingRequestHandler">
     <lst name="invariants">
       <str name="q">ping test query</str>
-      <str name="qt">search</str>
+      <str name="qt">search_local_params</str>
+      <str name="defType">dismax</str>
     </lst>
   </requestHandler>
 
