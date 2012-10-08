@@ -1,11 +1,11 @@
 package org.solrmarc.marc;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.*;
 import java.util.*;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.marc4j.marc.*;
@@ -286,17 +286,24 @@ public class CombineMultBibsMhldsReaderTest extends AbstractCoreTest
     public void lastBibOutOfOrderError()
     		throws IOException
     {
-		try
-		{
-			readIntoRecordMap("combineBibMhld_b1b3b2.mrc");
-		}
+	    LoggerAppender4Testing appender = new LoggerAppender4Testing();
+		CombineMultBibsMhldsReader.logger.addAppender(appender);
+		CombineMultBibsMhldsReader.logger.setLevel(Level.DEBUG);
+	    try
+	    {
+	        Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test lastBibOutOfOrderError");
+	    	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b3b2.mrc");
+	        assertEquals("Wrong number of read records: ", 3,  mergedRecs.keySet().size());
+	        appender.assertLogContains(Level.INFO, "bib record a2 came after bib record a3: file isn't sorted.");
+	    }
 		catch (SolrMarcRuntimeException e)
 		{
-			assertTrue("Exception message not as expected: " + e.getMessage(),
-					e.getMessage().startsWith("CombineMultBibsMhldsReader: bib record a2 came after bib record a3: file isn't sorted."));
-			assertTrue("Exception message not as expected: " + e.getMessage(),
-					e.getMessage().endsWith("STOPPING PROCESSING."));
+			fail("processing should continue if bib recs are out of order");
 		}
+	    finally
+	    {
+	    	CombineMultBibsMhldsReader.logger.removeAppender(appender);
+	    }
     }
 
     /**
@@ -306,17 +313,24 @@ public class CombineMultBibsMhldsReaderTest extends AbstractCoreTest
     public void lastBibOutOfOrderErrorAfterMhld()
     		throws IOException
     {
-		try
-		{
-	    	readIntoRecordMap("combineBibMhld_b1b3m3b2.mrc");
-		}
+	    LoggerAppender4Testing appender = new LoggerAppender4Testing();
+		CombineMultBibsMhldsReader.logger.addAppender(appender);
+		CombineMultBibsMhldsReader.logger.setLevel(Level.DEBUG);
+	    try
+	    {
+	        Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test lastBibOutOfOrderErrorAfterMhld");
+	    	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b3m3b2.mrc");
+	        assertEquals("Wrong number of read records: ", 3,  mergedRecs.keySet().size());
+	        appender.assertLogContains(Level.INFO, "bib record a2 came after bib record a3: file isn't sorted.");
+	    }
 		catch (SolrMarcRuntimeException e)
 		{
-			assertTrue("Exception message not as expected: " + e.getMessage(),
-					e.getMessage().startsWith("CombineMultBibsMhldsReader: bib record a2 came after bib record a3: file isn't sorted."));
-			assertTrue("Exception message not as expected: " + e.getMessage(),
-					e.getMessage().endsWith("STOPPING PROCESSING."));
+			fail("processing should continue if bib recs are out of order");
 		}
+	    finally
+	    {
+	    	CombineMultBibsMhldsReader.logger.removeAppender(appender);
+	    }
     }
 
     /**
@@ -328,17 +342,24 @@ public class CombineMultBibsMhldsReaderTest extends AbstractCoreTest
     public void secondBibOutOfOrderError()
     		throws IOException
     {
-		try
-		{
-			readIntoRecordMap("combineBibMhld_b2b1b3.mrc");
-		}
+	    LoggerAppender4Testing appender = new LoggerAppender4Testing();
+		CombineMultBibsMhldsReader.logger.addAppender(appender);
+		CombineMultBibsMhldsReader.logger.setLevel(Level.DEBUG);
+	    try
+	    {
+	        Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test secondBibOutOfOrderError");
+	    	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b2b1b3.mrc");
+	        assertEquals("Wrong number of read records: ", 3,  mergedRecs.keySet().size());
+	        appender.assertLogContains(Level.INFO, "bib record a1 came after bib record a2: file isn't sorted.");
+	    }
 		catch (SolrMarcRuntimeException e)
 		{
-        	assertTrue("Output message not as expected: " + e.getMessage(),
-        			e.getMessage().startsWith("CombineMultBibsMhldsReader: bib record a1 came after bib record a2: file isn't sorted."));
-        	assertTrue("Output message not as expected: " + e.getMessage(),
-        			e.getMessage().endsWith("STOPPING PROCESSING."));
+			fail("processing should continue if bib recs are out of order");
 		}
+	    finally
+	    {
+	    	CombineMultBibsMhldsReader.logger.removeAppender(appender);
+	    }
     }
 
     /**
@@ -349,17 +370,24 @@ public class CombineMultBibsMhldsReaderTest extends AbstractCoreTest
     public void secondBibOutOfOrderErrorAfterMhld()
     		throws IOException
     {
-		try
-		{
-			readIntoRecordMap("combineBibMhld_b2m2b1b3.mrc");
-		}
+	    LoggerAppender4Testing appender = new LoggerAppender4Testing();
+		CombineMultBibsMhldsReader.logger.addAppender(appender);
+		CombineMultBibsMhldsReader.logger.setLevel(Level.DEBUG);
+	    try
+	    {
+	        Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test secondBibOutOfOrderErrorAfterMhld");
+	    	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b2m2b1b3.mrc");
+	        assertEquals("Wrong number of read records: ", 3,  mergedRecs.keySet().size());
+	        appender.assertLogContains(Level.INFO, "bib record a1 came after bib record a2: file isn't sorted.");
+	    }
 		catch (SolrMarcRuntimeException e)
 		{
-	    	assertTrue("Output message not as expected: " + e.getMessage(),
-	    			e.getMessage().startsWith("CombineMultBibsMhldsReader: bib record a1 came after bib record a2: file isn't sorted."));
-	    	assertTrue("Output message not as expected: " + e.getMessage(),
-	    			e.getMessage().endsWith("STOPPING PROCESSING."));
+			fail("processing should continue if bib recs are out of order");
 		}
+	    finally
+	    {
+	    	CombineMultBibsMhldsReader.logger.removeAppender(appender);
+	    }
     }
 
 
@@ -370,17 +398,23 @@ public class CombineMultBibsMhldsReaderTest extends AbstractCoreTest
     public void mhldDoesntMatchError()
     		throws IOException
     {
-		try
-		{
-	    	readIntoRecordMap("combineBibMhld_b1m2b2.mrc");
-		}
+	    LoggerAppender4Testing appender = new LoggerAppender4Testing();
+		CombineMultBibsMhldsReader.logger.addAppender(appender);
+	    try
+	    {
+	        Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test mhldDoesntMatchError");
+	    	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1m2b2.mrc");
+	        assertEquals("Wrong number of read records: ", 2,  mergedRecs.keySet().size());
+	        appender.assertLogContains(Level.ERROR, "mhld id mismatch: mhld record a2 came after bib or mhld record a1: skipping mhld record a2.");
+	    }
 		catch (SolrMarcRuntimeException e)
 		{
-	    	assertTrue("Output message not as expected: " + e.getMessage(),
-	    			e.getMessage().startsWith("CombineMultBibsMhldsReader: mhld record a2 came after bib record a1: file isn't sorted."));
-	    	assertTrue("Output message not as expected: " + e.getMessage(),
-	    			e.getMessage().endsWith("STOPPING PROCESSING."));
+			fail("processing should continue if there are unmatched mhld recs (orphaned mhlds are skipped)");
 		}
+	    finally
+	    {
+	    	CombineMultBibsMhldsReader.logger.removeAppender(appender);
+	    }
     }
 
 
@@ -391,18 +425,105 @@ public class CombineMultBibsMhldsReaderTest extends AbstractCoreTest
     public void lastMhldDoesntMatchError()
     		throws IOException
     {
+	    LoggerAppender4Testing appender = new LoggerAppender4Testing();
+		CombineMultBibsMhldsReader.logger.addAppender(appender);
+	    try
+	    {
+	        Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test lastMhldDoesntMatchError");
+	    	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2m1.mrc");
+	        assertEquals("Wrong number of read records: ", 2,  mergedRecs.keySet().size());
+	        appender.assertLogContains(Level.ERROR, "mhld id mismatch: mhld record a1 came after bib or mhld record a2: skipping mhld record a1.");
+	    }
+		catch (SolrMarcRuntimeException e)
+		{
+			fail("processing should continue if there are unmatched mhld recs (orphaned mhlds are skipped)");
+		}
+	    finally
+	    {
+	    	CombineMultBibsMhldsReader.logger.removeAppender(appender);
+	    }
+    }
+
+
+	/**
+	 * mhld doesn't match immediately previous mhld record
+	 */
+@Test
+	public void mhldDoesntMatchPrevMhldError()
+			throws IOException
+	{
+	    LoggerAppender4Testing appender = new LoggerAppender4Testing();
+		CombineMultBibsMhldsReader.logger.addAppender(appender);
+	    try
+	    {
+	        Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test mhldDoesntMatchPrevMhldError");
+	    	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2b2m2m1b3.mrc");
+	        assertEquals("Wrong number of read records: ", 3,  mergedRecs.keySet().size());
+	        appender.assertLogContains(Level.ERROR, "mhld record a1 came after bib or mhld record a2: skipping mhld record a1.");
+	    }
+		catch (SolrMarcRuntimeException e)
+		{
+			fail("processing should continue if there are unmatched mhld recs (orphaned mhlds are skipped)");
+		}
+	    finally
+	    {
+	    	CombineMultBibsMhldsReader.logger.removeAppender(appender);
+	    }
+	}
+
+	/**
+	 * file starts with mhld
+	 */
+@Test
+	public void fileStartsWithMhld()
+			throws IOException
+	{
+	    LoggerAppender4Testing appender = new LoggerAppender4Testing();
+		CombineMultBibsMhldsReader.logger.addAppender(appender);
+	    try
+	    {
+	        Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test fileStartsWithMhld");
+	    	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhldStartsMhld.mrc");
+	        assertEquals("Wrong number of read records: ", 1,  mergedRecs.keySet().size());
+	        appender.assertLogContains(Level.ERROR, "First record in file is mhld (not bib): Skipping record amhld1");
+	    }
+		catch (SolrMarcRuntimeException e)
+		{
+			fail("processing should continue if the first record in the file is an mhld (orphaned mhlds are skipped)");
+		}
+	    finally
+	    {
+	    	CombineMultBibsMhldsReader.logger.removeAppender(appender);
+	    }
+
+		// FIXME: do this with more than one record in the file?
+		//  - mhld then bib
+		//  - mhld then another mhld (same id)
+		// mhld then another mhld (diff id)
+	}
+
+
+	/**
+	 * bib follows matching mhld record
+	 */
+@Test
+	public void bibMatchesPrevMhldError()
+			throws IOException
+	{
 		try
 		{
-	    	readIntoRecordMap("combineBibMhld_b1b2m1.mrc");
+	    	readIntoRecordMap("combineBibMhld_b1m1b1.mrc");
+	    	fail ("processing should fail if bib follows matching mhld");
 		}
 		catch (SolrMarcRuntimeException e)
 		{
 	    	assertTrue("Output message not as expected: " + e.getMessage(),
-	    			e.getMessage().startsWith("CombineMultBibsMhldsReader: mhld record a1 came after bib record a2: file isn't sorted."));
+	    			e.getMessage().startsWith("CombineMultBibsMhldsReader: bib record a1 came after matching mhld record: assuming error with upstream marc records."));
 	    	assertTrue("Output message not as expected: " + e.getMessage(),
 	    			e.getMessage().endsWith("STOPPING PROCESSING."));
 		}
-    }
+	}
+
 
 //------- tests for unreadable records -----------------------------------------
 
@@ -417,7 +538,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractCoreTest
     	CombineMultBibsMhldsReader.logger.addAppender(appender);
         try
         {
-            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test");
+            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test unreadableFirstRecord");
     		Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_badb1b2b3.mrc");
             Set<String> mergedRecIds = mergedRecs.keySet();
             assertEquals("Wrong number of read records: ", 3, mergedRecIds.size());
@@ -444,7 +565,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractCoreTest
     	CombineMultBibsMhldsReader.logger.addAppender(appender);
         try
         {
-            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test");
+            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test unreadableLastRecord");
         	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1b2b3bad.mrc");
             Set<String> mergedRecIds = mergedRecs.keySet();
             assertEquals("Wrong number of read records: ", 3, mergedRecIds.size());
@@ -472,7 +593,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractCoreTest
     	CombineMultBibsMhldsReader.logger.addAppender(appender);
         try
         {
-            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test");
+            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test unreadableMiddleRecord");
         	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b1badb3.mrc");
             Set<String> mergedRecIds = mergedRecs.keySet();
             assertEquals("Wrong number of read records: ", 2, mergedRecIds.size());
@@ -499,7 +620,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractCoreTest
     	CombineMultBibsMhldsReader.logger.addAppender(appender);
         try
         {
-            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test");
+            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test unreadableBetweenMultBibRecord");
         	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b11badb13m11.mrc");
             Set<String> mergedRecIds = mergedRecs.keySet();
             assertEquals("Wrong number of read records: ", 1, mergedRecIds.size());
@@ -536,7 +657,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractCoreTest
     	CombineMultBibsMhldsReader.logger.addAppender(appender);
         try
         {
-            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test");
+            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test unreadableBetweenBibMhldMultRecord");
         	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b11b12badm11m12.mrc");
             Set<String> mergedRecIds = mergedRecs.keySet();
             assertEquals("Wrong number of read records: ", 1, mergedRecIds.size());
@@ -574,7 +695,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractCoreTest
     	CombineMultBibsMhldsReader.logger.addAppender(appender);
         try
         {
-            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test");
+            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test unreadableBetweenMultMhldRecord");
         	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhld_b11b12m11badm13.mrc");
             Set<String> mergedRecIds = mergedRecs.keySet();
             assertEquals("Wrong number of read records: ", 1, mergedRecIds.size());
@@ -725,28 +846,11 @@ public class CombineMultBibsMhldsReaderTest extends AbstractCoreTest
     /**
      * the first record should not be assumed to be a bib
      */
-@Test
+//@Test
     public void testFirstRecordTypeAssessed()
     		throws IOException
     {
-        LoggerAppender4Testing appender = new LoggerAppender4Testing();
-    	CombineMultBibsMhldsReader.logger.addAppender(appender);
-        try
-        {
-            Logger.getLogger(CombineMultBibsMhldsReaderTest.class).info("Test");
-        	Map<String, Record> mergedRecs = readIntoRecordMap("combineBibMhldStartsMhld.mrc");
-            Set<String> mergedRecIds = mergedRecs.keySet();
-            assertEquals("Wrong number of read records: ", 1, mergedRecIds.size());
-            assertTrue("Expected amhldWithBib in results", mergedRecIds.contains("amhldWithBib"));
-
-            // did message go to logger?
-            appender.assertLogContains("First record isn't bib: Skipping record amhld1");
-        }
-        finally
-        {
-        	CombineMultBibsMhldsReader.logger.removeAppender(appender);
-        }
-
+    	fileStartsWithMhld();
     }
 
 
@@ -754,7 +858,7 @@ public class CombineMultBibsMhldsReaderTest extends AbstractCoreTest
 // supporting methods for testing ---------------------------------------------
 
     /**
-     * run a file through CombineMultBibsMhldsReader and get the results as a map for easy testing
+     * run a file through CombineMultBibsMhldsReader2 and get the results as a map for easy testing
      * @param marcRecsFilename - the name of the file containing MARC records, in the form of:
      *    bib1 bib2 mhld2 mhld2 bib3 bib4 bib4 mhld4 mhld4 bib5 ...
      * @return Map of ids -> Record objects for a single bib record comprising desired fields of multiple bibs and of following mhlds
@@ -790,18 +894,17 @@ public class CombineMultBibsMhldsReaderTest extends AbstractCoreTest
         return results;
     }
 
+    private Map<String, Record> readIntoRecordMap(String filename)
+    		throws IOException
+    {
+    	return readIntoRecordMap(filename, true);
+    }
+
     private Map<String, Record> readIntoRecordMap(String filename, boolean permissive)
     		throws IOException
     {
     	String filePath = testDataParentPath + File.separator + filename;
         return combineFileRecordsAsMap(filePath, permissive);
-    }
-
-    private Map<String, Record> readIntoRecordMap(String filename)
-    		throws IOException
-    {
-    	String filePath = testDataParentPath + File.separator + filename;
-        return combineFileRecordsAsMap(filePath, true);
     }
 
 }
