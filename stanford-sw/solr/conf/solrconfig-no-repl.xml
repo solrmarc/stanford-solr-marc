@@ -841,8 +841,7 @@
   <requestHandler name="/admin/ping" class="solr.PingRequestHandler">
     <lst name="invariants">
       <str name="q">ping test query</str>
-      <str name="qt">search_local_params</str>
-      <str name="defType">dismax</str>
+      <str name="qt">search</str>
     </lst>
   </requestHandler>
 
