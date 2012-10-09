@@ -43,7 +43,7 @@ public abstract class AbstractStanfordTest extends AbstractTest
 	 */
 	public void mappingTestInit()
 	{
-		luceneReqHandler = "search_local_params";
+		luceneReqHandler = "standard";
 		super.mappingTestInit();
 	}
 
