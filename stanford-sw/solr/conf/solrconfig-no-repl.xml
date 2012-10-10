@@ -61,7 +61,7 @@
           <str name="facet.field">building_facet</str>
             <str name="f.building_facet.facet.method">enum</str>
           <str name="facet.field">callnum_top_facet</str>
-            <str name="f.callnum_top_facet.facet.sort">false</str>
+            <str name="f.callnum_top_facet.facet.sort">index</str>
             <str name="f.callnum_top_facet.facet.method">enum</str>
           <str name="facet.field">format</str>
             <str name="f.format.facet.method">enum</str>
@@ -113,7 +113,7 @@
           <str name="facet.field">building_facet</str>
             <str name="f.building_facet.facet.method">enum</str>
           <str name="facet.field">callnum_top_facet</str>
-            <str name="f.callnum_top_facet.facet.sort">false</str>
+            <str name="f.callnum_top_facet.facet.sort">index</str>
             <str name="f.callnum_top_facet.facet.method">enum</str>
             <str name="facet.field">lc_alpha_facet</str>
               <str name="f.lc_alpha_facet.facet.method">enum</str>
@@ -157,10 +157,7 @@
           <str name="facet.field">collection</str>
             <str name="f.collection.facet.method">enum</str>
           <str name="facet.field">crez_course_info</str>
-            <str name="f.crez_course_info.facet.sort">index</str>
-            <str name="f.crez_course_info.facet.limit">-1</str>
           <str name="facet.field">db_az_subject</str>
-            <str name="f.db_az_subject.facet.sort">false</str>
           <str name="facet.field">display_type</str>
             <str name="f.display_type.facet.method">enum</str>
           <str name="facet.field">era_facet</str>
@@ -172,7 +169,6 @@
             <str name="f.pub_date_group_facet.facet.method">enum</str>
           <str name="facet.field">pub_date</str>
           <str name="facet.field">pub_date_i</str>
-            <str name="f.pub_date_i.facet.sort">index</str>
           <str name="facet.field">topic_facet</str>
         </lst>
         <!-- should there be warming for different sorts? -->
@@ -394,7 +390,7 @@
 
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int>
+      <int name="facet.limit">11</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
       <str name="facet.field">author_person_facet</str>
@@ -415,11 +411,12 @@
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
-        <str name="f.db_az_subject.facet.sort">false</str>
+        <int name="f.db_az_subject.facet.limit">-1</int>
       <str name="facet.field">display_type</str>
         <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+        <int name="f.format.facet.limit">20</int>
         <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
@@ -427,7 +424,6 @@
         <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">pub_date_i</str>
-        <str name="f.pub_date_i.facet.sort">index</str>
       <str name="facet.field">topic_facet</str>
 
       <str name="fl">
@@ -701,14 +697,16 @@
 
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int>   <!-- language uses more than 11 in advanced search -->
+      <int name="facet.limit">11</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
       <str name="facet.field">author_person_facet</str>
       <str name="facet.field">author_other_facet</str>
       <str name="facet.field">building_facet</str>
+        <int name="f.building_facet.facet.limit">30</int>
         <str name="f.building_facet.facet.method">enum</str>
       <str name="facet.field">callnum_top_facet</str>
+        <int name="f.callnum_top_facet.facet.limit">30</int>
         <str name="f.callnum_top_facet.facet.method">enum</str>
         <str name="facet.field">lc_alpha_facet</str>
           <str name="f.lc_alpha_facet.facet.method">enum</str>
@@ -722,11 +720,12 @@
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
-        <str name="f.db_az_subject.facet.sort">false</str>
+        <str name="f.db_az_subject.facet.sort">index</str>
       <str name="facet.field">display_type</str>
         <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
       <str name="facet.field">format</str>
+        <int name="f.format.facet.limit">20</int>
         <str name="f.format.facet.method">enum</str>
       <str name="facet.field">geographic_facet</str>
       <str name="facet.field">language</str>
@@ -734,7 +733,6 @@
         <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
       <str name="facet.field">pub_date_i</str>
-        <str name="f.pub_date_i.facet.sort">index</str>
       <str name="facet.field">topic_facet</str>
 
       <str name="fl">
@@ -819,6 +817,7 @@
       <str name="df">all_search</str>
       <str name="q.op">AND</str>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
+      <int name="facet.mincount">1</int>
     </lst>
   </requestHandler>
 
