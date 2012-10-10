@@ -20,7 +20,7 @@ public class Item {
 	public final static String ELOC = "INTERNET";
 	/** temporary call numbers (in process, on order ..) should start with this prefix */
 	public final static String TMP_CALLNUM_PREFIX = "XX";
-	
+
 	/* immutable instance variables */
 	private final String recId;
 	private final String barcode;
@@ -55,12 +55,12 @@ public class Item {
 	 * be first, etc. */
 	private String reverseLoppedShelfkey = null;
 
-	/** sortable full call number, where, for serials, any volume suffix will sort 
+	/** sortable full call number, where, for serials, any volume suffix will sort
 	 * in descending order.  Non-serial volumes will sort in ascending order. */
 	private String callnumVolSort = null;
 
 
-	
+
 	/**
 	 * initialize object from 999 DataField, which has the following subfields
 	 * <ul>
@@ -84,27 +84,27 @@ public class Item {
 		itemType = MarcUtils.getSubfieldTrimmed(f999, 't');
 		String scheme = MarcUtils.getSubfieldTrimmed(f999, 'w');
 		String rawCallnum = MarcUtils.getSubfieldTrimmed(f999, 'a');
-				
+
 		if (StanfordIndexer.SKIPPED_LOCS.contains(currLoc)
-					|| StanfordIndexer.SKIPPED_LOCS.contains(homeLoc) 
+					|| StanfordIndexer.SKIPPED_LOCS.contains(homeLoc)
 					|| itemType.equals("EDI-REMOVE"))
 			shouldBeSkipped = true;
-		else 
+		else
 			shouldBeSkipped = false;
-		
-		if (StanfordIndexer.GOV_DOC_LOCS.contains(currLoc) 
+
+		if (StanfordIndexer.GOV_DOC_LOCS.contains(currLoc)
 				|| StanfordIndexer.GOV_DOC_LOCS.contains(homeLoc) )
 			hasGovDocLoc = true;
 		else
 			hasGovDocLoc = false;
-		
-		if (StanfordIndexer.MISSING_LOCS.contains(currLoc) 
+
+		if (StanfordIndexer.MISSING_LOCS.contains(currLoc)
 				|| StanfordIndexer.MISSING_LOCS.contains(homeLoc) )
 			isMissingLost = true;
 		else
 			isMissingLost = false;
-		
-		if (StanfordIndexer.SHELBY_LOCS.contains(currLoc) 
+
+		if (StanfordIndexer.SHELBY_LOCS.contains(currLoc)
 				|| StanfordIndexer.SHELBY_LOCS.contains(homeLoc) )
 			hasShelbyLoc = true;
 		else
@@ -116,7 +116,7 @@ public class Item {
 			hasIgnoredCallnum = true;
 		else
 			hasIgnoredCallnum = false;
-		
+
 		assignCallnumType(scheme);
 		if (!hasIgnoredCallnum) {
 			if (callnumType == CallNumberType.LC || callnumType == CallNumberType.DEWEY)
@@ -129,17 +129,17 @@ public class Item {
 			normCallnum = rawCallnum.trim();
 
 		// isOnline is immutable so must be set here
-		if (StanfordIndexer.ONLINE_LOCS.contains(currLoc) 
+		if (StanfordIndexer.ONLINE_LOCS.contains(currLoc)
 				|| StanfordIndexer.ONLINE_LOCS.contains(homeLoc) //) {
 				|| normCallnum.startsWith(ECALLNUM) ) {
 			isOnline = true;
-		}	
+		}
 		else
 			isOnline = false;
 
 		dealWithXXCallnums(recId);
 	}
-	
+
 	public String getBarcode() {
 		return barcode;
 	}
@@ -167,34 +167,34 @@ public class Item {
 	public CallNumberType getCallnumType() {
 		return callnumType;
 	}
-	
+
 	public void setCallnumType(CallNumberType callnumType) {
 		this.callnumType = callnumType;
 	}
-	
+
 	/**
-	 * @return true if this item has a current or home location indicating it 
+	 * @return true if this item has a current or home location indicating it
 	 * should be skipped (e.g. "WITHDRAWN" or a shadowed location) or has
 	 * a type of "EDI-REMOVE")
 	 */
 	public boolean shouldBeSkipped() {
 		return shouldBeSkipped;
 	}
-	
+
 	/**
 	 * @return true if item location indicating it is missing or lost
 	 */
 	public boolean isMissingOrLost() {
 		return isMissingLost;
 	}
-	
+
 	/**
 	 * @return true if item has a government doc location
 	 */
 	public boolean hasGovDocLoc() {
 		return hasGovDocLoc;
 	}
-	
+
 	/**
 	 * return true if item has a callnumber or location code indicating it is online
 	 */
@@ -211,14 +211,14 @@ public class Item {
 	public boolean isOnOrder() {
 		return isOnOrder;
 	}
-	
+
 	/**
 	 * @return true if item is in process
 	 */
 	public boolean isInProcess() {
 		return isInProcess;
 	}
-	
+
 	/**
 	 * return true if item has a shelby location (current or home)
 	 */
@@ -235,48 +235,48 @@ public class Item {
 	}
 
 	/**
-	 * @return true if call number is Lane or Jackson invalid LC callnum
+	 * @return true if call number is Lane (Law) or Jackson (Business) invalid LC callnum
 	 */
 	public boolean hasBadLcLaneJackCallnum() {
 		return hasBadLcLaneJackCallnum;
 	}
-	
+
 	/**
 	 * @return true if item has a call number from the bib fields
 	 */
 	public boolean hasSeparateBrowseCallnum() {
 		return hasSeparateBrowseCallnum;
 	}
-	
+
 	/**
 	 * return the call number for browsing - it could be a call number provided
-	 *  outside of the item record.   This method will NOT set the lopped call 
-	 *  number if the raw call number is from the item record and no 
+	 *  outside of the item record.   This method will NOT set the lopped call
+	 *  number if the raw call number is from the item record and no
 	 *  lopped call number has been set yet.
 	 */
 	public String getBrowseCallnum() {
 		if (hasSeparateBrowseCallnum)
 			return browseCallnum;
-		else 
+		else
 			return loppedCallnum;
 	}
-	
+
 	/**
 	 * return the call number for browsing - it could be a call number provided
-	 *  outside of the item record.   This method will SET the lopped call 
-	 *  number if the raw call number is from the item record and no 
+	 *  outside of the item record.   This method will SET the lopped call
+	 *  number if the raw call number is from the item record and no
 	 *  lopped call number has been set yet.
 	 */
 	public String getBrowseCallnum(boolean isSerial) {
 		if (hasSeparateBrowseCallnum)
 			return browseCallnum;
-		else 
+		else
 			return getLoppedCallnum(isSerial);
 	}
-	
+
 	/**
-	 * for resources that have items without browsable call numbers 
-	 * (SUL INTERNET RESOURCE), we look for a call number in the bib record 
+	 * for resources that have items without browsable call numbers
+	 * (SUL INTERNET RESOURCE), we look for a call number in the bib record
 	 * fields (050, 090, 086 ...) for browse nearby and for call number facets.
 	 * If one is found, this method is used.
 	 */
@@ -287,11 +287,11 @@ public class Item {
 		else
 			browseCallnum = callnum.trim();
 	}
-	
+
 	/**
-	 * get the lopped call number (any volume suffix is lopped off the end.) 
+	 * get the lopped call number (any volume suffix is lopped off the end.)
 	 * This will remove noise in search results and in browsing.
-	 * @param isSerial - true if item is for a serial.  Used to determine if 
+	 * @param isSerial - true if item is for a serial.  Used to determine if
 	 *   year suffix should be lopped in addition to regular volume lopping.
 	 */
 	public String getLoppedCallnum(boolean isSerial) {
@@ -299,11 +299,11 @@ public class Item {
 			setLoppedCallnum(isSerial);
 		return loppedCallnum;
 	}
-	
+
 	/**
 	 * sets the private field loppedCallnum to contain the call number without
-	 *  any volume suffix information.  
-	 * @param isSerial - true if item is for a serial.  Used to determine if 
+	 *  any volume suffix information.
+	 * @param isSerial - true if item is for a serial.  Used to determine if
 	 *   year suffix should be lopped in addition to regular volume lopping.
 	 */
 	private void setLoppedCallnum(boolean isSerial) {
@@ -322,7 +322,7 @@ public class Item {
 			this.loppedCallnum = loppedCallnum + " ...";
 	}
 
-	
+
 	/**
 	 * get the sortable version of the lopped call number.
 	 * @param isSerial - true if item is for a serial.
@@ -335,7 +335,7 @@ public class Item {
 
 	/**
 	 * sets the private field loppedShelfkey (and loppedCallnum if it's not
-	 *  already set).  loppedShelfkey will contain the sortable version of the 
+	 *  already set).  loppedShelfkey will contain the sortable version of the
 	 *  lopped call number
 	 * @param isSerial - true if item is for a serial.
 	 */
@@ -343,13 +343,13 @@ public class Item {
 		if (loppedShelfkey == null) {
 			String skeyCallnum = getBrowseCallnum(isSerial);
 			if (skeyCallnum != null && skeyCallnum.length() > 0
-				&& !StanfordIndexer.SKIPPED_CALLNUMS.contains(skeyCallnum) 
-				&& !skeyCallnum.startsWith(ECALLNUM) 
+				&& !StanfordIndexer.SKIPPED_CALLNUMS.contains(skeyCallnum)
+				&& !skeyCallnum.startsWith(ECALLNUM)
 				&& !skeyCallnum.startsWith(TMP_CALLNUM_PREFIX) )
 				loppedShelfkey = edu.stanford.CallNumUtils.getShelfKey(skeyCallnum, callnumType, recId);
 		}
 	}
-	
+
 	/**
 	 * get the reverse sortable version of the lopped call number.
 	 * @param isSerial - true if item is for a serial.
@@ -361,8 +361,8 @@ public class Item {
 	}
 
 	/**
-	 * sets the private field reverseLoppedShelfkey (and loppedShelfkey and 
-	 *  loppedCallnum if they're not already set).  reverseLoppedShelfkey will 
+	 * sets the private field reverseLoppedShelfkey (and loppedShelfkey and
+	 *  loppedCallnum if they're not already set).  reverseLoppedShelfkey will
 	 *  contain the reverse sortable version of the lopped call number.
 	 * @param isSerial - true if item is for a serial.
 	 */
@@ -373,10 +373,10 @@ public class Item {
 			reverseLoppedShelfkey = CallNumUtils.getReverseShelfKey(loppedShelfkey);
 	}
 
-	
+
 	/**
-	 * get the sortable full call number, where, for serials, any volume suffix 
-	 * will sort in descending order.  Non-serial volumes will sort in ascending 
+	 * get the sortable full call number, where, for serials, any volume suffix
+	 * will sort in descending order.  Non-serial volumes will sort in ascending
 	 * order.
 	 * @param isSerial - true if item is for a serial.
 	 */
@@ -387,10 +387,10 @@ public class Item {
 	}
 
 	/**
-	 * sets the private field callnumVolSort (and loppedShelfkey and 
-	 * loppedCallnum if they're not already set.)  callnumVolSort will contain 
-	 * the sortable full call number, where, for serials, any volume suffix 
-	 * will sort in descending order.  
+	 * sets the private field callnumVolSort (and loppedShelfkey and
+	 * loppedCallnum if they're not already set.)  callnumVolSort will contain
+	 * the sortable full call number, where, for serials, any volume suffix
+	 * will sort in descending order.
 	 * @param isSerial - true if item is for a serial.
 	 */
 	private void setCallnumVolSort(boolean isSerial) {
@@ -402,10 +402,10 @@ public class Item {
 				normCallnum, loppedCallnum, loppedShelfkey, callnumType, isSerial, recId);
 	}
 
-	
+
 	/** call numbers must start with a letter or digit */
     private static final Pattern STRANGE_CALLNUM_START_CHARS = Pattern.compile("^\\p{Alnum}");
-    
+
 	/**
 	 * output an error message if the call number is supposed to be LC or DEWEY
 	 *  but is invalid
@@ -414,7 +414,7 @@ public class Item {
 	private void validateCallnum(String recId) {
 		if (callnumType == CallNumberType.LC
 				&& !CallNumUtils.isValidLC(normCallnum)) {
-			if (!library.equals("LANE-MED") && !library.equals("JACKSON"))
+			if (!library.equals("LANE-MED") && !library.equals("JACKSON") && !library.equals("BUSINESS"))
 				System.err.println("record " + recId + " has invalid LC callnumber: " + normCallnum);
 			adjustLCCallnumType(recId);
 		}
@@ -426,21 +426,21 @@ public class Item {
 		else if (STRANGE_CALLNUM_START_CHARS.matcher(normCallnum).matches())
 			System.err.println("record " + recId + " has strange callnumber: " + normCallnum);
 	}
-	
+
 	/**
 	 * LC is default call number scheme assigned;  change it if assigned
-	 *   incorrectly to a Dewey or ALPHANUM call number.  Called after  
+	 *   incorrectly to a Dewey or ALPHANUM call number.  Called after
 	 *   printMsgIfInvalidCallnum has already found invalid LC call number
 	 */
 	private void adjustLCCallnumType(String id) {
 		if (callnumType == CallNumberType.LC) {
-			if (CallNumUtils.isValidDeweyWithCutter(normCallnum)) 
+			if (CallNumUtils.isValidDeweyWithCutter(normCallnum))
 				callnumType = CallNumberType.DEWEY;
 			else
 			{
-//  FIXME:   this is no good if the call number is SUDOC but mislabeled LC ...				
+//  FIXME:   this is no good if the call number is SUDOC but mislabeled LC ...
 				callnumType = CallNumberType.OTHER;
-				if (library.equals("LANE-MED") || library.equals("JACKSON"))
+				if (library.equals("LANE-MED") || library.equals("JACKSON") || library.equals("BUSINESS"))
 					hasBadLcLaneJackCallnum = true;
 			}
 		}
@@ -496,5 +496,5 @@ public class Item {
 		else
 			callnumType = CallNumberType.OTHER;
 	}
-	
+
 }
