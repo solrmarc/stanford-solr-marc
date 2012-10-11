@@ -229,29 +229,21 @@
         title_variant_search^2000      vern_title_variant_search^2000
         title_related_unstem_search^1750
         title_related_search^1250      vern_title_related_search^1250
-
         topic_unstem_search^1200
         topic_search^1000              vern_topic_search^1000
         geographic_unstem_search^900
         geographic_search^750          vern_geographic_search^750
-
         author_1xx_unstem_search^700
         author_7xx_unstem_search^700
         author_8xx_unstem_search^700
         author_1xx_search^500          vern_author_1xx_search^500
-
         subject_other_unstem_search^650
         subject_other_search^500       vern_subject_other_search^500
-
         author_7xx_search^125          vern_author_7xx_search^125
-
         toc_unstem_search^120
         toc_search^100                 vern_toc_search^100
-
         author_8xx_search^50           vern_author_8xx_search^50
-
         series_search^30               vern_series_search^30
-
         topic_subx_unstem_search^29
         geographic_subz_unstem_search^29
         subject_other_subvy_unstem_search^29
@@ -261,7 +253,6 @@
         subject_other_subvy_search^25  vern_subject_other_subvy_search^25
         subject_all_search^10          vern_subject_all_search^10
         db_az_subject_search
-
         pub_date_search^10
         isbn_search^2
         issn_search^2
@@ -529,7 +520,7 @@
 
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">11</int>
+      <int name="facet.limit">21</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
       <str name="facet.field">author_person_facet</str>
@@ -550,7 +541,7 @@
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
-        <int name="f.db_az_subject.facet.limit">-1</int>
+        <int name="f.db_az_subject.facet.limit">-1</int>  <!-- also implies index sort -->
       <str name="facet.field">display_type</str>
         <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
@@ -573,6 +564,8 @@
         author_person_display,
         author_person_full_display,
         collection,
+        collection_type,
+        collection_with_title,
         crez_course_info,
         db_az_subject,
         format,
@@ -604,7 +597,6 @@
         vern_title_display,
         vern_title_uniform_display
       </str>
-
     </lst>
   </requestHandler>
 
@@ -1582,7 +1574,7 @@
 
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">11</int>
+      <int name="facet.limit">21</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
       <str name="facet.field">author_person_facet</str>
@@ -1628,6 +1620,8 @@
         author_person_display,
         author_person_full_display,
         collection,
+        collection_type,
+        collection_with_title,
         crez_course_info,
         db_az_subject,
         format,
