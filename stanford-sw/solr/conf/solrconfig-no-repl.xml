@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!-- use this solrconfig file when you want to experiment with indexing outside of replication -->
+<!-- use this solrconfig file to experiment with Solr without replication -->
 <config>
   <!-- NOTE: various comments and unused configuration possibilities have been purged
      from this file.  Please refer to http://wiki.apache.org/solr/SolrConfigXml,
@@ -390,7 +390,7 @@
 
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">11</int>
+      <int name="facet.limit">21</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
       <str name="facet.field">author_person_facet</str>
@@ -411,7 +411,7 @@
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
-        <int name="f.db_az_subject.facet.limit">-1</int>
+        <int name="f.db_az_subject.facet.limit">-1</int>  <!-- also implies index sort -->
       <str name="facet.field">display_type</str>
         <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
@@ -434,6 +434,8 @@
         author_person_display,
         author_person_full_display,
         collection,
+        collection_type,
+        collection_with_title,
         crez_course_info,
         db_az_subject,
         format,
@@ -465,7 +467,6 @@
         vern_title_display,
         vern_title_uniform_display
       </str>
-
     </lst>
   </requestHandler>
 
@@ -697,7 +698,7 @@
 
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">11</int>
+      <int name="facet.limit">21</int>
       <str name="facet.field">access_facet</str>
         <str name="f.access_facet.facet.method">enum</str>
       <str name="facet.field">author_person_facet</str>
@@ -743,6 +744,8 @@
         author_person_display,
         author_person_full_display,
         collection,
+        collection_type,
+        collection_with_title,
         crez_course_info,
         db_az_subject,
         format,
