@@ -223,26 +223,24 @@
 
     <!-- *************** additional fields for DOR objects  ****************** -->
     <field name="druid" type="string" indexed="true" stored="true" />
-    <!-- entire Mods record -->
     <field name="modsxml" type="string" indexed="false" stored="true" />
-
-    <!-- *************** additional fields for Image collections  ****************** -->
-
-    <field name="rights" type="string" indexed="false" stored="true"/>
-
-    <!-- to get to images for display, including thumbnail -->
+    <field name="collection_type" type="string" indexed="true" stored="true" multiValued="true" />
+    <field name="collection_with_title" type="string" indexed="false" stored="true" multiValued="true" />
     <field name="img_info" type="string" indexed="false" stored="true" multiValued="true"/>
+    <field name="access_condition_display" type="string" indexed="false" stored="true" multiValued="true" />
+    <field name="era_display" type="string" indexed="false" stored="true" multiValued="true"/>
+    <field name="geographic_display" type="string" indexed="false" stored="true" multiValued="true"/>
+    <field name="issue_date_display" type="string" indexed="false" stored="true" multiValued="true" />
+    <field name="physical_location_display" type="string" indexed="false" stored="true" multiValued="true" />
 
+    <!-- *************** additional DEPRECATED fields for Image Gallery collections  ****************** -->
+    <field name="rights" type="string" indexed="false" stored="true"/>
     <!-- Medium, Media (what is original object made of), how is it physically supported -->
     <field name="medium_search" type="text" indexed="true" stored="false" multiValued="true" />
     <field name="medium" type="string_punct_stop" indexed="true" stored="true" multiValued="true" />  <!-- facet and display -->
-
     <!-- for Reid Dennis -->
     <field name="possessor" type="text" indexed="true" stored="true"/> <!-- search and display -->
-
-    <!-- possibly unnecessary -->
     <field name="ig_id" type="string" indexed="true" stored="true" omitNorms="true" />
-
     <field name="parent_coll_ckey" type="string" indexed="true" stored="true" omitNorms="true"></field>
 
     <!-- *************** dynamic field types  ****************** -->
