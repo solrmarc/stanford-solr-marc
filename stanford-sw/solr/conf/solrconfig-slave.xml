@@ -9,32 +9,25 @@
 
   <abortOnConfigurationError>${solr.abortOnConfigurationError:true}</abortOnConfigurationError>
 
-  <luceneMatchVersion>LUCENE_35</luceneMatchVersion>
+  <luceneMatchVersion>LUCENE_36</luceneMatchVersion>
 
   <dataDir>${solr.data.dir:/data/solr}</dataDir>
 
-  <indexDefaults>
-    <useCompoundFile>false</useCompoundFile>
-    <mergeFactor>10</mergeFactor>
-    <reopenReaders>true</reopenReaders>
-    <ramBufferSizeMB>128</ramBufferSizeMB>
-    <writeLockTimeout>1000</writeLockTimeout>
-    <lockType>single</lockType>
-  </indexDefaults>
-
-  <mainIndex>
-    <!-- options specific to the main on-disk lucene index -->
-    <useCompoundFile>false</useCompoundFile>
-    <ramBufferSizeMB>128</ramBufferSizeMB>
-    <mergeFactor>10</mergeFactor>
+  <indexConfig>
     <maxFieldLength>2147483647</maxFieldLength>
+    <writeLockTimeout>1000</writeLockTimeout>
+    <useCompoundFile>false</useCompoundFile>
+    <ramBufferSizeMB>128</ramBufferSizeMB>
+    <mergeFactor>10</mergeFactor>
+    <lockType>native</lockType>
     <unlockOnStartup>false</unlockOnStartup>
+    <reopenReaders>true</reopenReaders>
     <deletionPolicy class="solr.SolrDeletionPolicy">
-      <str name="keepOptimizedOnly">false</str>
+      <str name="keepOptimizedOnly">false</str>  <!--  FIXME: no longer used since Solr 3? -->
       <str name="maxCommitsToKeep">1</str>
       <str name="maxOptimizedCommitsToKeep">0</str>
     </deletionPolicy>
-  </mainIndex>
+  </indexConfig>
 
   <!-- See docs re: autoCommit -->
   <updateHandler class="solr.DirectUpdateHandler2" />
