@@ -67,26 +67,7 @@ echo "!!! RUN SEARCHWORKS TESTS before putting index into production !!!"
 echo "!!! CHGRP before putting index into production !!!"
 
 # email the log files
-#mail -s 'full reindex: ckeys 0 - 499999' datacontrol@stanford.edu < $LOG_DIR/log000-049.txt
-#mail -s 'full reindex: ckeys 500000 - 999999' datacontrol@stanford.edu < $LOG_DIR/log050-099.txt
-#mail -s 'full reindex: ckeys 1000000 - 1499999' datacontrol@stanford.edu < $LOG_DIR/log100-149.txt
-#mail -s 'full reindex: ckeys 1500000 - 1999999' datacontrol@stanford.edu < $LOG_DIR/log150-199.txt
-#mail -s 'full reindex: ckeys 2000000 - 2499999' datacontrol@stanford.edu < $LOG_DIR/log200-249.txt
-#mail -s 'full reindex: ckeys 2500000 - 2999999' datacontrol@stanford.edu < $LOG_DIR/log250-299.txt
-#mail -s 'full reindex: ckeys 3000000 - 3499999' datacontrol@stanford.edu < $LOG_DIR/log300-349.txt
-#mail -s 'full reindex: ckeys 3500000 - 3999999' datacontrol@stanford.edu < $LOG_DIR/log350-399.txt
-#mail -s 'full reindex: ckeys 4000000 - 4499999' datacontrol@stanford.edu < $LOG_DIR/log400-449.txt
-#mail -s 'full reindex: ckeys 4500000 - 4999999' datacontrol@stanford.edu < $LOG_DIR/log450-499.txt
-#mail -s 'full reindex: ckeys 5000000 - 5499999' datacontrol@stanford.edu < $LOG_DIR/log500-549.txt
-#mail -s 'full reindex: ckeys 5500000 - 5999999' datacontrol@stanford.edu < $LOG_DIR/log550-599.txt
-#mail -s 'full reindex: ckeys 6000000 - 6499999' datacontrol@stanford.edu < $LOG_DIR/log600-649.txt
-#mail -s 'full reindex: ckeys 6500000 - 6999999' datacontrol@stanford.edu < $LOG_DIR/log650-699.txt
-#mail -s 'full reindex: ckeys 7000000 - 7499999' datacontrol@stanford.edu < $LOG_DIR/log700-749.txt
-#mail -s 'full reindex: ckeys 7500000 - 7999999' datacontrol@stanford.edu < $LOG_DIR/log750-799.txt
-#mail -s 'full reindex: ckeys 8000000 - 8499999' datacontrol@stanford.edu < $LOG_DIR/log800-849.txt
-#mail -s 'full reindex: ckeys 8500000 - 8999999' datacontrol@stanford.edu < $LOG_DIR/log850-899.txt
-#mail -s 'full reindex: ckeys 9000000 - 9499999' datacontrol@stanford.edu < $LOG_DIR/log900-949.txt
-#mail -s 'full reindex: ckeys 9500000 - 9999999' datacontrol@stanford.edu < $LOG_DIR/log950-999.txt
+#cat $LOG_DIR/log* | mailx -s 'full reindex log messages' datacontrol@stanford.edu
 
 # email the solr log messages
 #./grep_and_email_tomcat_log.sh
