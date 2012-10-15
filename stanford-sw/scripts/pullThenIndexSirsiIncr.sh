@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash -vx
 # pullThenIndexSirsiIncr.sh
 # Pull over the latest incremental update files from Sirsi, then
 #  Remove deleted records (per file of ids) from index and update index (with marc records in file)
@@ -56,8 +56,7 @@ nohup java -Xmx4g -Xms4g $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE
 # include latest course reserves data
 JRUBY_OPTS="--1.9"
 export JRUBY_OPTS
-#/usr/local/rvm/wrappers/jruby-1.6.7\@crez-sw-ingest /home/blacklight/crez-sw-ingest/bin/pull_and_index_latest -s prod
-source /home/blacklight/crez-sw-ingest/bin/index_latest.sh -s prod
+( cd /home/blacklight/crez-sw-ingest && ./bin/index_latest_no_email.sh -s prod ) > /tmp/out 2>&1
 
 
 echo " "
