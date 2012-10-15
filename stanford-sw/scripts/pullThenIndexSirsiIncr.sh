@@ -1,4 +1,4 @@
-#! /bin/bash -vx
+#! /bin/bash 
 # pullThenIndexSirsiIncr.sh
 # Pull over the latest incremental update files from Sirsi, then
 #  Remove deleted records (per file of ids) from index and update index (with marc records in file)
@@ -46,20 +46,21 @@ CP=$SITE_JAR:$DIST_DIR:$DIST_DIR/lib
 # create log directory
 LOG_DIR=$LATEST_DATA_DIR/logs
 mkdir -p $LOG_DIR
+LOG_FILE=$LOG_DIR/$RECORDS_FNAME".txt"
 
 REC_FNAME=$LATEST_DATA_DIR/$RECORDS_FNAME
 DEL_ARG="-Dmarc.ids_to_delete="$LATEST_DATA_DIR/$DEL_KEYS_FNAME
 
 # index the files
-nohup java -Xmx4g -Xms4g $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
+nohup java -Xmx4g -Xms4g $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_FILE
+# email the results
+mail -s 'pullThenIndexSirsiIncr.sh output' searchworks-reports@lists.stanford.edu, datacontrol@stanford.edu < $LOG_FILE
+# email the solr log messages 
+./grep_and_email_tomcat_log.sh
 
 # include latest course reserves data
 JRUBY_OPTS="--1.9"
 export JRUBY_OPTS
-( cd /home/blacklight/crez-sw-ingest && ./bin/index_latest_no_email.sh -s prod ) > /tmp/out 2>&1
-
-
-echo " "
-cat $LOG_DIR/$RECORDS_FNAME".txt"
+( cd /home/blacklight/crez-sw-ingest && ./bin/index_latest_no_email.sh -s prod )
 
 exit 0
