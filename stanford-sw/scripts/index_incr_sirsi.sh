@@ -34,14 +34,17 @@ CP=$SITE_JAR:$DIST_DIR:$DIST_DIR/lib
 # create log directory
 LOG_DIR=$RAW_DATA_DIR/logs
 mkdir -p $LOG_DIR
+LOG_FILE=$LOG_DIR/$RECORDS_FNAME".txt"
 
 # index the files
-nohup java -Xmx4g -Xms4g $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
+nohup java -Xmx4g -Xms4g $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_FILE
+#mail -s 'pullThenIndexSirsiIncr.sh output' searchworks-reports@lists.stanford.edu, datacontrol@stanford.edu < $LOG_FILE
+# email the solr log messages 
+#./grep_and_email_tomcat_log.sh
 
 # include latest course reserves data
 JRUBY_OPTS="--1.9"
 export JRUBY_OPTS
-#/usr/local/rvm/wrappers/jruby-1.6.7\@crez-sw-ingest /home/blacklight/crez-sw-ingest/bin/pull_and_index_latest -s prod
-source /home/blacklight/crez-sw-ingest/bin/index_latest.sh -s prod
+( cd /home/blacklight/crez-sw-ingest && source ./.rvmrc && ./bin/pull_and_index_latest -s prod )
 
 exit 0
