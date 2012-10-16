@@ -40,7 +40,7 @@ LOG_FILE=$LOG_DIR/$RECORDS_FNAME".txt"
 nohup java -Xmx4g -Xms4g $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_FILE
 #mail -s 'pullThenIndexSirsiIncr.sh output' searchworks-reports@lists.stanford.edu, datacontrol@stanford.edu < $LOG_FILE
 # email the solr log messages 
-#./grep_and_email_tomcat_log.sh
+#$SOLRMARC_BASEDIR/stanford-sw/scripts/grep_and_email_tomcat_log.sh
 
 # include latest course reserves data
 JRUBY_OPTS="--1.9"

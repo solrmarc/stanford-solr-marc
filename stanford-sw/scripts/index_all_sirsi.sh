@@ -67,9 +67,9 @@ echo "!!! RUN SEARCHWORKS TESTS before putting index into production !!!"
 echo "!!! CHGRP before putting index into production !!!"
 
 # email the log files
-#cat $LOG_DIR/log* | mailx -s 'full reindex log messages' datacontrol@stanford.edu
+#cat $LOG_DIR/log* | mailx -s 'full reindex log messages' cmullin@stanford.edu
 
 # email the solr log messages
-#./grep_and_email_tomcat_log.sh
+#$SOLRMARC_BASEDIR/stanford-sw/scripts/grep_and_email_tomcat_log.sh
 
 exit 0
