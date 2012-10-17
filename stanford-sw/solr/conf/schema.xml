@@ -13,12 +13,6 @@
     <field name="last_updated" type="date" indexed="true" stored="true" default="NOW/SECOND" />
     <!-- entire marc bib record -->
     <field name="marcxml" type="string" indexed="false" stored="true" />
-    <!-- collection field: facet and display -->
-    <field name="collection" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
-    <!-- collection: allow searching within collections for aggr. colls -->
-    <field name="collection_search" type="string_punct_stop" indexed="true" stored="false" multiValued="true" omitNorms="true" />
-    <!-- display_type is a hidden facet for "views" e.g. Images, Maps ... -->
-    <field name="display_type" type="string" indexed="true" stored="false" multiValued="true" omitNorms="true" />
     <!-- the catch-all field for all text -->
     <field name="all_search" type="text" indexed="true" stored="false" />
 
@@ -224,6 +218,12 @@
     <!-- *************** additional fields for DOR objects  ****************** -->
     <field name="druid" type="string" indexed="true" stored="true" />
     <field name="modsxml" type="string" indexed="false" stored="true" />
+    <!-- collection field: facet and display -->
+    <field name="collection" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
+    <!-- collection_search: allow searching within collections for aggr. colls -->
+    <field name="collection_search" type="string_punct_stop" indexed="true" stored="false" multiValued="true" omitNorms="true" />
+    <!-- display_type is a hidden facet for "views" e.g. Images, Maps ... -->
+    <field name="display_type" type="string" indexed="true" stored="false" multiValued="true" omitNorms="true" />
     <field name="collection_type" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="collection_with_title" type="string" indexed="false" stored="true" multiValued="true" />
     <field name="img_info" type="string" indexed="false" stored="true" multiValued="true"/>
