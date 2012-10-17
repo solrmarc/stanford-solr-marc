@@ -406,7 +406,8 @@
       <str name="facet.field">collection</str>
         <str name="f.collection.facet.method">enum</str>
       <str name="facet.field">db_az_subject</str>
-        <int name="f.db_az_subject.facet.limit">-1</int>  <!-- also implies index sort -->
+        <str name="f.db_az_subject.facet.sort">index</str>
+        <int name="f.db_az_subject.facet.limit">-1</int>
       <str name="facet.field">display_type</str>
         <str name="f.display_type.facet.method">enum</str>
       <str name="facet.field">era_facet</str>
