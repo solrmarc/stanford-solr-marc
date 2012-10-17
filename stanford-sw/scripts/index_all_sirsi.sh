@@ -61,7 +61,7 @@ curl http://sw-solr-gen:8983/solr/update?commit=true -H 'Content-type:text/xml; 
 # include latest course reserves data if not doing incr updates immediately
 JRUBY_OPTS="--1.9"
 export JRUBY_OPTS
-#( cd /home/blacklight/crez-sw-ingest && source ./.rvmrc && ./bin/pull_and_index_latest -s prod )
+#(source /usr/local/rvm/scripts/rvm && cd /home/blacklight/crez-sw-ingest && source ./.rvmrc && ./bin/pull_and_index_latest -s prod )
 
 echo "!!! RUN SEARCHWORKS TESTS before putting index into production !!!"
 echo "!!! CHGRP before putting index into production !!!"

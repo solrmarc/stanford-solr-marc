@@ -61,6 +61,6 @@ $SOLRMARC_BASEDIR/stanford-sw/scripts/grep_and_email_tomcat_log.sh
 # include latest course reserves data
 JRUBY_OPTS="--1.9"
 export JRUBY_OPTS
-( cd /home/blacklight/crez-sw-ingest && source ./.rvmrc && ./bin/index_latest_no_email.sh -s prod )
+(source /usr/local/rvm/scripts/rvm && cd /home/blacklight/crez-sw-ingest && source ./.rvmrc && ./bin/index_latest_no_email.sh -s prod)
 
 exit 0
