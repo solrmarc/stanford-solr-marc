@@ -45,6 +45,9 @@ nohup java -Xmx4g -Xms4g $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE
 # include latest course reserves data
 JRUBY_OPTS="--1.9"
 export JRUBY_OPTS
+LANG="en_US.UTF-8"
+export LANG
+
 (source /usr/local/rvm/scripts/rvm && cd /home/blacklight/crez-sw-ingest && source ./.rvmrc && ./bin/pull_and_index_latest -s prod )
 
 exit 0
