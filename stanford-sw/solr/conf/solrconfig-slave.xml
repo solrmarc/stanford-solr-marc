@@ -257,9 +257,6 @@
         collection_search
         medium
         all_search
-<!-- callnum_search removed so searches with stopwords can have matches
-        callnum_search
--->
       </str>
       <str name="qf_exact">
         title_245a_unstem_search^100000
@@ -442,7 +439,6 @@
         geographic_search^100          vern_geographic_search^100
         subject_other_unstem_search^75
         subject_other_search^50        vern_subject_other_search^50
-
         topic_subx_unstem_search^10
         geographic_subz_unstem_search^10
         subject_other_subvy_unstem_search^10
@@ -485,7 +481,6 @@
         geographic_search^1000         vern_geographic_search^1000
         subject_other_unstem_search^750
         subject_other_search^500       vern_subject_other_search^500
-
         topic_subx_unstem_search^25
         geographic_subz_unstem_search^25
         subject_other_subvy_unstem_search^25
@@ -944,402 +939,6 @@
     </lst>
   </requestHandler>
 
-  <!-- deprecated 2012-09-24: use search instead;  series search request handler -->
-  <requestHandler name="search_series" class="solr.SearchHandler" >
-    <lst name="defaults">
-      <str name="defType">dismax</str>
-      <str name="echoParams">explicit</str>
-      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
-      <str name="q.alt">*:*</str>
-      <int name="qs">1</int>
-      <str name="mm">6&lt;-1 6&lt;90%</str>
-
-      <str name="qf">series_search     vern_series_search</str>
-      <str name="pf">series_search^20  vern_series_search^20</str>
-
-      <int name="ps">0</int>
-      <float name="tie">0.01</float>
-
-      <bool name="facet">true</bool>
-      <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int>
-      <str name="facet.field">access_facet</str>
-        <str name="f.access_facet.facet.method">enum</str>
-      <str name="facet.field">author_person_facet</str>
-      <str name="facet.field">author_other_facet</str>
-      <str name="facet.field">building_facet</str>
-        <str name="f.building_facet.facet.method">enum</str>
-      <str name="facet.field">callnum_top_facet</str>
-        <str name="f.callnum_top_facet.facet.method">enum</str>
-        <str name="facet.field">lc_alpha_facet</str>
-          <str name="f.lc_alpha_facet.facet.method">enum</str>
-        <str name="facet.field">lc_b4cutter_facet</str>
-        <str name="facet.field">dewey_1digit_facet</str>
-          <str name="f.dewey_1digit_facet.facet.method">enum</str>
-        <str name="facet.field">dewey_2digit_facet</str>
-        <str name="facet.field">dewey_b4cutter_facet</str>
-        <str name="facet.field">gov_doc_type_facet</str>
-          <str name="f.gov_doc_type_facet.facet.method">enum</str>
-      <str name="facet.field">collection</str>
-        <str name="f.collection.facet.method">enum</str>
-      <str name="facet.field">db_az_subject</str>
-        <str name="f.db_az_subject.facet.sort">false</str>
-      <str name="facet.field">display_type</str>
-        <str name="f.display_type.facet.method">enum</str>
-      <str name="facet.field">era_facet</str>
-      <str name="facet.field">format</str>
-        <str name="f.format.facet.method">enum</str>
-      <str name="facet.field">geographic_facet</str>
-      <str name="facet.field">language</str>
-      <str name="facet.field">pub_date_group_facet</str>
-        <str name="f.pub_date_group_facet.facet.method">enum</str>
-      <str name="facet.field">pub_date</str>
-      <str name="facet.field">topic_facet</str>
-
-      <str name="fl">
-        score,
-        id,
-        author_corp_display,
-        author_meeting_display,
-        author_person_display,
-        author_person_full_display,
-        collection,
-        crez_course_info,
-        db_az_subject,
-        format,
-        img_info,
-        isbn_display,
-        item_display,
-        lccn,
-        mhld_display,
-        oclc,
-        physical,
-        pub_date,
-        summary_display,
-        title_245a_display,
-        title_245c_display,
-        title_display,
-        title_full_display,
-        title_uniform_display,
-        url_fulltext,
-        url_restricted,
-        url_suppl,
-        url_sfx,
-        vern_author_corp_display,
-        vern_author_meeting_display,
-        vern_author_person_display,
-        vern_author_person_full_display,
-        vern_physical,
-        vern_title_245a_display,
-        vern_title_245c_display,
-        vern_title_display,
-        vern_title_uniform_display
-      </str>
-    </lst>
-  </requestHandler>
-
-  <!-- deprecated 2012-09-24: use search instead;  callnum search request handler -->
-  <requestHandler name="search_callnum" class="solr.SearchHandler" >
-    <lst name="defaults">
-      <str name="echoParams">explicit</str>
-      <int name="rows">20</int>
-      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
-      <str name="defType">lucene</str>
-      <str name="df">callnum_search</str>
-      <str name="q.op">AND</str>
-
-      <bool name="facet">true</bool>
-      <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int>
-      <str name="facet.field">access_facet</str>
-        <str name="f.access_facet.facet.method">enum</str>
-      <str name="facet.field">author_person_facet</str>
-      <str name="facet.field">author_other_facet</str>
-      <str name="facet.field">building_facet</str>
-        <str name="f.building_facet.facet.method">enum</str>
-      <str name="facet.field">callnum_top_facet</str>
-        <str name="f.callnum_top_facet.facet.method">enum</str>
-        <str name="facet.field">lc_alpha_facet</str>
-          <str name="f.lc_alpha_facet.facet.method">enum</str>
-        <str name="facet.field">lc_b4cutter_facet</str>
-        <str name="facet.field">dewey_1digit_facet</str>
-          <str name="f.dewey_1digit_facet.facet.method">enum</str>
-        <str name="facet.field">dewey_2digit_facet</str>
-        <str name="facet.field">dewey_b4cutter_facet</str>
-        <str name="facet.field">gov_doc_type_facet</str>
-          <str name="f.gov_doc_type_facet.facet.method">enum</str>
-      <str name="facet.field">collection</str>
-        <str name="f.collection.facet.method">enum</str>
-      <str name="facet.field">db_az_subject</str>
-        <str name="f.db_az_subject.facet.sort">false</str>
-      <str name="facet.field">display_type</str>
-        <str name="f.display_type.facet.method">enum</str>
-      <str name="facet.field">era_facet</str>
-      <str name="facet.field">format</str>
-        <str name="f.format.facet.method">enum</str>
-      <str name="facet.field">geographic_facet</str>
-      <str name="facet.field">language</str>
-      <str name="facet.field">pub_date_group_facet</str>
-        <str name="f.pub_date_group_facet.facet.method">enum</str>
-      <str name="facet.field">pub_date</str>
-      <str name="facet.field">topic_facet</str>
-
-      <str name="fl">
-        score,
-        id,
-        author_corp_display,
-        author_meeting_display,
-        author_person_display,
-        author_person_full_display
-        collection,
-        crez_course_info,
-        db_az_subject,
-        format,
-        img_info,
-        isbn_display,
-        item_display,
-        lccn,
-        mhld_display,
-        oclc,
-        physical,
-        pub_date,
-        summary_display,
-        title_245a_display,
-        title_245c_display,
-        title_display,
-        title_full_display,
-        title_uniform_display,
-        url_fulltext,
-        url_restricted,
-        url_suppl,
-        url_sfx,
-        vern_author_corp_display,
-        vern_author_meeting_display,
-        vern_author_person_display,
-        vern_author_person_full_display,
-        vern_physical,
-        vern_title_245a_display,
-        vern_title_245c_display,
-        vern_title_display,
-        vern_title_uniform_display
-      </str>
-    </lst>
-  </requestHandler>
-
-
-  <!--  deprecated 2012-10-08: use search instead -->
-  <requestHandler name="search_local_params" class="solr.SearchHandler">
-    <lst name="defaults">
-      <str name="defType">lucene</str>
-      <str name="echoParams">explicit</str>
-      <int name="rows">20</int>
-      <str name="df">all_search</str>
-      <str name="q.op">AND</str>
-      <int name="qs">1</int>
-      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
-
-      <!-- used for dismax query parser -->
-      <str name="mm">6&lt;-1 6&lt;90%</str>
-      <int name="ps">0</int>
-      <float name="tie">0.01</float>
-      <str name="q.alt">*:*</str>
-      <str name="qf">
-        title_245a_unstem_search^100000
-        title_245a_search^75000        vern_title_245a_search^75000
-        title_245_unstem_search^50000
-        title_245_search^30000         vern_title_245_search^30000
-        title_uniform_unstem_search^10000
-        title_uniform_search^2500      vern_title_uniform_search^2500
-        title_variant_unstem_search^2225
-        title_variant_search^2000      vern_title_variant_search^2000
-        title_related_unstem_search^1750
-        title_related_search^1250      vern_title_related_search^1250
-
-        topic_unstem_search^1200
-        topic_search^1000              vern_topic_search^1000
-        geographic_unstem_search^900
-        geographic_search^750          vern_geographic_search^750
-
-        author_1xx_unstem_search^700
-        author_7xx_unstem_search^700
-        author_8xx_unstem_search^700
-        author_1xx_search^500          vern_author_1xx_search^500
-
-        subject_other_unstem_search^650
-        subject_other_search^500       vern_subject_other_search^500
-
-        author_7xx_search^125          vern_author_7xx_search^125
-
-        toc_unstem_search^120
-        toc_search^100                 vern_toc_search^100
-
-        author_8xx_search^50           vern_author_8xx_search^50
-
-        series_search^30               vern_series_search^30
-
-        topic_subx_unstem_search^29
-        geographic_subz_unstem_search^29
-        subject_other_subvy_unstem_search^29
-        subject_all_unstem_search^29
-        topic_subx_search^25           vern_topic_subx_search^25
-        geographic_subz_search^25      vern_geographic_subz_search^25
-        subject_other_subvy_search^25  vern_subject_other_subvy_search^25
-        subject_all_search^10          vern_subject_all_search^10
-        db_az_subject_search
-
-        pub_date_search^10
-        isbn_search^2
-        issn_search^2
-        physical                       vern_physical
-        award_search
-        all_search
-        id
-        oclc
-        barcode_search
-        collection_search
-        medium
-<!-- callnum_search removed so searches with stopwords can have matches
-        callnum_search
--->
-      </str>
-      <str name="pf">
-        title_245a_unstem_search^300000
-        title_245a_search^250000        vern_title_245a_search^250000
-        title_245_unstem_search^100000
-        title_245_search^70000         vern_title_245_search^70000
-        title_uniform_unstem_search^65000
-        title_variant_unstem_search^64000
-        title_uniform_search^60000     vern_title_uniform_search^60000
-        title_variant_search^40000     vern_title_variant_search^40000
-        title_related_unstem_search^7500
-        title_related_search^2500      vern_title_related_search^2500
-
-        topic_unstem_search^2400
-        topic_search^2000              vern_topic_search^2000
-        geographic_unstem_search^1750
-        geographic_search^1500         vern_geographic_search^1500
-
-        author_1xx_unstem_search^1400
-        subject_other_unstem_search^1400
-        author_1xx_search^1000         vern_author_1xx_search^1000
-        subject_other_search^1000      vern_subject_other_search^1000
-        author_7xx_unstem_search^900
-        author_7xx_search^750          vern_author_7xx_search^750
-        toc_unstem_search^500
-        toc_search^250                 vern_toc_search^250
-        author_8xx_unstem_search^200
-        author_8xx_search^100          vern_author_8xx_search^100
-        series_search^75               vern_series_search^75
-        topic_subx_unstem_search^50
-        geographic_subz_unstem_search^50
-        subject_other_subvy_unstem_search^50
-        subject_all_unstem_search^50
-        topic_subx_search^25           vern_topic_subx_search^25
-        geographic_subz_search^25      vern_geographic_subz_search^25
-        subject_other_subvy_search^25  vern_subject_other_subvy_search^25
-        subject_all_search^25          vern_subject_all_search^25
-        db_az_subject_search^25
-
-        pub_date_search^2
-        physical^2                     vern_physical^2
-        award_search^20
-        collection_search^20
-        medium^20
-        all_search^2
-      </str>
-
-      <str name="qf_crez">
-      	crez_instructor_search
-      	crez_course_name_search
-        crez_course_id_search
-      </str>
-      <str name="pf_crez">
-      	crez_instructor_search^20
-      	crez_course_name_search^20
-      </str>
-      <str name="sort_crez">score desc, title_sort asc, pub_date_sort desc</str>
-
-      <bool name="facet">true</bool>
-      <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int>
-      <str name="facet.field">access_facet</str>
-        <str name="f.access_facet.facet.method">enum</str>
-      <str name="facet.field">author_person_facet</str>
-      <str name="facet.field">author_other_facet</str>
-      <str name="facet.field">building_facet</str>
-        <str name="f.building_facet.facet.method">enum</str>
-      <str name="facet.field">callnum_top_facet</str>
-        <str name="f.callnum_top_facet.facet.method">enum</str>
-        <str name="facet.field">lc_alpha_facet</str>
-          <str name="f.lc_alpha_facet.facet.method">enum</str>
-        <str name="facet.field">lc_b4cutter_facet</str>
-        <str name="facet.field">dewey_1digit_facet</str>
-          <str name="f.dewey_1digit_facet.facet.method">enum</str>
-        <str name="facet.field">dewey_2digit_facet</str>
-        <str name="facet.field">dewey_b4cutter_facet</str>
-        <str name="facet.field">gov_doc_type_facet</str>
-          <str name="f.gov_doc_type_facet.facet.method">enum</str>
-      <str name="facet.field">collection</str>
-        <str name="f.collection.facet.method">enum</str>
-      <str name="facet.field">db_az_subject</str>
-        <str name="f.db_az_subject.facet.sort">false</str>
-      <str name="facet.field">display_type</str>
-        <str name="f.display_type.facet.method">enum</str>
-      <str name="facet.field">era_facet</str>
-      <str name="facet.field">format</str>
-        <str name="f.format.facet.method">enum</str>
-      <str name="facet.field">geographic_facet</str>
-      <str name="facet.field">language</str>
-      <str name="facet.field">pub_date_group_facet</str>
-        <str name="f.pub_date_group_facet.facet.method">enum</str>
-      <str name="facet.field">pub_date</str>
-      <str name="facet.field">pub_date_i</str>
-        <str name="f.pub_date_i.facet.sort">index</str>
-      <str name="facet.field">topic_facet</str>
-
-      <str name="fl">
-        score,
-        id,
-        author_corp_display,
-        author_meeting_display,
-        author_person_display,
-        author_person_full_display,
-        collection,
-        crez_course_info,
-        db_az_subject,
-        format,
-        img_info,
-        isbn_display,
-        item_display,
-        lccn,
-        mhld_display,
-        oclc,
-        physical,
-        pub_date,
-        summary_display,
-        title_245a_display,
-        title_245c_display,
-        title_display,
-        title_full_display,
-        title_uniform_display,
-        url_fulltext,
-        url_restricted,
-        url_suppl,
-        url_sfx,
-        vern_author_corp_display,
-        vern_author_meeting_display,
-        vern_author_person_display,
-        vern_author_person_full_display,
-        vern_physical,
-        vern_title_245a_display,
-        vern_title_245c_display,
-        vern_title_display,
-        vern_title_uniform_display
-      </str>
-
-    </lst>
-  </requestHandler>
-
   <!-- advanced search requests; use q=_query_:"{!dismax qf=$qf1 pf=$pf1 mm=$mm ps=$ps tie=$tie}[transformed-q1] AND query_:"{!dismax qf=$qf2 pf=$pf2}[transformed-q2] -->
   <!-- 2012-10: cannot fold this into single request handler because the SearchWorks app also uses the qt=advanced param as a flag for advanced search UI behaviors  -->
   <requestHandler name="advanced" class="solr.SearchHandler" >
@@ -1443,7 +1042,6 @@
         geographic_search^100          vern_geographic_search^100
         subject_other_unstem_search^75
         subject_other_search^50        vern_subject_other_search^50
-
         topic_subx_unstem_search^10
         geographic_subz_unstem_search^10
         subject_other_subvy_unstem_search^10
@@ -1486,7 +1084,6 @@
         geographic_search^1000         vern_geographic_search^1000
         subject_other_unstem_search^750
         subject_other_search^500       vern_subject_other_search^500
-
         topic_subx_unstem_search^25
         geographic_subz_unstem_search^25
         subject_other_subvy_unstem_search^25
@@ -1500,14 +1097,12 @@
 
       <!-- for user query terms in publisher text box -->
       <str name="qf_pub_info">
-        pub_search
-        vern_pub_search
+        pub_search                     vern_pub_search
         pub_country
         pub_date_search
       </str>
       <str name="pf_pub_info">
-        pub_search^10
-        vern_pub_search^10
+        pub_search^10                  vern_pub_search^10
         pub_country^10
         pub_date_search^10
       </str>
@@ -1528,22 +1123,16 @@
       <!-- for user query terms in summary text box -->
       <str name="qf_summary">
         toc_unstem_search^10
-        toc_search
-        vern_toc_search
+        toc_search                     vern_toc_search
         context_unstem_search^10
-        context_search
-        vern_context_search
+        context_search                 vern_context_search
         summary_unstem_search^10
-        summary_search
-        vern_summary_search
+        summary_search                 vern_summary_search
       </str>
       <str name="qf_summary_exact">
-        toc_unstem_search^10
-        vern_toc_search
-        context_unstem_search^10
-        vern_context_search
-        summary_unstem_search^10
-        vern_summary_search
+        toc_unstem_search^10           vern_toc_search
+        context_unstem_search^10       vern_context_search
+        summary_unstem_search^10       vern_summary_search
       </str>
       <str name="qf_summary_exact2">
         toc_unstem_search^10
@@ -1552,14 +1141,11 @@
       </str>
       <str name="pf_summary">
         toc_unstem_search^100
-        toc_search^20
-        vern_toc_search^20
+        toc_search^20                  vern_toc_search^20
         context_unstem_search^100
-        context_search^20
-        vern_context_search^20
+        context_search^20              vern_context_search^20
         summary_unstem_search^100
-        summary_search^20
-        vern_summary_search^20
+        summary_search^20              vern_summary_search^20
       </str>
 
       <!-- for user query terms in description text box -->
@@ -1683,94 +1269,14 @@
   </requestHandler>
 
   <!-- basic defType=lucene request handler -->
-  <!-- TODO:  2012-10-08:  simplify, simplify, simplify per no-repl
-    standard request handler used for nearby-on-shelf ... and by solr_wrapper gem
-    looking for set of documents matching a set of values for a field -->
   <requestHandler name="standard" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">lucene</str>
       <str name="echoParams">explicit</str>
-      <int name="rows">20</int>
       <str name="df">all_search</str>
       <str name="q.op">AND</str>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
-      <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
-      <int name="facet.limit">30</int>
-      <str name="facet.field">access_facet</str>
-        <str name="f.access_facet.facet.method">enum</str>
-      <str name="facet.field">author_person_facet</str>
-      <str name="facet.field">author_other_facet</str>
-      <str name="facet.field">building_facet</str>
-        <str name="f.building_facet.facet.method">enum</str>
-      <str name="facet.field">callnum_top_facet</str>
-        <str name="f.callnum_top_facet.facet.method">enum</str>
-        <str name="facet.field">lc_alpha_facet</str>
-          <str name="f.lc_alpha_facet.facet.method">enum</str>
-        <str name="facet.field">lc_b4cutter_facet</str>
-        <str name="facet.field">dewey_1digit_facet</str>
-          <str name="f.dewey_1digit_facet.facet.method">enum</str>
-        <str name="facet.field">dewey_2digit_facet</str>
-        <str name="facet.field">dewey_b4cutter_facet</str>
-        <str name="facet.field">gov_doc_type_facet</str>
-          <str name="f.gov_doc_type_facet.facet.method">enum</str>
-      <str name="facet.field">collection</str>
-        <str name="f.collection.facet.method">enum</str>
-      <str name="facet.field">db_az_subject</str>
-        <str name="f.db_az_subject.facet.sort">index</str>
-        <int name="f.db_az_subject.facet.limit">-1</int>
-      <str name="facet.field">display_type</str>
-        <str name="f.display_type.facet.method">enum</str>
-      <str name="facet.field">era_facet</str>
-      <str name="facet.field">format</str>
-        <str name="f.format.facet.method">enum</str>
-      <str name="facet.field">geographic_facet</str>
-      <str name="facet.field">language</str>
-      <str name="facet.field">pub_date_group_facet</str>
-        <str name="f.pub_date_group_facet.facet.method">enum</str>
-      <str name="facet.field">pub_date</str>
-      <str name="facet.field">topic_facet</str>
-
-      <str name="fl">
-        score,
-        id,
-        author_corp_display,
-        author_meeting_display,
-        author_person_display,
-        author_person_full_display,
-        collection,
-        crez_course_info,
-        db_az_subject,
-        format,
-        img_info,
-        isbn_display,
-        item_display,
-        lccn,
-        marcxml,
-        mhld_display,
-        oclc,
-        physical,
-        pub_date,
-        summary_display,
-        title_245a_display,
-        title_245c_display,
-        title_display,
-        title_full_display,
-        title_uniform_display,
-        url_fulltext,
-        url_restricted,
-        url_suppl,
-        url_sfx,
-        vern_author_corp_display,
-        vern_author_meeting_display,
-        vern_author_person_display,
-        vern_author_person_full_display,
-        vern_physical,
-        vern_title_245a_display,
-        vern_title_245c_display,
-        vern_title_display,
-        vern_title_uniform_display
-      </str>
     </lst>
   </requestHandler>
 
