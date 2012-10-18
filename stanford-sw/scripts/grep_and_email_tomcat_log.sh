@@ -1,2 +1,2 @@
 #! /bin/bash
-grep 'ERROR\|WARN\|FATAL' /var/log/tomcat6/catalina.out | mail -s 'solr log warning, error and fatal messages' searchworks-reports@lists.stanford.edu, datacontrol@stanford.edu
+grep 'ERROR\|FATAL' /var/log/tomcat6/catalina.out | tac | mail -s 'solr log error and fatal messages' searchworks-reports@lists.stanford.edu, datacontrol@stanford.edu
