@@ -19,7 +19,7 @@
     <useCompoundFile>false</useCompoundFile>
     <ramBufferSizeMB>128</ramBufferSizeMB>
     <mergeFactor>10</mergeFactor>
-    <lockType>native</lockType>
+    <lockType>simple</lockType>
     <unlockOnStartup>false</unlockOnStartup>
     <reopenReaders>true</reopenReaders>
     <deletionPolicy class="solr.SolrDeletionPolicy">
