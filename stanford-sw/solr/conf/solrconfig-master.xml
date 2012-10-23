@@ -106,6 +106,7 @@
         toc_unstem_search^120
         toc_search^100                 vern_toc_search^100
         author_8xx_search^50           vern_author_8xx_search^50
+        series_unstem_search^40
         series_search^30               vern_series_search^30
         topic_subx_unstem_search^29
         geographic_subz_unstem_search^29
@@ -117,6 +118,7 @@
         subject_all_search^10          vern_subject_all_search^10
         db_az_subject_search
         pub_date_search^10
+        all_unstem_search^5
         isbn_search^2
         issn_search^2
         physical                       vern_physical
@@ -153,6 +155,7 @@
         toc_search^250                 vern_toc_search^250
         author_8xx_unstem_search^200
         author_8xx_search^100          vern_author_8xx_search^100
+        series_unstem_search^85
         series_search^75               vern_series_search^75
         topic_subx_unstem_search^50
         geographic_subz_unstem_search^50
@@ -164,6 +167,7 @@
         subject_all_search^25          vern_subject_all_search^25
         db_az_subject_search^25
         pub_date_search^2
+        all_unstem_search^10
         physical^2                     vern_physical^2
         award_search^20
         collection_search^20
@@ -182,6 +186,7 @@
         title_variant_search^50     vern_title_variant_search^50
         title_related_unstem_search^45
         title_related_search^5      vern_title_related_search^5
+        series_unstem_search^2
         series_search               vern_series_search
       </str>
       <str name="pf_title">
@@ -195,6 +200,7 @@
         title_variant_search^200      vern_title_variant_search^200
         title_related_unstem_search^175
         title_related_search^150      vern_title_related_search^150
+        series_unstem_search^100
         series_search^75              vern_series_search^75
       </str>
 
