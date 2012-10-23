@@ -15,6 +15,7 @@
     <field name="marcxml" type="string" indexed="false" stored="true" />
     <!-- the catch-all field for all text -->
     <field name="all_search" type="text" indexed="true" stored="false" />
+    <field name="all_unstem_search" type="textNoStem" indexed="true" stored="false" />
 
     <!-- Format Field: facet and display -->
     <field name="format" type="string" indexed="true" stored="true" multiValued="true" />
@@ -69,6 +70,7 @@
     <!-- Series Search Fields -->
     <field name="series_search" type="text" indexed="true" stored="false" multiValued="true" />
     <field name="vern_series_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
+    <field name="series_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
 
     <!-- Author Title Search Fields -->
     <field name="author_title_search" type="text" indexed="true" stored="false" multiValued="true" />
@@ -278,11 +280,13 @@
   <copyField source="subject_other_search" dest="subject_other_unstem_search" />
   <copyField source="subject_other_subvy_search" dest="subject_other_subvy_unstem_search" />
   <copyField source="subject_all_search" dest="subject_all_unstem_search" />
-
   <!-- unstemmed search fields: toc/summary -->
   <copyField source="toc_search" dest="toc_unstem_search" />
   <copyField source="context_search" dest="context_unstem_search" />
   <copyField source="summary_search" dest="summary_unstem_search" />
+  <!--  other unstemmed search fields -->
+  <copyField source="series_search" dest="series_unstem_search" />
+  <copyField source="all_search" dest="all_unstem_search" />
 
   <!-- course reserve fields -->
   <copyField source="crez_instructor_search" dest="instructor" />
