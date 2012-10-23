@@ -236,6 +236,7 @@
         toc_unstem_search^120
         toc_search^100                 vern_toc_search^100
         author_8xx_search^50           vern_author_8xx_search^50
+        series_unstem_search^40
         series_search^30               vern_series_search^30
         topic_subx_unstem_search^29
         geographic_subz_unstem_search^29
@@ -247,6 +248,7 @@
         subject_all_search^10          vern_subject_all_search^10
         db_az_subject_search
         pub_date_search^10
+        all_unstem_search^5
         isbn_search^2
         issn_search^2
         physical                       vern_physical
@@ -258,7 +260,7 @@
         medium
         all_search
       </str>
-      <str name="qf_exact">
+      <str name="qf_no_stem">
         title_245a_unstem_search^100000
          vern_title_245a_search^75000
         title_245_unstem_search^50000
@@ -283,6 +285,7 @@
         toc_unstem_search^120
          vern_toc_search^100
          vern_author_8xx_search^50
+        series_unstem_search^40
          vern_series_search^30
         topic_subx_unstem_search^29
         geographic_subz_unstem_search^29
@@ -292,25 +295,8 @@
          vern_geographic_subz_search^25
          vern_subject_other_subvy_search^25
          vern_subject_all_search^10
+         all_unstem_search^5
          vern_physical
-      </str>
-      <str name="qf_exact2">
-        title_245a_unstem_search^100000
-        title_245_unstem_search^50000
-        title_uniform_unstem_search^10000
-        title_variant_unstem_search^2225
-        title_related_unstem_search^1750
-        topic_unstem_search^1200
-        geographic_unstem_search^900
-        author_1xx_unstem_search^700
-        author_7xx_unstem_search^700
-        author_8xx_unstem_search^700
-        subject_other_unstem_search^650
-        toc_unstem_search^120
-        topic_subx_unstem_search^29
-        geographic_subz_unstem_search^29
-        subject_other_subvy_unstem_search^29
-        subject_all_unstem_search^29
       </str>
       <str name="pf">
         title_245a_unstem_search^300000
@@ -337,6 +323,7 @@
         toc_search^250                 vern_toc_search^250
         author_8xx_unstem_search^200
         author_8xx_search^100          vern_author_8xx_search^100
+        series_unstem_search^85
         series_search^75               vern_series_search^75
         topic_subx_unstem_search^50
         geographic_subz_unstem_search^50
@@ -348,6 +335,7 @@
         subject_all_search^25          vern_subject_all_search^25
         db_az_subject_search^25
         pub_date_search^2
+        all_unstem_search^10
         physical^2                     vern_physical^2
         award_search^20
         collection_search^20
@@ -366,9 +354,10 @@
         title_variant_search^50     vern_title_variant_search^50
         title_related_unstem_search^45
         title_related_search^5      vern_title_related_search^5
+        series_unstem_search^2
         series_search               vern_series_search
       </str>
-      <str name="qf_title_exact">
+      <str name="qf_title_no_stem">
         title_245a_unstem_search^50000
         title_245_unstem_search^25000
         title_uniform_unstem_search^10000
@@ -379,14 +368,8 @@
          vern_title_variant_search^50
         title_related_unstem_search^45
          vern_title_related_search^5
+        series_unstem_search^2
          vern_series_search
-      </str>
-      <str name="qf_title_exact2">
-        title_245a_unstem_search^50000
-        title_245_unstem_search^25000
-        title_uniform_unstem_search^10000
-        title_variant_unstem_search^150
-        title_related_unstem_search^45
       </str>
       <str name="pf_title">
         title_245a_unstem_search^200000
@@ -399,6 +382,7 @@
         title_variant_search^200      vern_title_variant_search^200
         title_related_unstem_search^175
         title_related_search^150      vern_title_related_search^150
+        series_unstem_search^100
         series_search^75              vern_series_search^75
       </str>
 
@@ -410,18 +394,13 @@
         author_7xx_search^5        vern_author_7xx_search^5
         author_8xx_search          vern_author_8xx_search
       </str>
-      <str name="qf_author_exact">
+      <str name="qf_author_no_stem">
         author_1xx_unstem_search^200
         author_7xx_unstem_search^50
         author_8xx_unstem_search^10
          vern_author_1xx_search^20
          vern_author_7xx_search^5
          vern_author_8xx_search
-      </str>
-      <str name="qf_author_exact2">
-        author_1xx_unstem_search^200
-        author_7xx_unstem_search^50
-        author_8xx_unstem_search^10
       </str>
       <str name="pf_author">
         author_1xx_unstem_search^5000
@@ -449,7 +428,7 @@
         subject_all_search             vern_subject_all_search
         db_az_subject_search
       </str>
-      <str name="qf_subject_exact">
+      <str name="qf_subject_no_stem">
         topic_unstem_search^500
         geographic_unstem_search^500
          vern_topic_search^100
@@ -464,15 +443,6 @@
          vern_geographic_subz_search
          vern_subject_other_subvy_search
          vern_subject_all_search
-      </str>
-      <str name="qf_subject_exact2">
-        topic_unstem_search^500
-        geographic_unstem_search^500
-        subject_other_unstem_search^75
-        topic_subx_unstem_search^10
-        geographic_subz_unstem_search^10
-        subject_other_subvy_unstem_search^10
-        subject_all_unstem_search^10
       </str>
       <str name="pf_subject">
         topic_unstem_search^5000
@@ -492,8 +462,16 @@
         db_az_subject_search^20
       </str>
 
-      <str name="qf_series">series_search     vern_series_search</str>
-      <str name="pf_series">series_search^20  vern_series_search^20</str>
+      <str name="qf_series">
+        series_unstem_search^5
+        series_search
+        vern_series_search
+      </str>
+      <str name="pf_series">
+        series_unstem_search^100
+        series_search^20
+        vern_series_search^20
+      </str>
 
       <str name="qf_crez">
       	crez_instructor_search
@@ -964,18 +942,13 @@
         author_7xx_search^5        vern_author_7xx_search^5
         author_8xx_search          vern_author_8xx_search
       </str>
-      <str name="qf_author_exact">
+      <str name="qf_author_no_stem">
         author_1xx_unstem_search^200
         author_7xx_unstem_search^50
         author_8xx_unstem_search^10
          vern_author_1xx_search^20
          vern_author_7xx_search^5
          vern_author_8xx_search
-      </str>
-      <str name="qf_author_exact2">
-        author_1xx_unstem_search^200
-        author_7xx_unstem_search^50
-        author_8xx_unstem_search^10
       </str>
       <str name="pf_author">
         author_1xx_unstem_search^5000
@@ -998,9 +971,10 @@
         title_variant_search^50     vern_title_variant_search^50
         title_related_unstem_search^45
         title_related_search^5      vern_title_related_search^5
+        series_unstem_search^2
         series_search               vern_series_search
       </str>
-      <str name="qf_title_exact">
+      <str name="qf_title_no_stem">
         title_245a_unstem_search^50000
         title_245_unstem_search^25000
         title_uniform_unstem_search^10000
@@ -1011,14 +985,8 @@
          vern_title_variant_search^50
         title_related_unstem_search^45
          vern_title_related_search^5
+        series_unstem_search^2
          vern_series_search
-      </str>
-      <str name="qf_title_exact2">
-        title_245a_unstem_search^50000
-        title_245_unstem_search^25000
-        title_uniform_unstem_search^10000
-        title_variant_unstem_search^150
-        title_related_unstem_search^45
       </str>
       <str name="pf_title">
         title_245a_unstem_search^200000
@@ -1031,6 +999,7 @@
         title_variant_search^200      vern_title_variant_search^200
         title_related_unstem_search^175
         title_related_search^150      vern_title_related_search^150
+        series_unstem_search^100
         series_search^75              vern_series_search^75
       </str>
 
@@ -1052,7 +1021,7 @@
         subject_all_search             vern_subject_all_search
         db_az_subject_search
       </str>
-      <str name="qf_subject_exact">
+      <str name="qf_subject_no_stem">
         topic_unstem_search^500
         geographic_unstem_search^500
          vern_topic_search^100
@@ -1067,15 +1036,6 @@
          vern_geographic_subz_search
          vern_subject_other_subvy_search
          vern_subject_all_search
-      </str>
-      <str name="qf_subject_exact2">
-        topic_unstem_search^500
-        geographic_unstem_search^500
-        subject_other_unstem_search^75
-        topic_subx_unstem_search^10
-        geographic_subz_unstem_search^10
-        subject_other_subvy_unstem_search^10
-        subject_all_unstem_search^10
       </str>
       <str name="pf_subject">
         topic_unstem_search^5000
@@ -1129,15 +1089,10 @@
         summary_unstem_search^10
         summary_search                 vern_summary_search
       </str>
-      <str name="qf_summary_exact">
+      <str name="qf_summary_no_stem">
         toc_unstem_search^10           vern_toc_search
         context_unstem_search^10       vern_context_search
         summary_unstem_search^10       vern_summary_search
-      </str>
-      <str name="qf_summary_exact2">
-        toc_unstem_search^10
-        context_unstem_search^10
-        summary_unstem_search^10
       </str>
       <str name="pf_summary">
         toc_unstem_search^100
@@ -1149,8 +1104,8 @@
       </str>
 
       <!-- for user query terms in description text box -->
-      <str name="qf_description">all_search</str>
-      <str name="pf_description">all_search^10</str>
+      <str name="qf_description">all_unstem_search^10 all_search</str>
+      <str name="pf_description">all_unstem_search^20 all_search^10</str>
 
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
