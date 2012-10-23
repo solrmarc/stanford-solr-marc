@@ -218,13 +218,15 @@
     <!-- *************** additional fields for DOR objects  ****************** -->
     <field name="druid" type="string" indexed="true" stored="true" />
     <field name="modsxml" type="string" indexed="false" stored="true" />
-    <!-- collection field: facet and display -->
+    <!-- collection (facet and display): "sirsi" or, for DOR items, the id of their parent coll -->
     <field name="collection" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <!-- collection_search: allow searching within collections for aggr. colls -->
     <field name="collection_search" type="string_punct_stop" indexed="true" stored="false" multiValued="true" omitNorms="true" />
-    <!-- display_type is a hidden facet for "views" e.g. Images, Maps ... -->
+    <!-- display_type is a hidden facet for "views" e.g. Images, Maps ...  (might be obsolete) -->
     <field name="display_type" type="string" indexed="true" stored="false" multiValued="true" omitNorms="true" />
+    <!--  used to determine when something is a digital collection -->
     <field name="collection_type" type="string" indexed="true" stored="true" multiValued="true" />
+    <!--  easy way to indicate collection's parent in UI (may be deprecated in future) -->
     <field name="collection_with_title" type="string" indexed="false" stored="true" multiValued="true" />
     <field name="img_info" type="string" indexed="false" stored="true" multiValued="true"/>
     <field name="access_condition_display" type="string" indexed="false" stored="true" multiValued="true" />
