@@ -998,6 +998,17 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	}
 
 	/**
+	 * fields in the 9xx range (not including control fields) that should be
+	 * indexed in allfields
+	 */
+	Set<String> keepers9xx = new HashSet<String>();
+	{
+		keepers9xx.add("905");
+		keepers9xx.add("920");
+		keepers9xx.add("986");
+	}
+
+	/**
 	 * Returns all subfield contents of all the data fields (non control fields)
 	 *  between 100 and 899 inclusive, as a single string
 	 *  plus the "keeper" fields
@@ -1010,8 +1021,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		List<DataField> dataFieldList = record.getDataFields();
 		for (DataField df : dataFieldList) {
 			String tag = df.getTag();
-			if (!tag.startsWith("9") && !tag.startsWith("0")
-					|| (tag.startsWith("0") && keepers0xx.contains(tag))) {
+			if ( (!tag.startsWith("0") || (tag.startsWith("0") && keepers0xx.contains(tag)))
+				&&
+				(!tag.startsWith("9") || (tag.startsWith("9") && keepers9xx.contains(tag))) 	)
+			{
 				List<Subfield> subfieldList = df.getSubfields();
 				for (Subfield sf : subfieldList) {
 					result.append(sf.getData() + " ");
