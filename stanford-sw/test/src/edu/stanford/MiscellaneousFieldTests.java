@@ -9,6 +9,7 @@ import org.apache.solr.common.SolrDocument;
 import org.xml.sax.SAXException;
 
 import org.junit.*;
+import org.marc4j.marc.*;
 
 import static org.junit.Assert.*;
 
@@ -106,6 +107,24 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest
         assertZeroResults(fldName, "EDATA");  // 946
         assertZeroResults(fldName, "pamphlet");  // 947
         assertZeroResults(fldName, "stacks");  // 999
+
+        // Except for 905, 920 and 986 (SW-814)
+		mappingTestInit();
+		MarcFactory factory = MarcFactory.newInstance();
+		Record record = factory.newRecord();
+        DataField df = factory.newDataField("905", ' ', ' ');
+        df.addSubfield(factory.newSubfield('a', "905a"));
+        df.addSubfield(factory.newSubfield('r', "905r"));
+        df.addSubfield(factory.newSubfield('t', "905t"));
+        record.addVariableField(df);
+        df = factory.newDataField("920", ' ', ' ');
+        df.addSubfield(factory.newSubfield('a', "920a"));
+        df.addSubfield(factory.newSubfield('b', "920b"));
+        record.addVariableField(df);
+        df = factory.newDataField("986", ' ', ' ');
+        df.addSubfield(factory.newSubfield('1', "986a"));
+        record.addVariableField(df);
+        solrFldMapTest.assertSolrFldValue(record, fldName, "905a 905r 905t 920a 920b 986a");
 	}
 
 
