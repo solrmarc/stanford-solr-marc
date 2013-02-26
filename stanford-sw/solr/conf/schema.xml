@@ -232,10 +232,6 @@
     <field name="collection_with_title" type="string" indexed="false" stored="true" multiValued="true" />
     <field name="img_info" type="string" indexed="false" stored="true" multiValued="true"/>
     <field name="access_condition_display" type="string" indexed="false" stored="true" multiValued="true" />
-    <field name="era_display" type="string" indexed="false" stored="true" multiValued="true"/>
-    <field name="geographic_display" type="string" indexed="false" stored="true" multiValued="true"/>
-    <field name="issue_date_display" type="string" indexed="false" stored="true" multiValued="true" />
-    <field name="physical_location_display" type="string" indexed="false" stored="true" multiValued="true" />
 
     <!-- *************** additional DEPRECATED fields for Image Gallery collections  ****************** -->
     <field name="rights" type="string" indexed="false" stored="true"/>
