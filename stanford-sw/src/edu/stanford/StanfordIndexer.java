@@ -1004,6 +1004,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	Set<String> keepers9xx = new HashSet<String>();
 	{
 		keepers9xx.add("905");
+		keepers9xx.add("908");  // added 2013-02-26 for Business entering Symphony
 		keepers9xx.add("920");
 		keepers9xx.add("986");
 	}
