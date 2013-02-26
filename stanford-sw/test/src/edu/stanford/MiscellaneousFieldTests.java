@@ -117,6 +117,10 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest
         df.addSubfield(factory.newSubfield('r', "905r"));
         df.addSubfield(factory.newSubfield('t', "905t"));
         record.addVariableField(df);
+        df = factory.newDataField("908", ' ', ' ');
+        df.addSubfield(factory.newSubfield('a', "908a"));
+        df.addSubfield(factory.newSubfield('b', "908b"));
+        record.addVariableField(df);
         df = factory.newDataField("920", ' ', ' ');
         df.addSubfield(factory.newSubfield('a', "920a"));
         df.addSubfield(factory.newSubfield('b', "920b"));
@@ -124,7 +128,7 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest
         df = factory.newDataField("986", ' ', ' ');
         df.addSubfield(factory.newSubfield('1', "986a"));
         record.addVariableField(df);
-        solrFldMapTest.assertSolrFldValue(record, fldName, "905a 905r 905t 920a 920b 986a");
+        solrFldMapTest.assertSolrFldValue(record, fldName, "905a 905r 905t 908a 908b 920a 920b 986a");
 	}
 
 
