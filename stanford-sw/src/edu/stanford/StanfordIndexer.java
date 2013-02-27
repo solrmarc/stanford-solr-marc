@@ -1145,7 +1145,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) {
 			if (!item.hasShelbyLoc()
-					&& !item.hasBizShelbyLoc()
 					&& !item.hasIgnoredCallnum()
 					&& !item.hasBadLcLaneCallnum()) {
 				String callnum = item.getCallnum();
