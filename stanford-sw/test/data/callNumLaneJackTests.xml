@@ -11,18 +11,18 @@
             <subfield code="a">1ST AMERICAN BANCORP, INC.</subfield>
             <subfield code="w">LC</subfield>
             <subfield code="i">JL28537S</subfield>
-            <subfield code="l">ASK@GSB</subfield>
-            <subfield code="m">JACKSON</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">202 DATA SYSTEMS, INC.</subfield>
             <subfield code="w">LC</subfield>
             <subfield code="i">JL11613S</subfield>
-            <subfield code="l">ASK@GSB</subfield>
-            <subfield code="m">JACKSON</subfield>
-        </datafield>    
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
+        </datafield>
     </record>
-    <!-- question mark call number -->   
+    <!-- question mark call number -->
     <record>
         <leader>01820cam a2200457La 4500</leader>
         <controlfield tag="001">a7603175</controlfield>
@@ -59,7 +59,7 @@
             <subfield code="l">ASK@LANE</subfield>
             <subfield code="m">LANE-MED</subfield>
         </datafield>
-    </record>    
+    </record>
     <record>
         <leader>01357ctm a2200349La 4500</leader>
         <controlfield tag="001">a7811196</controlfield>
@@ -71,8 +71,8 @@
             <subfield code="a">KHREHBIEL/MALHOTRA/MONIN/SAUMITRA</subfield>
             <subfield code="w">LC</subfield>
             <subfield code="i">JJ181806</subfield>
-            <subfield code="l">ASK@GSB</subfield>
-            <subfield code="m">JACKSON</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
         </datafield>
     </record>
     <record>
@@ -86,8 +86,8 @@
             <subfield code="a">ARCHIVES N&amp;P 090606</subfield>
             <subfield code="w">LC</subfield>
             <subfield code="i">JJ182661</subfield>
-            <subfield code="l">ASK@GSB</subfield>
-            <subfield code="m">JACKSON</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
         </datafield>
     </record>
     <record>
@@ -105,7 +105,7 @@
             <subfield code="m">LANE-MED</subfield>
         </datafield>
     </record>
-    
+
     <record>
         <leader>01357ctm a2200349La 4500</leader>
         <controlfield tag="001">aJacksonValidDewey</controlfield>
@@ -117,8 +117,8 @@
             <subfield code="a">666 .T666</subfield>
             <subfield code="w">LC</subfield>
             <subfield code="i">JJ666</subfield>
-            <subfield code="l">ASK@GSB</subfield>
-            <subfield code="m">JACKSON</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
         </datafield>
     </record>
     <record>
@@ -132,8 +132,8 @@
             <subfield code="a">A27 .B36</subfield>
             <subfield code="w">LC</subfield>
             <subfield code="i">JJ111</subfield>
-            <subfield code="l">ASK@GSB</subfield>
-            <subfield code="m">JACKSON</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
         </datafield>
     </record>
     <record>
@@ -166,8 +166,8 @@
             <subfield code="m">LANE-MED</subfield>
         </datafield>
     </record>
-    
-    <!-- letter O -->    
+
+    <!-- letter O -->
     <record>
         <leader>00449cam a22001695i 4500</leader>
         <controlfield tag="001">aletterO</controlfield>
@@ -179,15 +179,15 @@
             <subfield code="a">O'REILLY</subfield>
             <subfield code="w">LC</subfield>
             <subfield code="i">JJ175237</subfield>
-            <subfield code="l">ASK@GSB</subfield>
-            <subfield code="m">JACKSON</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">ONLINE RESOURCE</subfield>
             <subfield code="w">LC</subfield>
             <subfield code="i">JJ183188</subfield>
-            <subfield code="l">ASK@GSB</subfield>
-            <subfield code="m">JACKSON</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
         </datafield>
     </record>
     <!-- Y -->
@@ -206,23 +206,23 @@
             <subfield code="m">LANE-MED</subfield>
         </datafield>
     </record>
-    <!-- parens call numbers -->    
+    <!-- parens call numbers -->
     <record>
         <leader>00847cam a22002775a 4500</leader>
         <controlfield tag="001">aparen</controlfield>
         <controlfield tag="008">060323s2005    tu            000 0 tur  </controlfield>
         <datafield tag="245" ind1=" " ind2=" ">
             <subfield code="a">call number in parens</subfield>
-        </datafield>   
+        </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">(THE) NWNL COMPANIES, INC.</subfield>
             <subfield code="w">LC</subfield>
             <subfield code="i">JL8237S</subfield>
-            <subfield code="l">ASK@GSB</subfield>
-            <subfield code="m">JACKSON</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
         </datafield>
     </record>
-    <!-- period callnum -->    
+    <!-- period callnum -->
     <record>
         <leader>01501cam a2200421La 4500</leader>
         <controlfield tag="001">aperiod</controlfield>
@@ -244,30 +244,30 @@
             <subfield code="l">ASK@LANE</subfield>
             <subfield code="m">LANE-MED</subfield>
         </datafield>
-    </record> <!-- double quote call num ? -->    
+    </record> <!-- double quote call num ? -->
     <record>
         <leader>00650cas a2200205ui 4500</leader>
         <controlfield tag="001">aquote</controlfield>
         <controlfield tag="008">960703d19uu1959xxuar              0eng d</controlfield>
         <datafield tag="245" ind1=" " ind2=" ">
             <subfield code="a">double quote call num</subfield>
-        </datafield>    
+        </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">"NEW BEGINNING" INVESTMENT RESERVE FUND,</subfield>
             <subfield code="w">LC</subfield>
             <subfield code="i">JL36924S</subfield>
-            <subfield code="l">ASK@GSB</subfield>
-            <subfield code="m">JACKSON</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
         </datafield>
         <datafield tag="999" ind1=" " ind2=" ">
             <subfield code="a">"21" BRANDS, INCORPORATED</subfield>
             <subfield code="w">LC</subfield>
             <subfield code="i">JL41534S</subfield>
-            <subfield code="l">ASK@GSB</subfield>
-            <subfield code="m">JACKSON</subfield>
+            <subfield code="l">ASK@LANE</subfield>
+            <subfield code="m">LANE-MED</subfield>
         </datafield>
     </record>
-    
+
     <!-- invalid Green LC for error message -->
     <record>
         <leader>00455cam a22001695i 4500</leader>
@@ -284,5 +284,5 @@
             <subfield code="m">GREEN</subfield>
         </datafield>
     </record>
-    
+
 </collection>

@@ -7,28 +7,28 @@ import org.junit.*;
 import edu.stanford.enumValues.CallNumberType;
 
 /**
- * junit4 tests for Stanford University 
- *   correctly lop non-LC, non-Dewey call numbers according to longest common 
+ * junit4 tests for Stanford University
+ *   correctly lop non-LC, non-Dewey call numbers according to longest common
  *   prefix
  * @author Naomi Dushay
  */
-public class CallNumLongestComnPfxTests extends AbstractStanfordTest 
+public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 {
 	private String fldName = "shelfkey";
 	private String fileName = "callnumLongCommPfxTests.mrc";
     private String testFilePath = testDataParentPath + File.separator + fileName;
 
 @Before
-	public void setup() 
+	public void setup()
 	{
 		mappingTestInit();
-	}	
+	}
 
 	/**
 	 * Pattern of 4 digits, then space, then 4 digits should lop properly
 	 */
 @Test
-	public void test4then4() 
+	public void test4then4()
 	{
 		String id = "4then4";
 		String unlop1 = "2451 7513 1954:NO.1-6";
@@ -44,7 +44,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 	 * Pattern of 4 digits plus decimal, then space, then 4 digits should lop properly
 	 */
 @Test
-	public void test4then4decimal() 
+	public void test4then4decimal()
 	{
 		String id = "4then4decimal";
 		String unlop1 = "4488.301 0300 2001 CD-ROM";
@@ -60,7 +60,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 	 *  should lop properly
 	 */
 @Test
-	public void test4then4decimalBoth() 
+	public void test4then4decimalBoth()
 	{
 		String id = "4then4decimalBoth";
 		String unlop1 = "9698.3 4275.25 F V.1";
@@ -74,7 +74,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 	 *  should lop properly
 	 */
 @Test
-	public void test2then5() 
+	public void test2then5()
 	{
 		String id = "2then5";
 		String unlop1 = "71 15446 V.1";
@@ -87,7 +87,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 	 * Japanese in Process call number pattern should lop properly
 	 */
 @Test
-	public void testJapaneseInProcess() 
+	public void testJapaneseInProcess()
 	{
 		String id = "japInProc";
 		String unlop1 = "7885324-1001-1";
@@ -100,7 +100,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 	 * Deweyish (4 digits in class) call number pattern should lop properly
 	 */
 @Test
-	public void testDeweyish() 
+	public void testDeweyish()
 	{
 		String id = "deweyish";
 		String unlop1 = "8291.209 .A963 V.7 1975/1976";
@@ -108,12 +108,12 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 		String lopped = "8291.209 .A963 ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 	}
-	
+
 	/**
 	 * map XM call number pattern should lop properly
 	 */
 @Test
-	public void testMapXM() 
+	public void testMapXM()
 	{
 		String id = "mapXM";
 		String unlop1 = "XM98-1 NO.1";
@@ -126,7 +126,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 	 * yugoslav serial call number pattern should lop properly
 	 */
 @Test
-	public void testYugoSerial() 
+	public void testYugoSerial()
 	{
 		String id = "yugoSerial";
 		String unlop1 = "YUGOSLAV SERIAL 1996 V.37";
@@ -139,7 +139,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 	 * manuscript collection call number pattern should lop properly
 	 */
 @Test
-	public void testManuscriptCollection() 
+	public void testManuscriptCollection()
 	{
 		String id = "manuColl";
 //		String unlop1 = "M1162";
@@ -154,7 +154,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 	 * Sudoc call number pattern should lop properly
 	 */
 @Test
-	public void testSudoc() 
+	public void testSudoc()
 	{
 		String id = "sudoc";
 		String unlop1 = "C 13.58:";
@@ -165,7 +165,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 		String unlop3Shelfkey = CallNumUtils.getShelfKey(unlop3, CallNumberType.SUDOC, id).toLowerCase();
 		String lopped = "C 13.58 ...";
 		String loppedShelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.SUDOC, id).toLowerCase();
-	
+
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, loppedShelfkey);
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, unlop1Shelfkey);
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, unlop2Shelfkey);
@@ -176,7 +176,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 	 * MCD call number pattern should lop properly
 	 */
 @Test
-	public void testMCD() 
+	public void testMCD()
 	{
 		String id = "MCD";
 		String unlop1 = "MCD 17393 DISC 1";
@@ -189,7 +189,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 	 * MCD call number pattern should lop properly
 	 */
 	@Test
-	public void testMCDdontLop() 
+	public void testMCDdontLop()
 	{
 		String id = "MCDdontLop";
 		String unlop1 = "MCDI 141 (V.87:2)";
@@ -198,14 +198,14 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 		String unlop3 = "MCD 10313 (V.91:3)";
 		String unlop4 = "MCD 10945 (V.91:5)";
 		String lopped34 = "MCD ...";
-		
+
 		String unlop1Shelfkey = CallNumUtils.getShelfKey(unlop1, CallNumberType.OTHER, id).toLowerCase();
 		String unlop2Shelfkey = CallNumUtils.getShelfKey(unlop2, CallNumberType.OTHER, id).toLowerCase();
 		String unlop3Shelfkey = CallNumUtils.getShelfKey(unlop3, CallNumberType.OTHER, id).toLowerCase();
 		String unlop4Shelfkey = CallNumUtils.getShelfKey(unlop4, CallNumberType.OTHER, id).toLowerCase();
 		String lopped12Shelfkey = CallNumUtils.getShelfKey(lopped12, CallNumberType.OTHER, id).toLowerCase();
 		String lopped34Shelfkey = CallNumUtils.getShelfKey(lopped34, CallNumberType.OTHER, id).toLowerCase();
-	
+
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, unlop1Shelfkey);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, unlop2Shelfkey);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, unlop3Shelfkey);
@@ -218,7 +218,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 	 * MDVD call number pattern should lop properly
 	 */
 @Test
-	public void testMDVD() 
+	public void testMDVD()
 	{
 		String id = "MDVD";
 		String unlop1 = "MDVD 703 (V.12)";
@@ -231,7 +231,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 	 * ZDVD call number pattern should lop properly
 	 */
 @Test
-	public void testZDVD() 
+	public void testZDVD()
 	{
 		String id = "ZDVD";
 		String unlop1 = "ZDVD 20921 DISC 1";
@@ -244,7 +244,7 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 	 * Hoover mfilm call number pattern should lop properly
 	 */
 @Test
-	public void testMultCallnumGroups() 
+	public void testMultCallnumGroups()
 	{
 		String id = "mfilmHoover1";
 		String unlop1 = "N343 MFILM 1886 JUL-DEC.";
@@ -257,12 +257,12 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 		lopped = "N413 1947 ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 	}
-	
+
 	/**
 	 * mfilm n.s. call number pattern should lop properly
 	 */
 @Test
-	public void testMfilmNS() 
+	public void testMfilmNS()
 	{
 		String id = "mfilmNS";
 		String unlop1 = "MFILM N.S. 56 V.65 1981";
@@ -270,12 +270,12 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 		String lopped = "MFILM N.S. 56 ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 	}
-	
+
 	/**
 	 * mislabeled LC call number pattern should lop properly
 	 */
 @Test
-	public void testBadLC() 
+	public void testBadLC()
 	{
 		String id = "letterY";
 		String unlop1 = "Y210 .A3F6 1973";
@@ -283,21 +283,21 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 		String lopped = "Y210 .A3F6 ...";
 		assertExpectedLopping(id, unlop1, unlop2, lopped);
 	}
-	
+
 	/**
 	 * Lane mislabeled LC call number pattern should not lop, and should not
 	 *   be included in shelfkey at all.
 	 */
 	@Test
-	public void testLaneBadLC() 
+	public void testLaneBadLC()
 	{
 		String id = "laneBadLC";
 		String unlop1 = "Y210 .A3F6 VOL. 1";
 		String unlop2 = "Y210 .A3F6 VOL. 2";
 		String lopped = "Y210 .A3F6 ...";
-		//  no shelfkey for bad LC from Lane or Jackson
+		//  no shelfkey for bad LC from Lane
 	    solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
-	    
+
 	    //  need to look in item display for lopping;
 		fldName = "item_display";
 		String sep = " -|- ";
@@ -314,8 +314,8 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 					lopped + sep + sep + sep + unlop2 + sep + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
-	
-	
+
+
 //----   assert helper methods
 
 	/**
@@ -326,16 +326,16 @@ public class CallNumLongestComnPfxTests extends AbstractStanfordTest
 	 * @param unlop2 - another unlopped call number
 	 * @param lopped - the lopped call number expected.
 	 */
-	private void assertExpectedLopping(String id, String unlop1, String unlop2, String lopped) 
+	private void assertExpectedLopping(String id, String unlop1, String unlop2, String lopped)
 	{
 		String unlop1Shelfkey = CallNumUtils.getShelfKey(unlop1, CallNumberType.OTHER, id).toLowerCase();
 		String unlop2Shelfkey = CallNumUtils.getShelfKey(unlop2, CallNumberType.OTHER, id).toLowerCase();
 		String loppedShelfkey = CallNumUtils.getShelfKey(lopped, CallNumberType.OTHER, id).toLowerCase();
-	
+
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, loppedShelfkey);
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, unlop1Shelfkey);
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, unlop2Shelfkey);
 	}
-	
+
 
 }
