@@ -41,21 +41,20 @@ public class ItemInfoTests extends AbstractStanfordTest {
 
 	    assertSingleResult("229800", fldName, "\"Archive of Recorded Sound\"");
 	    assertSingleResult("345228", fldName, "\"Art & Architecture\"");
-	    assertSingleResult("460947", fldName, "\"Falconer (Biology)\"");
-	    assertSingleResult("804724", fldName, "\"SAL Newark (Off-campus)\"");
-	    assertSingleResult("919006", fldName, "\"Swain (Chemistry & Chem. Engineering)\"");
+	    assertSingleResult("460947", fldName, "\"Biology (Falconer)\"");
+	    assertSingleResult("804724", fldName, "\"SAL Newark (off-campus storage)\"");
+	    assertSingleResult("919006", fldName, "\"Chemistry & ChemEng (Swain)\"");
 	    assertSingleResult("1147269", fldName, "\"Classics\"");
-	    assertSingleResult("1505065", fldName, "\"Branner (Earth Sciences & Maps)\"");
-	    assertSingleResult("1618836", fldName, "\"Cubberley (Education)\"");
-	    assertSingleResult("1732616", fldName, "\"Mathematics & Statistics\"");
-	    assertSingleResult("1849258", fldName, "Engineering");
-	    assertSingleResult("2099904", fldName, "\"Jonsson (Government Documents)\"");
+	    assertSingleResult("1505065", fldName, "\"Earth Sciences (Branner)\"");
+	    assertSingleResult("1618836", fldName, "\"Education (Cubberley)\"");
+	    assertSingleResult("1732616", fldName, "\"Math & Statistics\"");
+	    assertSingleResult("1849258", fldName, "\"Engineering (Terman)\"");
 	    assertSingleResult("2678655", fldName, "Business");
-	    assertSingleResult("3027805", fldName, "\"Miller (Hopkins Marine Station)\"");
+	    assertSingleResult("3027805", fldName, "\"Marine Biology (Miller)\"");
 	    assertSingleResult("3142611", fldName, "Physics");
-	    assertSingleResult("4258089", fldName, "\"Special Collections & Archives\"");
-	    assertSingleResult("4428936", fldName, "\"Tanner (Philosophy Dept.)\"");
-	    assertSingleResult("4823592", fldName, "\"Crown (Law)\"");
+	    assertSingleResult("4258089", fldName, "\"Special Collections\"");
+	    assertSingleResult("4428936", fldName, "\"Philosophy (Tanner)\"");
+	    assertSingleResult("4823592", fldName, "\"Law (Crown)\"");
 	    assertSingleResult("5666387", fldName, "Music");
 	    assertSingleResult("6676531", fldName, "\"East Asia\"");
 	    assertSingleResult("2797607", fldName, "Meyer");
@@ -68,17 +67,18 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    docIds.add("2557826");
 	    docIds.add("3941911");
 	    docIds.add("4114632");
+	    docIds.add("2099904");
 	    // checked out
 	    docIds.add("575946");
 	    // NOT  3277173  (withdrawn)
-	    assertSearchResults(fldName, "\"Green (Humanities & Social Sciences)\"", docIds);
+	    assertSearchResults(fldName, "\"Green\"", docIds);
 
 	    docIds.clear();
 	    docIds.add("1033119");
 	    docIds.add("1962398");
 	    docIds.add("2328381");
 	    docIds.add("2913114");
-	    assertSearchResults(fldName, "\"Stanford Auxiliary Library (On-campus)\"", docIds);
+	    assertSearchResults(fldName, "\"SAL1&2 (on-campus shelving)\"", docIds);
 
 	    docIds.clear();
 	    docIds.add("690002");
@@ -87,13 +87,13 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    docIds.add("7651581");
 	    // education - withdrawn;  SAL3 STACKS
 	    docIds.add("2214009");
-	    assertSearchResults(fldName, "\"SAL3 (Off-campus)\"", docIds);
+	    assertSearchResults(fldName, "\"SAL3 (off-campus storage)\"", docIds);
 
 	    docIds.clear();
 	    docIds.add("7370014");
 	    // ask@lane
 	    docIds.add("7233951");
-	    assertSearchResults(fldName, "\"Lane (Medical)\"", docIds);
+	    assertSearchResults(fldName, "\"Medical (Lane)\"", docIds);
 	}
 
 	/**
@@ -143,8 +143,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	{
 		String fldName = "building_facet";
 		createFreshIx("buildingTests.mrc");
-
-	    assertSingleResult("3743949", fldName, "\"Hoover Library\"");
+	    assertSingleResult("3743949", fldName, "Hoover");
 	    assertSingleResult("3400092", fldName, "\"Hoover Archives\"");
 	}
 
@@ -175,6 +174,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	/**
 	 * test if item_display field is populated correctly, focusing on building/library
 	 *  item_display contains:  (separator is " -|- ")
+<<<<<<< HEAD
 	 *   barcode + SEP +
 	 *   library + SEP +
 	 *   home location + SEP +
@@ -185,6 +185,13 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	 *   reversekey (from lopped) + SEP +
 	 *   fullCallnum + SEP +
 	 *   callnum sortable for show view
+=======
+	 *    barcode -|- library(short version) -|- location -|-
+	 *     lopped call number (no volume/part info) -|-
+	 *     shelfkey (from lopped call num) -|-
+	 *     reverse_shelfkey (from lopped call num) -|-
+	 *     full callnum -|- callnum sortable for show view
+>>>>>>> library name updates (but not sure what to do with physics
 	 */
  @Test
 	public final void testItemDisplayBuildings()
