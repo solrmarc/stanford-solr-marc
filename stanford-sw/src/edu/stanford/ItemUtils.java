@@ -151,7 +151,7 @@ public class ItemUtils {
 		{
 			if (!item.hasIgnoredCallnum() && !item.hasBadLcLaneCallnum() &&
 					!item.isOnline() &&
-					!item.hasShelbyLoc() && !item.hasBizShelbyLoc() &&
+					!item.hasShelbyLoc() &&
 					!item.isMissingOrLost())
 			{
 				int callnumLen = item.getCallnum().length();
@@ -237,7 +237,7 @@ public class ItemUtils {
 			String library = item.getLibrary();
 
 			// deal with shelved by title locations
-			if ((item.hasShelbyLoc() || (library.equals("BUSINESS") && item.hasBizShelbyLoc())) &&
+			if (item.hasShelbyLoc() &&
 					!item.isInProcess() && !item.isOnOrder() && !item.isOnline())
 			{
 				// get volume info to show in record view
