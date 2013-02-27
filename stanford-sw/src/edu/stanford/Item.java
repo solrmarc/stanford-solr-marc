@@ -120,6 +120,13 @@ public class Item {
 		else
 			hasShelbyLoc = false;
 
+		if (library == "BUSINESS"
+				&& (StanfordIndexer.BIZ_SHELBY_LOCS.contains(currLoc)
+						|| StanfordIndexer.BIZ_SHELBY_LOCS.contains(homeLoc) ) )
+			hasBizShelbyLoc = true;
+		else
+			hasBizShelbyLoc = false;
+
 		if (StanfordIndexer.SKIPPED_CALLNUMS.contains(rawCallnum)
 				|| rawCallnum.startsWith(ECALLNUM)
 				|| rawCallnum.startsWith(TMP_CALLNUM_PREFIX))
