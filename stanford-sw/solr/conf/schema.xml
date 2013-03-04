@@ -97,9 +97,9 @@
     <field name="vern_author_person_display" type="string" indexed="false" stored="true" />
     <field name="author_person_full_display" type="string" indexed="false" stored="true" multiValued="true" />
     <field name="vern_author_person_full_display" type="string" indexed="false" stored="true" />
-    <field name="author_corp_display" type="string" indexed="false" stored="true" />
+    <field name="author_corp_display" type="string" indexed="false" stored="true" multiValued="true"/>
     <field name="vern_author_corp_display" type="string" indexed="false" stored="true" />
-    <field name="author_meeting_display" type="string" indexed="false" stored="true" />
+    <field name="author_meeting_display" type="string" indexed="false" stored="true" multiValued="true"/>
     <field name="vern_author_meeting_display" type="string" indexed="false" stored="true" />
 
     <!--  Subject Search Fields -->
