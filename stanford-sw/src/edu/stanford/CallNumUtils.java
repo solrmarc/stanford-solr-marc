@@ -435,7 +435,7 @@ public class CallNumUtils
 				if (item.hasSeparateBrowseCallnum())
 					rawCallnum = item.getBrowseCallnum();
 				else if (!( item.hasBadLcLaneCallnum()
-				           || item.hasShelbyLoc() || item.hasBizShelbyLoc()
+				           || item.hasShelbyLoc()
 				           || item.isMissingOrLost()
 				           || item.hasIgnoredCallnum()
 				         ) )
@@ -464,7 +464,7 @@ public class CallNumUtils
 // FIXME:  shelby locations should be checked for by calling routine??
 			if (item.getCallnumType() == CallNumberType.DEWEY
 					&& !(item.hasIgnoredCallnum()
-						 || item.hasShelbyLoc() || item.hasBizShelbyLoc()
+						 || item.hasShelbyLoc()
 						 || item.isMissingOrLost() ) )
 			{
 				String callnum = getNormalizedDeweyCallNumber(item);
@@ -504,7 +504,7 @@ public class CallNumUtils
 				callnum = item.getBrowseCallnum(isSerial);
 			if (callnum != null && callnum.length() > 0
 			      && ! (item.hasBadLcLaneCallnum()
-					    || item.hasShelbyLoc() || item.hasBizShelbyLoc()
+					    || item.hasShelbyLoc()
 					    || item.isMissingOrLost()
 					   )
 			   )
@@ -531,7 +531,7 @@ public class CallNumUtils
 			String shelfkey = item.getShelfkey(isSerial);
 			if (shelfkey != null && shelfkey.length() > 0
 				&& ! (item.hasBadLcLaneCallnum()
-						 || item.hasShelbyLoc() || item.hasBizShelbyLoc()
+						 || item.hasShelbyLoc()
 						 || item.isMissingOrLost()
 					 )
 			   )
