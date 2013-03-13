@@ -973,6 +973,10 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		String fullReversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(fullShelfkey).toLowerCase();
 		String fullVolSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(fullCallNum, fullCallNum, fullShelfkey, CallNumberType.LC, isSerial, null);
 
+		String otherCallnum = "BUS54594-11 V.3 1986 MAY-AUG.";
+		String otherShowViewCallnum = callnum + " V.3 1986 MAY-AUG.";
+		String otherVolSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(otherShowViewCallnum, callnum, shelfkey, CallNumberType.OTHER, isSerial, null);
+
 		Leader ldr = factory.newLeader("01247cas a2200337 a 4500");
 		ControlField cf008 = factory.newControlField("008");
 		cf008.setData("830415c19809999vauuu    a    0    0eng  ");
@@ -993,6 +997,25 @@ public class ItemInfoTests extends AbstractStanfordTest {
 			String expFldVal = "36105111222333 -|- BUSINESS -|- " + loc + SEP + SEP + SEP +
 					callnum + SEP + shelfkey + SEP + reversekey + SEP + show_view_callnum + SEP + volSort;
 		    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+
+			record = factory.newRecord();
+			record.setLeader(ldr);
+			record.addVariableField(cf008);
+		    df = factory.newDataField("999", ' ', ' ');
+		    df.addSubfield(factory.newSubfield('a', otherCallnum));
+		    df.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		    df.addSubfield(factory.newSubfield('i', "20504037816"));
+		    df.addSubfield(factory.newSubfield('l', loc));
+		    df.addSubfield(factory.newSubfield('m', "BUSINESS"));
+		    record.addVariableField(df);
+			expFldVal = "20504037816 -|- BUSINESS -|- " + loc + SEP + SEP + SEP +
+					callnum + SEP +
+					shelfkey + SEP +
+					reversekey + SEP +
+					otherShowViewCallnum + SEP +
+					otherVolSort;
+		    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+
 
 		    // don't treat these locations specially if used by other libraries
 			record = factory.newRecord();
