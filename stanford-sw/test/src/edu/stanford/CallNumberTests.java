@@ -522,7 +522,7 @@ public class CallNumberTests extends AbstractStanfordTest
 
 
 	/**
-	 * test that "BUS-PER", "MICROFICHE", "MICROFILM", "BUSDISPLAY", "NEWS-STKS"
+	 * test that "BUS-PER", "BUSDISPLAY", "NEWS-STKS"
 	 * locations cause call numbers to be ignored (not included in facets) when
 	 * the library is "BUSINESS"
 	 */
@@ -531,7 +531,7 @@ public class CallNumberTests extends AbstractStanfordTest
 	{
 		String fldName = "lc_b4cutter_facet";
 		MarcFactory factory = MarcFactory.newInstance();
-		String[] bizShelbyLocs = {"MICROFICHE", "MICROFILM", "NEWS-STKS"};
+		String[] bizShelbyLocs = {"NEWS-STKS"};
 		for (String loc : bizShelbyLocs)
 		{
 			Record record = factory.newRecord();
