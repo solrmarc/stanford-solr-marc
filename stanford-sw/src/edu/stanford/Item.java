@@ -105,7 +105,7 @@ public class Item {
 		else
 			isMissingLost = false;
 
-		if (library == "BUSINESS"
+		if (library.equals("BUSINESS")
 				&& (StanfordIndexer.BIZ_SHELBY_LOCS.contains(currLoc)
 						|| StanfordIndexer.BIZ_SHELBY_LOCS.contains(homeLoc) ) )
 			hasBizShelbyLoc = true;
