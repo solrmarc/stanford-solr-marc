@@ -952,7 +952,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
  	}
 
 	/**
-	 * test that "BUS-PER", "MICROFICHE", "MICROFILM", "BUSDISPLAY", "NEWS-STKS"
+	 * test that "BUS-PER", "BUSDISPLAY", "NEWS-STKS"
 	 * locations cause call numbers to be ignored (not included in facets) when
 	 * the library is "BUSINESS"
 	 */
@@ -977,7 +977,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		ControlField cf008 = factory.newControlField("008");
 		cf008.setData("830415c19809999vauuu    a    0    0eng  ");
 
-		String[] bizShelbyLocs = {"MICROFICHE", "MICROFILM", "NEWS-STKS"};
+		String[] bizShelbyLocs = {"NEWS-STKS"};
 		for (String loc : bizShelbyLocs)
 		{
 			Record record = factory.newRecord();
