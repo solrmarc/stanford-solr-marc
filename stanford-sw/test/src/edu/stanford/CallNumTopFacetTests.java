@@ -7,6 +7,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
+import org.marc4j.marc.*;
 import org.xml.sax.SAXException;
 
 
@@ -14,24 +15,24 @@ import org.xml.sax.SAXException;
  * junit4 tests for Stanford University top level call number facet field
  * @author Naomi Dushay
  */
-public class CallNumTopFacetTests extends AbstractStanfordTest 
+public class CallNumTopFacetTests extends AbstractStanfordTest
 {
 	private final String fldName = "callnum_top_facet";
 	private String fileName = "callNumberOddityTests.mrc";
     private String testFilePath = testDataParentPath + File.separator + fileName;
 
 @Before
-	public final void setup() 
+	public final void setup()
 	{
 		mappingTestInit();
-	}	
+	}
 
-	
+
 	/**
 	 * call numbers that are Dewey, but have scheme listed as LC
 	 */
 @Test
-	public final void testDeweyAsLC() 
+	public final void testDeweyAsLC()
 	{
 	    String id = "6276339";
 	    // two items:
@@ -46,7 +47,7 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	 * call numbers that are alphanum, but have scheme listed as LC
 	 */
 @Test
-	public final void testAlphanumAsLC() 
+	public final void testAlphanumAsLC()
 	{
 	    String id = "7575731";
 	    // three items:
@@ -62,7 +63,7 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	 * unusual lane call numbers
 	 */
 @Test
-	public final void testWeirdLaneCallnums() 
+	public final void testWeirdLaneCallnums()
 	{
 	    String id = "7278184";
 	    // two items:
@@ -71,7 +72,7 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "1");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "2");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
-	    
+
 	    // LL barcodes
 	    id = "7672538";
 	    // LC:   4.15[C]  barcode:  LL220624  home loc:  ASK@LANE
@@ -87,7 +88,7 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	 * call numbers starting with many digits
 	 */
 @Test
-	public final void testLotsaDigits() 
+	public final void testLotsaDigits()
 	{
 	    String id = "4779032";
 	    // two items:
@@ -102,7 +103,7 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	 * SAL nn(space)nnnnn
 	 */
 @Test
-	public final void testTwoDigitsThenSpace() 
+	public final void testTwoDigitsThenSpace()
 	{
 	    String id = "229099";
 	    // two items:
@@ -111,7 +112,7 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	    // LC:  70 45997  SAL  home loc STACKS
 	    // ALPHANUM:   71 15446 V.1  home loc RBC-30  library SPEC-COLL
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "7");
-	    // LC:  95 05041  GREEN home loc stacks 
+	    // LC:  95 05041  GREEN home loc stacks
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "9");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
@@ -121,7 +122,7 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	 * call numbers that should NOT create a value in callnum_top_facet
 	 */
 @Test
-	public final void testFourDigitNumeric() 
+	public final void testFourDigitNumeric()
 	{
 		String id = "8373645";
 		// LC:  3781 2009 T
@@ -136,19 +137,19 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "4");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
-	
+
 
 	/**
 	 * call numbers that should NOT create a value in callnum_top_facet
 	 */
 @Test
-	public final void testFourDigitDecimal() 
+	public final void testFourDigitDecimal()
 	{
 	    String id = "5319829";
 	    // LC:  4861.1 /3700
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "4");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
-	    
+
 	    id = "4208298";
 	    // ALPHANUM:  4488.301 0300 1999
 	    // ALPHANUM:  4030.1 2013 NO.1-9 1958:JAN.-SEPT.
@@ -158,26 +159,26 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "4");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "9");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
-	    
+
 	    id = "6773122";
 	    // LC:  1975.1 3772.1
 	    // LCPER:   1975.1 3772.1 NO.29 2008
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "1");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
-	    
+
 	    id = "485907";
 	    // ALPHANUM: 8291.209 .A963 V.7 1975/1976  SAL3 home loc STACKS
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "8");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
-	}    
+	}
 
 
 	/**
-	 * weird in process call numbers that should NOT create a value in 
+	 * weird in process call numbers that should NOT create a value in
 	 * callnum_top_facet
 	 */
 @Test
-	public final void testInProcess() 
+	public final void testInProcess()
 	{
 		String id = "3315407";
 		// curr loc "INPROCESS"
@@ -190,7 +191,7 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	 * EDI home loc (in process)
 	 */
 @Test
-	public final void testEdiInProcess() 
+	public final void testEdiInProcess()
 	{
 	    String id = "8366720";
 	    // LC:  427331959
@@ -202,7 +203,7 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	 * Japanese In Process
 	 */
 @Test
-	public final void testJapaneseInProcess() 
+	public final void testJapaneseInProcess()
 	{
 		String id = "7926635";
 		// LC:   7926635  curr loc INPROCESS   home loc JAPANESE  lib EAST-ASIA
@@ -211,20 +212,20 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "7");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
-	
+
 
 	/**
 	 * Rare In Process
 	 */
 @Test
-	public final void testRareInProcess() 
+	public final void testRareInProcess()
 	{
 		String id = "3495032";
 		// lib SPEC-COLL,  home loc RARE-BOOKS,  curr loc  INPROCESS
-		// LC:   741.5 F 
+		// LC:   741.5 F
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "7");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
-	
+
 		id = "paren";
 		// LC:  (ADL4044.1)XX   curr loc INPROCESS   home loc RARE-BOOKS  lib SPEC-COLL
 		// LC:  (XX.4300523)
@@ -233,16 +234,16 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 
 
 	/**
-	 * weird in process call numbers that should NOT create a value in 
+	 * weird in process call numbers that should NOT create a value in
 	 * callnum_top_facet
 	 */
 @Test
-	public final void testMathCSTechReports() 
+	public final void testMathCSTechReports()
 	{
 	    // math-cs tech-reports  (home Loc TECH-RPTS)
 	    String id = "4759923";
 	    // LC:  134776
-	    // LC:  262198  
+	    // LC:  262198
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "1");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "2");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
@@ -252,27 +253,39 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	/**
 	 * shelbytitle weirdness
 	 */
-//@Test   false positive!
-	public final void testShelbyTitleWeird() 
+//@Test   // false positive!
+	public final void testShelbyTitleWeird()
 	{
 	    String id = "404891";
 	    // LCPER:  (space)1976  home loc SHELBYTITL
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "1");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, " ");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
+
+		MarcFactory factory = MarcFactory.newInstance();
+		Record record = factory.newRecord();
+	    DataField df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', " 1946"));
+	    df.addSubfield(factory.newSubfield('w', "LCPER"));
+	    df.addSubfield(factory.newSubfield('i', "36105010008972"));
+	    df.addSubfield(factory.newSubfield('l', "SHELBYTITL"));
+	    df.addSubfield(factory.newSubfield('m', "HOPKINS"));
+	    solrFldMapTest.assertNoSolrFld(record, fldName);
+	    solrFldMapTest.assertSolrFldValue(record, fldName, " ");
+	    solrFldMapTest.assertSolrFldHasNoValue(record, fldName, "1");
 	}
-	
-	
+
+
 	/**
 	 * call numbers starting with quote "
 	 *   (Jackson JL barcodes??)
 	 */
 @Test
-	public final void testQuoteCallNum() 
+	public final void testQuoteCallNum()
 	{
 	    String id = "quote";
 	    // home loc:  ASK@GSB   barcode starts JL
-	    // LC:   "LA CONSOLIDADA", S.A.  barcode: JL20264S 
+	    // LC:   "LA CONSOLIDADA", S.A.  barcode: JL20264S
 	    // LC:  "NEW BEGINNING" INVESTMENT RESERVE FUND,   barcode: JL36924S
 	    // LC:  "21" BRANDS, INCORPORATED   barcode:  JL41534S
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "\"");
@@ -283,15 +296,15 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	 * call numbers starting with left paren  (
 	 */
 @Test
-	public final void testParenCallNums() 
+	public final void testParenCallNums()
 	{
 	    String id = "paren";
 		// LC:  (OCOLC)65536925  curr loc B&F-HOLD home loc STACKS lib GREEN
 	    // LC:  (V) JN6695 .I28 1999 COPY 2  home loc: VAULT  lib: HOOVER
-	    
+
 	    // LC:  (ADL4044.1)XX   curr loc INPROCESS   home loc RARE-BOOKS  lib SPEC-COLL
 	    // LC:  (XX.4300523)
-	    
+
 	    // LC: (THE) NWNL COMPANIES, INC.  barcode:  JL8237S  home loc: ASK@GSB
 
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "(");
@@ -302,35 +315,35 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	 * call numbers starting with hyphen
 	 */
 @Test
-	public final void testHyphenCallNums() 
+	public final void testHyphenCallNums()
 	{
 	    String id = "hyphen";
 		// LC:   ---   curr loc B&F-HOLD  home loc STACKS  lib GREEN
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "-");	
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "-");
 	}
 
 	/**
 	 * call numbers starting with period
 	 */
 @Test
-	public final void testPeriodCallNums() 
+	public final void testPeriodCallNums()
 	{
 	    String id = "period";
 		// LC:   .W42 1996   barcode  LL90670  home loc: ASK@LANE
 	    // LC:  .M1620 .N7 N53 1985 V.1:PT.1  home loc CHINESE  lib  EAST-ASIA
 	    // LC:  .G59   barcode  LL89612  home loc ASK@LANE
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ".");	
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, ".");
 	}
 
 	/**
 	 * question mark call numbers "???"
 	 */
 @Test
-	public final void testQuestionMarkCallNums() 
+	public final void testQuestionMarkCallNums()
 	{
 	    String id = "7603175";
 		// LC:   ???   barcode:  LL205659  home loc ASK@LANE
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "?");	
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "?");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
 
@@ -338,11 +351,11 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	 * back tick call number  (actually it's some weird diacritic accent ..)
 	 */
 //@Test   false positive!
-	public final void testBackTickCallNums() 
+	public final void testBackTickCallNums()
 	{
 	    String id = "7859555";
 		// LC:   >̀PE1130 .H5 H64 1840 HELEK 1  home loc RARE-BOOKS
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "`");	
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "`");
 	}
 
 
@@ -350,27 +363,27 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	 * call numbers beginning with the letter I
 	 */
 @Test
-	public final void testLetterICallNums() 
+	public final void testLetterICallNums()
 	{
 	    String id = "letterI";
 	    // LC:  ISHII  barcode:  JJ182093  home loc ASK@GSB
 	    // LC:  ICAO DOC 4444/15 ED  home loc INTL-DOCS  lib GREEN
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "I");	
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "I");
 	}
 
 	/**
 	 * "INTERNET RESOURCE" call number
 	 */
 @Test
-	public final void testInternetResourceCallNum() 
+	public final void testInternetResourceCallNum()
 	{
 	    String id = "4759923";
 	    // ASIS:  INTERNET RESOURCE
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "I");
-	
+
 	    id = "letterI";
 	    // home loc  INTERNET,   lib  LAW
-	    // LC:   INTERNET RESOURCE KF3400 .S36 2009  
+	    // LC:   INTERNET RESOURCE KF3400 .S36 2009
 	    // LC:   INTERNET RESOURCE GALE EZPROXY</subfield
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "I");
 	}
@@ -379,37 +392,37 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	 * call numbers beginning with the letter O
 	 */
 @Test
-	public final void testLetterOCallNums() 
+	public final void testLetterOCallNums()
 	{
 	    String id = "letterO";
 	    // LC:  OYER  barcode:  JJ183012  home loc:  ASK@GSB
 	    // LC:  O'REILLY   barcode:  JJ175237  home loc ASK@GSB
 	    // LC:  ONLINE RESOURCE   barcode:  JJ183188  home loc ASK@GSB<
-	    // LC:  ORNL-6371  home loc  STACKS  lib EARTH-SCI<	    
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "O");	
+	    // LC:  ORNL-6371  home loc  STACKS  lib EARTH-SCI<
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "O");
 	}
 
 	/**
 	 * call numbers beginning with the letter W
 	 */
 @Test
-	public final void testLetterWCallNums() 
+	public final void testLetterWCallNums()
 	{
 	    String id = "letterW";
 	    // LC:  WILLIAMS   barcode JJ182091  home loc ASK@GSB
 	    // LC:  WHEELER/HARTMANN/NARAYANAN  barcode JJ175811 home loc ASK@GSB
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "W");	
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "W");
 	}
-	
+
 	/**
 	 * call numbers beginning with the letter X
 	 */
 @Test
-	public final void testLetterXCallNums() 
+	public final void testLetterXCallNums()
 	{
 	    String id = "letterX";
 	    // home loc JAPANESE
-	    // LC:  X X  
+	    // LC:  X X
 	    // LC:  X XXCIN=MXI; OID=MXI
 	    // LC:  XV 852  home loc: OPEN-RES lib LAW
 	    // LC:  X(4775659.1)  home loc STACKS  lib GREEN
@@ -418,19 +431,19 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	    // LC:  X  home loc CHINESE
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "X");
 	}
-	
+
 	/**
 	 * call numbers beginning with the letter Y
 	 */
 @Test
-	public final void testLetterYCallNums() 
+	public final void testLetterYCallNums()
 	{
 	    String id = "letterY";
 	    // LC:  YILMAZ  barcode: JJ181738  home loc ASK@GSB
 	    // LC:  YBP1834690  barcode: 4761801-4001  curr loc INPROCESS home loc  RARE-BOOKS
 	    // LC:  Y210 .A3F6 1973  barcode LL41857 home loc: ASK@LANE
 	    // ALPHANUM:  YUGOSLAV SERIAL 1973 NO.1-6  home loc STACKS lib HOOVER
-	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "Y");	
+	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, "Y");
 	}
 
 	/**
@@ -449,7 +462,7 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 		// String callnum = "HC241.25 .I4 D47";
 //	    solrFldMapTest.assertSolrFldValue(myTestFilePath, id, fldName, "H");
 	    solrFldMapTest.assertSolrFldHasNoValue(myTestFilePath, id, fldName, "H");
-		
+
 	    // INTERNET (but not SUL)
 		id = "229800";
 		// callnum = "HG6046 .V28 1986";
@@ -461,16 +474,16 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 		// callnum = "E184.S75 R47A V.1 1980";
 //	    solrFldMapTest.assertSolrFldValue(myTestFilePath, id, fldName, "E");
 	    solrFldMapTest.assertSolrFldHasNoValue(myTestFilePath, id, fldName, "E");
-		
+
 		// RESV-URL is no longer skipped
 		id = "690002";
 		// callnum = "159.32 .W211";
 	    solrFldMapTest.assertSolrFldValue(myTestFilePath, id, fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
-	
+
 	    // SUL library - INTERNET
 		myTestFilePath = testDataParentPath + File.separator + "callNumberTests.mrc";
-//	    solrFldMapTest.assertSolrFldValue(myTestFilePath, "7117119", fldName, "I");	
-	    solrFldMapTest.assertSolrFldHasNoValue(myTestFilePath, "7117119", fldName, "INTERNET");	
+//	    solrFldMapTest.assertSolrFldValue(myTestFilePath, "7117119", fldName, "I");
+	    solrFldMapTest.assertSolrFldHasNoValue(myTestFilePath, "7117119", fldName, "INTERNET");
 	}
 
 	/**
@@ -478,36 +491,36 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 	 */
 @Test
 	public final void testSearchNoStartingDigits()
-			throws IOException, ParserConfigurationException, SAXException, SolrServerException 
+			throws IOException, ParserConfigurationException, SAXException, SolrServerException
 	{
 		createFreshIx(fileName);
-		assertZeroResults(fldName, "0*"); 
-		assertZeroResults(fldName, "1*"); 
-		assertZeroResults(fldName, "2*"); 
-		assertZeroResults(fldName, "3*"); 
-		assertZeroResults(fldName, "4*"); 
-		assertZeroResults(fldName, "5*"); 
-		assertZeroResults(fldName, "6*"); 
-		assertZeroResults(fldName, "7*"); 
-		assertZeroResults(fldName, "8*"); 
-		assertZeroResults(fldName, "9*"); 
+		assertZeroResults(fldName, "0*");
+		assertZeroResults(fldName, "1*");
+		assertZeroResults(fldName, "2*");
+		assertZeroResults(fldName, "3*");
+		assertZeroResults(fldName, "4*");
+		assertZeroResults(fldName, "5*");
+		assertZeroResults(fldName, "6*");
+		assertZeroResults(fldName, "7*");
+		assertZeroResults(fldName, "8*");
+		assertZeroResults(fldName, "9*");
 	}
-	
+
 	/**
 	 * check for absence of searchable forbidden letters
 	 */
 @Test
 	public final void testSearchNoForbiddenLetters()
-			throws IOException, ParserConfigurationException, SAXException, SolrServerException 
+			throws IOException, ParserConfigurationException, SAXException, SolrServerException
 	{
 		createFreshIx(fileName);
-		assertZeroResults(fldName, "I*"); 
-		assertZeroResults(fldName, "O*"); 
-		assertZeroResults(fldName, "W*"); 
-		assertZeroResults(fldName, "X*"); 
-		assertZeroResults(fldName, "Y*"); 
+		assertZeroResults(fldName, "I*");
+		assertZeroResults(fldName, "O*");
+		assertZeroResults(fldName, "W*");
+		assertZeroResults(fldName, "X*");
+		assertZeroResults(fldName, "Y*");
 	}
-	
+
 	/**
 	 * check for absence of searchable weird chars
 	 */
@@ -516,12 +529,12 @@ public class CallNumTopFacetTests extends AbstractStanfordTest
 			throws IOException, ParserConfigurationException, SAXException, SolrServerException
 	{
 		createFreshIx(fileName);
-		assertZeroResults(fldName, "\\\""); 
-		assertZeroResults(fldName, "\\("); 
-		assertZeroResults(fldName, "\\-"); 
-		assertZeroResults(fldName, "\\."); 
-		assertZeroResults(fldName, "\\?"); 
-		assertZeroResults(fldName, "`"); 
+		assertZeroResults(fldName, "\\\"");
+		assertZeroResults(fldName, "\\(");
+		assertZeroResults(fldName, "\\-");
+		assertZeroResults(fldName, "\\.");
+		assertZeroResults(fldName, "\\?");
+		assertZeroResults(fldName, "`");
 	}
 
 }

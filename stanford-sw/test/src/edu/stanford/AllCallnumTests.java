@@ -6,7 +6,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         CallNumberTests.class,
-        CallNumLaneJacksonTests.class,
+        CallNumLaneTests.class,
         CallNumLCLoppingUnitTests.class,
         CallNumLibLocComboLopTests.class,
         CallNumLongestComnPfxTests.class,
