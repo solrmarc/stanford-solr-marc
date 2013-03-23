@@ -31,6 +31,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	static Set<String> GOV_DOC_LOCS = null;
 	/** locations indicating item is not shelved by callnum */
 	static Set<String> SHELBY_LOCS = null;
+	/** locations indicating business library item is not shelved by callnum */
+	static Set<String> BIZ_SHELBY_LOCS = null;
 	/** call numbers that should not be displayed */
 	static Set<String> SKIPPED_CALLNUMS = null;
 
@@ -58,6 +60,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         ONLINE_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_online_list.properties");
         GOV_DOC_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "gov_doc_location_list.properties");
         SHELBY_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_shelby_list.properties");
+        BIZ_SHELBY_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_biz_shelby_list.properties");
         SKIPPED_CALLNUMS = PropertiesUtils.loadPropertiesSet(propertyDirs, "callnums_skipped_list.properties");
         // try to reuse HashSet, etc. objects instead of creating fresh each time
         formats = new LinkedHashSet<String>();
@@ -826,14 +829,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				fullTextUrls.remove(possUrl);
 		}
 
-//		for (String possUrl : fullTextUrls) {
-//       		if (possUrl.startsWith("http://www.gsb.stanford.edu/jacksonlibrary/services/") ||
-//          		     possUrl.startsWith("https://www.gsb.stanford.edu/jacksonlibrary/services/"))
-//// FIXME  SW-322:  avoid ConcurrentModificationException
-//				fullTextUrls.remove(possUrl);
-//		}
-//		fullTextUrls.addAll(fullTextUrls);
-
 		// get all 956 subfield u containing fulltext urls that aren't SFX
 		for (String url : f956subu) {
 			if (!isSFXUrl(url))
@@ -1149,8 +1144,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	{
 		Set<String> result = new HashSet<String>();
 		for (Item item : itemSet) {
-			if (!item.hasShelbyLoc() && !item.hasIgnoredCallnum()
-					&& !item.hasBadLcLaneJackCallnum()) {
+			if (!item.hasShelbyLoc()
+					&& !item.hasIgnoredCallnum()
+					&& !item.hasBadLcLaneCallnum()) {
 				String callnum = item.getCallnum();
 				if (callnum.length() > 0)
 					result.add(callnum);

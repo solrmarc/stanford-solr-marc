@@ -11,6 +11,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.*;
+import org.marc4j.marc.*;
 import org.solrmarc.tools.CallNumUtils;
 import org.xml.sax.SAXException;
 
@@ -21,7 +22,7 @@ import edu.stanford.enumValues.CallNumberType;
  * junit4 tests for Stanford University call number fields for blacklight index
  * @author Naomi Dushay
  */
-public class CallNumberTests extends AbstractStanfordTest 
+public class CallNumberTests extends AbstractStanfordTest
 {
 	private final String govDocStr = "Government Document";
 	private final boolean isSerial = true;
@@ -30,27 +31,27 @@ public class CallNumberTests extends AbstractStanfordTest
     private String testFilePath = testDataParentPath + File.separator + fileName;
 
 @Before
-	public final void setup() 
+	public final void setup()
 	{
 		mappingTestInit();
-	}	
+	}
 
 
 	/**
 	 * callnum_top_facet, for dewey, should be DEWEY_TOP_FACET_VAL
 	 */
 @Test
-	public final void testFacetsInIx() 
-			throws IOException, ParserConfigurationException, SAXException, SolrServerException 
+	public final void testFacetsInIx()
+			throws IOException, ParserConfigurationException, SAXException, SolrServerException
 	{
 		String fldName = "callnum_top_facet";
 		createFreshIx(fileName);
-						
+
 		assertSingleResult("1033119", fldName, "\"B - Philosophy, Psychology, Religion\"");
 
 		// skipped values should not be found
 		// bad start chars for LC
-		assertZeroResults(fldName, "I*"); // IN PROCESS 
+		assertZeroResults(fldName, "I*"); // IN PROCESS
 		assertZeroResults(fldName, "W*"); // WITHDRAWN
 		// only N call number in test data is "NO CALL NUMBER"
 		assertZeroResults(fldName, "N*");
@@ -70,7 +71,7 @@ public class CallNumberTests extends AbstractStanfordTest
 		docIds.add("DeweyVol");
 		assertSearchResults(fldName, "\"" + edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL + "\"", docIds);
 		assertSearchResults(fldName, "\"Dewey Classification\"", docIds);
-		
+
 		fldName = "lc_alpha_facet";
 		assertZeroResults(fldName, "NO*");  // "NO CALL NUMBER"
 		assertZeroResults(fldName, "IN*");  // "IN PROCESS"
@@ -83,7 +84,7 @@ public class CallNumberTests extends AbstractStanfordTest
 		assertZeroResults(fldName, "X*"); // X call nums (including XX)
 		assertZeroResults(fldName, "WITHDRAWN");
 		assertZeroResults(fldName, "110978984448763");
-				
+
 		fldName = "dewey_1digit_facet";
 		docIds.clear();
 		docIds.add("2214009");
@@ -92,14 +93,14 @@ public class CallNumberTests extends AbstractStanfordTest
 		fldName = "dewey_2digit_facet";
 		fldName = "dewey_b4cutter_facet";
 		assertZeroResults(fldName, "WITHDRAWN");
-				
+
 		fldName = "callnum_search";
-		assertSingleResult("690002", fldName, "\"159.32 .W211\""); 
+		assertSingleResult("690002", fldName, "\"159.32 .W211\"");
 		//  skipped values
 		assertZeroResults(fldName, "\"NO CALL NUMBER\"");
 		assertZeroResults(fldName, "\"IN PROCESS\"");
-		assertZeroResults(fldName, "\"INTERNET RESOURCE\""); 
-		assertZeroResults(fldName, "\"" + govDocStr + "\""); 
+		assertZeroResults(fldName, "\"INTERNET RESOURCE\"");
+		assertZeroResults(fldName, "\"" + govDocStr + "\"");
 	}
 
 	/**
@@ -108,10 +109,10 @@ public class CallNumberTests extends AbstractStanfordTest
 	 *  the letter. Dewey and GovDoc values are tested in separate methods.
 	 */
 @Test
-	public final void testTopFacetLC() 
+	public final void testTopFacetLC()
 	{
 		String fldName = "callnum_top_facet";
-		
+
 		// single char LC classification
 		solrFldMapTest.assertSolrFldValue(testFilePath, "6661112", fldName, "Z - Bibliography, Library Science, Information Resources");
 		// two char LC classification
@@ -125,21 +126,21 @@ public class CallNumberTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3NoDec", fldName, "K - Law");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3Dec", fldName, "K - Law");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3DecSpace", fldName, "K - Law");
-						
+
 		// LCPER
-		solrFldMapTest.assertSolrFldValue(testFilePath, "460947", fldName, "E - History of the Americas (General)");		
+		solrFldMapTest.assertSolrFldValue(testFilePath, "460947", fldName, "E - History of the Americas (General)");
 	}
 
 	/**
 	 * lc_alpha_facet contains the first alpha portion of the local LC
-	 *  call number along with a user friendly description of the topic  
-	 *  indicated by the letters. 
+	 *  call number along with a user friendly description of the topic
+	 *  indicated by the letters.
 	 */
 @Test
-	public final void testLCAlphaFacet() 
+	public final void testLCAlphaFacet()
 	{
 		String fldName = "lc_alpha_facet";
-		
+
 		// single char LC classification
 		solrFldMapTest.assertSolrFldValue(testFilePath, "6661112", fldName, "Z - Bibliography, Library Science, Information Resources");
 		// LC 999 one letter, space before Cutter
@@ -166,7 +167,7 @@ public class CallNumberTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3NoDec", fldName, "KJH - Law of Andorra");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3Dec", fldName, "KJH - Law of Andorra");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "999LC3DecSpace", fldName, "KJH - Law of Andorra");
-		
+
 		// LCPER
 		solrFldMapTest.assertSolrFldValue(testFilePath, "460947", fldName, "E - History of the Americas (General)");
 	}
@@ -176,10 +177,10 @@ public class CallNumberTests extends AbstractStanfordTest
 	 *  before the Cutter.
 	 */
 @Test
-	public final void testLCB4Cutter() 
+	public final void testLCB4Cutter()
 	{
 		String fldName = "lc_b4cutter_facet";
-		
+
 		// search for LC values
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "6661112", fldName, "Z");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "6661112", fldName, "Z3871");
@@ -201,23 +202,23 @@ public class CallNumberTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "115472", fldName, "HC241");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "115472", fldName, "HC241.25");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "3400092", fldName, "DC34.5");
-				
+
 		// LCPER
 		solrFldMapTest.assertSolrFldValue(testFilePath, "460947", fldName, "E184");
 	}
 
 
 	/**
-	 * callnum_search contains all local call numbers, except those that are 
-	 *  ignored, such as "NO CALL NUMBER"  It includes "bad" LC call numbers, 
+	 * callnum_search contains all local call numbers, except those that are
+	 *  ignored, such as "NO CALL NUMBER"  It includes "bad" LC call numbers,
 	 *  such as those beginning with X;  it includes MFILM and MCD call numbers
 	 *  and so on.  Testing Dewey call number search is in a separate method.
 	 */
 @Test
-	public final void testSearchLC() 
+	public final void testSearchLC()
 	{
 		String fldName = "callnum_search";
-	
+
 		// LC 999 one letter
 		solrFldMapTest.assertSolrFldValue(testFilePath, "6661112", fldName, "Z3871.Z8");
 		// LC 999 one letter, space before Cutter
@@ -239,29 +240,29 @@ public class CallNumberTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "2913114", fldName, "DH135 .P6 I65");
 		// LC 999, LC 050, multiple LC facet values, 082 Dewey
 		solrFldMapTest.assertSolrFldValue(testFilePath, "3400092", fldName, "DC34.5 .A78 L4 1996");
-	
+
 		// LC 999, LC 050, tough cutter
 		solrFldMapTest.assertSolrFldValue(testFilePath, "115472", fldName, "HC241.25 .I4 D47");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1033119", fldName, "BX4659.E85 W44");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1033119", fldName, "BX4659 .E85 W44 1982");
 		// 082 Dewey, LC 999, 050 (same value)
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1732616", fldName, "QA273 .C83 1962");
-	
+
 		// Lane invalid LC call number, so it is excluded
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "7233951", fldName, "X578 .S64 1851");
 		solrFldMapTest.assertNoSolrFld(testFilePath, "7233951", fldName);
 
 		// non-Lane invalid LC call number so it's included
 		solrFldMapTest.assertSolrFldValue(testFilePath, "greenX", fldName, "X666 .S666 1666");
-		
+
 		// LCPER 999
 		solrFldMapTest.assertSolrFldValue(testFilePath, "460947", fldName, "E184.S75 R47A V.1 1980");
-		
-		// SUDOC 999 
+
+		// SUDOC 999
 		solrFldMapTest.assertSolrFldValue(testFilePath, "5511738", fldName, "Y 4.AG 8/1:108-16");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "2678655", fldName, "GA 1.13:RCED-85-88");
-	
-		// ALPHANUM 999 
+
+		// ALPHANUM 999
 		solrFldMapTest.assertSolrFldValue(testFilePath, "4578538", fldName, "SUSEL-69048");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1261173", fldName, "MFILM N.S. 1350 REEL 230 NO. 3741");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1234673", fldName, "MCD Brendel Plays Beethoven's Eroica variations");
@@ -272,7 +273,7 @@ public class CallNumberTests extends AbstractStanfordTest
 	 * callnum_top_facet, for dewey, should be DEWEY_TOP_FACET_VAL
 	 */
 @Test
-	public final void testTopFacetDewey() 
+	public final void testTopFacetDewey()
 	{
 		String fldName = "callnum_top_facet";
 		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
@@ -281,15 +282,15 @@ public class CallNumberTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "DeweyVol", fldName, edu.stanford.CallNumUtils.DEWEY_TOP_FACET_VAL);
 	}
-	
+
 
 	/**
 	 * dewey_1digit_facet contains the hundreds digit of a Dewey call
-	 *  number along with a user friendly description of the broad topic so 
+	 *  number along with a user friendly description of the broad topic so
 	 *  indicated
 	 */
 @Test
-	public final void testLevel2FacetDewey() 
+	public final void testLevel2FacetDewey()
 	{
 		String fldName = "dewey_1digit_facet";
 		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, "100s - Philosophy & Psychology");
@@ -305,12 +306,12 @@ public class CallNumberTests extends AbstractStanfordTest
 	}
 
 	/**
-	 * dewey_2digit_facet contains the hundred and tens digits of a 
-	 *  Dewey call number (e.g 710s), along with a user friendly description of 
+	 * dewey_2digit_facet contains the hundred and tens digits of a
+	 *  Dewey call number (e.g 710s), along with a user friendly description of
 	 *  the topic indicated by the numbers.
 	 */
 @Test
-	public final void testLevel3FacetDewey() 
+	public final void testLevel3FacetDewey()
 	{
 		String fldName = "dewey_2digit_facet";
 		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, "150s - Psychology");
@@ -327,11 +328,11 @@ public class CallNumberTests extends AbstractStanfordTest
 
 
 	/**
-	 * dewey_b4cutter_facet contains the portion of the Dewey call 
-	 * numbers before the Cutter.  
+	 * dewey_b4cutter_facet contains the portion of the Dewey call
+	 * numbers before the Cutter.
 	 */
 @Test
-	public final void testLevel4FacetDewey() 
+	public final void testLevel4FacetDewey()
 	{
 		String fldName = "dewey_b4cutter_facet";
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "690002", fldName, "159");
@@ -355,9 +356,9 @@ public class CallNumberTests extends AbstractStanfordTest
 	 *  are tested in another method.
 	 */
 @Test
-	public final void testSearchDewey() 
+	public final void testSearchDewey()
 	{
-		String fldName = "callnum_search";		
+		String fldName = "callnum_search";
 		solrFldMapTest.assertSolrFldValue(testFilePath, "690002", fldName, "159.32 .W211");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "2328381", fldName, "827.5 .S97TG");
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1849258", fldName, "352.042 .C594 ED.2");
@@ -376,7 +377,7 @@ public class CallNumberTests extends AbstractStanfordTest
 	 *  three digits before the decimal (or implied decimal)
 	 */
 @Test
-	public final void testDeweyLeadingZeros() 
+	public final void testDeweyLeadingZeros()
 	{
 		String fldName = "dewey_1digit_facet";
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1", fldName, "000s - Computer Science, Information & General Works");
@@ -405,12 +406,12 @@ public class CallNumberTests extends AbstractStanfordTest
 
 
 	/**
-	 * Call number top level facet should be GOV_DOC_TOP_FACET_VAL if the "type" 
-	 *  of call number indicated in the 999 is "SUDOC" or if there is an 086 
+	 * Call number top level facet should be GOV_DOC_TOP_FACET_VAL if the "type"
+	 *  of call number indicated in the 999 is "SUDOC" or if there is an 086
 	 *  present
 	 */
 @Test
-	public final void testGovtDocFromSUDOC() 
+	public final void testGovtDocFromSUDOC()
 	{
 		String fldName = "callnum_top_facet";
 		solrFldMapTest.assertSolrFldValue(testFilePath, "2557826", fldName, govDocStr);
@@ -420,11 +421,11 @@ public class CallNumberTests extends AbstractStanfordTest
 
 
 	/**
-	 * Call number top level facet should be "Gov't Doc" if the location is 
+	 * Call number top level facet should be "Gov't Doc" if the location is
 	 *  a gov doc location, regardless of the type of call number
 	 */
 @Test
-	public final void testGovDocFromLocation() 
+	public final void testGovDocFromLocation()
 	{
 		String fldName = "callnum_top_facet";
 	    testFilePath = testDataParentPath + File.separator + "callNumberGovDocTests.mrc";
@@ -436,9 +437,9 @@ public class CallNumberTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcfiche", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcnwdoc", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "sudoc", fldName, edu.stanford.CallNumUtils.GOV_DOC_TOP_FACET_VAL);
-		
+
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "ssrcfiche", fldName, "300s - Social Sciences");
-		
+
 		// item has LC call number AND item has gov doc location
 		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, "Z - Bibliography, Library Science, Information Resources");
 	}
@@ -446,26 +447,26 @@ public class CallNumberTests extends AbstractStanfordTest
 
 	/**
 	 * Call number top level facet should be both the LC call number stuff AND
-	 *  "Gov't Doc" if the "type" of call number is LC and the location is 
+	 *  "Gov't Doc" if the "type" of call number is LC and the location is
 	 *  a gov doc location.
 	 * If the call number is labeled LC, but does not parse, and the location is
 	 *  a gov doc location, then the top level facet hsould be gov doc only.
 	 */
 @Test
-	public final void testLevel2FacetGovDoc() 
+	public final void testLevel2FacetGovDoc()
 	{
-		String fldName = "gov_doc_type_facet";		
+		String fldName = "gov_doc_type_facet";
 	    testFilePath = testDataParentPath + File.separator + "callNumberGovDocTests.mrc";
 
 		solrFldMapTest.assertSolrFldValue(testFilePath, "brit", fldName, edu.stanford.CallNumUtils.GOV_DOC_BRIT_FACET_VAL);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "calif", fldName, edu.stanford.CallNumUtils.GOV_DOC_CALIF_FACET_VAL);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "intl", fldName, edu.stanford.CallNumUtils.GOV_DOC_INTL_FACET_VAL);		
+		solrFldMapTest.assertSolrFldValue(testFilePath, "intl", fldName, edu.stanford.CallNumUtils.GOV_DOC_INTL_FACET_VAL);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "fed", fldName, edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcdocs", fldName, edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcfiche", fldName, edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "ssrcnwdoc", fldName, edu.stanford.CallNumUtils.GOV_DOC_FED_FACET_VAL);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "sudoc", fldName, edu.stanford.CallNumUtils.GOV_DOC_UNKNOWN_FACET_VAL);
-		
+
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "brit", fldName, govDocStr);
 	}
 
@@ -474,7 +475,7 @@ public class CallNumberTests extends AbstractStanfordTest
 	 * access facet should be "Online" for call number "INTERNET RESOURCE"
 	 */
 @Test
-	public final void testAccessOnlineFrom999() 
+	public final void testAccessOnlineFrom999()
 	{
 		String fldName = "access_facet";
 		String fldVal = Access.ONLINE.toString();
@@ -485,16 +486,74 @@ public class CallNumberTests extends AbstractStanfordTest
 
 
 	/**
-	 * test that SHELBYTITL, SHELBYSER and STORBYTITL locations cause call 
+	 * test that SHELBYTITL, SHELBYSER and STORBYTITL locations cause call
 	 *  numbers to be ignored (not included in facets)
 	 */
 @Test
-	public final void testIgnoreShelbyLocations() 
+	public final void testIgnoreShelbyLocations()
 	{
 		String fldName = "lc_b4cutter_facet";
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "1111", fldName, "PQ9661");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "2211", fldName, "PQ9661");
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "3311", fldName, "PQ9661");
+		MarcFactory factory = MarcFactory.newInstance();
+		Record record = factory.newRecord();
+	    DataField df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', "PQ9661 .P31 C6 1946"));
+	    df.addSubfield(factory.newSubfield('w', "LC"));
+	    df.addSubfield(factory.newSubfield('i', "36105111222333"));
+	    df.addSubfield(factory.newSubfield('l', "SHELBYTITL"));
+	    df.addSubfield(factory.newSubfield('m', "CHEMCHMENG"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', "PQ9661 .P31 C6 1946"));
+	    df.addSubfield(factory.newSubfield('w', "LC"));
+	    df.addSubfield(factory.newSubfield('i', "36105111222333"));
+	    df.addSubfield(factory.newSubfield('k', "SHELBYSER"));
+	    df.addSubfield(factory.newSubfield('l', "INPROCESS"));
+	    df.addSubfield(factory.newSubfield('m', "CHEMCHMENG"));
+	    record.addVariableField(df);
+	    df = factory.newDataField("999", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', "PQ9661 .P31 C6 1946"));
+	    df.addSubfield(factory.newSubfield('w', "LC"));
+	    df.addSubfield(factory.newSubfield('i', "36105111222333"));
+	    df.addSubfield(factory.newSubfield('l', "STORBYTITL"));
+	    df.addSubfield(factory.newSubfield('m', "CHEMCHMENG"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldHasNoValue(record, fldName, "PQ9661");
+	}
+
+
+	/**
+	 * test that "BUS-PER", "BUSDISPLAY", "NEWS-STKS"
+	 * locations cause call numbers to be ignored (not included in facets) when
+	 * the library is "BUSINESS"
+	 */
+@Test
+	public final void testIgnoreBizShelbyLocations()
+	{
+		String fldName = "lc_b4cutter_facet";
+		MarcFactory factory = MarcFactory.newInstance();
+		String[] bizShelbyLocs = {"NEWS-STKS"};
+		for (String loc : bizShelbyLocs)
+		{
+			Record record = factory.newRecord();
+		    DataField df = factory.newDataField("999", ' ', ' ');
+		    df.addSubfield(factory.newSubfield('a', "PQ9661 .P31 C6 1946"));
+		    df.addSubfield(factory.newSubfield('w', "LC"));
+		    df.addSubfield(factory.newSubfield('i', "36105111222333"));
+		    df.addSubfield(factory.newSubfield('l', loc));
+		    df.addSubfield(factory.newSubfield('m', "BUSINESS"));
+		    record.addVariableField(df);
+		    solrFldMapTest.assertSolrFldHasNoValue(record, fldName, "PQ9661");
+
+		    // don't ignore these locations if used by other libraries
+		    df = factory.newDataField("999", ' ', ' ');
+		    df.addSubfield(factory.newSubfield('a', "ML9661 .P31 C6 1946"));
+		    df.addSubfield(factory.newSubfield('w', "LC"));
+		    df.addSubfield(factory.newSubfield('i', "36105444555666"));
+		    df.addSubfield(factory.newSubfield('l', loc));
+		    df.addSubfield(factory.newSubfield('m', "GREEN"));
+		    record.addVariableField(df);
+		    solrFldMapTest.assertSolrFldValue(record, fldName, "ML9661");
+		}
 	}
 
 
@@ -503,15 +562,15 @@ public class CallNumberTests extends AbstractStanfordTest
 	 *  numbers (call numbers without volume info)
 	 */
 @Test
-	public final void testShelfkeysInIx() 
-			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
+	public final void testShelfkeysInIx()
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String fldName = "shelfkey";
 		String revFldName = "reverse_shelfkey";
 		createFreshIx(fileName);
-		
+
 		// assert searching works
-	
+
 		// LC: no volume info
 		String id = "999LC2";
 		String callnum = "HG6046 .V28 1986";
@@ -523,7 +582,7 @@ public class CallNumberTests extends AbstractStanfordTest
 		assertSingleResult("999LC2", revFldName, "\"" + reverseShelfkey + "\"");
 		// it should be downcased
 		assertSingleResult("999LC2", revFldName, "\"" + reverseShelfkey.toLowerCase() + "\"");
-		
+
 		// LC: volume info to lop off
 		id = "999LC22";
 		callnum = "CB3 .A6 SUPPL. V.31";
@@ -533,37 +592,37 @@ public class CallNumberTests extends AbstractStanfordTest
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
 		assertSingleResult("999LC22", revFldName, "\"" + reverseShelfkey + "\"");
 
-		// assert we don't find what we don't expect		
+		// assert we don't find what we don't expect
 		callnum = "NO CALL NUMBER";
-		assertZeroResults(fldName, "\"" + callnum + "\""); 
+		assertZeroResults(fldName, "\"" + callnum + "\"");
 		shelfkey = CallNumberType.OTHER.getPrefix() + CallNumUtils.normalizeSuffix(callnum);
-		assertZeroResults(fldName, "\"" + shelfkey + "\""); 
+		assertZeroResults(fldName, "\"" + shelfkey + "\"");
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertZeroResults(revFldName, "\"" + reverseShelfkey + "\""); 
+		assertZeroResults(revFldName, "\"" + reverseShelfkey + "\"");
 
 		//   2009-12:  actually, the whole IN PROCESS record is skipped b/c only one withdrawn item
 		callnum = "IN PROCESS";
-		assertZeroResults(fldName, "\"" + callnum + "\""); 
+		assertZeroResults(fldName, "\"" + callnum + "\"");
 		shelfkey = CallNumberType.OTHER.getPrefix() + CallNumUtils.normalizeSuffix(callnum);
-		assertZeroResults(fldName, "\"" + shelfkey + "\""); 
+		assertZeroResults(fldName, "\"" + shelfkey + "\"");
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertZeroResults(revFldName, "\"" + reverseShelfkey + "\""); 
+		assertZeroResults(revFldName, "\"" + reverseShelfkey + "\"");
 
-		// gov doc 
-		assertZeroResults(fldName, "\"" + govDocStr + "\""); 
+		// gov doc
+		assertZeroResults(fldName, "\"" + govDocStr + "\"");
 		shelfkey = CallNumberType.SUDOC.getPrefix() + CallNumUtils.normalizeSuffix(govDocStr);
-		assertZeroResults(fldName, "\"" + shelfkey + "\""); 
+		assertZeroResults(fldName, "\"" + shelfkey + "\"");
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertZeroResults(revFldName, "\"" + reverseShelfkey + "\""); 
-		
+		assertZeroResults(revFldName, "\"" + reverseShelfkey + "\"");
+
 		// ASIS 999 "INTERNET RESOURCE"
 		callnum = "INTERNET RESOURCE";
-		assertZeroResults(fldName, "\"" + callnum + "\""); 
+		assertZeroResults(fldName, "\"" + callnum + "\"");
 		shelfkey = CallNumberType.OTHER.getPrefix() + CallNumUtils.normalizeSuffix(callnum);
-		assertZeroResults(fldName, "\"" + shelfkey + "\""); 
+		assertZeroResults(fldName, "\"" + shelfkey + "\"");
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey);
-		assertZeroResults(revFldName, "\"" + reverseShelfkey + "\""); 
-	}	
+		assertZeroResults(revFldName, "\"" + reverseShelfkey + "\"");
+	}
 
 
 	/**
@@ -571,7 +630,7 @@ public class CallNumberTests extends AbstractStanfordTest
 	 *  numbers (call numbers without volume info)
 	 */
 @Test
-	public final void testShelfkey() 
+	public final void testShelfkey()
 	{
 		String fldName = "shelfkey";
 
@@ -587,7 +646,7 @@ public class CallNumberTests extends AbstractStanfordTest
 // TODO: suboptimal -  it finds V.31 first, so it doesn't strip suppl.
 		shelfkey = CallNumberType.LC.getPrefix() + CallNumUtils.getLCShelfkey("CB3 .A6 SUPPL. ...", id).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, shelfkey);
-		
+
 		// LCPER
 		id = "460947";
 		callnum = "E184.S75 R47A V.1 1980";
@@ -606,19 +665,19 @@ public class CallNumberTests extends AbstractStanfordTest
 		callnum = "999.85 .P84";
 		shelfkey = CallNumberType.DEWEY.getPrefix() + CallNumUtils.getDeweyShelfKey(callnum).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, shelfkey);
-		
+
 		// Dewey: vol info to lop off
 		id = "DeweyVol";
 		callnum = "666 .F67 VOL. 5";
 		shelfkey = CallNumberType.DEWEY.getPrefix() + CallNumUtils.getDeweyShelfKey("666 .F67 ...").toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, shelfkey);
-		
+
 		// SUDOC 999  -  uses raw callno
 		id = "5511738";
 		callnum = "Y 4.AG 8/1:108-16";
 		shelfkey = CallNumberType.SUDOC.getPrefix() + CallNumUtils.normalizeSuffix(callnum).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, shelfkey);
-		
+
 		callnum = "GA 1.13:RCED-85-88";
 		shelfkey = CallNumberType.SUDOC.getPrefix() + CallNumUtils.normalizeSuffix(callnum).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "2678655", fldName, shelfkey);
@@ -631,7 +690,7 @@ public class CallNumberTests extends AbstractStanfordTest
 		callnum = "SUSEL-69048";
 		shelfkey = CallNumberType.OTHER.getPrefix() + CallNumUtils.normalizeSuffix(callnum).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "4578538", fldName, shelfkey);
-		
+
 		callnum = "MFILM N.S. 1350 REEL 230 NO. 3741";
 		shelfkey = CallNumberType.OTHER.getPrefix() + CallNumUtils.normalizeSuffix(callnum).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1261173", fldName, shelfkey);
@@ -639,7 +698,7 @@ public class CallNumberTests extends AbstractStanfordTest
 		callnum = "MCD Brendel Plays Beethoven's Eroica variations";
 		shelfkey = CallNumberType.OTHER.getPrefix() + CallNumUtils.normalizeSuffix(callnum).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1234673", fldName, shelfkey);
-		
+
 		// this is a Lane invalid LC callnum
 		id = "7233951";
 		callnum = "X578 .S64 1851";
@@ -648,7 +707,7 @@ public class CallNumberTests extends AbstractStanfordTest
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.OTHER, id).toLowerCase();
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, shelfkey);
 		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
-		
+
 		id = "greenX";
 		callnum = "X666 .S666 1666";
 		shelfkey = CallNumberType.LC.getPrefix() + CallNumUtils.getLCShelfkey(callnum, id).toLowerCase();
@@ -667,12 +726,12 @@ public class CallNumberTests extends AbstractStanfordTest
 
 
 	/**
-	 * reverse_shelfkey should contain reverse shelfkey versions of 
+	 * reverse_shelfkey should contain reverse shelfkey versions of
 	 *  "lopped" call numbers (call numbers without volume info). Used for
 	 *  sorting backwards.
 	 */
 @Test
-	public final void testReverseShelfkey() 
+	public final void testReverseShelfkey()
 	{
 		String fldName = "reverse_shelfkey";
 
@@ -693,7 +752,7 @@ public class CallNumberTests extends AbstractStanfordTest
 		shelfkey = CallNumberType.LC.getPrefix() + CallNumUtils.getLCShelfkey(lopped, id);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, reverseShelfkey);
-		
+
 		// LCPER
 		id = "460947";
 		callnum = "E184.S75 R47A V.1 1980";
@@ -707,20 +766,20 @@ public class CallNumberTests extends AbstractStanfordTest
 		shelfkey = CallNumberType.DEWEY.getPrefix() + CallNumUtils.getDeweyShelfKey(callnum);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "31", fldName, reverseShelfkey);
-		
+
 		// Dewey: vol info to lop off
 		callnum = "352.042 .C594 ED.2";
 		lopped = "352.042 .C594 ...";
 		shelfkey = CallNumberType.DEWEY.getPrefix() + CallNumUtils.getDeweyShelfKey(lopped);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1849258", fldName, reverseShelfkey);
-		
-		// SUDOC 999 
+
+		// SUDOC 999
 		callnum = "Y 4.AG 8/1:108-16";
 		shelfkey = CallNumberType.SUDOC.getPrefix() + CallNumUtils.normalizeSuffix(callnum);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "5511738", fldName, reverseShelfkey);
-		
+
 		callnum = "GA 1.13:RCED-85-88";
 		shelfkey = CallNumberType.SUDOC.getPrefix() + CallNumUtils.normalizeSuffix(callnum);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -736,7 +795,7 @@ public class CallNumberTests extends AbstractStanfordTest
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, reverseShelfkey);
 		solrFldMapTest.assertNoSolrFld(testFilePath, id, fldName);
-		
+
 		id = "greenX";
 		callnum = "X666 .S666 1666";
 		// it's not processed as LC, but as OTHER
@@ -753,7 +812,7 @@ public class CallNumberTests extends AbstractStanfordTest
 		shelfkey = CallNumberType.OTHER.getPrefix() + CallNumUtils.normalizeSuffix(callnum);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "4578538", fldName, reverseShelfkey);
-		
+
 		callnum = "MFILM N.S. 1350 REEL 230 NO. 3741";
 		shelfkey = CallNumberType.OTHER.getPrefix() + CallNumUtils.normalizeSuffix(callnum);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
@@ -763,7 +822,7 @@ public class CallNumberTests extends AbstractStanfordTest
 		shelfkey = CallNumberType.OTHER.getPrefix() + CallNumUtils.normalizeSuffix(callnum);
 		reverseShelfkey = CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1234673", fldName, reverseShelfkey);
-		
+
 		// ASIS 999 "INTERNET RESOURCE": No call number, but access Online
 		callnum = "INTERNET RESOURCE";
 		shelfkey = CallNumberType.OTHER.getPrefix() + CallNumUtils.normalizeSuffix(callnum);
@@ -777,33 +836,33 @@ public class CallNumberTests extends AbstractStanfordTest
 	 * sort keys for call numbers including any volume information
 	 */
 @Test
-	public final void testVolumeSortCallnum() 
+	public final void testVolumeSortCallnum()
 	{
 		boolean isSerial = true;
 		String reversePeriodStr = new String(CallNumUtils.reverseNonAlphanum('.'));
 		String reverseSpaceStr = new String(CallNumUtils.reverseNonAlphanum(' '));
 		String reverseHyphenStr = new String(CallNumUtils.reverseNonAlphanum('-'));
-		
+
 		// LC
-		String callnum = "M453 .Z29 Q1 L V.2"; 
-		String lopped = "M453 .Z29 Q1 L ..."; 
+		String callnum = "M453 .Z29 Q1 L V.2";
+		String lopped = "M453 .Z29 Q1 L ...";
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.LC, "fake").toLowerCase();
 		assertEquals("lc m   0453.000000 z0.290000 q0.100000 l v.000002", getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, !isSerial, ignoredId));
 		String reversePrefix = "lc m   0453.000000 z0.290000 q0.100000 l 4" + reversePeriodStr + "zzzzzx";
 		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, ignoredId).startsWith(reversePrefix));
-		
-		callnum = "M453 .Z29 Q1 L SER.2"; 
+
+		callnum = "M453 .Z29 Q1 L SER.2";
 		assertEquals("lc m   0453.000000 z0.290000 q0.100000 l ser.000002", getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, !isSerial, ignoredId));
 		reversePrefix = "lc m   0453.000000 z0.290000 q0.100000 l 7l8" + reversePeriodStr + "zzzzzx";
 		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, ignoredId).startsWith(reversePrefix));
-		
-		// dewey 
+
+		// dewey
 		// suffix year
-		callnum = "322.45 .R513 1957";     
+		callnum = "322.45 .R513 1957";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.DEWEY, "fake").toLowerCase();
 		assertEquals("dewey 322.45000000 r513 001957",  getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.DEWEY, !isSerial, ignoredId));
 		assertEquals("dewey 322.45000000 r513 001957",  getVolumeSortCallnum(callnum, callnum, shelfkey, CallNumberType.DEWEY, isSerial, ignoredId));
-       // suffix volume		
+       // suffix volume
 		callnum = "323.09 .K43 V.1";
 		lopped = "323.09 .K43";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.DEWEY, "fake").toLowerCase();
@@ -811,15 +870,15 @@ public class CallNumberTests extends AbstractStanfordTest
 		reversePrefix = "dewey 323.09000000 k43 4" + reversePeriodStr + "zzzzzy";
 		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.DEWEY, isSerial, ignoredId).startsWith(reversePrefix));
 		// suffix - volume and year
-		callnum = "322.44 .F816 V.1 1974";  
-		lopped = "322.44 .F816"; 
+		callnum = "322.44 .F816 V.1 1974";
+		lopped = "322.44 .F816";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.DEWEY, "fake").toLowerCase();
 		assertEquals("dewey 322.44000000 f816 v.000001 001974", getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.DEWEY, !isSerial, ignoredId));
 		reversePrefix = "dewey 322.44000000 f816 4" + reversePeriodStr + "zzzzzy" + reverseSpaceStr + "zzyqsv";
 		assertTrue("serial volume sort incorrect", getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.DEWEY, isSerial, ignoredId).startsWith(reversePrefix));
 		// suffix no.
-		callnum = "323 .A512RE NO.23-28";   
-		lopped = "323 .A512RE";  
+		callnum = "323 .A512RE NO.23-28";
+		lopped = "323 .A512RE";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.DEWEY, "fake").toLowerCase();
 		assertEquals("dewey 323.00000000 a512re no.000023-000028", getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.DEWEY, !isSerial, ignoredId));
 		reversePrefix = "dewey 323.00000000 a512re cb" + reversePeriodStr + "zzzzxw" + reverseHyphenStr + "zzzzxr";
@@ -846,7 +905,7 @@ public class CallNumberTests extends AbstractStanfordTest
 		lcVolumeUnsortedCallnumList.add("B8.14 L3 V.2 1947");
 		lcVolumeUnsortedCallnumList.add("B8.14 L3 V.2 1953");
 	}
-	
+
 	// list of raw call numbers in "proper" order for show view of non-serial
 	List<String> sortedLCVolCallnumList = new ArrayList<String>(25);
 	{
@@ -861,7 +920,7 @@ public class CallNumberTests extends AbstractStanfordTest
 		sortedLCVolCallnumList.add("B8.14 L3 V.4");
 	}
 
-	
+
 	// list of raw call numbers in "proper" order for show view of serial
 	List<String> serialSortedLCVolCallnumList = new ArrayList<String>(25);
 	{
@@ -875,13 +934,13 @@ public class CallNumberTests extends AbstractStanfordTest
 		serialSortedLCVolCallnumList.add("B8.14 L3 V.1 Suppl");
 		serialSortedLCVolCallnumList.add("B8.14 L3 V.1");
 	}
-	
+
 
 	/**
 	 * test the sort of call numbers (for non-serials) with volume portion
 	 */
 @Test
-	public void testLCVolumeSorting() 
+	public void testLCVolumeSorting()
 	{
 		String lopped = "B8.14 L3";
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.LC, "fake").toLowerCase();
@@ -890,7 +949,7 @@ public class CallNumberTests extends AbstractStanfordTest
 		for (String callnum : lcVolumeUnsortedCallnumList) {
 			volSortString2callnum.put(getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, !isSerial, ignoredId), callnum);
 		}
-		List<String> ordered = new ArrayList<String>(volSortString2callnum.keySet());		
+		List<String> ordered = new ArrayList<String>(volSortString2callnum.keySet());
 		Collections.sort(ordered);
 
 		for (int i = 0; i < ordered.size(); i++) {
@@ -902,7 +961,7 @@ public class CallNumberTests extends AbstractStanfordTest
 	 * test the sort of call numbers (for serials) with volume portion
 	 */
 @Test
-	public void testLCSerialVolumeSorting() 
+	public void testLCSerialVolumeSorting()
 	{
 		String lopped = "B8.14 L3";
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.LC, "fake").toLowerCase();
@@ -911,19 +970,19 @@ public class CallNumberTests extends AbstractStanfordTest
 		for (String callnum : lcVolumeUnsortedCallnumList) {
 			volSortString2callnum.put(getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, ignoredId), callnum);
 		}
-		List<String> ordered = new ArrayList<String>(volSortString2callnum.keySet());		
+		List<String> ordered = new ArrayList<String>(volSortString2callnum.keySet());
 		Collections.sort(ordered);
 
 		for (int i = 0; i < ordered.size(); i++) {
 			assertEquals("At position " + i + " in list: ", serialSortedLCVolCallnumList.get(i), volSortString2callnum.get(ordered.get(i)));
 		}
 	}
-	
+
 	/**
 	 * test that the volume sorting is correct
 	 */
 @Test
-	public final void testVolumeSortingCorrect() 
+	public final void testVolumeSortingCorrect()
 	{
 		List<String> unsortedDeweyVolSortList = new ArrayList<String>(25);
 		unsortedDeweyVolSortList.add("570.5 .N287 V.34:NO.2 1941");
@@ -946,8 +1005,8 @@ public class CallNumberTests extends AbstractStanfordTest
 		unsortedDeweyVolSortList.add("570.5 .N287 V.15-16 1930");
 		unsortedDeweyVolSortList.add("570.5 .N287 V.13-14 1929");
 		unsortedDeweyVolSortList.add("570.5 .N287 V.19-20 1932");
-		
-		
+
+
 		// list of raw call numbers in "proper" order for show view of serial
 		List<String> sortedDeweyVolSortList = new ArrayList<String>(25);
 		sortedDeweyVolSortList.add("570.5 .N287 V.34:NO.3 1941");
@@ -970,13 +1029,13 @@ public class CallNumberTests extends AbstractStanfordTest
 		sortedDeweyVolSortList.add("570.5 .N287 V.5-6 1925");
 		sortedDeweyVolSortList.add("570.5 .N287 V.3-4 1924");
 		sortedDeweyVolSortList.add("570.5 .N287 V.1-2 1923");
-		
+
 //		// compute list: non-serial volume sorting
 //		Map<String,String> volSortString2callnum = new HashMap<String,String>(75);
 //		for (String callnum : unsortedDeweyVolSortList) {
 //			volSortString2callnum.put(getVolumeSortCallnum(callnum, lopped, shelfkey, CallNumberType.LC, isSerial, ignoredId), callnum);
 //		}
-//		
+//
 //		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(lopped, CallNumberType.LC, "fake").toLowerCase();
 
 		boolean isSerial = true;
@@ -988,7 +1047,7 @@ public class CallNumberTests extends AbstractStanfordTest
 			volSortString2callnum.put(getVolumeSortCallnum(callnum, lopped, loppedShelfkey, CallNumberType.DEWEY, isSerial, ignoredId), callnum);
 		}
 
-		List<String> ordered = new ArrayList<String>(volSortString2callnum.keySet());		
+		List<String> ordered = new ArrayList<String>(volSortString2callnum.keySet());
 		Collections.sort(ordered);
 
 		for (int i = 0; i < ordered.size(); i++) {

@@ -10,34 +10,35 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.Before;
 import org.junit.Test;
+import org.marc4j.marc.*;
 import org.xml.sax.SAXException;
 
 import edu.stanford.enumValues.CallNumberType;
 
 /**
- * junit4 tests for Stanford University's fields derived from item info in 
+ * junit4 tests for Stanford University's fields derived from item info in
  * 999 other than call number (building_facet, access_facet, location, barcode,
  * etc.)
  * @author Naomi Dushay
  */
 public class ItemInfoTests extends AbstractStanfordTest {
-	
+
 @Before
-	public final void setup() 
+	public final void setup()
 	{
 		mappingTestInit();
-	}	
+	}
 
 	/**
 	 * Test building facet values.  Skipped building values are in a separate test
 	 */
 @Test
-	public final void testBuildingFacet() 
+	public final void testBuildingFacet()
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String fldName = "building_facet";
 		createFreshIx("buildingTests.mrc");
-		
+
 	    assertSingleResult("229800", fldName, "\"Archive of Recorded Sound\"");
 	    assertSingleResult("345228", fldName, "\"Art & Architecture\"");
 	    assertSingleResult("460947", fldName, "\"Falconer (Biology)\"");
@@ -58,9 +59,9 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    assertSingleResult("5666387", fldName, "Music");
 	    assertSingleResult("6676531", fldName, "\"East Asia\"");
 	    assertSingleResult("2797607", fldName, "Meyer");
-	
+
 	    // hoover tests are a separate method below
-	    
+
 	    Set<String> docIds = new HashSet<String>();
 	    docIds.add("1033119");
 	    docIds.add("1261173");
@@ -71,14 +72,14 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    docIds.add("575946");
 	    // NOT  3277173  (withdrawn)
 	    assertSearchResults(fldName, "\"Green (Humanities & Social Sciences)\"", docIds);
-	
+
 	    docIds.clear();
 	    docIds.add("1033119");
 	    docIds.add("1962398");
 	    docIds.add("2328381");
 	    docIds.add("2913114");
 	    assertSearchResults(fldName, "\"Stanford Auxiliary Library (On-campus)\"", docIds);
-	
+
 	    docIds.clear();
 	    docIds.add("690002");
 	    docIds.add("2328381");
@@ -87,7 +88,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    // education - withdrawn;  SAL3 STACKS
 	    docIds.add("2214009");
 	    assertSearchResults(fldName, "\"SAL3 (Off-campus)\"", docIds);
-	
+
 	    docIds.clear();
 	    docIds.add("7370014");
 	    // ask@lane
@@ -97,31 +98,31 @@ public class ItemInfoTests extends AbstractStanfordTest {
 
 	/**
 	 * ensure that there are no building facet values for items that are in
-	 *  buildings without translations in the library_map 
+	 *  buildings without translations in the library_map
 	 */
 @Test
 	public void testSkipBuildingFacet()
-			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String fldName = "building_facet";
 		createFreshIx("buildingTests.mrc");
-		
+
 		// APPLIEDPHY (Applied Physics Department is no longer a valid building)
-//	    assertSingleResult("115472", fldName, "\"Applied Physics Department\"");  
+//	    assertSingleResult("115472", fldName, "\"Applied Physics Department\"");
 	    assertZeroResults(fldName, "\"APPLIEDPHY\"");
 
 	    // CPM not a valid building
-//	    assertSingleResult("1391080", fldName, "\"GREEN - Current Periodicals & Microtext\""); 
+//	    assertSingleResult("1391080", fldName, "\"GREEN - Current Periodicals & Microtext\"");
 	    assertZeroResults(fldName, "\"CPM\"");
 
 	    // GRN-REF GREEN - Reference - Obsolete
-//	    assertSingleResult("2442876", fldName, "\"GREEN - Reference\""); 
+//	    assertSingleResult("2442876", fldName, "\"GREEN - Reference\"");
 	    assertZeroResults(fldName, "\"GRN-REF\"");
 
 	    // ILB Inter-Library Borrowing - Obsolete
-//	    assertSingleResult("1111", fldName, "\"Inter-Library Borrowing\""); 
+//	    assertSingleResult("1111", fldName, "\"Inter-Library Borrowing\"");
 	    assertZeroResults(fldName, "\"ILB\"");
-	    
+
 	    // SPEC-DESK   GREEN (Humanities & Social Sciences)   not a valid building
 //	    assertSingleResult("2222", fldName, "GREEN (Humanities & Social Sciences)");
 	    assertZeroResults(fldName, "SPEC-DESK");
@@ -133,7 +134,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	}
 
 	/**
-	 * ensure that the two hoover library codes have separate values for the 
+	 * ensure that the two hoover library codes have separate values for the
 	 *  building facet
 	 */
 @Test
@@ -142,18 +143,18 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	{
 		String fldName = "building_facet";
 		createFreshIx("buildingTests.mrc");
-		
+
 	    assertSingleResult("3743949", fldName, "\"Hoover Library\"");
 	    assertSingleResult("3400092", fldName, "\"Hoover Archives\"");
 	}
-	
+
 
 	/**
 	 * test if barcode_search field is populated correctly
 	 */
 @Test
-	public final void testBarcodeSearch() 
-			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
+	public final void testBarcodeSearch()
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String fldName = "barcode_search";
 		createFreshIx("locationTests.mrc");
@@ -170,23 +171,28 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	String SEP= " -|- ";
 	boolean isSerial = true;
 
-	
+
 	/**
 	 * test if item_display field is populated correctly, focusing on building/library
 	 *  item_display contains:  (separator is " -|- ")
-	 *    barcode -|- library(short version) -|- location -|- 
-	 *     lopped call number (no volume/part info) -|- 
-	 *     shelfkey (from lopped call num) -|- 
-	 *     reverse_shelfkey (from lopped call num) -|- 
-	 *     full callnum -|- callnum sortable for show view
+	 *   barcode + SEP +
+	 *   library + SEP +
+	 *   home location + SEP +
+	 *   current location + SEP +
+	 *   item type + SEP +
+	 *   loppedCallnum + SEP +
+	 *   shelfkey (from lopped) + SEP +
+	 *   reversekey (from lopped) + SEP +
+	 *   fullCallnum + SEP +
+	 *   callnum sortable for show view
 	 */
  @Test
 	public final void testItemDisplayBuildings()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "item_display";
 		String testFilePath = testDataParentPath + File.separator + "buildingTests.mrc";
-		
+
 		// APPLIEDPHY ignored for building facet, but not here
 		String id = "115472";
 		String callnum = "HC241.25 .I4 D47";
@@ -216,8 +222,8 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		fldVal = "36105043140537 -|- ART -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		
-		// BIOLOGY 
+
+		// BIOLOGY
 		id = "460947";
 		callnum = "E184.S75 R47A V.1 1980";
 		String lopped = "E184.S75 R47A ...";
@@ -227,8 +233,8 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		fldVal = "36105007402873 -|- BIOLOGY -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		
-		// CHEMCHMENG 
+
+		// CHEMCHMENG
 		id = "919006";
 		callnum = "PA3998 .H2 O5 1977";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.LC, id).toLowerCase();
@@ -248,7 +254,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
-		// CPM 
+		// CPM
 		id = "1391080";
 		callnum = "PQ6653.A646.V5";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.LC, id).toLowerCase();
@@ -308,7 +314,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
-		// GREEN 
+		// GREEN
 		id = "1261173";
 		callnum = "MFILM N.S. 1350 REEL 230 NO. 3741";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.OTHER, id).toLowerCase();
@@ -525,7 +531,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		fldVal = "36105001623284 -|- SAL -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		
+
 		//   same build, same loc, same callnum, one in another building
 		id = "2328381";
 		callnum = "PR3724.T3";
@@ -549,7 +555,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 
 
 		testFilePath = testDataParentPath + File.separator + "itemDisplayTests.mrc";
-		
+
 		// Lane example with actual values
 		id = "6661112";
 		callnum = "Z3871.Z8 V.22 1945";
@@ -559,7 +565,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		fldVal = "36105082101390 -|- LANE-MED -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		
+
 		// mult items same build, diff loc
 		id = "2328381";
 		callnum = "PR3724.T3";
@@ -591,19 +597,19 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	/**
 	 * test if item_display field is populated correctly, focusing on locations
 	 *  item_display contains:  (separator is " -|- ")
-	 *    barcode -|- library(short version) -|- location -|- 
-	 *     lopped call number (no volume/part info) -|- 
-	 *     shelfkey (from lopped call num) -|- 
-	 *     reverse_shelfkey (from lopped call num) -|- 
+	 *    barcode -|- library(short version) -|- location -|-
+	 *     lopped call number (no volume/part info) -|-
+	 *     shelfkey (from lopped call num) -|-
+	 *     reverse_shelfkey (from lopped call num) -|-
 	 *     full callnum -|- callnum sortable for show view
 	 */
  @Test
 	public final void testItemDisplayLocations()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "item_display";
 		String testFilePath = testDataParentPath + File.separator + "buildingTests.mrc";
-		
+
 		// STACKS
 		String id = "229800";
 		String callnum = "HG6046 .V28 1986";
@@ -625,7 +631,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    fldVal = "36105025373064 -|- GREEN -|- BENDER" + SEP + SEP + "NONCIRC" + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		
+
 		id = "6676531";
 		callnum = "RD35 .H34 1982";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.LC, id).toLowerCase();
@@ -664,7 +670,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		fldVal = "36105082101390 -|- SAL -|- SAL-PAGE -|- " + SEP + "STKS-MONO" + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-	    
+
 		id = "2913114";
 		callnum = "DS135 .P6 I65";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.LC, id).toLowerCase();
@@ -683,7 +689,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		fldVal = "36105129694373 -|- SAL3 -|- INPROCESS -|- " + SEP + "STKS-MONO" + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		
+
 		// gov docs
 		id = "2557826";
 		callnum = "E 1.28:COO-4274-1";
@@ -693,7 +699,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		fldVal = "001AMR5851 -|- GREEN -|- FED-DOCS -|- " + SEP + "GOVSTKS" + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-	    
+
 		id = "4114632";
 		callnum = "ITC 1.15/3:";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.SUDOC, id).toLowerCase();
@@ -703,7 +709,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
-		// one withdrawn location, one valid 
+		// one withdrawn location, one valid
 		id = "2214009";
 		callnum = "370.1 .S655";
 		shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.DEWEY, id).toLowerCase();
@@ -717,15 +723,15 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		// online locations:  ELECTR-LOC  INTERNET  ONLINE-TXT RESV-URL
-//		assertDocHasNoField("7117119", fldName);  
+//		assertDocHasNoField("7117119", fldName);
 // TODO:  will have item_display field for online items when callnum is included in facets, nearby-on-shelf
 		fldVal = "7117119-1001 -|- Online -|- Online -|- " + SEP + SEP +
 				"" + SEP + "" + SEP + "" + SEP + "" + SEP + "";
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-		
+
 
 		testFilePath = testDataParentPath + File.separator + "itemDisplayTests.mrc";
-		
+
 		// on order locations
 		id = "460947";
 		callnum = "E184.S75 R47A V.1 1980";
@@ -745,8 +751,8 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		fldVal = "36105046693508 -|- EARTH-SCI -|- BRAN-RESV -|- " + SEP + "STKS-MONO" + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		
-		
+
+
 		// mult items same build, diff loc
 		id = "2328381";
 		callnum = "PR3724.T3";
@@ -771,7 +777,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
-		
+
 		// multiple items for single bib with same library / location, diff callnum
 		id = "666";
 		callnum = "PR3724.T3";
@@ -806,12 +812,12 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	 *   callnum facets?   nearby-on-shelf?
 	 */
 @Test
-	public final void testItemDisplayOnlineLocs() 
+	public final void testItemDisplayOnlineLocs()
 			throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "item_display";
 		String testFilePath = testDataParentPath + File.separator + "locationTests.mrc";
-	
+
 		// online locations do not appear as items in the search results, but
 		//   they do appear in nearby on shelf
 
@@ -824,7 +830,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		String fldVal = "36105033811451 -|- ELECTR-LOC" + SEP + SEP + SEP + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-		
+
 		// INTERNET
 		id = "229800";
 		callnum = "HG6046 .V28 1986";
@@ -834,7 +840,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		fldVal = "36105034181003 -|- INTERNET" + SEP + SEP + SEP + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-		
+
 		// ONLINE-TXT
 		id = "460947";
 		callnum = "E184.S75 R47A V.1 1980";
@@ -845,7 +851,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		fldVal = "36105007402873 -|- ONLINE-TXT" + SEP + SEP + SEP + SEP +
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-		
+
 		// RESV-URL is no longer skipped
 		id = "690002";
 		callnum = "159.32 .W211";
@@ -855,7 +861,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		fldVal = "36105046693508 -|- RESV-URL" + SEP + SEP + SEP + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
-		
+
 		// SUL library  INTERNET callnum
 		testFilePath = testDataParentPath + File.separator + "callNumberTests.mrc";
 		id = "7117119";
@@ -868,19 +874,19 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 	}
 
-	
+
 // display home location
 	/**
 	 * test if item_display field is populated correctly when there is a current
 	 *  location that should be ignored in favor of the home location
 	 */
 @Test
-	public final void testItemDisplayIgnoreCurrentLocs() 
+	public final void testItemDisplayIgnoreCurrentLocs()
 			throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "item_display";
 		String testFilePath = testDataParentPath + File.separator + "buildingTests.mrc";
-		
+
 		// these locations should only appear as "current" locations, and they
 		//   should be ignored in favor of "home" locations.  The status of the
 		//   item (e.g. checked out) will be displayed elsewhere.
@@ -896,7 +902,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		String fldVal = "36105035087092 -|- GREEN -|- STACKS -|- CHECKEDOUT -|- STKS-MONO -|- " +
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		
+
 		// WITHDRAWN as current location implies item is skipped
 //		assertDocHasNoField("3277173", fldName);
 //	    fldVal = "something";
@@ -910,13 +916,13 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	 */
 @Test
  	public final void testItemDisplayShelbyLocs()
- 			throws ParserConfigurationException, IOException, SAXException 
+ 			throws ParserConfigurationException, IOException, SAXException
  	{
 		String fldName = "item_display";
 	    String testFilePath = testDataParentPath + File.separator + "callNumberLCSortTests.mrc";
 
 		// callnum for all three is  PQ9661 .P31 C6 VOL 1 1946"
-		
+
 		// SHELBYTITL
 		String id = "1111";
 		String callnum = "Shelved by title";
@@ -927,9 +933,9 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		String fldVal = "36105129694373 -|- CHEMCHMENG -|- SHELBYTITL" + SEP + SEP + "STKS-MONO" + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + show_view_callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		
+
 		// STORBYTITL
-	    fldVal = "36105129694375 -|- CHEMCHMENG -|- STORBYTITL" + SEP + SEP + "STKS-MONO" + SEP + 
+	    fldVal = "36105129694375 -|- CHEMCHMENG -|- STORBYTITL" + SEP + SEP + "STKS-MONO" + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + show_view_callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "3311", fldName, fldVal);
 
@@ -944,15 +950,98 @@ public class ItemInfoTests extends AbstractStanfordTest {
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + show_view_callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
  	}
- 	
- 	
+
+	/**
+	 * test that "BUS-PER", "BUSDISPLAY", "NEWS-STKS"
+	 * locations cause call numbers to be ignored (not included in facets) when
+	 * the library is "BUSINESS"
+	 */
+@Test
+	public final void testItemDisplayBizShelbyLocs()
+			throws ParserConfigurationException, IOException, SAXException
+	{
+		String fldName = "item_display";
+		MarcFactory factory = MarcFactory.newInstance();
+		String callnum = "Shelved by title";
+		String shelfkey = callnum.toLowerCase();
+		String reversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(shelfkey).toLowerCase();
+		String show_view_callnum = callnum + " VOL 1 1946";
+		String volSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(show_view_callnum, callnum, shelfkey, CallNumberType.LC, isSerial, null);
+
+		String fullCallNum = "E184.S75 R47A V.1 1980";
+		String fullShelfkey = edu.stanford.CallNumUtils.getShelfKey(fullCallNum, CallNumberType.LC, null).toLowerCase();
+		String fullReversekey = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(fullShelfkey).toLowerCase();
+		String fullVolSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(fullCallNum, fullCallNum, fullShelfkey, CallNumberType.LC, isSerial, null);
+
+		String otherCallnum = "BUS54594-11 V.3 1986 MAY-AUG.";
+		String otherShowViewCallnum = callnum + " V.3 1986 MAY-AUG.";
+		String otherVolSort = edu.stanford.CallNumUtils.getVolumeSortCallnum(otherShowViewCallnum, callnum, shelfkey, CallNumberType.OTHER, isSerial, null);
+
+		Leader ldr = factory.newLeader("01247cas a2200337 a 4500");
+		ControlField cf008 = factory.newControlField("008");
+		cf008.setData("830415c19809999vauuu    a    0    0eng  ");
+
+		String[] bizShelbyLocs = {"NEWS-STKS"};
+		for (String loc : bizShelbyLocs)
+		{
+			Record record = factory.newRecord();
+			record.setLeader(ldr);
+			record.addVariableField(cf008);
+		    DataField df = factory.newDataField("999", ' ', ' ');
+		    df.addSubfield(factory.newSubfield('a', "PQ9661 .P31 C6 VOL 1 1946"));
+		    df.addSubfield(factory.newSubfield('w', "LC"));
+		    df.addSubfield(factory.newSubfield('i', "36105111222333"));
+		    df.addSubfield(factory.newSubfield('l', loc));
+		    df.addSubfield(factory.newSubfield('m', "BUSINESS"));
+		    record.addVariableField(df);
+			String expFldVal = "36105111222333 -|- BUSINESS -|- " + loc + SEP + SEP + SEP +
+					callnum + SEP + shelfkey + SEP + reversekey + SEP + show_view_callnum + SEP + volSort;
+		    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+
+			record = factory.newRecord();
+			record.setLeader(ldr);
+			record.addVariableField(cf008);
+		    df = factory.newDataField("999", ' ', ' ');
+		    df.addSubfield(factory.newSubfield('a', otherCallnum));
+		    df.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		    df.addSubfield(factory.newSubfield('i', "20504037816"));
+		    df.addSubfield(factory.newSubfield('l', loc));
+		    df.addSubfield(factory.newSubfield('m', "BUSINESS"));
+		    record.addVariableField(df);
+			expFldVal = "20504037816 -|- BUSINESS -|- " + loc + SEP + SEP + SEP +
+					callnum + SEP +
+					shelfkey + SEP +
+					reversekey + SEP +
+					otherShowViewCallnum + SEP +
+					otherVolSort;
+		    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+
+
+		    // don't treat these locations specially if used by other libraries
+			record = factory.newRecord();
+			record.setLeader(ldr);
+			record.addVariableField(cf008);
+		    df = factory.newDataField("999", ' ', ' ');
+		    df.addSubfield(factory.newSubfield('a', fullCallNum));
+		    df.addSubfield(factory.newSubfield('w', "LC"));
+		    df.addSubfield(factory.newSubfield('i', "36105444555666"));
+		    df.addSubfield(factory.newSubfield('l', loc));
+		    df.addSubfield(factory.newSubfield('m', "GREEN"));
+		    record.addVariableField(df);
+			expFldVal = "36105444555666 -|- GREEN -|- " + loc + SEP + SEP + SEP +
+					fullCallNum + SEP + fullShelfkey + SEP + fullReversekey + SEP + fullCallNum + SEP + fullVolSort;
+		    solrFldMapTest.assertSolrFldValue(record, fldName, expFldVal);
+		}
+	}
+
+
 	/**
 	 * test if item_display field is missing when the location shouldn't be
 	 *  displayed
 	 */
 @Test
  	public final void testItemDisplaySkipLocs()
- 			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
+ 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
  	{
 		String fldName = "item_display";
 		createFreshIx("locationTests.mrc");
@@ -967,7 +1056,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		assertZeroResults("id", "1033119");
 		// LOST
 		assertZeroResults("id", "1505065");
-		
+
 		// INPROCESS - keep it
 	    String testFilePath = testDataParentPath + File.separator + "locationTests.mrc";
 		String id = "7651581";
@@ -987,11 +1076,11 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	 */
 @Test
 	public final void testAsIsLocations()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "item_display";
 	    String testFilePath = testDataParentPath + File.separator + "mediaLocTests.mrc";
-	
+
 		String id = "7652182";
 		String callnum = "G70.212 .A73934 2008";
 		String shelfkey = edu.stanford.CallNumUtils.getShelfKey(callnum, CallNumberType.LC, id).toLowerCase();
@@ -1008,19 +1097,19 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
 
- 	 	
+
 	/**
 	 * test if item_display field is populated correctly, focused on lopped callnums
 	 *  item_display contains:  (separator is " -|- ")
-	 *    barcode -|- library(short version) -|- location -|- 
-	 *     lopped call number (no volume/part info) -|- 
-	 *     shelfkey (from lopped call num) -|- 
-	 *     reverse_shelfkey (from lopped call num) -|- 
+	 *    barcode -|- library(short version) -|- location -|-
+	 *     lopped call number (no volume/part info) -|-
+	 *     shelfkey (from lopped call num) -|-
+	 *     reverse_shelfkey (from lopped call num) -|-
 	 *     full callnum -|- callnum sortable for show view
 	 */
  @Test
 	public final void testItemDisplayLoppedCallnums()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "item_display";
 	    String testFilePath = testDataParentPath + File.separator + "buildingTests.mrc";
@@ -1056,7 +1145,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		fldVal = "36105046693508 -|- SAL3 -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		
+
 		// SUDOC (no vol)
 		id = "2557826";
 		callnum = "E 1.28:COO-4274-1";
@@ -1066,11 +1155,11 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		fldVal = "001AMR5851 -|- GREEN -|- FED-DOCS -|- " + SEP + "GOVSTKS" + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-					
+
 
 	    testFilePath = testDataParentPath + File.separator + "itemDisplayTests.mrc";
 
-		// LCPER 
+		// LCPER
 		id = "460947";
 		callnum = "E184.S75 R47A V.1 1980";
 		lopped = "E184.S75 R47A ...";
@@ -1116,7 +1205,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		fldVal = "001AFX2969 -|- GREEN -|- MEDIA-MTXT -|- " + SEP + "NH-MICR" + SEP +
 				callnum + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		
+
 		// multiple items with same call number
 		id = "3941911";
 		callnum = "PS3557 .O5829 K3 1998";
@@ -1150,7 +1239,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 		fldVal = "36105048104132 -|- GREEN -|- STACKS -|- " + SEP + "STKS-MONO" + SEP +
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
-		
+
 		// multiple items with same call number due to mult buildings
 		id = "222";
 		callnum = "PR3724.T3 V2";
@@ -1175,19 +1264,19 @@ public class ItemInfoTests extends AbstractStanfordTest {
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	}
- 
+
 	/**
 	 * test if item_display field is populated correctly, focused on forward sorting callnums
 	 *  item_display contains:  (separator is " -|- ")
-	 *    barcode -|- library(short version) -|- location -|- 
-	 *     lopped call number (no volume/part info) -|- 
-	 *     shelfkey (from lopped call num) -|- 
-	 *     reverse_shelfkey (from lopped call num) -|- 
+	 *    barcode -|- library(short version) -|- location -|-
+	 *     lopped call number (no volume/part info) -|-
+	 *     shelfkey (from lopped call num) -|-
+	 *     reverse_shelfkey (from lopped call num) -|-
 	 *     full callnum -|- callnum sortable for show view
 	 */
 @Test
 	public final void testItemDisplayShelfkey()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "item_display";
 	    String testFilePath = testDataParentPath + File.separator + "buildingTests.mrc";
@@ -1207,15 +1296,15 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	/**
 	 * test if item_display field is populated correctly, focused on backward sorting callnums
 	 *  item_display contains:  (separator is " -|- ")
-	 *    barcode -|- library(short version) -|- location -|- 
-	 *     lopped call number (no volume/part info) -|- 
-	 *     shelfkey (from lopped call num) -|- 
-	 *     reverse_shelfkey (from lopped call num) -|- 
+	 *    barcode -|- library(short version) -|- location -|-
+	 *     lopped call number (no volume/part info) -|-
+	 *     shelfkey (from lopped call num) -|-
+	 *     reverse_shelfkey (from lopped call num) -|-
 	 *     full callnum -|- callnum sortable for show view
 	 */
 @Test
 	public final void testItemDisplayReverseShelfkey()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "item_display";
 	    String testFilePath = testDataParentPath + File.separator + "buildingTests.mrc";
@@ -1235,19 +1324,19 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	/**
 	 * test if item_display field is populated correctly, focused on full call numbers
 	 *  item_display contains:  (separator is " -|- ")
-	 *    barcode -|- library(short version) -|- location -|- 
-	 *     lopped call number (no volume/part info) -|- 
-	 *     shelfkey (from lopped call num) -|- 
-	 *     reverse_shelfkey (from lopped call num) -|- 
+	 *    barcode -|- library(short version) -|- location -|-
+	 *     lopped call number (no volume/part info) -|-
+	 *     shelfkey (from lopped call num) -|-
+	 *     reverse_shelfkey (from lopped call num) -|-
 	 *     full callnum -|- callnum sortable for show view
 	 */
 @Test
 	public final void testItemDisplayFullCallnum()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "item_display";
 	    String testFilePath = testDataParentPath + File.separator + "buildingTests.mrc";
-		
+
 		// are we getting the full call number as expected
 		String id = "460947";
 		String callnum = "E184.S75 R47A V.1 1980";
@@ -1263,19 +1352,19 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	/**
 	 * test if item_display field is populated correctly, focused on sorting call numbers for show view
 	 *  item_display contains:  (separator is " -|- ")
-	 *    barcode -|- library(short version) -|- location -|- 
-	 *     lopped call number (no volume/part info) -|- 
-	 *     shelfkey (from lopped call num) -|- 
-	 *     reverse_shelfkey (from lopped call num) -|- 
+	 *    barcode -|- library(short version) -|- location -|-
+	 *     lopped call number (no volume/part info) -|-
+	 *     shelfkey (from lopped call num) -|-
+	 *     reverse_shelfkey (from lopped call num) -|-
 	 *     full callnum -|- callnum sortable for show view
 	 */
 @Test
 	public final void testItemDisplayCallnumVolumeSort()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException
 	{
 		String fldName = "item_display";
 	    String testFilePath = testDataParentPath + File.separator + "buildingTests.mrc";
-		
+
 		// are we getting the volume sortable call number we expect?
 		String id = "460947";
 		String callnum = "E184.S75 R47A V.1 1980";
@@ -1290,15 +1379,15 @@ public class ItemInfoTests extends AbstractStanfordTest {
 
 
 	/**
-	 * test if shelfkey field data (for searching) matches shelfkey in 
+	 * test if shelfkey field data (for searching) matches shelfkey in
 	 * item_display field
 	 */
 @Test
 	public void testShelfkeyMatchesItemDisp()
-			throws ParserConfigurationException, IOException, SAXException 
+			throws ParserConfigurationException, IOException, SAXException
 	{
 	    String testFilePath = testDataParentPath + File.separator + "shelfkeyMatchItemDispTests.mrc";
-		
+
 		// shelfkey should be same in item_display and in shelfkey fields
 	    String id = "5788269";
 	    String callnum = "CALIF A125 .A34 2002";
@@ -1310,7 +1399,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "item_display", fldVal);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "shelfkey", shelfkey);
-	    
+
 	    id = "409752";
 		callnum = "CALIF A125 .B9 V.17 1977:NO.3";
 		lopped = CallNumUtils.getLoppedCallnum(callnum, CallNumberType.OTHER, isSerial) + " ...";
@@ -1341,7 +1430,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 				lopped + SEP + shelfkey + SEP + reversekey + SEP + callnum + SEP + volSort;
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "item_display", fldVal);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, "shelfkey", shelfkey);
-	    
+
 	    id = "373759";
 		callnum = "553.2805 .P494 V.11 1924:JAN.-JUNE";
 		lopped = CallNumUtils.getLoppedCallnum(callnum, CallNumberType.DEWEY, isSerial) + " ...";
@@ -1359,7 +1448,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	 * test preferred_barcode field is created correctly in index
 	 */
 @Test
-	public void testPreferredBarcodeInIx() 
+	public void testPreferredBarcodeInIx()
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		// single test to make sure this field is created properly
@@ -1373,8 +1462,8 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	 * Assert that multiple copies of an item each have a separate field
 	 */
 //@Test
-	public final void testMultipleCopies() 
-			throws ParserConfigurationException, IOException, SAXException, SolrServerException 
+	public final void testMultipleCopies()
+			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String fldName = "item_display";
 		String fileName = "multipleCopies.mrc";
@@ -1395,7 +1484,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, item1);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, item2);
-	    
+
 	    assertDocHasFieldValue(id, fldName, item1);
 	    assertDocHasFieldValue(id, fldName, item2);
 	}

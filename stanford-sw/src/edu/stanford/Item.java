@@ -30,6 +30,7 @@ public class Item {
 	private final boolean hasGovDocLoc;
 	private final boolean isOnline;
 	private final boolean hasShelbyLoc;
+	private final boolean hasBizShelbyLoc;
 
 	/* normal instance variables */
 	private CallNumberType callnumType;
@@ -39,7 +40,7 @@ public class Item {
 	private boolean isOnOrder = false;
 	private boolean isInProcess = false;
 	private boolean hasIgnoredCallnum = false;
-	private boolean hasBadLcLaneJackCallnum = false;
+	private boolean hasBadLcLaneCallnum = false;
 	private boolean isMissingLost = false;
 	private boolean hasSeparateBrowseCallnum = false;
 	/** call number with volume suffix lopped off the end.  Used to remove
@@ -104,8 +105,17 @@ public class Item {
 		else
 			isMissingLost = false;
 
+		if (library.equals("BUSINESS")
+				&& (StanfordIndexer.BIZ_SHELBY_LOCS.contains(currLoc)
+						|| StanfordIndexer.BIZ_SHELBY_LOCS.contains(homeLoc) ) )
+			hasBizShelbyLoc = true;
+		else
+			hasBizShelbyLoc = false;
+
 		if (StanfordIndexer.SHELBY_LOCS.contains(currLoc)
 				|| StanfordIndexer.SHELBY_LOCS.contains(homeLoc) )
+			hasShelbyLoc = true;
+		else if (hasBizShelbyLoc)
 			hasShelbyLoc = true;
 		else
 			hasShelbyLoc = false;
@@ -227,6 +237,13 @@ public class Item {
 	}
 
 	/**
+	 * return true if item has a business library only shelby location (current or home)
+	 */
+	public boolean hasBizShelbyLoc() {
+		return hasBizShelbyLoc;
+	}
+
+	/**
 	 * @return true if call number is to be ignored in some contexts
 	 *  (e.g. "NO CALL NUMBER" or "XX(blah)")
 	 */
@@ -235,10 +252,10 @@ public class Item {
 	}
 
 	/**
-	 * @return true if call number is Lane (Law) or Jackson (Business) invalid LC callnum
+	 * @return true if call number is Lane (Law) invalid LC callnum
 	 */
-	public boolean hasBadLcLaneJackCallnum() {
-		return hasBadLcLaneJackCallnum;
+	public boolean hasBadLcLaneCallnum() {
+		return hasBadLcLaneCallnum;
 	}
 
 	/**
@@ -414,7 +431,7 @@ public class Item {
 	private void validateCallnum(String recId) {
 		if (callnumType == CallNumberType.LC
 				&& !CallNumUtils.isValidLC(normCallnum)) {
-			if (!library.equals("LANE-MED") && !library.equals("JACKSON") && !library.equals("BUSINESS"))
+			if (!library.equals("LANE-MED"))
 				System.err.println("record " + recId + " has invalid LC callnumber: " + normCallnum);
 			adjustLCCallnumType(recId);
 		}
@@ -440,8 +457,8 @@ public class Item {
 			{
 //  FIXME:   this is no good if the call number is SUDOC but mislabeled LC ...
 				callnumType = CallNumberType.OTHER;
-				if (library.equals("LANE-MED") || library.equals("JACKSON") || library.equals("BUSINESS"))
-					hasBadLcLaneJackCallnum = true;
+				if (library.equals("LANE-MED"))
+					hasBadLcLaneCallnum = true;
 			}
 		}
 	}

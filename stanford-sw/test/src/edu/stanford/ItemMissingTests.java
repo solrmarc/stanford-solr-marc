@@ -7,32 +7,32 @@ import org.junit.*;
 import edu.stanford.enumValues.CallNumberType;
 
 /**
- * junit4 tests for Stanford University 
+ * junit4 tests for Stanford University
  *   cope properly with missing/lost items - display, discoverable  SW-234
  * @author Naomi Dushay
  */
-public class ItemMissingTests extends AbstractStanfordTest 
+public class ItemMissingTests extends AbstractStanfordTest
 {
 	private String fileName = "missingItems.mrc";
     private String testFilePath = testDataParentPath + File.separator + fileName;
 
 @Before
-	public final void setup() 
+	public final void setup()
 	{
 		mappingTestInit();
-	}	
+	}
 
 	// search results - display:   item_display    lopped callnum
 	// record view - display:   item_display   full callnum, sort callnum  should be populated
 	// availability - display (based on current loc, not jenson?):
 	// facets  - not assigned
-	// shelflist  - not assigned  (preferred_barcode, shelfkey, reversekey, item_display)	
+	// shelflist  - not assigned  (preferred_barcode, shelfkey, reversekey, item_display)
 
 	/**
 	 * There should be no call number facet values when item is missing
 	 */
 @Test
-	public final void testFacetVals() 
+	public final void testFacetVals()
 	{
 		String fldName = "callnum_top_facet";
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "onlyMissing", fldName, CallNumUtils.DEWEY_TOP_FACET_VAL);
@@ -45,9 +45,9 @@ public class ItemMissingTests extends AbstractStanfordTest
 		solrFldMapTest.assertNoSolrFld(testFilePath, "onlyLost", fldName);
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "lostDiff", fldName, "B - Philosophy, Psychology, Religion");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "lostDiff", fldName, "A - General Works");
-	    solrFldMapTest.assertSolrFldValue(testFilePath, "lostSame", fldName, "T - Technology");	
+	    solrFldMapTest.assertSolrFldValue(testFilePath, "lostSame", fldName, "T - Technology");
 	}
-	
+
 	private static String LCA_CNUM = "A1 .B2";
 	private static String LCA_SKEY = CallNumUtils.getShelfKey(LCA_CNUM, CallNumberType.LC, null).toLowerCase();
 	private static String LCB_CNUM = "B2 .C3";
@@ -58,7 +58,7 @@ public class ItemMissingTests extends AbstractStanfordTest
 	private static String LCT_SKEY_ELLIP = CallNumUtils.getShelfKey(LCT_CNUM_ELLIP, CallNumberType.LC, null).toLowerCase();
 	private static String DEWEY_CNUM = "363.2 .V349";
 	private static String DEWEY_SKEY = CallNumUtils.getShelfKey(DEWEY_CNUM, CallNumberType.DEWEY, null).toLowerCase();
-	
+
 	private static String LCA_RSKEY = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(LCA_SKEY).toLowerCase();
 	private static String LCB_RSKEY = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(LCB_SKEY).toLowerCase();
 	private static String LCT_RSKEY = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(LCT_SKEY).toLowerCase();
@@ -66,11 +66,11 @@ public class ItemMissingTests extends AbstractStanfordTest
 	private static String DEWEY_RSKEY = org.solrmarc.tools.CallNumUtils.getReverseShelfKey(DEWEY_SKEY).toLowerCase();
 
 	/**
-	 * There should be no shelfkey values when item is missing 
+	 * There should be no shelfkey values when item is missing
 	 *  (item will not be part of nearby-on-shelf scroll)
 	 */
 @Test
-	public final void testNoShelfkey() 
+	public final void testNoShelfkey()
 	{
 		String fldName = "shelfkey";
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "onlyMissing", fldName, DEWEY_SKEY);
@@ -93,10 +93,10 @@ public class ItemMissingTests extends AbstractStanfordTest
 	 *  (item will not be part of nearby-on-shelf scroll)
 	 */
 @Test
-	public final void testNoReversekey() 
+	public final void testNoReversekey()
 	{
 		String fldName = "reverse_shelfkey";
-		
+
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "onlyMissing", fldName, DEWEY_RSKEY);
 		solrFldMapTest.assertNoSolrFld(testFilePath, "onlyMissing", fldName);
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "missingDiff", fldName, LCA_RSKEY);
@@ -114,12 +114,12 @@ public class ItemMissingTests extends AbstractStanfordTest
 
 
 	/**
-	 * There should be no preferred item barcode value when call number is 
-	 *   invalid LC and library is Lane or Jackson.  (This means there is no
+	 * There should be no preferred item barcode value when call number is
+	 *   invalid LC and library is Lane.  (This means there is no
 	 *   preferred item for nearby-on-shelf)
 	 */
 @Test
-	public final void testNoPreferredItemBarcode() 
+	public final void testNoPreferredItemBarcode()
 	{
 		String fldName = "preferred_barcode";
 		solrFldMapTest.assertNoSolrFld(testFilePath, "onlyMissing", fldName);
@@ -132,17 +132,17 @@ public class ItemMissingTests extends AbstractStanfordTest
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "lostDiff", fldName, "222");
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "lostSame", fldName, "36105042256730");
 	}
-	
+
 
 	/**
 	 * for missing items, item_display field should have:
 	 *   barcode, library, locations, etc as in 999
-	 *   lopped callnum 
+	 *   lopped callnum
 	 *   shelfkey and reversekey parts empty (no nearby-on-shelf)
 	 *   full callnum, sort callnum populated
 	 */
 @Test
-	public final void testItemDisplay() 
+	public final void testItemDisplay()
 	{
 		String fldName = "item_display";
 		String sep = " -|- ";
@@ -165,7 +165,7 @@ public class ItemMissingTests extends AbstractStanfordTest
 		fldVal = firstPart + LCA_SKEY + sep + LCA_RSKEY + sep + LCA_CNUM + sep + LCA_SKEY;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 		fldVal = firstPart + sep + sep + LCA_CNUM + sep + LCA_SKEY;
-		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	    	
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	    barcode = "222";  // not missing - yes shelfkey pieces
 	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCB_CNUM + sep;
 		fldVal = firstPart + LCB_SKEY + sep + LCB_RSKEY + sep + LCB_CNUM + sep + LCB_SKEY;
@@ -179,7 +179,7 @@ public class ItemMissingTests extends AbstractStanfordTest
 		fldVal = firstPart + LCT_SKEY + sep + LCT_RSKEY + sep + LCT_CNUM + sep + LCT_SKEY;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 		fldVal = firstPart + sep + sep + LCT_CNUM + sep + LCT_SKEY;
-		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);   	
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	    barcode = "36105000549084";  // not missing - yes shelfkey pieces
 	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCT_CNUM_ELLIP + sep;
 	    String fullCallnum = "TR692 .P37 V.3 1978";
@@ -204,7 +204,7 @@ public class ItemMissingTests extends AbstractStanfordTest
 		fldVal = firstPart + DEWEY_SKEY + sep + DEWEY_RSKEY + sep + DEWEY_CNUM + sep + DEWEY_SKEY;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 		fldVal = firstPart + sep + sep + DEWEY_CNUM + sep + DEWEY_SKEY;
-		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	    	
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 
 		id = "lostDiff";
 	    barcode = "111"; // lost - no shelfkey pieces
@@ -212,7 +212,7 @@ public class ItemMissingTests extends AbstractStanfordTest
 		fldVal = firstPart + LCA_SKEY + sep + LCA_RSKEY + sep + LCA_CNUM + sep + LCA_SKEY;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 		fldVal = firstPart + sep + sep + LCA_CNUM + sep + LCA_SKEY;
-		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);	    	
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	    barcode = "222";  // not lost - yes shelfkey pieces
 	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCB_CNUM + sep;
 		fldVal = firstPart + LCB_SKEY + sep + LCB_RSKEY + sep + LCB_CNUM + sep + LCB_SKEY;
@@ -226,7 +226,7 @@ public class ItemMissingTests extends AbstractStanfordTest
 		fldVal = firstPart + LCT_SKEY + sep + LCT_RSKEY + sep + LCT_CNUM + sep + LCT_SKEY;
 	    solrFldMapTest.assertSolrFldHasNoValue(testFilePath, id, fldName, fldVal);
 		fldVal = firstPart + sep + sep + LCT_CNUM + sep + LCT_SKEY;
-		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);   	
+		solrFldMapTest.assertSolrFldValue(testFilePath, id, fldName, fldVal);
 	    barcode = "36105000549084";  // not lost - yes shelfkey pieces
 	    firstPart = barcode + sep + sal + sep + stacks + sep + sep + sep + LCT_CNUM_ELLIP + sep;
 	    fullCallnum = "TR692 .P37 V.3 1978";
