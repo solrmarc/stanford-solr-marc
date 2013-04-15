@@ -174,24 +174,16 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	/**
 	 * test if item_display field is populated correctly, focusing on building/library
 	 *  item_display contains:  (separator is " -|- ")
-<<<<<<< HEAD
 	 *   barcode + SEP +
-	 *   library + SEP +
+	 *   library (short version) + SEP +
 	 *   home location + SEP +
 	 *   current location + SEP +
 	 *   item type + SEP +
-	 *   loppedCallnum + SEP +
+	 *   loppedCallnum (no volume/part info) + SEP +
 	 *   shelfkey (from lopped) + SEP +
 	 *   reversekey (from lopped) + SEP +
 	 *   fullCallnum + SEP +
 	 *   callnum sortable for show view
-=======
-	 *    barcode -|- library(short version) -|- location -|-
-	 *     lopped call number (no volume/part info) -|-
-	 *     shelfkey (from lopped call num) -|-
-	 *     reverse_shelfkey (from lopped call num) -|-
-	 *     full callnum -|- callnum sortable for show view
->>>>>>> library name updates (but not sure what to do with physics
 	 */
  @Test
 	public final void testItemDisplayBuildings()
