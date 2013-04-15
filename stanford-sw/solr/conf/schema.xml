@@ -310,6 +310,7 @@
     <fieldtype name="text" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
+        <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
         <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
         <filter class="solr.WordDelimiterFilterFactory"
           splitOnCaseChange="1" generateWordParts="1" catenateWords="1"
@@ -324,6 +325,7 @@
     <fieldtype name="textNoStem" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
+        <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
         <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
         <filter class="solr.WordDelimiterFilterFactory"
           splitOnCaseChange="1" generateWordParts="1" catenateWords="1"

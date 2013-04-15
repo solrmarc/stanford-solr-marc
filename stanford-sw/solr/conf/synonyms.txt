@@ -1,0 +1,63 @@
+# http://wiki.apache.org/solr/AnalyzersTokenizersTokenFilters#solr.SynonymFilterFactory
+# A synonym file for solr SynonymFilterFactory  and including a SynonymFilter pointing
+# to this file BEFORE the WordDelimiterFilterFactory that removes punctuation.
+#
+# Needs to be included at both index and query time eg:
+#  <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
+
+# See SW-845
+#"Dept." will change to "Department"
+#"Koran" will change to "Qur'an"
+#"O.T." and "N.T." will change to "Old Testament" and "New Testament"
+#"violoncello" will change to "cello"
+
+#Explicit mappings match any token sequence on the LHS of "=>"
+#and replace with all alternatives on the RHS.  These types of mappings
+#ignore the expand parameter in the schema.
+# note that mapping TO the abbreviation improves recall but reduces precision:
+#  O.T. can mean Old Testament or overtime;   dept could be a word in some
+#  language.
+department => dept
+old testament => O.T.
+new testament => N.T.
+qurʼan, qu'ran, qor'ân => koran
+violincello => cello
+
+
+# The below is from Jonathan Rochkind at Johns Hopkins University, 2013-04-15
+# punctuation-including terms we want to whitelist protect and make searchable.
+# We do this by mapping them to tokens that do not include punctuation
+
+# computer languages
+c++ => cplusplus
+j#, j♯ => jsharp
+
+# c# and f# are computer languages as well as key signatures,
+# others are key signatures. We started out motivated by computer
+# languages, but since that hit some key signatures, do the rest
+# for consistency.
+# We map both from number-sign (#) and musical sharp (♯)
+A#, A♯ => asharp
+B#, B♯ => bsharp
+C#, C♯ => csharp
+D#, D♯ => dsharp
+E#, E♯ => esharp
+F#, F♯ => fsharp
+G#, G♯ => gsharp
+
+# Do the flat key signatures for consistency, since we did the sharps.
+# We do NOT map input ascii "b" symbol that looks like a flat, since that
+# will end up catching actual words like "Ab" (latin), and the consequences
+# are unclear to me now.
+#
+# However, we do map _to_ the ascii representation -- this means if someone
+# enters either "A♭" OR "Ab" as a search, it'll find "a♭" either way,
+# since that was indexed as "ab".  It'll also find actual "Ab" in source, either
+# way, for better or worse.
+A♭    => Ab
+B♭    => Bb
+C♭    => Cb
+D♭    => Db
+E♭    => Eb
+F♭    => Fb
+G♭    => Gb
