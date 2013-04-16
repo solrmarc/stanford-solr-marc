@@ -51,13 +51,10 @@ nohup java -Xmx16g -Xms16g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_08000000_084
 nohup java -Xmx16g -Xms16g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_08500000_08999999.marc &>$LOG_DIR/log0850-0899.txt
 nohup java -Xmx16g -Xms16g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_09000000_09499999.marc &>$LOG_DIR/log0900-0949.txt
 nohup java -Xmx16g -Xms16g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_09500000_09999999.marc &>$LOG_DIR/log0950-0999.txt
-nohup java -Xmx16g -Xms16g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_10000000_10499999.marc &>$LOG_DIR/log1000-1049.txt
+nohup java -Xmx16g -Xms16g -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_10000000_10499999.marc &>$LOG_DIR/log1000-1049.txt
 #nohup java -Xmx16g -Xms16g -Dsolr.optimize_at_end="true" -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_10000000_10499999.marc &>$LOG_DIR/log950-999.txt
 
-# include Image Gallery images
-curl http://localhost:8983/solr/update -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/reid-dennis/ReidDennisSolrDocs_20110722_0001.xml
-curl http://localhost:8983/solr/update -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/kolb/KolbSolrDocs_20110722_0001.xml
-curl http://localhost:8983/solr/update?commit=true -H 'Content-type:text/xml; charset=utf-8' --data-binary @/data/image_gallery/kolb/KolbSolrDocs_20110722_0002.xml
+echo "!!! ADD DOR Digital COLLECTIONS before putting index into production!!!"
 
 # include latest course reserves data if not doing incr updates immediately
 JRUBY_OPTS="--1.9"
