@@ -231,6 +231,9 @@
     <field name="collection_type" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="img_info" type="string" indexed="false" stored="true" multiValued="true"/>
 
+    <!-- TO BE REMOVED when gdor indexing no longer populates and gdor records are reindexed -->
+    <field name="access_condition_display" type="string" indexed="false" stored="true" multiValued="true" />
+
     <!-- *************** dynamic field types  ****************** -->
 <!--
     <dynamicField name="*_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
