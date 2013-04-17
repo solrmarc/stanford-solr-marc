@@ -150,6 +150,7 @@
     <field name="pub_date" type="string" indexed="true" stored="true" />
     <field name="pub_date_i" type="tint" indexed="true" stored="false" multiValued="true" />
     <field name="pub_display" type="string" indexed="false" stored="true" multiValued="true"/>
+    <field name="pub_date_display" type="string" indexed="false" stored="true"/>
 
     <!-- URL Fields -->
     <field name="url_fulltext" type="string" indexed="false" stored="true" multiValued="true"/>
@@ -228,20 +229,7 @@
     <field name="display_type" type="string" indexed="true" stored="false" multiValued="true" omitNorms="true" />
     <!--  used to determine when something is a digital collection -->
     <field name="collection_type" type="string" indexed="true" stored="true" multiValued="true" />
-    <!--  easy way to indicate collection's parent in UI (may be deprecated in future) -->
-    <field name="collection_with_title" type="string" indexed="false" stored="true" multiValued="true" />
     <field name="img_info" type="string" indexed="false" stored="true" multiValued="true"/>
-    <field name="access_condition_display" type="string" indexed="false" stored="true" multiValued="true" />
-
-    <!-- *************** additional DEPRECATED fields for Image Gallery collections  ****************** -->
-    <field name="rights" type="string" indexed="false" stored="true"/>
-    <!-- Medium, Media (what is original object made of), how is it physically supported -->
-    <field name="medium_search" type="text" indexed="true" stored="false" multiValued="true" />
-    <field name="medium" type="string_punct_stop" indexed="true" stored="true" multiValued="true" />  <!-- facet and display -->
-    <!-- for Reid Dennis -->
-    <field name="possessor" type="text" indexed="true" stored="true"/> <!-- search and display -->
-    <field name="ig_id" type="string" indexed="true" stored="true" omitNorms="true" />
-    <field name="parent_coll_ckey" type="string" indexed="true" stored="true" omitNorms="true"></field>
 
     <!-- *************** dynamic field types  ****************** -->
 <!--
@@ -289,7 +277,6 @@
   <copyField source="crez_course_id_search" dest="course" />
 
   <!-- image fields -->
-  <copyField source="medium" dest="medium_search" />
   <copyField source="topic_search" dest="topic_display" />
   <copyField source="subject_other_search" dest="subject_other_display" />
   <copyField source="title_variant_search" dest="title_variant_display" />

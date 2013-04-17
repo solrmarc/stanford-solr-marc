@@ -127,7 +127,6 @@
         oclc
         barcode_search
         collection_search
-        medium
         all_search
       </str>
       <str name="pf">
@@ -171,7 +170,6 @@
         physical^2                     vern_physical^2
         award_search^20
         collection_search^20
-        medium^20
         all_search^2
       </str>
 
