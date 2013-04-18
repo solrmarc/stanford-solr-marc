@@ -229,6 +229,8 @@
     <field name="display_type" type="string" indexed="true" stored="false" multiValued="true" omitNorms="true" />
     <!--  used to determine when something is a digital collection -->
     <field name="collection_type" type="string" indexed="true" stored="true" multiValued="true" />
+    <!--  easy way to indicate collection's parent in UI (may be deprecated in future) -->
+    <field name="collection_with_title" type="string" indexed="false" stored="true" multiValued="true" />
     <field name="img_info" type="string" indexed="false" stored="true" multiValued="true"/>
 
     <!-- TO BE REMOVED when gdor indexing no longer populates and gdor records are reindexed (2013-04-17) -->
