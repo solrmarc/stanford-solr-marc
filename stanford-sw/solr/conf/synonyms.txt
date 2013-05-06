@@ -1,10 +1,19 @@
 # http://wiki.apache.org/solr/AnalyzersTokenizersTokenFilters#solr.SynonymFilterFactory
-# A synonym file for solr SynonymFilterFactory  and including a SynonymFilter pointing
-# to this file BEFORE the WordDelimiterFilterFactory that removes punctuation.
+# A synonym file for Solr SynonymFilterFactory.
 #
-# Needs to be included at both index and query time eg:
-#  <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
-
+# to this file BEFORE the WordDelimiterFilterFactory that removes punctuation. 
+#
+# Needs to be included at both index and query time 
+#  AFTER the case folding
+#  BEFORE the WordDelimiterFilterFactory that removes punctuation
+# e.g. 
+# <analyzer>
+#   <tokenizer class="solr.WhitespaceTokenizerFactory" />
+#   <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
+#   <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
+#   <filter class="solr.WordDelimiterFilterFactory" ...
+#   ...
+#
 # See SW-845
 #"Dept." will change to "Department"
 #"Koran" will change to "Qur'an"
@@ -18,46 +27,36 @@
 #  O.T. can mean Old Testament or overtime;   dept could be a word in some
 #  language.
 department => dept
-old testament => O.T.
-new testament => N.T.
-qurʼan, qu'ran, qor'ân => koran
+old testament => o.t.
+new testament => n.t.
+qurʼan, qur'an, quran, qorʼan, qor'an, qoran => koran
 violincello => cello
 
+# The below is inspired by Jonathan Rochkind at Johns Hopkins University, 2013-04-15
 
-# The below is from Jonathan Rochkind at Johns Hopkins University, 2013-04-15
 # punctuation-including terms we want to whitelist protect and make searchable.
-# We do this by mapping them to tokens that do not include punctuation
+# We do this by mapping them to unique tokens that do not include punctuation
 
 # computer languages
-c++ => cplusplus
-j#, j♯ => jsharp
+c++  => cplusplus
+j#, j♯ => jsssharp
 
-# c# and f# are computer languages as well as key signatures,
-# others are key signatures. We started out motivated by computer
-# languages, but since that hit some key signatures, do the rest
-# for consistency.
-# We map both from number-sign (#) and musical sharp (♯)
-A#, A♯ => asharp
-B#, B♯ => bsharp
-C#, C♯ => csharp
-D#, D♯ => dsharp
-E#, E♯ => esharp
-F#, F♯ => fsharp
-G#, G♯ => gsharp
+# musical keys
+# c# and f# are computer languages as well as music key signatures,
+# We map from number-sign (#), musical sharp (♯)
+a#, a♯, a-sharp => a sharp
+b#, b♯, b-sharp => b sharp
+c#, c♯, c-sharp => c sharp
+d#, d♯, d-sharp => d sharp
+e#, e♯, e-sharp => e sharp
+f#, f♯, f-sharp => f sharp
+g#, g♯, g-sharp => g sharp
 
-# Do the flat key signatures for consistency, since we did the sharps.
-# We do NOT map input ascii "b" symbol that looks like a flat, since that
-# will end up catching actual words like "Ab" (latin), and the consequences
-# are unclear to me now.
-#
-# However, we do map _to_ the ascii representation -- this means if someone
-# enters either "A♭" OR "Ab" as a search, it'll find "a♭" either way,
-# since that was indexed as "ab".  It'll also find actual "Ab" in source, either
-# way, for better or worse.
-A♭    => Ab
-B♭    => Bb
-C♭    => Cb
-D♭    => Db
-E♭    => Eb
-F♭    => Fb
-G♭    => Gb
+# We map both from lowercase b and musical flat (♭)
+ab, a♭, a-flat => a flat
+bb, b♭, b-flat => b flat
+cb, c♭, c-flat => c flat
+db, d♭, d-flat => d flat
+eb, e♭, e-flat => e flat
+fb, f♭, f-flat => f flat
+gb, g♭, g-flat => g flat
