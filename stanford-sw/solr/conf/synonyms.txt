@@ -1,8 +1,5 @@
 # http://wiki.apache.org/solr/AnalyzersTokenizersTokenFilters#solr.SynonymFilterFactory
 # A synonym file for Solr SynonymFilterFactory.
-#
-# to this file BEFORE the WordDelimiterFilterFactory that removes punctuation. 
-#
 # Needs to be included at both index and query time 
 #  AFTER the case folding
 #  BEFORE the WordDelimiterFilterFactory that removes punctuation
