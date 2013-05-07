@@ -409,7 +409,8 @@ public class MhldDisplayUtil
 			if (caption == null || value == null)
 				break;
 			if (caption.equalsIgnoreCase("(month)")
-					|| caption.equalsIgnoreCase("(season)"))
+					|| caption.equalsIgnoreCase("(season)")
+					 || caption.equalsIgnoreCase("(unit)"))
 			{
 				value = translateMonthOrSeason(value);
 				strToPrepend = ":";
