@@ -27,7 +27,7 @@ department => dept
 old testament => o.t.
 new testament => n.t.
 qurʼan, qur'an, quran, qorʼan, qor'an, qoran => koran
-violincello => cello
+violoncello, violincello => cello
 
 # The below is inspired by Jonathan Rochkind at Johns Hopkins University, 2013-04-15
 
