@@ -24,8 +24,8 @@
 #  O.T. can mean Old Testament or overtime;   dept could be a word in some
 #  language.
 department => dept
-old testament => o.t.
-new testament => n.t.
+#old testament => o.t.
+#new testament => n.t.
 qurʼan, qur'an, quran, qorʼan, qor'an, qoran => koran
 violoncello, violincello => cello
 
