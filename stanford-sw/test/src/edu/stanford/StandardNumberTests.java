@@ -9,6 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.Before;
 import org.junit.Test;
+import org.marc4j.marc.*;
 import org.xml.sax.SAXException;
 
 
@@ -16,72 +17,73 @@ import org.xml.sax.SAXException;
  * junit4 tests for Stanford University's standard number fields
  * @author Naomi Dushay
  */
-public class StandardNumberTests extends AbstractStanfordTest 
+public class StandardNumberTests extends AbstractStanfordTest
 {
+	private MarcFactory factory = MarcFactory.newInstance();
 
 @Before
-	public final void setup() 
+	public final void setup()
 	{
 		mappingTestInit();
-	}	
+	}
 
 
 	/**
 	 * Test population of oclc field
 	 */
 @Test
-	public final void testOCLC() 
-		throws IOException, ParserConfigurationException, SAXException, SolrServerException 
+	public final void testOCLC()
+		throws IOException, ParserConfigurationException, SAXException, SolrServerException
 	{
 		String fldName = "oclc";
 		createFreshIx("oclcNumTests.mrc");
-	
-		assertDocHasFieldValue("035withOCoLC-M", fldName, "656729"); 
-		assertDocHasNoFieldValue("035withOCoLC-MnoParens", fldName, "656729"); 
+
+		assertDocHasFieldValue("035withOCoLC-M", fldName, "656729");
+		assertDocHasNoFieldValue("035withOCoLC-MnoParens", fldName, "656729");
 		// doc should have oclc from good 035 and none from bad 035s
-		assertDocHasFieldValue("Mult035onlyOneGood", fldName, "656729"); 
-		assertDocHasNoFieldValue("Mult035onlyOneGood", fldName, "164324897"); 
-		assertDocHasNoFieldValue("Mult035onlyOneGood", fldName, "1CSUO98-B6924"); 
-		assertDocHasNoFieldValue("Mult035onlyOneGood", fldName, "180776170"); 
+		assertDocHasFieldValue("Mult035onlyOneGood", fldName, "656729");
+		assertDocHasNoFieldValue("Mult035onlyOneGood", fldName, "164324897");
+		assertDocHasNoFieldValue("Mult035onlyOneGood", fldName, "1CSUO98-B6924");
+		assertDocHasNoFieldValue("Mult035onlyOneGood", fldName, "180776170");
 		// 079 only
-		assertDocHasFieldValue("079onlyocm", fldName, "38052115"); 
-		assertDocHasFieldValue("079onlyocn", fldName, "122811369"); 
+		assertDocHasFieldValue("079onlyocm", fldName, "38052115");
+		assertDocHasFieldValue("079onlyocn", fldName, "122811369");
 		// 079 with bad prefix - 035 (OCoLC) only
-		assertDocHasFieldValue("079badPrefix", fldName, "180776170"); 
-		assertDocHasNoFieldValue("079badPrefix", fldName, "66654321"); 
+		assertDocHasFieldValue("079badPrefix", fldName, "180776170");
+		assertDocHasNoFieldValue("079badPrefix", fldName, "66654321");
 		// doc should only have oclc from subfield a
-		assertDocHasFieldValue("079onlywithz", fldName, "46660954"); 
-		assertDocHasNoFieldValue("079onlywithz", fldName, "38158328"); 
+		assertDocHasFieldValue("079onlywithz", fldName, "46660954");
+		assertDocHasNoFieldValue("079onlywithz", fldName, "38158328");
 		// both 079 and 035: doc should have oclc from 079, not from either 035
-		assertDocHasFieldValue("079withbad035s", fldName, "12345666"); 
-		assertDocHasNoFieldValue("079withbad035s", fldName, "164324897"); 
-		assertDocHasNoFieldValue("079withbad035s", fldName, "CSUO98-B6924"); 
+		assertDocHasFieldValue("079withbad035s", fldName, "12345666");
+		assertDocHasNoFieldValue("079withbad035s", fldName, "164324897");
+		assertDocHasNoFieldValue("079withbad035s", fldName, "CSUO98-B6924");
 		// doc should have oclc from good 035, but not from good 079
-		assertDocHasFieldValue("Good035withGood079", fldName, "656729"); 
-		assertDocHasNoFieldValue("Good035withGood079", fldName, "00666000"); 
+		assertDocHasFieldValue("Good035withGood079", fldName, "656729");
+		assertDocHasNoFieldValue("Good035withGood079", fldName, "00666000");
 		// doc should have one oclc only, from (OCoLC) prefixed field
-		assertDocHasFieldValue("035OCoLConly", fldName, "180776170"); 
-		assertDocHasNoFieldValue("035OCoLConly", fldName, "164324897"); 
-		assertDocHasNoFieldValue("035OCoLConly", fldName, "CSUO98-B6924"); 
+		assertDocHasFieldValue("035OCoLConly", fldName, "180776170");
+		assertDocHasNoFieldValue("035OCoLConly", fldName, "164324897");
+		assertDocHasNoFieldValue("035OCoLConly", fldName, "CSUO98-B6924");
 		// doc should have one oclc only, from (OCoLC) prefixed field
-		assertDocHasFieldValue("035bad079OCoLConly", fldName, "180776170"); 
-		assertDocHasNoFieldValue("035bad079OCoLConly", fldName, "bad 079"); 
+		assertDocHasFieldValue("035bad079OCoLConly", fldName, "180776170");
+		assertDocHasNoFieldValue("035bad079OCoLConly", fldName, "bad 079");
 		// no oclc number
 		assertDocHasNoField("035and079butNoOclc", fldName);
 		// multiple oclc numbers
-		assertDocHasFieldValue("MultOclcNums", fldName, "656729"); 
-		assertDocHasFieldValue("MultOclcNums", fldName, "38052115"); 
-		assertDocHasFieldValue("MultOclcNums", fldName, "38403775"); 
-		assertDocHasNoFieldValue("MultOclcNums", fldName, "180776170"); 
+		assertDocHasFieldValue("MultOclcNums", fldName, "656729");
+		assertDocHasFieldValue("MultOclcNums", fldName, "38052115");
+		assertDocHasFieldValue("MultOclcNums", fldName, "38403775");
+		assertDocHasNoFieldValue("MultOclcNums", fldName, "180776170");
 		assertDocHasNoFieldValue("MultOclcNums", fldName, "00666000");
-		
+
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("035withOCoLC-M");
 		docIds.add("Mult035onlyOneGood");
 		docIds.add("MultOclcNums");
 		docIds.add("Good035withGood079");
 		assertSearchResults(fldName, "656729", docIds);
-		
+
 		docIds.clear();
 		docIds.add("079onlyocm");
 		docIds.add("MultOclcNums");
@@ -93,27 +95,59 @@ public class StandardNumberTests extends AbstractStanfordTest
 		docIds.add("035bad079OCoLConly");
 		assertSearchResults(fldName, "180776170", docIds);
 
-		assertSingleResult("079onlyocn", fldName, "122811369"); 
-		assertSingleResult("079onlywithz", fldName, "46660954"); 
-		assertSingleResult("079withbad035s", fldName, "12345666"); 
-		assertSingleResult("MultOclcNums", fldName, "38403775"); 
-				
-		assertZeroResults(fldName, "1CSUO98-B6924"); 
-		assertZeroResults(fldName, "CSUO98-B6924");
-		assertZeroResults(fldName, "164324897"); 
-		assertZeroResults(fldName, "00666000"); 
+		assertSingleResult("079onlyocn", fldName, "122811369");
+		assertSingleResult("079onlywithz", fldName, "46660954");
+		assertSingleResult("079withbad035s", fldName, "12345666");
+		assertSingleResult("MultOclcNums", fldName, "38403775");
 
-		assertZeroResults(fldName, "66654321"); 
-		assertZeroResults(fldName, "38158328"); 
-		assertZeroResults(fldName, "\"bad 079\""); 
+		assertZeroResults(fldName, "1CSUO98-B6924");
+		assertZeroResults(fldName, "CSUO98-B6924");
+		assertZeroResults(fldName, "164324897");
+		assertZeroResults(fldName, "00666000");
+
+		assertZeroResults(fldName, "66654321");
+		assertZeroResults(fldName, "38158328");
+		assertZeroResults(fldName, "\"bad 079\"");
 	}
 
 	/**
-	 * Test population of isbn_display: the ISBNs used for external 
+	 * Test oclc field with 'on' prefix  SW-796, 892
+	 */
+@Test
+	public void testOCLConPrefix()
+	{
+		String fldName = "oclc";
+		Record rec = factory.newRecord();
+		ControlField cf = factory.newControlField("001", "aocmPrefixOclcIn079a");
+		rec.addVariableField(cf);
+		DataField df = factory.newDataField("079", ' ', ' ');
+		df.addSubfield(factory.newSubfield('a', "ocm27344144"));
+		rec.addVariableField(df);
+		solrFldMapTest.assertSolrFldValue(rec, fldName, "27344144");
+
+		rec = factory.newRecord();
+		cf = factory.newControlField("001", "aocnPrefixOclcIn079a");
+		rec.addVariableField(cf);
+		df = factory.newDataField("079", ' ', ' ');
+		df.addSubfield(factory.newSubfield('a', "ocn999001435 "));
+		rec.addVariableField(df);
+		solrFldMapTest.assertSolrFldValue(rec, fldName, "999001435");
+
+		rec = factory.newRecord();
+		cf = factory.newControlField("001", "aonPrefixOclcIn079a");
+		rec.addVariableField(cf);
+		df = factory.newDataField("079", ' ', ' ');
+		df.addSubfield(factory.newSubfield('a', "on9990014350"));
+		rec.addVariableField(df);
+		solrFldMapTest.assertSolrFldValue(rec, fldName, "9990014350");
+	}
+
+	/**
+	 * Test population of isbn_display: the ISBNs used for external
 	 *  lookups (e.g. Google Book Search)
 	 */
 @Test
-	public final void testISBNdisplay() 
+	public final void testISBNdisplay()
 	{
 		String fldName = "isbn_display";
 		String testFilePath = testDataParentPath + File.separator + "isbnTests.mrc";
@@ -129,7 +163,7 @@ public class StandardNumberTests extends AbstractStanfordTest
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "020suba10trailingText", fldName, "0123456789");
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "020suba10trailingText", fldName, "0521672694");
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "020suba10trailingText", fldName, "052185668X");
-		
+
 		// 020 subfield a 13 digit varieties
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "020suba13", fldName, "9780809424887");
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "020suba13endsX", fldName, "979123456789X");
@@ -151,7 +185,7 @@ public class StandardNumberTests extends AbstractStanfordTest
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subz10trailingText", fldName, "1234567890");
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subz10trailingText", fldName, "0123456789");
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subz10trailingText", fldName, "0521672694");
-		// no subfield a in 020, but has subfield z 13 digit		
+		// no subfield a in 020, but has subfield z 13 digit
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subz13digit", fldName, "9780809424887");
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subz13endsX", fldName, "979123456789X");
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "020subz13trailingText", fldName, "978185585039X");
@@ -166,7 +200,7 @@ public class StandardNumberTests extends AbstractStanfordTest
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "020multSubz", fldName, "9780809424887");
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "020multSubz", fldName, "979123456789X");
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "020multSubz", fldName, "9780809424870");
-	
+
 		// mult a and z - should only have a
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "020SubaAndz", fldName, "0123456789");
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "020SubaAndz", fldName, "0521672694");
@@ -177,24 +211,24 @@ public class StandardNumberTests extends AbstractStanfordTest
 	}
 
 	/**
-	 * Test population of isbn_search field: the ISBNs that an end user can 
+	 * Test population of isbn_search field: the ISBNs that an end user can
 	 *  search for in our index
 	 */
 @Test
-	public final void testISBNsearch() 
+	public final void testISBNsearch()
 		throws IOException, ParserConfigurationException, SAXException, SolrServerException
 	{
 		String fldName = "isbn_search";
 		createFreshIx("isbnTests.mrc");
-		
+
 		// searches are not exhaustive  (b/c programmer is exhausted)
-	
+
 		// isbn search with sub a value from record with mult a and z
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("020suba10trailingText");
 		docIds.add("020SubaAndz");
 		assertSearchResults(fldName, "052185668X", docIds);
-	
+
 		// isbn search with sub z value from record with mult a and z
 		docIds.clear();
 		docIds.add("020suba13");
@@ -205,7 +239,7 @@ public class StandardNumberTests extends AbstractStanfordTest
 		docIds.add("020multSubz");
 		docIds.add("020SubaAndz");
 		assertSearchResults(fldName, "9780809424887", docIds);
-		
+
 		assertSingleResult("774z", fldName, "0001112223");
 	}
 
@@ -213,8 +247,8 @@ public class StandardNumberTests extends AbstractStanfordTest
 	 * isbn_search should be case insensitive
 	 */
 @Test
-	public final void testISBNSearchCaseInsensitive() 
-		throws IOException, ParserConfigurationException, SAXException, SolrServerException 
+	public final void testISBNSearchCaseInsensitive()
+		throws IOException, ParserConfigurationException, SAXException, SolrServerException
 	{
 		String fldName = "isbn_search";
 		createFreshIx("isbnTests.mrc");
@@ -227,20 +261,20 @@ public class StandardNumberTests extends AbstractStanfordTest
 	}
 
 	/**
-	 * Test population of issn_display field: the ISSNs used for 
+	 * Test population of issn_display field: the ISSNs used for
 	 *  external lookups (e.g. xISSN)
 	 */
 @Test
-	public final void testISSNdisplay() 
+	public final void testISSNdisplay()
 	{
 		String fldName = "issn_display";
 		String testFilePath = testDataParentPath + File.separator + "issnTests.mrc";
-	
+
 		// no issn
 	    solrFldMapTest.assertNoSolrFld(testFilePath, "No022", fldName);
 	    solrFldMapTest.assertNoSolrFld(testFilePath, "022subaNoHyphen", fldName);
 	    solrFldMapTest.assertNoSolrFld(testFilePath, "022subaTooManyChars", fldName);
-		// 022 single subfield 
+		// 022 single subfield
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "022suba", fldName, "1047-2010");
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "022subaX", fldName, "1047-201X");
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "022subL", fldName, "0796-5621");
@@ -259,26 +293,26 @@ public class StandardNumberTests extends AbstractStanfordTest
 	}
 
 	/**
-	 * Test population of issn_search field: the ISSNs that an end user can 
+	 * Test population of issn_search field: the ISSNs that an end user can
 	 *  search for in our index
 	 */
 @Test
-	public final void testISSNsearch() 
-		throws IOException, ParserConfigurationException, SAXException, SolrServerException 
+	public final void testISSNsearch()
+		throws IOException, ParserConfigurationException, SAXException, SolrServerException
 	{
 		String fldName = "issn_search";
 		createFreshIx("issnTests.mrc");
 		// issn is now text, not string, to accommodate the hyphen
-	
+
 		assertSingleResult("022suba", fldName, "1047-2010");
 		assertSingleResult("022subaX", fldName, "1047-201X");
-	
+
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("022subL");
 		docIds.add("022subAandL");
 		docIds.add("022subLandM");
 		assertSearchResults(fldName, "0796-5621", docIds);
-		
+
 		assertSingleResult("022subM", fldName, "0863-4564");
 		assertSingleResult("022subY", fldName, "0813-1964");
 		assertSingleResult("022subMandZ", fldName, "1144-5858");
@@ -288,11 +322,11 @@ public class StandardNumberTests extends AbstractStanfordTest
 		assertSingleResult("022subAandL", fldName, "0945-2419");
 		assertSingleResult("Two022a", fldName, "0666-7770");
 		assertSingleResult("Two022a", fldName, "1221-2112");
-		
+
 		// without hyphen:
 		assertSingleResult("022subM", fldName, "08634564");
 		assertSingleResult("022subZ", fldName, "1144585X");
-		
+
 		assertSingleResult("785x", fldName, "8750-2836");
 	}
 
@@ -300,12 +334,12 @@ public class StandardNumberTests extends AbstractStanfordTest
 	 * ISSNs should be searchable with or without the hyphen
 	 */
 @Test
-	public final void testISSNSearchHyphens() 
-		throws IOException, ParserConfigurationException, SAXException, SolrServerException 
+	public final void testISSNSearchHyphens()
+		throws IOException, ParserConfigurationException, SAXException, SolrServerException
 	{
 		String fldName = "issn_search";
 		createFreshIx("issnTests.mrc");
-	
+
 		assertSingleResult("022subM", fldName, "0863-4564");
 		assertSingleResult("022subM", fldName, "08634564");
 		assertSingleResult("022subZ", fldName, "1144-585X");
@@ -317,22 +351,22 @@ public class StandardNumberTests extends AbstractStanfordTest
 	 * issn_search should be case insensitive
 	 */
 @Test
-	public final void testISSNSearchCaseInsensitive() 
-		throws IOException, ParserConfigurationException, SAXException, SolrServerException 
+	public final void testISSNSearchCaseInsensitive()
+		throws IOException, ParserConfigurationException, SAXException, SolrServerException
 	{
 		String fldName = "issn_search";
 		createFreshIx("issnTests.mrc");
-	
+
 		assertSingleResult("022subZ", fldName, "1144-585X");
 		assertSingleResult("022subZ", fldName, "1144-585x");
 	}
-	
+
 
 	/**
 	 * Test population of lccn field
 	 */
 @Test
-	public final void testLCCN() 
+	public final void testLCCN()
 	{
 		String fldName = "lccn";
 		String testFilePath = testDataParentPath + File.separator + "lccnTests.mrc";
@@ -341,7 +375,7 @@ public class StandardNumberTests extends AbstractStanfordTest
 		solrFldMapTest.assertNoSolrFld(testFilePath, "No010", fldName);
 // TODO:  the 9 digit lccn passes.  I don't know why.  I no longer care.
 //		solrFldMapTest.assertNoSolrFld(testFilePath, "010bad", fldName);
-		// 010 sub a only 
+		// 010 sub a only
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "010suba8digit", fldName, "85153773");
 	    solrFldMapTest.assertSolrFldValue(testFilePath, "010suba10digit", fldName, "2001627090");
 		// prefix

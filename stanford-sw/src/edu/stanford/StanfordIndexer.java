@@ -436,6 +436,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					good = Utils.removePrefix(val, "ocm");
 				else if (val.startsWith("ocn"))
 					good = Utils.removePrefix(val, "ocn");
+				else if (val.startsWith("on"))
+					good = Utils.removePrefix(val, "on");
 				if (good != null && good.length() != 0)
 				{
 					oclcSet.add(good.trim());
