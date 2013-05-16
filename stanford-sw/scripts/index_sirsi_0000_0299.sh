@@ -36,8 +36,8 @@ nohup java -Xmx8g -Xms8g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_00500000_00999
 nohup java -Xmx8g -Xms8g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_01000000_01499999.marc &>$LOG_DIR/log0100-0149.txt
 nohup java -Xmx8g -Xms8g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_01500000_01999999.marc &>$LOG_DIR/log0150-0199.txt
 nohup java -Xmx8g -Xms8g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_02000000_02499999.marc &>$LOG_DIR/log0200-0249.txt
-nohup java -Xmx8g -Xms8g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_02500000_02999999.marc &>$LOG_DIR/log0250-0299.txt
-nohup java -Xmx8g -Xms8g -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_03000000_03499999.marc &>$LOG_DIR/log0300-0349.txt
+nohup java -Xmx8g -Xms8g -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_02500000_02999999.marc &>$LOG_DIR/log0250-0299.txt
+#nohup java -Xmx8g -Xms8g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_03000000_03499999.marc &>$LOG_DIR/log0300-0349.txt
 #nohup java -Xmx8g -Xms8g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_03500000_03999999.marc &>$LOG_DIR/log0350-0399.txt
 #nohup java -Xmx8g -Xms8g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_04000000_04499999.marc &>$LOG_DIR/log0400-0449.txt
 #nohup java -Xmx8g -Xms8g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_04500000_04999999.marc &>$LOG_DIR/log0450-0499.txt
