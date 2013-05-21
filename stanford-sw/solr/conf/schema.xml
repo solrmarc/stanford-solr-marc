@@ -316,7 +316,7 @@
           splitOnCaseChange="1" generateWordParts="1" catenateWords="1"
           splitOnNumerics="0" generateNumberParts="1" catenateNumbers="1"
           catenateAll="0" preserveOriginal="0" stemEnglishPossessive="1" />
-        <filter class="solr.EnglishPorterFilterFactory" protected="protwords.txt" />
+        <filter class="solr.PorterStemFilterFactory" />
         <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
       </analyzer>
     </fieldtype>
