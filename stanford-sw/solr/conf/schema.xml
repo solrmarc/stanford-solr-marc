@@ -306,7 +306,6 @@
     <fieldType name="random" class="solr.RandomSortField" indexed="true" />
 
     <!-- Analyzed Text, general case -->
-    <!-- if we used synonyms, they would be used only for the queries, and they would appear after the unicodeNormalization and before the StopFilter -->
     <fieldtype name="text" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
@@ -331,7 +330,6 @@
           splitOnCaseChange="1" generateWordParts="1" catenateWords="1"
           splitOnNumerics="0" generateNumberParts="1" catenateNumbers="1"
           catenateAll="0" preserveOriginal="0" stemEnglishPossessive="0" />
-        <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
       </analyzer>
     </fieldtype>
 
