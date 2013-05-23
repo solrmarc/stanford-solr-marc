@@ -42,7 +42,7 @@
     <enableLazyFieldLoading>true</enableLazyFieldLoading>
     <queryResultWindowSize>80</queryResultWindowSize>
     <queryResultMaxDocsCached>100</queryResultMaxDocsCached>
-    <HashDocSet maxSize="200000" loadFactor="0.75"/>
+    <HashDocSet maxSize="200000" loadFactor="0.75"/>    <!-- Deprecated as of Solr 4 -->
     <useColdSearcher>true</useColdSearcher>
     <maxWarmingSearchers>2</maxWarmingSearchers>
 
@@ -211,6 +211,10 @@
       <int name="qs">1</int>
       <int name="ps">0</int>
       <float name="tie">0.01</float>
+      <!-- in case lucene query parser -->
+      <str name="df">all_search</str>
+      <str name="q.op">AND</str>
+
       <str name="qf">
         title_245a_unstem_search^100000
         title_245a_search^75000        vern_title_245a_search^75000
