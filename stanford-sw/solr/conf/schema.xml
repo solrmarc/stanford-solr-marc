@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <schema name="Stanford Searchworks" version="1.5">
   <uniqueKey>id</uniqueKey>
-  <!-- defaultSearchField is DEPRECATED; use df in requestHandler -->
-  <defaultSearchField>all_search</defaultSearchField>
-  <!-- defaultOperator is DEPRECATED; use q.op in requestHandler -->
-  <solrQueryParser defaultOperator="AND" />
 
   <fields>
-    <!-- id: Unique id for indexed document -->
+    <!-- needed by some of Solr 4.0 functionality like transaction log or partial documents update -->
+    <field name="_version_" type="long" indexed="true" stored="true"/>
+
     <field name="id" type="string_punct_stop" indexed="true" stored="true" required="true" />
     <field name="created" type="date" indexed="true" stored="true" default="NOW/SECOND" />
     <field name="last_updated" type="date" indexed="true" stored="true" default="NOW/SECOND" />
