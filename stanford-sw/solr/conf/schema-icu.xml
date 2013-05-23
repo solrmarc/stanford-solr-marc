@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<schema name="Stanford Searchworks" version="1.5">
+<schema name="Stanford Searchworks ICU" version="1.5">
   <uniqueKey>id</uniqueKey>
 
   <fields>
     <!-- needed by some of Solr 4.0 functionality like transaction log or partial documents update -->
     <field name="_version_" type="long" indexed="true" stored="true"/>
 
+    <!-- id: Unique id for indexed document -->
     <field name="id" type="string_punct_stop" indexed="true" stored="true" required="true" />
     <field name="created" type="date" indexed="true" stored="true" default="NOW/SECOND" />
     <field name="last_updated" type="date" indexed="true" stored="true" default="NOW/SECOND" />
@@ -223,8 +224,8 @@
     <field name="collection" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <!-- collection_search: allow searching within collections for aggr. colls -->
     <field name="collection_search" type="string_punct_stop" indexed="true" stored="false" multiValued="true" omitNorms="true" />
-    <!-- display_type is used by UI code -->
-    <field name="display_type" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
+    <!-- display_type is a hidden facet for "views" e.g. Images, Maps ...  (might be obsolete) -->
+    <field name="display_type" type="string" indexed="true" stored="false" multiValued="true" omitNorms="true" />
     <!--  used to determine when something is a digital collection -->
     <field name="collection_type" type="string" indexed="true" stored="true" multiValued="true" />
     <!--  easy way to indicate collection's parent in UI (may be deprecated in future) -->
@@ -306,37 +307,28 @@
     <!-- Analyzed Text, general case -->
     <fieldtype name="text" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
       <analyzer>
-        <tokenizer class="solr.WhitespaceTokenizerFactory" />
+        <tokenizer class="solr.ICUTokenizerFactory"/>
         <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
-        <filter class="solr.WordDelimiterFilterFactory"
-          splitOnCaseChange="1" generateWordParts="1" catenateWords="1"
-          splitOnNumerics="0" generateNumberParts="1" catenateNumbers="1"
-          catenateAll="0" preserveOriginal="0" stemEnglishPossessive="1" />
-        <filter class="solr.EnglishPorterFilterFactory"/>
-        <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
+        <filter class="solr.PorterStemFilterFactory"/>
+        <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
       </analyzer>
     </fieldtype>
 
     <!-- Analyzed Text, no Stemming or Synonyms -->
     <fieldtype name="textNoStem" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
       <analyzer>
-        <tokenizer class="solr.WhitespaceTokenizerFactory" />
-        <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
-        <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
-        <filter class="solr.WordDelimiterFilterFactory"
-          splitOnCaseChange="1" generateWordParts="1" catenateWords="1"
-          splitOnNumerics="0" generateNumberParts="1" catenateNumbers="1"
-          catenateAll="0" preserveOriginal="0" stemEnglishPossessive="0" />
+        <tokenizer class="solr.ICUTokenizerFactory"/>
+        <filter class="solr.ICUFoldingFilterFactory"/>
       </analyzer>
     </fieldtype>
 
     <!-- single token analyzed text, for sorting.  Punctuation is significant. -->
     <fieldtype name="alphaSort" class="solr.TextField" sortMissingLast="true" omitNorms="true">
       <analyzer>
-        <tokenizer class="solr.KeywordTokenizerFactory" />
+        <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.ICUFoldingFilterFactory"/>
-        <filter class="solr.TrimFilterFactory" />
+        <filter class="solr.TrimFilterFactory"/>
       </analyzer>
     </fieldtype>
 
