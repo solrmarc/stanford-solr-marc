@@ -430,10 +430,10 @@
 		<mkdir dir="${site.test.jetty.dir}/logs" />
 		<mkdir dir="${site.test.solr.run.dir}" />
 		<copy todir="${site.test.solr.run.dir}">
-			<fileset dir="${core.test.solr.orig.dir}" includes="**/conf/**,**/lib/**"/>
+			<fileset dir="${core.test.solr.orig.dir}" includes="**/solr.xml,**/conf/**,**/lib/**"/>
 		</copy>
 		<copy todir="${site.test.solr.run.dir}" overwrite="true">
-			<fileset dir="${site.test.solr.orig.dir}" includes="**/conf/**,**/lib/**"/>
+			<fileset dir="${site.test.solr.orig.dir}" includes="**/solr.xml,**/conf/**,**/lib/**"/>
 		</copy>
 		<copy file="${site.test.solr.orig.dir}/conf/solrconfig-test.xml" tofile="${site.test.solr.run.dir}/conf/solrconfig.xml" overwrite="true"/>
 		<!-- copy over the war file -->
