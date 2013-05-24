@@ -161,32 +161,26 @@ public class SolrCoreLoader
     {
         SolrProxy solrProxy = null;
         String urlString = solrHostUpdateURL.replaceAll("[/\\\\]update$", "");
-        try
+        HttpSolrServer httpSolrServer;
+// possibly replaced by ConcurrentUpdateSolrServer
+//            if (useStreamingServer)
+//                httpSolrServer = new StreamingUpdateSolrServer(urlString, 100, 2); 
+//            else
+            httpSolrServer = new HttpSolrServer(urlString);
+        
+        if (useBinaryRequestHandler)
         {
-            CommonsHttpSolrServer httpSolrServer;
-            if (useStreamingServer)
-                httpSolrServer = new StreamingUpdateSolrServer(urlString, 100, 2); 
-            else
-                httpSolrServer = new CommonsHttpSolrServer(urlString);
-            
-            if (useBinaryRequestHandler)
-            {
-            	// TODO: could put check here to ensure there is BinaryUpdateRequestHandler, and it is /update/javabin
-            	httpSolrServer.setRequestWriter(new BinaryRequestWriter());
-            	httpSolrServer.setParser(new BinaryResponseParser());
-            }
-            else
-            {
-            	httpSolrServer.setRequestWriter(new RequestWriter());
-            	httpSolrServer.setParser(new XMLResponseParser());
-            }
+        	// TODO: could put check here to ensure there is BinaryUpdateRequestHandler, and it is /update/javabin
+        	httpSolrServer.setRequestWriter(new BinaryRequestWriter());
+        	httpSolrServer.setParser(new BinaryResponseParser());
+        }
+        else
+        {
+        	httpSolrServer.setRequestWriter(new RequestWriter());
+        	httpSolrServer.setParser(new XMLResponseParser());
+        }
 
-            solrProxy = new SolrServerProxy(httpSolrServer); 
-        }
-        catch (MalformedURLException e)
-        {
-            e.printStackTrace();
-        }
+        solrProxy = new SolrServerProxy(httpSolrServer); 
         return(solrProxy);
     }
 
