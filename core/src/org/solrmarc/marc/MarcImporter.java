@@ -821,7 +821,7 @@ public class MarcImporter extends MarcHandler
     {
         boolean useSolrServerProxy = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "solrmarc.use_solr_server_proxy", "true"));
         useBinaryRequestHandler = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "solrmarc.use_binary_request_handler", "true"));
-        useStreamingServer = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "solrmarc.use_streaming_proxy", "true"));
+        useStreamingServer = Boolean.parseBoolean(PropertiesUtils.getProperty(configProps, "solrmarc.use_streaming_proxy", "false"));
         if (useSolrServerProxy || useStreamingServer)
             solrProxy = getSolrServerProxy();
         else
