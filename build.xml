@@ -441,7 +441,7 @@
 	</target>
 
 	<target name="test_site" depends="clean_test,test_compile_site,site_setup_test_jetty" description="run tests for SITE code">
-    <junit showoutput="yes" printsummary="yes" fork="yes" forkmode="perBatch" haltonfailure="on">
+    <junit showoutput="yes" printsummary="yes" fork="yes" forkmode="once" haltonfailure="on" maxmemory="512m">
 			<classpath refid="test.site.run.classpath" />
 			<formatter type="plain" usefile="false" />
 
@@ -488,7 +488,7 @@
 		</path>
 		<echo message="test class = ${site.coverage.test.class} " />
 
-		<junit showoutput="yes" printsummary="yes" fork="yes"  haltonfailure="on">
+		<junit showoutput="yes" printsummary="yes" fork="yes" forkmode="once" haltonfailure="on" maxmemory="512m">
 			<formatter type="plain" usefile="false" />
 			<classpath refid="instrumented.classpath" />
 			<!-- name of the coverage data file to use.  It must be the same
