@@ -811,6 +811,18 @@ public final class Utils {
 	 */
 	public static void setLoggingLevels(String solrLogLevel, String solrmarcLogLevel)
 	{
+		org.apache.log4j.Level solrLevel = org.apache.log4j.Level.WARN;
+		if (solrLevel != null)
+		{
+			if (solrLevel.equals("OFF")) solrLevel = Level.OFF;
+			if (solrLevel.equals("FATAL")) solrLevel = Level.FATAL;
+			if (solrLevel.equals("WARN")) solrLevel = Level.WARN;
+			if (solrLevel.equals("INFO")) solrLevel = Level.INFO;
+			if (solrLevel.equals("DEBUG")) solrLevel = Level.DEBUG;
+			if (solrLevel.equals("ALL"))	solrLevel = Level.ALL;
+		}
+		setLog4jLogLevel(solrLevel);
+/*
 		java.util.logging.Level solrLevel = java.util.logging.Level.WARNING;
 
 		if (solrLogLevel != null)
@@ -825,6 +837,7 @@ public final class Utils {
 			if (solrLogLevel.equals("ALL")) solrLevel = java.util.logging.Level.ALL;
 		}
 		java.util.logging.Logger.getLogger("org.apache.solr").setLevel(solrLevel);
+*/
 
 		org.apache.log4j.Level solrmarcLevel = org.apache.log4j.Level.WARN;
 		if (solrmarcLogLevel != null)
