@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--  
+    For information on how to customize this file, please see
+    http://wiki.apache.org/solr/SolrConfigXml. The page also has a link to 
+    an extensively commented version of this file. 
+-->
+<config>
+  <abortOnConfigurationError>${solr.abortOnConfigurationError:true}</abortOnConfigurationError>
+  
+  <luceneMatchVersion>LUCENE_43</luceneMatchVersion>
+
+  <!-- lib directives can be used to instruct Solr to load an Jars identified
+       and use them to resolve any "plugins" specified in your solrconfig.xml or
+       schema.xml (ie: Analyzers, Request Handlers, etc...).
+
+       All directories and paths are resolved relative the instanceDir.
+
+       If a "./lib" directory exists in your instanceDir, all files found in it
+       are included as if you had used the following syntax...
+
+    -->
+  <lib dir="./solr/lib" />
+  
+  <dataDir>${solr.data.dir:}</dataDir>
+  
+  <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}"/>
+  <codecFactory class="solr.SchemaCodecFactory"/>
+  <schemaFactory class="ClassicIndexSchemaFactory"/>
+
+  <indexConfig>
+    <filter class="solr.LimitTokenCountFilterFactory" maxTokenCount="30000"/>
+    <writeLockTimeout>1000</writeLockTimeout>
+    <useCompoundFile>false</useCompoundFile>
+    <ramBufferSizeMB>32</ramBufferSizeMB>
+    <mergeFactor>10</mergeFactor>
+    <lockType>native</lockType>
+    <unlockOnStartup>false</unlockOnStartup>
+    <reopenReaders>true</reopenReaders>
+    <deletionPolicy class="solr.SolrDeletionPolicy">
+      <str name="maxCommitsToKeep">1</str>
+      <str name="maxOptimizedCommitsToKeep">0</str>
+    </deletionPolicy>
+  </indexConfig>
+
+  <updateHandler class="solr.DirectUpdateHandler2" />
+
+  <query>
+    <maxBooleanClauses>1024</maxBooleanClauses>
+    <filterCache class="solr.FastLRUCache" size="512" initialSize="512" autowarmCount="0"/>
+    <useFilterForSortedQuery>false</useFilterForSortedQuery>
+    <queryResultCache class="solr.LRUCache" size="512" initialSize="512" autowarmCount="0"/>
+    <documentCache class="solr.LRUCache" size="512" initialSize="512" autowarmCount="0"/>
+    <enableLazyFieldLoading>true</enableLazyFieldLoading>
+    <queryResultWindowSize>50</queryResultWindowSize>
+    <queryResultMaxDocsCached>100</queryResultMaxDocsCached>
+    <HashDocSet maxSize="3000" loadFactor="0.75"/>    <!-- Deprecated as of Solr 4 -->
+    <useColdSearcher>true</useColdSearcher>
+    <maxWarmingSearchers>2</maxWarmingSearchers>
+  </query>
+
+  <!-- Let the dispatch filter handler /select?qt=XXX -->
+  <requestDispatcher handleSelect="true" >
+    <!--Make sure your system has some authentication before enabling remote streaming!  -->
+    <requestParsers enableRemoteStreaming="true" multipartUploadLimitInKB="2048" />
+    <httpCaching lastModifiedFrom="openTime" etagSeed="Solr" />
+  </requestDispatcher>
+
+  <requestHandler name="standard" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="defType">lucene</str>
+      <str name="echoParams">all</str>
+      <str name="df">text</str>
+      <str name="q.op">AND</str>
+    </lst>
+  </requestHandler>
+
+  <!-- Searching ("All Fields") -->
+  <requestHandler name="search" class="solr.SearchHandler" default="true" >
+    <lst name="defaults">
+      <str name="defType">dismax</str>
+      <str name="echoParams">explicit</str>      
+      <str name="q.alt">*:*</str>
+      <str name="mm">2&lt;-1 5&lt;-2 6&lt;90%</str>
+      <!-- in case of lucene query parsing -->
+      <str name="df">text</str>
+      <str name="q.op">AND</str>
+
+      <!-- this qf and pf are used by default, if not otherwise specified by
+           client. The default blacklight_config will use these for the
+           "keywords" search. See the author_qf/author_pf, title_qf, etc 
+           below, which the default blacklight_config will specify for
+           those searches. You may also be interested in:
+           http://wiki.apache.org/solr/LocalParams
+      -->
+      <str name="qf">
+        title_unstem_search^100000
+        subtitle_unstem_search^50000
+        title_t^25000
+        subtitle_t^10000
+        title_addl_unstem_search^5000
+        title_addl_t^2500
+        title_added_entry_unstem_search^1500
+        title_added_entry_t^1250
+        subject_topic_unstem_search^1000
+        subject_unstem_search^750
+        subject_topic_facet^625
+        subject_t^500
+        author_unstem_search^250
+        author_addl_unstem_search^250
+        author_t^100
+        author_addl_t^50
+        subject_addl_unstem_search^250
+        subject_addl_t^50
+        title_series_unstem_search^25
+        title_series_t^10
+        isbn_t
+        text
+      </str>
+      <str name="pf">
+        title_unstem_search^1000000
+        subtitle_unstem_search^500000
+        title_t^250000
+        subtitle_t^100000
+        title_addl_unstem_search^50000
+        title_addl_t^25000
+        title_added_entry_unstem_search^15000
+        title_added_entry_t^12500
+        subject_topic_unstem_search^10000
+        subject_unstem_search^7500
+        subject_topic_facet^6250
+        subject_t^5000
+        author_unstem_search^2500
+        author_addl_unstem_search^2500
+        author_t^1000
+        author_addl_t^500
+        subject_addl_unstem_search^2500
+        subject_addl_t^500
+        title_series_unstem_search^250
+        title_series_t^100
+        text^10
+      </str>
+      <str name="author_qf">
+        author_unstem_search^200
+        author_addl_unstem_search^50
+        author_t^20
+        author_addl_t
+      </str>
+      <str name="author_pf">
+        author_unstem_search^2000
+        author_addl_unstem_search^500
+        author_t^200
+        author_addl_t^10
+      </str>
+      <str name="title_qf">
+        title_unstem_search^50000
+        subtitle_unstem_search^25000
+        title_addl_unstem_search^10000
+        title_t^5000
+        subtitle_t^2500
+        title_addl_t^100
+        title_added_entry_unstem_search^50
+        title_added_entry_t^10
+        title_series_unstem_search^5
+        title_series_t
+      </str>
+      <str name="title_pf">
+        title_unstem_search^500000
+        subtitle_unstem_search^250000
+        title_addl_unstem_search^100000
+        title_t^50000
+        subtitle_t^25000
+        title_addl_t^1000
+        title_added_entry_unstem_search^500
+        title_added_entry_t^100
+        title_series_t^50
+        title_series_unstem_search^10
+      </str>
+      <str name="subject_qf">
+        subject_topic_unstem_search^200
+        subject_unstem_search^125
+        subject_topic_facet^100
+        subject_t^50
+        subject_addl_unstem_search^10
+        subject_addl_t
+      </str>
+      <str name="subject_pf">
+        subject_topic_unstem_search^2000
+        subject_unstem_search^1250
+        subject_t^1000
+        subject_topic_facet^500
+        subject_addl_unstem_search^100
+        subject_addl_t^10
+      </str>
+      
+      
+      <int name="ps">3</int>
+      <float name="tie">0.01</float>
+
+      <!-- NOT using marc_display because it is large and will slow things down for search results -->
+      <str name="fl">
+        id, 
+        score,
+        author_display,
+        author_vern_display, 
+        format, 
+        isbn_t, 
+        language_facet, 
+        lc_callnum_display,
+        material_type_display, 
+        published_display,
+        published_vern_display,
+        pub_date,
+        title_display,
+        title_vern_display,
+        subject_topic_facet,
+        subject_geo_facet,
+        subject_era_facet,
+        subtitle_display,
+        subtitle_vern_display,
+        url_fulltext_display,
+        url_suppl_display,
+      </str>
+     
+      <str name="facet">true</str>
+      <str name="facet.mincount">1</str>
+      <str name="facet.limit">10</str>
+      <str name="facet.field">format</str>
+      <str name="facet.field">lc_1letter_facet</str>
+      <str name="facet.field">lc_alpha_facet</str>
+      <str name="facet.field">lc_b4cutter_facet</str>
+      <str name="facet.field">language_facet</str>
+      <str name="facet.field">pub_date</str>
+      <str name="facet.field">subject_era_facet</str>
+      <str name="facet.field">subject_geo_facet</str>
+      <str name="facet.field">subject_topic_facet</str>
+    </lst>
+  </requestHandler>
+  
+  <!-- for requests to get a single document; use id=666 instead of q=id:666 -->
+  <requestHandler name="document" class="solr.SearchHandler" >
+    <lst name="defaults">
+      <str name="echoParams">all</str>
+      <str name="fl">*</str>
+      <str name="rows">1</str>
+      <str name="q">{!raw f=id v=$id}</str> <!-- use id=666 instead of q=id:666 -->
+    </lst>
+  </requestHandler>
+  
+  <!--  For Advanced Search  -->
+  <requestHandler name="advanced" class="solr.SearchHandler" >
+    <lst name="defaults">
+      <str name="defType">lucene</str>
+      <str name="echoParams">explicit</str>
+      <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>   
+      <str name="df">text</str> 
+      <str name="q.op">AND</str> 
+      <str name="qs">1</str>
+
+      <!-- used for dismax query parser -->
+      <str name="mm">1</str> 
+      <str name="ps">3</str> 
+      <float name="tie">0.01</float>
+      
+      <!-- for user query terms in author text box -->
+      <str name="qf_author">
+        author_unstem_search^200
+        author_addl_unstem_search^50
+        author_t^20
+        author_addl_t
+      </str>
+      <str name="pf_author">
+        author_unstem_search^2000
+        author_addl_unstem_search^500
+        author_t^200
+        author_addl_t^10
+      </str>
+      
+      <!-- for user query terms in title text box -->
+      <str name="qf_title">
+        title_unstem_search^50000
+        subtitle_unstem_search^25000
+        title_addl_unstem_search^10000
+        title_t^5000
+        subtitle_t^2500
+        title_addl_t^100
+        title_added_entry_unstem_search^50
+        title_added_entry_t^10
+        title_series_unstem_search^5
+        title_series_t
+      </str>
+      <str name="pf_title">
+        title_unstem_search^500000
+        subtitle_unstem_search^250000
+        title_addl_unstem_search^100000
+        title_t^50000
+        subtitle_t^25000
+        title_addl_t^1000
+        title_added_entry_unstem_search^500
+        title_added_entry_t^100
+        title_series_t^50
+        title_series_unstem_search^10
+      </str>
+      
+      <!-- for user query terms in subject text box -->
+      <str name="qf_subject">
+        subject_topic_unstem_search^200
+        subject_unstem_search^125
+        subject_topic_facet^100
+        subject_t^50
+        subject_addl_unstem_search^10
+        subject_addl_t
+      </str>
+      <str name="pf_subject">
+        subject_topic_unstem_search^2000
+        subject_unstem_search^1250
+        subject_t^1000
+        subject_topic_facet^500
+        subject_addl_unstem_search^100
+        subject_addl_t^10
+      </str>
+      
+      <!-- for user query terms in number text box -->
+      <str name="qf_number">isbn_t</str>
+      
+      <!-- for user query terms in keyword text box -->
+      <str name="qf_keyword">text</str>
+      <str name="pf_keyword">text^10</str>
+      
+      <!-- NOT using marc_display because it is large and will slow things down for search results -->
+      <str name="fl">
+        id, 
+        score,
+        author_display,
+        author_vern_display, 
+        format, 
+        isbn_t, 
+        language_facet, 
+        lc_callnum_display,
+        material_type_display, 
+        published_display,
+        published_vern_display,
+        pub_date,
+        title_display,
+        title_vern_display,
+        subject_topic_facet,
+        subject_geo_facet,
+        subject_era_facet,
+        subtitle_display,
+        subtitle_vern_display,
+        url_fulltext_display,
+        url_suppl_display,
+      </str>
+      
+      <str name="facet">true</str>
+      <str name="facet.mincount">1</str>
+      <str name="facet.limit">10</str>
+      <str name="facet.field">format</str>
+      <str name="facet.field">lc_1letter_facet</str>
+      <str name="facet.field">lc_alpha_facet</str>
+      <str name="facet.field">lc_b4cutter_facet</str>
+      <str name="facet.field">language_facet</str>
+      <str name="facet.field">pub_date</str>
+      <str name="facet.field">subject_era_facet</str>
+      <str name="facet.field">subject_geo_facet</str>
+      <str name="facet.field">subject_topic_facet</str>
+    </lst>
+  </requestHandler>
+  
+
+  <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" />
+  <requestHandler name="/analysis" class="solr.AnalysisRequestHandler" startup="lazy" />
+  <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" />
+  <requestHandler name="/admin/ping" class="PingRequestHandler" startup="lazy" >
+    <lst name="defaults">
+      <str name="qt">search</str>
+      <str name="q">book</str>
+      <str name="echoParams">all</str>
+    </lst>
+  </requestHandler>
+  <admin>
+    <defaultQuery>book</defaultQuery>
+  </admin>
+
+</config>
