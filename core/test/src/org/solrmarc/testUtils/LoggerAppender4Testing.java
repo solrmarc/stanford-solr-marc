@@ -16,7 +16,6 @@ import static org.junit.Assert.fail;
 public class LoggerAppender4Testing extends AppenderSkeleton {
     private final List<LoggingEvent> logEventList = new ArrayList<LoggingEvent>();
 
-    @Override
     public boolean requiresLayout() {
         return false;
     }
@@ -26,7 +25,6 @@ public class LoggerAppender4Testing extends AppenderSkeleton {
         logEventList.add(loggingEvent);
     }
 
-    @Override
     public void close() {
     }
 
