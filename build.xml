@@ -55,6 +55,7 @@
 		<delete dir="${test.solr.data.dir}" />
 		<delete dir="${test.solr.run.dir}" />
 		<delete file="${test.jetty.dir}/webapps/solr.war"/>
+		<delete dir="${test.jetty.dir}/solr-webapp"/>
 		<delete dir="${core.instr.dir}" />
 		<delete file="${cobertura.core.data.file}" />
 		<delete dir="${core.coverage.dir}" />
@@ -97,7 +98,7 @@
 		<mkdir dir="${test.jetty.dir}/logs" />
 		<mkdir dir="${test.solr.run.dir}" />
 		<copy todir="${test.solr.run.dir}">
-			<fileset dir="${core.test.solr.orig.dir}" includes="**/conf/**,**/lib/**"/>
+			<fileset dir="${core.test.solr.orig.dir}" includes="**/solr.xml,**/conf/**,**/lib/**"/>
 		</copy>
 		<!-- copy over the war file -->
 		<copy file="${core.solr.war.path}" tofile="${test.jetty.dir}/webapps/solr.war" failonerror="false" />
@@ -387,6 +388,7 @@
 		<delete dir="${site.test.solr.data.dir}" />
 		<delete dir="${site.test.solr.run.dir}" />
 		<delete file="${test.jetty.dir}/webapps/solr.war"/>
+		<delete dir="${test.jetty.dir}/solr-webapp"/>
 		<delete dir="${site.instr.dir}" />
 		<delete file="${cobertura.site.data.file}" />
 		<delete dir="${site.coverage.dir}" />
