@@ -398,7 +398,7 @@
 
 	<path id="test.site.build.classpath" description="classes and jars needed to build SITE TEST code">
 		<fileset dir="${site.test.lib.dir}">
-			<include name="**/*.jar" />
+			<include name="solr/lib/*.jar" />
 		</fileset>
 		<pathelement location="${site.build.dir}"/>
 		<path refid="site.classpath" />
