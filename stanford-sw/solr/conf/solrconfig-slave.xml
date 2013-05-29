@@ -9,12 +9,18 @@
 
   <abortOnConfigurationError>${solr.abortOnConfigurationError:true}</abortOnConfigurationError>
 
-  <luceneMatchVersion>LUCENE_36</luceneMatchVersion>
+  <luceneMatchVersion>LUCENE_43</luceneMatchVersion>
+
+  <lib dir="/home/blacklight/solr-home/lib" />
 
   <dataDir>${solr.data.dir:/data/solr}</dataDir>
 
+  <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}"/>
+  <codecFactory class="solr.SchemaCodecFactory"/>
+  <schemaFactory class="ClassicIndexSchemaFactory"/>
+
   <indexConfig>
-    <maxFieldLength>2147483647</maxFieldLength>
+    <filter class="solr.LimitTokenCountFilterFactory" maxTokenCount="30000"/>
     <writeLockTimeout>1000</writeLockTimeout>
     <useCompoundFile>false</useCompoundFile>
     <ramBufferSizeMB>128</ramBufferSizeMB>
@@ -23,14 +29,21 @@
     <unlockOnStartup>false</unlockOnStartup>
     <reopenReaders>true</reopenReaders>
     <deletionPolicy class="solr.SolrDeletionPolicy">
-      <str name="keepOptimizedOnly">false</str>  <!--  FIXME: no longer used since Solr 3? -->
       <str name="maxCommitsToKeep">1</str>
       <str name="maxOptimizedCommitsToKeep">0</str>
     </deletionPolicy>
   </indexConfig>
 
   <!-- See docs re: autoCommit -->
-  <updateHandler class="solr.DirectUpdateHandler2" />
+  <updateHandler class="solr.DirectUpdateHandler2">
+    <updateLog>
+      <str name="dir">/data/solr/logs</str>
+    </updateLog>
+    <autoCommit>
+       <maxDocs>20000</maxDocs>
+       <openSearcher>false</openSearcher>
+    </autoCommit>
+  </updateHandler>
 
   <query>
     <maxBooleanClauses>1024</maxBooleanClauses>
@@ -860,8 +873,8 @@
     </arr>
   </requestHandler>
 
+	<!-- TODO: can/should /update be removed from -slave? -->
   <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" startup="lazy"/>
-  <requestHandler name="/update/javabin" class="solr.BinaryUpdateRequestHandler" startup="lazy"/>
   <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" />
   <requestHandler name="/admin/ping" class="solr.PingRequestHandler">
     <lst name="invariants">
