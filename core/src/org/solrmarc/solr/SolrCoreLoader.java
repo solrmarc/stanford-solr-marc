@@ -168,6 +168,13 @@ public class SolrCoreLoader
 //            else
             httpSolrServer = new HttpSolrServer(urlString);
 
+        // binary response parser is used by default in Solr 4
+//        if (useBinaryRequestHandler)
+//        {
+//            httpSolrServer.setRequestWriter(new BinaryRequestWriter());
+//            httpSolrServer.setParser(new BinaryResponseParser());
+//        }
+//        else
         if (!useBinaryRequestHandler)
         {
         	httpSolrServer.setRequestWriter(new RequestWriter());
