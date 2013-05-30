@@ -286,7 +286,7 @@
   </requestHandler>
 
   <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" startup="lazy"/>
-<!--
+<!-- no longer needed for Solr 4?
   <requestHandler name="/update/javabin" class="solr.BinaryUpdateRequestHandler" startup="lazy"/>
 -->
   <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" />
