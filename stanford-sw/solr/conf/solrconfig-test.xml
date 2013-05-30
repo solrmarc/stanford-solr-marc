@@ -74,5 +74,6 @@
   </requestHandler>
 
   <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" startup="lazy"/>
+  <requestHandler name="/analysis/field" startup="lazy" class="solr.FieldAnalysisRequestHandler" />  
   <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" />
 </config>

@@ -873,8 +873,9 @@
     </arr>
   </requestHandler>
 
-	<!-- TODO: can/should /update be removed from -slave? -->
+  <!-- TODO: can/should /update be removed from -slave? -->
   <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" startup="lazy"/>
+  <requestHandler name="/analysis/field" startup="lazy" class="solr.FieldAnalysisRequestHandler" />
   <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" />
   <requestHandler name="/admin/ping" class="solr.PingRequestHandler">
     <lst name="invariants">
