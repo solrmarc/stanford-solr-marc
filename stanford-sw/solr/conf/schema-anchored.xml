@@ -34,6 +34,7 @@
     <field name="oclc" type="string_punct_stop" indexed="true" stored="true" multiValued="true" />
 
     <!-- Title Search Fields -->
+    <field name="title_245a_exact_search" type="text_anchored" indexed="true" stored="false" />
     <field name="title_245a_search" type="text" indexed="true" stored="false" />
     <field name="vern_title_245a_search" type="textNoStem" indexed="true" stored="false" />
     <field name="title_245a_unstem_search" type="textNoStem" indexed="true" stored="false" />
@@ -66,6 +67,7 @@
     <field name="title_sort" type="alphaSort" indexed="true" stored="true" />
 
     <!-- Series Search Fields -->
+    <field name="series_exact_search" type="text_anchored" indexed="true" stored="false" multiValued="true" />
     <field name="series_search" type="text" indexed="true" stored="false" multiValued="true" />
     <field name="vern_series_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="series_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
@@ -249,7 +251,8 @@
   <copyField source="pub_date" dest="pub_date_search" />
   <copyField source="db_az_subject" dest="db_az_subject_search" />
 
-  <!-- unstemmed search fields: title -->
+  <!-- unstemmed and anchored search fields: title -->
+  <copyField source="title_245a_search" dest="title_245a_exact_search" />
   <copyField source="title_245a_search" dest="title_245a_unstem_search" />
   <copyField source="title_245_search" dest="title_245_unstem_search" />
   <copyField source="title_uniform_search" dest="title_uniform_unstem_search" />
@@ -318,7 +321,7 @@
       </analyzer>
     </fieldtype>
 
-    <!-- Analyzed Text, no Stemming or Synonyms -->
+    <!-- Analyzed Text, no Stemming -->
     <fieldtype name="textNoStem" class="solr.TextField" positionIncrementGap="10000" autoGeneratePhraseQueries="true">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
@@ -328,6 +331,34 @@
           splitOnCaseChange="1" generateWordParts="1" catenateWords="1"
           splitOnNumerics="0" generateNumberParts="1" catenateNumbers="1"
           catenateAll="0" preserveOriginal="0" stemEnglishPossessive="0" />
+      </analyzer>
+    </fieldtype>
+
+    <!-- Left and Right Anchored Analyzed Text, no Stemming -->
+    <fieldtype name="text_anchored" class="solr.TextField" positionIncrementGap="10000" autoGeneratePhraseQueries="true">
+      <analyzer>
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(.*\S)\s*$" replacement="aaaaaa$1zzzzzz"/>
+        <tokenizer class="solr.WhitespaceTokenizerFactory" />
+        <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
+        <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
+        <filter class="solr.WordDelimiterFilterFactory"
+          splitOnCaseChange="1" generateWordParts="1" catenateWords="1"
+          splitOnNumerics="0" generateNumberParts="1" catenateNumbers="1"
+          catenateAll="0" preserveOriginal="0" stemEnglishPossessive="1" />
+      </analyzer>
+    </fieldtype>
+
+    <!-- Left Anchored Analyzed Text, no Stemming -->
+    <fieldtype name="text_left_anchored" class="solr.TextField" positionIncrementGap="10000" autoGeneratePhraseQueries="true">
+      <analyzer>
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(\S{1})" replacement="aaaaaa$1"/>
+        <tokenizer class="solr.WhitespaceTokenizerFactory" />
+        <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
+        <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
+        <filter class="solr.WordDelimiterFilterFactory"
+          splitOnCaseChange="1" generateWordParts="1" catenateWords="1"
+          splitOnNumerics="0" generateNumberParts="1" catenateNumbers="1"
+          catenateAll="0" preserveOriginal="0" stemEnglishPossessive="1" />
       </analyzer>
     </fieldtype>
 
@@ -365,7 +396,7 @@
         <!-- LC: add space between first cutter letter and its digits to allow matching on first cutter letter only -->
         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([A-Za-z]{1,3}\d{1,4}(\.\d+)? \.([A-Za-z]))(\d+)" replacement="$1 $4"/>
         <!-- prepend yyyy to string so searches can be left anchored -->
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^ *([^ ]{1})" replacement="yyyy$1"/>
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(\S{1})" replacement="yyyy$1"/>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
       </analyzer>
@@ -378,7 +409,7 @@
         <!-- LC: add space between first cutter letter and its digits to allow matching on first cutter letter only -->
         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([A-Za-z]{1,3}\d{1,4}(\.\d+)? \.([A-Za-z]))([^ ])" replacement="$1 $4"/>
         <!-- prepend yyyy to string so searches can be left anchored -->
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^ *([^ ]{1})" replacement="yyyy$1"/>
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(\S{1})" replacement="yyyy$1"/>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
 	      <filter class="solr.LowerCaseFilterFactory" />
       </analyzer>
