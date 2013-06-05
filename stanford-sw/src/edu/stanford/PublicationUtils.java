@@ -46,10 +46,10 @@ public class PublicationUtils {
 	static Set<String> getPublication(List<VariableField> vf26xList)
     {
 		Set<String> resultSet = new LinkedHashSet<String>();
-		for (VariableField vf260 : vf26xList)
+		for (VariableField vf26x : vf26xList)
 		{
-			DataField df260 = (DataField) vf260;
-			List<Subfield> subFlds = df260.getSubfields();
+			DataField df26x = (DataField) vf26x;
+			List<Subfield> subFlds = df26x.getSubfields();
 			StringBuilder buffer = new StringBuilder("");
 			for (Subfield sf : subFlds)
 			{
