@@ -553,7 +553,8 @@
         title_245_unstem_search^150
         title_uniform_unstem_search^60
         title_variant_unstem_search^15
-        series_exact_search^20
+        title_related_unstem_search^10
+        series_exact_search^10
         series_unstem_search^5
       </str>
       <str name="pf_title2"> <!-- x 2 token bigrams -->
@@ -562,7 +563,8 @@
         title_245_unstem_search^100
         title_uniform_unstem_search^40
         title_variant_unstem_search^10
-        series_exact_search^10
+        title_related_unstem_search^5
+        series_exact_search^5
         series_unstem_search^2
       </str>
 
