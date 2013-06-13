@@ -517,52 +517,53 @@
       </str>
 
       <str name="qf_title">
-        title_245a_unstem_search^500
-        title_245a_search^200          vern_title_245a_search^200
-        title_245_unstem_search^100
-        title_245_search^50            vern_title_245_search^50
-        title_uniform_unstem_search^30
-        title_uniform_search^20        vern_title_uniform_search^20
-        title_variant_unstem_search^10
-        title_variant_search^5         vern_title_variant_search^5
-        title_related_unstem_search^5
+        title_245a_unstem_search^100
+        title_245a_search^50          vern_title_245a_search^50
+        title_245_unstem_search^50
+        title_245_search^20            vern_title_245_search^20
+        title_uniform_unstem_search^20
+        title_uniform_search^10        vern_title_uniform_search^10
+        title_variant_unstem_search^5
+        title_variant_search^2         vern_title_variant_search^2
+        title_related_unstem_search^2
         title_related_search           vern_title_related_search
         series_exact_search^5
         series_unstem_search^2
         series_search                  vern_series_search
       </str>
       <str name="pf_title"> <!-- x 5 (exact phrase match) -->
-        title_245a_exact_search^1000
-        title_245a_exact_search^1000000
-        title_245a_unstem_search^200000
-        title_245_unstem_search^75000
-        title_uniform_unstem_search^60000
-        title_245a_search^75000        vern_title_245a_search^75000
-        title_245_search^7500          vern_title_245_search^7500
-        title_uniform_search^6000      vern_title_uniform_search^6000
-        title_variant_unstem_search^3000
-        title_variant_search^200       vern_title_variant_search^200
-        title_related_unstem_search^175
-        title_related_search^150       vern_title_related_search^150
-        series_exact_search^150
-        series_unstem_search^100
-        series_search^75               vern_series_search^75
-      </str>
-      <str name="pf_title2"> <!-- x 2 token bigrams -->
-        title_245a_exact_search^5000000
-        title_245a_unstem_search^1000000
-        title_245_unstem_search^375000
-        title_uniform_unstem_search^300000
-        series_exact_search^750
-        series_unstem_search^500
+        title_245a_exact_search^750
+        title_245a_unstem_search^500
+        title_245a_search^250         vern_title_245a_search^250
+        title_245_unstem_search^250
+        title_245_search^100          vern_title_245_search^100
+        title_uniform_unstem_search^100
+        title_uniform_search^50      vern_title_uniform_search^50
+        title_variant_unstem_search^25
+        title_variant_search^10       vern_title_variant_search^10
+        title_related_unstem_search^10
+        title_related_search^5       vern_title_related_search^5
+        series_exact_search^25
+        series_unstem_search^10
+        series_search^5               vern_series_search^5
       </str>
       <str name="pf_title3"> <!-- x 3 token trigrams -->
-        title_245a_exact_search^10000000
-        title_245a_unstem_search^2000000
-        title_245_unstem_search^750000
-        title_uniform_unstem_search^600000
-        series_exact_search^1500
-        series_unstem_search^1000
+        title_245a_exact_search^500
+        title_245a_unstem_search^300
+        title_245_unstem_search^150
+        title_uniform_unstem_search^60
+        title_variant_unstem_search^15
+        series_exact_search^20
+        series_unstem_search^5
+      </str>
+      <str name="pf_title2"> <!-- x 2 token bigrams -->
+        title_245a_exact_search^300
+        title_245a_unstem_search^200
+        title_245_unstem_search^100
+        title_uniform_unstem_search^40
+        title_variant_unstem_search^10
+        series_exact_search^10
+        series_unstem_search^2
       </str>
 
       <str name="qf_author">
@@ -581,13 +582,13 @@
         author_8xx_unstem_search^10
         author_8xx_search^5          vern_author_8xx_search^5
       </str>
-      <str name="pf_author2"> <!-- x 2 token bigrams -->
-        author_1xx_unstem_search^40
-        author_7xx_unstem_search^20
-      </str>
       <str name="pf_author3"> <!-- x 3 token trigrams -->
         author_1xx_unstem_search^60
         author_7xx_unstem_search^30
+      </str>
+      <str name="pf_author2"> <!-- x 2 token bigrams -->
+        author_1xx_unstem_search^40
+        author_7xx_unstem_search^20
       </str>
 
       <str name="qf_subject">
