@@ -334,7 +334,8 @@
     <!-- Left and Right Anchored Analyzed Text, no Stemming -->
     <fieldtype name="text_anchored" class="solr.TextField" positionIncrementGap="10000" autoGeneratePhraseQueries="true">
       <analyzer>
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(.*\S)\s*$" replacement="aaaaaa$1zzzzzz"/>
+        <!-- put beginning and ending anchors on field value, removing trailing chars that aren't unicode letters or numbers -->
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(.*[\p{L}\p{N}])[^\p{L}\p{N}]*$" replacement="aaaaaa$1zzzzzz"/>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
         <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
@@ -348,7 +349,8 @@
     <!-- Left Anchored Analyzed Text, no Stemming -->
     <fieldtype name="text_left_anchored" class="solr.TextField" positionIncrementGap="10000" autoGeneratePhraseQueries="true">
       <analyzer>
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(\S{1})" replacement="aaaaaa$1"/>
+        <!-- put beginning anchor on field value, removing trailing chars that aren't unicode letters or numbers -->
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*([\p{L}\p{N}]{1})" replacement="aaaaaa$1"/>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
         <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
