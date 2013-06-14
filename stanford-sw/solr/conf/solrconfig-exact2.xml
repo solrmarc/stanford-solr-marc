@@ -1018,8 +1018,8 @@
         crez_course_id_search
       </str>
       <str name="pf_crez">
-      	crez_instructor_search^20
-      	crez_course_name_search^20
+      	crez_instructor_search^2
+      	crez_course_name_search^2
       </str>
       <str name="sort_crez">score desc, title_sort asc, pub_date_sort desc</str>
 
