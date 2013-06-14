@@ -814,7 +814,7 @@
         collection_search
         all_search
       </str>
-      <str name="pf">
+      <str name="pf"> <!-- (exact phrase match) -->
         title_245a_exact_search^10000000
         title_245a_unstem_search^300000
         title_245a_search^250000       vern_title_245a_search^250000
@@ -881,10 +881,10 @@
       <str name="qf_title">
         title_245a_exact_search^100000
         title_245a_unstem_search^50000
-        title_245_unstem_search^25000
-        title_uniform_unstem_search^10000
         title_245a_search^5000         vern_title_245a_search^5000
+        title_245_unstem_search^25000
         title_245_search^1000          vern_title_245_search^1000
+        title_uniform_unstem_search^10000
         title_uniform_search^250       vern_title_uniform_search^250
         title_variant_unstem_search^150
         title_variant_search^50        vern_title_variant_search^50
@@ -894,13 +894,13 @@
         series_unstem_search^2
         series_search                  vern_series_search
       </str>
-      <str name="pf_title">
+      <str name="pf_title"> <!-- (exact phrase match) -->
         title_245a_exact_search^1000000
         title_245a_unstem_search^200000
-        title_245_unstem_search^75000
-        title_uniform_unstem_search^60000
         title_245a_search^75000        vern_title_245a_search^75000
+        title_245_unstem_search^75000
         title_245_search^7500          vern_title_245_search^7500
+        title_uniform_unstem_search^60000
         title_uniform_search^6000      vern_title_uniform_search^6000
         title_variant_unstem_search^3000
         title_variant_search^200       vern_title_variant_search^200
@@ -910,23 +910,21 @@
         series_unstem_search^100
         series_search^75               vern_series_search^75
       </str>
-      <!-- unstemmed/exact only, mult 5 to pf_title boost -->
-      <str name="pf_title2">
-        title_245a_exact_search^5000000
-        title_245a_unstem_search^1000000
-        title_245_unstem_search^375000
-        title_uniform_unstem_search^300000
-        series_exact_search^750
-        series_unstem_search^500
+      <str name="pf_title3"> <!-- (token trigrams) -->
+        title_245a_search^120000       vern_title_245a_search^120000
+        title_245_search^50000         vern_title_245_search^50000
+        title_uniform_search^40000     vern_title_uniform_search^40000
+        title_variant_search^2000      vern_title_variant_search^2000
+        title_related_search^100       vern_title_related_search^100
+        series_search^50               vern_series_search^50
       </str>
-      <!-- unstemmed/exact only, mult 10 to pf_title boost -->
-      <str name="pf_title3">
-        title_245a_exact_search^10000000
-        title_245a_unstem_search^2000000
-        title_245_unstem_search^750000
-        title_uniform_unstem_search^600000
-        series_exact_search^1500
-        series_unstem_search^1000
+      <str name="pf_title2"> <!-- (token bigrams) -->
+        title_245a_search^100000       vern_title_245a_search^100000
+        title_245_search^25000         vern_title_245_search^25000
+        title_uniform_search^25000     vern_title_uniform_search^25000
+        title_variant_search^1000      vern_title_variant_search^1000
+        title_related_search^50        vern_title_related_search^50
+        series_search^25               vern_series_search^25
       </str>
 
       <str name="qf_author">
@@ -973,7 +971,7 @@
         subject_all_search             vern_subject_all_search
         db_az_subject_search
       </str>
-      <str name="pf_subject">
+      <str name="pf_subject"> <!-- (exact phrase match) -->
         topic_unstem_search^5000
         geographic_unstem_search^5000
         topic_search^1000              vern_topic_search^1000
@@ -990,37 +988,31 @@
         subject_all_search^20          vern_subject_all_search^20
         db_az_subject_search^20
       </str>
-      <!--  mult 5 to pf_subject boost -->
-      <str name="pf_subject2">
-        topic_unstem_search^25000
-        subject_all_unstem_search^1250
-        db_az_subject_search^100
-      </str>
-      <!-- mult 10 to pf_subject boost -->
-      <str name="pf_subject3">
-        topic_unstem_search^50000
-        subject_all_unstem_search^2500
+      <str name="pf_subject3"> <!-- x 3 (token trigrams) -->
+        topic_search^3000              vern_topic_subx_search^3000
+        subject_all_search^2500        vern_subject_all_search^2500
         db_az_subject_search^200
+      </str>
+      <str name="pf_subject2"> <!-- x 2 (token bigrams) -->
+        topic_search^2000              vern_topic_subx_search^2000
+        subject_all_search^1250        vern_subject_all_search^1250
+        db_az_subject_search^100
       </str>
 
       <str name="qf_series">
+        series_exact_search^10
         series_unstem_search^5
-        series_search
-        vern_series_search
+        series_search        vern_series_search
       </str>
-      <str name="pf_series">
-        series_exact_search^200
-        series_unstem_search^100
-        series_search^20
-        vern_series_search^20
+      <str name="pf_series"> <!-- x 5 exact/unstemmed to stemmed (exact phrase match) -->
+        series_exact_search^50
+        series_search^25      vern_series_search^25
       </str>
-      <str name="pf_series2">
-        series_exact_search^1000
-        series_unstem_search^500
+      <str name="pf_series3"> <!-- x 3 (token trigrams) -->
+        series_search^15      vern_series_search^15
       </str>
-      <str name="pf_series3">
-        series_exact_search^2000
-        series_unstem_search^1000
+      <str name="pf_series2"> <!-- x 2 (token bigrams) -->
+        series_search^10      vern_series_search^10
       </str>
 
       <str name="qf_crez">
@@ -1175,7 +1167,7 @@
         series_unstem_search^2
         series_search                  vern_series_search
       </str>
-      <str name="pf_title">
+      <str name="pf_title"> <!-- (exact phrase match) -->
         title_245a_exact_search^900000
         series_exact_search^50000
         title_245a_unstem_search^200000
@@ -1191,21 +1183,21 @@
         series_unstem_search^100
         series_search^75               vern_series_search^75
       </str>
-      <str name="pf_title2">
-        title_245a_exact_search^5000000
-        title_245a_unstem_search^1000000
-        title_245_unstem_search^375000
-        title_uniform_unstem_search^300000
-        series_exact_search^750
-        series_unstem_search^500
+      <str name="pf_title3"> <!-- (token trigrams) -->
+        title_245a_search^120000       vern_title_245a_search^120000
+        title_245_search^50000         vern_title_245_search^50000
+        title_uniform_search^40000     vern_title_uniform_search^40000
+        title_variant_search^2000      vern_title_variant_search^2000
+        title_related_search^100       vern_title_related_search^100
+        series_search^50               vern_series_search^50
       </str>
-      <str name="pf_title3">
-        title_245a_exact_search^10000000
-        title_245a_unstem_search^2000000
-        title_245_unstem_search^750000
-        title_uniform_unstem_search^600000
-        series_exact_search^1500
-        series_unstem_search^1000
+      <str name="pf_title2"> <!-- (token bigrams) -->
+        title_245a_search^100000       vern_title_245a_search^100000
+        title_245_search^25000         vern_title_245_search^25000
+        title_uniform_search^25000     vern_title_uniform_search^25000
+        title_variant_search^1000      vern_title_variant_search^1000
+        title_related_search^50        vern_title_related_search^50
+        series_search^25               vern_series_search^25
       </str>
 
       <!-- for user query terms in subject text box -->
@@ -1226,7 +1218,7 @@
         subject_all_search             vern_subject_all_search
         db_az_subject_search
       </str>
-      <str name="pf_subject">
+      <str name="pf_subject"> <!-- (exact phrase match) -->
         topic_unstem_search^5000
         geographic_unstem_search^5000
         topic_search^1000              vern_topic_search^1000
@@ -1243,15 +1235,15 @@
         subject_all_search^20          vern_subject_all_search^20
         db_az_subject_search^20
       </str>
-      <str name="pf_subject2">
-        topic_unstem_search^25000
-        subject_all_unstem_search^1250
-        db_az_subject_search^100
-      </str>
-      <str name="pf_subject3">
-        topic_unstem_search^50000
-        subject_all_unstem_search^2500
+      <str name="pf_subject3"> <!-- x 3 (token trigrams) -->
+        topic_search^3000              vern_topic_subx_search^3000
+        subject_all_search^2500        vern_subject_all_search^2500
         db_az_subject_search^200
+      </str>
+      <str name="pf_subject2"> <!-- x 2 (token bigrams) -->
+        topic_search^2000              vern_topic_subx_search^2000
+        subject_all_search^1250        vern_subject_all_search^1250
+        db_az_subject_search^100
       </str>
 
       <!-- for user query terms in publisher text box -->
@@ -1265,8 +1257,8 @@
         pub_country^10
         pub_date_search^10
       </str>
-      <str name="pf_pub_info2">pub_search^50</str>
-      <str name="pf_pub_info3">pub_search^100</str>
+      <str name="pf_pub_info3">pub_search^5</str>
+      <str name="pf_pub_info2">pub_search^2</str>
 
       <!-- for user query terms in number text box -->
       <str name="qf_number">
@@ -1278,42 +1270,39 @@
         callnum_search
       </str>
       <str name="pf_number">callnum_search^10</str>
-      <str name="pf_number2">callnum_search^50</str>
-      <str name="pf_number3">callnum_search^100</str>
+      <str name="pf_number3">callnum_search^5</str>
+      <str name="pf_number2">callnum_search^2</str>
 
       <!-- for user query terms in summary text box -->
       <str name="qf_summary">
-        toc_unstem_search^10
+        toc_unstem_search^2
         toc_search                     vern_toc_search
-        context_unstem_search^10
+        context_unstem_search^2
         context_search                 vern_context_search
-        summary_unstem_search^10
+        summary_unstem_search^2
         summary_search                 vern_summary_search
       </str>
       <str name="pf_summary">
-        toc_unstem_search^100
-        toc_search^20                  vern_toc_search^20
-        context_unstem_search^100
-        context_search^20              vern_context_search^20
-        summary_unstem_search^100
-        summary_search^20              vern_summary_search^20
-      </str>
-      <str name="pf_summary2">
-        toc_unstem_search^500
-        context_unstem_search^500
-        summary_unstem_search^500
+        toc_search^10                  vern_toc_search^10
+        context_search^10              vern_context_search^10
+        summary_search^10              vern_summary_search^10
       </str>
       <str name="pf_summary3">
-        toc_unstem_search^1000
-        context_unstem_search^1000
-        summary_unstem_search^1000
+        toc_search^5                   vern_toc_search^5
+        context_search^5               vern_context_search^5
+        summary_search^5               vern_summary_search^5
+      </str>
+      <str name="pf_summary2">
+        toc_search^2                   vern_toc_search^2
+        context_search^2               vern_context_search^2
+        summary_search^2               vern_summary_search^2
       </str>
 
       <!-- for user query terms in description text box -->
-      <str name="qf_description">all_unstem_search^10 all_search</str>
-      <str name="pf_description">all_unstem_search^20 all_search^10</str>
-      <str name="pf_description2">all_unstem_search^100 all_search^50</str>
-      <str name="pf_description3">all_unstem_search^200 all_search^100</str>
+      <str name="qf_description">all_unstem_search^5 all_search</str>
+      <str name="pf_description">all_search^10</str>
+      <str name="pf_description3">all_search^5</str>
+      <str name="pf_description2">all_search^2</str>
 
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
