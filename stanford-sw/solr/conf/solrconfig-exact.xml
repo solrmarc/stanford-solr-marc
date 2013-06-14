@@ -314,7 +314,7 @@
         all_search^2
       </str>
       <!-- pf_title3 and pf_author3 combined and pared down -->
-      <str name="pf3">  <!-- x 3 token trigrams -->
+      <str name="pf3">  <!-- (token trigrams) -->
         title_245a_exact_search^10000000
         title_245a_unstem_search^2000000
         title_245_unstem_search^750000
@@ -323,7 +323,7 @@
         author_7xx_unstem_search^30000
       </str>
       <!-- pf_title2 and pf_author2 combined and pared down -->
-      <str name="pf2">
+      <str name="pf2"> <!--(token bigrams) -->
         title_245a_exact_search^5000000
         title_245a_unstem_search^1000000
         title_245_unstem_search^375000
@@ -348,7 +348,7 @@
         series_unstem_search^2
         series_search                  vern_series_search
       </str>
-      <str name="pf_title">
+      <str name="pf_title"> <!-- exact phrase match -->
         title_245a_exact_search^1000000
         title_245a_unstem_search^200000
         title_245_unstem_search^75000
@@ -472,8 +472,8 @@
         crez_course_id_search
       </str>
       <str name="pf_crez">
-      	crez_instructor_search^20
-      	crez_course_name_search^20
+      	crez_instructor_search^2
+      	crez_course_name_search^2
       </str>
       <str name="sort_crez">score desc, title_sort asc, pub_date_sort desc</str>
 
@@ -607,6 +607,7 @@
 
       <!-- for user query terms in title text box -->
       <str name="qf_title">
+        title_245a_exact_search^200000
         title_245a_unstem_search^50000
         title_245_unstem_search^25000
         title_uniform_unstem_search^10000
@@ -621,7 +622,7 @@
         series_search                  vern_series_search
       </str>
       <str name="pf_title">
-        title_245a_exact_search^900000
+        title_245a_exact_search^2000000
         series_exact_search^50000
         title_245a_unstem_search^200000
         title_245_unstem_search^75000
