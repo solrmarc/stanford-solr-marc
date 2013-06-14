@@ -561,8 +561,8 @@
 
       <str name="qf_author">
         author_1xx_unstem_search^20
-        author_7xx_unstem_search^10
         author_1xx_search^5             vern_author_1xx_search^5
+        author_7xx_unstem_search^10
         author_7xx_search^2             vern_author_7xx_search^2
         author_8xx_unstem_search^2
         author_8xx_search               vern_author_8xx_search
