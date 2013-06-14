@@ -517,6 +517,7 @@
       </str>
 
       <str name="qf_title">
+        title_245a_exact_search^200
         title_245a_unstem_search^100
         title_245a_search^50          vern_title_245a_search^50
         title_245_unstem_search^50
@@ -531,41 +532,31 @@
         series_unstem_search^2
         series_search                  vern_series_search
       </str>
-      <str name="pf_title"> <!-- x 5 (exact phrase match) -->
-        title_245a_exact_search^750
-        title_245a_unstem_search^500
-        title_245a_search^250         vern_title_245a_search^250
-        title_245_unstem_search^250
-        title_245_search^100          vern_title_245_search^100
-        title_uniform_unstem_search^100
-        title_uniform_search^50      vern_title_uniform_search^50
-        title_variant_unstem_search^25
-        title_variant_search^10       vern_title_variant_search^10
-        title_related_unstem_search^10
-        title_related_search^5       vern_title_related_search^5
+      <str name="pf_title"> <!-- x 5 exact/unstemmed to stemmed (exact phrase match) -->
+        title_245a_exact_search^1000
+        title_245a_search^500          vern_title_245a_search^500
+        title_245_search^250           vern_title_245_search^250
+        title_uniform_search^100       vern_title_uniform_search^100
+        title_variant_search^25        vern_title_variant_search^25
+        title_related_search^10        vern_title_related_search^10
         series_exact_search^25
-        series_unstem_search^10
-        series_search^5               vern_series_search^5
+        series_search^10               vern_series_search^10
       </str>
-      <str name="pf_title3"> <!-- x 3 token trigrams -->
-        title_245a_exact_search^500
-        title_245a_unstem_search^300
-        title_245_unstem_search^150
-        title_uniform_unstem_search^60
-        title_variant_unstem_search^15
-        title_related_unstem_search^10
-        series_exact_search^10
-        series_unstem_search^5
+      <str name="pf_title3"> <!-- x 3 (token trigrams) -->
+        title_245a_search^300          vern_title_245a_search^300
+        title_245_search^150           vern_title_245_search^150
+        title_uniform_search^60        vern_title_uniform_search^60
+        title_variant_search^15        vern_title_variant_search^15
+        title_related_search^5         vern_title_related_search^5
+        series_search^5                vern_series_search^5
       </str>
-      <str name="pf_title2"> <!-- x 2 token bigrams -->
-        title_245a_exact_search^300
-        title_245a_unstem_search^200
-        title_245_unstem_search^100
-        title_uniform_unstem_search^40
-        title_variant_unstem_search^10
-        title_related_unstem_search^5
-        series_exact_search^5
-        series_unstem_search^2
+      <str name="pf_title2"> <!-- x 2 (token bigrams) -->
+        title_245a_search^200          vern_title_245a_search^200
+        title_245_search^100           vern_title_245_search^100
+        title_uniform_search^40        vern_title_uniform_search^40
+        title_variant_search^10        vern_title_variant_search^10
+        title_related_search^2         vern_title_related_search^2
+        series_search^2                vern_series_search^2
       </str>
 
       <str name="qf_author">
@@ -576,21 +567,20 @@
         author_8xx_unstem_search^2
         author_8xx_search               vern_author_8xx_search
       </str>
-      <str name="pf_author"> <!-- x 5 (exact phrase match) -->
-        author_1xx_unstem_search^100
-        author_7xx_unstem_search^50
-        author_1xx_search^25          vern_author_1xx_search^25
-        author_7xx_search^10          vern_author_7xx_search^10
-        author_8xx_unstem_search^10
-        author_8xx_search^5          vern_author_8xx_search^5
+      <str name="pf_author"> <!--  x 5 exact/unstemmed to stemmed (exact phrase match) -->
+        author_1xx_search^100           vern_author_1xx_search^100
+        author_7xx_search^50            vern_author_7xx_search^50
+        author_8xx_search^10            vern_author_8xx_search^10
       </str>
-      <str name="pf_author3"> <!-- x 3 token trigrams -->
-        author_1xx_unstem_search^60
-        author_7xx_unstem_search^30
+      <str name="pf_author3"> <!-- x 3 (token trigrams) -->
+        author_1xx_search^60            vern_author_1xx_search^60
+        author_7xx_search^30            vern_author_7xx_search^30
+        author_8xx_search^5             vern_author_8xx_search^5
       </str>
-      <str name="pf_author2"> <!-- x 2 token bigrams -->
-        author_1xx_unstem_search^40
-        author_7xx_unstem_search^20
+      <str name="pf_author2"> <!-- x 2 (token bigrams) -->
+        author_1xx_search^40            vern_author_1xx_search^40
+        author_7xx_search^20            vern_author_7xx_search^20
+        author_8xx_search^2             vern_author_8xx_search^2
       </str>
 
       <str name="qf_subject">
@@ -641,23 +631,19 @@
       </str>
 
       <str name="qf_series">
+        series_exact_search^10
         series_unstem_search^5
-        series_search
-        vern_series_search
+        series_search        vern_series_search
       </str>
-      <str name="pf_series">
-        series_exact_search^200
-        series_unstem_search^100
-        series_search^20
-        vern_series_search^20
+      <str name="pf_series"> <!-- x 5 exact/unstemmed to stemmed (exact phrase match) -->
+        series_exact_search^50
+        series_search^25      vern_series_search^25
       </str>
-      <str name="pf_series2">
-        series_exact_search^1000
-        series_unstem_search^500
+      <str name="pf_series3"> <!-- x 3 (token trigrams) -->
+        series_search^15      vern_series_search^15
       </str>
-      <str name="pf_series3">
-        series_exact_search^2000
-        series_unstem_search^1000
+      <str name="pf_series2"> <!-- x 2 (token bigrams) -->
+        series_search^10      vern_series_search^10
       </str>
 
       <str name="qf_crez">
