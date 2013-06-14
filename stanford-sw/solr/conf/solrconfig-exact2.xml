@@ -859,15 +859,6 @@
         collection_search^20
         all_search^2
       </str>
-      <!-- pf_title2 and pf_author2 combined and pared down -->
-      <str name="pf2">
-        title_245a_exact_search^5000000
-        title_245a_unstem_search^1000000
-        title_245_unstem_search^375000
-        title_uniform_unstem_search^300000
-        author_1xx_unstem_search^25000
-        author_7xx_unstem_search^15000
-      </str>
       <!-- pf_title3 and pf_author3 combined and pared down -->
       <str name="pf3">
         title_245a_exact_search^10000000
@@ -876,6 +867,15 @@
         title_uniform_unstem_search^600000
         author_1xx_unstem_search^50000
         author_7xx_unstem_search^30000
+      </str>
+      <!-- pf_title2 and pf_author2 combined and pared down -->
+      <str name="pf2">
+        title_245a_exact_search^5000000
+        title_245a_unstem_search^1000000
+        title_245_unstem_search^375000
+        title_uniform_unstem_search^300000
+        author_1xx_unstem_search^25000
+        author_7xx_unstem_search^15000
       </str>
 
       <str name="qf_title">
@@ -985,15 +985,15 @@
         subject_all_search^20          vern_subject_all_search^20
         db_az_subject_search^20
       </str>
-      <str name="pf_subject3"> <!-- x 3 (token trigrams) -->
+      <str name="pf_subject3"> <!-- (token trigrams) -->
         topic_search^3000              vern_topic_subx_search^3000
         subject_all_search^2500        vern_subject_all_search^2500
-        db_az_subject_search^200
+        db_az_subject_search^10
       </str>
-      <str name="pf_subject2"> <!-- x 2 (token bigrams) -->
+      <str name="pf_subject2"> <!-- (token bigrams) -->
         topic_search^2000              vern_topic_subx_search^2000
         subject_all_search^1250        vern_subject_all_search^1250
-        db_az_subject_search^100
+        db_az_subject_search^5
       </str>
 
       <str name="qf_series">
@@ -1231,15 +1231,15 @@
         subject_all_search^20          vern_subject_all_search^20
         db_az_subject_search^20
       </str>
-      <str name="pf_subject3"> <!-- x 3 (token trigrams) -->
+      <str name="pf_subject3"> <!-- (token trigrams) -->
         topic_search^3000              vern_topic_subx_search^3000
         subject_all_search^2500        vern_subject_all_search^2500
-        db_az_subject_search^200
+        db_az_subject_search^10
       </str>
-      <str name="pf_subject2"> <!-- x 2 (token bigrams) -->
+      <str name="pf_subject2"> <!-- (token bigrams) -->
         topic_search^2000              vern_topic_subx_search^2000
         subject_all_search^1250        vern_subject_all_search^1250
-        db_az_subject_search^100
+        db_az_subject_search^5
       </str>
 
       <!-- for user query terms in publisher text box -->
@@ -1253,8 +1253,8 @@
         pub_country^10
         pub_date_search^10
       </str>
-      <str name="pf_pub_info3">pub_search^5</str>
-      <str name="pf_pub_info2">pub_search^2</str>
+      <str name="pf_pub_info3">pub_search^5 vern_pub_search^5</str>
+      <str name="pf_pub_info2">pub_search^2 vern_pub_search^5</str>
 
       <!-- for user query terms in number text box -->
       <str name="qf_number">
