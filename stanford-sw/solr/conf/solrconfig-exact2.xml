@@ -386,7 +386,7 @@
     </lst>
   </requestHandler>
 
-  <requestHandler name="flatter" class="solr.SearchHandler" default="true">
+  <requestHandler name="flatter" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="defType">edismax</str>
       <str name="echoParams">explicit</str>
