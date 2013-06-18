@@ -453,7 +453,7 @@
       <str name="qf_series">
         series_exact_search^10
         series_unstem_search^5
-        series_search        vern_series_search
+        series_search         vern_series_search
       </str>
       <str name="pf_series"> <!-- x 5 exact/unstemmed to stemmed (exact phrase match) -->
         series_exact_search^50
