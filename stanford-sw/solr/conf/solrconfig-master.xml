@@ -85,7 +85,7 @@
        and so on -->
   <requestHandler name="search" class="solr.SearchHandler" default="true">
     <lst name="defaults">
-      <str name="defType">dismax</str>
+      <str name="defType">edismax</str>
       <str name="echoParams">explicit</str>
       <str name="sort">score desc, pub_date_sort desc, title_sort asc</str>
       <int name="rows">20</int>
@@ -94,11 +94,13 @@
       <int name="qs">1</int>
       <int name="ps">0</int>
       <float name="tie">0.01</float>
+      <bool name="lowercaseOperators">false</bool>
       <!-- in case lucene query parser -->
       <str name="df">all_search</str>
       <str name="q.op">AND</str>
 
       <str name="qf">
+        title_245a_exact_search^200000
         title_245a_unstem_search^100000
         title_245a_search^75000        vern_title_245a_search^75000
         title_245_unstem_search^50000
@@ -123,6 +125,7 @@
         toc_unstem_search^120
         toc_search^100                 vern_toc_search^100
         author_8xx_search^50           vern_author_8xx_search^50
+        series_exact_search^50
         series_unstem_search^40
         series_search^30               vern_series_search^30
         topic_subx_unstem_search^29
@@ -146,7 +149,8 @@
         collection_search
         all_search
       </str>
-      <str name="pf">
+      <str name="pf"> <!-- (phrase match boost) -->
+        title_245a_exact_search^500000
         title_245a_unstem_search^300000
         title_245a_search^250000        vern_title_245a_search^250000
         title_245_unstem_search^100000
@@ -171,6 +175,7 @@
         toc_search^250                 vern_toc_search^250
         author_8xx_unstem_search^200
         author_8xx_search^100          vern_author_8xx_search^100
+        series_exact_search^100
         series_unstem_search^85
         series_search^75               vern_series_search^75
         topic_subx_unstem_search^50
@@ -189,8 +194,27 @@
         collection_search^20
         all_search^2
       </str>
+      <str name="pf3">  <!-- (token trigrams) -->
+        title_245a_exact_search^300000
+        title_245a_search^200000       vern_title_245a_search^200000
+        title_245_search^50000         vern_title_245_search^50000
+        title_uniform_search^40000     vern_title_uniform_search^40000
+        author_1xx_search^1000         vern_author_1xx_search^1000
+        author_7xx_search^500          vern_author_7xx_search^500
+        author_8xx_search^100          vern_author_8xx_search^100
+      </str>
+      <str name="pf2"> <!--(token bigrams) -->
+        title_245a_exact_search^200000
+        title_245a_search^100000       vern_title_245a_search^100000
+        title_245_search^25000         vern_title_245_search^25000
+        title_uniform_search^10000     vern_title_uniform_search^10000
+        author_1xx_search^750          vern_author_1xx_search^750
+        author_7xx_search^250          vern_author_7xx_search^250
+        author_8xx_search^50           vern_author_8xx_search^50
+      </str>
 
       <str name="qf_title">
+        title_245a_exact_search^100000
         title_245a_unstem_search^50000
         title_245_unstem_search^25000
         title_uniform_unstem_search^10000
@@ -201,10 +225,12 @@
         title_variant_search^50     vern_title_variant_search^50
         title_related_unstem_search^45
         title_related_search^5      vern_title_related_search^5
+        series_exact_search^5
         series_unstem_search^2
         series_search               vern_series_search
       </str>
-      <str name="pf_title">
+      <str name="pf_title"> <!-- (phrase match boost) -->
+        title_245a_exact_search^1000000
         title_245a_unstem_search^200000
         title_245_unstem_search^75000
         title_uniform_unstem_search^60000
@@ -215,25 +241,51 @@
         title_variant_search^200      vern_title_variant_search^200
         title_related_unstem_search^175
         title_related_search^150      vern_title_related_search^150
+        series_exact_search^150
         series_unstem_search^100
         series_search^75              vern_series_search^75
       </str>
+      <str name="pf_title3"> <!-- (token trigrams) -->
+        title_245a_exact_search^300000
+        title_245a_search^120000       vern_title_245a_search^120000
+        title_245_search^50000         vern_title_245_search^50000
+        title_uniform_search^40000     vern_title_uniform_search^40000
+        title_variant_search^2000      vern_title_variant_search^2000
+        title_related_search^100       vern_title_related_search^100
+        series_search^50               vern_series_search^50
+      </str>
+      <str name="pf_title2"> <!-- (token bigrams) -->
+        title_245a_exact_search^200000
+        title_245a_search^100000       vern_title_245a_search^100000
+        title_245_search^25000         vern_title_245_search^25000
+        title_uniform_search^25000     vern_title_uniform_search^25000
+        title_variant_search^1000      vern_title_variant_search^1000
+        title_related_search^50        vern_title_related_search^50
+        series_search^25               vern_series_search^25
+      </str>
 
       <str name="qf_author">
-        author_1xx_unstem_search^200
-        author_7xx_unstem_search^50
-        author_8xx_unstem_search^10
-        author_1xx_search^20       vern_author_1xx_search^20
-        author_7xx_search^5        vern_author_7xx_search^5
-        author_8xx_search          vern_author_8xx_search
+        author_1xx_unstem_search^20
+        author_1xx_search^5             vern_author_1xx_search^5
+        author_7xx_unstem_search^10
+        author_7xx_search^2             vern_author_7xx_search^2
+        author_8xx_unstem_search^2
+        author_8xx_search               vern_author_8xx_search
       </str>
-      <str name="pf_author">
-        author_1xx_unstem_search^5000
-        author_7xx_unstem_search^3000
-        author_1xx_search^500        vern_author_1xx_search^500
-        author_7xx_search^300        vern_author_7xx_search^300
-        author_8xx_unstem_search^250
-        author_8xx_search^200        vern_author_8xx_search^200
+      <str name="pf_author"> <!--  x 5 exact/unstemmed to stemmed (phrase match) -->
+        author_1xx_search^100           vern_author_1xx_search^100
+        author_7xx_search^50            vern_author_7xx_search^50
+        author_8xx_search^10            vern_author_8xx_search^10
+      </str>
+      <str name="pf_author3"> <!-- x 3 (token trigrams) -->
+        author_1xx_search^60            vern_author_1xx_search^60
+        author_7xx_search^30            vern_author_7xx_search^30
+        author_8xx_search^5             vern_author_8xx_search^5
+      </str>
+      <str name="pf_author2"> <!-- x 2 (token bigrams) -->
+        author_1xx_search^40            vern_author_1xx_search^40
+        author_7xx_search^20            vern_author_7xx_search^20
+        author_8xx_search^2             vern_author_8xx_search^2
       </str>
     </lst>
   </requestHandler>
