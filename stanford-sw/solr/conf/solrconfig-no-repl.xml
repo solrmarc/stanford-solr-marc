@@ -270,7 +270,7 @@
       </str>
       <str name="pf"> <!-- (phrase match boost) -->
         title_245a_exact_search^500000
-        title_245a_unstem_search^350000
+        title_245a_unstem_search^300000
         title_245a_search^250000       vern_title_245a_search^250000
         title_245_unstem_search^100000
         title_245_search^70000         vern_title_245_search^70000
@@ -313,7 +313,6 @@
         collection_search^20
         all_search^2
       </str>
-      <!-- pf_title3 and pf_author3 combined and pared down -->
       <str name="pf3">  <!-- (token trigrams) -->
         title_245a_exact_search^300000
         title_245a_search^200000       vern_title_245a_search^200000
@@ -323,7 +322,6 @@
         author_7xx_search^500          vern_author_7xx_search^500
         author_8xx_search^100          vern_author_8xx_search^100
       </str>
-      <!-- pf_title2 and pf_author2 combined and pared down -->
       <str name="pf2"> <!--(token bigrams) -->
         title_245a_exact_search^200000
         title_245a_search^100000       vern_title_245a_search^100000
@@ -531,7 +529,6 @@
         collection_type,
         collection_with_title,
         crez_course_info,
-        display_type,
         db_az_subject,
         display_type,
         format,
@@ -624,12 +621,12 @@
         title_variant_search^50        vern_title_variant_search^50
         title_related_unstem_search^45
         title_related_search^5         vern_title_related_search^5
+        series_exact_search^5
         series_unstem_search^2
         series_search                  vern_series_search
       </str>
       <str name="pf_title">
         title_245a_exact_search^2000000
-        series_exact_search^50000
         title_245a_unstem_search^200000
         title_245_unstem_search^75000
         title_uniform_unstem_search^60000
@@ -640,6 +637,7 @@
         title_variant_search^200       vern_title_variant_search^200
         title_related_unstem_search^175
         title_related_search^150       vern_title_related_search^150
+        series_exact_search^150
         series_unstem_search^100
         series_search^75               vern_series_search^75
       </str>
@@ -818,7 +816,6 @@
         collection_type,
         collection_with_title,
         crez_course_info,
-        display_type,
         db_az_subject,
         display_type,
         format,
@@ -912,9 +909,6 @@
   </requestHandler>
 
   <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" startup="lazy"/>
-<!-- no longer needed for Solr 4?
-  <requestHandler name="/update/javabin" class="solr.BinaryUpdateRequestHandler" startup="lazy"/>
--->
   <requestHandler name="/analysis/field" startup="lazy" class="solr.FieldAnalysisRequestHandler" />
   <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" />
   <requestHandler name="/admin/ping" class="solr.PingRequestHandler">
