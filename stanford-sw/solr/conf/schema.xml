@@ -225,7 +225,7 @@
     <field name="collection" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <!-- collection_search: allow searching within collections for aggr. colls -->
     <field name="collection_search" type="string_punct_stop" indexed="true" stored="false" multiValued="true" omitNorms="true" />
-    <!-- display_type is a hidden facet for "views" e.g. Images, Maps ...  (might be obsolete) -->
+    <!-- display_type is used by UI code -->
     <field name="display_type" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <!--  used to determine when something is a digital collection -->
     <field name="collection_type" type="string" indexed="true" stored="true" multiValued="true" />
