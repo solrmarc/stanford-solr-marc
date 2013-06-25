@@ -298,19 +298,19 @@ public class PublicationTests extends AbstractStanfordTest
 	{
 		String solrFldName = "beginning_year_isi";
 		assert008DateVal('c', "1943", "9999", solrFldName, "1943");
-		assert008DateVal('c', "196u", "9999", solrFldName, null);
+		assert008DateVal('c', "196u", "9999", solrFldName, "1960");
 		assert008DateVal('c', "19uu", "9999", solrFldName, null);
 		assert008DateVal('c', "uuuu", "uuuu", solrFldName, null);
 		assert008DateVal('d', "1943", "2007", solrFldName, "1943");
-		assert008DateVal('d', "196u", "2007", solrFldName, null);
+		assert008DateVal('d', "196u", "2007", solrFldName, "1960");
 		assert008DateVal('d', "19uu", "2007", solrFldName, null);
 		assert008DateVal('d', "uuuu", "uuuu", solrFldName, null);
 		assert008DateVal('m', "1943", "2007", solrFldName, "1943");
-		assert008DateVal('m', "196u", "2007", solrFldName, null);
+		assert008DateVal('m', "196u", "2007", solrFldName, "1960");
 		assert008DateVal('m', "19uu", "2007", solrFldName, null);
 		assert008DateVal('m', "uuuu", "uuuu", solrFldName, null);
 		assert008DateVal('u', "1943", "uuuu", solrFldName, "1943");
-		assert008DateVal('u', "196u", "uuuu", solrFldName, null);
+		assert008DateVal('u', "196u", "uuuu", solrFldName, "1960");
 		assert008DateVal('u', "19uu", "uuuu", solrFldName, null);
 		assert008DateVal('u', "uuuu", "uuuu", solrFldName, null);
 
@@ -336,11 +336,11 @@ public class PublicationTests extends AbstractStanfordTest
 	{
 		String solrFldName = "earliest_year_isi";
 		assert008DateVal('i', "1943", "9999", solrFldName, "1943");
-		assert008DateVal('i', "196u", "9999", solrFldName, null);
+		assert008DateVal('i', "196u", "9999", solrFldName, "1960");
 		assert008DateVal('i', "19uu", "9999", solrFldName, null);
 		assert008DateVal('i', "uuuu", "uuuu", solrFldName, null);
 		assert008DateVal('k', "1943", "2007", solrFldName, "1943");
-		assert008DateVal('k', "196u", "2007", solrFldName, null);
+		assert008DateVal('k', "196u", "2007", solrFldName, "1960");
 		assert008DateVal('k', "19uu", "2007", solrFldName, null);
 		assert008DateVal('k', "uuuu", "uuuu", solrFldName, null);
 
@@ -368,7 +368,7 @@ public class PublicationTests extends AbstractStanfordTest
 	{
 		String solrFldName = "earliest_poss_year_isi";
 		assert008DateVal('q', "1943", "9999", solrFldName, "1943");
-		assert008DateVal('q', "196u", "9999", solrFldName, null);
+		assert008DateVal('q', "196u", "9999", solrFldName, "1960");
 		assert008DateVal('q', "19uu", "9999", solrFldName, null);
 		assert008DateVal('q', "uuuu", "uuuu", solrFldName, null);
 
@@ -396,7 +396,7 @@ public class PublicationTests extends AbstractStanfordTest
 	{
 		String solrFldName = "release_year_isi";
 		assert008DateVal('p', "1943", "9999", solrFldName, "1943");
-		assert008DateVal('p', "196u", "9999", solrFldName, null);
+		assert008DateVal('p', "196u", "9999", solrFldName, "1960");
 		assert008DateVal('p', "19uu", "9999", solrFldName, null);
 		assert008DateVal('p', "uuuu", "uuuu", solrFldName, null);
 
@@ -424,7 +424,7 @@ public class PublicationTests extends AbstractStanfordTest
 	{
 		String solrFldName = "reprint_year_isi";
 		assert008DateVal('r', "1943", "9999", solrFldName, "1943");
-		assert008DateVal('r', "196u", "9999", solrFldName, null);
+		assert008DateVal('r', "196u", "9999", solrFldName, "1960");
 		assert008DateVal('r', "19uu", "9999", solrFldName, null);
 		assert008DateVal('r', "uuuu", "uuuu", solrFldName, null);
 
