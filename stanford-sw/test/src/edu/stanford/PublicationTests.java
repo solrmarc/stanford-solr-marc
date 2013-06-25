@@ -296,37 +296,71 @@ public class PublicationTests extends AbstractStanfordTest
 @Test
 	public void test008BeginningYear()
 	{
-		String fldName = "beginning_year_isi";
-		assert008DateVal('c', "1943", "9999", fldName, "1943");
-		assert008DateVal('c', "196u", "9999", fldName, null);
-		assert008DateVal('c', "19uu", "9999", fldName, null);
-		assert008DateVal('c', "uuuu", "uuuu", fldName, null);
-		assert008DateVal('d', "1943", "2007", fldName, "1943");
-		assert008DateVal('d', "196u", "2007", fldName, null);
-		assert008DateVal('d', "19uu", "2007", fldName, null);
-		assert008DateVal('d', "uuuu", "uuuu", fldName, null);
-		assert008DateVal('m', "1943", "2007", fldName, "1943");
-		assert008DateVal('m', "196u", "2007", fldName, null);
-		assert008DateVal('m', "19uu", "2007", fldName, null);
-		assert008DateVal('m', "uuuu", "uuuu", fldName, null);
-		assert008DateVal('u', "1943", "uuuu", fldName, "1943");
-		assert008DateVal('u', "196u", "uuuu", fldName, null);
-		assert008DateVal('u', "19uu", "uuuu", fldName, null);
-		assert008DateVal('u', "uuuu", "uuuu", fldName, null);
+		String solrFldName = "beginning_year_isi";
+		assert008DateVal('c', "1943", "9999", solrFldName, "1943");
+		assert008DateVal('c', "196u", "9999", solrFldName, null);
+		assert008DateVal('c', "19uu", "9999", solrFldName, null);
+		assert008DateVal('c', "uuuu", "uuuu", solrFldName, null);
+		assert008DateVal('d', "1943", "2007", solrFldName, "1943");
+		assert008DateVal('d', "196u", "2007", solrFldName, null);
+		assert008DateVal('d', "19uu", "2007", solrFldName, null);
+		assert008DateVal('d', "uuuu", "uuuu", solrFldName, null);
+		assert008DateVal('m', "1943", "2007", solrFldName, "1943");
+		assert008DateVal('m', "196u", "2007", solrFldName, null);
+		assert008DateVal('m', "19uu", "2007", solrFldName, null);
+		assert008DateVal('m', "uuuu", "uuuu", solrFldName, null);
+		assert008DateVal('u', "1943", "uuuu", solrFldName, "1943");
+		assert008DateVal('u', "196u", "uuuu", solrFldName, null);
+		assert008DateVal('u', "19uu", "uuuu", solrFldName, null);
+		assert008DateVal('u', "uuuu", "uuuu", solrFldName, null);
 
 		// none of the following should have a field value
-		assert008DateVal('b', "1943", "9999", fldName, null);
-		assert008DateVal('e', "1943", "9999", fldName, null);
-		assert008DateVal('i', "1943", "9999", fldName, null);
-		assert008DateVal('k', "1943", "9999", fldName, null);
-		assert008DateVal('n', "1943", "9999", fldName, null);
-		assert008DateVal('p', "1943", "9999", fldName, null);
-		assert008DateVal('q', "1943", "9999", fldName, null);
-		assert008DateVal('r', "1943", "9999", fldName, null);
-		assert008DateVal('s', "1943", "9999", fldName, null);
-		assert008DateVal('t', "1943", "9999", fldName, null);
-		assert008DateVal('|', "1943", "9999", fldName, null);
+		assert008DateVal('b', "1943", "9999", solrFldName, null);
+		assert008DateVal('e', "1943", "9999", solrFldName, null);
+		assert008DateVal('i', "1943", "9999", solrFldName, null);
+		assert008DateVal('k', "1943", "9999", solrFldName, null);
+		assert008DateVal('n', "1943", "9999", solrFldName, null);
+		assert008DateVal('p', "1943", "9999", solrFldName, null);
+		assert008DateVal('q', "1943", "9999", solrFldName, null);
+		assert008DateVal('r', "1943", "9999", solrFldName, null);
+		assert008DateVal('s', "1943", "9999", solrFldName, null);
+		assert008DateVal('t', "1943", "9999", solrFldName, null);
+		assert008DateVal('|', "1943", "9999", solrFldName, null);
 	}
+
+
+	/**
+	 * functional test: assure pub_date field ignores the unknown-ish phrases
+	 */
+@Test
+	public void test008EarliestYear()
+	{
+		String solrFldName = "earliest_year_isi";
+		assert008DateVal('i', "1943", "9999", solrFldName, "1943");
+		assert008DateVal('i', "196u", "9999", solrFldName, null);
+		assert008DateVal('i', "19uu", "9999", solrFldName, null);
+		assert008DateVal('i', "uuuu", "uuuu", solrFldName, null);
+		assert008DateVal('k', "1943", "2007", solrFldName, "1943");
+		assert008DateVal('k', "196u", "2007", solrFldName, null);
+		assert008DateVal('k', "19uu", "2007", solrFldName, null);
+		assert008DateVal('k', "uuuu", "uuuu", solrFldName, null);
+
+		// none of the following should have a field value
+		assert008DateVal('b', "1943", "9999", solrFldName, null);
+		assert008DateVal('c', "1943", "9999", solrFldName, null);
+		assert008DateVal('d', "1943", "9999", solrFldName, null);
+		assert008DateVal('e', "1943", "9999", solrFldName, null);
+		assert008DateVal('m', "1943", "9999", solrFldName, null);
+		assert008DateVal('n', "1943", "9999", solrFldName, null);
+		assert008DateVal('p', "1943", "9999", solrFldName, null);
+		assert008DateVal('q', "1943", "9999", solrFldName, null);
+		assert008DateVal('r', "1943", "9999", solrFldName, null);
+		assert008DateVal('s', "1943", "9999", solrFldName, null);
+		assert008DateVal('t', "1943", "9999", solrFldName, null);
+		assert008DateVal('u', "1943", "9999", solrFldName, null);
+		assert008DateVal('|', "1943", "9999", solrFldName, null);
+	}
+
 
 
 	/**

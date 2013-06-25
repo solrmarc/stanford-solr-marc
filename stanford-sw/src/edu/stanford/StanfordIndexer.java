@@ -923,6 +923,11 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     	return PublicationUtils.getPublication(record.getVariableFields(new String[]{"260", "264"}));
 	}
 
+    /**
+     * gets the value from 008 bytes 7-10 if 008 byte 6 is c,d,m, or u; null otherwise
+	 * @param record a marc4j Record object
+     * @return a four digit year or null
+     */
     public String get008BeginningYear(final Record record)
     {
 		char c6 = '\u0000';
@@ -935,6 +940,29 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				case 'd':
 				case 'm':
 				case 'u':
+					return PublicationUtils.getValidPubDateStr(cf008date1, null, null);
+				default:
+					return null;
+			}
+		}
+		else return null;
+    }
+
+    /**
+     * gets the value from 008 bytes 7-10 if 008 byte 6 is i or k; null otherwise
+	 * @param record a marc4j Record object
+     * @return a four digit year or null
+     */
+    public String get008EarliestYear(final Record record)
+    {
+		char c6 = '\u0000';
+		if (cf008 != null)
+		{
+			c6 = ((ControlField) cf008).getData().charAt(6);
+			switch (c6)
+			{
+				case 'i':
+				case 'k':
 					return PublicationUtils.getValidPubDateStr(cf008date1, null, null);
 				default:
 					return null;
