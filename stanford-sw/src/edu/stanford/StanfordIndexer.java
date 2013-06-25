@@ -945,6 +945,31 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			return null;
     }
 
+    /**
+     * gets the value from 008 bytes 11-14 if 008 byte 6 is in byte6vals; null otherwise,
+     *  and null if date is 9999
+	 * @param record a marc4j Record object
+	 * @param byte6vals a String containing the desired values of 008 byte 6
+     * @return a four digit year if 008 byte 6 matched and there was a four
+     *  digit year in 008 bytes 7-10, null otherwise
+     */
+    public String get008Date2(final Record record, String byte6vals)
+    {
+		if (cf008 != null)
+		{
+			char c6 = ((ControlField) cf008).getData().charAt(6);
+			if (byte6vals.indexOf(c6) >= 0)
+			{
+				String cf008date2 = cf008.getData().substring(11, 15);
+				return PublicationUtils.get3or4DigitYear(cf008date2, "9");
+			}
+			else
+				return null;
+		}
+		else
+			return null;
+    }
+
 	/**
 	 * returns the publication date from a record, if it is present and not
      *  beyond the current year + 1 (and not earlier than 0500 if it is a
