@@ -937,7 +937,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		{
 			char c6 = ((ControlField) cf008).getData().charAt(6);
 			if (byte6vals.indexOf(c6) >= 0)
-				return PublicationUtils.getValidPubDateStr(cf008date1, null, null);
+				return PublicationUtils.get3or4DigitYear(cf008date1, "0");
 			else
 				return null;
 		}

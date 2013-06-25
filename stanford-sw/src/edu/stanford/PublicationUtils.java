@@ -376,11 +376,8 @@ public class PublicationUtils {
      * returns the publication date from a record, if it is present
      *  and not beyond the LATEST_VALID_YEAR, and not earlier than EARLIEST_VALID_YEAR if
      *   a four digit year
-     *   four digit years < EARLIEST_VALID_YEAR trigger an attempt to get a 4 digit date from 260c
      *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
-     * @param dateFrom008 - 4 character date from characters 7-10 or 11-14  in 008 field
-	 * @param date260c - the date string extracted from the 260c field
-	 * @param df264list  - a List of 264 fields as DataField objects
+     * @param dateStr - 4 character date from characters 7-10 or 11-14  in 008 field
 	 * @return String containing publication date, or null if none
 	 */
 	private static String getValidPubYearStrOrNull(String dateStr)
@@ -417,6 +414,34 @@ public class PublicationUtils {
     		return false;
     	}
     	return false;
+	}
+
+
+	/**
+     * returns 4 digit year as a string if:
+     *  pattern of year is dddd  or  dddu   and
+     *  not beyond the LATEST_VALID_YEAR, and not earlier than EARLIEST_VALID_YEAR
+     *  NOTE: errors in year value are not logged;  that is done in getPubDate()
+     * @param yearFrom008 - 4 character year from 008 field bytes 7-10 or 11-14
+     * @param toReplaceU - String to replace any u chars in the date value
+	 * @return String containing year, or null if none
+	 */
+	static String get3or4DigitYear(String yearFrom008, String toReplaceU)
+	{
+		String resultStr = null;
+		if (PublicationUtils.isdddd(yearFrom008))
+			resultStr = yearFrom008;
+		else if (PublicationUtils.isdddu(yearFrom008)) {
+			int myFirst3 = Integer.parseInt(yearFrom008.substring(0, 3));
+			int currFirst3 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 3));
+			if (myFirst3 <= currFirst3)
+				resultStr = yearFrom008.substring(0, 3) + toReplaceU;
+		}
+
+		if (yearIsValid(resultStr))
+			return resultStr;
+
+		return null;
 	}
 
 	/**
