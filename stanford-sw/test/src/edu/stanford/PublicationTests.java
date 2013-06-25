@@ -259,6 +259,62 @@ public class PublicationTests extends AbstractStanfordTest
 	    solrFldMapTest.assertNoSolrFld(record, "pub_date");
 	}
 
+
+	/**
+	 * functional test: assure no publication year fields are populated when 008/06 is b
+	 */
+@Test
+	public void test008byte06bIgnoresDates()
+	{
+		assert008IgnoreDates('b', "    ", "    ");
+		assert008IgnoreDates('b', "1941", "1955");
+	}
+
+	/**
+	 * functional test: assure no publication year fields are populated when 008/06 is n
+	 */
+@Test
+	public void test008byte06nIgnoresDates()
+	{
+		assert008IgnoreDates('n', "1uuu", "uuuu");
+		assert008IgnoreDates('n', "1941", "1955");
+	}
+
+	/**
+	 * functional test: assure no publication year fields are populated when 008/06 is n
+	 */
+@Test
+	public void test008byte06barIgnoresDates()
+	{
+		assert008IgnoreDates('|', "||||", "||||");
+		assert008IgnoreDates('|', "1941", "1955");
+	}
+
+	/**
+	 * functional test: assure pub_date field ignores the unknown-ish phrases
+	 */
+@Test
+	public void test008BeginningYear()
+	{
+		MarcFactory factory = MarcFactory.newInstance();
+		Record record = factory.newRecord();
+		record.addVariableField(factory.newControlField("008", "       0000"));
+		DataField df = factory.newDataField("264", ' ', ' ');
+		df.addSubfield(factory.newSubfield('c', "[Date of publication not identified] :"));
+		record.addVariableField(df);
+		df = factory.newDataField("264", ' ', ' ');
+		df.addSubfield(factory.newSubfield('c', "[Date of Production not identified]"));
+		record.addVariableField(df);
+		df = factory.newDataField("264", ' ', ' ');
+		df.addSubfield(factory.newSubfield('c', "Date of manufacture Not Identified"));
+		record.addVariableField(df);
+		df = factory.newDataField("264", ' ', ' ');
+		df.addSubfield(factory.newSubfield('c', "[Date of distribution not identified]"));
+		record.addVariableField(df);
+		solrFldMapTest.assertNoSolrFld(record, "pub_date");
+	}
+
+
 	/**
 	 * integration test: assure pub dates later than current year +1 are ignored
 	 */
@@ -911,6 +967,27 @@ public class PublicationTests extends AbstractStanfordTest
 		docIds.add("pubDate0197-1");
 		docIds.add("pubDate0197-2");
 		assertSearchResults(fldName, "1970", docIds);
+	}
+
+	private void assert008IgnoreDates(char byte06, String date1str, String date2str)
+	{
+		MarcFactory factory = MarcFactory.newInstance();
+		Record record = factory.newRecord();
+		record.addVariableField(factory.newControlField("008", "      " + byte06 + date1str + date2str));
+		solrFldMapTest.assertSolrFldValue(record, "date_1_008_raw_ssim", date1str);
+		solrFldMapTest.assertSolrFldValue(record, "date_2_008_raw_ssim", date2str);
+	    solrFldMapTest.assertNoSolrFld(record, "beginning_year_tisim");
+	    solrFldMapTest.assertNoSolrFld(record, "earliest_year_tisim");
+	    solrFldMapTest.assertNoSolrFld(record, "earliest_poss_year_tisim");
+	    solrFldMapTest.assertNoSolrFld(record, "publication_year_tisim");
+	    solrFldMapTest.assertNoSolrFld(record, "release_year_tisim");
+	    solrFldMapTest.assertNoSolrFld(record, "reprint_year_tisim");
+	    solrFldMapTest.assertNoSolrFld(record, "ending_year_tisim");
+	    solrFldMapTest.assertNoSolrFld(record, "latest_year_tisim");
+	    solrFldMapTest.assertNoSolrFld(record, "latest_poss_year_tisim");
+	    solrFldMapTest.assertNoSolrFld(record, "production_year_tisim");
+	    solrFldMapTest.assertNoSolrFld(record, "orig_year_tisim");
+	    solrFldMapTest.assertNoSolrFld(record, "copyright_year_tisim");
 	}
 
 }
