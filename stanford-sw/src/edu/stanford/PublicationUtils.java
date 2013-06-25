@@ -429,7 +429,7 @@ public class PublicationUtils {
 	static String get3or4DigitYear(String yearFrom008, String toReplaceU)
 	{
 		String resultStr = null;
-		if (PublicationUtils.isdddd(yearFrom008))
+		if (PublicationUtils.isdddd(yearFrom008) && !yearFrom008.equals("9999"))
 			resultStr = yearFrom008;
 		else if (PublicationUtils.isdddu(yearFrom008)) {
 			int myFirst3 = Integer.parseInt(yearFrom008.substring(0, 3));
