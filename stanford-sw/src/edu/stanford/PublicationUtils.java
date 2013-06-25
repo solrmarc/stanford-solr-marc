@@ -156,7 +156,7 @@ public class PublicationUtils {
      *   a four digit year
      *   four digit years < EARLIEST_VALID_YEAR trigger an attempt to get a 4 digit date from 260c
      *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
-     * @param date008 - characters 7-10 (0 based index) in 008 field
+     * @param cf008date1 - characters 7-10 (0 based index) in 008 field
 	 * @param date260c - the date string extracted from the 260c field
 	 * @param df264list  - a List of 264 fields as DataField objects
 	 * @return String containing publication date, or null if none

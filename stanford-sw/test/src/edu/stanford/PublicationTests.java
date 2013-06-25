@@ -296,22 +296,36 @@ public class PublicationTests extends AbstractStanfordTest
 @Test
 	public void test008BeginningYear()
 	{
-		MarcFactory factory = MarcFactory.newInstance();
-		Record record = factory.newRecord();
-		record.addVariableField(factory.newControlField("008", "       0000"));
-		DataField df = factory.newDataField("264", ' ', ' ');
-		df.addSubfield(factory.newSubfield('c', "[Date of publication not identified] :"));
-		record.addVariableField(df);
-		df = factory.newDataField("264", ' ', ' ');
-		df.addSubfield(factory.newSubfield('c', "[Date of Production not identified]"));
-		record.addVariableField(df);
-		df = factory.newDataField("264", ' ', ' ');
-		df.addSubfield(factory.newSubfield('c', "Date of manufacture Not Identified"));
-		record.addVariableField(df);
-		df = factory.newDataField("264", ' ', ' ');
-		df.addSubfield(factory.newSubfield('c', "[Date of distribution not identified]"));
-		record.addVariableField(df);
-		solrFldMapTest.assertNoSolrFld(record, "pub_date");
+		String fldName = "beginning_year_isi";
+		assert008DateVal('c', "1943", "9999", fldName, "1943");
+		assert008DateVal('c', "196u", "9999", fldName, null);
+		assert008DateVal('c', "19uu", "9999", fldName, null);
+		assert008DateVal('c', "uuuu", "uuuu", fldName, null);
+		assert008DateVal('d', "1943", "2007", fldName, "1943");
+		assert008DateVal('d', "196u", "2007", fldName, null);
+		assert008DateVal('d', "19uu", "2007", fldName, null);
+		assert008DateVal('d', "uuuu", "uuuu", fldName, null);
+		assert008DateVal('m', "1943", "2007", fldName, "1943");
+		assert008DateVal('m', "196u", "2007", fldName, null);
+		assert008DateVal('m', "19uu", "2007", fldName, null);
+		assert008DateVal('m', "uuuu", "uuuu", fldName, null);
+		assert008DateVal('u', "1943", "uuuu", fldName, "1943");
+		assert008DateVal('u', "196u", "uuuu", fldName, null);
+		assert008DateVal('u', "19uu", "uuuu", fldName, null);
+		assert008DateVal('u', "uuuu", "uuuu", fldName, null);
+
+		// none of the following should have a field value
+		assert008DateVal('b', "1943", "9999", fldName, null);
+		assert008DateVal('e', "1943", "9999", fldName, null);
+		assert008DateVal('i', "1943", "9999", fldName, null);
+		assert008DateVal('k', "1943", "9999", fldName, null);
+		assert008DateVal('n', "1943", "9999", fldName, null);
+		assert008DateVal('p', "1943", "9999", fldName, null);
+		assert008DateVal('q', "1943", "9999", fldName, null);
+		assert008DateVal('r', "1943", "9999", fldName, null);
+		assert008DateVal('s', "1943", "9999", fldName, null);
+		assert008DateVal('t', "1943", "9999", fldName, null);
+		assert008DateVal('|', "1943", "9999", fldName, null);
 	}
 
 
@@ -969,6 +983,12 @@ public class PublicationTests extends AbstractStanfordTest
 		assertSearchResults(fldName, "1970", docIds);
 	}
 
+	/**
+	 * assert that no Solr field populated from an 008 date field value is assigned
+	 * @param byte06 - value of 008/6
+	 * @param date1str - value of 008/7-10
+	 * @param date2str - value of 008/11-14
+	 */
 	private void assert008IgnoreDates(char byte06, String date1str, String date2str)
 	{
 		MarcFactory factory = MarcFactory.newInstance();
@@ -976,18 +996,38 @@ public class PublicationTests extends AbstractStanfordTest
 		record.addVariableField(factory.newControlField("008", "      " + byte06 + date1str + date2str));
 		solrFldMapTest.assertSolrFldValue(record, "date_1_008_raw_ssim", date1str);
 		solrFldMapTest.assertSolrFldValue(record, "date_2_008_raw_ssim", date2str);
-	    solrFldMapTest.assertNoSolrFld(record, "beginning_year_tisim");
-	    solrFldMapTest.assertNoSolrFld(record, "earliest_year_tisim");
-	    solrFldMapTest.assertNoSolrFld(record, "earliest_poss_year_tisim");
-	    solrFldMapTest.assertNoSolrFld(record, "publication_year_tisim");
-	    solrFldMapTest.assertNoSolrFld(record, "release_year_tisim");
-	    solrFldMapTest.assertNoSolrFld(record, "reprint_year_tisim");
-	    solrFldMapTest.assertNoSolrFld(record, "ending_year_tisim");
-	    solrFldMapTest.assertNoSolrFld(record, "latest_year_tisim");
-	    solrFldMapTest.assertNoSolrFld(record, "latest_poss_year_tisim");
-	    solrFldMapTest.assertNoSolrFld(record, "production_year_tisim");
-	    solrFldMapTest.assertNoSolrFld(record, "orig_year_tisim");
-	    solrFldMapTest.assertNoSolrFld(record, "copyright_year_tisim");
+	    solrFldMapTest.assertNoSolrFld(record, "beginning_year_isi");
+	    solrFldMapTest.assertNoSolrFld(record, "earliest_year_isi");
+	    solrFldMapTest.assertNoSolrFld(record, "earliest_poss_year_isi");
+	    solrFldMapTest.assertNoSolrFld(record, "publication_year_isi");
+	    solrFldMapTest.assertNoSolrFld(record, "release_year_isi");
+	    solrFldMapTest.assertNoSolrFld(record, "reprint_year_isi");
+	    solrFldMapTest.assertNoSolrFld(record, "ending_year_isi");
+	    solrFldMapTest.assertNoSolrFld(record, "latest_year_isi");
+	    solrFldMapTest.assertNoSolrFld(record, "latest_poss_year_isi");
+	    solrFldMapTest.assertNoSolrFld(record, "production_year_isi");
+	    solrFldMapTest.assertNoSolrFld(record, "orig_year_isi");
+	    solrFldMapTest.assertNoSolrFld(record, "copyright_year_isi");
 	}
 
+	/**
+	 * assert that Solr field has expected value (or is not populated) given the
+	 *  008 values.
+	 * @param byte06 - value of 008/6
+	 * @param date1str - value of 008/7-10
+	 * @param date2str - value of 008/11-14
+	 * @param solrFldName - name of Solr field
+	 * @param expFldVal - expected value of Solr field, or null if Solr field should not be populated
+	 */
+	private void assert008DateVal(char byte06, String date1str, String date2str, String solrFldName, String expFldVal)
+	{
+		MarcFactory factory = MarcFactory.newInstance();
+		Record record = factory.newRecord();
+		record.addVariableField(factory.newControlField("008", "      " + byte06 + date1str + date2str));
+		record.addVariableField(factory.newControlField("001", "aassert008DateVal"));
+		if (expFldVal != null)
+			solrFldMapTest.assertSolrFldValue(record, solrFldName, expFldVal);
+		else
+			solrFldMapTest.assertNoSolrFld(record, solrFldName);
+	}
 }
