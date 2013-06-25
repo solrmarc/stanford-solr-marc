@@ -291,7 +291,7 @@ public class PublicationTests extends AbstractStanfordTest
 	}
 
 	/**
-	 * functional test: assure pub_date field ignores the unknown-ish phrases
+	 * functional test: assure beginning_year_isi field ignores dates with u, or wrong 008 byte 6 val
 	 */
 @Test
 	public void test008BeginningYear()
@@ -328,9 +328,8 @@ public class PublicationTests extends AbstractStanfordTest
 		assert008DateVal('|', "1943", "9999", solrFldName, null);
 	}
 
-
 	/**
-	 * functional test: assure pub_date field ignores the unknown-ish phrases
+	 * functional test: assure earliest_year_isi field ignores dates with u, or wrong 008 byte 6 val
 	 */
 @Test
 	public void test008EarliestYear()
@@ -361,6 +360,33 @@ public class PublicationTests extends AbstractStanfordTest
 		assert008DateVal('|', "1943", "9999", solrFldName, null);
 	}
 
+	/**
+	 * functional test: assure earliest_poss_year_isi field ignores dates with u, or wrong 008 byte 6 val
+	 */
+@Test
+	public void test008EarliestPossibleYear()
+	{
+		String solrFldName = "earliest_poss_year_isi";
+		assert008DateVal('q', "1943", "9999", solrFldName, "1943");
+		assert008DateVal('q', "196u", "9999", solrFldName, null);
+		assert008DateVal('q', "19uu", "9999", solrFldName, null);
+		assert008DateVal('q', "uuuu", "uuuu", solrFldName, null);
+
+		// none of the following should have a field value
+		assert008DateVal('b', "1943", "9999", solrFldName, null);
+		assert008DateVal('c', "1943", "9999", solrFldName, null);
+		assert008DateVal('d', "1943", "9999", solrFldName, null);
+		assert008DateVal('e', "1943", "9999", solrFldName, null);
+		assert008DateVal('k', "1943", "2007", solrFldName, null);
+		assert008DateVal('m', "1943", "9999", solrFldName, null);
+		assert008DateVal('n', "1943", "9999", solrFldName, null);
+		assert008DateVal('p', "1943", "9999", solrFldName, null);
+		assert008DateVal('r', "1943", "9999", solrFldName, null);
+		assert008DateVal('s', "1943", "9999", solrFldName, null);
+		assert008DateVal('t', "1943", "9999", solrFldName, null);
+		assert008DateVal('u', "1943", "9999", solrFldName, null);
+		assert008DateVal('|', "1943", "9999", solrFldName, null);
+	}
 
 
 	/**
