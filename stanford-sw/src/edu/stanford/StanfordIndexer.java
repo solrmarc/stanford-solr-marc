@@ -92,8 +92,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 	/** 008 field */
 	ControlField cf008 = null;
-	/** date008 is bytes 7-10 (0 based index) in 008 field */
-	String date008 = null;
+	/** cf008date1 is bytes 7-10 (0 based index) in 008 field */
+	String cf008date1 = null;
 	/** date260c is a four character String containing year from 260c
 	 * "cleaned" per DateUtils.cleanDate() */
 	String date260c = null;
@@ -128,9 +128,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	protected void perRecordInit(Record record) {
 		cf008 = (ControlField) record.getVariableField("008");
 		if (cf008 != null)
-			date008 = cf008.getData().substring(7, 11);
+			cf008date1 = cf008.getData().substring(7, 11);
 		else
-			date008 = null;
+			cf008date1 = null;
 		date260c = MarcUtils.getDate(record);
 		f020suba = MarcUtils.getFieldList(record, "020a");
 		f020subz = MarcUtils.getFieldList(record, "020z");
@@ -923,6 +923,26 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     	return PublicationUtils.getPublication(record.getVariableFields(new String[]{"260", "264"}));
 	}
 
+    public String get008BeginningYear(final Record record)
+    {
+		char c6 = '\u0000';
+		if (cf008 != null)
+		{
+			c6 = ((ControlField) cf008).getData().charAt(6);
+			switch (c6)
+			{
+				case 'c':
+				case 'd':
+				case 'm':
+				case 'u':
+					return PublicationUtils.getValidPubDateStr(cf008date1, null, null);
+				default:
+					return null;
+			}
+		}
+		else return null;
+    }
+
 	/**
 	 * returns the publication date from a record, if it is present and not
      *  beyond the current year + 1 (and not earlier than 0500 if it is a
@@ -934,7 +954,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public String getPubDate(final Record record)
 	{
-		return PublicationUtils.getPubDate(date008, date260c, record.getVariableFields("264"), id, logger);
+		return PublicationUtils.getPubDate(cf008date1, date260c, record.getVariableFields("264"), id, logger);
 	}
 
 	/**
@@ -960,7 +980,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * @return String containing publication date, or null if none
 	 */
 	public String getPubDateSort(final Record record) {
-		return PublicationUtils.getPubDateSort(date008, date260c, record.getVariableFields("264"));
+		return PublicationUtils.getPubDateSort(cf008date1, date260c, record.getVariableFields("264"));
 	}
 
 	/**
@@ -975,7 +995,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getPubDateGroups(final Record record)
 	{
-		return PublicationUtils.getPubDateGroups(date008, date260c, record.getVariableFields("264"));
+		return PublicationUtils.getPubDateGroups(cf008date1, date260c, record.getVariableFields("264"));
 	}
 
 // Pub Date Methods  --------------  End  --------------------- Pub Date Methods
