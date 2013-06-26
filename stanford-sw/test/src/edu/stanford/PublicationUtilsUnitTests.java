@@ -75,6 +75,14 @@ public class PublicationUtilsUnitTests
 		values = getPubDateSliderVals(factory.newControlField("008", "      u197019uu"));
 		assertEquals("getPubDateSliderVals should have one result when 008 byte 6 is 'u'", 1, values.size());
 		assertTrue("getPubDateSliderVals should return 008 date 1 when byte 6 is 'u'", values.contains("1970"));
+
+		// these are continuing resources with open end dates;  currently we only index date 1
+		values = getPubDateSliderVals(factory.newControlField("008", "      c19709999"));
+		assertEquals("getPubDateSliderVals should have one result when 008 byte 6 is 'c'", 1, values.size());
+		assertTrue("getPubDateSliderVals should return 008 date 1 when byte 6 is 'c'", values.contains("1970"));
+		values = getPubDateSliderVals(factory.newControlField("008", "      m19709999"));
+		assertEquals("getPubDateSliderVals should have one result when 008 byte 6 is 'm' and date2 is 9999", 1, values.size());
+		assertTrue("getPubDateSliderVals should return 008 date 1 when byte 6 is 'm' and date2 is 9999", values.contains("1970"));
 	}
 
 
@@ -92,7 +100,7 @@ public class PublicationUtilsUnitTests
 		assertTrue("getPubDateSliderVals incorrect when 008 byte 6 is 'p'", values.containsAll(Arrays.asList("1974", "1989")));
 		values = getPubDateSliderVals(factory.newControlField("008", "      p197u    "));
 		assertEquals("getPubDateSliderVals should have one result when 008 byte 6 is 'p' and second date is missing", 1, values.size());
-		assertTrue("getPubDateSliderVals should return when 008 date 1 when byte 6 is 'p'", values.contains("1970"));
+		assertTrue("getPubDateSliderVals should return 008 date 1 when byte 6 is 'p' and second date is missing", values.contains("1970"));
 
 		values = getPubDateSliderVals(factory.newControlField("008", "      r19821961"));
 		assertEquals("getPubDateSliderVals should have two results when 008 byte 6 is 'r'", 2, values.size());
@@ -102,7 +110,10 @@ public class PublicationUtilsUnitTests
 		assertTrue("getPubDateSliderVals incorrect when 008 byte 6 is 'r'", values.containsAll(Arrays.asList("1974", "1969")));
 		values = getPubDateSliderVals(factory.newControlField("008", "      r197uuuuu"));
 		assertEquals("getPubDateSliderVals should have one result when 008 byte 6 is 'r' and second date is missing", 1, values.size());
-		assertTrue("getPubDateSliderVals should return when 008 date 1 when byte 6 is 'r'", values.contains("1970"));
+		assertTrue("getPubDateSliderVals should return 008 date 1 when byte 6 is 'r' and second date is missing", values.contains("1970"));
+		values = getPubDateSliderVals(factory.newControlField("008", "      ruuuu1964"));
+		assertEquals("getPubDateSliderVals should have one result when 008 byte 6 is 'r' and first date is missing", 1, values.size());
+		assertTrue("getPubDateSliderVals should return 008 date 2 when byte 6 is 'r' and first date is missing", values.contains("1964"));
 
 		values = getPubDateSliderVals(factory.newControlField("008", "      t19821986"));
 		assertEquals("getPubDateSliderVals should have two results when 008 byte 6 is 't'", 2, values.size());
@@ -112,7 +123,7 @@ public class PublicationUtilsUnitTests
 		assertTrue("getPubDateSliderVals incorrect when 008 byte 6 is 't'", values.containsAll(Arrays.asList("1974", "1989")));
 		values = getPubDateSliderVals(factory.newControlField("008", "      t197u    "));
 		assertEquals("getPubDateSliderVals should have one result when 008 byte 6 is 't' and second date is missing", 1, values.size());
-		assertTrue("getPubDateSliderVals should return when 008 date 1 when byte 6 is 't'", values.contains("1970"));
+		assertTrue("getPubDateSliderVals should return 008 date 1 when byte 6 is 't' and second date is missing", values.contains("1970"));
 	}
 
 
@@ -130,9 +141,50 @@ public class PublicationUtilsUnitTests
 		assertTrue("getPubDateSliderVals incorrect when 008 byte 6 is 'd'", values.containsAll(Arrays.asList("1974", "1975", "1976", "1977", "1978", "1979")));
 		values = getPubDateSliderVals(factory.newControlField("008", "      d197u    "));
 		assertEquals("getPubDateSliderVals should have one result when 008 byte 6 is 'd' and second date is missing", 1, values.size());
-		assertTrue("getPubDateSliderVals should return when 008 date 1 when byte 6 is 'd'", values.contains("1970"));
+		assertTrue("getPubDateSliderVals should return 008 date 1 when byte 6 is 'd' and second date is missing", values.contains("1970"));
 
-		// also d, i, k, some m, q
+		values = getPubDateSliderVals(factory.newControlField("008", "      i19821986"));
+		assertEquals("getPubDateSliderVals should have a range when 008 byte 6 is 'i'", 5, values.size());
+		assertTrue("getPubDateSliderVals incorrect when 008 byte 6 is 'i'", values.containsAll(Arrays.asList("1982", "1983", "1984", "1985", "1986")));
+		values = getPubDateSliderVals(factory.newControlField("008", "      i1974197u"));
+		assertEquals("getPubDateSliderVals should have a range when 008 byte 6 is 'i'", 6, values.size());
+		assertTrue("getPubDateSliderVals incorrect when 008 byte 6 is 'i'", values.containsAll(Arrays.asList("1974", "1975", "1976", "1977", "1978", "1979")));
+		values = getPubDateSliderVals(factory.newControlField("008", "      i197u    "));
+		assertEquals("getPubDateSliderVals should have one result when 008 byte 6 is 'i' and second date is missing", 1, values.size());
+		assertTrue("getPubDateSliderVals should return 008 date 1 when byte 6 is 'i' and second date is missing", values.contains("1970"));
+
+		values = getPubDateSliderVals(factory.newControlField("008", "      k19821986"));
+		assertEquals("getPubDateSliderVals should have a range when 008 byte 6 is 'k'", 5, values.size());
+		assertTrue("getPubDateSliderVals incorrect when 008 byte 6 is 'k'", values.containsAll(Arrays.asList("1982", "1983", "1984", "1985", "1986")));
+		values = getPubDateSliderVals(factory.newControlField("008", "      k1974197u"));
+		assertEquals("getPubDateSliderVals should have a range when 008 byte 6 is 'k'", 6, values.size());
+		assertTrue("getPubDateSliderVals incorrect when 008 byte 6 is 'k'", values.containsAll(Arrays.asList("1974", "1975", "1976", "1977", "1978", "1979")));
+		values = getPubDateSliderVals(factory.newControlField("008", "      k197u    "));
+		assertEquals("getPubDateSliderVals should have one result when 008 byte 6 is 'k' and second date is missing", 1, values.size());
+		assertTrue("getPubDateSliderVals should return 008 date 1 when byte 6 is 'k' and second date is missing", values.contains("1970"));
+
+		values = getPubDateSliderVals(factory.newControlField("008", "      q19821986"));
+		assertEquals("getPubDateSliderVals should have a range when 008 byte 6 is 'q'", 5, values.size());
+		assertTrue("getPubDateSliderVals incorrect when 008 byte 6 is 'q'", values.containsAll(Arrays.asList("1982", "1983", "1984", "1985", "1986")));
+		values = getPubDateSliderVals(factory.newControlField("008", "      q1974197u"));
+		assertEquals("getPubDateSliderVals should have a range when 008 byte 6 is 'q'", 6, values.size());
+		assertTrue("getPubDateSliderVals incorrect when 008 byte 6 is 'q'", values.containsAll(Arrays.asList("1974", "1975", "1976", "1977", "1978", "1979")));
+		values = getPubDateSliderVals(factory.newControlField("008", "      q197u    "));
+		assertEquals("getPubDateSliderVals should have one result when 008 byte 6 is 'q' and second date is missing", 1, values.size());
+		assertTrue("getPubDateSliderVals should return 008 date 1 when byte 6 is 'q' and second date is missing", values.contains("1970"));
+
+		values = getPubDateSliderVals(factory.newControlField("008", "      m19821986"));
+		assertEquals("getPubDateSliderVals should have a range when 008 byte 6 is 'm'", 5, values.size());
+		assertTrue("getPubDateSliderVals incorrect when 008 byte 6 is 'm'", values.containsAll(Arrays.asList("1982", "1983", "1984", "1985", "1986")));
+		values = getPubDateSliderVals(factory.newControlField("008", "      m1974197u"));
+		assertEquals("getPubDateSliderVals should have a range when 008 byte 6 is 'm'", 6, values.size());
+		assertTrue("getPubDateSliderVals incorrect when 008 byte 6 is 'm'", values.containsAll(Arrays.asList("1974", "1975", "1976", "1977", "1978", "1979")));
+		values = getPubDateSliderVals(factory.newControlField("008", "      muuuu1986"));
+		assertEquals("getPubDateSliderVals should have one result when 008 byte 6 is 'm' and first date is missing", 1, values.size());
+		assertTrue("getPubDateSliderVals should return 008 date 2 when byte 6 is 'm' and first date is missing", values.contains("1986"));
+		values = getPubDateSliderVals(factory.newControlField("008", "      m197u    "));
+		assertEquals("getPubDateSliderVals should have one result when 008 byte 6 is 'm' and second date is missing", 1, values.size());
+		assertTrue("getPubDateSliderVals should return 008 date 1 when byte 6 is 'm' and second date is missing", values.contains("1970"));
 	}
 
 	/**
