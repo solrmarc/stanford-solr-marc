@@ -117,6 +117,7 @@ public class PublicationUtils {
 	}
 
 	/**
+	 * 2013-06-26 this is the OLD way
      * returns the sortable publication date from a record, if it is present
      *  and not beyond the current year + 1, and not earlier than EARLIEST_VALID_YEAR if
      *   a four digit year
@@ -126,6 +127,7 @@ public class PublicationUtils {
 	 * @param date260c - the date string extracted from the 260c field
 	 * @param df264list  - a List of 264 fields as DataField objects
 	 * @return String containing publication date, or null if none
+	 * @deprecated
 	 */
 	static String getPubDateSort(String date008, String date260c, List<DataField> df264list)
 	{
@@ -144,6 +146,41 @@ public class PublicationUtils {
 				int currFirst2 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 2));
 				if (myFirst2 <= currFirst2)
 					return date008.substring(0, 2) + "--";
+			}
+		}
+
+		return null;
+	}
+
+
+	/**
+     * returns the sortable publication date from a record, if it is present
+     *  and not beyond the current year + 1, and not earlier than EARLIEST_VALID_YEAR if
+     *   a four digit year
+     *   four digit years < EARLIEST_VALID_YEAR trigger an attempt to get a 4 digit date from 260c
+     *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
+     * @param cf008 - 008 field as a ControlField object
+	 * @param date260c - the date string extracted from the 260c field
+	 * @param df264list  - a List of 264 fields as DataField objects
+	 * @return String containing publication date, or null if none
+	 */
+	static String getPubDateSort(ControlField cf008, String date260c, List<DataField> df264list)
+	{
+		if (cf008 != null && cf008.getData().length() >= 15)
+		{
+			String rawDate1 = cf008.getData().substring(7, 11);
+			String date1Str = get3or4DigitYear(rawDate1, "0");
+			if (date1Str != null)
+			{
+				String result = PublicationUtils.getValidPubDateStr(date1Str, date260c, df264list);
+				if (result != null)
+					return result;
+			} else if (PublicationUtils.isdduu(rawDate1)) {
+				int myFirst2 = Integer.parseInt(rawDate1.substring(0, 2));
+				int currFirst2 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 2));
+				if (myFirst2 <= currFirst2)
+					// hyphens sort before 0, so the lexical sorting will be correct. I think.
+					return rawDate1.substring(0, 2) + "--";
 			}
 		}
 
@@ -237,6 +274,7 @@ public class PublicationUtils {
 	}
 
 	/**
+	 * 2013-06-26  this is the OLD way
      * returns the sortable publication date from a record, if it is present
      *  and not beyond the current year + 1, and not earlier than EARLIEST_VALID_YEAR if
      *   a four digit year
@@ -246,6 +284,7 @@ public class PublicationUtils {
 	 * @param date260c - the date string extracted from the 260c field
 	 * @param df264list  - a List of 264 fields as DataField objects
 	 * @return Set<String> containing publication years, or empty set if none
+	 * @deprecated
 	 */
 	static Set<String> getPubDateSliderVals(ControlField cf008, String date260c, List<DataField> df264list)
 	{

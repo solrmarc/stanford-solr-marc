@@ -1055,14 +1055,14 @@ public class PublicationTests extends AbstractStanfordTest
 		expectedOrderList.add("pubDate16uu");   // "17th century"
 		expectedOrderList.add("p19uu");   // "20th century"
 		expectedOrderList.add("pubDate19uu");   // "20th century"
-		expectedOrderList.add("s190u");   // "1900s"
 		expectedOrderList.add("r1900");   // "1900"
+		expectedOrderList.add("s190u");   // "1900s"
 		expectedOrderList.add("pubDate195u");   // "1950s"
 		expectedOrderList.add("s195u");   // "1950s"
 		expectedOrderList.add("g1958");   // "1958"
 		expectedOrderList.add("w1959");   // "1959"ˇ
 		expectedOrderList.add("bothDates008");  // "1964"
-		expectedOrderList.add("pubDate0197-1");  // 1970
+//		expectedOrderList.add("pubDate0197-1");  // 1970
 		expectedOrderList.add("contRes");       // "1984"
 		expectedOrderList.add("y1989");   // "1989"
 		expectedOrderList.add("b199u");   // "1990s"
@@ -1073,12 +1073,12 @@ public class PublicationTests extends AbstractStanfordTest
 		expectedOrderList.add("w1999");   // "1999"
 		expectedOrderList.add("o20uu");   // "21st century"
 		expectedOrderList.add("pubDate20uu");   // "21st century"
-		expectedOrderList.add("x200u");   // "2000s"
 		expectedOrderList.add("f2000");   // "2000"
 		expectedOrderList.add("firstDateOnly008");  // "2000"
+		expectedOrderList.add("x200u");   // "2000s"
 		expectedOrderList.add("q2001");   // "2001"
-		expectedOrderList.add("pubDate0204");  // 2004
-		expectedOrderList.add("pubDate0059");  // 2005
+//		expectedOrderList.add("pubDate0204");  // 2004
+//		expectedOrderList.add("pubDate0059");  // 2005
 		expectedOrderList.add("z2006");   // "2006"
 		expectedOrderList.add("v2007");   // "2007"
 		expectedOrderList.add("b2008");   // "2008"
@@ -1089,6 +1089,9 @@ public class PublicationTests extends AbstractStanfordTest
 		//  they are in order of occurrence in the raw data
 		expectedOrderList.add("pubDate0000");
 		expectedOrderList.add("pubDate0019");
+		expectedOrderList.add("pubDate0059");  // 2005 not in 008
+		expectedOrderList.add("pubDate0197-1");
+		expectedOrderList.add("pubDate0204");  // 2004  not in 008
 		expectedOrderList.add("pubDate1uuu");
 		expectedOrderList.add("pubDate6666");
 		expectedOrderList.add("pubDate9999");
@@ -1141,8 +1144,8 @@ public class PublicationTests extends AbstractStanfordTest
 		expectedOrderList.add("b2008");   // "2008"
 		expectedOrderList.add("v2007");   // "2007"
 		expectedOrderList.add("z2006");   // "2006"
-		expectedOrderList.add("pubDate0059");  // 2005
-		expectedOrderList.add("pubDate0204");  // 2004
+//		expectedOrderList.add("pubDate0059");  // 2005
+//		expectedOrderList.add("pubDate0204");  // 2004
 		expectedOrderList.add("q2001");   // "2001"
 		expectedOrderList.add("f2000");   // "2000"
 		expectedOrderList.add("firstDateOnly008");  // "2000"
@@ -1153,11 +1156,11 @@ public class PublicationTests extends AbstractStanfordTest
 		expectedOrderList.add("c1998");   // "1998"
 		expectedOrderList.add("e1997");   // "1997"
 		expectedOrderList.add("m1991");   // "1991"
-		expectedOrderList.add("k1990");   // "1990"
 		expectedOrderList.add("b199u");   // "1990s"
+		expectedOrderList.add("k1990");   // "1990"
 		expectedOrderList.add("y1989");   // "1989"
 		expectedOrderList.add("contRes");       // "1984"
-		expectedOrderList.add("pubDate0197-1");  // 1970
+//		expectedOrderList.add("pubDate0197-1");  // 1970
 		expectedOrderList.add("bothDates008");  // "1964"
 		expectedOrderList.add("w1959");   // "1959"ˇ
 		expectedOrderList.add("g1958");   // "1958"
@@ -1187,6 +1190,9 @@ public class PublicationTests extends AbstractStanfordTest
 		//  schema file.
 		expectedOrderList.add("pubDate0000");
 		expectedOrderList.add("pubDate0019");
+		expectedOrderList.add("pubDate0059");  // 2005 not in 008
+		expectedOrderList.add("pubDate0197-1");
+		expectedOrderList.add("pubDate0204");  // 2004  not in 008
 		expectedOrderList.add("pubDate1uuu");
 		expectedOrderList.add("pubDate6666");
 		expectedOrderList.add("pubDate9999");
