@@ -489,7 +489,7 @@ public class PublicationUtils {
 		return null;
 	}
 
-	private static boolean yearIsValid(String dateStr)
+	static boolean yearIsValid(String dateStr)
 	{
     	try
     	{
