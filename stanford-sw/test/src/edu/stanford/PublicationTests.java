@@ -919,14 +919,14 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
-	 * integration test: pub_date_i
+	 * integration test: pub_year_tisim
 	 */
 @Test
 	public final void testPubDateForSlider()
 			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		createFreshIx("pubDateTests.mrc");
-		String fldName = "pub_date_i";
+		String fldName = "pub_year_tisim";
 		Set<String> docIds = new HashSet<String>();
 
 		assertSingleResult("zpubDate2010", fldName, "2010");
