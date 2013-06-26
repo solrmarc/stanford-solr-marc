@@ -127,7 +127,8 @@ public class PublicationUtils {
 	 * @param df264list  - a List of 264 fields as DataField objects
 	 * @return String containing publication date, or null if none
 	 */
-	static String getPubDateSort(String date008, String date260c, List<DataField> df264list) {
+	static String getPubDateSort(String date008, String date260c, List<DataField> df264list)
+	{
 		if (date008 != null) {
 			// hyphens sort before 0, so the lexical sorting will be correct. I
 			// think.
@@ -151,15 +152,100 @@ public class PublicationUtils {
 
 
 	/**
+     * returns the publication year(s) from a record, based on 008 bytes 6-15
+     *  (see https://jirasul.stanford.edu/jira/browse/SW-666)
+     *  also ensures years are not earlier than EARLIEST_VALID_YEAR
+     *   and not later than the current year + 1
+     *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
+     * @param cf008 - 008 field as a ControlField object
+	 * @return Set<String> containing publication years, or empty set if none
+	 */
+	static Set<String> getPubDateSliderVals(ControlField cf008)
+	{
+		Set<String> results = new HashSet<String>();
+		if (cf008 != null && cf008.getData().length() >= 15)
+		{
+			char c6 = cf008.getData().charAt(6);
+			String rawDate1 = cf008.getData().substring(7, 11);
+			String date1Str = get3or4DigitYear(rawDate1, "0");
+			int date1Int = -1;
+			if (date1Str != null)
+				date1Int = Integer.valueOf(date1Str);
+			String rawDate2 = cf008.getData().substring(11, 15);
+			String date2Str = get3or4DigitYear(rawDate2, "9");
+			int date2Int = -1;
+			if (date2Str != null)
+				date2Int = Integer.valueOf(date2Str);
+
+			switch (c6)
+			{
+				case 'd':
+				case 'i':
+				case 'k':
+				case 'q':
+					// index start, end and years between
+					if (date1Str != null)
+						results.add(date1Str);
+					if (date2Str != null)
+						results.add(date2Str);
+					if (date1Int != -1 && date2Int != -1)
+					{
+						for (int year = date1Int; year < date2Int; year++)
+							results.add(String.valueOf(year));
+					}
+					break;
+				case 'm':
+					if (date1Str != null)
+						results.add(date1Str);
+					if (!rawDate2.equals("9999") && date2Str != null)
+					{
+						// index end year and years between
+						results.add(date2Str);
+						if (date1Int != -1 && date2Int != -1)
+						{
+							for (int year = date1Int; year < date2Int; year++)
+								results.add(String.valueOf(year));
+						}
+					}
+					break;
+				case 'p':
+				case 'r':
+				case 't':
+					// index only start and end
+					if (date1Str != null)
+						results.add(date1Str);
+					if (date2Str != null)
+						results.add(date2Str);
+					break;
+				case 'c':
+				case 'e':
+				case 's':
+				case 'u':
+					if (date1Str != null)
+						results.add(date1Str);
+					break;
+				case 'b':
+				case 'n':
+				case '|':
+				default:
+					// no dates from 008
+					break;
+			} // end switch
+		} // end if 008
+
+		return results;
+	}
+
+	/**
      * returns the sortable publication date from a record, if it is present
      *  and not beyond the current year + 1, and not earlier than EARLIEST_VALID_YEAR if
      *   a four digit year
      *   four digit years < EARLIEST_VALID_YEAR trigger an attempt to get a 4 digit date from 260c
      *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
-     * @param cf008date1 - characters 7-10 (0 based index) in 008 field
+     * @param cf008 - 008 field as a ControlField object
 	 * @param date260c - the date string extracted from the 260c field
 	 * @param df264list  - a List of 264 fields as DataField objects
-	 * @return String containing publication date, or null if none
+	 * @return Set<String> containing publication years, or empty set if none
 	 */
 	static Set<String> getPubDateSliderVals(ControlField cf008, String date260c, List<DataField> df264list)
 	{
@@ -549,7 +635,8 @@ public class PublicationUtils {
      *  the century in a sting, including "century":
      *    00 --> 1st century   11 --> 12th century   etc.
 	 */
-	static String getCenturyString(String yearDigits) {
+	static String getCenturyString(String yearDigits)
+	{
 		int centuryYearInt = Integer.parseInt(yearDigits) + 1;
 		String centuryYearStr = String.valueOf(centuryYearInt);
 		return centuryYearStr + getNumberSuffix(centuryYearStr) + " century";
@@ -559,7 +646,8 @@ public class PublicationUtils {
 	 * given a positive number, return the correct adjective suffix for that number
 	 *   e.g.:  1 -->  "st"  3 --> "rd"  11 --> "th" 22 --> "nd"
 	 */
-	static String getNumberSuffix(String numberStr) {
+	static String getNumberSuffix(String numberStr)
+	{
 		int len = numberStr.length();
 		// teens are a special case
 		if (len == 2 && numberStr.charAt(0) == '1')
