@@ -32,6 +32,7 @@ import edu.stanford.enumValues.PubDateGroup;
 public class PublicationTests extends AbstractStanfordTest
 {
 	String publTestFilePath = testDataParentPath + File.separator + "publicationTests.mrc";
+	MarcFactory factory = MarcFactory.newInstance();
 
 @Before
 	public final void setup()
@@ -107,7 +108,6 @@ public class PublicationTests extends AbstractStanfordTest
 @Test
 	public void test264PubSearch()
 	{
-		MarcFactory factory = MarcFactory.newInstance();
 		Record record = factory.newRecord();
         DataField df = factory.newDataField("264", ' ', ' ');
         df.addSubfield(factory.newSubfield('a', "264a"));
@@ -144,7 +144,6 @@ public class PublicationTests extends AbstractStanfordTest
 @Test
 	public void test264IgnoreUnknownPubSearch()
 	{
-		MarcFactory factory = MarcFactory.newInstance();
 		Record record = factory.newRecord();
 	    DataField df = factory.newDataField("264", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('a', "[Place of publication not identified] :"));
@@ -204,7 +203,6 @@ public class PublicationTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(publTestFilePath, "vern260abc", fldName, "vern260a : vern260b");
 		solrFldMapTest.assertSolrFldValue(publTestFilePath, "vern260abcg", fldName, "vern260a : vern260b");
 
-		MarcFactory factory = MarcFactory.newInstance();
 		Record record = factory.newRecord();
         DataField df = factory.newDataField("264", ' ', ' ');
         df.addSubfield(factory.newSubfield('a', "264a"));
@@ -242,7 +240,6 @@ public class PublicationTests extends AbstractStanfordTest
 @Test
 	public void test264IgnoreUnknownPubDate()
 	{
-		MarcFactory factory = MarcFactory.newInstance();
 		Record record = factory.newRecord();
 	    DataField df = factory.newDataField("264", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('c', "[Date of publication not identified] :"));
@@ -682,7 +679,6 @@ public class PublicationTests extends AbstractStanfordTest
 		assertZeroResults(fldName, "24th century");
 		assertZeroResults(fldName, "8610s");
 
-		MarcFactory factory = MarcFactory.newInstance();
 		Record record = factory.newRecord();
 	    DataField df = factory.newDataField("264", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('c', "9999"));
@@ -715,7 +711,6 @@ public class PublicationTests extends AbstractStanfordTest
 		assertZeroResults(fldName, "0197");
 		assertZeroResults(fldName, "0204");
 
-		MarcFactory factory = MarcFactory.newInstance();
 		Record record = factory.newRecord();
 	    DataField df = factory.newDataField("264", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('c', "0000"));
@@ -776,6 +771,73 @@ public class PublicationTests extends AbstractStanfordTest
 	}
 
 
+	/**
+	 * functional test:  imprint_year_isim from 260c - easy to parse
+	 */
+@Test
+	public void testImprintYearEasy()
+	{
+		String solrFldName = "imprint_year_isim";
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "1862", solrFldName, "1862");
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "1973.", solrFldName, "1973");
+
+	    // two values from two subfield c
+	    Record record = factory.newRecord();
+		DataField df = factory.newDataField("260", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "1798"));
+	    df.addSubfield(factory.newSubfield('a', "[i.e. Bruxelles :"));
+	    df.addSubfield(factory.newSubfield('c', "Moens,"));
+	    df.addSubfield(factory.newSubfield('c', "1883]"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldHasNumValues(record, solrFldName, 2);
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "1798");
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "1883");
+	}
+
+	/**
+	 * functional test:  imprint_year_isim from 260c - hard to parse
+	 */
+//@Test
+	public void testImprintYearHard()
+	{
+		String solrFldName = "imprint_year_isim";
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "April 15, 1977.", solrFldName, "1977");
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "<1981- >", solrFldName, "1981");
+
+	    // two values from one subfield c
+		Record record = factory.newRecord();
+		DataField df = factory.newDataField("260", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "1967, c1965."));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldHasNumValues(record, solrFldName, 2);
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "1967");
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "1965");
+	    record = factory.newRecord();
+		df = factory.newDataField("260", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "1968 [i.e. 1971]"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldHasNumValues(record, solrFldName, 2);
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "1968");
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "1971");
+
+	    // ranges
+	    record = factory.newRecord();
+		df = factory.newDataField("260", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "1908-1924."));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldHasNumValues(record, solrFldName, 17);
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "1908");
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "1916");
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "1924");
+	    record = factory.newRecord();
+		df = factory.newDataField("260", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "1889-1912."));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldHasNumValues(record, solrFldName, 24);
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "1889");
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "1900");
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "1912");
+	}
 
 	/**
 	 * functional test: assure pub dates later than current year +1 are ignored
@@ -784,7 +846,6 @@ public class PublicationTests extends AbstractStanfordTest
 	public void test264PubDate()
 	{
 		String fldName = "pub_date";
-		MarcFactory factory = MarcFactory.newInstance();
 		Record record = factory.newRecord();
 		record.addVariableField(factory.newControlField("008", "       0000"));
 	    DataField df = factory.newDataField("264", ' ', ' ');
@@ -1328,7 +1389,6 @@ public class PublicationTests extends AbstractStanfordTest
 	 */
 	private void assert008IgnoreDates(char byte06, String date1str, String date2str)
 	{
-		MarcFactory factory = MarcFactory.newInstance();
 		Record record = factory.newRecord();
 		record.addVariableField(factory.newControlField("008", "      " + byte06 + date1str + date2str));
 		solrFldMapTest.assertSolrFldValue(record, "date_1_008_raw_ssim", date1str);
@@ -1358,7 +1418,6 @@ public class PublicationTests extends AbstractStanfordTest
 	 */
 	private void assert008DateVal(char byte06, String date1str, String date2str, String solrFldName, String expFldVal)
 	{
-		MarcFactory factory = MarcFactory.newInstance();
 		Record record = factory.newRecord();
 		record.addVariableField(factory.newControlField("008", "      " + byte06 + date1str + date2str));
 		record.addVariableField(factory.newControlField("001", "aassert008DateVal"));
@@ -1367,4 +1426,23 @@ public class PublicationTests extends AbstractStanfordTest
 		else
 			solrFldMapTest.assertNoSolrFld(record, solrFldName);
 	}
+
+	/**
+	 * assert that Marc record with the field/subfield indicated populates SolrFldMap with expected Solr field value
+	 * @param fldTag marc field tag (3 chars)
+	 * @param subFld marc subfield (char)
+	 * @param rawValue raw value to go in marc subfield
+	 * @param solrFldName name of solr field expecting value
+	 * @param expSolrFldVal value expected in Solr field
+	 */
+	private void assertSingleSolrFldValFromMarcSubfld(String fldTag, char subFld, String rawValue, String solrFldName, String expSolrFldVal)
+	{
+		Record record = factory.newRecord();
+		DataField df = factory.newDataField(fldTag, ' ', ' ');
+	    df.addSubfield(factory.newSubfield(subFld, rawValue));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldHasNumValues(record, solrFldName, 1);
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, expSolrFldVal);
+	}
+
 }
