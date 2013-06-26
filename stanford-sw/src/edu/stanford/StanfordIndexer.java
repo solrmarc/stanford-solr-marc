@@ -933,7 +933,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      */
     public String get008Date1(final Record record, String byte6vals)
     {
-		if (cf008 != null)
+		if (cf008 != null && cf008.getData().length() >= 11)
 		{
 			char c6 = ((ControlField) cf008).getData().charAt(6);
 			if (byte6vals.indexOf(c6) >= 0)
@@ -955,7 +955,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      */
     public String get008Date2(final Record record, String byte6vals)
     {
-		if (cf008 != null)
+		if (cf008 != null && cf008.getData().length() >= 15)
 		{
 			char c6 = ((ControlField) cf008).getData().charAt(6);
 			if (byte6vals.indexOf(c6) >= 0)
