@@ -1013,13 +1013,15 @@ public class PublicationTests extends AbstractStanfordTest
 
 		// corrected values
 		docIds.clear();
-		docIds.add("pubDate0059");
+// 2013-06-26  simplifying dateSlider values to 008 only temporarily
+//		docIds.add("pubDate0059");
 		docIds.add("j2005");
 		assertSearchResults(fldName, "2005", docIds);
 		docIds.clear();
-		docIds.add("pubDate195u");
-		docIds.add("pubDate0197-1");
-		docIds.add("pubDate0197-2");
+		docIds.add("pubDate195u");  // it's a range including 1970
+// 2013-06-26  simplifying dateSlider values to 008 only temporarily
+//		docIds.add("pubDate0197-1");
+//		docIds.add("pubDate0197-2");
 		assertSearchResults(fldName, "1970", docIds);
 	}
 
