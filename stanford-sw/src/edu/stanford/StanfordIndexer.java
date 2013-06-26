@@ -970,6 +970,29 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			return null;
     }
 
+    /**
+     * returns the imprint year from a record's 260c, if it is present and
+     *
+     * @param record
+     * @return
+     */
+    public Set<String> getImprintYear(final Record record)
+    {
+		Set<String> results = new HashSet<String>();
+		Set<String> f260subc = MarcUtils.getFieldList(record, "260c");
+		for (String rawVal : f260subc)
+		{
+		    if (rawVal != null && rawVal.length() > 0)
+		    {
+				String year = DateUtils.getYearFromString(rawVal);
+		    	if (year != null && PublicationUtils.yearIsValid(year))
+					results.add(year);
+		    }
+		}
+
+    	return results;
+    }
+
 	/**
 	 * returns the publication date from a record, if it is present and not
      *  beyond the current year + 1 (and not earlier than 0500 if it is a
