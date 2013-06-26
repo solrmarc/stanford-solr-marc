@@ -1032,7 +1032,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * @return String containing publication date, or null if none
 	 */
 	public String getPubDateSort(final Record record) {
-		return PublicationUtils.getPubDateSort(cf008date1, date260c, record.getVariableFields("264"));
+		return PublicationUtils.getPubDateSort(cf008, date260c, record.getVariableFields("264"));
+//		return PublicationUtils.getPubDateSort(cf008date1, date260c, record.getVariableFields("264"));
 	}
 
 	/**
