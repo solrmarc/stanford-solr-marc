@@ -455,19 +455,19 @@
       </str>
 
       <str name="qf_series">
-        series_exact_search^10
-        series_unstem_search^5
+        series_exact_search^5
+        series_unstem_search^2
         series_search         vern_series_search
       </str>
       <str name="pf_series"> <!-- x 5 exact/unstemmed to stemmed (phrase match) -->
-        series_exact_search^50
-        series_search^25      vern_series_search^25
+        series_exact_search^25
+        series_search^10      vern_series_search^10
       </str>
       <str name="pf_series3"> <!-- x 3 (token trigrams) -->
-        series_search^15      vern_series_search^15
+        series_search^5       vern_series_search^5
       </str>
       <str name="pf_series2"> <!-- x 2 (token bigrams) -->
-        series_search^10      vern_series_search^10
+        series_search^2       vern_series_search^2
       </str>
 
       <str name="qf_crez">
