@@ -333,7 +333,7 @@
       </str>
 
       <str name="qf_title">
-        title_245a_exact_search^200
+        title_245a_exact_search^350
         title_245a_unstem_search^100
         title_245a_search^75           vern_title_245a_search^75
         title_245_unstem_search^75
@@ -349,7 +349,7 @@
         series_search                  vern_series_search
       </str>
       <str name="pf_title"> <!-- (phrase boost in result set) -->
-        title_245a_exact_search^1500
+        title_245a_exact_search^1750
         title_245a_unstem_search^500
         title_245a_search^375          vern_title_245a_search^375
         title_245_unstem_search^375
