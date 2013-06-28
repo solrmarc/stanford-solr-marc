@@ -407,35 +407,35 @@
 
       <str name="qf_subject">
         topic_unstem_search^500
-        geographic_unstem_search^500
         topic_search^100               vern_topic_search^100
+        geographic_unstem_search^500
         geographic_search^100          vern_geographic_search^100
         subject_other_unstem_search^75
         subject_other_search^50        vern_subject_other_search^50
         topic_subx_unstem_search^10
-        geographic_subz_unstem_search^10
-        subject_other_subvy_unstem_search^10
-        subject_all_unstem_search^10
         topic_subx_search              vern_topic_subx_search
+        geographic_subz_unstem_search^10
         geographic_subz_search         vern_geographic_subz_search
+        subject_other_subvy_unstem_search^10
         subject_other_subvy_search     vern_subject_other_subvy_search
+        subject_all_unstem_search^10
         subject_all_search             vern_subject_all_search
         db_az_subject_search
       </str>
       <str name="pf_subject"> <!-- (phrase boost in result set) -->
         topic_unstem_search^5000
-        geographic_unstem_search^5000
         topic_search^1000              vern_topic_search^1000
+        geographic_unstem_search^5000
         geographic_search^1000         vern_geographic_search^1000
         subject_other_unstem_search^750
         subject_other_search^500       vern_subject_other_search^500
         topic_subx_unstem_search^25
-        geographic_subz_unstem_search^25
-        subject_other_subvy_unstem_search^25
-        subject_all_unstem_search^25
         topic_subx_search^20           vern_topic_subx_search^20
+        geographic_subz_unstem_search^25
         geographic_subz_search^20      vern_geographic_subz_search^20
+        subject_other_subvy_unstem_search^25
         subject_other_subvy_search^20  vern_subject_other_subvy_search^20
+        subject_all_unstem_search^25
         subject_all_search^20          vern_subject_all_search^20
         db_az_subject_search^20
       </str>
