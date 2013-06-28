@@ -337,50 +337,50 @@
       <str name="qf_title">
         title_245a_exact_search^200
         title_245a_unstem_search^100
-        title_245a_search^75           vern_title_245a_search^75
+        title_245a_search^75           vern_title_245a_search^70
         title_245_unstem_search^75
-        title_245_search^50            vern_title_245_search^50
+        title_245_search^50            vern_title_245_search^45
         title_uniform_unstem_search^50
-        title_uniform_search^20        vern_title_uniform_search^20
+        title_uniform_search^20        vern_title_uniform_search^15
         title_variant_unstem_search^20
-        title_variant_search^10        vern_title_variant_search^10
+        title_variant_search^10        vern_title_variant_search^9
         title_related_unstem_search^10
-        title_related_search^5         vern_title_related_search^5
+        title_related_search^5         vern_title_related_search^4
         series_exact_search^5
         series_unstem_search^2
-        series_search                  vern_series_search
+        series_search                  vern_series_search^0.8
       </str>
       <str name="pf_title"> <!-- (phrase boost in result set) -->
         title_245a_exact_search^1000
         title_245a_unstem_search^500
-        title_245a_search^375          vern_title_245a_search^375
+        title_245a_search^375          vern_title_245a_search^370
         title_245_unstem_search^375
-        title_245_search^250           vern_title_245_search^250
+        title_245_search^250           vern_title_245_search^245
         title_uniform_unstem_search^250
-        title_uniform_search^100       vern_title_uniform_search^100
+        title_uniform_search^100       vern_title_uniform_search^95
         title_variant_unstem_search^100
-        title_variant_search^50        vern_title_variant_search^50
+        title_variant_search^50        vern_title_variant_search^45
         title_related_unstem_search^50
-        title_related_search^25        vern_title_related_search^25
+        title_related_search^25        vern_title_related_search^20
         series_exact_search^25
         series_unstem_search^10
-        series_search^5                vern_series_search^5
+        series_search^5                vern_series_search^4
       </str>
       <str name="pf_title3"> <!-- (token trigrams boost) -->
-        title_245a_search^300          vern_title_245a_search^300
-        title_245_search^225           vern_title_245_search^225
-        title_uniform_search^150       vern_title_uniform_search^150
-        title_variant_search^60        vern_title_variant_search^60
-        title_related_search^15        vern_title_related_search^15
-        series_search^3                vern_series_search^3
+        title_245a_search^300          vern_title_245a_search^295
+        title_245_search^225           vern_title_245_search^220
+        title_uniform_search^150       vern_title_uniform_search^145
+        title_variant_search^60        vern_title_variant_search^55
+        title_related_search^15        vern_title_related_search^10
+        series_search^3                vern_series_search^2
       </str>
       <str name="pf_title2"> <!-- (token bigrams boost) -->
-        title_245a_search^200          vern_title_245a_search^200
-        title_245_search^150           vern_title_245_search^150
-        title_uniform_search^100       vern_title_uniform_search^100
-        title_variant_search^40        vern_title_variant_search^40
-        title_related_search^10        vern_title_related_search^10
-        series_search^2                vern_series_search^2
+        title_245a_search^200          vern_title_245a_search^195
+        title_245_search^150           vern_title_245_search^145
+        title_uniform_search^100       vern_title_uniform_search^95
+        title_variant_search^40        vern_title_variant_search^35
+        title_related_search^10        vern_title_related_search^9
+        series_search^2                vern_series_search^1.5
       </str>
 
       <str name="qf_author">
@@ -455,17 +455,17 @@
       <str name="qf_series">
         series_exact_search^5
         series_unstem_search^2
-        series_search         vern_series_search
+        series_search         vern_series_search^0.8
       </str>
       <str name="pf_series"> <!-- (phrase boost) -->
         series_exact_search^25
-        series_search^10      vern_series_search^10
+        series_search^10      vern_series_search^9
       </str>
       <str name="pf_series3"> <!-- (token trigrams) -->
-        series_search^5       vern_series_search^5
+        series_search^5       vern_series_search^4
       </str>
       <str name="pf_series2"> <!-- (token bigrams) -->
-        series_search^2       vern_series_search^2
+        series_search^2       vern_series_search^1.5
       </str>
 
       <str name="qf_crez">
