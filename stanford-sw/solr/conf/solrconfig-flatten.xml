@@ -445,7 +445,7 @@
         db_az_subject_search^3
       </str>
       <str name="pf_subject2"> <!-- (token bigrams) -->
-        topic_search^5                 vern_topic_subx_search^50
+        topic_search^50                vern_topic_subx_search^50
         subject_all_search^10          vern_subject_all_search^10
         db_az_subject_search^2
       </str>
