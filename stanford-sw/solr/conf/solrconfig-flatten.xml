@@ -440,15 +440,15 @@
         db_az_subject_search^5
       </str>
       <str name="pf_subject3"> <!-- (token trigrams) -->
-        topic_search^75                vern_topic_subx_search^75
-        geographic_search^75           vern_geographic_search^75
-        subject_all_search^15          vern_subject_all_search^15
+        topic_search^150               vern_topic_subx_search^150
+        geographic_search^150          vern_geographic_search^150
+        subject_all_search^150         vern_subject_all_search^150
         db_az_subject_search^3
       </str>
       <str name="pf_subject2"> <!-- (token bigrams) -->
-        topic_search^50                vern_topic_subx_search^50
-        geographic_search^50           vern_geographic_search^50
-        subject_all_search^10          vern_subject_all_search^10
+        topic_search^100               vern_topic_subx_search^100
+        geographic_search^100          vern_geographic_search^100
+        subject_all_search^100         vern_subject_all_search^100
         db_az_subject_search^2
       </str>
 
