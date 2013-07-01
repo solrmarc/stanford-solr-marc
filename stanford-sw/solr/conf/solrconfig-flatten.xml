@@ -442,13 +442,13 @@
       <str name="pf_subject3"> <!-- (token trigrams) -->
         topic_search^150               vern_topic_subx_search^150
         geographic_search^150          vern_geographic_search^150
-        subject_all_search^150         vern_subject_all_search^150
+        subject_all_search^75          vern_subject_all_search^75 
         db_az_subject_search^3
       </str>
       <str name="pf_subject2"> <!-- (token bigrams) -->
         topic_search^100               vern_topic_subx_search^100
         geographic_search^100          vern_geographic_search^100
-        subject_all_search^100         vern_subject_all_search^100
+        subject_all_search^50          vern_subject_all_search^50 
         db_az_subject_search^2
       </str>
 
