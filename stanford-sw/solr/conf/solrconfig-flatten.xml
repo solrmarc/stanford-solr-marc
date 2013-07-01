@@ -408,8 +408,8 @@
       <str name="qf_subject">
         topic_unstem_search^50
         topic_search^20                vern_topic_search^20
-        geographic_unstem_search^50
-        geographic_search^20           vern_geographic_search^20
+        geographic_unstem_search^20
+        geographic_search^10           vern_geographic_search^10
         subject_other_unstem_search^10
         subject_other_search^5         vern_subject_other_search^5
         topic_subx_unstem_search^2
