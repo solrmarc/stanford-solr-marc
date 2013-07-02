@@ -219,6 +219,7 @@
       <str name="q.op">AND</str>
 
       <str name="qf">
+<!--
         title_245a_exact_search^200000
         title_245a_unstem_search^100000
         title_245a_search^75000        vern_title_245a_search^75000
@@ -230,42 +231,106 @@
         title_variant_search^2000      vern_title_variant_search^2000
         title_related_unstem_search^1750
         title_related_search^1250      vern_title_related_search^1250
-        topic_unstem_search^1200
-        topic_search^1000              vern_topic_search^1000
-        geographic_unstem_search^900
-        geographic_search^750          vern_geographic_search^750
+
+        series_exact_search^50
+        series_unstem_search^40
+        series_search^30               vern_series_search^30
+-->
+        title_245a_exact_search^350
+        title_245a_unstem_search^100
+        title_245a_search^75           vern_title_245a_search^75
+        title_245_unstem_search^75
+        title_245_search^50            vern_title_245_search^50
+        title_uniform_unstem_search^50
+        title_uniform_search^20        vern_title_uniform_search^20
+        title_variant_unstem_search^20
+        title_variant_search^10        vern_title_variant_search^10
+        title_related_unstem_search^10
+        title_related_search^5         vern_title_related_search^5
+        series_exact_search^5
+        series_unstem_search^2
+        series_search                  vern_series_search
+        
+<!--
         author_1xx_unstem_search^700
         author_7xx_unstem_search^700
         author_8xx_unstem_search^700
         author_1xx_search^500          vern_author_1xx_search^500
+
+        author_7xx_search^125          vern_author_7xx_search^125
+
+        author_8xx_search^50           vern_author_8xx_search^50
+-->
+        author_1xx_unstem_search^20
+        author_1xx_search^5             vern_author_1xx_search^5
+        author_7xx_unstem_search^10
+        author_7xx_search^2             vern_author_7xx_search^2
+        author_8xx_unstem_search^2
+        author_8xx_search               vern_author_8xx_search
+        
+<!--
+        topic_unstem_search^1200
+        topic_search^1000              vern_topic_search^1000
+        geographic_unstem_search^900
+        geographic_search^750          vern_geographic_search^750
+
         subject_other_unstem_search^650
         subject_other_search^500       vern_subject_other_search^500
-        author_7xx_search^125          vern_author_7xx_search^125
+
+				topic_subx_unstem_search^29
+				topic_subx_search^25           vern_topic_subx_search^25
+        geographic_subz_unstem_search^29
+				geographic_subz_search^25      vern_geographic_subz_search^25
+        subject_other_subvy_unstem_search^29
+				subject_other_subvy_search^25  vern_subject_other_subvy_search^25
+        subject_all_unstem_search^29
+				subject_all_search^10          vern_subject_all_search^10
+				db_az_subject_search
+-->
+        topic_unstem_search^50
+        topic_search^20                vern_topic_search^20
+        geographic_unstem_search^20
+        geographic_search^10           vern_geographic_search^10
+        subject_other_unstem_search^10
+        subject_other_search^5         vern_subject_other_search^5
+        topic_subx_unstem_search^2
+        topic_subx_search              vern_topic_subx_search
+        geographic_subz_unstem_search^2
+        geographic_subz_search         vern_geographic_subz_search
+        subject_other_subvy_unstem_search^2
+        subject_other_subvy_search     vern_subject_other_subvy_search
+        subject_all_unstem_search^2
+        subject_all_search             vern_subject_all_search
+        db_az_subject_search
+        
+<!--
+from advanced
+        toc_unstem_search^10
+        toc_search                     vern_toc_search
+        context_unstem_search^10
+        context_search                 vern_context_search
+        summary_unstem_search^10
+        summary_search                 vern_summary_search
+-->
         toc_unstem_search^120
         toc_search^100                 vern_toc_search^100
-        author_8xx_search^50           vern_author_8xx_search^50
-        series_exact_search^50
-        series_unstem_search^40
-        series_search^30               vern_series_search^30
-        topic_subx_unstem_search^29
-        geographic_subz_unstem_search^29
-        subject_other_subvy_unstem_search^29
-        subject_all_unstem_search^29
-        topic_subx_search^25           vern_topic_subx_search^25
-        geographic_subz_search^25      vern_geographic_subz_search^25
-        subject_other_subvy_search^25  vern_subject_other_subvy_search^25
-        subject_all_search^10          vern_subject_all_search^10
-        db_az_subject_search
+        
+<!--
+from advanced
+        pub_search                     vern_pub_search
+        pub_country
+        pub_date_search
+-->
         pub_date_search^10
-        all_unstem_search^5
         isbn_search^2
         issn_search^2
-        physical                       vern_physical
-        award_search
         id
         oclc
         barcode_search
+        physical                       vern_physical
+        award_search
         collection_search
+        all_unstem_search^5
         all_search
       </str>
       <str name="pf"> <!-- (phrase boost in result set) -->
