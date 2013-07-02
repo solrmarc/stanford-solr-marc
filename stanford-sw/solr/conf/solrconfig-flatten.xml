@@ -219,7 +219,7 @@
       <str name="q.op">AND</str>
 
       <str name="qf">
-<!--
+<!-- orig
         title_245a_exact_search^200000
         title_245a_unstem_search^100000
         title_245a_search^75000        vern_title_245a_search^75000
@@ -231,7 +231,6 @@
         title_variant_search^2000      vern_title_variant_search^2000
         title_related_unstem_search^1750
         title_related_search^1250      vern_title_related_search^1250
-
         series_exact_search^50
         series_unstem_search^40
         series_search^30               vern_series_search^30
@@ -251,14 +250,12 @@
         series_unstem_search^2
         series_search                  vern_series_search
         
-<!--
+<!-- orig
         author_1xx_unstem_search^700
         author_7xx_unstem_search^700
         author_8xx_unstem_search^700
         author_1xx_search^500          vern_author_1xx_search^500
-
         author_7xx_search^125          vern_author_7xx_search^125
-
         author_8xx_search^50           vern_author_8xx_search^50
 -->
         author_1xx_unstem_search^20
@@ -268,15 +265,13 @@
         author_8xx_unstem_search^2
         author_8xx_search               vern_author_8xx_search
         
-<!--
+<!-- orig
         topic_unstem_search^1200
         topic_search^1000              vern_topic_search^1000
         geographic_unstem_search^900
         geographic_search^750          vern_geographic_search^750
-
         subject_other_unstem_search^650
         subject_other_search^500       vern_subject_other_search^500
-
 				topic_subx_unstem_search^29
 				topic_subx_search^25           vern_topic_subx_search^25
         geographic_subz_unstem_search^29
@@ -303,8 +298,7 @@
         subject_all_search             vern_subject_all_search
         db_az_subject_search
         
-<!--
-from advanced
+<!-- from advanced
         toc_unstem_search^10
         toc_search                     vern_toc_search
         context_unstem_search^10
@@ -315,8 +309,7 @@ from advanced
         toc_unstem_search^120
         toc_search^100                 vern_toc_search^100
         
-<!--
-from advanced
+<!--  from advanced
         pub_search                     vern_pub_search
         pub_country
         pub_date_search
