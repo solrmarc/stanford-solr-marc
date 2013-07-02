@@ -231,6 +231,7 @@
         title_variant_search^2000      vern_title_variant_search^2000
         title_related_unstem_search^1750
         title_related_search^1250      vern_title_related_search^1250
+
         series_exact_search^50
         series_unstem_search^40
         series_search^30               vern_series_search^30
@@ -243,12 +244,12 @@
         title_uniform_unstem_search^50
         title_uniform_search^20        vern_title_uniform_search^20
         title_variant_unstem_search^20
-        title_variant_search^10        vern_title_variant_search^10
-        title_related_unstem_search^10
-        title_related_search^5         vern_title_related_search^5
-        series_exact_search^5
-        series_unstem_search^2
-        series_search                  vern_series_search
+        title_variant_search^15        vern_title_variant_search^15
+        title_related_unstem_search^15
+        title_related_search^10        vern_title_related_search^10
+        series_exact_search^10
+        series_unstem_search^5
+        series_search^2                vern_series_search^2
         
 <!-- orig
         author_1xx_unstem_search^700
@@ -258,12 +259,12 @@
         author_7xx_search^125          vern_author_7xx_search^125
         author_8xx_search^50           vern_author_8xx_search^50
 -->
-        author_1xx_unstem_search^20
-        author_1xx_search^5             vern_author_1xx_search^5
-        author_7xx_unstem_search^10
-        author_7xx_search^2             vern_author_7xx_search^2
-        author_8xx_unstem_search^2
-        author_8xx_search               vern_author_8xx_search
+        author_1xx_unstem_search^25
+        author_1xx_search^20            vern_author_1xx_search^20
+        author_7xx_unstem_search^20
+        author_7xx_search^10            vern_author_7xx_search^10
+        author_8xx_unstem_search^10
+        author_8xx_search^5             vern_author_8xx_search^5
         
 <!-- orig
         topic_unstem_search^1200
@@ -272,6 +273,7 @@
         geographic_search^750          vern_geographic_search^750
         subject_other_unstem_search^650
         subject_other_search^500       vern_subject_other_search^500
+
 				topic_subx_unstem_search^29
 				topic_subx_search^25           vern_topic_subx_search^25
         geographic_subz_unstem_search^29
@@ -288,15 +290,15 @@
         geographic_search^10           vern_geographic_search^10
         subject_other_unstem_search^10
         subject_other_search^5         vern_subject_other_search^5
-        topic_subx_unstem_search^2
-        topic_subx_search              vern_topic_subx_search
-        geographic_subz_unstem_search^2
-        geographic_subz_search         vern_geographic_subz_search
-        subject_other_subvy_unstem_search^2
-        subject_other_subvy_search     vern_subject_other_subvy_search
-        subject_all_unstem_search^2
-        subject_all_search             vern_subject_all_search
-        db_az_subject_search
+        db_az_subject_search^5
+        topic_subx_unstem_search^5
+        topic_subx_search^2            vern_topic_subx_search^2
+        geographic_subz_unstem_search^5
+        geographic_subz_search^2       vern_geographic_subz_search^2
+        subject_other_subvy_unstem_search^5
+        subject_other_subvy_search^2   vern_subject_other_subvy_search^2
+        subject_all_unstem_search^5
+        subject_all_search^2           vern_subject_all_search^2
         
 <!-- from advanced
         toc_unstem_search^10
@@ -305,18 +307,21 @@
         context_search                 vern_context_search
         summary_unstem_search^10
         summary_search                 vern_summary_search
--->
+orig 
         toc_unstem_search^120
         toc_search^100                 vern_toc_search^100
+-->
+        toc_unstem_search^5
+        toc_search^2                   vern_toc_search^2
         
 <!--  from advanced
         pub_search                     vern_pub_search
         pub_country
         pub_date_search
 -->
-        pub_date_search^10
-        isbn_search^2
-        issn_search^2
+        pub_date_search^2
+        isbn_search^1.5
+        issn_search^1.5
         id
         oclc
         barcode_search
@@ -767,12 +772,12 @@
         pub_date_search
       </str>
       <str name="pf_pub_info">
-        pub_search^10                  vern_pub_search^10
-        pub_country^10
-        pub_date_search^10
+        pub_search^5                   vern_pub_search^5
+        pub_country^5
+        pub_date_search^5
       </str>
-      <str name="pf_pub_info3">pub_search^5 vern_pub_search^5</str>
-      <str name="pf_pub_info2">pub_search^2 vern_pub_search^5</str>
+      <str name="pf_pub_info3">pub_search^3 vern_pub_search^3</str>
+      <str name="pf_pub_info2">pub_search^2 vern_pub_search^2</str>
 
       <!-- for user query terms in number text box -->
       <str name="qf_number">
@@ -797,17 +802,17 @@
         summary_search                 vern_summary_search
       </str>
       <str name="pf_summary">
-        toc_unstem_search^100
-        toc_search^20                  vern_toc_search^20
-        context_unstem_search^100
-        context_search^20              vern_context_search^20
-        summary_unstem_search^100
-        summary_search^20              vern_summary_search^20
+        toc_unstem_search^20
+        toc_search^5                   vern_toc_search^5
+        context_unstem_search^20
+        context_search^5               vern_context_search^5
+        summary_unstem_search^20
+        summary_search^5               vern_summary_search^5
       </str>
       <str name="pf_summary3">
-        toc_search^5                   vern_toc_search^5
-        context_search^5               vern_context_search^5
-        summary_search^5               vern_summary_search^5
+        toc_search^3                   vern_toc_search^3
+        context_search^3               vern_context_search^3
+        summary_search^3               vern_summary_search^3
       </str>
       <str name="pf_summary2">
         toc_search^2                   vern_toc_search^2
@@ -817,8 +822,8 @@
 
       <!-- for user query terms in description text box -->
       <str name="qf_description">all_unstem_search^10 all_search</str>
-      <str name="pf_description">all_unstem_search^20 all_search^10</str>
-      <str name="pf_description3">all_search^5</str>
+      <str name="pf_description">all_unstem_search^20 all_search^5</str>
+      <str name="pf_description3">all_search^3</str>
       <str name="pf_description2">all_search^2</str>
 
       <bool name="facet">true</bool>
