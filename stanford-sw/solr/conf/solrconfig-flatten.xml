@@ -236,7 +236,7 @@
         series_unstem_search^40
         series_search^30               vern_series_search^30
 -->
-        title_245a_exact_search^350
+        title_245a_exact_search^500
         title_245a_unstem_search^100
         title_245a_search^75           vern_title_245a_search^75
         title_245_unstem_search^75
@@ -320,7 +320,7 @@
         all_search
       </str>
       <str name="pf"> <!-- (phrase boost in result set) -->
-        title_245a_exact_search^1750
+        title_245a_exact_search^2500
         title_245a_unstem_search^500
         title_245a_search^375          vern_title_245a_search^375
         title_245_unstem_search^375
@@ -373,7 +373,7 @@
         all_search^5
       </str>
       <str name="pf3">  <!-- (token trigrams boost) -->
-        title_245a_search^450          vern_title_245a_search^450
+        title_245a_search^900         vern_title_245a_search^900
         title_245_search^225           vern_title_245_search^225
         title_uniform_search^150       vern_title_uniform_search^150
 		    title_variant_search^60        vern_title_variant_search^60
@@ -401,7 +401,7 @@
         all_search^3
       </str>
       <str name="pf2"> <!--(token bigrams boost) -->
-        title_245a_search^300          vern_title_245a_search^300
+        title_245a_search^600          vern_title_245a_search^600
         title_245_search^150           vern_title_245_search^150
         title_uniform_search^100       vern_title_uniform_search^100
         title_variant_search^40        vern_title_variant_search^40
