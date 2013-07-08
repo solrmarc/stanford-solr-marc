@@ -236,7 +236,7 @@
         series_unstem_search^40
         series_search^30               vern_series_search^30
 -->
-        title_245a_exact_search^750
+        title_245a_exact_search^1000
         title_245a_unstem_search^500
         title_245a_search^75           vern_title_245a_search^75
         title_245_unstem_search^75
@@ -320,7 +320,7 @@
         all_search
       </str>
       <str name="pf"> <!-- (phrase boost in result set) -->
-        title_245a_exact_search^3750
+        title_245a_exact_search^5000
         title_245a_unstem_search^2500
         title_245a_search^375          vern_title_245a_search^375
         title_245_unstem_search^375
