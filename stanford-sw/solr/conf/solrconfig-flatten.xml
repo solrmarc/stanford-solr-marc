@@ -250,40 +250,14 @@
         series_exact_search^10
         series_unstem_search^5
         series_search^2                vern_series_search^2
-        
-<!-- orig
-        author_1xx_unstem_search^700
-        author_7xx_unstem_search^700
-        author_8xx_unstem_search^700
-        author_1xx_search^500          vern_author_1xx_search^500
-        author_7xx_search^125          vern_author_7xx_search^125
-        author_8xx_search^50           vern_author_8xx_search^50
--->
+
         author_1xx_unstem_search^25
         author_1xx_search^20            vern_author_1xx_search^20
         author_7xx_unstem_search^20
         author_7xx_search^10            vern_author_7xx_search^10
         author_8xx_unstem_search^10
         author_8xx_search^5             vern_author_8xx_search^5
-        
-<!-- orig
-        topic_unstem_search^1200
-        topic_search^1000              vern_topic_search^1000
-        geographic_unstem_search^900
-        geographic_search^750          vern_geographic_search^750
-        subject_other_unstem_search^650
-        subject_other_search^500       vern_subject_other_search^500
 
-				topic_subx_unstem_search^29
-				topic_subx_search^25           vern_topic_subx_search^25
-        geographic_subz_unstem_search^29
-				geographic_subz_search^25      vern_geographic_subz_search^25
-        subject_other_subvy_unstem_search^29
-				subject_other_subvy_search^25  vern_subject_other_subvy_search^25
-        subject_all_unstem_search^29
-				subject_all_search^10          vern_subject_all_search^10
-				db_az_subject_search
--->
         topic_unstem_search^50
         topic_search^20                vern_topic_search^20
         geographic_unstem_search^20
@@ -320,7 +294,7 @@
         all_search
       </str>
       <str name="pf"> <!-- (phrase boost in result set) -->
-        title_245a_exact_search^5000
+        title_245a_exact_search^10000
         title_245a_unstem_search^2500
         title_245a_search^375          vern_title_245a_search^375
         title_245_unstem_search^375
