@@ -149,22 +149,25 @@ public class DateUtils
 	}
 
 	private static Pattern ddddPattern = Pattern.compile("^\\d{4}$");
-	private static Pattern ddduPattern = Pattern.compile("^\\d{3}u$");
-	private static Pattern dduuPattern = Pattern.compile("^\\d{2}uu$");
-	private static Pattern duuuPattern = Pattern.compile("^\\duuu$");
+	private static Pattern ddduPattern = Pattern.compile("^\\d{3}[u-]$");
+	private static Pattern dduuPattern = Pattern.compile("^\\d{2}[u-]{2}$");
+	private static Pattern duuuPattern = Pattern.compile("^\\d[u-]{3}$");
 
 	public static boolean isdddd(String str) {
 		return ddddPattern.matcher(str).matches();
 	}
 
+	/** true if dddu or ddd- */
 	public static boolean isdddu(String str) {
 		return ddduPattern.matcher(str).matches();
 	}
 
+	/** true if dduu or dd-- */
 	public static boolean isdduu(String str) {
 		return dduuPattern.matcher(str).matches();
 	}
 
+	/** true if duuu or d--- */
 	public static boolean isduuu(String str) {
 		return duuuPattern.matcher(str).matches();
 	}
