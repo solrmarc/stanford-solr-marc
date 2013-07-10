@@ -93,4 +93,108 @@ public class DateUtilsTests
 		assertNull(getYearFromString("20000 BC."));
 		assertNull(getYearFromString("20000 B.C."));
 	}
+
+
+	/**
+	 * unit test for org.solrmarc.tools.DateUtils.getCenturyString
+	 */
+@Test
+	public void testGetCenturyString()
+	{
+		assertEquals("1st century", getCenturyString("00"));
+		assertEquals("2nd century", getCenturyString("01"));
+		assertEquals("3rd century", getCenturyString("02"));
+		assertEquals("4th century", getCenturyString("03"));
+		assertEquals("5th century", getCenturyString("04"));
+		assertEquals("6th century", getCenturyString("05"));
+		assertEquals("7th century", getCenturyString("06"));
+		assertEquals("8th century", getCenturyString("07"));
+		assertEquals("9th century", getCenturyString("08"));
+		assertEquals("10th century", getCenturyString("09"));
+		assertEquals("11th century", getCenturyString("10"));
+		assertEquals("12th century", getCenturyString("11"));
+		assertEquals("13th century", getCenturyString("12"));
+		assertEquals("14th century", getCenturyString("13"));
+		assertEquals("15th century", getCenturyString("14"));
+		assertEquals("16th century", getCenturyString("15"));
+		assertEquals("17th century", getCenturyString("16"));
+		assertEquals("18th century", getCenturyString("17"));
+		assertEquals("19th century", getCenturyString("18"));
+		assertEquals("20th century", getCenturyString("19"));
+		assertEquals("21st century", getCenturyString("20"));
+	}
+
+
+	/**
+	 * unit test for org.solrmarc.tools.DateUtils.getNumberSuffix
+	 */
+@Test
+	public void testGetNumberSuffix()
+	{
+		assertEquals("st", getNumberSuffix("01"));
+		assertEquals("st", getNumberSuffix("1"));
+		assertEquals("nd", getNumberSuffix("02"));
+		assertEquals("nd", getNumberSuffix("2"));
+		assertEquals("rd", getNumberSuffix("03"));
+		assertEquals("rd", getNumberSuffix("3"));
+		assertEquals("th", getNumberSuffix("04"));
+		assertEquals("th", getNumberSuffix("4"));
+		assertEquals("th", getNumberSuffix("10"));
+		assertEquals("th", getNumberSuffix("11"));
+		assertEquals("th", getNumberSuffix("19"));
+		assertEquals("th", getNumberSuffix("20"));
+		assertEquals("st", getNumberSuffix("21"));
+		assertEquals("nd", getNumberSuffix("22"));
+		assertEquals("rd", getNumberSuffix("23"));
+		assertEquals("th", getNumberSuffix("24"));
+	}
+
+
+	/**
+	 * unit test for org.solrmarc.tools.DateUtils.isdddd
+	 */
+@Test
+	public void testIsdddd()
+	{
+		assertTrue("Unexpectedly got false from isdddd for 1234", isdddd("1234"));
+		assertFalse("Unexpectedly got true from isdddd for 123u", isdddd("123u"));
+		assertFalse("Unexpectedly got true from isdddd for 12uu", isdddd("12uu"));
+		assertFalse("Unexpectedly got true from isdddd for 1uuu", isdddd("1uuu"));
+	}
+
+	/**
+	 * unit test for org.solrmarc.tools.DateUtils.isdddu
+	 */
+@Test
+	public void testIsdddu()
+	{
+		assertFalse("Unexpectedly got true from isdddu for 1234", isdddu("1234"));
+		assertTrue("Unexpectedly got false from isdddu for 123u", isdddu("123u"));
+		assertFalse("Unexpectedly got true from isdddu for 12uu", isdddu("12uu"));
+		assertFalse("Unexpectedly got true from isdddu for 1uuu", isdddu("1uuu"));
+	}
+
+	/**
+	 * unit test for org.solrmarc.tools.DateUtils.isdduu
+	 */
+@Test
+	public void testIsdduu()
+	{
+		assertFalse("Unexpectedly got true from isdduu for 1234", isdduu("1234"));
+		assertFalse("Unexpectedly got true from isdduu for 123u", isdduu("123u"));
+		assertTrue("Unexpectedly got false from isdduu for 12uu", isdduu("12uu"));
+		assertFalse("Unexpectedly got true from isdduu for 1uuu", isdduu("1uuu"));
+	}
+
+	/**
+	 * unit test for org.solrmarc.tools.DateUtils.isduuu
+	 */
+@Test
+	public void testIsduuu()
+	{
+		assertFalse("Unexpectedly got true from isduuu for 1234", isduuu("1234"));
+		assertFalse("Unexpectedly got true from isduuu for 123u", isduuu("123u"));
+		assertFalse("Unexpectedly got true from isduuu for 12uu", isduuu("12uu"));
+		assertTrue("Unexpectedly got false from isduuu for 1uuu", isduuu("1uuu"));
+	}
 }
