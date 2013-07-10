@@ -112,4 +112,61 @@ public class DateUtils
 		return totalTime / 60000 + ":" + timeFormat.format((totalTime % 60000) / 1000);
 	}
 
+
+	/**
+     * given a string containing two digits representing the year, return
+     *  the century in a string, including "century":
+     *    00 --> 1st century   11 --> 12th century   etc.
+	 */
+	public static String getCenturyString(String yearDigits)
+	{
+		int centuryYearInt = Integer.parseInt(yearDigits) + 1;
+		String centuryYearStr = String.valueOf(centuryYearInt);
+		return centuryYearStr + getNumberSuffix(centuryYearStr) + " century";
+	}
+
+	/**
+	 * given a positive number, return the correct adjective suffix for that number
+	 *   e.g.:  1 -->  "st"  3 --> "rd"  11 --> "th" 22 --> "nd"
+	 */
+	public static String getNumberSuffix(String numberStr)
+	{
+		int len = numberStr.length();
+		// teens are a special case
+		if (len == 2 && numberStr.charAt(0) == '1')
+			return ("th");
+
+		switch (numberStr.charAt(len - 1)) {
+		case '1':
+			return ("st");
+		case '2':
+			return ("nd");
+		case '3':
+			return ("rd");
+		default:
+			return ("th");
+		}
+	}
+
+	private static Pattern ddddPattern = Pattern.compile("^\\d{4}$");
+	private static Pattern ddduPattern = Pattern.compile("^\\d{3}u$");
+	private static Pattern dduuPattern = Pattern.compile("^\\d{2}uu$");
+	private static Pattern duuuPattern = Pattern.compile("^\\duuu$");
+
+	public static boolean isdddd(String str) {
+		return ddddPattern.matcher(str).matches();
+	}
+
+	public static boolean isdddu(String str) {
+		return ddduPattern.matcher(str).matches();
+	}
+
+	public static boolean isdduu(String str) {
+		return dduuPattern.matcher(str).matches();
+	}
+
+	public static boolean isduuu(String str) {
+		return duuuPattern.matcher(str).matches();
+	}
+
 }

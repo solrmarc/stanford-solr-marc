@@ -90,24 +90,24 @@ public class PublicationUtils {
 	{
 		if (date008 != null) {
 			String errmsg = "Bad Publication Date in record " + id + " from 008/07-10: " + date008;
-			if (PublicationUtils.isdddd(date008)) {
-				String result = PublicationUtils.getValidPubDateStr(date008, date260c, df264list);
+			if (DateUtils.isdddd(date008)) {
+				String result = getValidPubDateStr(date008, date260c, df264list);
 				if (result != null)
 					return result;
 				else
 					logger.error(errmsg);
-			} else if (PublicationUtils.isdddu(date008)) {
+			} else if (DateUtils.isdddu(date008)) {
 				int myFirst3 = Integer.parseInt(date008.substring(0, 3));
 				int currFirst3 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 3));
 				if (myFirst3 <= currFirst3)
 					return date008.substring(0, 3) + "0s";
 				else
 					logger.error(errmsg);
-			} else if (PublicationUtils.isdduu(date008)) {
+			} else if (DateUtils.isdduu(date008)) {
 				int myFirst2 = Integer.parseInt(date008.substring(0, 2));
 				int currFirst2 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 2));
 				if (myFirst2 <= currFirst2)
-					return PublicationUtils.getCenturyString(date008.substring(0, 2));
+					return DateUtils.getCenturyString(date008.substring(0, 2));
 				else
 					logger.error(errmsg);
 			}
@@ -134,14 +134,14 @@ public class PublicationUtils {
 		if (date008 != null) {
 			// hyphens sort before 0, so the lexical sorting will be correct. I
 			// think.
-			if (PublicationUtils.isdddd(date008))
-				return PublicationUtils.getValidPubDateStr(date008, date260c, df264list);
-			else if (PublicationUtils.isdddu(date008)) {
+			if (DateUtils.isdddd(date008))
+				return getValidPubDateStr(date008, date260c, df264list);
+			else if (DateUtils.isdddu(date008)) {
 				int myFirst3 = Integer.parseInt(date008.substring(0, 3));
 				int currFirst3 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 3));
 				if (myFirst3 <= currFirst3)
 					return date008.substring(0, 3) + "-";
-			} else if (PublicationUtils.isdduu(date008)) {
+			} else if (DateUtils.isdduu(date008)) {
 				int myFirst2 = Integer.parseInt(date008.substring(0, 2));
 				int currFirst2 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 2));
 				if (myFirst2 <= currFirst2)
@@ -172,10 +172,10 @@ public class PublicationUtils {
 			String date1Str = get3or4DigitYear(rawDate1, "0");
 			if (date1Str != null)
 			{
-				String result = PublicationUtils.getValidPubDateStr(date1Str, date260c, df264list);
+				String result = getValidPubDateStr(date1Str, date260c, df264list);
 				if (result != null)
 					return result;
-			} else if (PublicationUtils.isdduu(rawDate1)) {
+			} else if (DateUtils.isdduu(rawDate1)) {
 				int myFirst2 = Integer.parseInt(rawDate1.substring(0, 2));
 				int currFirst2 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 2));
 				if (myFirst2 <= currFirst2)
@@ -376,7 +376,7 @@ public class PublicationUtils {
 
 		// get the pub date, with decimals assigned for inclusion in ranges
 		if (date008 != null) {
-			if (isdddd(date008)) // exact year
+			if (DateUtils.isdddd(date008)) // exact year
 			{
 				String myDate = getValidPubDateStr(date008, date260c, df264list);
 				if (myDate != null) {
@@ -389,7 +389,7 @@ public class PublicationUtils {
 					resultSet.addAll(getPubDateGroupsForYear(year));
 				}
 			}
-			else if (isdddu(date008)) // decade
+			else if (DateUtils.isdddu(date008)) // decade
 			{
 				String first3Str = date008.substring(0, 3);
 				int first3int = Integer.parseInt(first3Str);
@@ -426,7 +426,7 @@ public class PublicationUtils {
 
 				}
 			}
-			else if (isdduu(date008)) { // century
+			else if (DateUtils.isdduu(date008)) { // century
 				String first2Str = date008.substring(0, 2);
 				int first2int = Integer.parseInt(first2Str);
 				int currFirst2 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 2));
@@ -473,21 +473,21 @@ public class PublicationUtils {
 	private static String getValidPubYearStrOrNull(String dateFrom008, String date260c, List<DataField> df264list)
 	{
 		String resultStr = null;
-		if (PublicationUtils.isdddd(dateFrom008))
-			return PublicationUtils.getValidPubDateStr(dateFrom008, date260c, df264list);
-		else if (PublicationUtils.isdddu(dateFrom008)) {
+		if (DateUtils.isdddd(dateFrom008))
+			return getValidPubDateStr(dateFrom008, date260c, df264list);
+		else if (DateUtils.isdddu(dateFrom008)) {
 			int myFirst3 = Integer.parseInt(dateFrom008.substring(0, 3));
 			int currFirst3 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 3));
 			if (myFirst3 <= currFirst3)
 				resultStr = dateFrom008.substring(0, 3) + "0";
-		} else if (PublicationUtils.isdduu(dateFrom008)) {
+		} else if (DateUtils.isdduu(dateFrom008)) {
 			int myFirst2 = Integer.parseInt(dateFrom008.substring(0, 2));
 			int currFirst2 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 2));
 			if (myFirst2 <= currFirst2)
 				resultStr = dateFrom008.substring(0, 2) + "00";
 		} else {
 			// last ditch try from 264 and 260c
-			String validDate = PublicationUtils.getValidPubDateStr("-1", date260c, df264list);
+			String validDate = getValidPubDateStr("-1", date260c, df264list);
 			if (validDate != null)
 				return validDate;
 		}
@@ -508,14 +508,14 @@ public class PublicationUtils {
 	private static String getValidPubYearStrOrNull(String dateStr)
 	{
 		String resultStr = null;
-		if (PublicationUtils.isdddd(dateStr))
+		if (DateUtils.isdddd(dateStr))
 			resultStr = dateStr;
-		else if (PublicationUtils.isdddu(dateStr)) {
+		else if (DateUtils.isdddu(dateStr)) {
 			int myFirst3 = Integer.parseInt(dateStr.substring(0, 3));
 			int currFirst3 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 3));
 			if (myFirst3 <= currFirst3)
 				resultStr = dateStr.substring(0, 3) + "0";
-		} else if (PublicationUtils.isdduu(dateStr)) {
+		} else if (DateUtils.isdduu(dateStr)) {
 			int myFirst2 = Integer.parseInt(dateStr.substring(0, 2));
 			int currFirst2 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 2));
 			if (myFirst2 <= currFirst2)
@@ -554,9 +554,9 @@ public class PublicationUtils {
 	static String get3or4DigitYear(String yearFrom008, String toReplaceU)
 	{
 		String resultStr = null;
-		if (PublicationUtils.isdddd(yearFrom008) && !yearFrom008.equals("9999"))
+		if (DateUtils.isdddd(yearFrom008) && !yearFrom008.equals("9999"))
 			resultStr = yearFrom008;
-		else if (PublicationUtils.isdddu(yearFrom008)) {
+		else if (DateUtils.isdddu(yearFrom008)) {
 			int myFirst3 = Integer.parseInt(yearFrom008.substring(0, 3));
 			int currFirst3 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 3));
 			if (myFirst3 <= currFirst3)
@@ -668,61 +668,4 @@ public class PublicationUtils {
 			resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
 		return resultSet;
 	}
-
-	/**
-     * given a string containing two digits representing the year, return
-     *  the century in a sting, including "century":
-     *    00 --> 1st century   11 --> 12th century   etc.
-	 */
-	static String getCenturyString(String yearDigits)
-	{
-		int centuryYearInt = Integer.parseInt(yearDigits) + 1;
-		String centuryYearStr = String.valueOf(centuryYearInt);
-		return centuryYearStr + getNumberSuffix(centuryYearStr) + " century";
-	}
-
-	/**
-	 * given a positive number, return the correct adjective suffix for that number
-	 *   e.g.:  1 -->  "st"  3 --> "rd"  11 --> "th" 22 --> "nd"
-	 */
-	static String getNumberSuffix(String numberStr)
-	{
-		int len = numberStr.length();
-		// teens are a special case
-		if (len == 2 && numberStr.charAt(0) == '1')
-			return ("th");
-
-		switch (numberStr.charAt(len - 1)) {
-		case '1':
-			return ("st");
-		case '2':
-			return ("nd");
-		case '3':
-			return ("rd");
-		default:
-			return ("th");
-		}
-	}
-
-	private static Pattern ddddPattern = Pattern.compile("^\\d{4}$");
-	private static Pattern ddduPattern = Pattern.compile("^\\d{3}u$");
-	private static Pattern dduuPattern = Pattern.compile("^\\d{2}uu$");
-	private static Pattern duuuPattern = Pattern.compile("^\\duuu$");
-
-	static boolean isdddd(String str) {
-		return ddddPattern.matcher(str).matches();
-	}
-
-	static boolean isdddu(String str) {
-		return ddduPattern.matcher(str).matches();
-	}
-
-	static boolean isdduu(String str) {
-		return dduuPattern.matcher(str).matches();
-	}
-
-	static boolean isduuu(String str) {
-		return duuuPattern.matcher(str).matches();
-	}
-
 }
