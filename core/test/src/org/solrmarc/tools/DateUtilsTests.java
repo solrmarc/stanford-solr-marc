@@ -160,6 +160,9 @@ public class DateUtilsTests
 		assertFalse("Unexpectedly got true from isdddd for 123u", isdddd("123u"));
 		assertFalse("Unexpectedly got true from isdddd for 12uu", isdddd("12uu"));
 		assertFalse("Unexpectedly got true from isdddd for 1uuu", isdddd("1uuu"));
+		assertFalse("Unexpectedly got true from isdddd for 123-", isdddd("123-"));
+		assertFalse("Unexpectedly got true from isdddd for 12--", isdddd("12--"));
+		assertFalse("Unexpectedly got true from isdddd for 1---", isdddd("1---"));
 	}
 
 	/**
@@ -172,6 +175,9 @@ public class DateUtilsTests
 		assertTrue("Unexpectedly got false from isdddu for 123u", isdddu("123u"));
 		assertFalse("Unexpectedly got true from isdddu for 12uu", isdddu("12uu"));
 		assertFalse("Unexpectedly got true from isdddu for 1uuu", isdddu("1uuu"));
+		assertTrue("Unexpectedly got false from isdddu for 123-", isdddu("123-"));
+		assertFalse("Unexpectedly got true from isdddu for 12--", isdddu("12--"));
+		assertFalse("Unexpectedly got true from isdddu for 1---", isdddu("1---"));
 	}
 
 	/**
@@ -184,6 +190,9 @@ public class DateUtilsTests
 		assertFalse("Unexpectedly got true from isdduu for 123u", isdduu("123u"));
 		assertTrue("Unexpectedly got false from isdduu for 12uu", isdduu("12uu"));
 		assertFalse("Unexpectedly got true from isdduu for 1uuu", isdduu("1uuu"));
+		assertFalse("Unexpectedly got true from isdduu for 123-", isdduu("123-"));
+		assertTrue("Unexpectedly got false from isdduu for 12--", isdduu("12--"));
+		assertFalse("Unexpectedly got true from isdduu for 1---", isdduu("1---"));
 	}
 
 	/**
@@ -196,5 +205,8 @@ public class DateUtilsTests
 		assertFalse("Unexpectedly got true from isduuu for 123u", isduuu("123u"));
 		assertFalse("Unexpectedly got true from isduuu for 12uu", isduuu("12uu"));
 		assertTrue("Unexpectedly got false from isduuu for 1uuu", isduuu("1uuu"));
+		assertFalse("Unexpectedly got true from isduuu for 123-", isduuu("123-"));
+		assertFalse("Unexpectedly got true from isduuu for 12--", isduuu("12--"));
+		assertTrue("Unexpectedly got false from isduuu for 1---", isduuu("1---"));
 	}
 }
