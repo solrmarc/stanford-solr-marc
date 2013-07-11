@@ -296,7 +296,10 @@ public class PublicationUtils {
 				case 'n':
 				case '|':
 				default:
-					// no dates from 008
+					// we'll take date1 if it's valid, even if the 008 is bad
+					// NOTE:  error message is logged in getOtherYear method
+					if (date1Str != null)
+						results.add(date1Str);
 					break;
 			} // end switch
 		} // end if 008
