@@ -664,6 +664,46 @@ public class PublicationTests extends AbstractStanfordTest
 	}
 
 	/**
+	 * functional test: assure year_isi field ignores dates with too many u
+	 *   and logs error messages for bad match with 008 byte 6 val
+	 */
+@Test
+	public void test008OtherYear()
+	{
+		String solrFldName = "other_year_isi";
+		assert008DateVal('b', "1943", "    ", solrFldName, "1943");
+		assert008DateVal('b', "194u", "    ", solrFldName, "1940");
+		assert008DateVal('b', "19uu", "    ", solrFldName, null);
+		assert008DateVal('b', "    ", "    ", solrFldName, null);
+		assert008DateVal('n', "1943", "    ", solrFldName, "1943");
+		assert008DateVal('n', "194u", "    ", solrFldName, "1940");
+		assert008DateVal('n', "19uu", "    ", solrFldName, null);
+		assert008DateVal('n', "||||", "    ", solrFldName, null);
+		assert008DateVal('|', "1943", "    ", solrFldName, "1943");
+		assert008DateVal('|', "194u", "    ", solrFldName, "1940");
+		assert008DateVal('|', "19uu", "    ", solrFldName, null);
+		assert008DateVal('|', "||||", "    ", solrFldName, null);
+		assert008DateVal('$', "1943", "    ", solrFldName, "1943");
+		assert008DateVal('$', "194u", "    ", solrFldName, "1940");
+		assert008DateVal('$', "19uu", "    ", solrFldName, null);
+		assert008DateVal('$', "||||", "    ", solrFldName, null);
+
+		// none of the following should have a field value
+		assert008DateVal('c', "1943", "9999", solrFldName, null);
+		assert008DateVal('d', "1943", "2007", solrFldName, null);
+		assert008DateVal('e', "1943", "2007", solrFldName, null);
+		assert008DateVal('i', "1943", "2007", solrFldName, null);
+		assert008DateVal('k', "1943", "2007", solrFldName, null);
+		assert008DateVal('m', "1943", "2007", solrFldName, null);
+		assert008DateVal('p', "1943", "2007", solrFldName, null);
+		assert008DateVal('q', "1943", "2007", solrFldName, null);
+		assert008DateVal('r', "1943", "2007", solrFldName, null);
+		assert008DateVal('s', "1943", "2007", solrFldName, null);
+		assert008DateVal('u', "1943", "2007", solrFldName, null);
+	}
+
+
+	/**
 	 * integration test: assure pub dates later than current year +1 are ignored
 	 */
 @Test
@@ -774,7 +814,7 @@ public class PublicationTests extends AbstractStanfordTest
 	/**
 	 * functional test:  imprint_year_isim from 260c - easy to parse
 	 */
-@Test
+//@Test
 	public void testImprintYearEasy()
 	{
 		String solrFldName = "imprint_year_isim";
