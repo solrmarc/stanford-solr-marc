@@ -51,6 +51,20 @@ public class LoggerAppender4Testing extends AppenderSkeleton {
 
     /**
      * look through all the log messages for the expected string.
+     * @param expected  we are looking to ensure log does NOT contain this string
+     */
+    public void assertLogDoesNotContain(String expected)
+    {
+    	for (LoggingEvent logEvent : logEventList)
+    	{
+    		String actual = logEvent.getRenderedMessage();
+    		if (actual.contains(expected))
+    	    	fail("Log contained expected string: " + expected);
+    	}
+    }
+
+    /**
+     * look through all the log messages for the expected string.
      * @param expLevel the expected level of the log message containing the string
      * @param expStr  we are looking for a log message that contains this string
      */
