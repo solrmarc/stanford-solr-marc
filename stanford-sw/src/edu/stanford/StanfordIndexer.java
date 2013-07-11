@@ -950,10 +950,31 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     }
 
     /**
+     * gets a value from 008 bytes 11-14 if 008 date1 wasn't already
+     * assigned to one of other fields:
+     *   publication_year_isi = custom, get008Date1(est)
+	 *   beginning_year_isi = custom, get008Date1(cdmu)
+	 *   earliest_year_isi = custom, get008Date1(ik)
+	 *   earliest_poss_year_isi = custom, get008Date1(q)
+	 *   release_year_isi = custom, get008Date1(p)
+	 *   reprint_year_isi = custom, get008Date1(r)
+	 *   production_year_isi = custom, get008Date2(p)
+	 *   original_year_isi = custom, get008Date2(r)
+	 *   copyright_year_isi = custom, get008Date2(t)
+	 * if no usable value (dddd or dddu) from 008 date 1, look in 260c
+	 * for usable value
+	**/
+    public String getOtherYear(final Record record)
+    {
+    	return PublicationUtils.getOtherYear(cf008, id, logger);
+    }
+
+    /**
      * returns the imprint year from a record's 260c, if it is present and
      *
      * @param record
      * @return
+     * @deprecated
      */
     public Set<String> getImprintYear(final Record record)
     {
@@ -980,6 +1001,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      * Side Effects:  errors in pub date are logged
 	 * @param record a marc4j Record object
 	 * @return String containing publication date, or null if none
+	 * @deprecated
 	 */
 	public String getPubDate(final Record record)
 	{
@@ -1024,6 +1046,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * @param record a marc4j Record object
 	 * @return Set of Strings containing the publication date groupings
 	 *         associated with the publish date
+	 * @deprecated
 	 */
 	public Set<String> getPubDateGroups(final Record record)
 	{
