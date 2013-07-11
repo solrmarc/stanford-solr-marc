@@ -13,9 +13,12 @@ import static org.junit.Assert.*;
 
 import java.util.*;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.junit.*;
 
 import org.marc4j.marc.*;
+import org.solrmarc.testUtils.LoggerAppender4Testing;
 
 /**
  * unit tests for methods in PublicationUtils
@@ -25,6 +28,73 @@ import org.marc4j.marc.*;
 public class PublicationUtilsUnitTests
 {
 	private MarcFactory factory = MarcFactory.newInstance();
+
+	/**
+	 * unit tests for getOtherYear
+	 */
+@Test
+	public final void tesGetOtherYear()
+	{
+		// byte 6 is different than cdeikmpqrstu
+		// b
+		ControlField cf008 = factory.newControlField("008", "      b1234        ");
+	    assertEquals("getOtherYear should return 4 digit year even if 008 byte 6 is 'b'", "1234", getOtherYear(cf008, "b1234", null));
+		cf008 = factory.newControlField("008", "      b123u        ");
+	    assertEquals("getOtherYear should return 3 digit year even if 008 byte 6 is 'b'", "1230", getOtherYear(cf008, "b123u", null));
+		// n
+		cf008 = factory.newControlField("008", "      n1234        ");
+	    assertEquals("getOtherYear should return 4 digit year even if 008 byte 6 is 'n'", "1234", getOtherYear(cf008, "n1234", null));
+		cf008 = factory.newControlField("008", "      n123u        ");
+	    assertEquals("getOtherYear should return 3 digit year even if 008 byte 6 is 'n'", "1230", getOtherYear(cf008, "n123u", null));
+		// |
+		cf008 = factory.newControlField("008", "      |1234        ");
+	    assertEquals("getOtherYear should return 4 digit year even if 008 byte 6 is '|'", "1234", getOtherYear(cf008, "|1234", null));
+		cf008 = factory.newControlField("008", "      |123u        ");
+	    assertEquals("getOtherYear should return 3 digit year even if 008 byte 6 is '|'", "1230", getOtherYear(cf008, "|123u", null));
+	    // bad code
+		cf008 = factory.newControlField("008", "      -1234        ");
+	    assertEquals("getOtherYear should return 4 digit year even if 008 byte 6 is '-'", "1234", getOtherYear(cf008, "-1234", null));
+		cf008 = factory.newControlField("008", "      -123u        ");
+	    assertEquals("getOtherYear should return 3 digit year even if 008 byte 6 is '-'", "1230", getOtherYear(cf008, "-123u", null));
+
+	    // date1 was assigned to another field
+		cf008 = factory.newControlField("008", "      e1234        ");
+	    assertNull("getOtherYear should not return 4 digit year if there is a valid date1 for byte e", getOtherYear(cf008, "e1234", null));
+		cf008 = factory.newControlField("008", "      e123u        ");
+	    assertNull("getOtherYear should not return 4 digit year if there is a valid date1 for byte e", getOtherYear(cf008, "e123u", null));
+	    // no date1 but date2 ok
+		cf008 = factory.newControlField("008", "      p12uu1234        ");
+	    assertNull("getOtherYear should not return 4 digit year if there is a valid date2 for byte 6 dikmpart", getOtherYear(cf008, "pdate2", null));
+
+	    // date1 too imprecise
+		cf008 = factory.newControlField("008", "      s19uu        ");
+	    assertNull("getOtherYear should not return 2 digit year", getOtherYear(cf008, "s19uu", null));
+		cf008 = factory.newControlField("008", "      s1uuu        ");
+	    assertNull("getOtherYear should not return 2 digit year", getOtherYear(cf008, "s1uuu", null));
+		cf008 = factory.newControlField("008", "      b12uu        ");
+	    assertNull("getOtherYear should not return 2 digit year", getOtherYear(cf008, "b12uu", null));
+		cf008 = factory.newControlField("008", "      b            ");
+	    assertNull("getOtherYear should not return 2 digit year", getOtherYear(cf008, "b    ", null));
+		cf008 = factory.newControlField("008", "      |||||        ");
+	    assertNull("getOtherYear should not return 2 digit year", getOtherYear(cf008, "|||||", null));
+		cf008 = factory.newControlField("008", "      nuuuu        ");
+	    assertNull("getOtherYear should not return 2 digit year", getOtherYear(cf008, "nuuu", null));
+	}
+
+	/**
+	 * test that warning messages are logged when getOtherYear finds a usable year in 008 date 1
+	 */
+@Test
+	public void testGetOtherYearWarningMessages()
+	{
+		Logger logger = Logger.getLogger(PublicationUtils.class.getName());
+	    LoggerAppender4Testing appender = new LoggerAppender4Testing();
+		logger.addAppender(appender);
+		ControlField cf008 = factory.newControlField("008", "      b1234        ");
+	    assertEquals("getOtherYear should return 4 digit year even if 008 byte 6 is 'b'", "1234", getOtherYear(cf008, "b1234", logger));
+        appender.assertLogContains(Level.WARN, "Unexpectedly found usable date1 in 008 for record: b1234:  ");
+    	logger.removeAppender(appender);
+	}
 
 
 	/**

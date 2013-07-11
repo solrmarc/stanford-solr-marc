@@ -933,16 +933,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      */
     public String get008Date1(final Record record, String byte6vals)
     {
-		if (cf008 != null && cf008.getData().length() >= 11)
-		{
-			char c6 = ((ControlField) cf008).getData().charAt(6);
-			if (byte6vals.indexOf(c6) >= 0)
-				return PublicationUtils.get3or4DigitYear(cf008date1, "0");
-			else
-				return null;
-		}
-		else
-			return null;
+    	return PublicationUtils.get008Date1(cf008, byte6vals);
     }
 
     /**
@@ -955,19 +946,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
      */
     public String get008Date2(final Record record, String byte6vals)
     {
-		if (cf008 != null && cf008.getData().length() >= 15)
-		{
-			char c6 = ((ControlField) cf008).getData().charAt(6);
-			if (byte6vals.indexOf(c6) >= 0)
-			{
-				String cf008date2 = cf008.getData().substring(11, 15);
-				return PublicationUtils.get3or4DigitYear(cf008date2, "9");
-			}
-			else
-				return null;
-		}
-		else
-			return null;
+    	return PublicationUtils.get008Date2(cf008, byte6vals);
     }
 
     /**
