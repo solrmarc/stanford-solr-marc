@@ -74,6 +74,36 @@ public class PublicationUtils {
 	}
 
 	/**
+	 * gets a value from 008 bytes 7-10 if value wasn't already assigned to
+	 * one or more of these fields:
+	 *    publication_year_isi = custom, get008Date1(est)
+	 *    beginning_year_isi = custom, get008Date1(cdmu)
+	 *    earliest_year_isi = custom, get008Date1(ik)
+	 *    earliest_poss_year_isi = custom, get008Date1(q)
+	 *    release_year_isi = custom, get008Date1(p)
+	 *    reprint_year_isi = custom, get008Date1(r)
+	 *    production_year_isi = custom, get008Date2(p)
+	 *    original_year_isi = custom, get008Date2(r)
+	 *    copyright_year_isi = custom, get008Date2(t)
+	 *
+	 * @param cf008 - 008 field as a ControlField object
+	 **/
+	static String getOtherYear(ControlField cf008, String id, Logger logger)
+	{
+		if (get008Date1(cf008, "cdeikmpqrstu") == null && get008Date2(cf008, "dikmpqrt") == null && cf008 != null && cf008.getData().length() >= 11)
+		{
+			String cf008date1 = cf008.getData().substring(7, 11);
+			if (cf008date1 != null)
+			{
+				if (logger != null)
+					logger.warn("Unexpectedly found usable date1 in 008 for record: " + id + ": " + cf008.getData());
+				return PublicationUtils.get3or4DigitYear(cf008date1, "0");
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * returns the publication date from a record, if it is present and not
      *  beyond the current year + 1 (and not earlier than EARLIEST_VALID_YEAR if it is a
      *  4 digit year
@@ -668,4 +698,58 @@ public class PublicationUtils {
 			resultSet.add(PubDateGroup.MORE_THAN_50_YEARS_AGO.toString());
 		return resultSet;
 	}
+
+	/**
+	 * gets the value from 008 bytes 7-10 if 008 byte 6 is in byte6vals; null
+	 * otherwise
+	 *
+	 * @param cf008 the 008 field, as a ControlField object
+	 * @param byte6vals a String containing the desired values of 008 byte 6
+	 * @return a four digit year if 008 byte 6 matched and there was a four
+	 *         digit year in 008 bytes 7-10, null otherwise
+	 */
+	static String get008Date1(ControlField cf008, String byte6vals)
+	{
+		if (cf008 != null && cf008.getData().length() >= 11)
+		{
+			char c6 = ((ControlField) cf008).getData().charAt(6);
+			if (byte6vals.indexOf(c6) >= 0)
+			{
+				String cf008date1 = cf008.getData().substring(7, 11);
+				return PublicationUtils.get3or4DigitYear(cf008date1, "0");
+			}
+			else
+				return null;
+		}
+		else
+			return null;
+	}
+
+	/**
+	 * gets the value from 008 bytes 11-14 if 008 byte 6 is in byte6vals; null
+	 * otherwise,
+	 * and null if date is 9999
+	 *
+	 * @param cf008 the 008 field, as a ControlField object
+	 * @param byte6vals a String containing the desired values of 008 byte 6
+	 * @return a four digit year if 008 byte 6 matched and there was a four
+	 *         digit year in 008 bytes 7-10, null otherwise
+	 */
+	static String get008Date2(ControlField cf008, String byte6vals)
+	{
+		if (cf008 != null && cf008.getData().length() >= 15)
+		{
+			char c6 = ((ControlField) cf008).getData().charAt(6);
+			if (byte6vals.indexOf(c6) >= 0)
+			{
+				String cf008date2 = cf008.getData().substring(11, 15);
+				return PublicationUtils.get3or4DigitYear(cf008date2, "9");
+			}
+			else
+				return null;
+		}
+		else
+			return null;
+	}
+
 }
