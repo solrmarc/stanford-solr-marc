@@ -95,9 +95,10 @@ public class PublicationUtils {
 			String cf008date1 = cf008.getData().substring(7, 11);
 			if (cf008date1 != null)
 			{
-				if (logger != null)
+				String result = PublicationUtils.get3or4DigitYear(cf008date1, "0");
+				if (result != null && logger != null)
 					logger.warn("Unexpectedly found usable date1 in 008 for record: " + id + ": " + cf008.getData());
-				return PublicationUtils.get3or4DigitYear(cf008date1, "0");
+				return result;
 			}
 		}
 		return null;
