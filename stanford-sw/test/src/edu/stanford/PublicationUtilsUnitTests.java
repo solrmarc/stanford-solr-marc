@@ -93,7 +93,10 @@ public class PublicationUtilsUnitTests
 		ControlField cf008 = factory.newControlField("008", "      b1234        ");
 	    assertEquals("getOtherYear should return 4 digit year even if 008 byte 6 is 'b'", "1234", getOtherYear(cf008, "b1234", logger));
         appender.assertLogContains(Level.WARN, "Unexpectedly found usable date1 in 008 for record: b1234:  ");
-    	logger.removeAppender(appender);
+
+		cf008 = factory.newControlField("008", "      nuuuu        ");
+	    assertNull("getOtherYear should return null when 008 date1 is unusable even if 008 byte 6 is 'n'", getOtherYear(cf008, "nuuuu", logger));
+        appender.assertLogDoesNotContain("Unexpectedly found usable date1 in 008 for record: nuuuu:  ");
 	}
 
 
