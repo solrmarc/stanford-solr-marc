@@ -688,6 +688,96 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
+	 * functional test: assure date slider pub_year_tisim field is populated correctly from single value in single 260c
+	 */
+@Test
+	public void test260SingleValueInDateSlider()
+	{
+		String solrFldName = "pub_year_tisim";
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "1973", solrFldName, "1973");
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "[1973]", solrFldName, "1973");
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "1973]", solrFldName, "1973");
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "[1973?]", solrFldName, "1973");
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "[196-?]", solrFldName, "1960");
+//	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "March 1987.", solrFldName, "1987");
+	    // copyright year
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "c1975.", solrFldName, "1975");
+//	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "[c1973]", solrFldName, "1973");
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "c1973]", solrFldName, "1973");
+		// with corrected date
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "1973 [i.e. 1974]", solrFldName, "1974");
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "1971[i.e.1972]", solrFldName, "1972");
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "1973 [i.e.1974]", solrFldName, "1974");
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "1967 [i. e. 1968]", solrFldName, "1968");
+	}
+
+	/**
+	 * functional test: assure date slider pub_year_tisim field is not populated when no 008 or 260c usable value
+	 */
+@Test
+	public void test260NoValueInDateSlider()
+	{
+		String solrFldName = "pub_year_tisim";
+	    assertNoSolrFldFromMarcSubfld("260", 'c', "[19--]", solrFldName);
+	}
+
+	/**
+	 * functional test: assure date slider pub_year_tisim field is populated correctly from single value in single 260c
+	 */
+//@Test
+	public void test260MultSingleValsInDateSlider()
+	{
+		String solrFldName = "pub_year_tisim";
+	    assertMultSolrFldValFromMarcSubfld("260", 'c', "[1974, c1973]", solrFldName, new String[]{"1974", "1973"});
+	    assertMultSolrFldValFromMarcSubfld("260", 'c', "1975, c1974.", solrFldName, new String[]{"1975", "1974"});
+	    assertMultSolrFldValFromMarcSubfld("260", 'c', "1974 [c1973]", solrFldName, new String[]{"1974", "1973"});
+	    assertMultSolrFldValFromMarcSubfld("260", 'c', "[1975] c1974.", solrFldName, new String[]{"1975", "1974"});
+
+	    assertMultSolrFldValFromMarcSubfld("260", 'c', "1965[c1966]", solrFldName, new String[]{"1965", "1966"});
+	    assertMultSolrFldValFromMarcSubfld("260", 'c', "1967, c1966]", solrFldName, new String[]{"1967", "1966"});
+	    assertMultSolrFldValFromMarcSubfld("260", 'c', "[1974?] c1973.", solrFldName, new String[]{"1974", "1973"});
+	}
+
+
+	/**
+	 * functional test: assure beginning_year_isi field is populated correctly from 260 as needed
+	 */
+//@Test
+	public void test260OpenYearRangeInDateSlider()
+	{
+		String solrFldName = "beginning_year_isi";
+		// as only date
+		// [dddd-
+		// [dddd]-
+		// dddd-
+		// [dddd?-
+		// [dddd?]-
+		// [ddd-?-
+		// [ddd-?]-
+		//  beginning copyright year
+		// [cdddd-
+		// [cdddd]-
+		// cdddd-
+	}
+
+	/**
+	 * functional test: assure beginning_year_isi and ending_year_isi field is
+	 *  populated correctly from 260 when there is a rang present
+	 */
+//@Test
+	public void test260ClosedYearRangeInDateSlider()
+	{
+		String solrFldName = "beginning_year_isi";
+		String solrFldName2 = "ending_year_isi";
+		// [dddd-dddd]
+		// [dddd]-[dddd]
+		// [dddd]-dddd
+		// dddd-[dddd]
+		// dddd-dddd
+		// [between 1973 and 1975]
+	}
+
+	/**
 	 * integration test: assure pub dates later than current year +1 are ignored
 	 */
 @Test
@@ -1037,15 +1127,13 @@ public class PublicationTests extends AbstractStanfordTest
 
 		// corrected values
 		docIds.clear();
-// 2013-06-26  simplifying dateSlider values to 008 only temporarily
-//		docIds.add("pubDate0059");
+		docIds.add("pubDate0059");
 		docIds.add("j2005");
 		assertSearchResults(fldName, "2005", docIds);
 		docIds.clear();
 		docIds.add("pubDate195u");  // it's a range including 1970
-// 2013-06-26  simplifying dateSlider values to 008 only temporarily
-//		docIds.add("pubDate0197-1");
-//		docIds.add("pubDate0197-2");
+		docIds.add("pubDate0197-1");
+		docIds.add("pubDate0197-2");
 		assertSearchResults(fldName, "1970", docIds);
 	}
 
@@ -1471,11 +1559,55 @@ public class PublicationTests extends AbstractStanfordTest
 	private void assertSingleSolrFldValFromMarcSubfld(String fldTag, char subFld, String rawValue, String solrFldName, String expSolrFldVal)
 	{
 		Record record = factory.newRecord();
+		ControlField cf008 = factory.newControlField("008", "      |||||||||");
+		record.addVariableField(cf008);
 		DataField df = factory.newDataField(fldTag, ' ', ' ');
 	    df.addSubfield(factory.newSubfield(subFld, rawValue));
 	    record.addVariableField(df);
 	    solrFldMapTest.assertSolrFldHasNumValues(record, solrFldName, 1);
 	    solrFldMapTest.assertSolrFldValue(record, solrFldName, expSolrFldVal);
+	}
+
+	/**
+	 * assert that Marc record with the field/subfield indicated populates SolrFldMap with expected Solr field value
+	 * @param fldTag marc field tag (3 chars)
+	 * @param subFld marc subfield (char)
+	 * @param rawValue raw value to go in marc subfield
+	 * @param solrFldName name of solr field expecting value
+	 * @param expSolrFldVal value expected in Solr field
+	 */
+	private void assertMultSolrFldValFromMarcSubfld(String fldTag, char subFld, String rawValue, String solrFldName, String[] expSolrFldVals)
+	{
+		Record record = factory.newRecord();
+		ControlField cf008 = factory.newControlField("008", "      |||||||||");
+		record.addVariableField(cf008);
+		DataField df = factory.newDataField(fldTag, ' ', ' ');
+	    df.addSubfield(factory.newSubfield(subFld, rawValue));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldHasNumValues(record, solrFldName, expSolrFldVals.length);
+	    for (int i = 0; i < expSolrFldVals.length; i++)
+		{
+			solrFldMapTest.assertSolrFldValue(record, solrFldName, expSolrFldVals[i]);
+		}
+	}
+
+	/**
+	 * assert that Marc record with the field/subfield indicated populates SolrFldMap with expected Solr field value
+	 * @param fldTag marc field tag (3 chars)
+	 * @param subFld marc subfield (char)
+	 * @param rawValue raw value to go in marc subfield
+	 * @param solrFldName name of solr field expecting value
+	 * @param expSolrFldVal value expected in Solr field
+	 */
+	private void assertNoSolrFldFromMarcSubfld(String fldTag, char subFld, String rawValue, String solrFldName)
+	{
+		Record record = factory.newRecord();
+		ControlField cf008 = factory.newControlField("008", "      |||||||||");
+		record.addVariableField(cf008);
+		DataField df = factory.newDataField(fldTag, ' ', ' ');
+	    df.addSubfield(factory.newSubfield(subFld, rawValue));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertNoSolrFld(record, solrFldName);
 	}
 
 }
