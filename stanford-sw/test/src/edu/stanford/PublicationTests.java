@@ -702,7 +702,7 @@ public class PublicationTests extends AbstractStanfordTest
 //	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "March 1987.", solrFldName, "1987");
 	    // copyright year
 	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "c1975.", solrFldName, "1975");
-//	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "[c1973]", solrFldName, "1973");
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "[c1973]", solrFldName, "1973");
 	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "c1973]", solrFldName, "1973");
 		// with corrected date
 	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "1973 [i.e. 1974]", solrFldName, "1974");
