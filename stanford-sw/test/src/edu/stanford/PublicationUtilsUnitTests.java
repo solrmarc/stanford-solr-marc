@@ -625,25 +625,25 @@ public class PublicationUtilsUnitTests
 	private void assertSinglePubYearSliderValFrom260c(String df260cVal, String expSliderVal)
 	{
 		ControlField cf008 = factory.newControlField("008", "      |||||||||");
-		List<String> df260subcList = new ArrayList<String>();
-		df260subcList.add(df260cVal);
-		assertSingleResult(getPubDateSliderVals(cf008, df260subcList), expSliderVal);
+		Set<String> df260subcSet = new HashSet<String>();
+		df260subcSet.add(df260cVal);
+		assertSingleResult(getPubDateSliderVals(cf008, df260subcSet), expSliderVal);
 	}
 
 	private void assertMultiplePubYearSliderValsFromSingle260c(String df260cVal, String[] expectedResults)
 	{
 		ControlField cf008 = factory.newControlField("008", "      |||||||||");
-		List<String> df260subcList = new ArrayList<String>();
-		df260subcList.add(df260cVal);
-		assertMultipleResults(getPubDateSliderVals(cf008, df260subcList), expectedResults);
+		Set<String> df260subcSet = new HashSet<String>();
+		df260subcSet.add(df260cVal);
+		assertMultipleResults(getPubDateSliderVals(cf008, df260subcSet), expectedResults);
 	}
 
 	private void assertNoPubYearSliderValFrom260c(String df260cVal)
 	{
 		ControlField cf008 = factory.newControlField("008", "      |||||||||");
-		List<String> df260subcList = new ArrayList<String>();
-		df260subcList.add(df260cVal);
-		assertEquals("getPubDateSliderVals should have no results when 008 has no viable date and neither does any 260c", 0, getPubDateSliderVals(cf008, df260subcList).size());
+		Set<String> df260subcSet = new HashSet<String>();
+		df260subcSet.add(df260cVal);
+		assertEquals("getPubDateSliderVals should have no results when 008 has no viable date and neither does any 260c", 0, getPubDateSliderVals(cf008, df260subcSet).size());
 	}
 
 }
