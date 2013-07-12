@@ -244,8 +244,9 @@
     <dynamicField name="*_display" type="string" indexed="false" stored="true" multiValued="true"/>
     <dynamicField name="*_sort" type="alphaSort" indexed="true" stored="false"/>
 -->
+    <dynamicField name="*_ssi" type="string" stored="true" indexed="true" omitNorms="true" />
     <dynamicField name="*_ssim" type="string" stored="true" indexed="true" multiValued="true" omitNorms="true" />
-    <dynamicField name="*_isi" type="tint" stored="true" indexed="true" multiValued="true" omitNorms="true" />
+    <dynamicField name="*_isi" type="tint" stored="true" indexed="true" omitNorms="true" />
     <dynamicField name="*_isim" type="tint" stored="true" indexed="true" multiValued="true" omitNorms="true" />
   </fields>
 
