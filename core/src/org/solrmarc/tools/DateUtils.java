@@ -19,12 +19,12 @@ public class DateUtils
 
 	// possible strings for year
 	private final static String VALID_YR_REGEX_STR = "(20|19|18|17|16|15|14|13|12|11|10|09|08|07|06|05)[0-9][0-9]";
-	private final static Pattern YEAR_PATTERN_STARTS_05_THRU_20 = Pattern.compile(VALID_YR_REGEX_STR + "\\D?");
-	private final static Pattern YEAR_PATTERN_PREC_C_OR_P = Pattern.compile("[©Ⓟcp]" + VALID_YR_REGEX_STR + "\\D?");
+	private final static Pattern YEAR_PATTERN_STARTS_05_THRU_20 = Pattern.compile(VALID_YR_REGEX_STR + "\\D{0,2}");
+	private final static Pattern YEAR_PATTERN_PREC_C_OR_P = Pattern.compile("\\[?[©Ⓟcp]" + VALID_YR_REGEX_STR + "\\D?");
 	private final static Pattern YEAR_PATTERN_LAST_DIG_UNCLEAR = Pattern.compile("(20|19|18|17|16|15)[0-9][-?]");
 	private final static Pattern YEAR_PATTERN_FIRST_LET_L = Pattern.compile("l(9|8|7|6|5)\\d{2,2}\\D?");
 
-	private final static Pattern YEAR_PATTERN_PREC_IE = Pattern.compile(".*i\\. ?e\\. ?" + VALID_YR_REGEX_STR + "\\D*");
+	private final static Pattern YEAR_PATTERN_PREC_IE = Pattern.compile(".*i\\. ?e\\. ?" + VALID_YR_REGEX_STR + "\\D?.*");
 	private final static Pattern BC_DATE_PATTERN = Pattern.compile("[0-9]+ [Bb][.]?[Cc][.]?");
 
 	// square bracket fun
@@ -62,7 +62,10 @@ public class DateUtils
 		else if (outerBracesTightMatcher.find())
 			cleanDate = Utils.removeOuterBrackets(outerBracesTightMatcher.group());
 		else if (precSymMatcher.matches())
-			cleanDate = precSymMatcher.group().substring(1, 5);
+		{
+			cleanDate = precSymMatcher.group().replaceAll("\\[?[©Ⓟcp]", "");
+			cleanDate = Utils.removeOuterBrackets(cleanDate.substring(0,4));
+		}
 		else if (ieMatcher.find())
 		{
 			cleanDate = ieMatcher.group().replaceAll(".*i\\. ?e\\. ?", "");

@@ -326,7 +326,7 @@ public class PublicationUtilsUnitTests
 		assertSinglePubYearSliderValFrom260c("1973.", "1973");
 		assertSinglePubYearSliderValFrom260c("1973]", "1973");
 		assertSinglePubYearSliderValFrom260c("1973?", "1973");
-//		assertSinglePubYearSliderValFrom260c("1973?]", "1973");
+		assertSinglePubYearSliderValFrom260c("1973?]", "1973");
 		assertSinglePubYearSliderValFrom260c("[1973]", "1973");
 		assertSinglePubYearSliderValFrom260c("[1973?]", "1973");
 		assertSinglePubYearSliderValFrom260c("[1973?].", "1973");
@@ -347,8 +347,8 @@ public class PublicationUtilsUnitTests
 	public void testPubYearSlider260CopyrightYear()
 	{
 		assertSinglePubYearSliderValFrom260c("c1975.", "1975");
-//		assertSinglePubYearSliderValFrom260c("[c1973]", "1973");
 		assertSinglePubYearSliderValFrom260c("c1975]", "1975");
+		assertSinglePubYearSliderValFrom260c("[c1973]", "1973");
 	}
 
 	/**
