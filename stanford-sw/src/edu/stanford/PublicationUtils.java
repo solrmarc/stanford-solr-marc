@@ -226,9 +226,10 @@ public class PublicationUtils {
      *   and not later than the current year + 1
      *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
      * @param cf008 - 008 field as a ControlField object
+	 * @param df260subcSet - Set of Strings containing values in 260 sub c
 	 * @return Set<String> containing publication years, or empty set if none
 	 */
-	static Set<String> getPubDateSliderVals(ControlField cf008)
+	static Set<String> getPubDateSliderVals(ControlField cf008, Set<String> df260subcSet)
 	{
 		Set<String> results = new HashSet<String>();
 		if (cf008 != null && cf008.getData().length() >= 15)
@@ -303,6 +304,23 @@ public class PublicationUtils {
 					break;
 			} // end switch
 		} // end if 008
+
+		if (results.size() == 0 && df260subcSet != null && df260subcSet.size() > 0)
+		{
+			for (String raw : df260subcSet)
+			{
+				String val = DateUtils.getYearFromString(raw);
+				if (val != null)
+					results.add(val);
+//				if (val != null)
+//				{
+//					int date260int = Integer.parseInt(val);
+//					if (date260int != 0 &&
+//						date260int <= upperLimit && date260int >= lowerLimit)
+//						results.add(val);
+//				}
+			}
+		}
 
 		return results;
 	}
@@ -704,8 +722,7 @@ public class PublicationUtils {
 	}
 
 	/**
-	 * gets the value from 008 bytes 7-10 if 008 byte 6 is in byte6vals; null
-	 * otherwise
+	 * gets the value from 008 bytes 7-10 if 008 byte 6 is in byte6vals; null otherwise
 	 *
 	 * @param cf008 the 008 field, as a ControlField object
 	 * @param byte6vals a String containing the desired values of 008 byte 6
@@ -730,9 +747,8 @@ public class PublicationUtils {
 	}
 
 	/**
-	 * gets the value from 008 bytes 11-14 if 008 byte 6 is in byte6vals; null
-	 * otherwise,
-	 * and null if date is 9999
+	 * gets the value from 008 bytes 11-14 if 008 byte 6 is in byte6vals;
+	 *   null otherwise,  and null if date is 9999
 	 *
 	 * @param cf008 the 008 field, as a ControlField object
 	 * @param byte6vals a String containing the desired values of 008 byte 6
