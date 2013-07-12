@@ -333,7 +333,6 @@ public class PublicationUtilsUnitTests
 		assertSinglePubYearSliderValFrom260c("[196-?].", "1960");
 //		assertSinglePubYearSliderValFrom260c("March 1987.", "1987");
 
-//
 //	    // possible other types of values to care about
 //	    // Printed in the yeare, 1641.
 //	    // [1967, reprinted 1968]
@@ -352,6 +351,18 @@ public class PublicationUtilsUnitTests
 		assertSinglePubYearSliderValFrom260c("c1975]", "1975");
 	}
 
+	/**
+	 * we are expecting a single value from 260c for getPubDateSliderVals(cf008, df260List)
+	 */
+@Test
+	public void testPubYearSlider260CorrectedYear()
+	{
+		assertSinglePubYearSliderValFrom260c("1973 [i.e. 1974]", "1974");
+		assertSinglePubYearSliderValFrom260c("1971[i.e.1972]", "1972");
+		assertSinglePubYearSliderValFrom260c("1973 [i.e.1974]", "1974");
+		assertSinglePubYearSliderValFrom260c("1967 [i. e. 1968]", "1968");
+	}
+
 
 	/**
 	 * we are expecting a single value from 260c for getPubDateSliderVals(cf008, df260List)
@@ -366,7 +377,7 @@ public class PublicationUtilsUnitTests
 
 		assertMultiplePubYearSliderValsFromSingle260c("1965[c1966]", new String[]{"1965", "1966"});
 		assertMultiplePubYearSliderValsFromSingle260c("1967, c1966]", new String[]{"1967", "1966"});
-		assertMultiplePubYearSliderValsFromSingle260c("[1974?] c1973..", new String[]{"1974", "1973"});
+		assertMultiplePubYearSliderValsFromSingle260c("[1974?] c1973.", new String[]{"1974", "1973"});
 
 		// after publication date
 		// [dddd, cdddd]
@@ -378,19 +389,6 @@ public class PublicationUtilsUnitTests
 // 260 ranges
 // [1974-
 // -1991.
-
-// with corrected date
-// dddd [i.e. dddd]  -> spacing and punctuation vary
-// [dddd i.e. dddd] => spacing and punctuation vary
-// 1973 [i.e. 1974]
-// 1971[i.e.1972]
-// 1973 [i.e. 1974]
-// 1973 [i.e.1974]
-// 1972[i.e.1973]
-// 1971[i.e.1972]
-// 1967 [i. e. 1968]
-
-
 
 // open ranges
 

@@ -24,7 +24,7 @@ public class DateUtils
 	private final static Pattern YEAR_PATTERN_LAST_DIG_UNCLEAR = Pattern.compile("(20|19|18|17|16|15)[0-9][-?]");
 	private final static Pattern YEAR_PATTERN_FIRST_LET_L = Pattern.compile("l(9|8|7|6|5)\\d{2,2}\\D?");
 
-	private final static Pattern YEAR_PATTERN_PREC_IE = Pattern.compile("i.e. " + VALID_YR_REGEX_STR + "\\D?");
+	private final static Pattern YEAR_PATTERN_PREC_IE = Pattern.compile(".*i\\. ?e\\. ?" + VALID_YR_REGEX_STR + "\\D*");
 	private final static Pattern BC_DATE_PATTERN = Pattern.compile("[0-9]+ [Bb][.]?[Cc][.]?");
 
 	// square bracket fun
@@ -64,7 +64,10 @@ public class DateUtils
 		else if (precSymMatcher.matches())
 			cleanDate = precSymMatcher.group().substring(1, 5);
 		else if (ieMatcher.find())
-			cleanDate = ieMatcher.group().replaceAll("i.e. ", "");
+		{
+			cleanDate = ieMatcher.group().replaceAll(".*i\\. ?e\\. ?", "");
+			cleanDate = Utils.removeOuterBrackets(cleanDate);
+		}
 		else if (outerBracesLooseMatcher.find())
 			cleanDate = Utils.removeOuterBrackets(outerBracesLooseMatcher.group().substring(1, 5));
 		else if (bcMatcher.find())
