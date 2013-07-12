@@ -258,33 +258,17 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
-	 * functional test: assure no publication year fields are populated when 008/06 is b
+	 * functional test: assure no publication year fields are populated
+	 *  when 008/06 wrong byte code or too vague
 	 */
 @Test
-	public void test008byte06bIgnoresDates()
+	public void test008IgnoresDates()
 	{
 		assert008IgnoreDates('b', "    ", "    ");
-		assert008IgnoreDates('b', "1941", "1955");
-	}
-
-	/**
-	 * functional test: assure no publication year fields are populated when 008/06 is n
-	 */
-@Test
-	public void test008byte06nIgnoresDates()
-	{
 		assert008IgnoreDates('n', "1uuu", "uuuu");
-		assert008IgnoreDates('n', "1941", "1955");
-	}
-
-	/**
-	 * functional test: assure no publication year fields are populated when 008/06 is n
-	 */
-@Test
-	public void test008byte06barIgnoresDates()
-	{
 		assert008IgnoreDates('|', "||||", "||||");
-		assert008IgnoreDates('|', "1941", "1955");
+		assert008IgnoreDates('$', "19uu", "19uu");
+		assert008IgnoreDates('s', "19uu", "19uu");
 	}
 
 	/**
@@ -1439,8 +1423,8 @@ public class PublicationTests extends AbstractStanfordTest
 	{
 		Record record = factory.newRecord();
 		record.addVariableField(factory.newControlField("008", "      " + byte06 + date1str + date2str));
-		solrFldMapTest.assertSolrFldValue(record, "date_1_008_raw_ssim", date1str);
-		solrFldMapTest.assertSolrFldValue(record, "date_2_008_raw_ssim", date2str);
+		solrFldMapTest.assertSolrFldValue(record, "date_1_008_raw_ssi", date1str);
+		solrFldMapTest.assertSolrFldValue(record, "date_2_008_raw_ssi", date2str);
 	    solrFldMapTest.assertNoSolrFld(record, "beginning_year_isi");
 	    solrFldMapTest.assertNoSolrFld(record, "earliest_year_isi");
 	    solrFldMapTest.assertNoSolrFld(record, "earliest_poss_year_isi");
@@ -1453,6 +1437,7 @@ public class PublicationTests extends AbstractStanfordTest
 	    solrFldMapTest.assertNoSolrFld(record, "production_year_isi");
 	    solrFldMapTest.assertNoSolrFld(record, "orig_year_isi");
 	    solrFldMapTest.assertNoSolrFld(record, "copyright_year_isi");
+	    solrFldMapTest.assertNoSolrFld(record, "other_year_isi");
 	}
 
 	/**
