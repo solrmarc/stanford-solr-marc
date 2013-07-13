@@ -103,17 +103,11 @@ public final class Utils {
             if (currResult.endsWith("."))
             {
                 if (currResult.matches(".*\\w\\w\\.$"))
-                {
                     currResult = currResult.substring(0, currResult.length()-1);
-                }
                 else if (currResult.matches(".*\\p{L}\\p{L}\\.$"))
-                {
                     currResult = currResult.substring(0, currResult.length()-1);
-                }
                 else if (currResult.matches(".*\\w\\p{InCombiningDiacriticalMarks}?\\w\\p{InCombiningDiacriticalMarks}?\\.$"))
-                {
                     currResult = currResult.substring(0, currResult.length()-1);
-                }
             }
 
             currResult = removeOuterBrackets(currResult);
@@ -122,9 +116,6 @@ public final class Utils {
                 return currResult;
 
         } while (! currResult.equals(prevResult));
-
-//        if (!currResult.equals(origStr))
-//            System.out.println(origStr + " -> "+ currResult);
 
         return currResult;
     }
@@ -210,10 +201,7 @@ public final class Utils {
             return null;
 
         String result = removeTrailingChar(origStr, trailingCharsRegEx);
-
-        result = removeTrailingPeriod(result, charsB4periodRegEx);
-
-        return result ;
+        return removeTrailingPeriod(result, charsB4periodRegEx);
     }
 
     /**
@@ -255,7 +243,7 @@ public final class Utils {
         if (result.endsWith(".") && result.matches(".*" + precedingCharsRegEx + "\\.$"))
             result = result.substring(0, result.length() - 1).trim();
 
-           return result;
+        return result;
      }
 
 
@@ -301,7 +289,8 @@ public final class Utils {
     {
         boolean isNumber; // fix for dd-anomaly
 
-        try {
+        try
+        {
             Integer.parseInt(number);
             isNumber = true;
         }
@@ -358,22 +347,16 @@ public final class Utils {
             }
         }
         if (map.containsKey(fieldVal))
-        {
             result = map.get(fieldVal);
-        }
         else if (map.containsKey("displayRawIfMissing"))
-        {
             result = fieldVal;
-        }
         else if (allowDefault && map.containsKey("__DEFAULT"))
-        {
             result = map.get("__DEFAULT");
-        }
         else if (allowDefault && map.containsKey(""))
-        {
             result = map.get("");
-        }
-        if (result == null || result.length() == 0) return null;
+
+        if (result == null || result.length() == 0)
+        	return null;
         return result;
     }
 
@@ -424,9 +407,7 @@ public final class Utils {
                             val = newVal;
                         }
                         else
-                        {
                             result.add(newVal);
-                        }
                         tmpResult = newVal;
                     }
                 }
@@ -436,9 +417,7 @@ public final class Utils {
             {
                 String mappedVal = remap(val, map, allowDefault);
                 if (mappedVal != null)
-                {
                     result.add(mappedVal);
-                }
             }
         }
         return result;
@@ -447,10 +426,8 @@ public final class Utils {
     private static boolean containsMatch(String val, String pattern)
     {
         String rep = val.replaceFirst(pattern, "###match###");
-
-        if (!rep.equals(val)) {
+        if (!rep.equals(val))
             return true;
-        }
 
         return false;
     }
@@ -463,20 +440,15 @@ public final class Utils {
      */
     public static boolean setItemContains(Set<String> set, String pattern)
     {
-        if (set.isEmpty()) {
+        if (set.isEmpty())
             return(false);
-        }
 
         Iterator<String> iter = set.iterator();
-
         while (iter.hasNext())
         {
             String value = (String)iter.next();
-
-            if (containsMatch(value, pattern)) {
+            if (containsMatch(value, pattern))
                 return true;
-            }
-
         }
         return false;
     }
@@ -490,15 +462,12 @@ public final class Utils {
     public static String join(Set<String> set, String separator)
     {
         Iterator<String> iter = set.iterator();
-        //String result = "";
         StringBuilder result = new StringBuilder("");
 
         while(iter.hasNext())
         {
-            //result += iter.next();
             result.append(iter.next());
             if (iter.hasNext())  {
-                //result += separator;
                 result.append(separator);
             }
         }
@@ -534,8 +503,8 @@ public final class Utils {
     public final static boolean isRightToLeftLanguage(String langcode)
     {
         if (
-               // arabic characters
-               langcode.equals("ara") || langcode.equals("per") || langcode.equals("urd")
+            // arabic characters
+            langcode.equals("ara") || langcode.equals("per") || langcode.equals("urd")
             ||
             // hebrew characters
             langcode.equals("heb") || langcode.equals("yid") || langcode.equals("lad")
