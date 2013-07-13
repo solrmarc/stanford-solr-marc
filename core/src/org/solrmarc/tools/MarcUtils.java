@@ -266,12 +266,12 @@ public class MarcUtils {
 	public static Set<String> getLinkedField(final Record record, String fieldSpec)
 	{
 	    Set<String> set = getFieldList(record, "8806");
-
 	    if (set.isEmpty())
 	        return set;
 
-	    String[] tags = fieldSpec.split(":");
 	    Set<String> result = new LinkedHashSet<String>();
+
+	    String[] tags = fieldSpec.split(":");
 	    for (int i = 0; i < tags.length; i++)
 	    {
 	        // Check to ensure tag length is at least 3 characters
@@ -285,16 +285,16 @@ public class MarcUtils {
 	        String tag = tags[i].substring(0, 3);
 
 	        // Process Subfields
-	        String subfield = tags[i].substring(3);
+	        String desiredSubFlds = tags[i].substring(3);
 
 	        String separator = null;
-	        if (subfield.indexOf('\'') != -1)
+	        if (desiredSubFlds.indexOf('\'') != -1)
 	        {
-	            separator = subfield.substring(subfield.indexOf('\'') + 1, subfield.length() - 1);
-	            subfield = subfield.substring(0, subfield.indexOf('\''));
+	            separator = desiredSubFlds.substring(desiredSubFlds.indexOf('\'') + 1, desiredSubFlds.length() - 1);
+	            desiredSubFlds = desiredSubFlds.substring(0, desiredSubFlds.indexOf('\''));
 	        }
 
-	        result.addAll(getLinkedFieldValue(record, tag, subfield, separator));
+	        result.addAll(getLinkedFieldValue(record, tag, desiredSubFlds, separator));
 	    }
 	    return result;
 	}
@@ -307,66 +307,110 @@ public class MarcUtils {
 	 *
 	 * @param record - marc record object
 	 * @param tag -  the marc field for which 880s are sought.
-	 * @param subfield -
+	 * @param subflds -
 	 *           The subfield(s) within the 880 linked field that should be returned
 	 *            [a-cf-z] denotes the bracket pattern is a regular expression indicating
 	 *            which subfields to include from the linked 880. Note: if the characters
 	 *            in the brackets are digits, it will be interpreted as particular
 	 *            bytes, NOT a pattern 100abcd denotes subfields a, b, c, d are
 	 *            desired from the linked 880.
-	 * @param separator - the separator string to insert between subfield items (if null, a " " will be used)
+	 * @param subFldSep - the separator string to insert between subfield items (if null, a " " will be used)
 	 *
 	 * @return set of Strings containing the values of the designated 880 field(s)/subfield(s)
 	 */
-	public static Set<String> getLinkedFieldValue(final Record record, String tag, String subfield, String separator)
+	public static Set<String> getLinkedFieldValue(final Record record, String tag, String subflds, String subFldSep)
 	{
 	    // assume brackets expression is a pattern such as [a-z]
 	    Set<String> result = new LinkedHashSet<String>();
 	    boolean havePattern = false;
 	    Pattern subfieldPattern = null;
-	    if (subfield.indexOf('[') != -1)
+	    if (subflds.indexOf('[') != -1)
 	    {
 	        havePattern = true;
-	        subfieldPattern = Pattern.compile(subfield);
+	        subfieldPattern = Pattern.compile(subflds);
 	    }
 	    List<VariableField> fields = record.getVariableFields("880");
 	    for (VariableField vf : fields)
 	    {
-	        DataField dfield = (DataField) vf;
-	        Subfield link = dfield.getSubfield('6');
+	        DataField df = (DataField) vf;
+	        Subfield link = df.getSubfield('6');
 	        if (link != null && link.getData().startsWith(tag))
 	        {
-	            List<Subfield> subList = dfield.getSubfields();
+	            List<Subfield> subList = df.getSubfields();
 	            StringBuilder buf = new StringBuilder("");
 	            for (Subfield subF : subList)
 	            {
 	                boolean addIt = false;
 	                if (havePattern)
 	                {
+	                    // matcher needs a string, hence concat with empty string
 	                    Matcher matcher = subfieldPattern.matcher("" + subF.getCode());
-	                    // matcher needs a string, hence concat with empty
-	                    // string
 	                    if (matcher.matches())
 	                        addIt = true;
 	                }
 	                else
 	                // a list a subfields
 	                {
-	                    if (subfield.indexOf(subF.getCode()) != -1)
+	                    if (subflds.indexOf(subF.getCode()) != -1)
 	                        addIt = true;
 	                }
 	                if (addIt)
 	                {
 	                    if (buf.length() > 0)
-	                        buf.append(separator != null ? separator : " ");
+	                        buf.append(subFldSep != null ? subFldSep : " ");
 	                    buf.append(subF.getData().trim());
 	                }
 	            }
 	            if (buf.length() > 0)
-	                result.add(Utils.cleanData(buf.toString()));
+//	                result.add(Utils.cleanData(buf.toString()));
+	            	result.add(buf.toString());
 	        }
 	    }
 	    return(result);
+	}
+
+
+	/**
+	 * Get all field values from 880 fields linked to the indicated tag, joined as a single string.
+	 * @param record - the marc record object
+	 * @param fieldSpec string containing which linked field(s)/subfield(s) to use. This
+	 *  is a series of: marc "tag" string (3 chars identifying a marc field,
+	 *  e.g. 245) optionally followed by characters identifying which subfields
+	 *  to use.
+	 * @param separator string separating values in the result string
+	 * @return single string containing all values of the indicated linked marc
+	 *         field(s)/subfield(s) concatenated with separator string
+	 */
+	public static String getLinkedFieldVals(Record record, String fieldSpec, String separator)
+	{
+	    Set<String> valsAsSet = new HashSet<String>();
+
+
+	    String[] tags = fieldSpec.split(":");
+	    for (int i = 0; i < tags.length; i++)
+	    {
+	        // Check to ensure tag length is at least 3 characters
+	        if (tags[i].length() < 3)
+	        {
+	            System.err.println("Invalid tag specified: " + tags[i]);
+	            continue;
+	        }
+
+	        // Get Field Tag
+	        String tag = tags[i].substring(0, 3);
+
+	        // Process Subfields
+	        String desiredSubFlds = tags[i].substring(3);
+	        String subFldSep = null;
+	        if (desiredSubFlds.indexOf('\'') != -1)
+	        {
+	            subFldSep = desiredSubFlds.substring(desiredSubFlds.indexOf('\'') + 1, desiredSubFlds.length() - 1);
+	            desiredSubFlds = desiredSubFlds.substring(0, desiredSubFlds.indexOf('\''));
+	        }
+		    valsAsSet = getLinkedFieldValue(record, tag, desiredSubFlds, subFldSep);
+	    }
+
+	    return org.solrmarc.tools.Utils.join(valsAsSet, separator);
 	}
 
 
