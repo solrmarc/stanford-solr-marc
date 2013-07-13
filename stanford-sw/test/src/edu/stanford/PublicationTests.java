@@ -200,8 +200,8 @@ public class PublicationTests extends AbstractStanfordTest
 		String fldName = "vern_pub_search";
 
 		// 260ab from 880
-		solrFldMapTest.assertSolrFldValue(publTestFilePath, "vern260abc", fldName, "vern260a : vern260b");
-		solrFldMapTest.assertSolrFldValue(publTestFilePath, "vern260abcg", fldName, "vern260a : vern260b");
+		solrFldMapTest.assertSolrFldValue(publTestFilePath, "vern260abc", fldName, "vern260a : vern260b,");
+		solrFldMapTest.assertSolrFldValue(publTestFilePath, "vern260abcg", fldName, "vern260a : vern260b,");
 
 		Record record = factory.newRecord();
         DataField df = factory.newDataField("264", ' ', ' ');
@@ -1002,6 +1002,30 @@ public class PublicationTests extends AbstractStanfordTest
 	    record.addVariableField(df);
 	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "3rd draft / edited by Paul Watson. - London");
 
+	    // 250 + 260 both linked
+	    record = factory.newRecord();
+		df = factory.newDataField("250", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('6', "880-04"));
+	    df.addSubfield(factory.newSubfield('a', "Di 1 ban."));
+	    record.addVariableField(df);
+		df = factory.newDataField("260", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('6', "880-05"));
+		df.addSubfield(factory.newSubfield('a', "Shanghai Shi :"));
+		df.addSubfield(factory.newSubfield('b', "Shanghai shu dian chu ban she,"));
+		df.addSubfield(factory.newSubfield('c', "2013."));
+	    record.addVariableField(df);
+		df = factory.newDataField("880", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('6', "250-04"));
+	    df.addSubfield(factory.newSubfield('a', "第1版."));
+	    record.addVariableField(df);
+		df = factory.newDataField("880", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('6', "260-05"));
+	    df.addSubfield(factory.newSubfield('a', "上海市 :"));
+	    df.addSubfield(factory.newSubfield('b', "上海书店出版社,"));
+	    df.addSubfield(factory.newSubfield('c', "2013."));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "Di 1 ban. 第1版. - Shanghai Shi : Shanghai shu dian chu ban she, 2013. 上海市 : 上海书店出版社, 2013.");
+
 
 	    // more specific date
 	    // 260 	##$aOak Ridge, Tenn. :$bU.S. Dept. of Energy,$cApril 15, 1977.
@@ -1049,30 +1073,6 @@ public class PublicationTests extends AbstractStanfordTest
 	    // no date
 	    // 260 	2#$31980-May 1993$aLondon :$bVogue
 	}
-
-	/**
-	 * functional test:  vern_imprint_display from linked 260
-	 */
-//@Test
-	public void testVernImprintDisplay()
-	{
-		String solrFldName = "vern_imprint_display";
-	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "1862", solrFldName, "1862");
-	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "1973.", solrFldName, "1973");
-
-	    // two values from two subfield c
-	    Record record = factory.newRecord();
-		DataField df = factory.newDataField("260", ' ', ' ');
-	    df.addSubfield(factory.newSubfield('c', "1798"));
-	    df.addSubfield(factory.newSubfield('a', "[i.e. Bruxelles :"));
-	    df.addSubfield(factory.newSubfield('c', "Moens,"));
-	    df.addSubfield(factory.newSubfield('c', "1883]"));
-	    record.addVariableField(df);
-	    solrFldMapTest.assertSolrFldHasNumValues(record, solrFldName, 2);
-	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "1798");
-	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "1883");
-	}
-
 
 	/**
 	 * functional test: assure pub dates later than current year +1 are ignored
