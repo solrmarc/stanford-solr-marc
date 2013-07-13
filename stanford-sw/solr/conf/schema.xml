@@ -151,6 +151,8 @@
     <field name="pub_year_tisim" type="tint" indexed="true" stored="false" multiValued="true" />
     <field name="pub_display" type="string" indexed="false" stored="true" multiValued="true"/>
     <field name="pub_date_display" type="string" indexed="false" stored="true"/>
+    <field name="imprint_display" type="string" indexed="false" stored="true" multiValued="true"/>
+    <field name="vern_imprint_display" type="string" indexed="false" stored="true" multiValued="true"/>
 
     <!-- URL Fields -->
     <field name="url_fulltext" type="string" indexed="false" stored="true" multiValued="true"/>

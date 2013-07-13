@@ -953,6 +953,127 @@ public class PublicationTests extends AbstractStanfordTest
 	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "1912");
 	}
 
+
+	/**
+	 * functional test:  imprint_display from 260
+	 */
+@Test
+	public void testImprintDisplay()
+	{
+
+// 250 a    first, then  space hyphen space, then 260 alpha
+// see https://jirasul.stanford.edu/jira/browse/SW-928
+		String solrFldName = "imprint_display";
+
+		// 250 + 260
+	    Record record = factory.newRecord();
+		DataField df = factory.newDataField("250", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', "Special ed."));
+	    record.addVariableField(df);
+		df = factory.newDataField("260", ' ', ' ');
+		df.addSubfield(factory.newSubfield('a', "London :"));
+		df.addSubfield(factory.newSubfield('b', "William Heinemann,"));
+	    df.addSubfield(factory.newSubfield('c', "2012"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "Special ed. - London : William Heinemann, 2012");
+
+	    // 250 alone
+	    record = factory.newRecord();
+		df = factory.newDataField("250", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', "Canadian ed. ="));
+	    df.addSubfield(factory.newSubfield('b', "Éd. canadienne."));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "Canadian ed. = Éd. canadienne.");
+
+	    record = factory.newRecord();
+		df = factory.newDataField("250", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', "Rev. as of Jan. 1, 1958."));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "Rev. as of Jan. 1, 1958.");
+
+	    // 250 + 260
+	    record = factory.newRecord();
+		df = factory.newDataField("250", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('a', "3rd draft /"));
+	    df.addSubfield(factory.newSubfield('b', "edited by Paul Watson."));
+	    record.addVariableField(df);
+		df = factory.newDataField("260", ' ', ' ');
+		df.addSubfield(factory.newSubfield('a', "London"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "3rd draft / edited by Paul Watson. - London");
+
+
+	    // more specific date
+	    // 260 	##$aOak Ridge, Tenn. :$bU.S. Dept. of Energy,$cApril 15, 1977.
+
+	    // angle brackets
+	    // 260 	##$aStuttgart :$bKlett-Cotta,$c<1981- >
+
+	    // c date
+	    // 260 	##$aNew York :$bPublished by W. Schaus,$cc1860$e(Boston :$fPrinted at J.H. Bufford's)
+
+	    // multiple 260
+
+	    // open date?
+	    // 260 	##$a[Reston, Va.?] :$bU.S. Geological Survey ;$aWashington, D.C. :$bFor sale by the Supt. of Docs., U.S. G.P.O.,$c1986-
+	    // 260 	##$a[Philadelphia] :$bUnited States Pharacopeial Convention ;$a[s.l.] :$bDistributed by Mack Pub. Co.,$c1980-
+
+	    // s.l.
+	    // 260 	##$a[S.l. :$bs.n.,$c15--?]
+	    // 260 	##$a[S.l. :$bs.n.],$c1970$e(London :$fHigh Fidelity Sound Studios)
+
+	    // s.n.
+	    // 260 	##$aVictoria, B.C. :$b[s.n.],$c1898-1945.
+	    // 260 	##$aBelfast [i.e. Dublin :$bs.n.],$c1946 [reprinted 1965]
+
+	    // mult dates single 260c
+	    // 260 	##$aWashington, D.C. (1649 K St., N.W., Washington 20006) :$bWider Opportunities for Women,$c1979 printing, c1975.
+	    // 260 	##$aBelfast [i.e. Dublin :$bs.n.],$c1946 [reprinted 1965]
+	    // 260 	##$aLondon :$bCollins,$c1967, c1965.
+	    // 260 	##$aLondon :$bSussex Tapes,$c1968 [i.e. 1971]
+
+	    // plus sub g
+	    // 260 	##$aLondon :$bMacmillan,$c1971$g(1973 printing)
+
+
+	    // mult 260c
+	    // 260 	##$aParis :$bImpr. Vincent,$c1798$a[i.e. Bruxelles :$bMoens,$c1883]
+
+	    // date range
+	    // 260 	##$aVictoria, B.C. :$b[s.n.],$c1898-1945.
+	    // 260 	##$c1908-1924.
+	    // 260 	##$aLondon :$b[s.n.],$c1889-1912.
+	    // 260 	##$a[Pennsylvania :$bs.n.],$c1878-[1927?]$e(Gettysburg :$fJ.E. Wible, Printer)
+	    // 260 	##$aLondon :$bHoward League for Penal Reform,$c[c1965-c1983]
+
+	    // no date
+	    // 260 	2#$31980-May 1993$aLondon :$bVogue
+	}
+
+	/**
+	 * functional test:  vern_imprint_display from linked 260
+	 */
+//@Test
+	public void testVernImprintDisplay()
+	{
+		String solrFldName = "vern_imprint_display";
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "1862", solrFldName, "1862");
+	    assertSingleSolrFldValFromMarcSubfld("260", 'c', "1973.", solrFldName, "1973");
+
+	    // two values from two subfield c
+	    Record record = factory.newRecord();
+		DataField df = factory.newDataField("260", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('c', "1798"));
+	    df.addSubfield(factory.newSubfield('a', "[i.e. Bruxelles :"));
+	    df.addSubfield(factory.newSubfield('c', "Moens,"));
+	    df.addSubfield(factory.newSubfield('c', "1883]"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldHasNumValues(record, solrFldName, 2);
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "1798");
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "1883");
+	}
+
+
 	/**
 	 * functional test: assure pub dates later than current year +1 are ignored
 	 */
