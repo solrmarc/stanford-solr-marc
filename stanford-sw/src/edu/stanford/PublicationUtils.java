@@ -38,7 +38,6 @@ public class PublicationUtils {
 	/**
 	 * Gets 260ab and 264ab but ignore s.l in 260a and s.n. in 260b
 	 * @param vf26xList - a List of the 260 and 264 fields as VariableField objects
-     * @param fieldSpec - which marc fields / subfields to use as values
 	 * @return Set of strings containing values in 260ab and 264ab, without
 	 *  s.l in 260a and without s.n. in 260b
 	 */
@@ -103,6 +102,7 @@ public class PublicationUtils {
 		}
 		return null;
 	}
+
 
 	/**
 	 * returns the publication date from a record, if it is present and not
