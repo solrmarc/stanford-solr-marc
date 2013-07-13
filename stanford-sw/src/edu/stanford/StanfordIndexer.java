@@ -970,27 +970,22 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     }
 
     /**
-     * returns the imprint year from a record's 260c, if it is present and
+     * returns the a value comprised of 250ab and 260a-g, suitable for display
      *
-     * @param record
-     * @return
-     * @deprecated
+	 * @param record a marc4j Record object
+     * @return String
      */
-    public Set<String> getImprintYear(final Record record)
+    public String getImprint(final Record record)
     {
-		Set<String> results = new HashSet<String>();
-		Set<String> f260subc = MarcUtils.getFieldList(record, "260c");
-		for (String rawVal : f260subc)
-		{
-		    if (rawVal != null && rawVal.length() > 0)
-		    {
-				String year = DateUtils.getYearFromString(rawVal);
-		    	if (year != null && PublicationUtils.yearIsValid(year))
-					results.add(year);
-		    }
-		}
-
-    	return results;
+		String edition = MarcUtils.getFieldVals(record, "250ab", " ").trim();
+		String imprint = MarcUtils.getFieldVals(record, "260abcefg", " ").trim();
+		if (edition.length() > 0)
+			if (imprint.length() > 0)
+				return edition + " - " + imprint;
+			else
+				return edition;
+		else
+			return imprint;
     }
 
 	/**
