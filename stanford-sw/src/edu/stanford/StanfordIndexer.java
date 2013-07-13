@@ -978,7 +978,27 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
     public String getImprint(final Record record)
     {
 		String edition = MarcUtils.getFieldVals(record, "250ab", " ").trim();
+		String vernEdition = MarcUtils.getLinkedFieldVals(record, "250ab", " ").trim();
+		if (edition != null && edition.length() > 0)
+		{
+			if (vernEdition != null && vernEdition.length() > 0)
+				edition = edition + " " + vernEdition;
+		}
+		else
+			if (vernEdition != null && vernEdition.length() > 0)
+				edition = vernEdition;
+
 		String imprint = MarcUtils.getFieldVals(record, "260abcefg", " ").trim();
+		String vernImprint = MarcUtils.getLinkedFieldVals(record, "260abcefg", " ").trim();
+		if (imprint != null && imprint.length() > 0)
+		{
+			if (vernImprint != null && vernImprint.length() > 0)
+				imprint = imprint + " " + vernImprint;
+		}
+		else
+			if (vernImprint != null && vernImprint.length() > 0)
+				imprint = vernImprint;
+
 		if (edition.length() > 0)
 			if (imprint.length() > 0)
 				return edition + " - " + imprint;
