@@ -55,8 +55,7 @@ public class MarcUtils {
     /**
 	 * remove the specified fields from result
 	 *
-	 * FIXME:  the following can be changed if there's a utility to copy
-	 *  record objects
+	 * FIXME:  the following can be changed if there's a utility to copy record objects
 	 * Side Effect:
 	 *   NOTE:  the method changes the first param's value in addition to
 	 *   providing the result (which is the same object as the first param's new value)
@@ -99,10 +98,8 @@ public class MarcUtils {
             // This will ignore any "code" fields and only use textual fields
             int tag = Utils.parseIntNoNFE(field.getTag(), -1);
             if ((tag >= lowerBound) && (tag <= upperBound))
-            {
             	resultList.add(field);
-            }
-        }
+         }
         return resultList;
     }
 
@@ -113,8 +110,7 @@ public class MarcUtils {
 	 * subfield contents with a space separator and add the string to the result
 	 * set.
 	 *
-	 * @param record -
-	 *            the marc record
+	 * @param record - the marc record
 	 * @param fieldSpec -
 	 *            the marc fields (e.g. 600:655) in which we will grab the
 	 *            alphabetic subfield contents for the result set. The field may
@@ -137,28 +133,22 @@ public class MarcUtils {
 	        }
 
 	        String tabooSubfldTags = fldTags[i].substring(3);
-
 	        List<VariableField> varFlds = record.getVariableFields(fldTag);
 	        for (VariableField vf : varFlds)
 	        {
-
 	            StringBuilder buffer = new StringBuilder(500);
 	            DataField df = (DataField) vf;
 	            if (df != null)
 	            {
-
 	                List<Subfield> subfields = df.getSubfields();
-
 	                for (Subfield sf : subfields)
 	                {
 	                    if (Character.isLetter(sf.getCode())
 	                            && tabooSubfldTags.indexOf(sf.getCode()) == -1)
-	                    {
 	                        if (buffer.length() > 0)
 	                            buffer.append(' ' + sf.getData().trim());
 	                        else
 	                            buffer.append(sf.getData().trim());
-	                    }
 	                }
 	                if (buffer.length() > 0)
 	                    resultSet.add(buffer.toString());
@@ -174,8 +164,7 @@ public class MarcUtils {
 	 * Loops through all datafields and creates a field for "all fields"
 	 * searching. Shameless stolen from Vufind Indexer Custom Code
 	 *
-	 * @param record
-	 *            marc record object
+	 * @param record marc record object
 	 * @param lowerBoundStr -
 	 *            the "lowest" marc field to include (e.g. 100). defaults to 100
 	 *            if value passed doesn't parse as an integer
@@ -232,7 +221,8 @@ public class MarcUtils {
 	    List<String> desiredTags = Arrays.asList(fieldSpec.split(":"));
 
 	    List<VariableField> linkedFlds = getVariableFields(record, "880");
-	    for (VariableField lnkFld : linkedFlds) {
+	    for (VariableField lnkFld : linkedFlds)
+	    {
 			DataField df = (DataField) lnkFld;
 			Subfield sub6 = df.getSubfield('6');
 			if (sub6 != null && sub6.getData().length() >= 3 && desiredTags.contains(sub6.getData().substring(0, 3)))
@@ -247,8 +237,7 @@ public class MarcUtils {
 	 * Given a fieldSpec, get any linked 880 fields and include the appropriate
 	 * subfields as a String value in the result set.
 	 *
-	 * @param record
-	 *            marc record object
+	 * @param record - marc record object
 	 * @param fieldSpec -
 	 *            the marc field(s)/subfield(s) for which 880s are sought.
 	 *            Separator of colon indicates a separate value, rather than
@@ -349,11 +338,10 @@ public class MarcUtils {
 	                        addIt = true;
 	                }
 	                else
-	                // a list a subfields
-	                {
+	                	// a list a subfields
 	                    if (subflds.indexOf(subF.getCode()) != -1)
 	                        addIt = true;
-	                }
+
 	                if (addIt)
 	                {
 	                    if (buf.length() > 0)
@@ -439,8 +427,7 @@ public class MarcUtils {
 	 * @param marcField - which field to be matched by 880 fields
 	 */
 	@SuppressWarnings("unchecked")
-	public
-	static Set<VariableField> getVernacularFields(final Record record, String marcField)
+	public static Set<VariableField> getVernacularFields(final Record record, String marcField)
 	{
 		if (marcField.length() != 3)
 	        System.err.println("marc field tag must be three characters: " + marcField);
@@ -453,7 +440,8 @@ public class MarcUtils {
 
 		// we know which 880s we're looking for by matching the marc field and
 		// subfield 6 (linkage info) in the 880
-		for (VariableField vf : list880s) {
+		for (VariableField vf : list880s)
+		{
 			DataField df880 = (DataField) vf;
 			String sub6 = MarcUtils.getSubfieldTrimmed(df880, '6');
 			int dashIx = sub6.indexOf('-');
@@ -467,10 +455,9 @@ public class MarcUtils {
 	public static boolean isControlField(String fieldTag)
 	{
 	    if (fieldTag.matches("00[0-9]"))
-	    {
-	        return (true);
-	    }
-	    return (false);
+	       return (true);
+	    else
+	       return (false);
 	}
 
 
@@ -493,9 +480,7 @@ public class MarcUtils {
     			// get all instances of the single subfield
 	            List<Subfield> subFlds = df.getSubfields(subfldsStr.charAt(0));
 	            for (Subfield sf : subFlds)
-	            {
 	                resultSet.add(sf.getData().trim());
-	            }
     		}
     		else
 	        {
@@ -503,9 +488,7 @@ public class MarcUtils {
 	            for (Subfield sf : subFlds)
 	            {
 	                if (subfldsStr.indexOf(sf.getCode()) != -1)
-	                {
 	                	resultSet.add(sf.getData().trim());
-	                }
 	            }
 	        }
     	}
@@ -524,19 +507,18 @@ public class MarcUtils {
         Set<String> result = new LinkedHashSet<String>();
 
         List<VariableField> varFlds = record.getVariableFields(tags);
-        for (VariableField vf : varFlds) {
-
+        for (VariableField vf : varFlds)
+        {
             StringBuilder buffer = new StringBuilder(500);
-
             DataField df = (DataField) vf;
             if (df != null) {
                 List<Subfield> subfields = df.getSubfields();
-                for (Subfield sf : subfields) {
-                    if (buffer.length() > 0) {
+                for (Subfield sf : subfields)
+                {
+                    if (buffer.length() > 0)
                         buffer.append(" " + sf.getData());
-                    } else {
+                    else
                         buffer.append(sf.getData());
-                    }
                 }
             }
             if (buffer.length() > 0)
@@ -551,14 +533,9 @@ public class MarcUtils {
 	 * instance of each marc field will be put in a separate result (but the
 	 * subfields will be concatenated into a single value for each marc field)
 	 *
-	 * @param record
-	 *            marc record object
-	 * @param fieldSpec -
-	 *            the desired marc fields and subfields as given in the
-	 *            xxx_index.properties file
-	 * @param separator -
-	 *            the character to use between subfield values in the solr field
-	 *            contents
+	 * @param record - marc record object
+	 * @param fieldSpec - the desired marc fields and subfields as given in the xxx_index.properties file
+	 * @param separator - the character to use between subfield values in the solr field contents
 	 * @return Set of values (as strings) for solr field
 	 */
 	public static Set<String> getAllSubfields(final Record record, String fieldSpec, String separator)
@@ -614,13 +591,14 @@ public class MarcUtils {
      * @param code - code of subfield of interest
      * @return the contents of the subfield, if it exists; null otherwise
      */
-    public static String getSubfieldData(DataField df, char code) {
+    public static String getSubfieldData(DataField df, char code)
+    {
         String result = null;
-        if (df != null) {
+        if (df != null)
+        {
             Subfield sf = df.getSubfield(code);
-            if (sf != null && sf.getData() != null) {
+            if (sf != null && sf.getData() != null)
                 result = sf.getData();
-            }
         }
         return result;
     }
@@ -629,7 +607,8 @@ public class MarcUtils {
      *  contained in the data field
      */
     @SuppressWarnings("unchecked")
-    public static List<String> getSubfieldStrings(DataField df, char code) {
+    public static List<String> getSubfieldStrings(DataField df, char code)
+    {
         List<Subfield> listSubcode = df.getSubfields(code);
         List<String> vals = new ArrayList<String>(listSubcode.size());
         for (Subfield s : listSubcode) {
@@ -694,16 +673,13 @@ public class MarcUtils {
 	                // get all instances of the single subfield
 	                List<Subfield> subFlds = dfield.getSubfields(subfldsStr.charAt(0));
 	                for (Subfield sf : subFlds)
-	                {
 	                    resultSet.add(sf.getData().trim());
-	                }
 	            }
 	        }
 	        else
-	        {
 	            // Control Field
 	            resultSet.add(((ControlField) vf).getData().trim());
-	        }
+
 	    }
 	    return resultSet;
 	}
@@ -815,9 +791,8 @@ public class MarcUtils {
 		} else {
         	// for single subfield, each occurrence is separate field in lucene doc
 			List<Subfield> subFlds = df.getSubfields(subfldsStr.charAt(0));
-			for (Subfield sf : subFlds) {
+			for (Subfield sf : subFlds)
 				resultSet.add(sf.getData().trim());
-			}
 		}
 		return resultSet;
 	}
@@ -839,13 +814,16 @@ public class MarcUtils {
 	static Set<String> getSubfieldsAsSet(DataField df, String subfldsStr, int beginIx, int endIx, boolean RTL)
     {
 		Set<String> resultSet = new LinkedHashSet<String>();
-		if (subfldsStr.length() > 1) {
+		if (subfldsStr.length() > 1)
+		{
 			// concatenate desired subfields with space separator
 			StringBuilder buffer = new StringBuilder();
 			List<Subfield> subFlds = df.getSubfields();
 			for (Subfield sf : subFlds) {
-				if (subfldsStr.contains(String.valueOf(sf.getCode()))) {
-					if (sf.getData().length() >= endIx) {
+				if (subfldsStr.contains(String.valueOf(sf.getCode())))
+				{
+					if (sf.getData().length() >= endIx)
+					{
 // TODO:  clean this up, if this works, or find a way to test it
 						// if (RTL) { // right to left language
 						// if (buffer.length() > 0)
@@ -854,7 +832,7 @@ public class MarcUtils {
 						// } else { // left to right language
 						if (buffer.length() > 0)
 							buffer.append(' ');
-                            buffer.append(sf.getData().trim().substring(beginIx, endIx));
+                        buffer.append(sf.getData().trim().substring(beginIx, endIx));
 						// }
 					}
 				}
@@ -863,7 +841,8 @@ public class MarcUtils {
 		} else {
         	// for single subfield, each occurrence is separate field in lucene doc
 			List<Subfield> subFlds = df.getSubfields(subfldsStr.charAt(0));
-			for (Subfield sf : subFlds) {
+			for (Subfield sf : subFlds)
+			{
 				if (sf.getData().length() >= endIx)
             		resultSet.add(sf.getData().trim().substring(beginIx, endIx));
 			}
@@ -873,8 +852,7 @@ public class MarcUtils {
 
 
 	/**
-	 * return the value of a subfield, trimmed, or empty string if there is no
-	 *  subfield value.
+	 * return the value of a subfield, trimmed, or empty string if there is no subfield value.
 	 */
 	public static String getSubfieldTrimmed(DataField df, char subcode) {
 		String result = getSubfieldData(df, subcode);
@@ -917,9 +895,7 @@ public class MarcUtils {
 	        List<VariableField> varFlds = record.getVariableFields(fldTag);
 	        for (VariableField vf : varFlds)
 	        {
-
 	            StringBuilder buffer = new StringBuilder(500);
-
 	            DataField df = (DataField) vf;
 	            if (df != null)
 	            {
@@ -927,13 +903,10 @@ public class MarcUtils {
 	                for (Subfield sf : subfields)
 	                {
 	                    if (Character.isLetter(sf.getCode()))
-	                    {
-	                        if (buffer.length() > 0) {
+	                        if (buffer.length() > 0)
 	                            buffer.append(" " + sf.getData().trim());
-	                        } else {
+	                        else
 	                            buffer.append(sf.getData().trim());
-	                        }
-	                    }
 	                }
 	            }
 	            if (buffer.length() > 0)
@@ -1071,7 +1044,7 @@ public class MarcUtils {
 
 // -------------------------- indicator methods --------------------------------
 
-	    /**
+	/**
 	 * @param df a DataField
 	 * @return the integer (0-9, 0 if blank or other) in the 2nd indicator
 	 */
@@ -1084,8 +1057,7 @@ public class MarcUtils {
 	    return result;
 	}
 
-
-		/**
+	/**
 	 * remove trailing punctuation (default trailing characters to be removed)
 	 *    See org.solrmarc.tools.Utils.cleanData() for details on the
 	 *     punctuation removal
@@ -1099,18 +1071,13 @@ public class MarcUtils {
 	    Set<String> result = getFieldList(record, fieldSpec);
 	    Set<String> newResult = new LinkedHashSet<String>();
 	    for (String s : result)
-	    {
 	        newResult.add(Utils.cleanData(s));
-	    }
 	    return newResult;
 	}
 
 
 
-
-
 // ----------------- combining record methods ----------------------------------
-
 
 	/**
 	 * merge the given fields from nextRecord into resultRecord
@@ -1180,9 +1147,7 @@ public class MarcUtils {
 
 	    // add back the temporarily removed fields
 	    for (VariableField vf : postInsertFields)
-	    {
 	        resultRecord.addVariableField(vf);
-	    }
 
 	    return(resultRecord);
 	}
@@ -1282,9 +1247,7 @@ public class MarcUtils {
 	                char loopStart = (eraVal != eraStart1) ? '0' : Character.isDigit(eraStart2) ? eraStart2 : '0';
 	                char loopEnd = (eraVal != eraEnd1) ? '9' : Character.isDigit(eraEnd2) ? eraEnd2 : '9';
 	                for (char eraVal2 = loopStart; eraVal2 <= loopEnd; eraVal2++)
-	                {
 	                    result.add("" + eraVal + eraVal2);
-	                }
 	            }
 	            result.add("" + eraVal);
 	        }
@@ -1298,8 +1261,7 @@ public class MarcUtils {
 	 * tagStr that is NOT about bytes (i.e. not a 008[7-12] type fieldspec), the
 	 * result string is the concatenation of all the specific subfields.
 	 *
-	 * @param record -
-	 *            the marc record object
+	 * @param record - the marc record object
 	 * @param tagStr
 	 *            string containing which field(s)/subfield(s) to use. This is a
 	 *            series of: marc "tag" string (3 chars identifying a marc
@@ -1432,19 +1394,17 @@ public class MarcUtils {
 	public static String getTitle(Record record)
 	{
 	    DataField titleField = (DataField) record.getVariableField("245");
-	    if ( titleField == null) {
+	    if ( titleField == null)
 	      return "";
-	    }
 
 	    StringBuilder titleBuilder = new StringBuilder();
-
 	    Iterator<Subfield> iter = titleField.getSubfields().iterator();
-	    while ( iter.hasNext() ) {
+	    while ( iter.hasNext() )
+	    {
 	      Subfield f = iter.next();
 	      char code = f.getCode();
-	      if ( code == 'a' || code == 'b' || code == 'k' ) {
+	      if ( code == 'a' || code == 'b' || code == 'k' )
 	         titleBuilder.append(f.getData());
-	      }
 	    }
 
 	    return Utils.cleanData(titleBuilder.toString());
@@ -1472,13 +1432,11 @@ public class MarcUtils {
 	    title = title.toLowerCase();
 
 	    //Skip non-filing chars, if possible.
-	    if ( title.length() > nonFilingInt )  {
-	      title = title.substring(nonFilingInt);
-	    }
+	    if ( title.length() > nonFilingInt )
+	        title = title.substring(nonFilingInt);
 
-	    if ( title.length() == 0) {
-	      return null;
-	    }
+	    if ( title.length() == 0)
+	        return null;
 
 	    return title;
 	}
@@ -1730,7 +1688,5 @@ public class MarcUtils {
         }
         return tmp;
     }
-
-
 
 }
