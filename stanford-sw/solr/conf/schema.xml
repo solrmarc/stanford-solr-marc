@@ -145,8 +145,10 @@
     <field name="pub_date_search" type="text" indexed="true" stored="false" omitNorms="true"/>
     <field name="pub_date_sort" type="alphaSort" indexed="true" stored="false" />
     <!-- Pub Date Facet Fields -->
+    <!-- deprecated -->
     <field name="pub_date_group_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <!-- pub_date is facet and display, see also dynamic fields -->
+    <!-- deprecated -->
     <field name="pub_date" type="string" indexed="true" stored="true" />
     <field name="pub_year_tisim" type="tint" indexed="true" stored="false" multiValued="true" />
     <field name="pub_display" type="string" indexed="false" stored="true" multiValued="true"/>
