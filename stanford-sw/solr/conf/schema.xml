@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <schema name="Stanford Searchworks" version="1.5">
   <uniqueKey>id</uniqueKey>
-  <!-- defaultSearchField is DEPRECATED; use df in requestHandler -->
-  <defaultSearchField>all_search</defaultSearchField>
-  <!-- defaultOperator is DEPRECATED; use q.op in requestHandler -->
-  <solrQueryParser defaultOperator="AND" />
 
   <fields>
-    <!-- id: Unique id for indexed document -->
+    <!-- needed by some of Solr 4.0 functionality like transaction log or partial documents update -->
+    <field name="_version_" type="long" indexed="true" stored="true"/>
+
     <field name="id" type="string_punct_stop" indexed="true" stored="true" required="true" />
     <field name="created" type="date" indexed="true" stored="true" default="NOW/SECOND" />
     <field name="last_updated" type="date" indexed="true" stored="true" default="NOW/SECOND" />
@@ -36,6 +34,7 @@
     <field name="oclc" type="string_punct_stop" indexed="true" stored="true" multiValued="true" />
 
     <!-- Title Search Fields -->
+    <field name="title_245a_exact_search" type="text_anchored" indexed="true" stored="false" />
     <field name="title_245a_search" type="text" indexed="true" stored="false" />
     <field name="vern_title_245a_search" type="textNoStem" indexed="true" stored="false" />
     <field name="title_245a_unstem_search" type="textNoStem" indexed="true" stored="false" />
@@ -68,6 +67,7 @@
     <field name="title_sort" type="alphaSort" indexed="true" stored="true" />
 
     <!-- Series Search Fields -->
+    <field name="series_exact_search" type="text_anchored" indexed="true" stored="false" multiValued="true" />
     <field name="series_search" type="text" indexed="true" stored="false" multiValued="true" />
     <field name="vern_series_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
     <field name="series_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
@@ -228,16 +228,13 @@
     <field name="collection" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <!-- collection_search: allow searching within collections for aggr. colls -->
     <field name="collection_search" type="string_punct_stop" indexed="true" stored="false" multiValued="true" omitNorms="true" />
-    <!-- display_type is used by UI code -->
+    <!-- display_type is used by UI code, e.g. for Hydrus objects -->
     <field name="display_type" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <!--  used to determine when something is a digital collection -->
     <field name="collection_type" type="string" indexed="true" stored="true" multiValued="true" />
     <!--  easy way to indicate collection's parent in UI (may be deprecated in future) -->
     <field name="collection_with_title" type="string" indexed="false" stored="true" multiValued="true" />
     <field name="img_info" type="string" indexed="false" stored="true" multiValued="true"/>
-
-    <!-- TO BE REMOVED when gdor indexing no longer populates and gdor records are reindexed (2013-04-17) -->
-    <field name="access_condition_display" type="string" indexed="false" stored="true" multiValued="true" />
 
     <!-- *************** dynamic field types  ****************** -->
 <!--
@@ -258,7 +255,8 @@
   <copyField source="pub_date" dest="pub_date_search" />
   <copyField source="db_az_subject" dest="db_az_subject_search" />
 
-  <!-- unstemmed search fields: title -->
+  <!-- unstemmed and anchored search fields: title -->
+  <copyField source="title_245a_search" dest="title_245a_exact_search" />
   <copyField source="title_245a_search" dest="title_245a_unstem_search" />
   <copyField source="title_245_search" dest="title_245_unstem_search" />
   <copyField source="title_uniform_search" dest="title_uniform_unstem_search" />
@@ -313,7 +311,7 @@
     <fieldType name="random" class="solr.RandomSortField" indexed="true" />
 
     <!-- Analyzed Text, general case -->
-    <fieldtype name="text" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
+    <fieldtype name="text" class="solr.TextField" positionIncrementGap="10000" autoGeneratePhraseQueries="true">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
         <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
@@ -322,13 +320,13 @@
           splitOnCaseChange="1" generateWordParts="1" catenateWords="1"
           splitOnNumerics="0" generateNumberParts="1" catenateNumbers="1"
           catenateAll="0" preserveOriginal="0" stemEnglishPossessive="1" />
-        <filter class="solr.EnglishPorterFilterFactory"/>
+        <filter class="solr.SnowballPorterFilterFactory" language="English"/>
         <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
       </analyzer>
     </fieldtype>
 
-    <!-- Analyzed Text, no Stemming or Synonyms -->
-    <fieldtype name="textNoStem" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
+    <!-- Analyzed Text, no Stemming -->
+    <fieldtype name="textNoStem" class="solr.TextField" positionIncrementGap="10000" autoGeneratePhraseQueries="true">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
         <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
@@ -337,6 +335,25 @@
           splitOnCaseChange="1" generateWordParts="1" catenateWords="1"
           splitOnNumerics="0" generateNumberParts="1" catenateNumbers="1"
           catenateAll="0" preserveOriginal="0" stemEnglishPossessive="0" />
+      </analyzer>
+    </fieldtype>
+
+    <!-- Left and Right Anchored Analyzed Text, no Stemming -->
+    <fieldtype name="text_anchored" class="solr.TextField" positionIncrementGap="10000" autoGeneratePhraseQueries="true">
+      <analyzer>
+        <!-- put beginning and ending anchors on field value, removing trailing chars -->
+        <!-- watch out for query time whitespace separated chars that will be processed as their own token stream, e.g. in 'felines : warm and fuzzy' -->
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(.*[\S&amp;&amp;[^\.\,:;/=&lt;&gt;\(\)\[\]\&amp;\|]])[\s\.\,:;/=&lt;&gt;\(\)\[\]\&amp;\|]*$" replacement="aaaaaa$1zzzzzz"/>
+        <tokenizer class="solr.WhitespaceTokenizerFactory" />
+        <filter class="solr.ICUFoldingFilterFactory"/>  <!-- NFKC, case folding, diacritics removed -->
+        <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
+        <filter class="solr.SynonymFilterFactory" synonyms="synonyms_both_anchors.txt" ignoreCase="true" expand="true"/>
+        <filter class="solr.SynonymFilterFactory" synonyms="synonyms_left_anchor.txt" ignoreCase="true" expand="true"/>
+        <filter class="solr.SynonymFilterFactory" synonyms="synonyms_right_anchor.txt" ignoreCase="true" expand="true"/>
+        <filter class="solr.WordDelimiterFilterFactory"
+          splitOnCaseChange="1" generateWordParts="1" catenateWords="1"
+          splitOnNumerics="0" generateNumberParts="1" catenateNumbers="1"
+          catenateAll="0" preserveOriginal="0" stemEnglishPossessive="1" />
       </analyzer>
     </fieldtype>
 
@@ -367,14 +384,14 @@
     </fieldType>
 
     <!-- field designed for LC call number searching -->
-    <fieldType name="callnum_ws" class="solr.TextField" omitNorms="true" autoGeneratePhraseQueries="true">
+    <fieldType name="callnum_ws" class="solr.TextField" omitNorms="true" positionIncrementGap="100" autoGeneratePhraseQueries="true">
       <analyzer type="index">
         <!-- LC: no space between class letters and digits; normalize to " ." before first cutter, no leading space -->
         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^ *([A-Za-z]{1,3}) ?(\d{1,4}(\.\d+)?) ?\.?([A-Za-z]\d+)" replacement="$1$2 .$4"/>
         <!-- LC: add space between first cutter letter and its digits to allow matching on first cutter letter only -->
         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([A-Za-z]{1,3}\d{1,4}(\.\d+)? \.([A-Za-z]))(\d+)" replacement="$1 $4"/>
         <!-- prepend yyyy to string so searches can be left anchored -->
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^ *([^ ]{1})" replacement="yyyy$1"/>
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(\S{1})" replacement="yyyy$1"/>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
         <filter class="solr.LowerCaseFilterFactory" />
       </analyzer>
@@ -387,7 +404,7 @@
         <!-- LC: add space between first cutter letter and its digits to allow matching on first cutter letter only -->
         <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([A-Za-z]{1,3}\d{1,4}(\.\d+)? \.([A-Za-z]))([^ ])" replacement="$1 $4"/>
         <!-- prepend yyyy to string so searches can be left anchored -->
-        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^ *([^ ]{1})" replacement="yyyy$1"/>
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(\S{1})" replacement="yyyy$1"/>
         <tokenizer class="solr.WhitespaceTokenizerFactory" />
 	      <filter class="solr.LowerCaseFilterFactory" />
       </analyzer>

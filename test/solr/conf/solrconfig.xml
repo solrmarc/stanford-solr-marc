@@ -7,6 +7,8 @@
 <config>
   <abortOnConfigurationError>${solr.abortOnConfigurationError:true}</abortOnConfigurationError>
   
+  <luceneMatchVersion>LUCENE_43</luceneMatchVersion>
+
   <!-- lib directives can be used to instruct Solr to load an Jars identified
        and use them to resolve any "plugins" specified in your solrconfig.xml or
        schema.xml (ie: Analyzers, Request Handlers, etc...).
@@ -16,200 +18,58 @@
        If a "./lib" directory exists in your instanceDir, all files found in it
        are included as if you had used the following syntax...
 
-              <lib dir="./lib" />
     -->
-  <!-- A dir option by itself adds any files found in the directory to the
-       classpath, this is useful for including all jars in a directory.
-    -->
-  <!-- <lib dir="../../contrib/extraction/lib" /> -->
-  <!-- When a regex is specified in addition to a directory, only the files in that
-       directory which completely match the regex (anchored on both ends)
-       will be included.
-    -->
-  <!-- <lib dir="../../dist/" regex="apache-solr-cell-\d.*\.jar" /> -->
-  <!-- <lib dir="../../dist/" regex="apache-solr-clustering-\d.*\.jar" /> -->
-  <!-- If a dir option (with or without a regex) is used and nothing is found
-       that matches, it will be ignored
-    -->
-  <!-- <lib dir="../../contrib/clustering/lib/downloads/" /> -->
+  <lib dir="./solr/lib" />
   
-  <dataDir>${solr.data.dir:./solr/data}</dataDir>
+  <dataDir>${solr.data.dir:}</dataDir>
   
-  <!-- index time configurations -->
-  <indexDefaults>
-    <useCompoundFile>false</useCompoundFile>
-    <mergeFactor>10</mergeFactor>
-    <!-- Sets the amount of RAM that may be used by Lucene indexing
-         for buffering added documents and deletions before they are
-         flushed to the Directory.  -->
-    <!-- If both ramBufferSizeMB and maxBufferedDocs is set, then Lucene will flush based on whichever limit is hit first.  -->
-    <ramBufferSizeMB>32</ramBufferSizeMB>
-    <maxMergeDocs>2147483647</maxMergeDocs>
-    <maxFieldLength>10000</maxFieldLength>
+  <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}"/>
+  <codecFactory class="solr.SchemaCodecFactory"/>
+  <schemaFactory class="ClassicIndexSchemaFactory"/>
+
+  <indexConfig>
+    <filter class="solr.LimitTokenCountFilterFactory" maxTokenCount="30000"/>
     <writeLockTimeout>1000</writeLockTimeout>
-    <commitLockTimeout>10000</commitLockTimeout>
-
-     <!--
-      This option specifies which Lucene LockFactory implementation to use.
-
-      single = SingleInstanceLockFactory - suggested for a read-only index
-               or when there is no possibility of another process trying
-               to modify the index.
-      native = NativeFSLockFactory  - uses OS native file locking
-      simple = SimpleFSLockFactory  - uses a plain file for locking
-
-      (For backwards compatibility with Solr 1.2, 'simple' is the default
-       if not specified.)
-    -->
-    <lockType>native</lockType>  
-  </indexDefaults>
-  <mainIndex>
     <useCompoundFile>false</useCompoundFile>
     <ramBufferSizeMB>32</ramBufferSizeMB>
     <mergeFactor>10</mergeFactor>
-    <maxMergeDocs>2147483647</maxMergeDocs>
-    <maxFieldLength>10000</maxFieldLength>
+    <lockType>native</lockType>
     <unlockOnStartup>false</unlockOnStartup>
+    <reopenReaders>true</reopenReaders>
     <deletionPolicy class="solr.SolrDeletionPolicy">
-      <str name="keepOptimizedOnly">false</str>      
       <str name="maxCommitsToKeep">1</str>
-      <!-- The number of optimized commit points to be kept -->
-      <str name="maxOptimizedCommitsToKeep">1</str>      
-      <!--
-          Delete all commit points once they have reached the given age.
-          Supports DateMathParser syntax e.g.
-
-          <str name="maxCommitAge">30MINUTES</str>
-          <str name="maxCommitAge">1DAY</str>
-      -->
+      <str name="maxOptimizedCommitsToKeep">0</str>
     </deletionPolicy>
-  </mainIndex>
+  </indexConfig>
 
   <updateHandler class="solr.DirectUpdateHandler2" />
 
-  <!-- query time configurations -->
   <query>
     <maxBooleanClauses>1024</maxBooleanClauses>
-    <filterCache class="solr.FastLRUCache"
-        size="512" initialSize="512" autowarmCount="128"/>
-    <queryResultCache class="solr.LRUCache"
-        size="512" initialSize="512" autowarmCount="32"/>
-    <documentCache class="solr.LRUCache"
-        size="512" initialSize="512" autowarmCount="0"/>
+    <filterCache class="solr.FastLRUCache" size="512" initialSize="512" autowarmCount="0"/>
+    <useFilterForSortedQuery>false</useFilterForSortedQuery>
+    <queryResultCache class="solr.LRUCache" size="512" initialSize="512" autowarmCount="0"/>
+    <documentCache class="solr.LRUCache" size="512" initialSize="512" autowarmCount="0"/>
     <enableLazyFieldLoading>true</enableLazyFieldLoading>
     <queryResultWindowSize>50</queryResultWindowSize>
-    <queryResultMaxDocsCached>200</queryResultMaxDocsCached>
-    <HashDocSet maxSize="3000" loadFactor="0.75"/>
-
-    <!-- a newSearcher event is fired whenever a new searcher is being prepared
-      and there is a current searcher handling requests (aka registered).
-      It can be used to prime certain caches to prevent long request times for
-      certain requests.
-    -->
-    <!-- QuerySenderListener takes an array of NamedList and executes a
-         local query request for each NamedList in sequence. -->
-    <listener event="newSearcher" class="solr.QuerySenderListener">
-      <arr name="queries">
-        <!-- query for all objects (default query) for home page facets -->
-        <lst>
-          <str name="rows">0</str> 
-          <str name="fl">score</str>
-          <str name="facet">true</str>
-          <str name="facet.mincount">1</str>
-          <str name="facet.limit">10</str>
-          <str name="facet.field">format</str>
-          <str name="facet.field">lc_1letter_facet</str>
-          <str name="f.lc_1letter_facet.facet.sort">false</str>
-          <str name="facet.field">lc_alpha_facet</str>
-          <str name="facet.field">lc_b4cutter_facet</str>
-          <str name="facet.field">language_facet</str>
-          <str name="facet.field">pub_date</str>
-          <str name="facet.field">subject_era_facet</str>
-          <str name="facet.field">subject_geo_facet</str>
-          <str name="facet.field">subject_topic_facet</str>
-        </lst>
-        <!-- query for single document to populate filter cache -->
-        <lst>
-          <str name="q">id:00282214</str>
-          <str name="qt">standard</str>
-          <str name="rows">0</str>
-          <str name="fl">score</str>
-          <str name="facet">true</str>
-          <str name="facet.mincount">1</str>
-          <str name="facet.limit">10</str>
-          <str name="facet.field">format</str>
-          <str name="facet.field">lc_1letter_facet</str>
-          <str name="f.lc_1letter_facet.facet.sort">false</str>
-          <str name="facet.field">lc_alpha_facet</str>
-          <str name="facet.field">lc_b4cutter_facet</str>
-          <str name="facet.field">language_facet</str>
-          <str name="facet.field">pub_date</str>
-          <str name="facet.field">subject_era_facet</str>
-          <str name="facet.field">subject_geo_facet</str>
-          <str name="facet.field">subject_topic_facet</str>
-        </lst>
-      </arr>
-    </listener>
-
-    <!-- a firstSearcher event is fired whenever a new searcher is being
-         prepared but there is no current registered searcher to handle
-         requests or to gain autowarming data from. -->
-    <listener event="firstSearcher" class="solr.QuerySenderListener">
-      <arr name="queries">
-        <!-- query for all objects (default query) for home page facets -->
-        <lst>
-          <str name="rows">0</str> 
-          <str name="fl">score</str>
-          <str name="facet">true</str>
-          <str name="facet.mincount">1</str>
-          <str name="facet.limit">10</str>
-          <str name="facet.field">format</str>
-          <str name="facet.field">lc_1letter_facet</str>
-          <str name="f.lc_1letter_facet.facet.sort">false</str>
-          <str name="facet.field">lc_alpha_facet</str>
-          <str name="facet.field">lc_b4cutter_facet</str>
-          <str name="facet.field">language_facet</str>
-          <str name="facet.field">pub_date</str>
-          <str name="facet.field">subject_era_facet</str>
-          <str name="facet.field">subject_geo_facet</str>
-          <str name="facet.field">subject_topic_facet</str>
-        </lst>
-        <!-- query for single document to populate filter cache -->
-        <lst>
-          <str name="q">id:00282214</str>
-          <str name="qt">standard</str>
-          <str name="rows">0</str>
-          <str name="fl">score</str>
-          <str name="facet">true</str>
-          <str name="facet.mincount">1</str>
-          <str name="facet.limit">10</str>
-          <str name="facet.field">format</str>
-          <str name="facet.field">lc_1letter_facet</str>
-          <str name="f.lc_1letter_facet.facet.sort">false</str>
-          <str name="facet.field">lc_alpha_facet</str>
-          <str name="facet.field">lc_b4cutter_facet</str>
-          <str name="facet.field">language_facet</str>
-          <str name="facet.field">pub_date</str>
-          <str name="facet.field">subject_era_facet</str>
-          <str name="facet.field">subject_geo_facet</str>
-          <str name="facet.field">subject_topic_facet</str>
-        </lst>
-      </arr>
-    </listener>
-
-    <useColdSearcher>false</useColdSearcher>
+    <queryResultMaxDocsCached>100</queryResultMaxDocsCached>
+    <HashDocSet maxSize="3000" loadFactor="0.75"/>    <!-- Deprecated as of Solr 4 -->
+    <useColdSearcher>true</useColdSearcher>
     <maxWarmingSearchers>2</maxWarmingSearchers>
   </query>
 
+  <!-- Let the dispatch filter handler /select?qt=XXX -->
   <requestDispatcher handleSelect="true" >
-    <requestParsers enableRemoteStreaming="false" multipartUploadLimitInKB="2048" />
+    <!--Make sure your system has some authentication before enabling remote streaming!  -->
+    <requestParsers enableRemoteStreaming="true" multipartUploadLimitInKB="2048" />
     <httpCaching lastModifiedFrom="openTime" etagSeed="Solr" />
   </requestDispatcher>
 
-  <!-- blacklight does not use the standard request handler -->
   <requestHandler name="standard" class="solr.SearchHandler">
     <lst name="defaults">
+      <str name="defType">lucene</str>
       <str name="echoParams">all</str>
+      <str name="df">text</str>
       <str name="q.op">AND</str>
     </lst>
   </requestHandler>
@@ -221,6 +81,10 @@
       <str name="echoParams">explicit</str>      
       <str name="q.alt">*:*</str>
       <str name="mm">2&lt;-1 5&lt;-2 6&lt;90%</str>
+      <!-- in case of lucene query parsing -->
+      <str name="df">text</str>
+      <str name="q.op">AND</str>
+
       <!-- this qf and pf are used by default, if not otherwise specified by
            client. The default blacklight_config will use these for the
            "keywords" search. See the author_qf/author_pf, title_qf, etc 
@@ -369,17 +233,7 @@
       <str name="facet.field">subject_era_facet</str>
       <str name="facet.field">subject_geo_facet</str>
       <str name="facet.field">subject_topic_facet</str>
-      
-      <str name="spellcheck">true</str>
-      <str name="spellcheck.dictionary">default</str>
-      <str name="spellcheck.onlyMorePopular">true</str>
-      <str name="spellcheck.extendedResults">true</str>
-      <str name="spellcheck.collate">false</str>
-      <str name="spellcheck.count">5</str>
     </lst>
-    <arr name="last-components">
-      <str>spellcheck</str>
-    </arr>
   </requestHandler>
   
   <!-- for requests to get a single document; use id=666 instead of q=id:666 -->
@@ -509,55 +363,14 @@
       <str name="facet.field">subject_era_facet</str>
       <str name="facet.field">subject_geo_facet</str>
       <str name="facet.field">subject_topic_facet</str>
-      
-      <str name="spellcheck">true</str>
-      <str name="spellcheck.dictionary">subject</str>
-      <str name="spellcheck.onlyMorePopular">true</str>
-      <str name="spellcheck.extendedResults">true</str>
-      <str name="spellcheck.collate">false</str>
-      <str name="spellcheck.count">5</str>
     </lst>
-    <arr name="last-components">
-      <str>spellcheck</str>
-    </arr>
   </requestHandler>
   
-  <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
-    <str name="queryAnalyzerFieldType">textSpell</str>
-    <lst name="spellchecker">
-      <str name="name">default</str>
-      <str name="field">spell</str>
-      <str name="spellcheckIndexDir">./spell</str>
-      <str name="buildOnOptimize">true</str>
-    </lst>
-    <lst name="spellchecker">
-      <str name="name">author</str>
-      <str name="field">author_spell</str>
-      <str name="spellcheckIndexDir">./spell_author</str>
-      <str name="accuracy">0.7</str>
-      <str name="buildOnOptimize">true</str>
-    </lst>
-    <lst name="spellchecker">
-      <str name="name">subject</str>
-      <str name="field">subject_spell</str>
-      <str name="spellcheckIndexDir">./spell_subject</str>
-      <str name="accuracy">0.7</str>
-      <str name="buildOnOptimize">true</str>
-    </lst>
-    <lst name="spellchecker">
-      <str name="name">title</str>
-      <str name="field">title_spell</str>
-      <str name="spellcheckIndexDir">./spell_title</str>
-      <str name="accuracy">0.7</str>
-      <str name="buildOnOptimize">true</str>
-    </lst>
-  </searchComponent>
 
   <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" />
-  <requestHandler name="/update/javabin" class="solr.BinaryUpdateRequestHandler" />
-  <requestHandler name="/analysis" class="solr.AnalysisRequestHandler" />
+  <requestHandler name="/analysis" class="solr.AnalysisRequestHandler" startup="lazy" />
   <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" />
-  <requestHandler name="/admin/ping" class="PingRequestHandler">
+  <requestHandler name="/admin/ping" class="PingRequestHandler" startup="lazy" >
     <lst name="defaults">
       <str name="qt">search</str>
       <str name="q">book</str>
@@ -567,12 +380,5 @@
   <admin>
     <defaultQuery>book</defaultQuery>
   </admin>
-
-  <requestHandler name="/debug/dump" class="solr.DumpRequestHandler" >
-    <lst name="defaults">
-     <str name="echoParams">explicit</str>
-     <str name="echoHandler">true</str>
-    </lst>
-  </requestHandler>
 
 </config>
