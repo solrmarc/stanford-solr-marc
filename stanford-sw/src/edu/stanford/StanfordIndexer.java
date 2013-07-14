@@ -1033,9 +1033,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getPubDateSliderVals(final Record record)
 	{
-		return PublicationUtils.getPubDateSliderVals(cf008, MarcUtils.getFieldList(record, "260c"));
-// 2013-06-26  simplifying dateSlider values to 008 only temporarily
-//		return PublicationUtils.getPubDateSliderVals(cf008, date260c, record.getVariableFields("264"));
+		return PublicationUtils.getPubDateSliderVals(cf008, MarcUtils.getFieldList(record, "260c"), id, logger);
 	}
 
 	/**
@@ -1049,7 +1047,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public String getPubDateSort(final Record record) {
 		return PublicationUtils.getPubDateSort(cf008, date260c, record.getVariableFields("264"));
-//		return PublicationUtils.getPubDateSort(cf008date1, date260c, record.getVariableFields("264"));
 	}
 
 	/**
