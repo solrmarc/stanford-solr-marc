@@ -1268,7 +1268,7 @@ public class PublicationTests extends AbstractStanfordTest
 		String fldName = "pub_year_tisim";
 		Set<String> docIds = new HashSet<String>();
 
-		assertSingleResult("zpubDate2010", fldName, "2010");
+//		assertSingleResult("zpubDate2010", fldName, "2010");
 
 		// multiple dates
 		assertSingleResult("pubDate195u", fldName, "1957");
@@ -1293,6 +1293,7 @@ public class PublicationTests extends AbstractStanfordTest
 		docIds.clear();
 		docIds.add("pubDate0059");
 		docIds.add("j2005");
+		docIds.add("contRes");
 		assertSearchResults(fldName, "2005", docIds);
 		docIds.clear();
 		docIds.add("pubDate195u");  // it's a range including 1970
@@ -1365,9 +1366,9 @@ public class PublicationTests extends AbstractStanfordTest
 		//  they are in order of occurrence in the raw data
 		expectedOrderList.add("pubDate0000");
 		expectedOrderList.add("pubDate0019");
-		expectedOrderList.add("pubDate0059");  // 2005 not in 008
-		expectedOrderList.add("pubDate0197-1");
-		expectedOrderList.add("pubDate0204");  // 2004  not in 008
+//		expectedOrderList.add("pubDate0059");  // 2005 not in 008
+//		expectedOrderList.add("pubDate0197-1");
+//		expectedOrderList.add("pubDate0204");  // 2004  not in 008
 		expectedOrderList.add("pubDate1uuu");
 		expectedOrderList.add("pubDate6666");
 		expectedOrderList.add("pubDate9999");
@@ -1466,9 +1467,9 @@ public class PublicationTests extends AbstractStanfordTest
 		//  schema file.
 		expectedOrderList.add("pubDate0000");
 		expectedOrderList.add("pubDate0019");
-		expectedOrderList.add("pubDate0059");  // 2005 not in 008
-		expectedOrderList.add("pubDate0197-1");
-		expectedOrderList.add("pubDate0204");  // 2004  not in 008
+//		expectedOrderList.add("pubDate0059");  // 2005 not in 008
+//		expectedOrderList.add("pubDate0197-1");
+//		expectedOrderList.add("pubDate0204");  // 2004  not in 008
 		expectedOrderList.add("pubDate1uuu");
 		expectedOrderList.add("pubDate6666");
 		expectedOrderList.add("pubDate9999");

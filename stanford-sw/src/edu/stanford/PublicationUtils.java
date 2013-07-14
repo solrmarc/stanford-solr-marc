@@ -8,7 +8,6 @@
 package edu.stanford;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.solrmarc.tools.*;
@@ -23,7 +22,7 @@ import edu.stanford.enumValues.PubDateGroup;
  */
 public class PublicationUtils {
 
-	private static int CURRENT_YEAR_AS_INT = Calendar.getInstance().get(Calendar.YEAR);
+	static int CURRENT_YEAR_AS_INT = Calendar.getInstance().get(Calendar.YEAR);
 	private static String CURRENT_YEAR_AS_STR = Integer.toString(CURRENT_YEAR_AS_INT);
 
 	private static int EARLIEST_VALID_YEAR = 500;
@@ -95,9 +94,12 @@ public class PublicationUtils {
 			if (cf008date1 != null)
 			{
 				String result = PublicationUtils.get3or4DigitYear(cf008date1, "0");
-				if (result != null && logger != null)
-					logger.warn("Unexpectedly found usable date1 in 008 for record: " + id + ": " + cf008.getData());
-				return result;
+				if (yearIsValid(result))
+				{
+					if (result != null && logger != null)
+						logger.warn("Unexpectedly found usable date1 in 008 for record: " + id + ": " + cf008.getData());
+					return result;
+				}
 			}
 		}
 		return null;
@@ -116,6 +118,7 @@ public class PublicationUtils {
 	 * @param id - record id for error messages
 	 * @param logger - the logger for error messages
 	 * @return String containing publication date, or null if none
+	 * @deprecated not using pub_date for facet or display with date slider implemented
 	 */
 	static String getPubDate(final String date008, String date260c, List<DataField> df264list, String id, Logger logger)
 	{
@@ -158,7 +161,7 @@ public class PublicationUtils {
 	 * @param date260c - the date string extracted from the 260c field
 	 * @param df264list  - a List of 264 fields as DataField objects
 	 * @return String containing publication date, or null if none
-	 * @deprecated
+	 * @deprecated handling 008 dates a bit differently now
 	 */
 	static String getPubDateSort(String date008, String date260c, List<DataField> df264list)
 	{
@@ -190,6 +193,16 @@ public class PublicationUtils {
      *   a four digit year
      *   four digit years < EARLIEST_VALID_YEAR trigger an attempt to get a 4 digit date from 260c
      *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
+     *
+     *  use 008 date1 if it is 3 or 4 digits and in valid range
+     *  If not, check for a 4 digit date in the 264c if 2nd ind is 1
+     *  If not, take usable 260c date
+     *  If not, take any other usable date in the 264c
+     *  If still without date, look at 008 date2
+     *
+     *  If still without date, use dduu from date 1 as dd00
+     *  If still without date, use dduu from date 2 as dd99
+     *
      * @param cf008 - 008 field as a ControlField object
 	 * @param date260c - the date string extracted from the 260c field
 	 * @param df264list  - a List of 264 fields as DataField objects
@@ -197,24 +210,50 @@ public class PublicationUtils {
 	 */
 	static String getPubDateSort(ControlField cf008, String date260c, List<DataField> df264list)
 	{
-		if (cf008 != null && cf008.getData().length() >= 15)
+		String possRawDate1 = null;
+		String possRawDate2 = null;
+		if (cf008 != null && cf008.getData().length() >= 11)
 		{
-			String rawDate1 = cf008.getData().substring(7, 11);
-			String date1Str = get3or4DigitYear(rawDate1, "0");
-			if (date1Str != null)
+			// use date1 from 008 if it is 3 or 4 digits and in range
+			possRawDate1 = cf008.getData().substring(7, 11);
+			String date1Str = get3or4DigitYear(possRawDate1, "0");
+			if (yearIsValid(date1Str))
+				return date1Str;
+
+			// use date2 from 008 if it is 3 or 4 digits and in range
+			if (cf008.getData().length() >= 15)
 			{
-				String result = getValidPubDateStr(date1Str, date260c, df264list);
-				if (result != null)
-					return result;
-			} else if (DateUtils.isdduu(rawDate1)) {
-				int myFirst2 = Integer.parseInt(rawDate1.substring(0, 2));
-				int currFirst2 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 2));
-				if (myFirst2 <= currFirst2)
-					// hyphens sort before 0, so the lexical sorting will be correct. I think.
-					return rawDate1.substring(0, 2) + "--";
+				possRawDate2 = cf008.getData().substring(11, 15);
+				String date2Str = get3or4DigitYear(possRawDate2, "9");
+				if (yearIsValid(date2Str))
+					return date2Str;
 			}
 		}
 
+		// look for a result in 264c and/or 260c
+		String result = getValidPubDateStr(null, date260c, df264list);
+		if (result != null)
+			return result;
+
+		// use date 1 from 008 if it is 2 digits and in range
+		if (possRawDate1 != null && DateUtils.isdduu(possRawDate1))
+		{
+			int myFirst2 = Integer.parseInt(possRawDate1.substring(0, 2));
+			int currFirst2 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 2));
+			if (myFirst2 <= currFirst2)
+				// hyphens sort before 0, so the lexical sorting will be correct. I think.
+				return possRawDate1.substring(0, 2) + "--";
+		}
+
+		// use date 2 from 008 if it is 2 digits and in range
+		if (possRawDate2 != null && DateUtils.isdduu(possRawDate2))
+		{
+			int myFirst2 = Integer.parseInt(possRawDate2.substring(0, 2));
+			int currFirst2 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 2));
+			if (myFirst2 <= currFirst2)
+				// colons sort after 9, so the lexical sorting will be correct. I think.
+				return possRawDate2.substring(0, 2) + "--";
+		}
 		return null;
 	}
 
@@ -327,7 +366,7 @@ public class PublicationUtils {
 
 	/**
 	 * 2013-06-26  this is the OLD way
-     * returns the sortable publication date from a record, if it is present
+     * returns the publication dates from a record, if it is present
      *  and not beyond the current year + 1, and not earlier than EARLIEST_VALID_YEAR if
      *   a four digit year
      *   four digit years < EARLIEST_VALID_YEAR trigger an attempt to get a 4 digit date from 260c
@@ -421,6 +460,7 @@ public class PublicationUtils {
 	 * @param df264list  - a List of 264 fields as DataField objects
 	 * @return Set of Strings containing the publication date groupings
 	 *         associated with the publish date
+	 * @deprecated not using pub date groups with date slider
 	 */
 	static Set<String> getPubDateGroups(String date008, String date260c, List<DataField> df264list)
 	{
@@ -622,8 +662,10 @@ public class PublicationUtils {
 	}
 
 	/**
-     * check if a 4 digit year for a pub date is within the range.  If not,
-     *  check for a 4 digit date in the 260c that is in range
+     * check if a 4 digit year for a pub date is within valid range.
+     *  If not, check for a 4 digit date in the 264c if 2nd ind is 1
+     *  If not, take usable 260c date
+     *  If not, take any other usable date in the 264c
 	 * @param dateToCheck - String containing 4 digit date to check
 	 * @param date260c - the date string extracted from the 260c field
 	 * @param df264list  - a List of 264 fields as DataField objects
@@ -635,8 +677,10 @@ public class PublicationUtils {
 	}
 
 	/**
-     * check if a 4 digit year for a pub date is within the range.  If not,
-     *  check for a 4 digit date in the 260c that is in range
+     * check if a 4 digit year for a pub date is within the range.
+     *  If not, check for a 4 digit date in the 264c if 2nd ind is 1
+     *  If not, take usable 260c date
+     *  If not, take any other usable date in the 264c
 	 * @param dateToCheck - String containing 4 digit date to check
 	 * @param upperLimit - highest valid year (inclusive)
 	 * @param lowerLimit - lowest valid year (inclusive)
@@ -687,6 +731,8 @@ public class PublicationUtils {
 				}
 			}
 		}
+
+		// if we didn't find a 264 with 2nd ind '1' and sub c with usable year
 		if (date260c != null) {
 			String possYear = DateUtils.getYearFromString(date260c);
 			if (possYear != null)
@@ -697,6 +743,8 @@ public class PublicationUtils {
 					return String.valueOf(date260int);
 			}
 		}
+
+		// if we didn't find a usable 260c date, then did we have any usable 264 date?
 		if (usable264cdateStr != null)
 			return usable264cdateStr;
 
