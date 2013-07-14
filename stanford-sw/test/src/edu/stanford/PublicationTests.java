@@ -960,9 +960,7 @@ public class PublicationTests extends AbstractStanfordTest
 @Test
 	public void testImprintDisplay()
 	{
-
-// 250 a    first, then  space hyphen space, then 260 alpha
-// see https://jirasul.stanford.edu/jira/browse/SW-928
+		// see https://jirasul.stanford.edu/jira/browse/SW-928
 		String solrFldName = "imprint_display";
 
 		// 250 + 260
@@ -1001,6 +999,51 @@ public class PublicationTests extends AbstractStanfordTest
 		df.addSubfield(factory.newSubfield('a', "London"));
 	    record.addVariableField(df);
 	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "3rd draft / edited by Paul Watson. - London");
+
+	    // 250 linked
+	    record = factory.newRecord();
+		df = factory.newDataField("250", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('6', "880-04"));
+	    df.addSubfield(factory.newSubfield('a', "Di 1 ban."));
+	    record.addVariableField(df);
+		df = factory.newDataField("880", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('6', "250-04"));
+	    df.addSubfield(factory.newSubfield('a', "第1版."));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "Di 1 ban. 第1版.");
+
+	    // 260 linked
+	    record = factory.newRecord();
+		df = factory.newDataField("260", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('6', "880-03"));
+		df.addSubfield(factory.newSubfield('a', "Or Yehudah :"));
+		df.addSubfield(factory.newSubfield('b', "Kineret :"));
+		df.addSubfield(factory.newSubfield('b', "Zemorah-Bitan,"));
+		df.addSubfield(factory.newSubfield('c', "c2013."));
+	    record.addVariableField(df);
+		df = factory.newDataField("880", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('6', "260-03//r"));
+	    df.addSubfield(factory.newSubfield('a', "אור יהודה :"));
+	    df.addSubfield(factory.newSubfield('b', "כנרת :"));
+	    df.addSubfield(factory.newSubfield('b', "זמורה־ביתן,"));
+	    df.addSubfield(factory.newSubfield('c', "c2013."));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "Or Yehudah : Kineret : Zemorah-Bitan, c2013. אור יהודה : כנרת : זמורה־ביתן, c2013.");
+
+	    record = factory.newRecord();
+		df = factory.newDataField("260", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('6', "880-02"));
+		df.addSubfield(factory.newSubfield('a', "[Taibei] :"));
+		df.addSubfield(factory.newSubfield('b', " Gai hui,"));
+		df.addSubfield(factory.newSubfield('c', "Minguo 69 [1980]"));
+	    record.addVariableField(df);
+		df = factory.newDataField("880", ' ', ' ');
+	    df.addSubfield(factory.newSubfield('6', "260-02"));
+	    df.addSubfield(factory.newSubfield('a', "[台北] :"));
+	    df.addSubfield(factory.newSubfield('b', "該會,"));
+	    df.addSubfield(factory.newSubfield('c', "民國69 [1980]"));
+	    record.addVariableField(df);
+	    solrFldMapTest.assertSolrFldValue(record, solrFldName, "[Taibei] : Gai hui, Minguo 69 [1980] [台北] : 該會, 民國69 [1980]");
 
 	    // 250 + 260 both linked
 	    record = factory.newRecord();
