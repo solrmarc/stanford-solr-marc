@@ -38,7 +38,7 @@ public class SolrJettyProcess
         addnlClassPath.add(myGetCanonicalPath(new File(jettyPath + File.separator + "start.jar")));
         System.out.println("Starting Jetty Solr server at " + myGetCanonicalPath(new File(jettyPath)) + " port " + jettyTestPortStr);
 
-        vmspawner = new JavaInvoke("org.mortbay.start.Main",
+        vmspawner = new JavaInvoke("org.eclipse.jetty.start.Main",
                                    new File(myGetCanonicalPath(new File(jettyPath))),
                                    javaProps,
                                    null,

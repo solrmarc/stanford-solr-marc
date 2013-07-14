@@ -12,7 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.*;
 import org.apache.solr.client.solrj.*;
-import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
+import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.*;
 import org.apache.solr.common.params.CommonParams;
@@ -696,7 +696,7 @@ public abstract class IndexTest
 		query.setParam(CommonParams.WT, "json");
 		try
 		{
-			QueryResponse response = ((CommonsHttpSolrServer) solrJSolrServer).query(query);
+			QueryResponse response = ((HttpSolrServer) solrJSolrServer).query(query);
 			SolrDocumentList docList = response.getResults();
 			for (SolrDocument d : docList)
 				doc = d;
