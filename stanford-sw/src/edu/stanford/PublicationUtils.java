@@ -268,7 +268,7 @@ public class PublicationUtils {
 	 * @param df260subcSet - Set of Strings containing values in 260 sub c
 	 * @return Set<String> containing publication years, or empty set if none
 	 */
-	static Set<String> getPubDateSliderVals(ControlField cf008, Set<String> df260subcSet)
+	static Set<String> getPubDateSliderVals(ControlField cf008, Set<String> df260subcSet, String id, Logger logger)
 	{
 		Set<String> results = new HashSet<String>();
 		if (cf008 != null && cf008.getData().length() >= 15)
@@ -310,11 +310,23 @@ public class PublicationUtils {
 						// index end year and years between
 						results.add(date2Str);
 						if (date1Int != -1 && date2Int != -1)
-						{
 							for (int year = date1Int; year < date2Int; year++)
 								results.add(String.valueOf(year));
-						}
 					}
+					break;
+				case 'c':
+					// if open range, index all thru present
+					if (date1Str != null && PublicationUtils.yearIsValid(date1Str))
+						results.add(date1Str);
+					if (rawDate2 != null && rawDate2.equals("9999") // if open range
+							&& PublicationUtils.yearIsValid(date1Str))
+					{
+						for (int year = date1Int; year <= CURRENT_YEAR_AS_INT; year++)
+							results.add(String.valueOf(year));
+					}
+					else
+						if (logger != null)
+							logger.warn("Unexpected date2 for type c in 008 for record: " + id + ": " + cf008.getData());
 					break;
 				case 'p':
 				case 'r':
@@ -325,7 +337,6 @@ public class PublicationUtils {
 					if (date2Str != null)
 						results.add(date2Str);
 					break;
-				case 'c':
 				case 'e':
 				case 's':
 				case 'u':
