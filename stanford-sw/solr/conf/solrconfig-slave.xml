@@ -9,7 +9,7 @@
 
   <abortOnConfigurationError>${solr.abortOnConfigurationError:true}</abortOnConfigurationError>
 
-  <luceneMatchVersion>LUCENE_43</luceneMatchVersion>
+  <luceneMatchVersion>4.4</luceneMatchVersion>
 
   <lib dir="/home/blacklight/solr-home/lib" />
 
@@ -32,6 +32,7 @@
       <str name="maxCommitsToKeep">1</str>
       <str name="maxOptimizedCommitsToKeep">0</str>
     </deletionPolicy>
+    <infoStream>true</infoStream>
   </indexConfig>
 
   <!-- See docs re: autoCommit -->
@@ -194,7 +195,7 @@
   <!-- Let the dispatch filter handler /select?qt=XXX -->
   <requestDispatcher handleSelect="true" >
     <!--Make sure your system has some authentication before enabling remote streaming!  -->
-    <requestParsers enableRemoteStreaming="false" multipartUploadLimitInKB="2048000" />
+    <requestParsers enableRemoteStreaming="false" multipartUploadLimitInKB="2048000" addHttpRequestToContext="false"/>
     <httpCaching lastModifiedFrom="openTime" etagSeed="Solr" />
   </requestDispatcher>
 
