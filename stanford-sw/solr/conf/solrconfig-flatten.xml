@@ -278,7 +278,7 @@
         all_unstem_search^5
         all_search
       </str>
-      <str name="pf"> <!-- (phrase boost in result set) -->
+      <str name="pf"> <!-- (phrase boost within result set) -->
         title_245a_exact_search^5000
         title_245a_unstem_search^2500
         title_245a_search^375          vern_title_245a_search^375
@@ -331,7 +331,7 @@
         all_unstem_search^25
         all_search^5
       </str>
-      <str name="pf3">  <!-- (token trigrams boost) -->
+      <str name="pf3">  <!-- (token trigrams boost within result set) -->
         title_245a_search^1500         vern_title_245a_search^1500
         title_245_search^225           vern_title_245_search^225
         title_uniform_search^150       vern_title_uniform_search^150
@@ -359,7 +359,7 @@
         collection_search^3
         all_search^3
       </str>
-      <str name="pf2"> <!--(token bigrams boost) -->
+      <str name="pf2"> <!--(token bigrams boost within result set) -->
         title_245a_search^1000         vern_title_245a_search^1000
         title_245_search^150           vern_title_245_search^150
         title_uniform_search^100       vern_title_uniform_search^100
@@ -404,7 +404,7 @@
         series_unstem_search^2
         series_search                  vern_series_search
       </str>
-      <str name="pf_title"> <!-- (phrase boost in result set) -->
+      <str name="pf_title"> <!-- (phrase) -->
         title_245a_exact_search^1750
         title_245a_unstem_search^500
         title_245a_search^375          vern_title_245a_search^375
@@ -420,7 +420,7 @@
         series_unstem_search^10
         series_search^5                vern_series_search^5
       </str>
-      <str name="pf_title3"> <!-- (token trigrams boost) -->
+      <str name="pf_title3"> <!-- (token trigrams) -->
         title_245a_search^300          vern_title_245a_search^300
         title_245_search^225           vern_title_245_search^225
         title_uniform_search^150       vern_title_uniform_search^150
@@ -428,7 +428,7 @@
         title_related_search^15        vern_title_related_search^15
         series_search^3                vern_series_search^3
       </str>
-      <str name="pf_title2"> <!-- (token bigrams boost) -->
+      <str name="pf_title2"> <!-- (token bigrams) -->
         title_245a_search^200          vern_title_245a_search^200
         title_245_search^150           vern_title_245_search^150
         title_uniform_search^100       vern_title_uniform_search^100
@@ -445,7 +445,7 @@
         author_8xx_unstem_search^2
         author_8xx_search               vern_author_8xx_search
       </str>
-      <str name="pf_author"> <!-- (phrase boost in result set) -->
+      <str name="pf_author"> <!-- (phrase) -->
         author_1xx_search^100           vern_author_1xx_search^100
         author_7xx_search^50            vern_author_7xx_search^50
         author_8xx_search^10            vern_author_8xx_search^10
@@ -478,7 +478,7 @@
         subject_all_search             vern_subject_all_search
         db_az_subject_search
       </str>
-      <str name="pf_subject"> <!-- (phrase boost in result set) -->
+      <str name="pf_subject"> <!-- (phrase) -->
         topic_unstem_search^250
         topic_search^100               vern_topic_search^100
         geographic_unstem_search^100
@@ -656,17 +656,17 @@
         author_8xx_unstem_search^2
         author_8xx_search               vern_author_8xx_search
       </str>
-      <str name="pf_author"> <!-- (phrase boost in result set) -->
+      <str name="pf_author"> <!-- (phrase boost within result set) -->
         author_1xx_search^100           vern_author_1xx_search^100
         author_7xx_search^50            vern_author_7xx_search^50
         author_8xx_search^10            vern_author_8xx_search^10
       </str>
-      <str name="pf_author3"> <!-- (token trigrams) -->
+      <str name="pf_author3"> <!-- (token trigrams boost within result set) -->
         author_1xx_search^60            vern_author_1xx_search^60
         author_7xx_search^30            vern_author_7xx_search^30
         author_8xx_search^5             vern_author_8xx_search^5
       </str>
-      <str name="pf_author2"> <!-- (token bigrams) -->
+      <str name="pf_author2"> <!-- (token bigrams boost within result set) -->
         author_1xx_search^40            vern_author_1xx_search^40
         author_7xx_search^20            vern_author_7xx_search^20
         author_8xx_search^2             vern_author_8xx_search^2
@@ -689,7 +689,7 @@
         series_unstem_search^2
         series_search                  vern_series_search
       </str>
-      <str name="pf_title"> <!-- (phrase boost in result set) -->
+      <str name="pf_title"> <!-- (phrase) -->
         title_245a_exact_search^1750
         title_245a_unstem_search^500
         title_245a_search^375          vern_title_245a_search^375
@@ -705,7 +705,7 @@
         series_unstem_search^10
         series_search^5                vern_series_search^5
       </str>
-      <str name="pf_title3"> <!-- (token trigrams boost) -->
+      <str name="pf_title3"> <!-- (token trigrams) -->
         title_245a_search^300          vern_title_245a_search^300
         title_245_search^225           vern_title_245_search^225
         title_uniform_search^150       vern_title_uniform_search^150
@@ -713,7 +713,7 @@
         title_related_search^15        vern_title_related_search^15
         series_search^3                vern_series_search^3
       </str>
-      <str name="pf_title2"> <!-- (token bigrams boost) -->
+      <str name="pf_title2"> <!-- (token bigrams) -->
         title_245a_search^200          vern_title_245a_search^200
         title_245_search^150           vern_title_245_search^150
         title_uniform_search^100       vern_title_uniform_search^100
@@ -740,7 +740,7 @@
         subject_all_search             vern_subject_all_search
         db_az_subject_search
       </str>
-      <str name="pf_subject"> <!-- (phrase boost in result set) -->
+      <str name="pf_subject"> <!-- (phrase) -->
         topic_unstem_search^250
         topic_search^100               vern_topic_search^100
         geographic_unstem_search^100
