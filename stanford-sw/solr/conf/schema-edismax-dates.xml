@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<schema name="Stanford Searchworks Solr 4.3 edismax flatter boosts + date slider" version="1.5">
+<schema name="Stanford Searchworks Solr 4.4 edismax + date slider" version="1.5">
   <uniqueKey>id</uniqueKey>
 
   <fields>
