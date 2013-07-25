@@ -324,9 +324,17 @@ public class PublicationUtils {
 						for (int year = date1Int; year <= CURRENT_YEAR_AS_INT; year++)
 							results.add(String.valueOf(year));
 					}
-					else
+					else if (rawDate2 != null && !rawDate2.equals("9999")
+							&& PublicationUtils.yearIsValid(date1Str))
+					{
+						// log message if we have a usable date1Str
 						if (logger != null)
-							logger.warn("Unexpected date2 for type c in 008 for record: " + id + ": " + cf008.getData());
+							logger.warn("Unexpected date2 for type c after usable date1 in 008 for record " + id + ": " + cf008.getData());
+					}
+					else if (rawDate2 != null && !rawDate2.equals("9999"))
+						// log messages if we don't have a usable date1Str
+						if (logger != null)
+							logger.warn("Unexpected date2 for type c in 008 for record " + id + ": " + cf008.getData());
 					break;
 				case 'p':
 				case 'r':
