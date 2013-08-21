@@ -107,6 +107,7 @@
           <str name="facet.field">language</str>
           <str name="facet.field">pub_date_group_facet</str>
             <str name="f.pub_date_group_facet.facet.method">enum</str>
+          <str name="facet.field">pub_year_tisim</str>
           <str name="facet.field">topic_facet</str>
         </lst>
       </arr>
@@ -184,7 +185,7 @@
           <str name="facet.field">pub_date_group_facet</str>
             <str name="f.pub_date_group_facet.facet.method">enum</str>
           <str name="facet.field">pub_date</str>
-          <str name="facet.field">pub_date_i</str>
+          <str name="facet.field">pub_year_tisim</str>
           <str name="facet.field">topic_facet</str>
         </lst>
         <!-- should there be warming for different sorts? -->
@@ -578,7 +579,7 @@
       <str name="facet.field">pub_date_group_facet</str>
         <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
-      <str name="facet.field">pub_date_i</str>
+      <str name="facet.field">pub_year_tisim</str>
       <str name="facet.field">topic_facet</str>
 
       <str name="fl">
@@ -596,6 +597,7 @@
         display_type,
         format,
         img_info,
+        imprint_display,
         isbn_display,
         item_display,
         lccn,
@@ -603,6 +605,18 @@
         oclc,
         physical,
         pub_date,
+        publication_year_isi,
+        beginning_year_isi,
+        earliest_year_isi,
+        earliest_poss_year_isi,
+        release_year_isi,
+        reprint_year_isi,
+        ending_year_isi,
+        latest_year_isi,
+        latest_poss_year_isi,
+        production_year_isi,
+        original_year_isi,
+        copyright_year_isi,
         pub_date_display,
         summary_display,
         title_245a_display,
@@ -895,7 +909,7 @@
       <str name="facet.field">pub_date_group_facet</str>
         <str name="f.pub_date_group_facet.facet.method">enum</str>
       <str name="facet.field">pub_date</str>
-      <str name="facet.field">pub_date_i</str>
+      <str name="facet.field">pub_year_tisim</str>
       <str name="facet.field">topic_facet</str>
 
       <str name="fl">
@@ -913,6 +927,7 @@
         display_type,
         format,
         img_info,
+        imprint_display,
         isbn_display,
         item_display,
         lccn,
@@ -920,6 +935,18 @@
         oclc,
         physical,
         pub_date,
+        publication_year_isi,
+        beginning_year_isi,
+        earliest_year_isi,
+        earliest_poss_year_isi,
+        release_year_isi,
+        reprint_year_isi,
+        ending_year_isi,
+        latest_year_isi,
+        latest_poss_year_isi,
+        production_year_isi,
+        original_year_isi,
+        copyright_year_isi,
         pub_date_display,
         summary_display,
         title_245a_display,
