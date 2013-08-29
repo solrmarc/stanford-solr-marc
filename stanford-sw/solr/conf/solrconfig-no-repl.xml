@@ -511,7 +511,7 @@
         series_unstem_search^2
         series_search         vern_series_search
       </str>
-      <str name="pf_series"> <!-- (phrase boost) -->
+      <str name="pf_series"> <!-- (phrase) -->
         series_exact_search^25
         series_search^10      vern_series_search^10
       </str>
