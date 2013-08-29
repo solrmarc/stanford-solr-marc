@@ -326,6 +326,7 @@
 
         pub_date_search^10
         issn_search^7.5
+        physical^5                     vern_physical^5
         award_search^5
         collection_search^5
         all_unstem_search^25
@@ -355,6 +356,7 @@
         toc_search^7.5                 vern_toc_search^7.5
         context_search^7.5             vern_context_search^7.5
         summary_search^7.5             vern_summary_search^7.5
+        physical^3                     vern_physical^3
         award_search^3
         collection_search^3
         all_search^3
@@ -383,6 +385,7 @@
         toc_search^5                   vern_toc_search^5
         context_search^5               vern_context_search^5
         summary_search^5               vern_summary_search^5
+        physical^2                     vern_physical^2
         award_search^2
         collection_search^2
         all_search^2
@@ -439,26 +442,26 @@
 
       <str name="qf_author">
         author_1xx_unstem_search^20
-        author_1xx_search^5             vern_author_1xx_search^5
+        author_1xx_search^5            vern_author_1xx_search^5
         author_7xx_unstem_search^10
-        author_7xx_search^2             vern_author_7xx_search^2
+        author_7xx_search^2            vern_author_7xx_search^2
         author_8xx_unstem_search^2
-        author_8xx_search               vern_author_8xx_search
+        author_8xx_search              vern_author_8xx_search
       </str>
       <str name="pf_author"> <!-- (phrase) -->
-        author_1xx_search^100           vern_author_1xx_search^100
-        author_7xx_search^50            vern_author_7xx_search^50
-        author_8xx_search^10            vern_author_8xx_search^10
+        author_1xx_search^100          vern_author_1xx_search^100
+        author_7xx_search^50           vern_author_7xx_search^50
+        author_8xx_search^10           vern_author_8xx_search^10
       </str>
       <str name="pf_author3"> <!-- (token trigrams) -->
-        author_1xx_search^60            vern_author_1xx_search^60
-        author_7xx_search^30            vern_author_7xx_search^30
-        author_8xx_search^5             vern_author_8xx_search^5
+        author_1xx_search^60           vern_author_1xx_search^60
+        author_7xx_search^30           vern_author_7xx_search^30
+        author_8xx_search^5            vern_author_8xx_search^5
       </str>
       <str name="pf_author2"> <!-- (token bigrams) -->
-        author_1xx_search^40            vern_author_1xx_search^40
-        author_7xx_search^20            vern_author_7xx_search^20
-        author_8xx_search^2             vern_author_8xx_search^2
+        author_1xx_search^40           vern_author_1xx_search^40
+        author_7xx_search^20           vern_author_7xx_search^20
+        author_8xx_search^2            vern_author_8xx_search^2
       </str>
 
       <str name="qf_subject">
@@ -482,7 +485,7 @@
         topic_unstem_search^250
         topic_search^100               vern_topic_search^100
         geographic_unstem_search^100
-        geographic_search^50           vern_geographic_search^50 
+        geographic_search^50           vern_geographic_search^50
         subject_other_unstem_search^25
         subject_other_search^25        vern_subject_other_search^25
         topic_subx_unstem_search^10
@@ -496,30 +499,30 @@
         db_az_subject_search^5
       </str>
       <str name="pf_subject3"> <!-- (token trigrams) -->
-        topic_search^150               vern_topic_subx_search^150
-        subject_all_search^75          vern_subject_all_search^75 
+        topic_search^150               vern_topic_search^150
+        subject_all_search^75          vern_subject_all_search^75
         db_az_subject_search^3
       </str>
       <str name="pf_subject2"> <!-- (token bigrams) -->
-        topic_search^100               vern_topic_subx_search^100
-        subject_all_search^50          vern_subject_all_search^50 
+        topic_search^100               vern_topic_search^100
+        subject_all_search^50          vern_subject_all_search^50
         db_az_subject_search^2
       </str>
 
       <str name="qf_series">
         series_exact_search^5
         series_unstem_search^2
-        series_search         vern_series_search
+        series_search                  vern_series_search
       </str>
       <str name="pf_series"> <!-- (phrase) -->
         series_exact_search^25
-        series_search^10      vern_series_search^10
+        series_search^10               vern_series_search^10
       </str>
       <str name="pf_series3"> <!-- (token trigrams) -->
-        series_search^5       vern_series_search^5
+        series_search^5                vern_series_search^5
       </str>
       <str name="pf_series2"> <!-- (token bigrams) -->
-        series_search^2       vern_series_search^2
+        series_search^2                vern_series_search^2
       </str>
 
       <str name="qf_crez">
@@ -744,7 +747,7 @@
         topic_unstem_search^250
         topic_search^100               vern_topic_search^100
         geographic_unstem_search^100
-        geographic_search^50           vern_geographic_search^50 
+        geographic_search^50           vern_geographic_search^50
         subject_other_unstem_search^25
         subject_other_search^25        vern_subject_other_search^25
         topic_subx_unstem_search^10
@@ -758,13 +761,13 @@
         db_az_subject_search^5
       </str>
       <str name="pf_subject3"> <!-- (token trigrams) -->
-        topic_search^150               vern_topic_subx_search^150
-        subject_all_search^75          vern_subject_all_search^75 
+        topic_search^150               vern_topic_search^150
+        subject_all_search^75          vern_subject_all_search^75
         db_az_subject_search^3
       </str>
       <str name="pf_subject2"> <!-- (token bigrams) -->
-        topic_search^100               vern_topic_subx_search^100
-        subject_all_search^50          vern_subject_all_search^50 
+        topic_search^100               vern_topic_search^100
+        subject_all_search^50          vern_subject_all_search^50
         db_az_subject_search^2
       </str>
 
