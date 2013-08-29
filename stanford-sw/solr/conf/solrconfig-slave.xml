@@ -337,6 +337,7 @@
 
         pub_date_search^10
         issn_search^7.5
+        physical^5                     vern_physical^5
         award_search^5
         collection_search^5
         all_unstem_search^25
@@ -366,6 +367,7 @@
         toc_search^7.5                 vern_toc_search^7.5
         context_search^7.5             vern_context_search^7.5
         summary_search^7.5             vern_summary_search^7.5
+        physical^3                     vern_physical^3
         award_search^3
         collection_search^3
         all_search^3
@@ -394,6 +396,7 @@
         toc_search^5                   vern_toc_search^5
         context_search^5               vern_context_search^5
         summary_search^5               vern_summary_search^5
+        physical^2                     vern_physical^2
         award_search^2
         collection_search^2
         all_search^2
@@ -493,7 +496,7 @@
         topic_unstem_search^250
         topic_search^100               vern_topic_search^100
         geographic_unstem_search^100
-        geographic_search^50           vern_geographic_search^50 
+        geographic_search^50           vern_geographic_search^50
         subject_other_unstem_search^25
         subject_other_search^25        vern_subject_other_search^25
         topic_subx_unstem_search^10
@@ -507,13 +510,13 @@
         db_az_subject_search^5
       </str>
       <str name="pf_subject3"> <!-- (token trigrams) -->
-        topic_search^150               vern_topic_subx_search^150
-        subject_all_search^75          vern_subject_all_search^75 
+        topic_search^150               vern_topic_search^150
+        subject_all_search^75          vern_subject_all_search^75
         db_az_subject_search^3
       </str>
       <str name="pf_subject2"> <!-- (token bigrams) -->
-        topic_search^100               vern_topic_subx_search^100
-        subject_all_search^50          vern_subject_all_search^50 
+        topic_search^100               vern_topic_search^100
+        subject_all_search^50          vern_subject_all_search^50
         db_az_subject_search^2
       </str>
 
@@ -755,7 +758,7 @@
         topic_unstem_search^250
         topic_search^100               vern_topic_search^100
         geographic_unstem_search^100
-        geographic_search^50           vern_geographic_search^50 
+        geographic_search^50           vern_geographic_search^50
         subject_other_unstem_search^25
         subject_other_search^25        vern_subject_other_search^25
         topic_subx_unstem_search^10
@@ -769,13 +772,13 @@
         db_az_subject_search^5
       </str>
       <str name="pf_subject3"> <!-- (token trigrams) -->
-        topic_search^150               vern_topic_subx_search^150
-        subject_all_search^75          vern_subject_all_search^75 
+        topic_search^150               vern_topic_search^150
+        subject_all_search^75          vern_subject_all_search^75
         db_az_subject_search^3
       </str>
       <str name="pf_subject2"> <!-- (token bigrams) -->
-        topic_search^100               vern_topic_subx_search^100
-        subject_all_search^50          vern_subject_all_search^50 
+        topic_search^100               vern_topic_search^100
+        subject_all_search^50          vern_subject_all_search^50
         db_az_subject_search^2
       </str>
 
