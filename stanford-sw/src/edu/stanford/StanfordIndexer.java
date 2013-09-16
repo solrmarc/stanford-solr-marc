@@ -1108,7 +1108,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			String tag = df.getTag();
 			if ( (!tag.startsWith("0") || (tag.startsWith("0") && keepers0xx.contains(tag)))
 				&&
-				(!tag.startsWith("9") || (tag.startsWith("9") && keepers9xx.contains(tag))) 	)
+				(!tag.startsWith("9") || (tag.startsWith("9") && keepers9xx.contains(tag))))
 			{
 				List<Subfield> subfieldList = df.getSubfields();
 				for (Subfield sf : subfieldList) {
@@ -1118,6 +1118,33 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		}
 		return result.toString().trim();
 	}
+
+	/**
+	 * Returns all subfield contents of all the data fields (non control fields)
+	 *  between 100 and 899 inclusive, as a single string
+	 *  plus the "keeper" fields
+	 * @param record Marc record to extract data from
+	 */
+	@SuppressWarnings("unchecked")
+	public String getAllLinkedSearchableFields(final Record record)
+	{
+		StringBuilder result = new StringBuilder(5000);
+	    List<VariableField> linkFldList = MarcUtils.getVariableFields(record, "880");
+		for (VariableField vf : linkFldList) {
+			if (vf instanceof DataField) {
+				List<Subfield> subfieldList = ((DataField) vf).getSubfields();
+				for (Subfield sf : subfieldList) {
+					if (sf.getCode() !=  '\u0000' && Character.isLetter(sf.getCode())) {
+						String d = sf.getData();
+						if (d != null && d.length() > 0)
+							result.append(sf.getData() + " ");
+					}
+				}
+			}
+		}
+		return result.toString().trim();
+	}
+
 
 // AllFields Methods  ---------------  End  ------------------ AllFields Methods
 

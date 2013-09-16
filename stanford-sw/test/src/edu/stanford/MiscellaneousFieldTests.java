@@ -132,6 +132,8 @@ public class MiscellaneousFieldTests extends AbstractStanfordTest
 	}
 
 
+	// NOTE:  see VernFieldsTests for  testVernCatchallField
+
 	/**
 	 * display_type is supposed to be a sort of "hidden" facet to allow UI
 	 *  to look at appropriate types of records for different "views"
