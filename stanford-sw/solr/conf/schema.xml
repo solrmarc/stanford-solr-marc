@@ -14,6 +14,7 @@
     <!-- the catch-all field for all text -->
     <field name="all_search" type="text" indexed="true" stored="false" />
     <field name="all_unstem_search" type="textNoStem" indexed="true" stored="false" />
+    <field name="vern_all_search" type="text" indexed="true" stored="false" />
 
     <!-- Format Field: facet and display -->
     <field name="format" type="string" indexed="true" stored="true" multiValued="true" />
