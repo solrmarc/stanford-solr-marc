@@ -14,6 +14,7 @@
     <!-- the catch-all field for all text -->
     <field name="all_search" type="text" indexed="true" stored="false" />
     <field name="all_unstem_search" type="textNoStem" indexed="true" stored="false" />
+    <field name="vern_all_search" type="text" indexed="true" stored="false" />
 
     <!-- Format Field: facet and display -->
     <field name="format" type="string" indexed="true" stored="true" multiValued="true" />
@@ -249,7 +250,6 @@
     <dynamicField name="*_isi" type="tint" indexed="true" stored="true" omitNorms="true" />
     <dynamicField name="*_isim" type="tint" indexed="true" stored="true" multiValued="true" omitNorms="true" />
     <dynamicField name="cjk_*" type="text_cjk" indexed="true" stored="false" multiValued="true" />
-    <dynamicField name="zh_*" type="text_zh" indexed="true" stored="false" multiValued="true" />
   </fields>
 
   <!-- copy fields -->
@@ -319,31 +319,8 @@
   <copyField source="vern_context_search" dest="cjk_context_search" />
   <copyField source="summary_search" dest="cjk_summary_search" />  <!-- we find CJK text in regular 520s -->
   <copyField source="vern_summary_search" dest="cjk_summary_search" />
-  <!-- chinese only -->
-  <copyField source="vern_title_245a_search" dest="zh_title_245a_search" />
-  <copyField source="vern_title_245_search" dest="zh_title_245_search" />
-  <copyField source="vern_title_uniform_search" dest="zh_title_uniform_search" />
-  <copyField source="vern_title_variant_search" dest="zh_title_variant_search" />
-  <copyField source="vern_title_related_search" dest="zh_title_related_search" />
-  <copyField source="vern_series_search" dest="zh_series_search" />
-  <copyField source="vern_author_1xx_search" dest="zh_author_1xx_search" />
-  <copyField source="vern_author_7xx_search" dest="zh_author_7xx_search" />
-  <copyField source="vern_author_8xx_search" dest="zh_author_8xx_search" />
-  <copyField source="vern_topic_search" dest="zh_topic_search" />
-  <copyField source="vern_topic_subx_search" dest="zh_topic_subx_search" />
-  <copyField source="vern_geographic_search" dest="zh_geographic_search" />
-  <copyField source="vern_geographic_subz_search" dest="zh_geographic_subz_search" />
-  <copyField source="vern_subject_other_search" dest="zh_subject_other_search" />
-  <copyField source="vern_subject_other_subvy_search" dest="zh_subject_other_subvy_search" />
-  <copyField source="vern_subject_all_search" dest="zh_subject_all_search" />
-  <copyField source="vern_pub_search" dest="zh_pub_search" />
-  <copyField source="vern_physical" dest="zh_physical_search" />
-  <copyField source="toc_search" dest="zh_toc_search" />  <!-- we find CJK text in regular 505s -->
-  <copyField source="vern_toc_search" dest="zh_toc_search" />
-  <copyField source="vern_context_search" dest="zh_context_search" />
-  <copyField source="summary_search" dest="zh_summary_search" />  <!-- we find CJK text in regular 520s -->
-  <copyField source="vern_summary_search" dest="zh_summary_search" />
-  
+  <copyField source="vern_all_search" dest="cjk_all_search" />
+
   <types>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
     <fieldtype name="boolean" class="solr.BoolField" sortMissingLast="true" />
@@ -420,22 +397,6 @@
         <filter class="solr.ICUNormalizer2FilterFactory" name="nfkc_cf" mode="compose"/>
         <filter class="solr.CJKWidthFilterFactory"/>
         <filter class="solr.CJKBigramFilterFactory" han="true" hiragana="true" katakana="true" hangul="true" outputUnigrams="true" />
-      </analyzer>
-    </fieldtype>
-
-    <!-- bigramming for unified zh chars -->
-    <fieldtype name="text_zh" class="solr.TextField" positionIncrementGap="10000" autoGeneratePhraseQueries="false">
-      <analyzer>
-        <tokenizer class="solr.StandardTokenizerFactory" />
-     	  <filter class="solr.CJKWidthFilterFactory"/>  <!-- normalize width, e.g. half-width dakuten combine  -->
-        <!-- filter out non-Han chars -->
-        <filter class="solr.ICUNormalizer2FilterFactory" name="nfkc" mode="decompose"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="[[^\p{InCJK_Unified_Ideographs}]&amp;&amp;[^\p{InCJK_Unified_Ideographs_Extension_A}]&amp;&amp;[^\p{InCJK_Unified_Ideographs_Extension_B}]&amp;&amp;[^\p{InCJK_Symbols_and_Punctuation}]&amp;&amp;[^\p{InIdeographic_Description_Characters}]&amp;&amp;[^\p{InEnclosed_CJK_Letters_and_Months}]]+" replacement="" replace="all"/>
-        <filter class="solr.ICUTransformFilterFactory" id="Traditional-Simplified"/>
-        <!-- bigram composed chars, and apply filters to the translated chars -->
-        <filter class="solr.ICUNormalizer2FilterFactory" name="nfkc_cf" mode="compose"/>
-        <filter class="solr.CJKWidthFilterFactory"/>
-        <filter class="solr.CJKBigramFilterFactory" han="true" hiragana="false" katakana="false" hangul="false" outputUnigrams="true" />
       </analyzer>
     </fieldtype>
 
