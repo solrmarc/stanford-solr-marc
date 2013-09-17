@@ -239,16 +239,19 @@
 
     <!-- *************** dynamic field types  ****************** -->
 <!--
-    <dynamicField name="*_unstem_search" type="textNoStem" indexed="true" stored="false" multiValued="true" />
-    <dynamicField name="*_search" type="text" indexed="true" stored="false" multiValued="true" />
-    <dynamicField name="*_facet" type="string" indexed="true" stored="false" multiValued="true" />
-    <dynamicField name="*_display" type="string" indexed="false" stored="true" multiValued="true"/>
-    <dynamicField name="*_sort" type="alphaSort" indexed="true" stored="false"/>
+    <dynamicField name="*_unstem_search" type="textNoStem" stored="false" indexed="true" multiValued="true" />
+    <dynamicField name="*_search" type="text" stored="false" indexed="true" multiValued="true" />
+    <dynamicField name="*_facet" type="string" stored="false" indexed="true" multiValued="true" />
+    <dynamicField name="*_display" type="string" stored="true" indexed="false" multiValued="true"/>
+    <dynamicField name="*_sort" type="alphaSort" stored="false" indexed="true"/>
 -->
     <dynamicField name="*_ssi" type="string" stored="true" indexed="true" omitNorms="true" />
     <dynamicField name="*_ssim" type="string" stored="true" indexed="true" multiValued="true" omitNorms="true" />
     <dynamicField name="*_isi" type="tint" stored="true" indexed="true" omitNorms="true" />
     <dynamicField name="*_isim" type="tint" stored="true" indexed="true" multiValued="true" omitNorms="true" />
+    <dynamicField name="cjk_*" type="text_cjk_both" stored="false" indexed="true" multiValued="true" />
+    <dynamicField name="cjk_bi_*" type="text_cjk_bi" stored="false" indexed="true" multiValued="true" />
+    <dynamicField name="cjk_uni_*" type="text_cjk_uni" stored="false" indexed="true" multiValued="true" />
   </fields>
 
   <!-- copy fields -->
@@ -293,6 +296,84 @@
   <copyField source="title_variant_search" dest="title_variant_display" />
   <copyField source="summary_search" dest="summary_display" />
   <copyField source="pub_search" dest="pub_display" />
+
+  <!-- CJK fields -->
+  <!-- both bigram and unigram -->
+  <copyField source="vern_title_245a_search" dest="cjk_title_245a_search" />
+  <copyField source="vern_title_245_search" dest="cjk_title_245_search" />
+  <copyField source="vern_title_uniform_search" dest="cjk_title_uniform_search" />
+  <copyField source="vern_title_variant_search" dest="cjk_title_variant_search" />
+  <copyField source="vern_title_related_search" dest="cjk_title_related_search" />
+  <copyField source="vern_series_search" dest="cjk_series_search" />
+  <copyField source="vern_author_1xx_search" dest="cjk_author_1xx_search" />
+  <copyField source="vern_author_7xx_search" dest="cjk_author_7xx_search" />
+  <copyField source="vern_author_8xx_search" dest="cjk_author_8xx_search" />
+  <copyField source="vern_topic_search" dest="cjk_topic_search" />
+  <copyField source="vern_topic_subx_search" dest="cjk_topic_subx_search" />
+  <copyField source="vern_geographic_search" dest="cjk_geographic_search" />
+  <copyField source="vern_geographic_subz_search" dest="cjk_geographic_subz_search" />
+  <copyField source="vern_subject_other_search" dest="cjk_subject_other_search" />
+  <copyField source="vern_subject_other_subvy_search" dest="cjk_subject_other_subvy_search" />
+  <copyField source="vern_subject_all_search" dest="cjk_subject_all_search" />
+  <copyField source="vern_pub_search" dest="cjk_pub_search" />
+  <copyField source="vern_physical" dest="cjk_physical_search" />
+  <copyField source="toc_search" dest="cjk_toc_search" />  <!-- we find CJK text in regular 505s -->
+  <copyField source="vern_toc_search" dest="cjk_toc_search" />
+  <copyField source="vern_context_search" dest="cjk_context_search" />
+  <copyField source="summary_search" dest="cjk_summary_search" />  <!-- we find CJK text in regular 520s -->
+  <copyField source="vern_summary_search" dest="cjk_summary_search" />
+  <copyField source="vern_all_search" dest="cjk_all_search" />
+  <!-- bigram only -->
+  <copyField source="vern_title_245a_search" dest="cjk_bi_title_245a_search" />
+  <copyField source="vern_title_245_search" dest="cjk_bi_title_245_search" />
+  <copyField source="vern_title_uniform_search" dest="cjk_bi_title_uniform_search" />
+  <copyField source="vern_title_variant_search" dest="cjk_bi_title_variant_search" />
+  <copyField source="vern_title_related_search" dest="cjk_bi_title_related_search" />
+  <copyField source="vern_series_search" dest="cjk_bi_series_search" />
+  <copyField source="vern_author_1xx_search" dest="cjk_bi_author_1xx_search" />
+  <copyField source="vern_author_7xx_search" dest="cjk_bi_author_7xx_search" />
+  <copyField source="vern_author_8xx_search" dest="cjk_bi_author_8xx_search" />
+  <copyField source="vern_topic_search" dest="cjk_bi_topic_search" />
+  <copyField source="vern_topic_subx_search" dest="cjk_bi_topic_subx_search" />
+  <copyField source="vern_geographic_search" dest="cjk_bi_geographic_search" />
+  <copyField source="vern_geographic_subz_search" dest="cjk_bi_geographic_subz_search" />
+  <copyField source="vern_subject_other_search" dest="cjk_bi_subject_other_search" />
+  <copyField source="vern_subject_other_subvy_search" dest="cjk_bi_subject_other_subvy_search" />
+  <copyField source="vern_subject_all_search" dest="cjk_bi_subject_all_search" />
+  <copyField source="vern_pub_search" dest="cjk_bi_pub_search" />
+  <copyField source="vern_physical" dest="cjk_bi_physical_search" />
+  <copyField source="toc_search" dest="cjk_bi_toc_search" />  <!-- we find CJK text in regular 505s -->
+  <copyField source="vern_toc_search" dest="cjk_bi_toc_search" />
+  <copyField source="vern_context_search" dest="cjk_bi_context_search" />
+  <copyField source="summary_search" dest="cjk_bi_summary_search" />  <!-- we find CJK text in regular 520s -->
+  <copyField source="vern_summary_search" dest="cjk_bi_summary_search" />
+  <copyField source="vern_all_search" dest="cjk_bi_all_search" />
+  <!-- unigram only -->
+  <copyField source="vern_title_245a_search" dest="cjk_uni_title_245a_search" />
+  <copyField source="vern_title_245_search" dest="cjk_uni_title_245_search" />
+  <copyField source="vern_title_uniform_search" dest="cjk_uni_title_uniform_search" />
+  <copyField source="vern_title_variant_search" dest="cjk_uni_title_variant_search" />
+  <copyField source="vern_title_related_search" dest="cjk_uni_title_related_search" />
+  <copyField source="vern_series_search" dest="cjk_uni_series_search" />
+  <copyField source="vern_author_1xx_search" dest="cjk_uni_author_1xx_search" />
+  <copyField source="vern_author_7xx_search" dest="cjk_uni_author_7xx_search" />
+  <copyField source="vern_author_8xx_search" dest="cjk_uni_author_8xx_search" />
+  <copyField source="vern_topic_search" dest="cjk_uni_topic_search" />
+  <copyField source="vern_topic_subx_search" dest="cjk_uni_topic_subx_search" />
+  <copyField source="vern_geographic_search" dest="cjk_uni_geographic_search" />
+  <copyField source="vern_geographic_subz_search" dest="cjk_uni_geographic_subz_search" />
+  <copyField source="vern_subject_other_search" dest="cjk_uni_subject_other_search" />
+  <copyField source="vern_subject_other_subvy_search" dest="cjk_uni_subject_other_subvy_search" />
+  <copyField source="vern_subject_all_search" dest="cjk_uni_subject_all_search" />
+  <copyField source="vern_pub_search" dest="cjk_uni_pub_search" />
+  <copyField source="vern_physical" dest="cjk_uni_physical_search" />
+  <copyField source="toc_search" dest="cjk_uni_toc_search" />  <!-- we find CJK text in regular 505s -->
+  <copyField source="vern_toc_search" dest="cjk_uni_toc_search" />
+  <copyField source="vern_context_search" dest="cjk_uni_context_search" />
+  <copyField source="summary_search" dest="cjk_uni_summary_search" />  <!-- we find CJK text in regular 520s -->
+  <copyField source="vern_summary_search" dest="cjk_uni_summary_search" />
+  <copyField source="vern_all_search" dest="cjk_uni_all_search" />
+
 
   <types>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
@@ -355,6 +436,46 @@
           splitOnCaseChange="1" generateWordParts="1" catenateWords="1"
           splitOnNumerics="0" generateNumberParts="1" catenateNumbers="1"
           catenateAll="0" preserveOriginal="0" stemEnglishPossessive="1" />
+      </analyzer>
+    </fieldtype>
+
+    <fieldtype name="text_cjk_both" class="solr.TextField" positionIncrementGap="10000" autoGeneratePhraseQueries="false">
+     <analyzer>
+        <!-- remove spaces among hangul and han chars if there is at least one hangul char -->
+        <!-- a korean char guaranteed at the start of the pattern:  pattern="(\p{Hangul}\p{Han}*)\s+(?=[\p{Hangul}\p{Han}])" -->
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="([\p{InHangul_Jamo}\p{InHangul_Compatibility_Jamo}\p{InHangul_Syllables}][\p{InBopomofo}\p{InBopomofo_Extended}\p{InCJK_Compatibility}\p{InCJK_Compatibility_Forms}\p{InCJK_Compatibility_Ideographs}\p{InCJK_Compatibility_Ideographs_Supplement}\p{InCJK_Radicals_Supplement}\p{InCJK_Symbols_And_Punctuation}\p{InCJK_Unified_Ideographs}\p{InCJK_Unified_Ideographs_Extension_A}\p{InCJK_Unified_Ideographs_Extension_B}\p{InKangxi_Radicals}\p{InHalfwidth_And_Fullwidth_Forms}\p{InIdeographic_Description_Characters}]*)\s+(?=[\p{InHangul_Jamo}\p{InHangul_Compatibility_Jamo}\p{InHangul_Syllables}\p{InBopomofo}\p{InBopomofo_Extended}\p{InCJK_Compatibility}\p{InCJK_Compatibility_Forms}\p{InCJK_Compatibility_Ideographs}\p{InCJK_Compatibility_Ideographs_Supplement}\p{InCJK_Radicals_Supplement}\p{InCJK_Symbols_And_Punctuation}\p{InCJK_Unified_Ideographs}\p{InCJK_Unified_Ideographs_Extension_A}\p{InCJK_Unified_Ideographs_Extension_B}\p{InKangxi_Radicals}\p{InHalfwidth_And_Fullwidth_Forms}\p{InIdeographic_Description_Characters}])" replacement="$1"/>
+        <!-- a korean char guaranteed at the end of the pattern:    pattern="([\p{Hangul}\p{Han}])\s+(?=[\p{Han}\s]*\p{Hangul})" -->
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="([\p{InHangul_Jamo}\p{InHangul_Compatibility_Jamo}\p{InHangul_Syllables}\p{InBopomofo}\p{InBopomofo_Extended}\p{InCJK_Compatibility}\p{InCJK_Compatibility_Forms}\p{InCJK_Compatibility_Ideographs}\p{InCJK_Compatibility_Ideographs_Supplement}\p{InCJK_Radicals_Supplement}\p{InCJK_Symbols_And_Punctuation}\p{InCJK_Unified_Ideographs}\p{InCJK_Unified_Ideographs_Extension_A}\p{InCJK_Unified_Ideographs_Extension_B}\p{InKangxi_Radicals}\p{InHalfwidth_And_Fullwidth_Forms}\p{InIdeographic_Description_Characters}])\s+(?=[\p{InBopomofo}\p{InBopomofo_Extended}\p{InCJK_Compatibility}\p{InCJK_Compatibility_Forms}\p{InCJK_Compatibility_Ideographs}\p{InCJK_Compatibility_Ideographs_Supplement}\p{InCJK_Radicals_Supplement}\p{InCJK_Symbols_And_Punctuation}\p{InCJK_Unified_Ideographs}\p{InCJK_Unified_Ideographs_Extension_A}\p{InCJK_Unified_Ideographs_Extension_B}\p{InKangxi_Radicals}\p{InHalfwidth_And_Fullwidth_Forms}\p{InIdeographic_Description_Characters}\s]*[\p{InHangul_Jamo}\p{InHangul_Compatibility_Jamo}\p{InHangul_Syllables}])" replacement="$1"/>
+        <tokenizer class="solr.ICUTokenizerFactory" />
+        <filter class="solr.CJKWidthFilterFactory"/>
+        <filter class="solr.ICUTransformFilterFactory" id="Traditional-Simplified"/>
+        <filter class="solr.ICUTransformFilterFactory" id="Katakana-Hiragana"/>
+        <filter class="solr.ICUFoldingFilterFactory"/>   <!-- NFKC, case folding, diacritics removed -->
+        <filter class="solr.CJKBigramFilterFactory" han="true" hiragana="true" katakana="true" hangul="true" outputUnigrams="true" />
+      </analyzer>
+    </fieldtype>
+    <fieldtype name="text_cjk_bi" class="solr.TextField" positionIncrementGap="10000" autoGeneratePhraseQueries="false">
+     <analyzer>
+        <!-- remove spaces among hangul and han chars if there is at least one hangul char -->
+        <!-- a korean char guaranteed at the start of the pattern:  pattern="(\p{Hangul}\p{Han}*)\s+(?=[\p{Hangul}\p{Han}])" -->
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="([\p{InHangul_Jamo}\p{InHangul_Compatibility_Jamo}\p{InHangul_Syllables}][\p{InBopomofo}\p{InBopomofo_Extended}\p{InCJK_Compatibility}\p{InCJK_Compatibility_Forms}\p{InCJK_Compatibility_Ideographs}\p{InCJK_Compatibility_Ideographs_Supplement}\p{InCJK_Radicals_Supplement}\p{InCJK_Symbols_And_Punctuation}\p{InCJK_Unified_Ideographs}\p{InCJK_Unified_Ideographs_Extension_A}\p{InCJK_Unified_Ideographs_Extension_B}\p{InKangxi_Radicals}\p{InHalfwidth_And_Fullwidth_Forms}\p{InIdeographic_Description_Characters}]*)\s+(?=[\p{InHangul_Jamo}\p{InHangul_Compatibility_Jamo}\p{InHangul_Syllables}\p{InBopomofo}\p{InBopomofo_Extended}\p{InCJK_Compatibility}\p{InCJK_Compatibility_Forms}\p{InCJK_Compatibility_Ideographs}\p{InCJK_Compatibility_Ideographs_Supplement}\p{InCJK_Radicals_Supplement}\p{InCJK_Symbols_And_Punctuation}\p{InCJK_Unified_Ideographs}\p{InCJK_Unified_Ideographs_Extension_A}\p{InCJK_Unified_Ideographs_Extension_B}\p{InKangxi_Radicals}\p{InHalfwidth_And_Fullwidth_Forms}\p{InIdeographic_Description_Characters}])" replacement="$1"/>
+        <!-- a korean char guaranteed at the end of the pattern:    pattern="([\p{Hangul}\p{Han}])\s+(?=[\p{Han}\s]*\p{Hangul})" -->
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="([\p{InHangul_Jamo}\p{InHangul_Compatibility_Jamo}\p{InHangul_Syllables}\p{InBopomofo}\p{InBopomofo_Extended}\p{InCJK_Compatibility}\p{InCJK_Compatibility_Forms}\p{InCJK_Compatibility_Ideographs}\p{InCJK_Compatibility_Ideographs_Supplement}\p{InCJK_Radicals_Supplement}\p{InCJK_Symbols_And_Punctuation}\p{InCJK_Unified_Ideographs}\p{InCJK_Unified_Ideographs_Extension_A}\p{InCJK_Unified_Ideographs_Extension_B}\p{InKangxi_Radicals}\p{InHalfwidth_And_Fullwidth_Forms}\p{InIdeographic_Description_Characters}])\s+(?=[\p{InBopomofo}\p{InBopomofo_Extended}\p{InCJK_Compatibility}\p{InCJK_Compatibility_Forms}\p{InCJK_Compatibility_Ideographs}\p{InCJK_Compatibility_Ideographs_Supplement}\p{InCJK_Radicals_Supplement}\p{InCJK_Symbols_And_Punctuation}\p{InCJK_Unified_Ideographs}\p{InCJK_Unified_Ideographs_Extension_A}\p{InCJK_Unified_Ideographs_Extension_B}\p{InKangxi_Radicals}\p{InHalfwidth_And_Fullwidth_Forms}\p{InIdeographic_Description_Characters}\s]*[\p{InHangul_Jamo}\p{InHangul_Compatibility_Jamo}\p{InHangul_Syllables}])" replacement="$1"/>
+        <tokenizer class="solr.ICUTokenizerFactory" />
+        <filter class="solr.CJKWidthFilterFactory"/>
+        <filter class="solr.ICUTransformFilterFactory" id="Traditional-Simplified"/>
+        <filter class="solr.ICUTransformFilterFactory" id="Katakana-Hiragana"/>
+        <filter class="solr.ICUFoldingFilterFactory"/>   <!-- NFKC, case folding, diacritics removed -->
+        <filter class="solr.CJKBigramFilterFactory" han="true" hiragana="true" katakana="true" hangul="true" outputUnigrams="false" />
+      </analyzer>
+    </fieldtype>
+    <fieldtype name="text_cjk_uni" class="solr.TextField" positionIncrementGap="10000" autoGeneratePhraseQueries="false">
+     <analyzer>
+        <tokenizer class="solr.ICUTokenizerFactory" />
+        <filter class="solr.CJKWidthFilterFactory"/>
+        <filter class="solr.ICUTransformFilterFactory" id="Traditional-Simplified"/>
+        <filter class="solr.ICUTransformFilterFactory" id="Katakana-Hiragana"/>
+        <filter class="solr.ICUFoldingFilterFactory"/>   <!-- NFKC, case folding, diacritics removed -->
       </analyzer>
     </fieldtype>
 
