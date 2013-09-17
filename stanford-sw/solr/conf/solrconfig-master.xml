@@ -103,25 +103,25 @@
       <str name="qf">
         title_245a_exact_search^1000
         title_245a_unstem_search^500
-        title_245a_search^75            vern_title_245a_search^75
+        title_245a_search^75           vern_title_245a_search^75
         title_245_unstem_search^75
-        title_245_search^50             vern_title_245_search^50
+        title_245_search^50            vern_title_245_search^50
         title_uniform_unstem_search^50
-        title_uniform_search^20         vern_title_uniform_search^20
+        title_uniform_search^20        vern_title_uniform_search^20
         title_variant_unstem_search^20
-        title_variant_search^15         vern_title_variant_search^15
+        title_variant_search^15        vern_title_variant_search^15
         title_related_unstem_search^15
-        title_related_search^10         vern_title_related_search^10
+        title_related_search^10        vern_title_related_search^10
         series_exact_search^10
         series_unstem_search^5
-        series_search^2                 vern_series_search^2
+        series_search^2                vern_series_search^2
 
         author_1xx_unstem_search^25
-        author_1xx_search^20            vern_author_1xx_search^20
+        author_1xx_search^20           vern_author_1xx_search^20
         author_7xx_unstem_search^20
-        author_7xx_search^10            vern_author_7xx_search^10
+        author_7xx_search^10           vern_author_7xx_search^10
         author_8xx_unstem_search^10
-        author_8xx_search^5             vern_author_8xx_search^5
+        author_8xx_search^5            vern_author_8xx_search^5
 
         topic_unstem_search^50
         topic_search^20                vern_topic_search^20
@@ -145,7 +145,7 @@
         context_search^2               vern_context_search^2
         summary_unstem_search^5
         summary_search^2               vern_summary_search^2
-
+        
         pub_date_search^2
         isbn_search^1.5
         issn_search^1.5
@@ -156,7 +156,7 @@
         award_search
         collection_search
         all_unstem_search^5
-        all_search
+        all_search                     vern_all_search
       </str>
       <str name="pf"> <!-- (phrase boost within result set) -->
         title_245a_exact_search^5000
@@ -210,7 +210,7 @@
         award_search^5
         collection_search^5
         all_unstem_search^25
-        all_search^5
+        all_search^5                   vern_all_search^5
       </str>
       <str name="pf3">  <!-- (token trigrams boost within result set) -->
         title_245a_search^1500         vern_title_245a_search^1500
@@ -239,7 +239,7 @@
         physical^3                     vern_physical^3
         award_search^3
         collection_search^3
-        all_search^3
+        all_search^3                   vern_all_search^3
       </str>
       <str name="pf2"> <!--(token bigrams boost within result set) -->
         title_245a_search^1000         vern_title_245a_search^1000
@@ -248,7 +248,7 @@
         title_variant_search^40        vern_title_variant_search^40
         title_related_search^30        vern_title_related_search^30
         series_search^20               vern_series_search^20
-
+        
         author_1xx_search^50           vern_author_1xx_search^50
         author_7xx_search^40           vern_author_7xx_search^40
         author_8xx_search^20           vern_author_8xx_search^20
@@ -261,14 +261,14 @@
         geographic_subz_search^10      vern_geographic_subz_search^10
         subject_other_subvy_search^10  vern_subject_other_subvy_search^10
         subject_all_search^10          vern_subject_all_search^10
-
+        
         toc_search^5                   vern_toc_search^5
         context_search^5               vern_context_search^5
         summary_search^5               vern_summary_search^5
         physical^2                     vern_physical^2
         award_search^2
         collection_search^2
-        all_search^2
+        all_search^2                   vern_all_search^2
       </str>
 
       <str name="qf_title">
@@ -303,7 +303,7 @@
         series_unstem_search^10
         series_search^5                vern_series_search^5
       </str>
-      <str name="pf_title3"> <!-- (token trigrams) -->
+      <str name="pf3_title"> <!-- (token trigrams) -->
         title_245a_search^300          vern_title_245a_search^300
         title_245_search^225           vern_title_245_search^225
         title_uniform_search^150       vern_title_uniform_search^150
@@ -311,7 +311,7 @@
         title_related_search^15        vern_title_related_search^15
         series_search^3                vern_series_search^3
       </str>
-      <str name="pf_title2"> <!-- (token bigrams) -->
+      <str name="pf2_title"> <!-- (token bigrams) -->
         title_245a_search^200          vern_title_245a_search^200
         title_245_search^150           vern_title_245_search^150
         title_uniform_search^100       vern_title_uniform_search^100
@@ -322,26 +322,26 @@
 
       <str name="qf_author">
         author_1xx_unstem_search^20
-        author_1xx_search^5             vern_author_1xx_search^5
+        author_1xx_search^5            vern_author_1xx_search^5
         author_7xx_unstem_search^10
-        author_7xx_search^2             vern_author_7xx_search^2
+        author_7xx_search^2            vern_author_7xx_search^2
         author_8xx_unstem_search^2
-        author_8xx_search               vern_author_8xx_search
+        author_8xx_search              vern_author_8xx_search
       </str>
       <str name="pf_author"> <!-- (phrase) -->
-        author_1xx_search^100           vern_author_1xx_search^100
-        author_7xx_search^50            vern_author_7xx_search^50
-        author_8xx_search^10            vern_author_8xx_search^10
+        author_1xx_search^100          vern_author_1xx_search^100
+        author_7xx_search^50           vern_author_7xx_search^50
+        author_8xx_search^10           vern_author_8xx_search^10
       </str>
-      <str name="pf_author3"> <!-- (token trigrams) -->
-        author_1xx_search^60            vern_author_1xx_search^60
-        author_7xx_search^30            vern_author_7xx_search^30
-        author_8xx_search^5             vern_author_8xx_search^5
+      <str name="pf3_author"> <!-- (token trigrams) -->
+        author_1xx_search^60           vern_author_1xx_search^60
+        author_7xx_search^30           vern_author_7xx_search^30
+        author_8xx_search^5            vern_author_8xx_search^5
       </str>
-      <str name="pf_author2"> <!-- (token bigrams) -->
-        author_1xx_search^40            vern_author_1xx_search^40
-        author_7xx_search^20            vern_author_7xx_search^20
-        author_8xx_search^2             vern_author_8xx_search^2
+      <str name="pf2_author"> <!-- (token bigrams) -->
+        author_1xx_search^40           vern_author_1xx_search^40
+        author_7xx_search^20           vern_author_7xx_search^20
+        author_8xx_search^2            vern_author_8xx_search^2
       </str>
     </lst>
   </requestHandler>
@@ -394,9 +394,6 @@
   </requestHandler>
 
   <requestHandler name="/update" class="solr.XmlUpdateRequestHandler" startup="lazy"/>
-<!-- no longer needed for Solr 4?
-  <requestHandler name="/update/javabin" class="solr.BinaryUpdateRequestHandler" startup="lazy"/>
--->
   <requestHandler name="/analysis/field" startup="lazy" class="solr.FieldAnalysisRequestHandler" />
   <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" />
   <requestHandler name="/admin/ping" class="solr.PingRequestHandler">
