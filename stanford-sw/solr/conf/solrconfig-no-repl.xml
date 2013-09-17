@@ -11,7 +11,7 @@
 
   <lib dir="/home/blacklight/solr-home/lib" />
 
-  <dataDir>/data/solr/cjk</dataDir>
+  <dataDir>${solr.data.dir:/data/solr}</dataDir>
 
   <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}"/>
   <codecFactory class="solr.SchemaCodecFactory"/>
