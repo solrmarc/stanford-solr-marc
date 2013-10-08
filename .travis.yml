@@ -1,8 +1,0 @@
-language: java
-script: 
-  - "ant test_site"
-  - "ant test_core"
-jdk:
-  - openjdk6
-  - openjdk7
-  - oraclejdk7
