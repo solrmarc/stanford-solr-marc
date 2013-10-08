@@ -1,0 +1,54 @@
+= stanford-solr-marc
+
+{<img src="https://secure.travis-ci.org/solrmarc/stanford-solr-marc.png?branch=master" alt="Build Status" />}[http://travis-ci.org/solrmarc/stanford-solr-marc]
+
+This is a FORK of the SolrMarc** project;  it was streamlined for the single
+purpose of indexing Stanford Marc data for the SearchWorks application
+(a Blacklight application).
+
+== Usage
+
+* clone the project
+
+ git clone git://github.com/solrmarc/stanford-solr-marc.git
+
+* create a Solr instance
+ * see test/solr for a vanilla example of config files, solr war file, solr.xml, etc.
+ * see stanford-sw/solr  for config files, solr war file, solr.xml, etc.
+ * see Solr project at http://lucene.apache.org/solr
+
+* run the dist ant task
+
+ ant dist
+
+* create a script to run your MARC data through the solrmarc instance to write to a Solr index
+  (see examples in stanford-sw/scripts)
+
+* run your script
+
+* Query the Solr index to see your data
+
+
+== Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Added some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+
+== **SolrMarc 
+
+SolrMarc is a utility that reads in MaRC records from a file, extracts 
+information from various fields as specified in an indexing configuration 
+script, and adds that information to a specified Apache Solr index.
+
+SolrMarc provides a rich set of techniques for mapping the tags, fields, and 
+subfields contained in the MARC record to the fields you wish to include in your
+Solr documents, but it also allows the creation of custom indexing functions if 
+you cannot achieve what you require using the predefined mapping techniques.
+
+Aside from inline comments, the best place to find documentation is on the 
+non-forked SolrMarc project pages at
+
+http://code.google.com/p/solrmarc/w/list
