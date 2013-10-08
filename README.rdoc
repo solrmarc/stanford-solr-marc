@@ -1,32 +1,30 @@
 = stanford-solr-marc
 
-{<img src="https://secure.travis-ci.org/solrmarc/stanford-solr-marc.png?branch=master" alt="Build Status" />}[http://travis-ci.org/solrmarc/stanford-solr-marc]
-
 This is a FORK of the SolrMarc** project;  it was streamlined for the single
 purpose of indexing Stanford Marc data for the SearchWorks application
 (a Blacklight application).
 
 == Usage
 
-* clone the project
+1. clone the project
 
  git clone git://github.com/solrmarc/stanford-solr-marc.git
 
-* create a Solr instance
+2. create a Solr instance
  * see test/solr for a vanilla example of config files, solr war file, solr.xml, etc.
  * see stanford-sw/solr  for config files, solr war file, solr.xml, etc.
  * see Solr project at http://lucene.apache.org/solr
 
-* run the dist ant task
+3. run the dist ant task
 
  ant dist
 
-* create a script to run your MARC data through the solrmarc instance to write to a Solr index
+4. create a script to run your MARC data through the solrmarc instance to write to a Solr index
   (see examples in stanford-sw/scripts)
 
-* run your script
+5. run your script
 
-* Query the Solr index to see your data
+6. Query the Solr index to see your data
 
 
 == Contributing
