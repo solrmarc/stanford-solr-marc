@@ -426,7 +426,7 @@
 		<path refid="test.core.run.classpath" />
 	</path>
 
-	<target name="site_setup_test_jetty">
+	<target name="site_setup_test_jetty" description="set up jetty with site solr war, conf, lib etc">
 		<echo message="solr path for SITE testing: ${test.solr.run.dir}" />
 		<!-- set up jetty with solr files, including war, configuration, jars ... -->
 		<mkdir dir="${site.test.jetty.dir}/logs" />
