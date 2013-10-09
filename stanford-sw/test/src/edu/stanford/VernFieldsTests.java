@@ -160,7 +160,6 @@ public class VernFieldsTests extends AbstractStanfordTest
 	 */
 @Test
 	public final void testVernCatchallField()
-			throws ParserConfigurationException, IOException, SAXException, SolrServerException
 	{
 		String fldName = "vern_all_search";
 
