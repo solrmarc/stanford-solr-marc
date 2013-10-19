@@ -135,48 +135,43 @@ public class MhldDisplayUtil
 
 		for (DataField df866 : list866)
 		{
+			String libraryHas = getLibraryHasStr(df866);
 			String suba = MarcUtils.getSubfieldData(df866, 'a');
-			if (suba == null)
-				suba = "";
-			if (suba.endsWith("-"))
+			if (suba != null && suba.endsWith("-"))
 			{
 				if (latestRecdOut == false)
 				{
-					result.add(resultPrefixFrom852 + suba + SEP + getLatestReceivedStr());
+					result.add(resultPrefixFrom852 + libraryHas + SEP + getLatestReceivedStr());
 					latestRecdOut = true;
 				}
 				else
 				{
-					result.add(resultPrefixFrom852 + suba + SEP);
+					result.add(resultPrefixFrom852 + libraryHas + SEP);
 					logger.error(id + " has mhld with multiple 866 ending in hyphen");
 				}
 			}
 			else
 			{
-				result.add(resultPrefixFrom852 + suba + SEP);
+				result.add(resultPrefixFrom852 + libraryHas + SEP);
 			}
 			has866 = true;
 		}
 		for (DataField df867 : list867)
 		{
-			String suba = MarcUtils.getSubfieldData(df867, 'a');
-			if (suba == null)
-				suba = "";
+			String libraryHas = getLibraryHasStr(df867);
 			if (!has866)
-				result.add(resultPrefixFrom852 + "Supplement: " + suba + SEP + getLatestReceivedStr());
+				result.add(resultPrefixFrom852 + "Supplement: " + libraryHas + SEP + getLatestReceivedStr());
 			else
-				result.add(resultPrefixFrom852 + "Supplement: " + suba + SEP);
+				result.add(resultPrefixFrom852 + "Supplement: " + libraryHas + SEP);
 			has867 = true;
 		}
 		for (DataField df868 : list868)
 		{
-			String suba = MarcUtils.getSubfieldData(df868, 'a');
-			if (suba == null)
-				suba = "";
+			String libraryHas = getLibraryHasStr(df868);
 			if (!has866)
-				result.add(resultPrefixFrom852 + "Index: " + suba + SEP + getLatestReceivedStr());
+				result.add(resultPrefixFrom852 + "Index: " + libraryHas + SEP + getLatestReceivedStr());
 			else
-				result.add(resultPrefixFrom852 + "Index: " + suba + SEP);
+				result.add(resultPrefixFrom852 + "Index: " + libraryHas + SEP);
 			has868 = true;
 		}
 
@@ -191,6 +186,23 @@ public class MhldDisplayUtil
 					logger.error(id + " has mhld 852 with no info: " + resultPrefixFrom852);
 			}
 		}
+	}
+
+
+	/**
+	 * @param df86x an 866, 867 or 868 field as a DataField object
+	 * @return String value for "library has" part of mhldDisplay value
+	 */
+	private String getLibraryHasStr(DataField df86x)
+	{
+		String libraryHas = "";
+		String suba = MarcUtils.getSubfieldData(df86x, 'a');
+		if (suba != null)
+			libraryHas = suba;
+		String subz = MarcUtils.getSubfieldData(df86x, 'z');
+		if (subz != null && subz.length() > 0)
+			libraryHas = libraryHas + " " + subz;
+		return libraryHas;
 	}
 
 

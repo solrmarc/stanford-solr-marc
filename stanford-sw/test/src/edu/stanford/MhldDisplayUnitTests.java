@@ -148,4 +148,170 @@ public class MhldDisplayUnitTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(rec, fldName, "lib -|- loc -|-  -|-  -|- v.205:no.10 (2011:March 9)");
 	}
 
+	/**
+	 * per https://jirasul.stanford.edu/jira/browse/SW-885, "library has"
+	 *  should include sub z in addition to sub a  from  866/867/868
+	 */
+@Test
+	public void testSubZ866()
+	{
+		Record rec = factory.newRecord();
+		ControlField cf = factory.newControlField("001", "asubz866");
+		rec.addVariableField(cf);
+		// from http://searchworks.stanford.edu/view/48690
+		DataField df852 = factory.newDataField("852", ' ', ' ');
+		df852.addSubfield(factory.newSubfield('a', "CSt"));
+		df852.addSubfield(factory.newSubfield('b', "lib"));
+		df852.addSubfield(factory.newSubfield('c', "loc"));
+		rec.addVariableField(df852);
+		DataField df = factory.newDataField("866", ' ', '0');
+	    df.addSubfield(factory.newSubfield('8', "1"));
+	    df.addSubfield(factory.newSubfield('a', "pt.1-4"));
+	    df.addSubfield(factory.newSubfield('z', "<v.3,16,27-28 in series>"));
+	    rec.addVariableField(df);
+
+	    rec.addVariableField(df852);
+		df = factory.newDataField("866", '8', '1');
+	    df.addSubfield(factory.newSubfield('8', "1"));
+	    df.addSubfield(factory.newSubfield('a', "pt.2"));
+	    df.addSubfield(factory.newSubfield('z', "<v.16 in series>"));
+	    rec.addVariableField(df);
+
+	    rec.addVariableField(df852);
+		df = factory.newDataField("866", '8', '1');
+	    df.addSubfield(factory.newSubfield('8', "2"));
+	    df.addSubfield(factory.newSubfield('a', "pt.5"));
+	    rec.addVariableField(df);
+		solrFldMapTest.assertSolrFldHasNumValues(rec, fldName, 3);
+		solrFldMapTest.assertSolrFldValue(rec, fldName, "lib -|- loc -|-  -|- pt.1-4 <v.3,16,27-28 in series> -|- ");
+		solrFldMapTest.assertSolrFldValue(rec, fldName, "lib -|- loc -|-  -|- pt.2 <v.16 in series> -|- ");
+		solrFldMapTest.assertSolrFldValue(rec, fldName, "lib -|- loc -|-  -|- pt.5 -|- ");
+	}
+
+
+@Test
+	public void testSubZ867()
+	{
+		Record rec = factory.newRecord();
+		ControlField cf = factory.newControlField("001", "asubz867");
+		rec.addVariableField(cf);
+		DataField df852 = factory.newDataField("852", ' ', ' ');
+		df852.addSubfield(factory.newSubfield('a', "CSt"));
+		df852.addSubfield(factory.newSubfield('b', "lib"));
+		df852.addSubfield(factory.newSubfield('c', "loc"));
+		rec.addVariableField(df852);
+		DataField df = factory.newDataField("867", ' ', '0');
+	    df.addSubfield(factory.newSubfield('8', "1"));
+	    df.addSubfield(factory.newSubfield('a', "first"));
+	    df.addSubfield(factory.newSubfield('z', "subz"));
+	    rec.addVariableField(df);
+		df = factory.newDataField("867", ' ', '0');
+	    df.addSubfield(factory.newSubfield('8', "1"));
+	    df.addSubfield(factory.newSubfield('a', "second"));
+	    rec.addVariableField(df);
+		solrFldMapTest.assertSolrFldHasNumValues(rec, fldName, 2);
+		solrFldMapTest.assertSolrFldValue(rec, fldName, "lib -|- loc -|-  -|- Supplement: first subz -|- ");
+		solrFldMapTest.assertSolrFldValue(rec, fldName, "lib -|- loc -|-  -|- Supplement: second -|- ");
+
+		df = factory.newDataField("866", '3', '1');
+	    df.addSubfield(factory.newSubfield('8', "0"));
+	    df.addSubfield(factory.newSubfield('a', "v.188"));
+	    rec.addVariableField(df);
+		solrFldMapTest.assertSolrFldHasNumValues(rec, fldName, 3);
+		solrFldMapTest.assertSolrFldValue(rec, fldName, "lib -|- loc -|-  -|- v.188 -|- ");
+	}
+
+@Test
+	public void testSubZ868()
+	{
+		Record rec = factory.newRecord();
+		ControlField cf = factory.newControlField("001", "asubz868");
+		rec.addVariableField(cf);
+		DataField df852 = factory.newDataField("852", ' ', ' ');
+		df852.addSubfield(factory.newSubfield('a', "CSt"));
+		df852.addSubfield(factory.newSubfield('b', "lib"));
+		df852.addSubfield(factory.newSubfield('c', "loc"));
+		rec.addVariableField(df852);
+		DataField df = factory.newDataField("868", ' ', '0');
+	    df.addSubfield(factory.newSubfield('8', "1"));
+	    df.addSubfield(factory.newSubfield('a', "first"));
+	    df.addSubfield(factory.newSubfield('z', "subz"));
+	    rec.addVariableField(df);
+		df = factory.newDataField("868", ' ', '0');
+	    df.addSubfield(factory.newSubfield('8', "1"));
+	    df.addSubfield(factory.newSubfield('a', "second"));
+	    rec.addVariableField(df);
+		solrFldMapTest.assertSolrFldHasNumValues(rec, fldName, 2);
+		solrFldMapTest.assertSolrFldValue(rec, fldName, "lib -|- loc -|-  -|- Index: first subz -|- ");
+		solrFldMapTest.assertSolrFldValue(rec, fldName, "lib -|- loc -|-  -|- Index: second -|- ");
+
+		df = factory.newDataField("866", '3', '1');
+	    df.addSubfield(factory.newSubfield('8', "0"));
+	    df.addSubfield(factory.newSubfield('a', "v.188"));
+	    rec.addVariableField(df);
+		solrFldMapTest.assertSolrFldHasNumValues(rec, fldName, 3);
+		solrFldMapTest.assertSolrFldValue(rec, fldName, "lib -|- loc -|-  -|- v.188 -|- ");
+	}
+
+
+	/**
+	 * per https://jirasul.stanford.edu/jira/browse/VUF-2617,
+	 *  "latest" part of mhldDisplay should be populated
+	 */
+//@Test
+	public void testLatestShouldBePopulated()
+	{
+		Record rec = factory.newRecord();
+		ControlField cf = factory.newControlField("001", "alatest");
+		rec.addVariableField(cf);
+		// from http://searchworks.stanford.edu/view/3454845
+		DataField df852 = factory.newDataField("852", ' ', ' ');
+		df852.addSubfield(factory.newSubfield('a', "CSt"));
+		df852.addSubfield(factory.newSubfield('b', "lib"));
+		df852.addSubfield(factory.newSubfield('c', "loc"));
+		df852.addSubfield(factory.newSubfield('=', "41906"));
+		rec.addVariableField(df852);
+
+		DataField df = factory.newDataField("853", '2', ' ');
+	    df.addSubfield(factory.newSubfield('8', "2"));
+	    df.addSubfield(factory.newSubfield('a', "(year)"));
+	    rec.addVariableField(df);
+		df = factory.newDataField("853", '2', ' ');
+	    df.addSubfield(factory.newSubfield('8', "3"));
+	    df.addSubfield(factory.newSubfield('b', "pt."));
+	    df.addSubfield(factory.newSubfield('u', "2"));
+	    df.addSubfield(factory.newSubfield('v', "r"));
+	    rec.addVariableField(df);
+		df = factory.newDataField("866", '3', '1');
+	    df.addSubfield(factory.newSubfield('8', "1"));
+	    df.addSubfield(factory.newSubfield('a', "2003,2006-"));
+	    rec.addVariableField(df);
+		df = factory.newDataField("863", ' ', '1');
+	    df.addSubfield(factory.newSubfield('8', "2.1"));
+	    df.addSubfield(factory.newSubfield('a', "2003"));
+	    rec.addVariableField(df);
+		df = factory.newDataField("863", ' ', '1');
+	    df.addSubfield(factory.newSubfield('8', "3.1"));
+	    df.addSubfield(factory.newSubfield('a', "2006"));
+	    df.addSubfield(factory.newSubfield('b', "1"));
+	    rec.addVariableField(df);
+		df = factory.newDataField("863", ' ', '1');
+	    df.addSubfield(factory.newSubfield('8', "3.2"));
+	    df.addSubfield(factory.newSubfield('a', "2006"));
+	    df.addSubfield(factory.newSubfield('b', "2"));
+	    rec.addVariableField(df);
+		df = factory.newDataField("863", ' ', '1');
+	    df.addSubfield(factory.newSubfield('8', "3.3"));
+	    df.addSubfield(factory.newSubfield('a', "2011"));
+	    df.addSubfield(factory.newSubfield('b', "1"));
+	    rec.addVariableField(df);
+		df = factory.newDataField("863", ' ', '1');
+	    df.addSubfield(factory.newSubfield('8', "3.4"));
+	    df.addSubfield(factory.newSubfield('a', "2011"));
+	    df.addSubfield(factory.newSubfield('b', "2"));
+	    rec.addVariableField(df);
+
+		solrFldMapTest.assertSolrFldHasNumValues(rec, fldName, 1);
+		solrFldMapTest.assertSolrFldValue(rec, fldName, "lib -|- loc -|-  -|- 2003,2006- -|- 2011:pt.2");
+	}
 }
