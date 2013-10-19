@@ -1079,6 +1079,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		keepers0xx.add("024");
 		keepers0xx.add("027");
 		keepers0xx.add("028");
+		keepers0xx.add("033");
 	}
 
 	/**
