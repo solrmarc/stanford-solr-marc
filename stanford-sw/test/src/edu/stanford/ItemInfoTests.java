@@ -143,7 +143,7 @@ public class ItemInfoTests extends AbstractStanfordTest {
 	{
 		String fldName = "building_facet";
 		createFreshIx("buildingTests.mrc");
-	    assertSingleResult("3743949", fldName, "Hoover");
+	    assertSingleResult("3743949", fldName, "\"Hoover Library\"");
 	    assertSingleResult("3400092", fldName, "\"Hoover Archives\"");
 	}
 
