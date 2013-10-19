@@ -256,9 +256,10 @@ public class MhldDisplayUnitTests extends AbstractStanfordTest
 
 	/**
 	 * per https://jirasul.stanford.edu/jira/browse/VUF-2617,
-	 *  "latest" part of mhldDisplay should be populated
+	 *  "latest" part of mhldDisplay should be populated ... but only when
+	 *   853 pattern matches latest rec'd 863.
 	 */
-//@Test
+@Test
 	public void testLatestShouldBePopulated()
 	{
 		Record rec = factory.newRecord();
@@ -278,6 +279,7 @@ public class MhldDisplayUnitTests extends AbstractStanfordTest
 	    rec.addVariableField(df);
 		df = factory.newDataField("853", '2', ' ');
 	    df.addSubfield(factory.newSubfield('8', "3"));
+	    df.addSubfield(factory.newSubfield('a', "(year)"));
 	    df.addSubfield(factory.newSubfield('b', "pt."));
 	    df.addSubfield(factory.newSubfield('u', "2"));
 	    df.addSubfield(factory.newSubfield('v', "r"));
