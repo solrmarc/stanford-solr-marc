@@ -6,6 +6,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
     	AccessTests.class,
+    	AllSearchTests.class,
     	AuthorTests.class,
         AuthorTitleMappingTests.class,
         CallNumberTests.class,
