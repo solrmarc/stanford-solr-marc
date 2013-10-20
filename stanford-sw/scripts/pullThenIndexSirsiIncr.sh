@@ -1,4 +1,4 @@
-#! /bin/bash 
+#! /bin/bash
 # pullThenIndexSirsiIncr.sh
 # Pull over the latest incremental update files from Sirsi, then
 #  Remove deleted records (per file of ids) from index and update index (with marc records in file)
@@ -52,10 +52,10 @@ REC_FNAME=$LATEST_DATA_DIR/$RECORDS_FNAME
 DEL_ARG="-Dmarc.ids_to_delete="$LATEST_DATA_DIR/$DEL_KEYS_FNAME
 
 # index the files
-nohup java -Xmx4g -Xms4g $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_FILE
+nohup java -Xmx1g -Xms256m $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_FILE
 # email the results
 mail -s 'pullThenIndexSirsiIncr.sh output' searchworks-reports@lists.stanford.edu, datacontrol@stanford.edu < $LOG_FILE
-# email the solr log messages 
+# email the solr log messages
 $SOLRMARC_BASEDIR/stanford-sw/scripts/grep_and_email_tomcat_log.sh
 
 # include latest course reserves data

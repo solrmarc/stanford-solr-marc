@@ -36,6 +36,6 @@ LOG_DIR=$RAW_DATA_DIR/logs
 mkdir -p $LOG_DIR
 
 # index the files
-nohup java -Xmx16g -Xms16g $DEL_ARG -Dsolr.optimize_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
+nohup java -Xmx1g -Xms256m $DEL_ARG -Dsolr.optimize_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
 
 exit 0
