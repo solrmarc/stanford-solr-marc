@@ -37,9 +37,9 @@ mkdir -p $LOG_DIR
 LOG_FILE=$LOG_DIR/$RECORDS_FNAME".txt"
 
 # index the files
-nohup java -Xmx4g -Xms4g $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_FILE
+nohup java -Xmx1g -Xms256m $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_FILE
 #mail -s 'pullThenIndexSirsiIncr.sh output' searchworks-reports@lists.stanford.edu, datacontrol@stanford.edu < $LOG_FILE
-# email the solr log messages 
+# email the solr log messages
 #$SOLRMARC_BASEDIR/stanford-sw/scripts/grep_and_email_tomcat_log.sh
 
 # include latest course reserves data

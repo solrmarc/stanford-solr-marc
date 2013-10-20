@@ -23,7 +23,7 @@ else
   DEL_KEYS_FNAME=$TODAY"_ckeys_delete.del"
   RECORDS_FNAME=$TODAY"_uni_increment.marc"
 fi
-    
+
 #  sftp remote files with today's datestamp to "latest/updates"
 
 sftp -o 'IdentityFile=~/.ssh/id_rsa' apache@jenson:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
@@ -53,7 +53,7 @@ REC_FNAME=$LATEST_DATA_DIR/$RECORDS_FNAME
 DEL_ARG="-Dmarc.ids_to_delete="$LATEST_DATA_DIR/$DEL_KEYS_FNAME
 
 # index the files
-nohup java -Xmx4g -Xms4g $DEL_ARG -Dsolr.optimize_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
+nohup java -Xmx1g -Xms256m $DEL_ARG -Dsolr.optimize_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
 
 echo " "
 cat $LOG_DIR/$RECORDS_FNAME".txt"

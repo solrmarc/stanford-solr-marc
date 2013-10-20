@@ -30,7 +30,7 @@ LOG_DIR=$LOG_PARENT_DIR/$LOG_SUBDIR
 mkdir -p $LOG_DIR
 
 # index the file
-java -Xmx1g -Xms1g -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/physicalTests.mrc &>$LOG_DIR/log.txt
-#java -Xmx1g -Xms1g -cp $CP -Dsolr.optimize_at_end="true" -jar $SITE_JAR $RAW_DATA_DIR/physicalTests.mrc &>$LOG_DIR/log.txt
+java -Xmx512m -Xms128m -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/physicalTests.mrc &>$LOG_DIR/log.txt
+#java -Xmx512m -Xms128m -cp $CP -Dsolr.optimize_at_end="true" -jar $SITE_JAR $RAW_DATA_DIR/physicalTests.mrc &>$LOG_DIR/log.txt
 
 exit 0
