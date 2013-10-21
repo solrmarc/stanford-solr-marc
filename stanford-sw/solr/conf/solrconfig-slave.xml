@@ -622,22 +622,6 @@
         title_related_search^10        vern_title_related_search^10
         series_search^2                vern_series_search^2
       </str>
-      <str name="pf_title3"> <!-- (token trigrams) -->   <!-- to be removed in favor of pf3_title -->
-        title_245a_search^300          vern_title_245a_search^300
-        title_245_search^225           vern_title_245_search^225
-        title_uniform_search^150       vern_title_uniform_search^150
-        title_variant_search^60        vern_title_variant_search^60
-        title_related_search^15        vern_title_related_search^15
-        series_search^3                vern_series_search^3
-      </str>
-      <str name="pf_title2"> <!-- (token bigrams) -->   <!-- to be removed in favor of pf2_title -->
-        title_245a_search^200          vern_title_245a_search^200
-        title_245_search^150           vern_title_245_search^150
-        title_uniform_search^100       vern_title_uniform_search^100
-        title_variant_search^40        vern_title_variant_search^40
-        title_related_search^10        vern_title_related_search^10
-        series_search^2                vern_series_search^2
-      </str>
 
       <str name="qf_title_cjk">
         title_245a_exact_search^350
@@ -712,16 +696,6 @@
         author_7xx_search^20           vern_author_7xx_search^20
         author_8xx_search^2            vern_author_8xx_search^2
       </str>
-      <str name="pf_author3"> <!-- (token trigrams) -->    <!-- to be removed in favor of pf3_author -->
-        author_1xx_search^60           vern_author_1xx_search^60
-        author_7xx_search^30           vern_author_7xx_search^30
-        author_8xx_search^5            vern_author_8xx_search^5
-      </str>
-      <str name="pf_author2"> <!-- (token bigrams) -->    <!-- to be removed in favor of pf2_author -->
-        author_1xx_search^40           vern_author_1xx_search^40
-        author_7xx_search^20           vern_author_7xx_search^20
-        author_8xx_search^2            vern_author_8xx_search^2
-      </str>
 
       <str name="qf_author_cjk">
         author_1xx_unstem_search^20
@@ -792,16 +766,6 @@
         subject_all_search^50          vern_subject_all_search^50
         db_az_subject_search^2
       </str>
-      <str name="pf_subject3"> <!-- (token trigrams) -->    <!-- to be removed in favor of pf3_subject -->
-        topic_search^150               vern_topic_search^150
-        subject_all_search^75          vern_subject_all_search^75
-        db_az_subject_search^3
-      </str>
-      <str name="pf_subject2"> <!-- (token bigrams) -->    <!-- to be removed in favor of pf2_subject -->
-        topic_search^100               vern_topic_search^100
-        subject_all_search^50          vern_subject_all_search^50
-        db_az_subject_search^2
-      </str>
 
       <str name="qf_subject_cjk">
         topic_unstem_search^50
@@ -862,12 +826,6 @@
         series_search^5                vern_series_search^5
       </str>
       <str name="pf2_series"> <!-- (token bigrams) -->
-        series_search^2                vern_series_search^2
-      </str>
-      <str name="pf_series3"> <!-- (token trigrams) -->    <!-- to be removed in favor of pf3_series -->
-        series_search^5                vern_series_search^5
-      </str>
-      <str name="pf_series2"> <!-- (token bigrams) -->    <!-- to be removed in favor of pf2_series -->
         series_search^2                vern_series_search^2
       </str>
 
