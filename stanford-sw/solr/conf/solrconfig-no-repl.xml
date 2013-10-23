@@ -199,11 +199,13 @@
   </requestDispatcher>
 
   <!-- for most searches, including Blacklight's pulldown menu for the single search box
-       Usage:   q=terms anywhere
-                q={!qf=$qf_title pf=$pf_title}a book title
-                q={!qf=$qf_author pf=$pf_author}author name
-                q=yer_callnum&df=callnum_search&defType=lucene&q.op=AND
-       and so on -->
+       Pulldown usage:
+         q=terms anywhere
+         q={!qf=$qf_title pf=$pf_title pf3=$pf3_title pf2=$pf2_title}a book title
+         q={!qf=$qf_author pf=$pf_author pf3=$pf3_author pf2=$pf2_author}author name
+         q=yer_callnum&df=callnum_search&defType=lucene&q.op=AND
+       Advanced search requests use:
+         defType=lucene&q=_query_:"{!dismax qf=$qf_a pf=$pf_a pf3=$pf3_a pf2=$pf2_a}qa" [AND|OR] _query_:"{!dismax qf=$qf_b pf=$pf_b pf3=$pf3_b pf2=$pf2_b}qb" -->
   <requestHandler name="search" class="solr.SearchHandler" default="true">
     <lst name="defaults">
       <str name="defType">edismax</str>
@@ -834,6 +836,8 @@
         series_search^2                vern_series_search^2                cjk_series_search^2
       </str>
 
+
+      <!-- for course reserves searches -->
       <str name="qf_crez">
       	crez_instructor_search
       	crez_course_name_search
@@ -844,6 +848,114 @@
       	crez_course_name_search^2
       </str>
       <str name="sort_crez">score desc, title_sort asc, pub_date_sort desc</str>
+
+
+      <!-- for advanced search publisher text box -->
+      <str name="qf_pub_info">
+        pub_search                     vern_pub_search
+        pub_country
+        pub_date_search
+      </str>
+      <str name="pf_pub_info">
+        pub_search^5                   vern_pub_search^5
+        pub_country^5
+        pub_date_search^5
+      </str>
+      <str name="pf3_pub_info">pub_search^3 vern_pub_search^3</str>
+      <str name="pf2_pub_info">pub_search^2 vern_pub_search^2</str>
+
+      <str name="qf_pub_info_cjk">
+        pub_search                     vern_pub_search                     cjk_pub_search
+        pub_country
+        pub_date_search
+      </str>
+      <str name="pf_pub_info_cjk">
+        pub_search^5                   vern_pub_search^5                   cjk_pub_search^5
+        pub_country^5
+        pub_date_search^5
+      </str>
+      <str name="pf3_pub_info_cjk">pub_search^3 vern_pub_search^3 cjk_pub_search^3</str>
+      <str name="pf2_pub_info_cjk">pub_search^2 vern_pub_search^2 cjk_pub_search^2</str>
+
+      <!-- for advanced search number text box -->
+      <str name="qf_number">
+        id
+        isbn_search
+        issn_search
+        oclc
+        barcode_search
+        callnum_search
+      </str>
+      <str name="pf_number">issn_search^5 callnum_search^5</str>
+      <str name="pf3_number">callnum_search^3</str>
+      <str name="pf2_number">callnum_search^2</str>
+
+      <!-- for advanced search summary text box -->
+      <str name="qf_summary">
+        toc_unstem_search^10
+        toc_search                     vern_toc_search
+        context_unstem_search^10
+        context_search                 vern_context_search
+        summary_unstem_search^10
+        summary_search                 vern_summary_search
+      </str>
+      <str name="pf_summary">
+        toc_unstem_search^20
+        toc_search^5                   vern_toc_search^5
+        context_unstem_search^20
+        context_search^5               vern_context_search^5
+        summary_unstem_search^20
+        summary_search^5               vern_summary_search^5
+      </str>
+      <str name="pf3_summary">
+        toc_search^3                   vern_toc_search^3
+        context_search^3               vern_context_search^3
+        summary_search^3               vern_summary_search^3
+      </str>
+      <str name="pf2_summary">
+        toc_search^2                   vern_toc_search^2
+        context_search^2               vern_context_search^2
+        summary_search^2               vern_summary_search^2
+      </str>
+
+      <str name="qf_summary_cjk">
+        toc_unstem_search^10
+        toc_search                     vern_toc_search                     cjk_toc_search
+        context_unstem_search^10
+        context_search                 vern_context_search                 cjk_context_search
+        summary_unstem_search^10
+        summary_search                 vern_summary_search                 cjk_summary_search
+      </str>
+      <str name="pf_summary_cjk">
+        toc_unstem_search^20
+        toc_search^5                   vern_toc_search^5                   cjk_toc_search^5
+        context_unstem_search^20
+        context_search^5               vern_context_search^5               cjk_context_search^5
+        summary_unstem_search^20
+        summary_search^5               vern_summary_search^5               cjk_summary_search^5
+      </str>
+      <str name="pf3_summary_cjk">
+        toc_search^3                   vern_toc_search^3                   cjk_toc_search^3
+        context_search^3               vern_context_search^3               cjk_context_search^3
+        summary_search^3               vern_summary_search^3               cjk_summary_search^3
+      </str>
+      <str name="pf2_summary_cjk">
+        toc_search^2                   vern_toc_search^2                   cjk_toc_search^2
+        context_search^2               vern_context_search^2               cjk_context_search^2
+        summary_search^2               vern_summary_search^2               cjk_summary_search^2
+      </str>
+
+      <!-- for advanced search description text box -->
+      <str name="qf_description">all_unstem_search^10 all_search vern_all_search</str>
+      <str name="pf_description">all_unstem_search^20 all_search^5 vern_all_search^5</str>
+      <str name="pf3_description">all_search^3 vern_all_search^3</str>
+      <str name="pf2_description">all_search^2 vern_all_search^2</str>
+
+      <str name="qf_description_cjk">all_unstem_search^10 all_search vern_all_search cjk_all_search</str>
+      <str name="pf_description_cjk">all_unstem_search^20 all_search^5 vern_all_search^5 cjk_all_search^5</str>
+      <str name="pf3_description_cjk">all_search^3 vern_all_search^3 cjk_all_search^3</str>
+      <str name="pf2_description_cjk">all_search^2 vern_all_search^2 cjk_all_search^2</str>
+
 
       <bool name="facet">true</bool>
       <int name="facet.mincount">1</int>
@@ -887,10 +999,10 @@
       <str name="fl">
         score,
         id,
-        author_corp_display,
-        author_meeting_display,
-        author_person_display,
-        author_person_full_display,
+        author_corp_display,          vern_author_corp_display,
+        author_meeting_display,       vern_author_meeting_display,
+        author_person_display,        vern_author_person_display,
+        author_person_full_display,   vern_author_person_full_display,
         collection,
         collection_type,
         collection_with_title,
@@ -905,7 +1017,7 @@
         lccn,
         mhld_display,
         oclc,
-        physical,
+        physical,                     vern_physical,
         pub_date,
         publication_year_isi,
         beginning_year_isi,
@@ -921,30 +1033,21 @@
         copyright_year_isi,
         pub_date_display,
         summary_display,
-        title_245a_display,
-        title_245c_display,
-        title_display,
-        title_full_display,
-        title_uniform_display,
+        title_245a_display,           vern_title_245a_display,
+        title_245c_display,           vern_title_245c_display,
+        title_display,                vern_title_display,
+        title_full_display,           vern_title_full_display,
+        title_uniform_display,        vern_title_uniform_display
         url_fulltext,
         url_restricted,
         url_suppl,
-        url_sfx,
-        vern_author_corp_display,
-        vern_author_meeting_display,
-        vern_author_person_display,
-        vern_author_person_full_display,
-        vern_physical,
-        vern_title_245a_display,
-        vern_title_245c_display,
-        vern_title_display,
-        vern_title_uniform_display
+        url_sfx
       </str>
     </lst>
   </requestHandler>
 
-  <!-- advanced search requests; use q=_query_:"{!dismax qf=$qf1 pf=$pf1 mm=$mm ps=$ps tie=$tie}[transformed-q1] AND query_:"{!dismax qf=$qf2 pf=$pf2}[transformed-q2] -->
-  <!-- 2012-10: cannot fold this into single request handler because the SearchWorks app also uses the qt=advanced param as a flag for advanced search UI behaviors  -->
+  <!-- DEPRECATED 2013-10-23
+     advanced search requests; use q=_query_:"{!dismax qf=$qf_a pf=$pf_a}[transformed-qa]" AND query_:"{!dismax qf=$qf_b pf=$pf_b}[transformed-qb] -->
   <requestHandler name="advanced" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="defType">lucene</str>
