@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!-- this is the solrconfig for the slaves in the Solr replication scheme.
+<!-- this is the SearchWorks solrconfig for the slaves in the Solr replication scheme.
   Per the "replication" request handler below, this config file will replicate from sw-solr-m:8983
   The configurations are optimized for searching, not indexing. -->
 <config>

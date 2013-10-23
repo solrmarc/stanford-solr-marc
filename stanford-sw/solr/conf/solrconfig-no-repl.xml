@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!-- use this solrconfig file to experiment with Solr without replication -->
+<!-- use this SearchWorks solrconfig file to experiment with Solr without replication -->
 <config>
   <!-- NOTE: various comments and unused configuration possibilities have been purged
      from this file.  Please refer to http://wiki.apache.org/solr/SolrConfigXml,
