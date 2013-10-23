@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!-- this is the solrconfig for the master in the Solr replication scheme.
+<!-- this is the solrconfig for the master in the SearchWorks Solr replication scheme.
   The configurations are optimized for indexing, not searching. -->
 <config>
   <!-- NOTE: various comments and unused configuration possibilities have been purged
@@ -79,11 +79,11 @@
   </requestHandler>
 
   <!-- for most searches, including Blacklight's pulldown menu for the single search box
-       Usage:   q=terms anywhere
-                q={!qf=$qf_title pf=$pf_title}a book title
-                q={!qf=$qf_author pf=$pf_author}author name
-                q=yer_callnum&df=callnum_search&defType=lucene&q.op=AND
-       and so on -->
+       Pulldown usage:
+         q=terms anywhere
+         q={!qf=$qf_title pf=$pf_title pf3=$pf3_title pf2=$pf2_title}a book title
+         q={!qf=$qf_author pf=$pf_author pf3=$pf3_author pf2=$pf2_author}author name
+  -->
   <requestHandler name="search" class="solr.SearchHandler" default="true">
     <lst name="defaults">
       <str name="defType">edismax</str>
