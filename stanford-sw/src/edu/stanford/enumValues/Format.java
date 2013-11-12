@@ -1,7 +1,7 @@
 package edu.stanford.enumValues;
 
-/** 
- * format facet values for Stanford University
+/**
+ * format facet values for Stanford University SearchWorks
  * @author - Naomi Dushay
  */
 public enum Format {
@@ -9,10 +9,12 @@ public enum Format {
 	COMPUTER_FILE,
 	CONFERENCE_PROCEEDINGS,
 	DATABASE_A_Z,
+	DATASET,
 	IMAGE,
 	JOURNAL_PERIODICAL,
 	MANUSCRIPT_ARCHIVE,
 	MAP_GLOBE,
+	MARCIT,
 	MICROFORMAT,
 	MUSIC_RECORDING,
 	MUSIC_SCORE,
@@ -40,6 +42,8 @@ public enum Format {
 			return "Manuscript/Archive";
 		case MAP_GLOBE:
 			return "Map/Globe";
+		case MARCIT:
+			return "MARCit";
 		case MUSIC_RECORDING:
 			return "Music - Recording";
 		case MUSIC_SCORE:

@@ -9,29 +9,29 @@ import edu.stanford.enumValues.Format;
 
 /**
  * Format utility methods for Stanford solrmarc
- * 
+ *
  * @author Naomi Dushay
  */
 public class FormatUtils {
 
 	/**
 	 * Default Constructor: private, so it can't be instantiated by other objects
-	 */	
+	 */
 	private FormatUtils(){ }
 
-	
+
 	/**
 	 * Assign formats based on leader chars 06, 07 and chars in 008
-	 * 
+	 *
 	 * Algorithms for formats are currently in email  message from Vitus Tang to
-	 *  Naomi Dushay, cc Phil Schreur, Margaret Hughes, and Jennifer Vine 
+	 *  Naomi Dushay, cc Phil Schreur, Margaret Hughes, and Jennifer Vine
 	 *  dated July 23, 2008.
-	 *  
+	 *
 	 * @param leaderStr - the leader field, as a String
 	 * @param cf008 - the 008 field as a ControlField object
 	 * @param Set of Strings containing Format enum values per the given data
 	 */
-	static Set<String> getFormatsPerLdrAnd008(String leaderStr, ControlField cf008) 
+	static Set<String> getFormatsPerLdrAnd008(String leaderStr, ControlField cf008)
 	{
 		Set<String> result = new HashSet<String>();
 
@@ -92,11 +92,11 @@ public class FormatUtils {
 			break;
 		} // end switch
 
-/* not yet vetted  2010-10-30					
-		// is it an updating database? (leader/07 = "s" or "i" and 008/21 = "d") OR (006/00 = "s" and 006/04 = "d") 
+/* not yet vetted  2010-10-30
+		// is it an updating database? (leader/07 = "s" or "i" and 008/21 = "d") OR (006/00 = "s" and 006/04 = "d")
 		// (leader/07 = "s" and 008/21 = "d" handled by getSerialFormat()
 		// (006/00 = "s" and 006/04 = "d") is handled by getSerialFormat() which calls getSerialFormat006()
-		
+
 		if (leaderChar07 == 'i') {
 			// check if it's a database based on 008 char 21
 			char c21 = '\u0000';
@@ -107,29 +107,29 @@ public class FormatUtils {
 			}
 		}
 */
-		
+
 		return result;
 	}
-	
-	
+
+
 	/**
 	 * Assign format based on Serial publications - leader/07 s
-	 * 
+	 *
 	 * Algorithms for formats are currently in email  message from Vitus Tang to
-	 *  Naomi Dushay, cc Phil Schreur, Margaret Hughes, and Jennifer Vine 
+	 *  Naomi Dushay, cc Phil Schreur, Margaret Hughes, and Jennifer Vine
 	 *  dated July 23, 2008.
-	 *  
+	 *
 	 * @param leaderStr - the leader field, as a String
 	 * @param cf008 - the 008 field as a ControlField object
 	 * @param Set of Strings containing Format enum values per the given data
 	 */
-	static String getSerialFormat(char leaderChar07, ControlField cf008, VariableField f006) 
+	static String getSerialFormat(char leaderChar07, ControlField cf008, VariableField f006)
 	{
 		String result = null;
 		char c21 = '\u0000';
 		if (cf008 != null)
 			c21 = ((ControlField) cf008).getData().charAt(21);
-		
+
 		// look for serial format per leader/07 and 008/21
 		if (leaderChar07 == 's')
 			result = getSerialFormatFromChar(c21);
@@ -142,20 +142,20 @@ public class FormatUtils {
 			return result;
 
 		// default to journal if leader/07 s and 008/21 is blank
-		if (leaderChar07 == 's' && cf008 != null && c21 == ' ') 
+		if (leaderChar07 == 's' && cf008 != null && c21 == ' ')
 			return Format.JOURNAL_PERIODICAL.toString();
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Assign format if 006 starts with 's' and 4th char has a desirable
 	 *  value.
-	 * 
+	 *
 	 * @param f006 - 006 as a VariableField object
 	 * @return String containing Format enum value per the given data, or null
 	 */
-	static String getSerialFormat006(VariableField f006) 
+	static String getSerialFormat006(VariableField f006)
 	{
 		if (f006 != null && f006.find("^s")) {
 			char c04 = ((ControlField) f006).getData().charAt(4);
@@ -166,21 +166,21 @@ public class FormatUtils {
 				return Format.JOURNAL_PERIODICAL.toString();
 		}
 		return null;
-		
+
 	}
-	
-	
+
+
 	/**
 	 * given a character assumed to be the 21st character (zero-based) from
-	 *  the 008 field or the 4th char from an 006 field, return the format 
+	 *  the 008 field or the 4th char from an 006 field, return the format
 	 *  (assuming that there is an indication that the record is for a serial).
 	 *  return null if no format is determined.
 	 */
 	private static String getSerialFormatFromChar(char ch) {
-		if (ch != '\u0000') 
+		if (ch != '\u0000')
 			switch (ch) {
-/* not yet vetted  2010-10-30	
-				case 'd': // updating database 
+/* not yet vetted  2010-10-30
+				case 'd': // updating database
 					return Format.DATABASE_OTHER.toString();
 */
 //				case 'l': // updating looseleaf (ignore)
@@ -194,12 +194,12 @@ public class FormatUtils {
 //				case 'w': // web site
 //					break;
 			}
-		return null;		
+		return null;
 	}
-	
+
 	/**
 	 * @param record - marc4j record object
-	 * @return true if there is a 245h that contains the string "microform", 
+	 * @return true if there is a 245h that contains the string "microform",
 	 *  false otherwise
 	 */
 	static boolean isMicroformat(Record record) {
@@ -209,7 +209,7 @@ public class FormatUtils {
 		else
 			return false;
 	}
-	
+
 	/**
 	 * thesis is determined by the presence of a 502 field.
 	 * @param record - marc4j record object
@@ -221,5 +221,18 @@ public class FormatUtils {
 		else
 			return true;
 	}
-		
+
+
+	static final String MARCIT_STRING = "MARCit brief record.";
+
+	static boolean isMarcit(Record record) {
+		Set<String> f590a = MarcUtils.getSubfieldDataAsSet(record, "590", "a", "");
+		if (Utils.setItemContains(f590a, MARCIT_STRING) ||
+			// without trailing period
+			Utils.setItemContains(f590a, MARCIT_STRING.substring(0, MARCIT_STRING.length()-2)))
+			return true;
+		else
+			return false;
+	}
+
 }
