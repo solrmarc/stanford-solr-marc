@@ -3,49 +3,51 @@ package edu.stanford;
 import java.io.*;
 
 import org.junit.*;
+import org.marc4j.marc.*;
 
 import edu.stanford.enumValues.Format;
 
 
 /**
- * junit4 tests for Stanford University format fields 
+ * junit4 tests for Stanford University format fields
  * Database formats are tested separately in FormatDatabaseTests
  * @author Naomi Dushay
  */
-public class FormatTests extends AbstractStanfordTest 
-{	
+public class FormatTests extends AbstractStanfordTest
+{
 	private final String testDataFname = "formatTests.mrc";
 	String testFilePath = testDataParentPath + File.separator + testDataFname;
 	String displayFldName = "format";
 	String facetFldName = "format";
+	MarcFactory factory = MarcFactory.newInstance();
 
 @Before
-	public final void setup() 
+	public final void setup()
 	{
 		mappingTestInit();
 	}
-	
+
 
 	/**
 	 * Audio Non-Music format tests
 	 */
 @Test
-	public final void testAudioNonMusic() 
+	public final void testAudioNonMusic()
 	{
 		String fldVal = Format.SOUND_RECORDING.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06i", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06i", displayFldName, fldVal);
 	}
-	
+
 	/**
 	 * Book format tests
 	 *   includes monographic series
 	 */
 @Test
-	public final void testBookFormat() 
+	public final void testBookFormat()
 	{
 		String fldVal = Format.BOOK.toString();
-		
+
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06a07m", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06a07m", displayFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06t07a", facetFldName, fldVal);
@@ -64,16 +66,16 @@ public class FormatTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "666", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "666", displayFldName, fldVal);
 
-		// formerly believed to be monographic series 
+		// formerly believed to be monographic series
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "leader07b00600s00821m", facetFldName, fldVal);
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "leader07b00600s00821m", displayFldName, fldVal);		
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "leader07b00600s00821m", displayFldName, fldVal);
 	}
 
 	/**
 	 * Computer File format tests
 	 */
 @Test
-	public final void testComputerFile() 
+	public final void testComputerFile()
 	{
 		String fldVal = Format.COMPUTER_FILE.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826a", facetFldName, fldVal);
@@ -84,7 +86,7 @@ public class FormatTests extends AbstractStanfordTest
 	 * Conference Proceedings format tests
 	 */
 @Test
-	public final void testConferenceProceedings() 
+	public final void testConferenceProceedings()
 	{
 	    String fldVal = Format.CONFERENCE_PROCEEDINGS.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "5666387", facetFldName, fldVal);
@@ -97,7 +99,7 @@ public class FormatTests extends AbstractStanfordTest
 	 * Image format tests
 	 */
 @Test
-	public final void testImage() 
+	public final void testImage()
 	{
 		String fldVal = Format.IMAGE.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833i", facetFldName, fldVal);
@@ -116,10 +118,10 @@ public class FormatTests extends AbstractStanfordTest
 	 * Journal/Periodical format tests
 	 */
 @Test
-	public final void testJournalPeriodicalFormat() 
+	public final void testJournalPeriodicalFormat()
 	{
         String fldVal = "Journal/Periodical";
-		
+
      	// leader/07 s 008/21 blank
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06a07s", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06a07s", displayFldName, fldVal);
@@ -144,8 +146,8 @@ public class FormatTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821p", displayFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "335577", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "335577", displayFldName, fldVal);
-        
-		// leader/07s 008/21 d   006/00 s  006/04 d -- other 
+
+		// leader/07s 008/21 d   006/00 s  006/04 d -- other
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "112233", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "112233", displayFldName, fldVal);
 	}
@@ -154,7 +156,7 @@ public class FormatTests extends AbstractStanfordTest
 	 * Manuscript/Archive format tests
 	 */
 @Test
-	public final void testManuscriptArchive() 
+	public final void testManuscriptArchive()
 	{
 		String fldVal = Format.MANUSCRIPT_ARCHIVE.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06b", facetFldName, fldVal);
@@ -162,12 +164,12 @@ public class FormatTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06p", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06p", displayFldName, fldVal);
 	}
-	
+
 	/**
 	 * Map/Globe format tests
 	 */
 @Test
-	public final void testMapGlobe() 
+	public final void testMapGlobe()
 	{
 		String fldVal = Format.MAP_GLOBE.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06e", facetFldName, fldVal);
@@ -175,34 +177,34 @@ public class FormatTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06f", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06f", displayFldName, fldVal);
 	}
-	
+
 	/**
 	 * Microformat format tests
 	 */
 @Test
-	public final void testMicroformat() 
+	public final void testMicroformat()
 	{
 		String fldVal = Format.MICROFORMAT.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "245hmicroform", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "245hmicroform", displayFldName, fldVal);
 	}
-	
+
 	/**
 	 * Music Recording format tests
 	 */
 @Test
-	public final void testMusicRecording() 
+	public final void testMusicRecording()
 	{
 		String fldVal = Format.MUSIC_RECORDING.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06j", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06j", displayFldName, fldVal);
 	}
-	
+
 	/**
 	 * Music Score format tests
 	 */
 @Test
-	public final void testMusicScore() 
+	public final void testMusicScore()
 	{
 		String fldVal = Format.MUSIC_SCORE.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06c", facetFldName, fldVal);
@@ -210,24 +212,24 @@ public class FormatTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06d", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06d", displayFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "245hmicroform", facetFldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "245hmicroform", displayFldName, fldVal);		
+		solrFldMapTest.assertSolrFldValue(testFilePath, "245hmicroform", displayFldName, fldVal);
 	}
-	
+
 	/**
 	 * Newspaper format tests
 	 */
 @Test
-	public final void testNewspaper() 
+	public final void testNewspaper()
 	{
         String fldVal = Format.NEWSPAPER.toString();
-		
+
 		solrFldMapTest.assertSolrFldValue(testFilePath, "newspaper", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "newspaper", displayFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821n", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821n", displayFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "334455", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "334455", displayFldName, fldVal);
-		
+
 		// leader/07b 006/00s 008/21n - serial publication
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "leader07b00600s00821n", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "leader07b00600s00821n", displayFldName, fldVal);
@@ -237,18 +239,18 @@ public class FormatTests extends AbstractStanfordTest
 	 * Thesis format tests
 	 */
 @Test
-	public final void testThesis() 
+	public final void testThesis()
 	{
 		String fldVal = Format.THESIS.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "502", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "502", displayFldName, fldVal);
-	}	
-	
+	}
+
 	/**
 	 * Video format tests
 	 */
 @Test
-	public final void testVideo() 
+	public final void testVideo()
 	{
 		String fldVal = Format.VIDEO.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06g00833m", facetFldName, fldVal);
@@ -261,10 +263,10 @@ public class FormatTests extends AbstractStanfordTest
 	 * Test assignment of Other format
 	 */
 @Test
-	public final void testOtherFormat() 
+	public final void testOtherFormat()
 	{
         String fldVal = Format.OTHER.toString();
-        
+
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06t07b", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06t07b", displayFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833w", facetFldName, fldVal);
@@ -276,10 +278,10 @@ public class FormatTests extends AbstractStanfordTest
 		// 006/00 s /04 w
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821n", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821n", displayFldName, fldVal);
-		// instructional kit 
+		// instructional kit
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06o", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06o", displayFldName, fldVal);
-		// object 
+		// object
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06r", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06r", displayFldName, fldVal);
 		// web site
@@ -290,7 +292,7 @@ public class FormatTests extends AbstractStanfordTest
 		// leader/07 s, 006/00 m, 008/21 |
 		solrFldMapTest.assertSolrFldValue(testFilePath, "7117119", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "7117119", displayFldName, fldVal);
-		
+
 		// as of 2010-10-03 008/21 d   means database if nothing else is assigned.
 		//   See FormatDatabaseTests
 		// leader/07 s 008/21 d, 006/00 s 006/04 d
@@ -314,7 +316,7 @@ public class FormatTests extends AbstractStanfordTest
 	public final void testFormatsFrom999()
 	{
 		String testFilePath = testDataParentPath + File.separator + "callNumberTests.mrc";
-		
+
 		String microVal = Format.MICROFORMAT.toString();
 		// 999 ALPHANUM starting with MFLIM
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1261173", displayFldName, microVal);
@@ -324,5 +326,68 @@ public class FormatTests extends AbstractStanfordTest
 		// 999 ALPHANUM starting with MCD
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1234673", displayFldName, Format.MUSIC_RECORDING.toString());
 	}
+
+
+	/**
+	 * test format population based on Marcit source per 590
+	 */
+@Test
+	public final void testMarcit()
+	{
+		Leader LEADER = factory.newLeader("00838cas a2200193z  4500");
+
+		Record record = factory.newRecord();
+		record.setLeader(LEADER);
+		DataField df = factory.newDataField("590", ' ', ' ');
+        df.addSubfield(factory.newSubfield('a', "MARCit brief record."));
+        record.addVariableField(df);
+		solrFldMapTest.assertSolrFldValue(record, facetFldName, Format.MARCIT.toString());
+		// without period
+		record = factory.newRecord();
+		record.setLeader(LEADER);
+		df = factory.newDataField("590", ' ', ' ');
+        df.addSubfield(factory.newSubfield('a', "MARCit brief record"));
+        record.addVariableField(df);
+		solrFldMapTest.assertSolrFldValue(record, facetFldName, Format.MARCIT.toString());
+
+		// wrong string in 590
+		record = factory.newRecord();
+		record.setLeader(LEADER);
+		df = factory.newDataField("590", ' ', ' ');
+		df.addSubfield(factory.newSubfield('a', "incorrect string"));
+        record.addVariableField(df);
+		solrFldMapTest.assertSolrFldValue(record, facetFldName, Format.OTHER.toString());
+		record = factory.newRecord();
+		record.setLeader(LEADER);
+		df = factory.newDataField("590", ' ', ' ');
+		df.addSubfield(factory.newSubfield('a', "something MARCit something"));
+        record.addVariableField(df);
+		solrFldMapTest.assertSolrFldValue(record, facetFldName, Format.OTHER.toString());
+
+		// marcit in wrong field
+		record = factory.newRecord();
+		record.setLeader(LEADER);
+		df = factory.newDataField("580", ' ', ' ');
+        df.addSubfield(factory.newSubfield('a', "MARCit brief record."));
+        record.addVariableField(df);
+		solrFldMapTest.assertSolrFldValue(record, facetFldName, Format.OTHER.toString());
+	}
+
+
+	/**
+	 * test format population of Datasets
+	 */
+//@Test
+	public final void testDataset()
+	{
+	}
+
+	// equipment
+
+	// music
+
+
+
+
 
 }

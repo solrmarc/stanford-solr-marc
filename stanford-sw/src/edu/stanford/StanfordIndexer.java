@@ -284,6 +284,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (FormatUtils.isThesis(record))
 			formats.add(Format.THESIS.toString());
 
+		if (FormatUtils.isMarcit(record))
+			formats.add(Format.MARCIT.toString());
+
 		// if we still don't have a format, it's an "other"
 		if (formats.isEmpty() || formats.size() == 0)
 			formats.add(Format.OTHER.toString());
