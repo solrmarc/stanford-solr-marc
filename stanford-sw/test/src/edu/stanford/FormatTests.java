@@ -78,8 +78,16 @@ public class FormatTests extends AbstractStanfordTest
 	public final void testComputerFile()
 	{
 		String fldVal = Format.COMPUTER_FILE.toString();
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826a", facetFldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826a", displayFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826u", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826u", displayFldName, fldVal);
+
+		Leader LEADER = factory.newLeader("01529cmi a2200397Ia 4500");
+		ControlField cf008 = factory.newControlField("008");
+		Record record = factory.newRecord();
+		record.setLeader(LEADER);
+		cf008.setData("081215c200u9999xx         b        eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, facetFldName, fldVal);
 	}
 
 	/**
@@ -273,8 +281,6 @@ public class FormatTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833w", displayFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06g00833w", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06g00833w", displayFldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826u", facetFldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826u", displayFldName, fldVal);
 		// 006/00 s /04 w
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821n", facetFldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821n", displayFldName, fldVal);
@@ -377,9 +383,21 @@ public class FormatTests extends AbstractStanfordTest
 	/**
 	 * test format population of Datasets
 	 */
-//@Test
+@Test
 	public final void testDataset()
 	{
+		String fldVal = Format.DATASET.toString();
+
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826a", facetFldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826a", displayFldName, fldVal);
+
+		Leader LEADER = factory.newLeader("01529cmi a2200397Ia 4500");
+		ControlField cf008 = factory.newControlField("008");
+		Record record = factory.newRecord();
+		record.setLeader(LEADER);
+		cf008.setData("081215c200u9999xx         a        eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, facetFldName, fldVal);
 	}
 
 	// equipment

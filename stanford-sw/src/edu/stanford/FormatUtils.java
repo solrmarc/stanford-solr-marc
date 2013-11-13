@@ -78,6 +78,8 @@ public class FormatUtils {
 		case 'm':
 			// look for a in 008 field, char 26 (count starts at 0)
 			if (cf008 != null && cf008.find("^.*{26}a"))
+				result.add(Format.DATASET.toString());
+			else
 				result.add(Format.COMPUTER_FILE.toString());
 			break;
 		case 'o': // instructional kit
