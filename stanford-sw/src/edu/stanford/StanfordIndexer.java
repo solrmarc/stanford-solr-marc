@@ -250,7 +250,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				formats.add(serialFormat);
 		}
 
-		// look for conference proceedings in 6xx
+		// look for conference proceedings in 6xx sub x or v
 		List<DataField> dfList = (List<DataField>) record.getDataFields();
 		for (DataField df : dfList) {
 			if (df.getTag().startsWith("6")) {
@@ -270,9 +270,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		for (Item item : itemSet) {
 			if (item.getCallnumType() == CallNumberType.OTHER) {
 				String callnum = item.getCallnum();
-				if (callnum.startsWith("MFILM") || callnum.startsWith("MFICHE"))
-					formats.add(Format.MICROFORMAT.toString());
-				else if (callnum.startsWith("MCD"))
+//				if (callnum.startsWith("MFILM") || callnum.startsWith("MFICHE"))
+//					formats.add(Format.MICROFORMAT.toString());
+//				else if (callnum.startsWith("MCD"))
+				if (callnum.startsWith("MCD"))
 					formats.add(Format.MUSIC_RECORDING.toString());
 				else if (callnum.startsWith("ZDVD") || callnum.startsWith("ADVD"))
 					formats.add(Format.VIDEO.toString());
@@ -288,8 +289,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			}
 		}
 
-		if (FormatUtils.isMicroformat(record))
-			formats.add(Format.MICROFORMAT.toString());
+//		if (FormatUtils.isMicroformat(record))
+//			formats.add(Format.MICROFORMAT.toString());
 
 		if (FormatUtils.isThesis(record))
 			formats.add(Format.THESIS.toString());
@@ -301,6 +302,46 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (formats.isEmpty() || formats.size() == 0)
 			formats.add(Format.OTHER.toString());
 	}
+
+	/**
+	 * @return Set of strings containing physical format values for the resource
+	 * @param record a marc4j Record object
+	 */
+	public Set<String> getPhysicalFormats(final Record record)
+	{
+		Set<String> physicalFormats = new HashSet<String>();
+
+		String cf008str = null;
+		if (cf008 != null)
+			cf008str = cf008.getData();
+		physicalFormats.addAll(FormatUtils.getPhysicalFormatsPer007(record.getVariableFields("007"), record.getLeader().toString(), cf008str));
+
+		// check for physical format information from 999 ALPHANUM call numbers
+		// and from itemType (999 subfield t)
+		for (Item item : itemSet) {
+			String callnum = item.getCallnum();
+			if (callnum.startsWith("MFILM"))
+				physicalFormats.add(FormatPhysical.MICROFILM.toString());
+			else if (callnum.startsWith("MFICHE"))
+				physicalFormats.add(FormatPhysical.MICROFICHE.toString());
+		}
+
+		// check for format information in 300
+		for	(Object obj300 : record.getVariableFields("300"))
+		{
+			DataField df300 = (DataField) obj300;
+			for (Object subaObj : df300.getSubfields('a'))
+			{
+				String subaStr = ((Subfield) subaObj).getData();
+				if (subaStr.toLowerCase().contains("microfilm"))
+					physicalFormats.add(FormatPhysical.MICROFILM.toString());
+			}
+		}
+
+		return physicalFormats;
+	}
+
+
 // Format Methods  ---------------- End ------------------------- Format Methods
 
 // Language Methods ---------------- Begin -------------------- Language Methods
