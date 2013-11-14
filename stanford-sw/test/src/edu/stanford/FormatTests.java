@@ -11,14 +11,15 @@ import edu.stanford.enumValues.Format;
 /**
  * junit4 tests for Stanford University format fields
  * Database formats are tested separately in FormatDatabaseTests
+ * Physical formats are tested separated in FormatPhysicalTests
  * @author Naomi Dushay
  */
 public class FormatTests extends AbstractStanfordTest
 {
 	private final String testDataFname = "formatTests.mrc";
 	String testFilePath = testDataParentPath + File.separator + testDataFname;
-	String displayFldName = "format";
-	String facetFldName = "format";
+	private final String displayFldName = "format";
+	private final String facetFldName = "format";
 	MarcFactory factory = MarcFactory.newInstance();
 
 @Before
