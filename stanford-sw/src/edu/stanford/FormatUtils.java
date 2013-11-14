@@ -6,6 +6,7 @@ import org.marc4j.marc.*;
 import org.solrmarc.tools.*;
 
 import edu.stanford.enumValues.Format;
+import edu.stanford.enumValues.FormatPhysical;
 
 /**
  * Format utility methods for Stanford solrmarc
@@ -175,18 +176,18 @@ public class FormatUtils {
 		return null;
 	}
 
-	/**
-	 * @param record - marc4j record object
-	 * @return true if there is a 245h that contains the string "microform",
-	 *  false otherwise
-	 */
-	static boolean isMicroformat(Record record) {
-		Set<String> titleH = MarcUtils.getSubfieldDataAsSet(record, "245", "h", " ");
-		if (Utils.setItemContains(titleH, "microform"))
-			return true;
-		else
-			return false;
-	}
+//	/**
+//	 * @param record - marc4j record object
+//	 * @return true if there is a 245h that contains the string "microform",
+//	 *  false otherwise
+//	 */
+//	static boolean isMicroformat(Record record) {
+//		Set<String> titleH = MarcUtils.getSubfieldDataAsSet(record, "245", "h", " ");
+//		if (Utils.setItemContains(titleH, "microform"))
+//			return true;
+//		else
+//			return false;
+//	}
 
 	/**
 	 * thesis is determined by the presence of a 502 field.
@@ -209,5 +210,44 @@ public class FormatUtils {
 		else
 			return false;
 	}
+
+
+	/**
+	 * Assign physical formats based on 007, leader chars and 008 chars
+	 *
+	 * @param cf007List - a list of 007 fields as ControlField objects
+	 * @param leaderStr - the leader field, as a String
+	 * @param cf008 - the 008 field as a String
+	 * @param Set of Strings containing Format enum values per the given data
+	 */
+	static Set<String> getPhysicalFormatsPer007(List<ControlField> cf007List, String leaderStr, String cf008data)
+	{
+		Set<String> result = new HashSet<String>();
+
+		// Note: MARC21 documentation refers to char numbers that are 0 based,
+		// just like java string indexes, so char "06" is at index 6, and is
+		// the seventh character of the field
+
+		for (ControlField cf007 : cf007List)
+		{
+			String cf007data = cf007.getData();
+			char cf007_0 = cf007data.charAt(0);
+			char cf007_1 = cf007data.charAt(1);
+			switch (cf007_0)
+			{
+				case 'h':
+					if ("bcdhj".contains(String.valueOf(cf007_1)))
+						result.add(FormatPhysical.MICROFILM.toString());
+					break;
+
+				default:
+					break;
+			} // end switch
+		} // end for each 007
+
+
+		return result;
+	}
+
 
 }
