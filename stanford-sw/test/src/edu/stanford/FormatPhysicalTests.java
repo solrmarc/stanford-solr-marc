@@ -27,13 +27,15 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 	}
 
 @Test
+	/**
+	 *  Spec (per Vitus 2013-11, email to gryph-search with Excel spreadsheet attachment):
+	 *   (007/00 = h AND  007/01 = b,c,d,h or j)  OR  300a contains "microfilm"
+	 *    Naomi addition:  OR  if  callnum.startsWith("MFILM")
+	 *    Question:  (what if 245h has "microform" -- see 9646614 for example)
+	 */
 	public final void testMicrofilm()
 	{
 		String expVal = FormatPhysical.MICROFILM.toString();
-
-		// Vitus:
-		//   (007/00 = h AND  007/01 = b,c,d,h or j)  OR  300a contains "microfilm"  OR  if  callnum.startsWith("MFILM")  (what if 245h has "microform")
-
 		Record record = factory.newRecord();
 		record.setLeader(factory.newLeader("01543cam a2200325Ka 4500"));
 
@@ -115,26 +117,83 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.BOOK.toString());
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
-
 	}
 
 
-//@Test
+	/**
+	 *  Spec (per Vitus 2013-11, email to gryph-search with Excel spreadsheet attachment):
+	 *   (007/00 = h AND  007/01 = e,f or g)  OR  300a contains "microfiche"
+	 *    Naomi addition:  OR  if  callnum.startsWith("MFICHE")
+	 *    Question:  (what if 245h has "microform" -- see 9646614 for example)
+	 */
+@Test
 	public final void testMicrofiche()
 	{
-		String fldVal = FormatPhysical.MICROFICHE.toString();
-
-		// Vitus:
-		//   (007/00 = h AND  007/01 = e,f or g)  OR  300a contains "microfiche"  OR  if  callnum.startsWith("MFICHE")
-
-
-		Leader LEADER = factory.newLeader("01529cmi a2200397Ia 4500");
-		ControlField cf008 = factory.newControlField("008");
+		String expVal = FormatPhysical.MICROFICHE.toString();
 		Record record = factory.newRecord();
-		record.setLeader(LEADER);
-		cf008.setData("081215c200u9999xx         b        eng d");
-		record.addVariableField(cf008);
-		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, fldVal);
+		record.setLeader(factory.newLeader("01543cam a2200325Ka 4500"));
+
+		// 007/01 is not correct for Microfilm
+		cf007.setData("ha afu   buca");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.BOOK.toString());
+		solrFldMapTest.assertNoSolrFld(record, physFormatFldName);
+
+		// 007/01 is e
+		record.removeVariableField(cf007);
+		cf007.setData("he bmb024bbca");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.BOOK.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+
+		// 007/01 is f
+		record.removeVariableField(cf007);
+		cf007.setData("hf bmb024bbca");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.BOOK.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+
+		// 007/01 is g
+		record.removeVariableField(cf007);
+		cf007.setData("hg bmb024bbca");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.BOOK.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+
+		// callnum in 999
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01543cam a2200325Ka 4500"));
+		DataField df999 = factory.newDataField("999", ' ', ' ');
+		df999.addSubfield(factory.newSubfield('a', "MFICHE 1183 N.5.1.7205"));
+		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
+		df999.addSubfield(factory.newSubfield('i', "9664812-1001"));
+		df999.addSubfield(factory.newSubfield('l', "MEDIA-MTXT"));
+		df999.addSubfield(factory.newSubfield('m', "GREEN"));
+		df999.addSubfield(factory.newSubfield('t', "NH-MICR"));
+		record.addVariableField(df999);
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.BOOK.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+
+		// 300
+		record.removeVariableField(df999);
+		DataField df300 = factory.newDataField("300", ' ', ' ');
+		df300.addSubfield(factory.newSubfield('a', "microfiches :"));
+		df300.addSubfield(factory.newSubfield('b', "ill. ;"));
+		df300.addSubfield(factory.newSubfield('c', "11 x 15 cm."));
+		record.addVariableField(df300);
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.BOOK.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 	}
 
 

@@ -238,8 +238,9 @@ public class FormatUtils {
 				case 'h':
 					if ("bcdhj".contains(String.valueOf(cf007_1)))
 						result.add(FormatPhysical.MICROFILM.toString());
+					else if ("efg".contains(String.valueOf(cf007_1)))
+						result.add(FormatPhysical.MICROFICHE.toString());
 					break;
-
 				default:
 					break;
 			} // end switch
