@@ -77,7 +77,7 @@ public class FormatUtils {
 			break;
 		case 'm':
 			// look for a in 008 field, char 26 (count starts at 0)
-			if (cf008 != null && cf008.find("^.*{26}a"))
+			if (cf008 != null && cf008.find("^.{26}a"))
 				result.add(Format.DATASET.toString());
 			else
 				result.add(Format.COMPUTER_FILE.toString());
@@ -93,22 +93,6 @@ public class FormatUtils {
 				result.add(Format.BOOK.toString());
 			break;
 		} // end switch
-
-/* not yet vetted  2010-10-30
-		// is it an updating database? (leader/07 = "s" or "i" and 008/21 = "d") OR (006/00 = "s" and 006/04 = "d")
-		// (leader/07 = "s" and 008/21 = "d" handled by getSerialFormat()
-		// (006/00 = "s" and 006/04 = "d") is handled by getSerialFormat() which calls getSerialFormat006()
-
-		if (leaderChar07 == 'i') {
-			// check if it's a database based on 008 char 21
-			char c21 = '\u0000';
-			if (cf008 != null) {
-				c21 = ((ControlField) cf008).getData().charAt(21);
-				if (c21 == 'd')
-					result.add(Format.DATABASE_OTHER.toString());
-			}
-		}
-*/
 
 		return result;
 	}
@@ -181,20 +165,12 @@ public class FormatUtils {
 	private static String getSerialFormatFromChar(char ch) {
 		if (ch != '\u0000')
 			switch (ch) {
-/* not yet vetted  2010-10-30
-				case 'd': // updating database
-					return Format.DATABASE_OTHER.toString();
-*/
-//				case 'l': // updating looseleaf (ignore)
-//					break;
 				case 'm': // monographic series
 					return Format.BOOK.toString();
 				case 'n':
 					return Format.NEWSPAPER.toString();
 				case 'p':
 					return Format.JOURNAL_PERIODICAL.toString();
-//				case 'w': // web site
-//					break;
 			}
 		return null;
 	}
@@ -225,13 +201,10 @@ public class FormatUtils {
 	}
 
 
-	static final String MARCIT_STRING = "MARCit brief record.";
-
 	static boolean isMarcit(Record record) {
 		Set<String> f590a = MarcUtils.getSubfieldDataAsSet(record, "590", "a", "");
-		if (Utils.setItemContains(f590a, MARCIT_STRING) ||
-			// without trailing period
-			Utils.setItemContains(f590a, MARCIT_STRING.substring(0, MARCIT_STRING.length()-2)))
+		if (Utils.setItemContains(f590a, "MARCit brief record.") ||
+			Utils.setItemContains(f590a, "MARCit brief record"))
 			return true;
 		else
 			return false;
