@@ -271,9 +271,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		for (Item item : itemSet) {
 			if (item.getCallnumType() == CallNumberType.OTHER) {
 				String callnum = item.getCallnum();
-//				if (callnum.startsWith("MFILM") || callnum.startsWith("MFICHE"))
-//					formats.add(Format.MICROFORMAT.toString());
-//				else if (callnum.startsWith("MCD"))
 				if (callnum.startsWith("MCD"))
 					formats.add(Format.MUSIC_RECORDING.toString());
 				else if (callnum.startsWith("ZDVD") || callnum.startsWith("ADVD"))
@@ -289,9 +286,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					formats.remove(Format.COMPUTER_FILE.toString());
 			}
 		}
-
-//		if (FormatUtils.isMicroformat(record))
-//			formats.add(Format.MICROFORMAT.toString());
 
 		if (FormatUtils.isThesis(record))
 			formats.add(Format.THESIS.toString());
@@ -336,6 +330,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				String subaStr = ((Subfield) subaObj).getData();
 				if (subaStr.toLowerCase().contains("microfilm"))
 					physicalFormats.add(FormatPhysical.MICROFILM.toString());
+				else if (subaStr.toLowerCase().contains("microfiche"))
+					physicalFormats.add(FormatPhysical.MICROFICHE.toString());
 			}
 		}
 
