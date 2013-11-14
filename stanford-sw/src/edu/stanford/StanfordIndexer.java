@@ -64,6 +64,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         SKIPPED_CALLNUMS = PropertiesUtils.loadPropertiesSet(propertyDirs, "callnums_skipped_list.properties");
         // try to reuse HashSet, etc. objects instead of creating fresh each time
         formats = new LinkedHashSet<String>();
+        accessMethods = new HashSet<String>();
     	sfxUrls = new LinkedHashSet<String>();
     	fullTextUrls = new LinkedHashSet<String>();
     	buildings = new HashSet<String>();
@@ -81,6 +82,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	Set<String> sfxUrls;
 	/** fullTextUrls are used for access_method in addition to fullTextUrl field */
 	Set<String> fullTextUrls;
+	/** accessMethods are used for format in addition to access_method field */
+	Set<String> accessMethods;
 	/** buildings are used for topics due to weird law 655s */
 	Set<String> buildings;
 	/** shelfkeys are used for reverse_shelfkeys */
@@ -156,11 +159,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			}
 		}
 
+		setSFXUrls(); // doesn't need record b/c they come from 999
+		setFullTextUrls(record);
+		setAccessMethods(record);
 		setFormats(record);
 		isSerial = formats.contains(Format.JOURNAL_PERIODICAL.toString());
 		ItemUtils.lopItemCallnums(itemSet, findTranslationMap(LOCATION_MAP_NAME), isSerial);
-		setSFXUrls(); // doesn't need record b/c they come from 999
-		setFullTextUrls(record);
 		setBuildings(record);
 		setGovDocCats(record);
 
@@ -274,7 +278,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					formats.add(Format.VIDEO.toString());
 			}
 			if (item.getType().equalsIgnoreCase("DATABASE"))
+			{
 				formats.add(Format.DATABASE_A_Z.toString());
+				// if it is a Database and a Computer File, and it is not
+				//  "at the library", then it should only be a Database
+				if (formats.contains(Format.COMPUTER_FILE.toString()) &&
+					!accessMethods.contains(Access.AT_LIBRARY.toString()))
+					formats.remove(Format.COMPUTER_FILE.toString());
+			}
 		}
 
 		if (FormatUtils.isMicroformat(record))
@@ -760,21 +771,27 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 */
 	public Set<String> getAccessMethods(final Record record)
 	{
-		Set<String> resultSet = new HashSet<String>();
+		return accessMethods;
+	}
 
+	/**
+	 * sets the accessMethods for a record.
+	 * @param record a marc4j Record object
+	 * @return Set of Strings containing access facet values.
+	 */
+	private void setAccessMethods(final Record record)
+	{
 		for (Item item : itemSet) {
 			if (item.isOnline())
-				resultSet.add(Access.ONLINE.toString());
+				accessMethods.add(Access.ONLINE.toString());
 			else
-				resultSet.add(Access.AT_LIBRARY.toString());
+				accessMethods.add(Access.AT_LIBRARY.toString());
 		}
 
 		if (fullTextUrls.size() > 0)
-			resultSet.add(Access.ONLINE.toString());
+			accessMethods.add(Access.ONLINE.toString());
 		if (sfxUrls.size() > 0)
-			resultSet.add(Access.ONLINE.toString());
-
-		return resultSet;
+			accessMethods.add(Access.ONLINE.toString());
 	}
 
 // Access Methods -----------------  End  ----------------------- Access Methods

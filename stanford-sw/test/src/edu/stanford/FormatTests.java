@@ -91,6 +91,49 @@ public class FormatTests extends AbstractStanfordTest
 	}
 
 	/**
+	 * Computer File and Database -- if both formats, and it is only an
+	 *  online resource, then it is NOT a computer file.
+	 */
+@Test
+	public final void testComputerFileAndDatabase()
+	{
+		Leader LEADER = factory.newLeader("02441cms a2200517 a 4500");
+		ControlField cf008 = factory.newControlField("008");
+		cf008.setData("920901d19912002pauuu1n    m  0   a0eng  ");
+
+		Record record = factory.newRecord();
+		record.setLeader(LEADER);
+		record.addVariableField(cf008);
+		// online copy only
+		DataField df999online = factory.newDataField("999", ' ', ' ');
+		df999online.addSubfield(factory.newSubfield('a', "INTERNET RESOURCE"));
+		df999online.addSubfield(factory.newSubfield('w', "ASIS"));
+		df999online.addSubfield(factory.newSubfield('i', "2475606-5001"));
+		df999online.addSubfield(factory.newSubfield('l', "INTERNET"));
+		df999online.addSubfield(factory.newSubfield('m', "SUL"));
+		df999online.addSubfield(factory.newSubfield('t', "DATABASE"));
+		record.addVariableField(df999online);
+		solrFldMapTest.assertSolrFldHasNumValues(record, facetFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, facetFldName, Format.DATABASE_A_Z.toString());
+
+		// both physical copy and online copy
+		DataField df999physical = factory.newDataField("999", ' ', ' ');
+		df999physical = factory.newDataField("999", ' ', ' ');
+		df999physical.addSubfield(factory.newSubfield('a', "F152 .A28"));
+		df999physical.addSubfield(factory.newSubfield('w', "LC"));
+		df999physical.addSubfield(factory.newSubfield('i', "36105018746623"));
+		df999physical.addSubfield(factory.newSubfield('l', "HAS-DIGIT"));
+		df999physical.addSubfield(factory.newSubfield('m', "GREEN"));
+		record.addVariableField(df999physical);
+		solrFldMapTest.assertSolrFldHasNumValues(record, facetFldName, 2);
+		solrFldMapTest.assertSolrFldValue(record, facetFldName, Format.COMPUTER_FILE.toString());
+		solrFldMapTest.assertSolrFldValue(record, facetFldName, Format.DATABASE_A_Z.toString());
+
+		// can't have physical copy only or it wouldn't be a database
+	}
+
+
+	/**
 	 * Conference Proceedings format tests
 	 */
 @Test
