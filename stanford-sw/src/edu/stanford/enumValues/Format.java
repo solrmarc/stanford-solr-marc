@@ -30,29 +30,30 @@ public enum Format {
 	@Override
 	public String toString() {
 		switch (this) {
-		case COMPUTER_FILE:
-			return "Computer File";
-		case CONFERENCE_PROCEEDINGS:
-			return "Conference Proceedings";
-		case DATABASE_A_Z:
-			return "Database";
-		case JOURNAL_PERIODICAL:
-			return "Journal/Periodical";
-		case MANUSCRIPT_ARCHIVE:
-			return "Manuscript/Archive";
-		case MAP_GLOBE:
-			return "Map/Globe";
-		case MARCIT:
-			return "MARCit";
-		case MUSIC_RECORDING:
-			return "Music - Recording";
-		case MUSIC_SCORE:
-			return "Music - Score";
-		case SOUND_RECORDING:
-			return "Sound Recording";
+			case COMPUTER_FILE:
+				return "Computer File";
+			case CONFERENCE_PROCEEDINGS:
+				return "Conference Proceedings";
+			case DATABASE_A_Z:
+				return "Database";
+			case JOURNAL_PERIODICAL:
+				return "Journal/Periodical";
+			case MANUSCRIPT_ARCHIVE:
+				return "Manuscript/Archive";
+			case MAP_GLOBE:
+				return "Map/Globe";
+			case MARCIT:
+				return "MARCit";
+			case MUSIC_RECORDING:
+				return "Music - Recording";
+			case MUSIC_SCORE:
+				return "Music - Score";
+			case SOUND_RECORDING:
+				return "Sound Recording";
+			default:
+				String lc = super.toString().toLowerCase();
+				String firstchar = lc.substring(0, 1).toUpperCase();
+				return lc.replaceFirst(".{1}", firstchar);
 		}
-		String lc = super.toString().toLowerCase();
-		String firstchar = lc.substring(0, 1).toUpperCase();
-		return lc.replaceFirst(".{1}", firstchar);
 	}
 }
