@@ -249,6 +249,9 @@ public class FormatUtils {
 					if (cf007_1 == 'h')
 						result.add(FormatPhysical.PHOTO.toString());
 					break;
+				case 'r':
+					result.add(FormatPhysical.REMOTE_SENSING_IMAGE.toString());
+					break;
 				default:
 					break;
 			} // end switch

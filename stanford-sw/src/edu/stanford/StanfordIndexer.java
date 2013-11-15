@@ -327,14 +327,17 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			DataField df300 = (DataField) obj300;
 			for (Object subaObj : df300.getSubfields('a'))
 			{
-				String subaStr = ((Subfield) subaObj).getData();
-				if (subaStr.toLowerCase().contains("microfiche"))
+				String subaStr = ((Subfield) subaObj).getData().toLowerCase();
+				if (subaStr.contains("microfiche"))
 					physicalFormats.add(FormatPhysical.MICROFICHE.toString());
-				else if (subaStr.toLowerCase().contains("microfilm"))
+				else if (subaStr.contains("microfilm"))
 					physicalFormats.add(FormatPhysical.MICROFILM.toString());
-				else if (subaStr.toLowerCase().contains("photograph"))
+				else if (subaStr.contains("photograph"))
 					physicalFormats.add(FormatPhysical.PHOTO.toString());
-				else if (subaStr.toLowerCase().contains("slide"))
+				else if (subaStr.contains("remote-sensing image") ||
+						subaStr.contains("remote sensing image"))
+					physicalFormats.add(FormatPhysical.REMOTE_SENSING_IMAGE.toString());
+				else if (subaStr.contains("slide"))
 					physicalFormats.add(FormatPhysical.SLIDE.toString());
 			}
 		}

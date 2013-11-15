@@ -27,7 +27,6 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 	}
 
 // images
-//PHOTO,
 //REMOTE_SENSING_IMAGE,
 //OTHER_IMAGE,
 
@@ -71,8 +70,6 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 	}
 
-
-
 	/**
 	 *  Spec (per Vitus 2013-11, email to gryph-search with Excel spreadsheet attachment):
 	 *   (007/00 = k AND  007/01 = h)  OR  300a contains "photograph"
@@ -81,8 +78,9 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 	public final void testPhoto()
 	{
 		String expVal = FormatPhysical.PHOTO.toString();
+		Leader ldr = factory.newLeader("01427ckm a2200265 a 4500");
 		Record record = factory.newRecord();
-		record.setLeader(factory.newLeader("01427ckm a2200265 a 4500"));
+		record.setLeader(ldr);
 
 		// 007/01 is not correct for Photo
 		cf007.setData("kj boo");
@@ -91,7 +89,7 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
 		solrFldMapTest.assertNoSolrFld(record, physFormatFldName);
 
-		// 007/00 is g, 007/01 is s
+		// 007/00 is k, 007/01 is h
 		record.removeVariableField(cf007);
 		cf007.setData("kh boo");
 		record.addVariableField(cf007);
@@ -102,7 +100,7 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 
 		// 300a contains photograph
 		record = factory.newRecord();
-		record.setLeader(factory.newLeader("01427ckm a2200265 a 4500"));
+		record.setLeader(ldr);
 		DataField df300 = factory.newDataField("300", ' ', ' ');
 		df300.addSubfield(factory.newSubfield('a', "1 photograph (1 leaf)."));
 		record.addVariableField(df300);
@@ -111,6 +109,99 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 	}
+
+
+	/**
+	 *  Spec (per Vitus 2013-11, email to gryph-search with Excel spreadsheet attachment):
+	 *   (007/00 = r)  OR  300a contains "remote-sensing image"
+	 */
+@Test
+	public final void testRemoteSensingImage()
+	{
+		String expVal = FormatPhysical.REMOTE_SENSING_IMAGE.toString();
+		Leader ldr = factory.newLeader("01103cem a22002777a 4500");
+		Record record = factory.newRecord();
+		record.setLeader(ldr);
+
+		// 007/00 is not correct for Photo
+		cf007.setData("kj boo");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP_GLOBE.toString());
+		solrFldMapTest.assertNoSolrFld(record, physFormatFldName);
+
+		// 007/00 is r
+		record.removeVariableField(cf007);
+		cf007.setData("r  uuuuuuuu");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP_GLOBE.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+
+		// 300a contains remote sensing image  (no hyphen)
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		DataField df300 = factory.newDataField("300", ' ', ' ');
+		df300.addSubfield(factory.newSubfield('a', "1 remote sensing image ;"));
+		df300.addSubfield(factory.newSubfield('c', "18 x 20 cm."));
+		record.addVariableField(df300);
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP_GLOBE.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+
+		// 300a contains remote-sensing image  (with hyphen)
+		record.removeVariableField(df300);
+		df300 = factory.newDataField("300", ' ', ' ');
+		df300.addSubfield(factory.newSubfield('a', "remote-sensing images; "));
+		df300.addSubfield(factory.newSubfield('c', "on sheets 61 x 51 cm."));
+		record.addVariableField(df300);
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP_GLOBE.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+	}
+
+
+
+
+
+/*
+	// recordings
+	CD,
+	VINYL,
+	VINYL_45,
+	SHELLAC_78,
+	WAX_CYLINDER,
+	INSTANTANEOUS_DISC,
+	CASSETTE,
+	CARTRIDGE_8_TRACK,
+	DAT,
+	REEL_TO_REEL,
+	OTHER_RECORDING,
+
+
+	// videos
+	FILM,
+	DVD,
+	BLURAY,
+	VHS,
+	BETA,
+	BETA_SP,
+	MP4,
+	OTHER_VIDEO,
+
+	// maps
+	ATLAS,
+	GLOBE,
+	OTHER_MAPS,
+
+	OTHER;
+*/
+
+	// then do actual integration test -- send record all the way through indexing
+
 
 
 
@@ -124,8 +215,9 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 	public final void testMicrofilm()
 	{
 		String expVal = FormatPhysical.MICROFILM.toString();
+		Leader ldr = factory.newLeader("01543cam a2200325Ka 4500");
 		Record record = factory.newRecord();
-		record.setLeader(factory.newLeader("01543cam a2200325Ka 4500"));
+		record.setLeader(ldr);
 
 		// 007/01 is not correct for Microfilm
 		cf007.setData("ha afu   buca");
@@ -181,7 +273,7 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 
 		// callnum in 999
 		record = factory.newRecord();
-		record.setLeader(factory.newLeader("01543cam a2200325Ka 4500"));
+		record.setLeader(ldr);
 		DataField df999 = factory.newDataField("999", ' ', ' ');
 		df999.addSubfield(factory.newSubfield('a', "MFILM N.S. 17443"));
 		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
@@ -218,8 +310,9 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 	public final void testMicrofiche()
 	{
 		String expVal = FormatPhysical.MICROFICHE.toString();
+		Leader ldr = factory.newLeader("01543cam a2200325Ka 4500");
 		Record record = factory.newRecord();
-		record.setLeader(factory.newLeader("01543cam a2200325Ka 4500"));
+		record.setLeader(ldr);
 
 		// 007/01 is not correct for Microfilm
 		cf007.setData("ha afu   buca");
@@ -257,7 +350,7 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 
 		// callnum in 999
 		record = factory.newRecord();
-		record.setLeader(factory.newLeader("01543cam a2200325Ka 4500"));
+		record.setLeader(ldr);
 		DataField df999 = factory.newDataField("999", ' ', ' ');
 		df999.addSubfield(factory.newSubfield('a', "MFICHE 1183 N.5.1.7205"));
 		df999.addSubfield(factory.newSubfield('w', "ALPHANUM"));
@@ -283,44 +376,6 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 	}
-
-
-
-
-/*
-	// recordings
-	CD,
-	VINYL,
-	VINYL_45,
-	SHELLAC_78,
-	WAX_CYLINDER,
-	INSTANTANEOUS_DISC,
-	CASSETTE,
-	CARTRIDGE_8_TRACK,
-	DAT,
-	REEL_TO_REEL,
-	OTHER_RECORDING,
-
-
-	// videos
-	FILM,
-	DVD,
-	BLURAY,
-	VHS,
-	BETA,
-	BETA_SP,
-	MP4,
-	OTHER_VIDEO,
-
-	// maps
-	ATLAS,
-	GLOBE,
-	OTHER_MAPS,
-
-	OTHER;
-*/
-
-	// then do actual integration test -- send record all the way through indexing
 
 
 }
