@@ -72,6 +72,48 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 	}
 
 
+
+	/**
+	 *  Spec (per Vitus 2013-11, email to gryph-search with Excel spreadsheet attachment):
+	 *   (007/00 = k AND  007/01 = h)  OR  300a contains "photograph"
+	 */
+@Test
+	public final void testPhoto()
+	{
+		String expVal = FormatPhysical.PHOTO.toString();
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01427ckm a2200265 a 4500"));
+
+		// 007/01 is not correct for Photo
+		cf007.setData("kj boo");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+		solrFldMapTest.assertNoSolrFld(record, physFormatFldName);
+
+		// 007/00 is g, 007/01 is s
+		record.removeVariableField(cf007);
+		cf007.setData("kh boo");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+
+		// 300a contains photograph
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01427ckm a2200265 a 4500"));
+		DataField df300 = factory.newDataField("300", ' ', ' ');
+		df300.addSubfield(factory.newSubfield('a', "1 photograph (1 leaf)."));
+		record.addVariableField(df300);
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+	}
+
+
+
 	/**
 	 *  Spec (per Vitus 2013-11, email to gryph-search with Excel spreadsheet attachment):
 	 *   (007/00 = h AND  007/01 = b,c,d,h or j)  OR  300a contains "microfilm"

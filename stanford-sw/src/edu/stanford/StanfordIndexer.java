@@ -331,6 +331,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					physicalFormats.add(FormatPhysical.MICROFICHE.toString());
 				else if (subaStr.toLowerCase().contains("microfilm"))
 					physicalFormats.add(FormatPhysical.MICROFILM.toString());
+				else if (subaStr.toLowerCase().contains("photograph"))
+					physicalFormats.add(FormatPhysical.PHOTO.toString());
 				else if (subaStr.toLowerCase().contains("slide"))
 					physicalFormats.add(FormatPhysical.SLIDE.toString());
 			}
