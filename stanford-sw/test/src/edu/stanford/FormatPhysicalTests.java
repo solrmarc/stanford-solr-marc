@@ -26,13 +26,59 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		mappingTestInit();
 	}
 
+// images
+//PHOTO,
+//REMOTE_SENSING_IMAGE,
+//OTHER_IMAGE,
+
+	/**
+	 *  Spec (per Vitus 2013-11, email to gryph-search with Excel spreadsheet attachment):
+	 *   (007/00 = g AND  007/01 = s)  OR  300a contains "slide"
+	 */
 @Test
+	public final void testSlide()
+	{
+		String expVal = FormatPhysical.SLIDE.toString();
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01291cgm a2200289 a 4500"));
+
+		// 007/01 is not correct for Slide
+		cf007.setData("gd|cu  jc");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+		solrFldMapTest.assertNoSolrFld(record, physFormatFldName);
+
+		// 007/00 is g, 007/01 is s
+		record.removeVariableField(cf007);
+		cf007.setData("gs|cu  jc");
+		record.addVariableField(cf007);
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+
+		// 300a contains slide
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("02709ckd a2200505Mi 4500"));
+		DataField df300 = factory.newDataField("300", ' ', ' ');
+		df300.addSubfield(factory.newSubfield('a', "1 pair of stereoscopic slides +"));
+		df300.addSubfield(factory.newSubfield('e', "legend and diagram."));
+		record.addVariableField(df300);
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+	}
+
+
 	/**
 	 *  Spec (per Vitus 2013-11, email to gryph-search with Excel spreadsheet attachment):
 	 *   (007/00 = h AND  007/01 = b,c,d,h or j)  OR  300a contains "microfilm"
 	 *    Naomi addition:  OR  if  callnum.startsWith("MFILM")
 	 *    Question:  (what if 245h has "microform" -- see 9646614 for example)
 	 */
+@Test
 	public final void testMicrofilm()
 	{
 		String expVal = FormatPhysical.MICROFILM.toString();
@@ -213,13 +259,6 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 	REEL_TO_REEL,
 	OTHER_RECORDING,
 
-	// images
-	SLIDE,
-	PHOTO,
-	MICROFILM,
-	MICROFICHE,
-	REMOTE_SENSING_IMAGE,
-	OTHER_IMAGE,
 
 	// videos
 	FILM,
