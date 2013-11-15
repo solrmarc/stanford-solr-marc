@@ -288,16 +288,6 @@ public class FormatTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821w", fldName, fldVal);
 		// leader/07 s, 006/00 m, 008/21 |
 		solrFldMapTest.assertSolrFldValue(testFilePath, "7117119", fldName, fldVal);
-
-		// as of 2010-10-03 008/21 d   means database if nothing else is assigned.
-		//   See FormatDatabaseTests
-		// leader/07 s 008/21 d, 006/00 s 006/04 d
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "112233", fldName, fldVal);
-		// leader/07 s 008/21 d, 006/00 j 006/04 p
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "778899", fldName, fldVal);
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07s00600j00821d", fldName, fldVal);
-		// 006/00 s  006/04 d
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "321", fldName, fldVal);
 	}
 
 
