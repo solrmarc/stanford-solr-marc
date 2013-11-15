@@ -245,6 +245,10 @@ public class FormatUtils {
 					else if ("efg".contains(String.valueOf(cf007_1)))
 						result.add(FormatPhysical.MICROFICHE.toString());
 					break;
+				case 'k':
+					if (cf007_1 == 'h')
+						result.add(FormatPhysical.PHOTO.toString());
+					break;
 				default:
 					break;
 			} // end switch
