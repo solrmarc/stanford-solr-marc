@@ -22,8 +22,6 @@ public enum FormatPhysical
 	// images
 	SLIDE,
 	PHOTO,
-	MICROFILM,
-	MICROFICHE,
 	REMOTE_SENSING_IMAGE,
 	OTHER_IMAGE,
 
@@ -41,6 +39,10 @@ public enum FormatPhysical
 	ATLAS,
 	GLOBE,
 	OTHER_MAPS,
+
+	// microformats
+	MICROFILM,
+	MICROFICHE,
 
 	OTHER;
 
@@ -80,10 +82,6 @@ public enum FormatPhysical
 				return "Slide";
 			case PHOTO:
 				return "Photo";
-			case MICROFILM:
-				return "Microfilm";
-			case MICROFICHE:
-				return "Microfiche";
 			case REMOTE_SENSING_IMAGE:
 				return "Remote-sensing image";
 			case OTHER_IMAGE:
@@ -114,6 +112,12 @@ public enum FormatPhysical
 				return "Globe";
 			case OTHER_MAPS:
 				return "Other Maps";
+
+			// microformats
+			case MICROFILM:
+				return "Microfilm";
+			case MICROFICHE:
+				return "Microfiche";
 
 			case OTHER:
 				return "Other";
