@@ -235,6 +235,10 @@ public class FormatUtils {
 			char cf007_1 = cf007data.charAt(1);
 			switch (cf007_0)
 			{
+				case 'g':
+					if (cf007_1 == 's')
+						result.add(FormatPhysical.SLIDE.toString());
+					break;
 				case 'h':
 					if ("bcdhj".contains(String.valueOf(cf007_1)))
 						result.add(FormatPhysical.MICROFILM.toString());

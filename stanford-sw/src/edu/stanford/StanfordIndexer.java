@@ -327,10 +327,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			for (Object subaObj : df300.getSubfields('a'))
 			{
 				String subaStr = ((Subfield) subaObj).getData();
-				if (subaStr.toLowerCase().contains("microfilm"))
-					physicalFormats.add(FormatPhysical.MICROFILM.toString());
-				else if (subaStr.toLowerCase().contains("microfiche"))
+				if (subaStr.toLowerCase().contains("microfiche"))
 					physicalFormats.add(FormatPhysical.MICROFICHE.toString());
+				else if (subaStr.toLowerCase().contains("microfilm"))
+					physicalFormats.add(FormatPhysical.MICROFILM.toString());
+				else if (subaStr.toLowerCase().contains("slide"))
+					physicalFormats.add(FormatPhysical.SLIDE.toString());
 			}
 		}
 
