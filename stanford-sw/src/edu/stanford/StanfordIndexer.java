@@ -163,7 +163,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		setSFXUrls(); // doesn't need record b/c they come from 999
 		setFullTextUrls(record);
 		setAccessMethods(record);
-		setFormats(record);
+		setOldFormats(record);
 		isSerial = formats.contains(Format.JOURNAL_PERIODICAL.toString());
 		ItemUtils.lopItemCallnums(itemSet, findTranslationMap(LOCATION_MAP_NAME), isSerial);
 		setBuildings(record);
@@ -234,7 +234,74 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 *  Hughes, and Jennifer Vine dated July 23, 2008.
 	 */
 	@SuppressWarnings("unchecked")
-	private void setFormats(final Record record)
+	private void setOldFormats(final Record record)
+	{
+		formats.clear();
+
+		// assign formats based on leader chars 06, 07 and chars in 008
+		String leaderStr = record.getLeader().marshal();
+		formats.addAll(FormatUtils.getFormatsPerLdrAnd008Old(leaderStr, cf008));
+
+		if (formats.isEmpty()) {
+			// see if it's a serial for format assignment
+			char leaderChar07 = leaderStr.charAt(7);
+			VariableField f006 = record.getVariableField("006");
+			String serialFormat = FormatUtils.getSerialFormat(leaderChar07, cf008, f006);
+			if (serialFormat != null)
+				formats.add(serialFormat);
+		}
+
+		// look for conference proceedings in 6xx
+		List<DataField> dfList = (List<DataField>) record.getDataFields();
+		for (DataField df : dfList) {
+			if (df.getTag().startsWith("6")) {
+				List<String> subList = MarcUtils.getSubfieldStrings(df, 'x');
+				subList.addAll(MarcUtils.getSubfieldStrings(df, 'v'));
+				for (String s : subList) {
+					if (s.toLowerCase().contains("congresses")) {
+						formats.remove(Format.JOURNAL_PERIODICAL.toString());
+						formats.add(Format.CONFERENCE_PROCEEDINGS.toString());
+					}
+				}
+			}
+		}
+
+		// check for format information from 999 ALPHANUM call numbers
+		// and from itemType (999 subfield t)
+		for (Item item : itemSet) {
+			if (item.getCallnumType() == CallNumberType.OTHER) {
+				String callnum = item.getCallnum();
+				if (callnum.startsWith("MFILM") || callnum.startsWith("MFICHE"))
+					formats.add(Format.MICROFORMAT.toString());
+				else if (callnum.startsWith("MCD"))
+					formats.add(Format.MUSIC_RECORDING.toString());
+				else if (callnum.startsWith("ZDVD") || callnum.startsWith("ADVD"))
+					formats.add(Format.VIDEO.toString());
+			}
+			if (item.getType().equalsIgnoreCase("DATABASE"))
+				formats.add(Format.DATABASE_A_Z.toString());
+		}
+
+		if (FormatUtils.isMicroformat(record))
+			formats.add(Format.MICROFORMAT.toString());
+
+		if (FormatUtils.isThesis(record))
+			formats.add(Format.THESIS.toString());
+
+		// if we still don't have a format, it's an "other"
+		if (formats.isEmpty() || formats.size() == 0)
+			formats.add(Format.OTHER.toString());
+	}
+
+
+	/**
+	 * Assign formats per algorithm and marc bib record
+	 *  As of July 28, 2008, algorithms for formats are currently in email
+	 *  message from Vitus Tang to Naomi Dushay, cc Phil Schreur, Margaret
+	 *  Hughes, and Jennifer Vine dated July 23, 2008.
+	 */
+	@SuppressWarnings("unchecked")
+	private void setFormatMain(final Record record)
 	{
 		formats.clear();
 
