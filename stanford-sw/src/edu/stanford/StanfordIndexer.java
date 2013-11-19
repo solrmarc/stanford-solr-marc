@@ -222,7 +222,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * @return Set of strings containing format values for the resource
 	 * @param record a marc4j Record object
 	 */
-	public Set<String> getFormats(final Record record)
+	public Set<String> getOldFormats(final Record record)
 	{
 		return formats;
 	}
