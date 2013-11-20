@@ -14,7 +14,7 @@ import edu.stanford.enumValues.FormatPhysical;
  */
 public class FormatPhysicalTests extends AbstractStanfordTest
 {
-	private final String formatFldName = "format";
+	private final String formatFldName = "format_main_ssim";
 	private final String physFormatFldName = "format_physical_ssim";
 	private final MarcFactory factory = MarcFactory.newInstance();
 	private ControlField cf007 = factory.newControlField("007");
