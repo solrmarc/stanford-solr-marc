@@ -3,7 +3,8 @@
 # Pull over the latest incremental update files from Sirsi.  
 #  Naomi Dushay 2010-01-08
 
-REMOTE_DATA_DIR=/s/Dataload/SearchworkIncrement/Output
+#REMOTE_DATA_DIR=/s/Dataload/SearchworkIncrement/Output
+REMOTE_DATA_DIR=/s/SUL/Dataload/SearchWorksIncrement/Output
 
 LOCAL_DATA_DIR=/data/sirsi
 LATEST_DATA_DIR=$LOCAL_DATA_DIR/latest/updates
