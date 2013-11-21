@@ -208,6 +208,109 @@ public class FormatUtils {
 
 
 	/**
+	 * return main format for continuing resource
+	 *
+	 * @param leaderStr - the leader field, as a String
+	 * @param cf008 - the 008 field as a ControlField object
+	 * @param Set of Strings containing Format enum values per the given data
+	 * @return main format for continuing resource, or null if undetermined
+	 */
+	static String getMainFormatSerial(char leaderChar07, ControlField cf008, ControlField f006)
+	{
+		String result = null;
+		char c21 = '\u0000';
+		if (cf008 != null)
+			c21 = ((ControlField) cf008).getData().charAt(21);
+
+		// look for serial format per leader/07 and 008/21
+		if (leaderChar07 == 's')
+			result = getSerialMainFormatFromCharLimited(c21);
+		if (result == null)
+		{
+			result = FormatUtils.getSerialMainFormatFrom006(f006);
+			if ((result == null) && (leaderChar07 == 's'))
+				// default to journal if 008/21 can be used at all
+				result = getSerialMainFormatFromChar(c21);
+		}
+		return result;
+	}
+
+	/**
+	 * return format if 006 starts with 's' and 4th char has a desirable
+	 *  value.
+	 *
+	 * @param f006 - 006 as a VariableField object
+	 * @return String containing Format enum value per the given data, or null
+	 * @return main format for continuing resource, or null if undetermined
+	 */
+	static String getSerialMainFormatFrom006(ControlField f006)
+	{
+		if (f006 != null && f006.find("^s")) {
+			char c04 = f006.getData().charAt(4);
+			return getSerialMainFormatFromChar(c04);
+		}
+		return null;
+	}
+
+	/**
+	 * only looks for values of m, n and p
+	 * given a character assumed to be the 21st character (zero-based) from
+	 *  the 008 field or the 4th char from an 006 field, return the format
+	 *  (assuming that there is an indication that the record is for a serial).
+	 *  return null if no format is determined.
+	 */
+	private static String getSerialMainFormatFromCharLimited(char ch) {
+		if (ch != '\u0000')
+			switch (ch) {
+				case 'm': // monographic series
+					return "Book Series";  //   // FIXME: temporary format
+//					return Format.BOOK.toString();
+				case 'n':
+					return Format.NEWSPAPER.toString();
+				case 'p':
+					return Format.JOURNAL_PERIODICAL.toString();
+			}
+		return null;
+	}
+
+
+	/**
+	 * given a character assumed to be the 21st character (zero-based) from
+	 *  the 008 field or the 4th char from an 006 field, return the format
+	 *  (assuming that there is an indication that the record is for a serial).
+	 *  return null if no format is determined.
+	 */
+	private static String getSerialMainFormatFromChar(char ch) {
+		if (ch != '\u0000')
+			switch (ch) {
+				case 'd': // updating database
+					return "Updating Database";    // FIXME: temporary format
+				case 'l': // updating looseleaf (ignore)
+					return "Updating Looseleaf";    // FIXME: temporary format
+				case 'm': // monographic series
+					return "Book Series";  //   // FIXME: temporary format
+//					return Format.BOOK.toString();
+				case 'n':
+					return Format.NEWSPAPER.toString();
+				case 'p':
+					return Format.JOURNAL_PERIODICAL.toString();
+				case 'w':
+					return "Updating Website";  // FIXME: temporary format
+				case ' ':
+					return "Updating Blank";  // FIXME: temporary format
+				case '|':
+					return "Updating Pipe";  // FIXME: temporary format
+				case '#':
+					return "Updating Sharp";  // FIXME: temporary format
+				default:
+					return "Updating Other";  // FIXME: temporary format
+			}
+		return null;
+	}
+
+
+
+	/**
 	 * Assign format based on Serial publications - leader/07 s
 	 *
 	 * Algorithms for formats are currently in email  message from Vitus Tang to
@@ -244,8 +347,7 @@ public class FormatUtils {
 	}
 
 	/**
-	 * Assign format if 006 starts with 's' and 4th char has a desirable
-	 *  value.
+	 * Assign format if 006 starts with 's' and 4th char has a desirable value.
 	 *
 	 * @param f006 - 006 as a VariableField object
 	 * @return String containing Format enum value per the given data, or null
@@ -261,7 +363,6 @@ public class FormatUtils {
 				return Format.JOURNAL_PERIODICAL.toString();
 		}
 		return null;
-
 	}
 
 
