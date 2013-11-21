@@ -7,20 +7,20 @@ package edu.stanford.enumValues;
 public enum Format {
 	BOOK,
 	COMPUTER_FILE,
-	CONFERENCE_PROCEEDINGS,
+	CONFERENCE_PROCEEDINGS,  // vestigial for continuity in UI URLs for old formats, now a Genre
 	DATABASE_A_Z,
 	DATASET,
 	IMAGE,
 	JOURNAL_PERIODICAL,
 	MANUSCRIPT_ARCHIVE,
 	MAP_GLOBE,
-	MARCIT,
-	MICROFORMAT,
+	MARCIT,       // temporary
+	MICROFORMAT,  // vestigial for continuity in UI URLs for old formats
 	MUSIC_RECORDING,
 	MUSIC_SCORE,
 	NEWSPAPER,
 	SOUND_RECORDING,
-	THESIS,
+	THESIS,  // vestigial for continuity in UI URLs for old formats;  now a Genre
 	VIDEO,
 	OTHER;
 
