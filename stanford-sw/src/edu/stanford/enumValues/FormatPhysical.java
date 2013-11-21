@@ -11,7 +11,7 @@ public enum FormatPhysical
 	VINYL,
 	VINYL_45,
 	SHELLAC_78,
-	WAX_CYLINDER,
+	CYLINDER,
 	INSTANTANEOUS_DISC,
 	CASSETTE,
 	CARTRIDGE_8_TRACK,
@@ -62,7 +62,7 @@ public enum FormatPhysical
 				return "45 rpm disc";
 			case SHELLAC_78:
 				return "78 rpm (shellac)";
-			case WAX_CYLINDER:
+			case CYLINDER:
 				return "Cylinder (Wax)";
 			case INSTANTANEOUS_DISC:
 				return "Instantaneous disc";
