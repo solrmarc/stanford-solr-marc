@@ -17,6 +17,12 @@ public class GenreTests extends AbstractStanfordTest
 	private final String genreFldName = "genre_ssim";
 	private final MarcFactory factory = MarcFactory.newInstance();
 	private ControlField cf008 = factory.newControlField("008");
+	private final DataField df650 = factory.newDataField("650", ' ', '0');
+	{
+		df650.addSubfield(factory.newSubfield('a', "subject"));
+		df650.addSubfield(factory.newSubfield('v', "Congresses"));
+	}
+
 
 @Before
 	public final void setup()
@@ -32,9 +38,6 @@ public class GenreTests extends AbstractStanfordTest
 	{
 	    String fldVal = Genre.CONFERENCE_PROCEEDINGS.toString();
 		Record record = factory.newRecord();
-		DataField df650 = factory.newDataField("650", ' ', '0');
-		df650.addSubfield(factory.newSubfield('a', "subject"));
-		df650.addSubfield(factory.newSubfield('v', "Congresses"));
 
 		// Book
 		record.setLeader(factory.newLeader("15069nam a2200409 a 4500"));
@@ -120,74 +123,75 @@ public class GenreTests extends AbstractStanfordTest
 
 
     /**
-	 * Conference Proceedings format tests
+	 * Conference Proceedings value for Journal format
 	 */
 @Test
 	public final void testConferenceProceedingsAsJournal()
 	{
-	    String fldVal = Genre.CONFERENCE_PROCEEDINGS.toString();
-
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "5666387", fldName, fldVal);
-//		solrFldMapTest.assertSolrFldValue(testFilePath, "666", fldName, fldVal);
-
-
-		// main format Journal (?)
+	    String formatfldVal = Format.JOURNAL_PERIODICAL.toString();
+	    String genrefldVal = Genre.CONFERENCE_PROCEEDINGS.toString();
 		Record record = factory.newRecord();
 
 		// 008 byte 21 is p  (Journal / periodical)
 		record.setLeader(factory.newLeader("02808cas a22005778a 4500"));
 		cf008.setData("050127c20149999enkfr p       |   a0eng c");
 		record.addVariableField(cf008);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.JOURNAL_PERIODICAL.toString());
-		solrFldMapTest.assertSolrFldValue(record, genreFldName, fldVal);
+		record.addVariableField(df650);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, formatfldVal);
+		solrFldMapTest.assertSolrFldValue(record, genreFldName, genrefldVal);
 
 		// 008 byte 21 is blank
 		record = factory.newRecord();
 		record.setLeader(factory.newLeader("02393cas a2200421Ki 4500"));
 		cf008.setData("130923c20139999un uu         1    0ukr d");
 		record.addVariableField(cf008);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.JOURNAL_PERIODICAL.toString());
-		solrFldMapTest.assertSolrFldValue(record, genreFldName, fldVal);
+		record.addVariableField(df650);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, formatfldVal);
+		solrFldMapTest.assertSolrFldValue(record, genreFldName, genrefldVal);
 
 		// 008 byte 21 is | (pipe)  Journal
 		record = factory.newRecord();
 		record.setLeader(factory.newLeader("00756nas a22002175a 4500"));
 		cf008.setData("110417s2011    le |||||||||||||| ||ara d");
 		record.addVariableField(cf008);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.JOURNAL_PERIODICAL.toString());
-		solrFldMapTest.assertSolrFldValue(record, genreFldName, fldVal);
+		record.addVariableField(df650);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, formatfldVal);
+		solrFldMapTest.assertSolrFldValue(record, genreFldName, genrefldVal);
 
 		ControlField cf006 = factory.newControlField("006");
 
-		// recording and conf proceedings
+		// 006 byte 4 is p
 		record = factory.newRecord();
-		record.setLeader(factory.newLeader("03701cim a2200421 a 4500"));
-		cf006.setData("sar         1    0");
+		record.setLeader(factory.newLeader("03163cas a2200553 a 4500"));
+		cf006.setData("ser p       0    0");
 		record.addVariableField(cf006);
-		cf008.setData("040802c200u9999cau            l    eng d");
+		cf008.setData("000000d197819uuilunnn         l    eng d");
 		record.addVariableField(cf008);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.JOURNAL_PERIODICAL.toString());
-		solrFldMapTest.assertSolrFldValue(record, genreFldName, fldVal);
+		record.addVariableField(df650);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, formatfldVal);
+		solrFldMapTest.assertSolrFldValue(record, genreFldName, genrefldVal);
 
+		// 006 byte 4 is blank
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("02393cas a2200421Ki 4500"));
+		cf008.setData("130923c20139999un uu         1    0ukr d");
+		record.addVariableField(cf008);
+		cf006.setData("ser         0    0");
+		record.addVariableField(cf006);
+		record.addVariableField(df650);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, formatfldVal);
+		solrFldMapTest.assertSolrFldValue(record, genreFldName, genrefldVal);
 
-		// // look for serial publications in 006/00 and 006/04
-
-
-		// main format Newspaper
-		// 008 byte 21 is n
-
-		// main format Book
-		// 008 byte 21 is m
-
-		// main format Video
-
-		// main format Computer File
-
-		// main format Sound Recording (?)
-
-		// ...
-
-
+		// 006 byte 4 is pipe
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("02393cas a2200421Ki 4500"));
+		cf008.setData("130923c20139999un uu         1    0ukr d");
+		record.addVariableField(cf008);
+		cf006.setData("suu wss|||||0   |2");
+		record.addVariableField(cf006);
+		record.addVariableField(df650);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, formatfldVal);
+		solrFldMapTest.assertSolrFldValue(record, genreFldName, genrefldVal);
 	}
 
 
@@ -285,18 +289,14 @@ public class GenreTests extends AbstractStanfordTest
 		record.setLeader(factory.newLeader("01360cam a22003011  4500"));
 		cf008.setData("890928s1929    mdu           000 0 eng c");
 		record.addVariableField(cf008);
-		DataField df = factory.newDataField("650", ' ', '0');
-		df.addSubfield(factory.newSubfield('a', "subject"));
-		df.addSubfield(factory.newSubfield('v', "Congresses"));
-		record.addVariableField(df);
-		df = factory.newDataField("502", ' ', ' ');
+		record.addVariableField(df650);
+		DataField df = factory.newDataField("502", ' ', ' ');
 		df.addSubfield(factory.newSubfield('a', "Thesis (Ph. D.)--Johns Hopkins, 1928."));
 		record.addVariableField(df);
 		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.BOOK.toString());
 		solrFldMapTest.assertSolrFldValue(record, genreFldName, thesisFldVal);
 		solrFldMapTest.assertSolrFldValue(record, genreFldName, procFldVal);
 	}
-
 
 
 }
