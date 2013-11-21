@@ -63,7 +63,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
         BIZ_SHELBY_LOCS = PropertiesUtils.loadPropertiesSet(propertyDirs, "locations_biz_shelby_list.properties");
         SKIPPED_CALLNUMS = PropertiesUtils.loadPropertiesSet(propertyDirs, "callnums_skipped_list.properties");
         // try to reuse HashSet, etc. objects instead of creating fresh each time
-        formats = new LinkedHashSet<String>();
+        old_formats = new LinkedHashSet<String>();
+        main_formats = new LinkedHashSet<String>();
         accessMethods = new HashSet<String>();
     	sfxUrls = new LinkedHashSet<String>();
     	fullTextUrls = new LinkedHashSet<String>();
@@ -76,8 +77,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	// variables used in more than one method
 	/** the id of the record - used for error messages in addition to id field */
 	String id = null;
-	/** the formats of the record - used for item_display in addition to format field */
-	Set<String> formats;
+	/** @deprecated the old formats of the record, kept for UI URL continuity */
+	Set<String> old_formats;
+	/** the formats of the record - used for display rules in addition to format field */
+	Set<String> main_formats;
 	/** sfxUrls are used for access_method in addition to sfxUrl field */
 	Set<String> sfxUrls;
 	/** fullTextUrls are used for access_method in addition to fullTextUrl field */
@@ -163,7 +166,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		setFullTextUrls(record);
 		setAccessMethods(record);
 		setOldFormats(record);
-		isSerial = formats.contains(Format.JOURNAL_PERIODICAL.toString());
+		setMainFormats(record);
+		isSerial = main_formats.contains(Format.JOURNAL_PERIODICAL.toString());
 		ItemUtils.lopItemCallnums(itemSet, findTranslationMap(LOCATION_MAP_NAME), isSerial);
 		setBuildings(record);
 		setGovDocCats(record);
@@ -218,36 +222,40 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 // Format Methods  --------------- Begin ------------------------ Format Methods
 
 	/**
+	 * keeping these formats around for continuity in UI URLs for old formats
 	 * @return Set of strings containing format values for the resource
 	 * @param record a marc4j Record object
+	 * @deprecated
 	 */
 	public Set<String> getOldFormats(final Record record)
 	{
-		return formats;
+		return old_formats;
 	}
 
 	/**
 	 * Assign formats per algorithm and marc bib record
+	 * keeping these formats around for continuity in UI URLs for old formats
 	 *  As of July 28, 2008, algorithms for formats are currently in email
 	 *  message from Vitus Tang to Naomi Dushay, cc Phil Schreur, Margaret
 	 *  Hughes, and Jennifer Vine dated July 23, 2008.
+	 *  @deprecated
 	 */
 	@SuppressWarnings("unchecked")
 	private void setOldFormats(final Record record)
 	{
-		formats.clear();
+		old_formats.clear();
 
 		// assign formats based on leader chars 06, 07 and chars in 008
 		String leaderStr = record.getLeader().marshal();
-		formats.addAll(FormatUtils.getFormatsPerLdrAnd008Old(leaderStr, cf008));
+		old_formats.addAll(FormatUtils.getFormatsPerLdrAnd008Old(leaderStr, cf008));
 
-		if (formats.isEmpty()) {
+		if (old_formats.isEmpty()) {
 			// see if it's a serial for format assignment
 			char leaderChar07 = leaderStr.charAt(7);
 			VariableField f006 = record.getVariableField("006");
 			String serialFormat = FormatUtils.getSerialFormat(leaderChar07, cf008, f006);
 			if (serialFormat != null)
-				formats.add(serialFormat);
+				old_formats.add(serialFormat);
 		}
 
 		// look for conference proceedings in 6xx
@@ -258,8 +266,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				subList.addAll(MarcUtils.getSubfieldStrings(df, 'v'));
 				for (String s : subList) {
 					if (s.toLowerCase().contains("congresses")) {
-						formats.remove(Format.JOURNAL_PERIODICAL.toString());
-						formats.add(Format.CONFERENCE_PROCEEDINGS.toString());
+						old_formats.remove(Format.JOURNAL_PERIODICAL.toString());
+						old_formats.add(Format.CONFERENCE_PROCEEDINGS.toString());
 					}
 				}
 			}
@@ -271,50 +279,56 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			if (item.getCallnumType() == CallNumberType.OTHER) {
 				String callnum = item.getCallnum();
 				if (callnum.startsWith("MFILM") || callnum.startsWith("MFICHE"))
-					formats.add(Format.MICROFORMAT.toString());
+					old_formats.add(Format.MICROFORMAT.toString());
 				else if (callnum.startsWith("MCD"))
-					formats.add(Format.MUSIC_RECORDING.toString());
+					old_formats.add(Format.MUSIC_RECORDING.toString());
 				else if (callnum.startsWith("ZDVD") || callnum.startsWith("ADVD"))
-					formats.add(Format.VIDEO.toString());
+					old_formats.add(Format.VIDEO.toString());
 			}
 			if (item.getType().equalsIgnoreCase("DATABASE"))
-				formats.add(Format.DATABASE_A_Z.toString());
+				old_formats.add(Format.DATABASE_A_Z.toString());
 		}
 
-		if (FormatUtils.isMicroformat(record))
-			formats.add(Format.MICROFORMAT.toString());
+		if (FormatUtils.isMicroformatOld(record))
+			old_formats.add(Format.MICROFORMAT.toString());
 
 		if (!record.getVariableFields("502").isEmpty())
 			old_formats.add(Format.THESIS.toString());
 
 		// if we still don't have a format, it's an "other"
-		if (formats.isEmpty() || formats.size() == 0)
-			formats.add(Format.OTHER.toString());
+		if (old_formats.isEmpty() || old_formats.size() == 0)
+			old_formats.add(Format.OTHER.toString());
 	}
 
 
 	/**
-	 * Assign formats per algorithm and marc bib record
-	 *  As of July 28, 2008, algorithms for formats are currently in email
-	 *  message from Vitus Tang to Naomi Dushay, cc Phil Schreur, Margaret
-	 *  Hughes, and Jennifer Vine dated July 23, 2008.
+	 * @return Set of strings containing format values for the resource
+	 * @param record a marc4j Record object
+	 */
+	public Set<String> getMainFormats(final Record record)
+	{
+		return main_formats;
+	}
+
+	/**
+	 * Assign formats per decisions made late fall 2013
 	 */
 	@SuppressWarnings("unchecked")
-	private void setFormatMain(final Record record)
+	private void setMainFormats(final Record record)
 	{
-		formats.clear();
+		main_formats.clear();
 
 		// assign formats based on leader chars 06, 07 and chars in 008
 		String leaderStr = record.getLeader().marshal();
-		formats.addAll(FormatUtils.getFormatsPerLdrAnd008(leaderStr, cf008));
+		main_formats.addAll(FormatUtils.getFormatsPerLdrAnd008(leaderStr, cf008));
 
-		if (formats.isEmpty()) {
+		if (main_formats.isEmpty()) {
 			// see if it's a serial for format assignment
 			char leaderChar07 = leaderStr.charAt(7);
 			VariableField f006 = record.getVariableField("006");
 			String serialFormat = FormatUtils.getMainFormatSerial(leaderChar07, cf008, (ControlField) f006);
 			if (serialFormat != null)
-				formats.add(serialFormat);
+				main_formats.add(serialFormat);
 		}
 
 		// check for format information from 999 ALPHANUM call numbers
@@ -323,27 +337,27 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			if (item.getCallnumType() == CallNumberType.OTHER) {
 				String callnum = item.getCallnum();
 				if (callnum.startsWith("MCD"))
-					formats.add(Format.MUSIC_RECORDING.toString());
+					main_formats.add(Format.MUSIC_RECORDING.toString());
 				else if (callnum.startsWith("ZDVD") || callnum.startsWith("ADVD"))
-					formats.add(Format.VIDEO.toString());
+					main_formats.add(Format.VIDEO.toString());
 			}
 			if (item.getType().equalsIgnoreCase("DATABASE"))
 			{
-				formats.add(Format.DATABASE_A_Z.toString());
+				main_formats.add(Format.DATABASE_A_Z.toString());
 				// if it is a Database and a Computer File, and it is not
 				//  "at the library", then it should only be a Database
-				if (formats.contains(Format.COMPUTER_FILE.toString()) &&
+				if (main_formats.contains(Format.COMPUTER_FILE.toString()) &&
 					!accessMethods.contains(Access.AT_LIBRARY.toString()))
-					formats.remove(Format.COMPUTER_FILE.toString());
+					main_formats.remove(Format.COMPUTER_FILE.toString());
 			}
 		}
 
 		if (FormatUtils.isMarcit(record))
-			formats.add(Format.MARCIT.toString());
+			main_formats.add(Format.MARCIT.toString());
 
 		// if we still don't have a format, it's an "other"
-		if (formats.isEmpty() || formats.size() == 0)
-			formats.add(Format.OTHER.toString());
+		if (main_formats.isEmpty() || main_formats.size() == 0)
+			main_formats.add(Format.OTHER.toString());
 	}
 
 	/**
@@ -841,7 +855,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	public Set<String> getDbAZSubjects(final Record record)
 	{
 		Set<String> subjectsSet = new LinkedHashSet<String>();
-		if (formats.contains(Format.DATABASE_A_Z.toString())) {
+		if (main_formats.contains(Format.DATABASE_A_Z.toString())) {
 			subjectsSet = MarcUtils.getFieldList(record, "099a");
 		}
 		// add second value for those codes mapping to two values

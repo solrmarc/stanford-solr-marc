@@ -32,7 +32,7 @@ public class FormatUtils {
 	 * @param cf008 - the 008 field as a ControlField object
 	 * @param Set of Strings containing Format enum values per the given data
 	 */
-	static Set<String> getFormatsPerLdrAnd008Old(String leaderStr, ControlField cf008)
+	static Set<String> getFormatsPerLdrAnd008(String leaderStr, ControlField cf008)
 	{
 		Set<String> result = new HashSet<String>();
 
@@ -95,22 +95,6 @@ public class FormatUtils {
 			break;
 		} // end switch
 
-/* not yet vetted  2010-10-30
-		// is it an updating database? (leader/07 = "s" or "i" and 008/21 = "d") OR (006/00 = "s" and 006/04 = "d")
-		// (leader/07 = "s" and 008/21 = "d" handled by getSerialFormat()
-		// (006/00 = "s" and 006/04 = "d") is handled by getSerialFormat() which calls getSerialFormat006()
-
-		if (leaderChar07 == 'i') {
-			// check if it's a database based on 008 char 21
-			char c21 = '\u0000';
-			if (cf008 != null) {
-				c21 = ((ControlField) cf008).getData().charAt(21);
-				if (c21 == 'd')
-					result.add(Format.DATABASE_OTHER.toString());
-			}
-		}
-*/
-
 		return result;
 	}
 
@@ -125,8 +109,9 @@ public class FormatUtils {
 	 * @param leaderStr - the leader field, as a String
 	 * @param cf008 - the 008 field as a ControlField object
 	 * @param Set of Strings containing Format enum values per the given data
+	 * @deprecated
 	 */
-	static Set<String> getFormatsPerLdrAnd008(String leaderStr, ControlField cf008)
+	static Set<String> getFormatsPerLdrAnd008Old(String leaderStr, ControlField cf008)
 	{
 		Set<String> result = new HashSet<String>();
 
@@ -172,7 +157,7 @@ public class FormatUtils {
 			break;
 		case 'm':
 			// look for a in 008 field, char 26 (count starts at 0)
-			if (cf008 != null && cf008.find("^.*{26}a"))
+			if (cf008 != null && cf008.find("^.{26}a"))
 				result.add(Format.COMPUTER_FILE.toString());
 			break;
 		case 'o': // instructional kit
@@ -202,7 +187,6 @@ public class FormatUtils {
 			}
 		}
 */
-
 		return result;
 	}
 
@@ -395,22 +379,11 @@ public class FormatUtils {
 	}
 
 	/**
+	 * this is kept for continuity with the original format values
 	 * @param record - marc4j record object
 	 * @return true if there is a 245h that contains the string "microform",
 	 *  false otherwise
-	 */
-	static boolean isMicroformat(Record record) {
-		Set<String> titleH = MarcUtils.getSubfieldDataAsSet(record, "245", "h", " ");
-		if (Utils.setItemContains(titleH, "microform"))
-			return true;
-		else
-			return false;
-	}
-
-	/**
-	 * @param record - marc4j record object
-	 * @return true if there is a 245h that contains the string "microform",
-	 *  false otherwise
+	 * @deprecated
 	 */
 	static boolean isMicroformatOld(Record record) {
 		Set<String> titleH = MarcUtils.getSubfieldDataAsSet(record, "245", "h", " ");
@@ -477,6 +450,5 @@ public class FormatUtils {
 
 		return result;
 	}
-
 
 }
