@@ -376,10 +376,10 @@ public class FormatTests extends AbstractStanfordTest
 	 * Thesis format tests
 	 */
 @Test
-	public final void testThesis()
+	public final void testThesisIsGone()
 	{
 		String fldVal = Format.THESIS.toString();
-		solrFldMapTest.assertSolrFldValue(testFilePath, "502", fldName, fldVal);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "502", fldName, fldVal);
 	}
 
 	/**

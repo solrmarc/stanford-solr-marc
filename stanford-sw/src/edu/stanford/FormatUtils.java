@@ -217,7 +217,7 @@ public class FormatUtils {
 	 */
 	static String getMainFormatSerial(char leaderChar07, ControlField cf008, ControlField f006)
 	{
-		String result = null;
+//		String result = null;
 		char c21 = '\u0000';
 		if (cf008 != null)
 			c21 = ((ControlField) cf008).getData().charAt(21);
@@ -420,19 +420,6 @@ public class FormatUtils {
 			return false;
 	}
 
-	/**
-	 * thesis is determined by the presence of a 502 field.
-	 * @param record - marc4j record object
-	 * @return true if there is a 502 field, false otherwise
-	 */
-	static boolean isThesis(Record record) {
-        if (record.getVariableFields("502").isEmpty())
-			return false;
-		else
-			return true;
-	}
-
-
 	static boolean isMarcit(Record record) {
 		Set<String> f590a = MarcUtils.getSubfieldDataAsSet(record, "590", "a", "");
 		if (Utils.setItemContains(f590a, "MARCit brief record.") ||
@@ -441,7 +428,6 @@ public class FormatUtils {
 		else
 			return false;
 	}
-
 
 	/**
 	 * Assign physical formats based on 007, leader chars and 008 chars

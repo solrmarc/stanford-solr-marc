@@ -284,8 +284,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (FormatUtils.isMicroformat(record))
 			formats.add(Format.MICROFORMAT.toString());
 
-		if (FormatUtils.isThesis(record))
-			formats.add(Format.THESIS.toString());
+		if (!record.getVariableFields("502").isEmpty())
+			old_formats.add(Format.THESIS.toString());
 
 		// if we still don't have a format, it's an "other"
 		if (formats.isEmpty() || formats.size() == 0)
@@ -337,9 +337,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					formats.remove(Format.COMPUTER_FILE.toString());
 			}
 		}
-
-		if (FormatUtils.isThesis(record))
-			formats.add(Format.THESIS.toString());
 
 		if (FormatUtils.isMarcit(record))
 			formats.add(Format.MARCIT.toString());
@@ -400,6 +397,11 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	public Set<String> getGenres(final Record record)
 	{
 		Set<String> resultSet = new HashSet<String>();
+
+		// look for thesis by existence of 502 field
+		if (!record.getVariableFields("502").isEmpty())
+			resultSet.add(Genre.THESIS.toString());
+
 		// look for conference proceedings in 6xx sub x or v
 		List<DataField> dfList = (List<DataField>) record.getDataFields();
 		for (DataField df : dfList) {
@@ -408,11 +410,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				subList.addAll(MarcUtils.getSubfieldStrings(df, 'v'));
 				for (String s : subList) {
 					if (s.toLowerCase().contains("congresses")) {
-						resultSet.add(Format.CONFERENCE_PROCEEDINGS.toString());
+						resultSet.add(Genre.CONFERENCE_PROCEEDINGS.toString());
 					}
 				}
 			}
 		}
+
 		return resultSet;
 	}
 
