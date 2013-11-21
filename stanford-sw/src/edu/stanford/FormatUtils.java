@@ -223,16 +223,22 @@ public class FormatUtils {
 			c21 = ((ControlField) cf008).getData().charAt(21);
 
 		// look for serial format per leader/07 and 008/21
-		if (leaderChar07 == 's')
-			result = getSerialMainFormatFromCharLimited(c21);
-		if (result == null)
-		{
-			result = FormatUtils.getSerialMainFormatFrom006(f006);
-			if ((result == null) && (leaderChar07 == 's'))
-				// default to journal if 008/21 can be used at all
-				result = getSerialMainFormatFromChar(c21);
-		}
-		return result;
+		if (leaderChar07 == 's'  &&  c21 != '\u0000')
+			return getSerialMainFormatFromChar(c21);
+
+		return FormatUtils.getSerialMainFormatFrom006(f006);
+
+//		// look for serial format per leader/07 and 008/21
+//		if (leaderChar07 == 's')
+//			result = getSerialMainFormatFromCharLimited(c21);
+//		if (result == null)
+//		{
+//			result = FormatUtils.getSerialMainFormatFrom006(f006);
+//			if ((result == null) && (leaderChar07 == 's'))
+//				// default to journal if 008/21 can be used at all
+//				result = getSerialMainFormatFromChar(c21);
+//		}
+//		return result;
 	}
 
 	/**
@@ -293,15 +299,12 @@ public class FormatUtils {
 				case 'n':
 					return Format.NEWSPAPER.toString();
 				case 'p':
+				case ' ':  // blank
+				case '|':  // pipe
+				case '#':  // marc documentation uses this to indicate blank
 					return Format.JOURNAL_PERIODICAL.toString();
 				case 'w':
 					return "Updating Website";  // FIXME: temporary format
-				case ' ':
-					return "Updating Blank";  // FIXME: temporary format
-				case '|':
-					return "Updating Pipe";  // FIXME: temporary format
-				case '#':
-					return "Updating Sharp";  // FIXME: temporary format
 				default:
 					return "Updating Other";  // FIXME: temporary format
 			}
