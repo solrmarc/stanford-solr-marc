@@ -312,24 +312,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			// see if it's a serial for format assignment
 			char leaderChar07 = leaderStr.charAt(7);
 			VariableField f006 = record.getVariableField("006");
-			String serialFormat = FormatUtils.getSerialFormat(leaderChar07, cf008, f006);
+			String serialFormat = FormatUtils.getMainFormatSerial(leaderChar07, cf008, (ControlField) f006);
 			if (serialFormat != null)
 				formats.add(serialFormat);
-		}
-
-		// look for conference proceedings in 6xx sub x or v
-		List<DataField> dfList = (List<DataField>) record.getDataFields();
-		for (DataField df : dfList) {
-			if (df.getTag().startsWith("6")) {
-				List<String> subList = MarcUtils.getSubfieldStrings(df, 'x');
-				subList.addAll(MarcUtils.getSubfieldStrings(df, 'v'));
-				for (String s : subList) {
-					if (s.toLowerCase().contains("congresses")) {
-						formats.remove(Format.JOURNAL_PERIODICAL.toString());
-						formats.add(Format.CONFERENCE_PROCEEDINGS.toString());
-					}
-				}
-			}
 		}
 
 		// check for format information from 999 ALPHANUM call numbers
@@ -409,6 +394,26 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		}
 
 		return physicalFormats;
+	}
+
+
+	public Set<String> getGenres(final Record record)
+	{
+		Set<String> resultSet = new HashSet<String>();
+		// look for conference proceedings in 6xx sub x or v
+		List<DataField> dfList = (List<DataField>) record.getDataFields();
+		for (DataField df : dfList) {
+			if (df.getTag().startsWith("6")) {
+				List<String> subList = MarcUtils.getSubfieldStrings(df, 'x');
+				subList.addAll(MarcUtils.getSubfieldStrings(df, 'v'));
+				for (String s : subList) {
+					if (s.toLowerCase().contains("congresses")) {
+						resultSet.add(Format.CONFERENCE_PROCEEDINGS.toString());
+					}
+				}
+			}
+		}
+		return resultSet;
 	}
 
 
