@@ -7,7 +7,8 @@
 # updated for Naomi's FORK of solrmarc 2011-01-23
 #  Naomi Dushay 2010-04-09
 
-REMOTE_DATA_DIR=/s/Dataload/SearchworkIncrement/Output
+#REMOTE_DATA_DIR=/s/Dataload/SearchworkIncrement/Output
+REMOTE_DATA_DIR=/s/SUL/Dataload/SearchWorksIncrement/Output
 
 LOCAL_DATA_DIR=/data/sirsi
 LATEST_DATA_DIR=$LOCAL_DATA_DIR/latest/updates
