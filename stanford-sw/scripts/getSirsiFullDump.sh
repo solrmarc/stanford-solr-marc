@@ -5,7 +5,7 @@
 
 COUNTS_FNAME=files_counts
 #REMOTE_DATA_DIR=/s/Dataload/VufindDump/Output
-REMOTE_DATA_DIR=/s/Dataload/SearchWorksDump/Output
+REMOTE_DATA_DIR=/s/SUL/Dataload/SearchWorksDump/Output
 
 LOCAL_DATA_DIR=/data/sirsi
 LATEST_DATA_DIR=$LOCAL_DATA_DIR/latest
