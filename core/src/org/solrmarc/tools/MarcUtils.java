@@ -651,7 +651,7 @@ public class MarcUtils {
 	            // DataField
 	            DataField dfield = (DataField) vf;
 
-	            if (subfldsStr.length() > 1 || separator != null)
+	            if (subfldsStr.length() > 1)
 	            {
 	                // concatenate subfields using specified separator or space
 	                StringBuilder buffer = new StringBuilder("");
@@ -668,7 +668,7 @@ public class MarcUtils {
 	                if (buffer.length() > 0)
 	                    resultSet.add(buffer.toString());
 	            }
-	            else
+	            else if (subfldsStr.length() == 1)
 	            {
 	                // get all instances of the single subfield
 	                List<Subfield> subFlds = dfield.getSubfields(subfldsStr.charAt(0));
