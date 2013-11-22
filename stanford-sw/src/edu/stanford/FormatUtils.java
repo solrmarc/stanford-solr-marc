@@ -5,8 +5,7 @@ import java.util.*;
 import org.marc4j.marc.*;
 import org.solrmarc.tools.*;
 
-import edu.stanford.enumValues.Format;
-import edu.stanford.enumValues.FormatPhysical;
+import edu.stanford.enumValues.*;
 
 /**
  * Format utility methods for Stanford solrmarc
@@ -407,10 +406,10 @@ public class FormatUtils {
 	 *
 	 * @param cf007List - a list of 007 fields as ControlField objects
 	 * @param leaderStr - the leader field, as a String
-	 * @param cf008 - the 008 field as a String
-	 * @param Set of Strings containing Format enum values per the given data
+	 * @param accessMethods - set of Strings that can be Online or 'At the Library' or both
+	 * @param Set of Strings containing Physical Format enum values as Strings per the given data
 	 */
-	static Set<String> getPhysicalFormatsPer007(List<ControlField> cf007List, String leaderStr, String cf008data)
+	static Set<String> getPhysicalFormatsPer007(List<ControlField> cf007List, String leaderStr, Set<String> accessMethods)
 	{
 		Set<String> result = new HashSet<String>();
 
@@ -441,6 +440,10 @@ public class FormatUtils {
 					break;
 				case 'r':
 					result.add(FormatPhysical.REMOTE_SENSING_IMAGE.toString());
+					break;
+				case 's':
+					if (cf007_1 == 'd' && cf007data.charAt(3) == 'd' && accessMethods.contains(Access.AT_LIBRARY.toString()))
+						result.add(FormatPhysical.SHELLAC_78.toString());
 					break;
 				default:
 					break;
