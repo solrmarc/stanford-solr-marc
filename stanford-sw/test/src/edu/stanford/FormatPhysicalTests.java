@@ -194,6 +194,43 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 //		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 //	}
 
+
+@Test
+	public final void testRecordingCD()
+	{
+		String expVal = FormatPhysical.CD.toString();
+		// based on 8833535
+		Leader ldr = factory.newLeader("02229cjm a2200409Ia 4500");
+		Record record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("sd fungnnmmneu");
+		record.addVariableField(cf007);
+		record.addVariableField(df999atLibrary);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+		// not if online only
+		record.removeVariableField(df999atLibrary);
+		record.addVariableField(df999online);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 0);
+
+
+		// no 007, but 300   (based on 4518)    think there are about 2400 of these
+//		record = factory.newRecord();
+//		DataField df300 = factory.newDataField("300", ' ', ' ');
+//		df300.addSubfield(factory.newSubfield('b', "33 1/3 rpm."));
+//		record.addVariableField(df300);
+//		record.addVariableField(df999atLibrary);
+//		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+//		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+//		// not if online only
+//		record.removeVariableField(df999atLibrary);
+//		record.addVariableField(df999online);
+	}
+
+
+
 @Test
 	public final void testRecording78()
 	{
