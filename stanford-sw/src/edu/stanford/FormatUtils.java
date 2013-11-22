@@ -446,11 +446,14 @@ public class FormatUtils {
 					{
 						switch (cf007data.charAt(3))
 						{
+							case 'b':
+								result.add(FormatPhysical.VINYL.toString());
+								break;
 							case 'd':
 								result.add(FormatPhysical.SHELLAC_78.toString());
 								break;
-							case 'b':
-								result.add(FormatPhysical.VINYL.toString());
+							case 'f':
+								result.add(FormatPhysical.CD.toString());
 								break;
 						}
 					}
