@@ -204,36 +204,68 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		cf007.setData("sd dmsdnnmslne");
 		record.addVariableField(cf007);
 		record.addVariableField(df999atLibrary);
-		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
-		// only if at the library, not if online only
+		// not if online only
 		record.removeVariableField(df999atLibrary);
 		record.addVariableField(df999online);
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 0);
 
-//		// no 007, but 300   (based on 7845911)
+//		// no 007, but 300   (based on 8101257)    think there are about 200 of these
 //		record = factory.newRecord();
 //		record.addVariableField(df999atLibrary);
 //		DataField df300 = factory.newDataField("300", ' ', ' ');
-//		df300.addSubfield(factory.newSubfield('a', "78 rpm"));
+//		df300.addSubfield(factory.newSubfield('b', "78 rpm ;"));
 //		record.addVariableField(df300);
-//		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 0);
-//		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
 //		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+//		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 //		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
-//		// only if at the library, not if online only
+//		// not if online only
 //		record.removeVariableField(df999atLibrary);
 //		record.addVariableField(df999online);
 	}
 
 
+@Test
+	public final void testRecordingVinyl()
+	{
+		String expVal = FormatPhysical.VINYL.toString();
+		// based on 309570
+		Leader ldr = factory.newLeader("02683cjm a2200565ua 4500");
+		Record record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("sdubsmennmplue");
+		record.addVariableField(cf007);
+		record.addVariableField(df999atLibrary);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+		// not if online only
+		record.removeVariableField(df999atLibrary);
+		record.addVariableField(df999online);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 0);
+
+		// no 007, but 300   (based on 4518)    think there are about 2400 of these
+//		record = factory.newRecord();
+//		DataField df300 = factory.newDataField("300", ' ', ' ');
+//		df300.addSubfield(factory.newSubfield('b', "33 1/3 rpm."));
+//		record.addVariableField(df300);
+//		record.addVariableField(df999atLibrary);
+//		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+//		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+//		// not if online only
+//		record.removeVariableField(df999atLibrary);
+//		record.addVariableField(df999online);
+	}
+
+
+
 /*
 	// recordings
 	CD,
-	VINYL,
 	VINYL_45,
-	SHELLAC_78,
 	WAX_CYLINDER,
 	INSTANTANEOUS_DISC,
 	CASSETTE,
