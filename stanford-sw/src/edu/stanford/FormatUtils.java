@@ -414,7 +414,7 @@ public class FormatUtils {
 		Set<String> result = new HashSet<String>();
 
 		// Note: MARC21 documentation refers to char numbers that are 0 based,
-		// just like java string indexes, so char "06" is at index 6, and is
+		// just like java string indexes, so char "6" is at index 6, and is
 		// the seventh character of the field
 
 		for (ControlField cf007 : cf007List)
@@ -442,8 +442,18 @@ public class FormatUtils {
 					result.add(FormatPhysical.REMOTE_SENSING_IMAGE.toString());
 					break;
 				case 's':
-					if (cf007_1 == 'd' && cf007data.charAt(3) == 'd' && accessMethods.contains(Access.AT_LIBRARY.toString()))
-						result.add(FormatPhysical.SHELLAC_78.toString());
+					if (cf007_1 == 'd' && accessMethods.contains(Access.AT_LIBRARY.toString()))
+					{
+						switch (cf007data.charAt(3))
+						{
+							case 'd':
+								result.add(FormatPhysical.SHELLAC_78.toString());
+								break;
+							case 'b':
+								result.add(FormatPhysical.VINYL.toString());
+								break;
+						}
+					}
 					break;
 				default:
 					break;
