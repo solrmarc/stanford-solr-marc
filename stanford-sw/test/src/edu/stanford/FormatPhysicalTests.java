@@ -19,6 +19,21 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 	private final MarcFactory factory = MarcFactory.newInstance();
 	private ControlField cf007 = factory.newControlField("007");
 	private ControlField cf008 = factory.newControlField("008");
+	private DataField df999atLibrary = factory.newDataField("999", ' ', ' ');
+	private DataField df999online = factory.newDataField("999", ' ', ' ');
+	{
+		df999online.addSubfield(factory.newSubfield('a', "INTERNET RESOURCE"));
+		df999online.addSubfield(factory.newSubfield('w', "ASIS"));
+		df999online.addSubfield(factory.newSubfield('i', "2475606-5001"));
+		df999online.addSubfield(factory.newSubfield('l', "INTERNET"));
+		df999online.addSubfield(factory.newSubfield('m', "SUL"));
+
+		df999atLibrary.addSubfield(factory.newSubfield('a', "F152 .A28"));
+		df999atLibrary.addSubfield(factory.newSubfield('w', "LC"));
+		df999atLibrary.addSubfield(factory.newSubfield('i', "36105018746623"));
+		df999atLibrary.addSubfield(factory.newSubfield('l', "HAS-DIGIT"));
+		df999atLibrary.addSubfield(factory.newSubfield('m', "GREEN"));
+	}
 
 @Before
 	public final void setup()
@@ -27,7 +42,6 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 	}
 
 // images
-//REMOTE_SENSING_IMAGE,
 //OTHER_IMAGE,
 
 	/**
@@ -164,7 +178,54 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 	}
 
 
+// ---------------------------- Recordings -----------------------------------
 
+//@Test
+//	public final void testCylinderRecording()
+//	{
+//		String expVal = FormatPhysical.CYLINDER.toString();
+//		Leader ldr = factory.newLeader("01102cjm a22002657a 4500");
+//		Record record = factory.newRecord();
+//		record.setLeader(ldr);
+//		cf007.setData("ss lsnjlcmnnua");
+//		record.addVariableField(cf007);
+//		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+//		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+//	}
+
+@Test
+	public final void testRecording78()
+	{
+		String expVal = FormatPhysical.SHELLAC_78.toString();
+		Leader ldr = factory.newLeader("01002cjm a2200313Ma 4500");
+		Record record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("sd dmsdnnmslne");
+		record.addVariableField(cf007);
+		record.addVariableField(df999atLibrary);
+		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+		// only if at the library, not if online only
+		record.removeVariableField(df999atLibrary);
+		record.addVariableField(df999online);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 0);
+
+//		// no 007, but 300   (based on 7845911)
+//		record = factory.newRecord();
+//		record.addVariableField(df999atLibrary);
+//		DataField df300 = factory.newDataField("300", ' ', ' ');
+//		df300.addSubfield(factory.newSubfield('a', "78 rpm"));
+//		record.addVariableField(df300);
+//		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 0);
+//		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
+//		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+//		// only if at the library, not if online only
+//		record.removeVariableField(df999atLibrary);
+//		record.addVariableField(df999online);
+	}
 
 
 /*
