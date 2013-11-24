@@ -387,9 +387,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		for (Item item : itemSet) {
 			String callnum = item.getCallnum();
 			if (callnum.startsWith("MFILM"))
-				physicalFormats.add(FormatPhysical.MICROFILM.toString());
+				physicalFormats.add(FormatPhysical.MICROFILM.toString() + " from callnum");
 			else if (callnum.startsWith("MFICHE"))
-				physicalFormats.add(FormatPhysical.MICROFICHE.toString());
+				physicalFormats.add(FormatPhysical.MICROFICHE.toString() + " from callnum");
 		}
 
 		// check for format information in 300
@@ -414,16 +414,16 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			{
 				String subaStr = ((Subfield) subaObj).getData().toLowerCase();
 				if (subaStr.contains("microfiche"))
-					physicalFormats.add(FormatPhysical.MICROFICHE.toString());
+					physicalFormats.add(FormatPhysical.MICROFICHE.toString() + " from 300");
 				else if (subaStr.contains("microfilm"))
-					physicalFormats.add(FormatPhysical.MICROFILM.toString());
+					physicalFormats.add(FormatPhysical.MICROFILM.toString() + " from 300");
 				else if (subaStr.contains("photograph"))
 					physicalFormats.add(FormatPhysical.PHOTO.toString());
 				else if (subaStr.contains("remote-sensing image") ||
 						subaStr.contains("remote sensing image"))
-					physicalFormats.add(FormatPhysical.REMOTE_SENSING_IMAGE.toString());
+					physicalFormats.add(FormatPhysical.REMOTE_SENSING_IMAGE.toString() + " from 300");
 				else if (subaStr.contains("slide"))
-					physicalFormats.add(FormatPhysical.SLIDE.toString());
+					physicalFormats.add(FormatPhysical.SLIDE.toString() + " from 300");
 			}
 		}
 

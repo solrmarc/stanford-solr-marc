@@ -79,7 +79,8 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from 300");
 	}
 
 	/**
@@ -160,7 +161,8 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP_GLOBE.toString());
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from 300");
 
 		// 300a contains remote-sensing image  (with hyphen)
 		record.removeVariableField(df300);
@@ -171,7 +173,8 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP_GLOBE.toString());
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from 300");
 	}
 
 
@@ -588,7 +591,8 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.BOOK.toString());
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from callnum");
 
 		// 300
 		record.removeVariableField(df999);
@@ -599,7 +603,8 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.BOOK.toString());
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from 300");
 	}
 
 
@@ -665,7 +670,8 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.BOOK.toString());
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from callnum");
 
 		// 300
 		record.removeVariableField(df999);
@@ -677,7 +683,8 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.BOOK.toString());
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from 300");
 	}
 
 
