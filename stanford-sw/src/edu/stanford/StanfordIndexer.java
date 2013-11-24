@@ -385,12 +385,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		for (String df300abc : df300abcSet)
 		{
+// FIXME:  the "from 300" is temporary
 			String CDphysform = FormatPhysical.CD.toString();
-			if (!physicalFormats.contains(CDphysform))
-			{
-				if (FormatUtils.describesCD(df300abc))
-					physicalFormats.add(FormatPhysical.CD.toString());
-			}
+			if (!physicalFormats.contains(CDphysform) && FormatUtils.describesCD(df300abc))
+				physicalFormats.add(CDphysform + " from 300");
+			String vinylPhysform = FormatPhysical.VINYL.toString();
+			if (!physicalFormats.contains(vinylPhysform) && FormatUtils.describesVinyl(df300abc))
+				physicalFormats.add(vinylPhysform + " from 300");
 		}
 
 		for	(Object obj300 : record.getVariableFields("300"))

@@ -198,6 +198,7 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 0);
 
 		// 007 but byte 3 is z   (Other)  (based on 5665607)    think there are about 1600 of these
+		expVal = expVal + " from 300";
 		record = factory.newRecord();
 		record.setLeader(ldr);
 		cf007.setData("sd zsngnnmmned");
@@ -296,15 +297,17 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 //		Assert.assertTrue(FormatUtils.describesCD("1 audio disc : CD audio"));
 
 		// NOT
-		Assert.assertFalse(FormatUtils.describesCD("1 sound disc (47 min) : analog, 33 1/3 rpm., stereo. ; 12 in."));
-		Assert.assertFalse(FormatUtils.describesCD("1 online resource (1 sound file)"));
-		Assert.assertFalse(FormatUtils.describesCD("1 sound disc : 33 1/3 rpm, stereo. ; 12 in."));
-		Assert.assertFalse(FormatUtils.describesCD("1 sound disc : analog, 33 1/3 rpm, stereo. ; 12 in."));
 		Assert.assertFalse(FormatUtils.describesCD("1 sound disc (6 hr.) : DVD audio, digital ; 4 3/4 in."));
 		Assert.assertFalse(FormatUtils.describesCD("1 sound disc : digital, DVD ; 4 3/4 in."));
 		Assert.assertFalse(FormatUtils.describesCD("1 sound disc : digital, DVD audio ; 4 3/4 in."));
 		Assert.assertFalse(FormatUtils.describesCD("1 sound disc : digital, DVD audio; 4 3/4 in."));
 		Assert.assertFalse(FormatUtils.describesCD("1 sound disc : digital, SACD ; 4 3/4 in. + 1 BluRay audio disc."));
+		Assert.assertFalse(FormatUtils.describesCD("1 online resource (1 sound file)"));
+		Assert.assertFalse(FormatUtils.describesCD("2s. 12in. 33.3rpm."));
+		Assert.assertFalse(FormatUtils.describesCD("1 sound disc : 33 1/3 rpm, stereo ; 12 in."));
+		Assert.assertFalse(FormatUtils.describesCD("1 sound disc : analog, 33 1/3 rpm, stereo. ; 12 in."));
+		Assert.assertFalse(FormatUtils.describesCD("1 sound disc : 33 1/3 rpm ; 12 in."));
+		Assert.assertFalse(FormatUtils.describesCD("1 sound disc (47 min) : analog, 33 1/3 rpm., stereo. ; 12 in."));
 	}
 
 
@@ -361,37 +364,98 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 
 		// around 4000 have no 007 but have a 300  with 33 in it
 
-//		// no 007, but 300 (based on 6594)   there are 873 of these, with this exact 300 value
-//		record = factory.newRecord();
-//		record.setLeader(ldr);
-//		DataField df300 = factory.newDataField("300", ' ', ' ');
-//		df300.addSubfield(factory.newSubfield('a', "2s. 12in. 33.3rpm."));
-//		record.addVariableField(df300);
-//		record.addVariableField(df999atLibrary);
-//		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
-//		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
-//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
-//		// not if online only
-//		record.removeVariableField(df999atLibrary);
-//		record.addVariableField(df999online);
-//
-//		// (based on 307863)   500 with approx this 300 value
-//		record = factory.newRecord();
-//		record.setLeader(ldr);
-//		df300 = factory.newDataField("300", ' ', ' ');
-//		df300.addSubfield(factory.newSubfield('a', "1 sound disc :"));
-//		df300.addSubfield(factory.newSubfield('b', "analog, 33 1/3 rpm, stereo. ;"));
-//		df300.addSubfield(factory.newSubfield('c', "12 in."));
-//		record.addVariableField(df300);
-//		record.addVariableField(df999atLibrary);
-//		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
-//		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
-//		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
-//		// not if online only
-//		record.removeVariableField(df999atLibrary);
-//		record.addVariableField(df999online);
+		// no 007, but 300 (based on 6594)   there are 873 of these, with this exact 300 value
+		expVal = expVal + " from 300";
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		DataField df300 = factory.newDataField("300", ' ', ' ');
+		df300.addSubfield(factory.newSubfield('a', "2s. 12in. 33.3rpm."));
+		record.addVariableField(df300);
+		record.addVariableField(df999atLibrary);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+		// not if online only
+		record.removeVariableField(df999atLibrary);
+		record.addVariableField(df999online);
+
+		// (based on 307863)   500 with approx this 300 value
+		record = factory.newRecord();
+		record.setLeader(ldr);
+		df300 = factory.newDataField("300", ' ', ' ');
+		df300.addSubfield(factory.newSubfield('a', "1 sound disc :"));
+		df300.addSubfield(factory.newSubfield('b', "analog, 33 1/3 rpm, stereo. ;"));
+		df300.addSubfield(factory.newSubfield('c', "12 in."));
+		record.addVariableField(df300);
+		record.addVariableField(df999atLibrary);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+		// not if online only
+		record.removeVariableField(df999atLibrary);
+		record.addVariableField(df999online);
 	}
 
+	/** test regex to find Vinyl 33 1/3 descriptions in 300 field */
+@Test
+	public void testDescribesVinyl()
+	{
+		// sorted
+		Assert.assertTrue(FormatUtils.describesVinyl("1 disc.  33 1/3 rpm. stereo. 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 disc.  33.3 rpm. stereo. 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 disc. 33 1/3 rpm.  quad. 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 disc. 33 1/3 rpm. 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 disc. 33 1/3 rpm. quad. 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 disc. 33 1/3 rpm. stereo. 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 s.  12 in.  33 1/3 rpm.  stereophonic."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 s. 12 in. 33 1/3 rpm. microgroove."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 sound disc (38 min.) : 33 1/3 rpm, mono. ; 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 sound disc : 33 1/3 rpm ; 12 in. + insert."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 sound disc : 33 1/3 rpm ; 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 sound disc : 33 1/3 rpm, ; 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 sound disc : 33 1/3 rpm, monaural ; 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 sound disc : 33 1/3 rpm, stereo ; 12 in. + insert ([4] p.)"));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 sound disc : 33 1/3 rpm, stereo. ; 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 sound disc : analog, 33 1/3 rpm ; 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 sound disc : analog, 33 1/3 rpm, mono. ; 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 sound disc : analog, 33 1/3 rpm, stereo ; 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 sound disc : analog, 33 1/3 rpm, stereo. ; 12 in. + insert."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 sound disc analog, 33 1/3 rpm, stereo. ; 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1 sound disc: analog, stereo, 33 1/3 rpm, 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1-1/4s. 12in. 33.3rpm."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1/2 s. 12in. 33.3rpm. stereophonic."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1/2 s. 33 1/3 rpm. stereophonic. 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1/3s. 12in.  33.3rpm. stereophonic."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1/6s. 12in. 33.3rpm."));
+		Assert.assertTrue(FormatUtils.describesVinyl("10s. 12in. 33.3rpm."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1s. 10in. 33.3rpm."));
+		Assert.assertTrue(FormatUtils.describesVinyl("1s. 12in. 33.3rpm."));
+		Assert.assertTrue(FormatUtils.describesVinyl("2 discs. 33 1/3 rpm.  stereo. 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("2 discs. 33 1/3 rpm. stereo. 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("2 s.  12 in.  33 1/3 rpm.  microgroove.  stereophonic."));
+		Assert.assertTrue(FormatUtils.describesVinyl("2 s.  12 in.  33 1/3 rpm. stereophonic."));
+		Assert.assertTrue(FormatUtils.describesVinyl("2 s. 12 in. 33.3 rpm."));
+		Assert.assertTrue(FormatUtils.describesVinyl("2s.  12in.  33 1/3rpm. stereophonic."));
+		Assert.assertTrue(FormatUtils.describesVinyl("2s. 12in. 33 1/3rpm. stereophonic."));
+		Assert.assertTrue(FormatUtils.describesVinyl("3 discs. 33 1/3 rpm.  stereo. 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("4s.  12in.  33.3rpm. stereophonic."));
+		Assert.assertTrue(FormatUtils.describesVinyl("4s. 12in. 33.3rpm. stereophonic."));
+		Assert.assertTrue(FormatUtils.describesVinyl("5 sound discs : 33 1/3 rpm ; 12 in."));
+		Assert.assertTrue(FormatUtils.describesVinyl("on side 1 of 1 disc. 33 1/3 rpm. stereo. 12 in."));
+
+		// NOT
+		Assert.assertFalse(FormatUtils.describesVinyl("1 sound disc : digital ; 4 3/4 in."));
+		Assert.assertFalse(FormatUtils.describesVinyl("1 sound disc : digital, stereo. ; 4 3/4 in."));
+		Assert.assertFalse(FormatUtils.describesVinyl("1 videodisc (133 min.) : sd., col. ; 4 3/4 in."));
+		Assert.assertFalse(FormatUtils.describesVinyl("1 score (18 p.) ; 22 x 28 cm. + 4 parts ; 33 cm. + 1 sound disc (digital ; 4 3/4 in.)"));
+		Assert.assertFalse(FormatUtils.describesVinyl("1 sound disc (33 min.) : digital, stereo. ; 4 3/4 in."));
+		Assert.assertFalse(FormatUtils.describesVinyl("1 sound disc (6 hr.) : DVD audio, digital ; 4 3/4 in."));
+		Assert.assertFalse(FormatUtils.describesVinyl("1 sound disc : digital, DVD ; 4 3/4 in."));
+		Assert.assertFalse(FormatUtils.describesVinyl("1 sound disc : digital, DVD audio ; 4 3/4 in."));
+		Assert.assertFalse(FormatUtils.describesVinyl("1 sound disc : digital, DVD audio; 4 3/4 in."));
+		Assert.assertFalse(FormatUtils.describesVinyl("1 sound disc : digital, SACD ; 4 3/4 in. + 1 BluRay audio disc."));
+		Assert.assertFalse(FormatUtils.describesVinyl("1 online resource (1 sound file)"));
+	}
 
 /*
 	// recordings
