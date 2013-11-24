@@ -448,6 +448,8 @@ public class FormatUtils {
 								break;
 						}
 					}
+					else if (cf007data.charAt(6) == 'j' && accessMethods.contains(Access.AT_LIBRARY.toString()))
+						result.add(FormatPhysical.CASSETTE.toString());
 					break;
 				default:
 					break;

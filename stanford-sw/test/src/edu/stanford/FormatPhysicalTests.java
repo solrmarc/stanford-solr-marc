@@ -17,7 +17,6 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 	private final String physFormatFldName = "format_physical_ssim";
 	private final MarcFactory factory = MarcFactory.newInstance();
 	private ControlField cf007 = factory.newControlField("007");
-	private ControlField cf008 = factory.newControlField("008");
 	private DataField df999atLibrary = factory.newDataField("999", ' ', ' ');
 	private DataField df999online = factory.newDataField("999", ' ', ' ');
 	{
@@ -457,17 +456,36 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		Assert.assertFalse(FormatUtils.describesVinyl("1 online resource (1 sound file)"));
 	}
 
+
+@Test
+	public void testRecordingCassette()
+	{
+		String expVal = FormatPhysical.CASSETTE.toString();
+		// with 007: based on 4730355
+		Leader ldr = factory.newLeader("01205cim a2200337Ia 4500");
+		Record record = factory.newRecord();
+		record.setLeader(ldr);
+		cf007.setData("ss lunjlc-----");
+		record.addVariableField(cf007);
+		record.addVariableField(df999atLibrary);
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.SOUND_RECORDING.toString());
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+		// not if online only
+		record.removeVariableField(df999atLibrary);
+		record.addVariableField(df999online);
+		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 0);
+	}
+
 /*
 	// recordings
 	VINYL_45,
 	WAX_CYLINDER,
 	INSTANTANEOUS_DISC,
-	CASSETTE,
 	CARTRIDGE_8_TRACK,
 	DAT,
 	REEL_TO_REEL,
 	OTHER_RECORDING,
-
 
 	// videos
 	FILM,
