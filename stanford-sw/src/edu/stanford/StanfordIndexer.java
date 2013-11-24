@@ -346,13 +346,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		// check for format information from 999 ALPHANUM call numbers
 		// and from itemType (999 subfield t)
 		for (Item item : itemSet) {
-			if (item.getCallnumType() == CallNumberType.OTHER) {
-				String callnum = item.getCallnum();
-				if (callnum.startsWith("MCD"))
-					main_formats.add(Format.MUSIC_RECORDING.toString());
-				else if (callnum.startsWith("ZDVD") || callnum.startsWith("ADVD"))
-					main_formats.add(Format.VIDEO.toString());
-			}
+// FIXME:  temporarily not using this
+//			if (item.getCallnumType() == CallNumberType.OTHER) {
+//				String callnum = item.getCallnum();
+//				if (callnum.startsWith("MCD"))
+//					main_formats.add(Format.MUSIC_RECORDING.toString());
+//				else if (callnum.startsWith("ZDVD") || callnum.startsWith("ADVD"))
+//					main_formats.add(Format.VIDEO.toString());
+//			}
 			if (item.getType().equalsIgnoreCase("DATABASE"))
 			{
 				main_formats.add(Format.DATABASE_A_Z.toString());
