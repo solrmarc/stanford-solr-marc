@@ -1,6 +1,8 @@
 package edu.stanford;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.marc4j.marc.*;
 import org.solrmarc.tools.*;
@@ -465,6 +467,32 @@ public class FormatUtils {
 
 
 		return result;
+	}
+
+
+	/**
+	 * use regex to find audio CD descriptions in 300 field
+	 *   values like
+	 *     1 sound disc : digital, stereo ; 4 3/4 in.
+	 *     2 sound discs : digital, mono. ; 12 cm.
+	 *   see also the test in FormatPhysicalTests
+	 * @param str
+	 * @return true if it matches
+	 */
+	public static boolean describesCD(String str)
+	{
+		Pattern cdPattern = Pattern.compile(".*(sound|audio) discs? (\\((ca. )?\\d+.*\\))?\\D+((digital|CD audio)\\D*[,;.])? (c )?(4 3/4|12 c).*", Pattern.CASE_INSENSITIVE);
+		Matcher cdMatcher = cdPattern.matcher(str);
+		Pattern dvdPattern = Pattern.compile(".*DVD.*", Pattern.CASE_INSENSITIVE);
+		Matcher dvdMatcher = dvdPattern.matcher(str);
+		Pattern sacdPattern = Pattern.compile(".*SACD.*", Pattern.CASE_INSENSITIVE);
+		Matcher sacdMatcher = sacdPattern.matcher(str);
+		Pattern blurayPattern = Pattern.compile(".*blu[- ]?ray.*", Pattern.CASE_INSENSITIVE);
+		Matcher blurayMatcher = blurayPattern.matcher(str);
+		if (cdMatcher.matches() && !dvdMatcher.matches() && !sacdMatcher.matches() && !blurayMatcher.matches())
+			return true;
+		else
+			return false;
 	}
 
 }
