@@ -379,7 +379,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	public Set<String> getPhysicalFormats(final Record record)
 	{
 		Set<String> physicalFormats = new HashSet<String>();
-		physicalFormats.addAll(FormatUtils.getPhysicalFormatsPer007(record.getVariableFields("007"), record.getLeader().toString(), accessMethods));
+		physicalFormats.addAll(FormatUtils.getPhysicalFormatsPer007(record.getVariableFields("007"), accessMethods));
 
 		// check for physical format information from 999 ALPHANUM call numbers
 		// and from itemType (999 subfield t)

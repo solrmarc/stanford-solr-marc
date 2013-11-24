@@ -396,11 +396,10 @@ public class FormatUtils {
 	 * Assign physical formats based on 007, leader chars and 008 chars
 	 *
 	 * @param cf007List - a list of 007 fields as ControlField objects
-	 * @param leaderStr - the leader field, as a String
 	 * @param accessMethods - set of Strings that can be Online or 'At the Library' or both
 	 * @param Set of Strings containing Physical Format enum values as Strings per the given data
 	 */
-	static Set<String> getPhysicalFormatsPer007(List<ControlField> cf007List, String leaderStr, Set<String> accessMethods)
+	static Set<String> getPhysicalFormatsPer007(List<ControlField> cf007List, Set<String> accessMethods)
 	{
 		Set<String> result = new HashSet<String>();
 
