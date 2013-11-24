@@ -173,21 +173,6 @@ public class FormatUtils {
 			break;
 		} // end switch
 
-/* not yet vetted  2010-10-30
-		// is it an updating database? (leader/07 = "s" or "i" and 008/21 = "d") OR (006/00 = "s" and 006/04 = "d")
-		// (leader/07 = "s" and 008/21 = "d" handled by getSerialFormat()
-		// (006/00 = "s" and 006/04 = "d") is handled by getSerialFormat() which calls getSerialFormat006()
-
-		if (leaderChar07 == 'i') {
-			// check if it's a database based on 008 char 21
-			char c21 = '\u0000';
-			if (cf008 != null) {
-				c21 = ((ControlField) cf008).getData().charAt(21);
-				if (c21 == 'd')
-					result.add(Format.DATABASE_OTHER.toString());
-			}
-		}
-*/
 		return result;
 	}
 
@@ -196,32 +181,27 @@ public class FormatUtils {
 	 * return main format for continuing resource
 	 *
 	 * @param leaderStr - the leader field, as a String
-	 * @param cf008 - the 008 field as a ControlField object
+	 * @param cf008c21 - the 21st byte (starting w 0) of 008 field
 	 * @param Set of Strings containing Format enum values per the given data
 	 * @return main format for continuing resource, or null if undetermined
 	 */
-	static String getMainFormatSerial(char leaderChar07, ControlField cf008, ControlField f006)
+	static String getMainFormatSerial(char leaderChar07, char cf008c21, ControlField f006)
 	{
-//		String result = null;
-		char c21 = '\u0000';
-		if (cf008 != null)
-			c21 = ((ControlField) cf008).getData().charAt(21);
-
 		// look for serial format per leader/07 and 008/21
-		if (leaderChar07 == 's'  &&  c21 != '\u0000')
-			return getSerialMainFormatFromChar(c21);
+		if (leaderChar07 == 's'  &&  cf008c21 != '\u0000')
+			return getSerialMainFormatFromChar(cf008c21);
 
 		return FormatUtils.getSerialMainFormatFrom006(f006);
 
 //		// look for serial format per leader/07 and 008/21
 //		if (leaderChar07 == 's')
-//			result = getSerialMainFormatFromCharLimited(c21);
+//			result = getSerialMainFormatFromCharLimited(cf008c21);
 //		if (result == null)
 //		{
 //			result = FormatUtils.getSerialMainFormatFrom006(f006);
 //			if ((result == null) && (leaderChar07 == 's'))
 //				// default to journal if 008/21 can be used at all
-//				result = getSerialMainFormatFromChar(c21);
+//				result = getSerialMainFormatFromChar(cf008c21);
 //		}
 //		return result;
 	}
@@ -274,10 +254,6 @@ public class FormatUtils {
 	private static String getSerialMainFormatFromChar(char ch) {
 		if (ch != '\u0000')
 			switch (ch) {
-				case 'd': // updating database
-					return "Updating Database";    // FIXME: temporary format
-				case 'l': // updating looseleaf (ignore)
-					return "Updating Looseleaf";    // FIXME: temporary format
 				case 'm': // monographic series
 					return "Book Series";  //   // FIXME: temporary format
 //					return Format.BOOK.toString();
@@ -288,6 +264,25 @@ public class FormatUtils {
 				case '|':  // pipe
 				case '#':  // marc documentation uses this to indicate blank
 					return Format.JOURNAL_PERIODICAL.toString();
+			}
+		return getIntegratingMainFormatFromChar(ch);
+//		return null;
+	}
+
+
+	/**
+	 * given a character assumed to be the 21st character (zero-based) from
+	 *  the 008 field or the 4th char from an 006 field, return the format
+	 *  (assuming that there is an indication that the record is for a serial).
+	 *  return null if no format is determined.
+	 */
+	protected static String getIntegratingMainFormatFromChar(char ch) {
+		if (ch != '\u0000')
+			switch (ch) {
+				case 'd':
+					return "Updating Database";    // FIXME: temporary format
+				case 'l':
+					return "Updating Looseleaf";    // FIXME: temporary format
 				case 'w':
 					return "Updating Website";  // FIXME: temporary format
 				default:
@@ -295,7 +290,6 @@ public class FormatUtils {
 			}
 		return null;
 	}
-
 
 
 	/**
@@ -363,12 +357,6 @@ public class FormatUtils {
 	private static String getSerialFormatFromChar(char ch) {
 		if (ch != '\u0000')
 			switch (ch) {
-/* not yet vetted  2010-10-30
-				case 'd': // updating database
-					return Format.DATABASE_OTHER.toString();
-*/
-//				case 'l': // updating looseleaf (ignore)
-//					break;
 				case 'm': // monographic series
 					return Format.BOOK.toString();
 				case 'n':
@@ -394,6 +382,7 @@ public class FormatUtils {
 			return false;
 	}
 
+// FIXME:  temporary format
 	static boolean isMarcit(Record record) {
 		Set<String> f590a = MarcUtils.getSubfieldDataAsSet(record, "590", "a", "");
 		if (Utils.setItemContains(f590a, "MARCit brief record.") ||
