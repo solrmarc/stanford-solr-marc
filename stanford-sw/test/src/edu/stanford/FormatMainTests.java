@@ -466,7 +466,8 @@ public class FormatMainTests extends AbstractStanfordTest
 		String testFilePath = testDataParentPath + File.separator + "callNumberTests.mrc";
 
 		// 999 ALPHANUM starting with MCD
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1234673", fldName, Format.MUSIC_RECORDING.toString());
+// currently not using callnums for MCD, or DVD
+//		solrFldMapTest.assertSolrFldValue(testFilePath, "1234673", fldName, Format.MUSIC_RECORDING.toString());
 	}
 
 
