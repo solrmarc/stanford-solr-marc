@@ -495,4 +495,25 @@ public class FormatUtils {
 			return false;
 	}
 
+	/**
+	 * use regex to find vinyl LP  descriptions in 300 field
+	 *   values like
+	 *     2s. 12in. 33.3rpm.
+	 *     1 sound disc : 33 1/3 rpm, stereo ; 12 in.
+	 *     1 sound disc : analog, 33 1/3 rpm, stereo. ; 12 in.
+	 *   see also the test in FormatPhysicalTests
+	 * @param str
+	 * @return true if it matches
+	 */
+	public static boolean describesVinyl(String str)
+	{
+		Pattern rpmPattern = Pattern.compile(".*33(\\.3| 1/3) ?rpm.*", Pattern.CASE_INSENSITIVE);
+		Matcher rpmMatcher = rpmPattern.matcher(str);
+		Pattern sizePattern = Pattern.compile(".*(10|12) ?in.*", Pattern.CASE_INSENSITIVE);
+		Matcher sizeMatcher = sizePattern.matcher(str);
+		if (rpmMatcher.matches() && sizeMatcher.matches())
+			return true;
+		else
+			return false;
+	}
 }
