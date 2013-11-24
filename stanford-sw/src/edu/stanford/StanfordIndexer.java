@@ -385,6 +385,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		// check for physical format information from 999 ALPHANUM call numbers
 		// and from itemType (999 subfield t)
 		for (Item item : itemSet) {
+// FIXME:  the "from callnum" is temporary
 			String callnum = item.getCallnum();
 			if (callnum.startsWith("MFILM"))
 				physicalFormats.add(FormatPhysical.MICROFILM.toString() + " from callnum");
