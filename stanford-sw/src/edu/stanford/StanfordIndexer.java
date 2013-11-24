@@ -325,10 +325,22 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		if (main_formats.isEmpty()) {
 			// see if it's a serial for format assignment
 			char leaderChar07 = leaderStr.charAt(7);
+			char cf008c21 = '\u0000';
+			if (cf008 != null)
+				cf008c21 = ((ControlField) cf008).getData().charAt(21);
+
 			VariableField f006 = record.getVariableField("006");
-			String serialFormat = FormatUtils.getMainFormatSerial(leaderChar07, cf008, (ControlField) f006);
+			String serialFormat = FormatUtils.getMainFormatSerial(leaderChar07, cf008c21, (ControlField) f006);
 			if (serialFormat != null)
 				main_formats.add(serialFormat);
+
+			// see if it's an integrating resource
+			if (main_formats.isEmpty() && leaderChar07 == 'i' &&  cf008c21 != '\u0000')
+			{
+				String integrFormat = FormatUtils.getIntegratingMainFormatFromChar(cf008c21);
+				if (integrFormat != null)
+					main_formats.add(integrFormat);
+			}
 		}
 
 		// check for format information from 999 ALPHANUM call numbers

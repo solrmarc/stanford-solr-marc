@@ -280,6 +280,46 @@ public class FormatMainTests extends AbstractStanfordTest
 		// web site
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821w", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821w", fldName, fldVal);
+		// based on 8541457
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01548cai a2200361Ia 4500"));
+		cf008 = factory.newControlField("008");
+		cf008.setData("040730d19uu2012dcuar w os   f0    2eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		fldVal = "Updating Database";
+		// based on 8541457
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("02017cai a2200493 a 4500"));
+		cf008 = factory.newControlField("008");
+		cf008.setData("100301c20109999dcu x dss s  f0    2eng c");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+		// based on 9934879
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("02198cai a2200421Ii 4500"));
+		cf008 = factory.newControlField("008");
+		cf008.setData("130208c20139999xxcuu doo    s0    2eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		fldVal = "Updating Looseleaf";
+		// based on 7911837
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("02444cai a2200433 a 4500"));
+		cf008 = factory.newControlField("008");
+		cf008.setData("090205c20089999nyuuu l   b   0   a2eng c");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		fldVal = "Updating Other";
+		// based on 10182766
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01579cai a2200337Ia 4500"));
+		cf008.setData("081215c200u9999xx         a        eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 	}
 
 
