@@ -381,6 +381,19 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		}
 
 		// check for format information in 300
+
+		Set<String> df300abcSet = MarcUtils.getAllAlphaSubfields(record, "300");
+
+		for (String df300abc : df300abcSet)
+		{
+			String CDphysform = FormatPhysical.CD.toString();
+			if (!physicalFormats.contains(CDphysform))
+			{
+				if (FormatUtils.describesCD(df300abc))
+					physicalFormats.add(FormatPhysical.CD.toString());
+			}
+		}
+
 		for	(Object obj300 : record.getVariableFields("300"))
 		{
 			DataField df300 = (DataField) obj300;
