@@ -686,6 +686,4 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 //		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from 300");
 	}
-
-
 }
