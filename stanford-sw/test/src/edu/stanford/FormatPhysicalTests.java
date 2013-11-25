@@ -120,7 +120,7 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.OTHER.toString());
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
+		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from 300");
 	}
 
 	/**
