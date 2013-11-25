@@ -6,7 +6,6 @@
 # updated for Naomi's FORK of solrmarc 2011-01-23
 # Naomi Dushay 2010-04-09
 
-#REMOTE_DATA_DIR=/s/Dataload/SearchworkIncrement/Output
 REMOTE_DATA_DIR=/s/SUL/Dataload/SearchWorksIncrement/Output
 
 LOCAL_DATA_DIR=/data/sirsi
@@ -26,9 +25,9 @@ fi
 
 #  sftp remote files with today's datestamp to "latest/updates"
 
-sftp -o 'IdentityFile=~/.ssh/id_rsa' apache@jenson:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
-sftp -o 'IdentityFile=~/.ssh/id_rsa' apache@jenson:$REMOTE_DATA_DIR/$DEL_KEYS_FNAME $LATEST_DATA_DIR/
-sftp -o 'IdentityFile=~/.ssh/id_rsa' apache@jenson:$REMOTE_DATA_DIR/$RECORDS_FNAME $LATEST_DATA_DIR/
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$DEL_KEYS_FNAME $LATEST_DATA_DIR/
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$RECORDS_FNAME $LATEST_DATA_DIR/
 
 
 #########
@@ -55,9 +54,9 @@ DEL_ARG="-Dmarc.ids_to_delete="$LATEST_DATA_DIR/$DEL_KEYS_FNAME
 # index the files
 nohup java -Xmx1g -Xms256m $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_FILE
 # email the results
-mail -s 'pullThenIndexSirsiIncr.sh output' searchworks-reports@lists.stanford.edu, datacontrol@stanford.edu < $LOG_FILE
+#mail -s 'pullThenIndexSirsiIncr.sh output' searchworks-reports@lists.stanford.edu, datacontrol@stanford.edu < $LOG_FILE
 # email the solr log messages
-$SOLRMARC_BASEDIR/stanford-sw/scripts/grep_and_email_tomcat_log.sh
+#$SOLRMARC_BASEDIR/stanford-sw/scripts/grep_and_email_tomcat_log.sh
 
 # include latest course reserves data
 JRUBY_OPTS="--1.9"
