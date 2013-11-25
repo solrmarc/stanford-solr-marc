@@ -383,15 +383,18 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		Set<String> physicalFormats = new HashSet<String>();
 		physicalFormats.addAll(FormatUtils.getPhysicalFormatsPer007(record.getVariableFields("007"), accessMethods));
 
+		String mfilmValPlain = FormatPhysical.MICROFILM.toString();
+		String mficheValPlain = FormatPhysical.MICROFICHE.toString();
+
 		// check for physical format information from 999 ALPHANUM call numbers
 		// and from itemType (999 subfield t)
 		for (Item item : itemSet) {
 // FIXME:  the "from callnum" is temporary
 			String callnum = item.getCallnum();
-			if (callnum.startsWith("MFILM"))
-				physicalFormats.add(FormatPhysical.MICROFILM.toString() + " from callnum");
-			else if (callnum.startsWith("MFICHE"))
-				physicalFormats.add(FormatPhysical.MICROFICHE.toString() + " from callnum");
+			if (!physicalFormats.contains(mficheValPlain) && callnum.startsWith("MFICHE"))
+				physicalFormats.add(mficheValPlain + " from callnum");
+			if (!physicalFormats.contains(mfilmValPlain) && callnum.startsWith("MFILM"))
+				physicalFormats.add(mfilmValPlain + " from callnum");
 		}
 
 		// check for format information in 300
@@ -415,17 +418,20 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			for (Object subaObj : df300.getSubfields('a'))
 			{
 				String subaStr = ((Subfield) subaObj).getData().toLowerCase();
-				if (subaStr.contains("microfiche"))
-					physicalFormats.add(FormatPhysical.MICROFICHE.toString() + " from 300");
-				else if (subaStr.contains("microfilm"))
-					physicalFormats.add(FormatPhysical.MICROFILM.toString() + " from 300");
-				else if (subaStr.contains("photograph"))
-					physicalFormats.add(FormatPhysical.PHOTO.toString());
-				else if (subaStr.contains("remote-sensing image") ||
-						subaStr.contains("remote sensing image"))
-					physicalFormats.add(FormatPhysical.REMOTE_SENSING_IMAGE.toString() + " from 300");
-				else if (subaStr.contains("slide"))
-					physicalFormats.add(FormatPhysical.SLIDE.toString() + " from 300");
+				if (subaStr.contains("microfiche") && !physicalFormats.contains(mficheValPlain))
+					physicalFormats.add(mficheValPlain + " from 300");
+				if (subaStr.contains("microfilm") && !physicalFormats.contains(mfilmValPlain))
+					physicalFormats.add(mfilmValPlain + " from 300");
+				String photoValPlain = FormatPhysical.PHOTO.toString();
+				if (subaStr.contains("photograph") && !physicalFormats.contains(photoValPlain))
+					physicalFormats.add(photoValPlain + " from 300");
+				String rsiValPlain = FormatPhysical.REMOTE_SENSING_IMAGE.toString();
+				if ((subaStr.contains("remote-sensing image") ||	subaStr.contains("remote sensing image"))
+					&& !physicalFormats.contains(rsiValPlain))
+					physicalFormats.add(rsiValPlain + " from 300");
+				String slideValPlain = FormatPhysical.SLIDE.toString();
+				if (subaStr.contains("slide") && !physicalFormats.contains(slideValPlain))
+					physicalFormats.add(slideValPlain + " from 300");
 			}
 		}
 
