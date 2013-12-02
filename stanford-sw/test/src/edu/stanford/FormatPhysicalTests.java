@@ -139,7 +139,7 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		cf007.setData("kj boo");
 		record.addVariableField(cf007);
 		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP_GLOBE.toString());
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP.toString());
 		solrFldMapTest.assertNoSolrFld(record, physFormatFldName);
 
 		// 007/00 is r
@@ -147,7 +147,7 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		cf007.setData("r  uuuuuuuu");
 		record.addVariableField(cf007);
 		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP_GLOBE.toString());
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP.toString());
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 
@@ -159,7 +159,7 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		df300.addSubfield(factory.newSubfield('c', "18 x 20 cm."));
 		record.addVariableField(df300);
 		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP_GLOBE.toString());
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP.toString());
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 //		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from 300");
@@ -171,7 +171,7 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		df300.addSubfield(factory.newSubfield('c', "on sheets 61 x 51 cm."));
 		record.addVariableField(df300);
 		solrFldMapTest.assertSolrFldHasNumValues(record, formatFldName, 1);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP_GLOBE.toString());
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP.toString());
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 //		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal + " from 300");

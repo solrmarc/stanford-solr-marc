@@ -23,6 +23,11 @@ public class FormatMainTests extends AbstractStanfordTest
 	MarcFactory factory = MarcFactory.newInstance();
 	private ControlField cf008 = factory.newControlField("008");
 	private ControlField cf006 = factory.newControlField("006");
+	private DataField df956sfx = factory.newDataField("956", '4', '0');
+	{
+		df956sfx.addSubfield(factory.newSubfield('u', " http://library.stanford.edu/sfx?stuff"));
+	}
+
 
 
 @Before
@@ -68,6 +73,39 @@ public class FormatMainTests extends AbstractStanfordTest
 	}
 
 	/**
+	 * if a continuing monographic resource (a book series) has an SFX link,
+	 * then it should be format Journal.
+	 */
+@Test
+	public final void testBookSeriesAsJournal()
+	{
+		String fldVal = Format.JOURNAL_PERIODICAL.toString();
+		String tempFldVal = "Book series";
+		// based on 9343812 - SFX link
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("01937cas a2200433 a 4500"));
+		cf008 = factory.newControlField("008");
+		cf008.setData("070207c20109999mauqr m o     0   a0eng c");
+		record.addVariableField(cf008);
+		record.addVariableField(df956sfx);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// based on 9138750 - no SFX link
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01750cas a2200409 a 4500"));
+		cf008 = factory.newControlField("008");
+		cf008.setData("101213c20109999dcufr m bs   i0    0eng c");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, tempFldVal);
+
+		// monographic series without SFX links
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07s00821m", fldName, tempFldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5987319", fldName, tempFldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5598989", fldName, tempFldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "223344", fldName, tempFldVal);
+	}
+
+	/**
 	 * Computer File format tests
 	 */
 @Test
@@ -88,7 +126,7 @@ public class FormatMainTests extends AbstractStanfordTest
 	 *  online resource, then it is NOT a computer file.
 	 */
 @Test
-	public final void testComputerFileAndDatabase()
+	public final void testDatabaseAndComputerFile()
 	{
 		Leader LEADER = factory.newLeader("02441cms a2200517 a 4500");
 		cf008.setData("920901d19912002pauuu1n    m  0   a0eng  ");
@@ -135,6 +173,26 @@ public class FormatMainTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "5666387", fldName, fldVal);
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "666", fldName, fldVal);
 	}
+
+	/**
+	 * test format population of Datasets
+	 */
+@Test
+	public final void testDataset()
+	{
+		String fldVal = Format.DATASET.toString();
+
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826a", fldName, fldVal);
+
+		Leader LEADER = factory.newLeader("01529cmi a2200397Ia 4500");
+		ControlField cf008 = factory.newControlField("008");
+		Record record = factory.newRecord();
+		record.setLeader(LEADER);
+		cf008.setData("081215c200u9999xx         a        eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+	}
+
 
 	/**
 	 * Image format tests
@@ -268,8 +326,8 @@ public class FormatMainTests extends AbstractStanfordTest
 @Test
 	public final void testOtherContinuingResources()
 	{
-		String fldVal = "Book Series";
-		// monographic series
+		String fldVal = "Book series";
+		// monographic series without SFX links
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07s00821m", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "5987319", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "5598989", fldName, fldVal);
@@ -341,10 +399,58 @@ public class FormatMainTests extends AbstractStanfordTest
 @Test
 	public final void testMapGlobe()
 	{
-		String fldVal = Format.MAP_GLOBE.toString();
+		String fldVal = Format.MAP.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06e", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06f", fldName, fldVal);
 	}
+
+	/**
+	 * test format of Journal for Marcit source records (per 590)
+	 */
+@Test
+	public final void testMarcit()
+	{
+		String fldVal = Format.JOURNAL_PERIODICAL.toString();
+
+		Leader LEADER = factory.newLeader("00838cas a2200193z  4500");
+
+		Record record = factory.newRecord();
+		record.setLeader(LEADER);
+		DataField df = factory.newDataField("590", ' ', ' ');
+        df.addSubfield(factory.newSubfield('a', "MARCit brief record."));
+        record.addVariableField(df);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+		// without period
+		record = factory.newRecord();
+		record.setLeader(LEADER);
+		df = factory.newDataField("590", ' ', ' ');
+        df.addSubfield(factory.newSubfield('a', "MARCit brief record"));
+        record.addVariableField(df);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// wrong string in 590
+		record = factory.newRecord();
+		record.setLeader(LEADER);
+		df = factory.newDataField("590", ' ', ' ');
+		df.addSubfield(factory.newSubfield('a', "incorrect string"));
+        record.addVariableField(df);
+		solrFldMapTest.assertSolrFldValue(record, fldName, Format.OTHER.toString());
+		record = factory.newRecord();
+		record.setLeader(LEADER);
+		df = factory.newDataField("590", ' ', ' ');
+		df.addSubfield(factory.newSubfield('a', "something MARCit something"));
+        record.addVariableField(df);
+		solrFldMapTest.assertSolrFldValue(record, fldName, Format.OTHER.toString());
+
+		// marcit in wrong field
+		record = factory.newRecord();
+		record.setLeader(LEADER);
+		df = factory.newDataField("580", ' ', ' ');
+        df.addSubfield(factory.newSubfield('a', "MARCit brief record."));
+        record.addVariableField(df);
+		solrFldMapTest.assertSolrFldValue(record, fldName, Format.OTHER.toString());
+	}
+
 
 	/**
 	 * Microformat format tests - Microformats are now Physical Format types
@@ -469,74 +575,6 @@ public class FormatMainTests extends AbstractStanfordTest
 		// 999 ALPHANUM starting with MCD
 // currently not using callnums for MCD, or DVD
 //		solrFldMapTest.assertSolrFldValue(testFilePath, "1234673", fldName, Format.MUSIC_RECORDING.toString());
-	}
-
-
-	/**
-	 * test format of Journal for Marcit source records (per 590)
-	 */
-@Test
-	public final void testMarcit()
-	{
-		String fldVal = Format.JOURNAL_PERIODICAL.toString();
-
-		Leader LEADER = factory.newLeader("00838cas a2200193z  4500");
-
-		Record record = factory.newRecord();
-		record.setLeader(LEADER);
-		DataField df = factory.newDataField("590", ' ', ' ');
-        df.addSubfield(factory.newSubfield('a', "MARCit brief record."));
-        record.addVariableField(df);
-		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
-		// without period
-		record = factory.newRecord();
-		record.setLeader(LEADER);
-		df = factory.newDataField("590", ' ', ' ');
-        df.addSubfield(factory.newSubfield('a', "MARCit brief record"));
-        record.addVariableField(df);
-		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
-
-		// wrong string in 590
-		record = factory.newRecord();
-		record.setLeader(LEADER);
-		df = factory.newDataField("590", ' ', ' ');
-		df.addSubfield(factory.newSubfield('a', "incorrect string"));
-        record.addVariableField(df);
-		solrFldMapTest.assertSolrFldValue(record, fldName, Format.OTHER.toString());
-		record = factory.newRecord();
-		record.setLeader(LEADER);
-		df = factory.newDataField("590", ' ', ' ');
-		df.addSubfield(factory.newSubfield('a', "something MARCit something"));
-        record.addVariableField(df);
-		solrFldMapTest.assertSolrFldValue(record, fldName, Format.OTHER.toString());
-
-		// marcit in wrong field
-		record = factory.newRecord();
-		record.setLeader(LEADER);
-		df = factory.newDataField("580", ' ', ' ');
-        df.addSubfield(factory.newSubfield('a', "MARCit brief record."));
-        record.addVariableField(df);
-		solrFldMapTest.assertSolrFldValue(record, fldName, Format.OTHER.toString());
-	}
-
-
-	/**
-	 * test format population of Datasets
-	 */
-@Test
-	public final void testDataset()
-	{
-		String fldVal = Format.DATASET.toString();
-
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826a", fldName, fldVal);
-
-		Leader LEADER = factory.newLeader("01529cmi a2200397Ia 4500");
-		ControlField cf008 = factory.newControlField("008");
-		Record record = factory.newRecord();
-		record.setLeader(LEADER);
-		cf008.setData("081215c200u9999xx         a        eng d");
-		record.addVariableField(cf008);
-		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 	}
 
 }

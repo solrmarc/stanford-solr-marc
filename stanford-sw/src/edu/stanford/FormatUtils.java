@@ -59,7 +59,7 @@ public class FormatUtils {
 			break;
 		case 'e':
 		case 'f':
-			result.add(Format.MAP_GLOBE.toString());
+			result.add(Format.MAP.toString());
 			break;
 		case 'g':
 			// look for m or v in 008 field, char 33 (count starts at 0)
@@ -234,7 +234,7 @@ public class FormatUtils {
 		if (ch != '\u0000')
 			switch (ch) {
 				case 'm': // monographic series
-					return "Book Series";  //   // FIXME: temporary format
+					return Format.BOOK_SERIES.toString();  // FIXME: temporary format
 //					return Format.BOOK.toString();
 				case 'n':
 					return Format.NEWSPAPER.toString();
@@ -255,7 +255,7 @@ public class FormatUtils {
 		if (ch != '\u0000')
 			switch (ch) {
 				case 'm': // monographic series
-					return "Book Series";  //   // FIXME: temporary format
+					return Format.BOOK_SERIES.toString();  // FIXME: temporary format
 //					return Format.BOOK.toString();
 				case 'n':
 					return Format.NEWSPAPER.toString();
