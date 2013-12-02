@@ -221,7 +221,7 @@ public class GenreTests extends AbstractStanfordTest
 		cf008.setData("020417s1981    caua, g  b    000 0 eng u");
 		record.addVariableField(cf008);
 		record.addVariableField(df502);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP_GLOBE.toString());
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MAP.toString());
 		solrFldMapTest.assertSolrFldValue(record, genreFldName, fldVal);
 
 		// Manuscript

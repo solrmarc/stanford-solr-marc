@@ -163,7 +163,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			}
 		}
 
-		setSFXUrls(); // doesn't need record b/c they come from 999
+		setSFXUrls(); // doesn't need record b/c they come from 999s, which are already in itemSet
 		setFullTextUrls(record);
 		setAccessMethods(record);
 		setOldFormats(record);  // vestigial for continuity in UI URLs for old formats
@@ -341,6 +341,17 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				String integrFormat = FormatUtils.getIntegratingMainFormatFromChar(cf008c21);
 				if (integrFormat != null)
 					main_formats.add(integrFormat);
+			}
+
+			// does it need to be revised based on SFX url?
+			if (sfxUrls.size() > 0)
+			{
+				String bookSerVal = Format.BOOK_SERIES.toString();
+				if (main_formats.contains(bookSerVal))
+				{
+					main_formats.remove(bookSerVal);
+					main_formats.add(Format.JOURNAL_PERIODICAL.toString());
+				}
 			}
 		}
 

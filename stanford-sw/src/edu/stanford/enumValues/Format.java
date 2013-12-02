@@ -6,13 +6,15 @@ package edu.stanford.enumValues;
  */
 public enum Format {
 	BOOK,
+	/** @deprecated */
+	BOOK_SERIES, // Possibly temporary
 	COMPUTER_FILE,
 	DATABASE_A_Z,
 	DATASET,
 	IMAGE,
 	JOURNAL_PERIODICAL,
 	MANUSCRIPT_ARCHIVE,
-	MAP_GLOBE,
+	MAP,
 	MUSIC_RECORDING,
 	MUSIC_SCORE,
 	NEWSPAPER,
@@ -26,6 +28,8 @@ public enum Format {
 	@Override
 	public String toString() {
 		switch (this) {
+			case BOOK_SERIES:
+				return "Book series";
 			case COMPUTER_FILE:
 				return "Software/Multimedia";
 			case DATABASE_A_Z:
@@ -34,8 +38,6 @@ public enum Format {
 				return "Journal/Periodical";
 			case MANUSCRIPT_ARCHIVE:
 				return "Archive/Manuscript";
-			case MAP_GLOBE:
-				return "Map";
 			case MUSIC_RECORDING:
 				return "Music recording";
 			case MUSIC_SCORE:
