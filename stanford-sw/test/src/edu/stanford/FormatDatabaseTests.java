@@ -16,14 +16,18 @@ import edu.stanford.enumValues.Format;
  * @author Naomi Dushay
  */
 public class FormatDatabaseTests extends AbstractStanfordTest {
-	
+
 	String testFilePath = testDataParentPath + File.separator + "formatDatabaseTests.mrc";
-	String facetFldName = "format";
+	String fldName = "format_main_ssim";
 	String dbAZval = Format.DATABASE_A_Z.toString();
 	String otherVal = Format.OTHER.toString();
+	/**
+	 * @deprecated temporary
+	 */
+	String updatingOtherVal = "Updating Other";
 
 @Before
-	public final void setup() 
+	public final void setup()
 	{
 		mappingTestInit();
 	}
@@ -35,48 +39,48 @@ public class FormatDatabaseTests extends AbstractStanfordTest {
 	public final void testDatabaseAZ()
 	{
 		// when it has no other format (would have been "Other"), then Database is the only value
-		solrFldMapTest.assertSolrFldValue(testFilePath, "one999db", facetFldName, dbAZval);
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "one999db", facetFldName, otherVal);
-		
-		solrFldMapTest.assertSolrFldValue(testFilePath, "one999Notdb", facetFldName, otherVal);
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "one999Notdb", facetFldName, dbAZval);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "one999db", fldName, dbAZval);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "one999db", fldName, otherVal);
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "dbVideo", facetFldName, dbAZval);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "dbVideo", facetFldName, Format.VIDEO.toString()); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "one999Notdb", fldName, updatingOtherVal);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "one999Notdb", fldName, dbAZval);
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "dbMusicRecording", facetFldName, dbAZval);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "dbMusicRecording", facetFldName, Format.MUSIC_RECORDING.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "dbVideo", fldName, dbAZval);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "dbVideo", fldName, Format.VIDEO.toString());
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "mult999oneDb", facetFldName, dbAZval);  
-		solrFldMapTest.assertSolrFldValue(testFilePath, "mult999oneDb", facetFldName, Format.JOURNAL_PERIODICAL.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "dbMusicRecording", fldName, dbAZval);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "dbMusicRecording", fldName, Format.MUSIC_RECORDING.toString());
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "two99oneShadowWasOther", facetFldName, dbAZval);
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "two99oneShadowWasOther", facetFldName, otherVal);
-		
-		solrFldMapTest.assertSolrFldValue(testFilePath, "DBandMusicRecOne999", facetFldName, dbAZval);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "DBandMusicRecOne999", facetFldName, Format.MUSIC_RECORDING.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "mult999oneDb", fldName, dbAZval);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "mult999oneDb", fldName, Format.JOURNAL_PERIODICAL.toString());
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "otherBecomesDB", facetFldName, dbAZval);
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "otherBecomesDB", facetFldName, otherVal); 
+		solrFldMapTest.assertSolrFldValue(testFilePath, "two99oneShadowWasOther", fldName, dbAZval);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "two99oneShadowWasOther", fldName, otherVal);
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "dbOther", facetFldName, dbAZval);
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "dbOther", facetFldName, otherVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "DBandMusicRecOne999", fldName, dbAZval);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "DBandMusicRecOne999", fldName, Format.MUSIC_RECORDING.toString());
 
-		solrFldMapTest.assertSolrFldValue(testFilePath, "nother", facetFldName, dbAZval);
-		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "nother", facetFldName, otherVal);
-		
-	}	
+		solrFldMapTest.assertSolrFldValue(testFilePath, "otherBecomesDB", fldName, dbAZval);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "otherBecomesDB", fldName, otherVal);
+
+		solrFldMapTest.assertSolrFldValue(testFilePath, "dbOther", fldName, dbAZval);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "dbOther", fldName, otherVal);
+
+		solrFldMapTest.assertSolrFldValue(testFilePath, "nother", fldName, dbAZval);
+		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "nother", fldName, otherVal);
+
+	}
 
 	/**
 	 * test the additional Database format values aren't assigned
 	 */
 @Test
-	public final void testDatabaseAZOnly() 
+	public final void testDatabaseAZOnly()
 			throws IOException, SAXException, ParserConfigurationException, SolrServerException
 	{
 		createFreshIx("formatDatabaseTests.mrc");
-		assertZeroResults(facetFldName, "\"Database (Other)\"");
-		assertZeroResults(facetFldName, "\"Database (All)\"");
+		assertZeroResults(fldName, "\"Database (Other)\"");
+		assertZeroResults(fldName, "\"Database (All)\"");
 	}
-	
+
 }

@@ -166,7 +166,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		setSFXUrls(); // doesn't need record b/c they come from 999
 		setFullTextUrls(record);
 		setAccessMethods(record);
-		setOldFormats(record);
+		setOldFormats(record);  // vestigial for continuity in UI URLs for old formats
 		setMainFormats(record);
 		isSerial = main_formats.contains(Format.JOURNAL_PERIODICAL.toString());
 		ItemUtils.lopItemCallnums(itemSet, findTranslationMap(LOCATION_MAP_NAME), isSerial);
@@ -226,7 +226,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 * keeping these formats around for continuity in UI URLs for old formats
 	 * @return Set of strings containing format values for the resource
 	 * @param record a marc4j Record object
-	 * @deprecated
+	 * @deprecated (used for old format only)
 	 */
 	public Set<String> getOldFormats(final Record record)
 	{
@@ -239,7 +239,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	 *  As of July 28, 2008, algorithms for formats are currently in email
 	 *  message from Vitus Tang to Naomi Dushay, cc Phil Schreur, Margaret
 	 *  Hughes, and Jennifer Vine dated July 23, 2008.
-	 *  @deprecated
+	 * @deprecated (used for old format only)
 	 */
 	@SuppressWarnings("unchecked")
 	private void setOldFormats(final Record record)
@@ -267,8 +267,8 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				subList.addAll(MarcUtils.getSubfieldStrings(df, 'v'));
 				for (String s : subList) {
 					if (s.toLowerCase().contains("congresses")) {
-						old_formats.remove(Format.JOURNAL_PERIODICAL.toString());
-						old_formats.add(Format.CONFERENCE_PROCEEDINGS.toString());
+						old_formats.remove(FormatOld.JOURNAL_PERIODICAL.toString());
+						old_formats.add(FormatOld.CONFERENCE_PROCEEDINGS.toString());
 					}
 				}
 			}
@@ -280,25 +280,25 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			if (item.getCallnumType() == CallNumberType.OTHER) {
 				String callnum = item.getCallnum();
 				if (callnum.startsWith("MFILM") || callnum.startsWith("MFICHE"))
-					old_formats.add(Format.MICROFORMAT.toString());
+					old_formats.add(FormatOld.MICROFORMAT.toString());
 				else if (callnum.startsWith("MCD"))
-					old_formats.add(Format.MUSIC_RECORDING.toString());
+					old_formats.add(FormatOld.MUSIC_RECORDING.toString());
 				else if (callnum.startsWith("ZDVD") || callnum.startsWith("ADVD"))
-					old_formats.add(Format.VIDEO.toString());
+					old_formats.add(FormatOld.VIDEO.toString());
 			}
 			if (item.getType().equalsIgnoreCase("DATABASE"))
-				old_formats.add(Format.DATABASE_A_Z.toString());
+				old_formats.add(FormatOld.DATABASE_A_Z.toString());
 		}
 
 		if (FormatUtils.isMicroformatOld(record))
-			old_formats.add(Format.MICROFORMAT.toString());
+			old_formats.add(FormatOld.MICROFORMAT.toString());
 
 		if (!record.getVariableFields("502").isEmpty())
-			old_formats.add(Format.THESIS.toString());
+			old_formats.add(FormatOld.THESIS.toString());
 
 		// if we still don't have a format, it's an "other"
 		if (old_formats.isEmpty() || old_formats.size() == 0)
-			old_formats.add(Format.OTHER.toString());
+			old_formats.add(FormatOld.OTHER.toString());
 	}
 
 
@@ -367,7 +367,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		}
 
 		if (FormatUtils.isMarcit(record))
-			main_formats.add(Format.MARCIT.toString());
+			main_formats.add(Format.JOURNAL_PERIODICAL.toString());
 
 		// if we still don't have a format, it's an "other"
 		if (main_formats.isEmpty() || main_formats.size() == 0)

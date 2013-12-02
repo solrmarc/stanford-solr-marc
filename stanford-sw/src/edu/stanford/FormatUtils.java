@@ -126,50 +126,50 @@ public class FormatUtils {
 		switch (leaderChar06) {
 		case 'a':
 			if (leaderChar07 == 'a' || leaderChar07 == 'm')
-				result.add(Format.BOOK.toString());
+				result.add(FormatOld.BOOK.toString());
 			break;
 		case 'b':
 		case 'p':
-			result.add(Format.MANUSCRIPT_ARCHIVE.toString());
+			result.add(FormatOld.MANUSCRIPT_ARCHIVE.toString());
 			break;
 		case 'c':
 		case 'd':
-			result.add(Format.MUSIC_SCORE.toString());
+			result.add(FormatOld.MUSIC_SCORE.toString());
 			break;
 		case 'e':
 		case 'f':
-			result.add(Format.MAP_GLOBE.toString());
+			result.add(FormatOld.MAP_GLOBE.toString());
 			break;
 		case 'g':
 			// look for m or v in 008 field, char 33 (count starts at 0)
 			if (cf008 != null && cf008.find("^.{33}[mv]"))
-				result.add(Format.VIDEO.toString());
+				result.add(FormatOld.VIDEO.toString());
 			break;
 		case 'i':
-			result.add(Format.SOUND_RECORDING.toString());
+			result.add(FormatOld.SOUND_RECORDING.toString());
 			break;
 		case 'j':
-			result.add(Format.MUSIC_RECORDING.toString());
+			result.add(FormatOld.MUSIC_RECORDING.toString());
 			break;
 		case 'k':
     		// look for i, k, p, s or t in 008 field, char 33 (count starts at 0)
 			if (cf008 != null && cf008.find("^.{33}[ikpst]"))
-				result.add(Format.IMAGE.toString());
+				result.add(FormatOld.IMAGE.toString());
 			break;
 		case 'm':
 			// look for a in 008 field, char 26 (count starts at 0)
 			if (cf008 != null && cf008.find("^.{26}a"))
-				result.add(Format.COMPUTER_FILE.toString());
+				result.add(FormatOld.COMPUTER_FILE.toString());
 			break;
 		case 'o': // instructional kit
-			result.add(Format.OTHER.toString());
+			result.add(FormatOld.OTHER.toString());
 			break;
 		case 'r': // object
-			result.add(Format.OTHER.toString());
+			result.add(FormatOld.OTHER.toString());
 			break;
 		case 't':
 			if (leaderChar07 == 'a' || leaderChar07 == 'm')
-				result.add(Format.BOOK.toString());
+				result.add(FormatOld.BOOK.toString());
 			break;
 		} // end switch
 
@@ -302,6 +302,7 @@ public class FormatUtils {
 	 * @param leaderStr - the leader field, as a String
 	 * @param cf008 - the 008 field as a ControlField object
 	 * @param Set of Strings containing Format enum values per the given data
+	 * @deprecated (used for old format only)
 	 */
 	static String getSerialFormat(char leaderChar07, ControlField cf008, VariableField f006)
 	{
@@ -323,7 +324,7 @@ public class FormatUtils {
 
 		// default to journal if leader/07 s and 008/21 is blank
 		if (leaderChar07 == 's' && cf008 != null && c21 == ' ')
-			return Format.JOURNAL_PERIODICAL.toString();
+			return FormatOld.JOURNAL_PERIODICAL.toString();
 
 		return null;
 	}
@@ -333,6 +334,7 @@ public class FormatUtils {
 	 *
 	 * @param f006 - 006 as a VariableField object
 	 * @return String containing Format enum value per the given data, or null
+	 * @deprecated (used for old format only)
 	 */
 	static String getSerialFormat006(VariableField f006)
 	{
@@ -342,7 +344,7 @@ public class FormatUtils {
 			if (format != null)
 				return format;
 			if (c04 == ' ')
-				return Format.JOURNAL_PERIODICAL.toString();
+				return FormatOld.JOURNAL_PERIODICAL.toString();
 		}
 		return null;
 	}
@@ -353,16 +355,17 @@ public class FormatUtils {
 	 *  the 008 field or the 4th char from an 006 field, return the format
 	 *  (assuming that there is an indication that the record is for a serial).
 	 *  return null if no format is determined.
+	 * @deprecated (used for old format only)
 	 */
 	private static String getSerialFormatFromChar(char ch) {
 		if (ch != '\u0000')
 			switch (ch) {
 				case 'm': // monographic series
-					return Format.BOOK.toString();
+					return FormatOld.BOOK.toString();
 				case 'n':
-					return Format.NEWSPAPER.toString();
+					return FormatOld.NEWSPAPER.toString();
 				case 'p':
-					return Format.JOURNAL_PERIODICAL.toString();
+					return FormatOld.JOURNAL_PERIODICAL.toString();
 			}
 		return null;
 	}
@@ -382,11 +385,15 @@ public class FormatUtils {
 			return false;
 	}
 
-// FIXME:  temporary format
+	/**
+	 * return true if it is a MARCit record
+	 * @param record - marc4j record object
+	 * @return true if there is a 590a that contains the string "MARCit brief record",
+	 *  false otherwise
+	 */
 	static boolean isMarcit(Record record) {
 		Set<String> f590a = MarcUtils.getSubfieldDataAsSet(record, "590", "a", "");
-		if (Utils.setItemContains(f590a, "MARCit brief record.") ||
-			Utils.setItemContains(f590a, "MARCit brief record"))
+		if (Utils.setItemContains(f590a, "MARCit brief record"))
 			return true;
 		else
 			return false;

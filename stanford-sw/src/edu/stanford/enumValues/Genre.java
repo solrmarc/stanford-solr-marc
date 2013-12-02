@@ -15,7 +15,7 @@ public enum Genre {
 	public String toString() {
 		switch (this) {
 			case CONFERENCE_PROCEEDINGS:
-				return "Conference Proceedings";
+				return "Conference proceedings";
 			case THESIS:
 				return "Thesis/Dissertation";
 			default:
