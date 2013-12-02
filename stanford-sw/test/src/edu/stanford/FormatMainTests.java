@@ -6,6 +6,7 @@ import org.junit.*;
 import org.marc4j.marc.*;
 
 import edu.stanford.enumValues.Format;
+import edu.stanford.enumValues.FormatOld;
 
 
 /**
@@ -125,12 +126,12 @@ public class FormatMainTests extends AbstractStanfordTest
 
 
 	/**
-	 * Conference Proceedings format tests
+	 * Conference Proceedings format tests - Conf Proc is now a Genre
 	 */
 @Test
 	public final void testConferenceProceedingsIsGone()
 	{
-	    String fldVal = Format.CONFERENCE_PROCEEDINGS.toString();
+	    String fldVal = FormatOld.CONFERENCE_PROCEEDINGS.toString();
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "5666387", fldName, fldVal);
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "666", fldName, fldVal);
 	}
@@ -346,12 +347,12 @@ public class FormatMainTests extends AbstractStanfordTest
 	}
 
 	/**
-	 * Microformat format tests
+	 * Microformat format tests - Microformats are now Physical Format types
 	 */
 @Test
 	public final void testMicroformatIsGone()
 	{
-		String fldVal = Format.MICROFORMAT.toString();
+		String fldVal = FormatOld.MICROFORMAT.toString();
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "245hmicroform", fldName, fldVal);
 
 		String testFilePath = testDataParentPath + File.separator + "callNumberTests.mrc";
@@ -413,12 +414,12 @@ public class FormatMainTests extends AbstractStanfordTest
 	}
 
 	/**
-	 * Thesis format tests
+	 * Thesis format tests - Thesis is now a Genre
 	 */
 @Test
 	public final void testThesisIsGone()
 	{
-		String fldVal = Format.THESIS.toString();
+		String fldVal = FormatOld.THESIS.toString();
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "502", fldName, fldVal);
 	}
 
@@ -472,11 +473,13 @@ public class FormatMainTests extends AbstractStanfordTest
 
 
 	/**
-	 * test format population based on Marcit source per 590
+	 * test format of Journal for Marcit source records (per 590)
 	 */
 @Test
 	public final void testMarcit()
 	{
+		String fldVal = Format.JOURNAL_PERIODICAL.toString();
+
 		Leader LEADER = factory.newLeader("00838cas a2200193z  4500");
 
 		Record record = factory.newRecord();
@@ -484,14 +487,14 @@ public class FormatMainTests extends AbstractStanfordTest
 		DataField df = factory.newDataField("590", ' ', ' ');
         df.addSubfield(factory.newSubfield('a', "MARCit brief record."));
         record.addVariableField(df);
-		solrFldMapTest.assertSolrFldValue(record, fldName, Format.MARCIT.toString());
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 		// without period
 		record = factory.newRecord();
 		record.setLeader(LEADER);
 		df = factory.newDataField("590", ' ', ' ');
         df.addSubfield(factory.newSubfield('a', "MARCit brief record"));
         record.addVariableField(df);
-		solrFldMapTest.assertSolrFldValue(record, fldName, Format.MARCIT.toString());
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 
 		// wrong string in 590
 		record = factory.newRecord();

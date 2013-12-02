@@ -1,22 +1,25 @@
 package edu.stanford.enumValues;
 
 /**
- * format facet values for Stanford University SearchWorks
+ * OLD format facet values for Stanford University SearchWorks
  * @author - Naomi Dushay
+ * @deprecated
  */
-public enum Format {
+public enum FormatOld {
 	BOOK,
 	COMPUTER_FILE,
+	CONFERENCE_PROCEEDINGS,
 	DATABASE_A_Z,
-	DATASET,
 	IMAGE,
 	JOURNAL_PERIODICAL,
 	MANUSCRIPT_ARCHIVE,
 	MAP_GLOBE,
+	MICROFORMAT,
 	MUSIC_RECORDING,
 	MUSIC_SCORE,
 	NEWSPAPER,
 	SOUND_RECORDING,
+	THESIS,
 	VIDEO,
 	OTHER;
 
@@ -27,21 +30,23 @@ public enum Format {
 	public String toString() {
 		switch (this) {
 			case COMPUTER_FILE:
-				return "Software/Multimedia";
+				return "Computer File";
+			case CONFERENCE_PROCEEDINGS:
+				return "Conference Proceedings";
 			case DATABASE_A_Z:
 				return "Database";
 			case JOURNAL_PERIODICAL:
 				return "Journal/Periodical";
 			case MANUSCRIPT_ARCHIVE:
-				return "Archive/Manuscript";
+				return "Manuscript/Archive";
 			case MAP_GLOBE:
-				return "Map";
+				return "Map/Globe";
 			case MUSIC_RECORDING:
-				return "Music recording";
+				return "Music - Recording";
 			case MUSIC_SCORE:
-				return "Music score";
+				return "Music - Score";
 			case SOUND_RECORDING:
-				return "Sound recording";
+				return "Sound Recording";
 			default:
 				String lc = super.toString().toLowerCase();
 				String firstchar = lc.substring(0, 1).toUpperCase();

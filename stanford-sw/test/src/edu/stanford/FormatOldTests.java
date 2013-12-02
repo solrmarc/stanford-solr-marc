@@ -4,7 +4,7 @@ import java.io.*;
 
 import org.junit.*;
 
-import edu.stanford.enumValues.Format;
+import edu.stanford.enumValues.FormatOld;
 
 
 /**
@@ -31,7 +31,7 @@ public class FormatOldTests extends AbstractStanfordTest
 @Test
 	public final void testAudioNonMusic()
 	{
-		String fldVal = Format.SOUND_RECORDING.toString();
+		String fldVal = FormatOld.SOUND_RECORDING.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06i", fldName, fldVal);
 	}
 
@@ -42,7 +42,7 @@ public class FormatOldTests extends AbstractStanfordTest
 @Test
 	public final void testBookFormat()
 	{
-		String fldVal = Format.BOOK.toString();
+		String fldVal = FormatOld.BOOK.toString();
 
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06a07m", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06t07a", fldName, fldVal);
@@ -64,7 +64,7 @@ public class FormatOldTests extends AbstractStanfordTest
 @Test
 	public final void testComputerFile()
 	{
-		String fldVal = Format.COMPUTER_FILE.toString();
+		String fldVal = FormatOld.COMPUTER_FILE.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826a", fldName, fldVal);
 	}
 
@@ -74,7 +74,7 @@ public class FormatOldTests extends AbstractStanfordTest
 @Test
 	public final void testConferenceProceedings()
 	{
-	    String fldVal = Format.CONFERENCE_PROCEEDINGS.toString();
+	    String fldVal = FormatOld.CONFERENCE_PROCEEDINGS.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "5666387", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "666", fldName, fldVal);
 	}
@@ -85,7 +85,7 @@ public class FormatOldTests extends AbstractStanfordTest
 @Test
 	public final void testImage()
 	{
-		String fldVal = Format.IMAGE.toString();
+		String fldVal = FormatOld.IMAGE.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833i", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833k", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833p", fldName, fldVal);
@@ -127,7 +127,7 @@ public class FormatOldTests extends AbstractStanfordTest
 @Test
 	public final void testManuscriptArchive()
 	{
-		String fldVal = Format.MANUSCRIPT_ARCHIVE.toString();
+		String fldVal = FormatOld.MANUSCRIPT_ARCHIVE.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06b", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06p", fldName, fldVal);
 	}
@@ -138,7 +138,7 @@ public class FormatOldTests extends AbstractStanfordTest
 @Test
 	public final void testMapGlobe()
 	{
-		String fldVal = Format.MAP_GLOBE.toString();
+		String fldVal = FormatOld.MAP_GLOBE.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06e", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06f", fldName, fldVal);
 	}
@@ -149,7 +149,7 @@ public class FormatOldTests extends AbstractStanfordTest
 @Test
 	public final void testMicroformat()
 	{
-		String fldVal = Format.MICROFORMAT.toString();
+		String fldVal = FormatOld.MICROFORMAT.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "245hmicroform", fldName, fldVal);
 	}
 
@@ -159,7 +159,7 @@ public class FormatOldTests extends AbstractStanfordTest
 @Test
 	public final void testMusicRecording()
 	{
-		String fldVal = Format.MUSIC_RECORDING.toString();
+		String fldVal = FormatOld.MUSIC_RECORDING.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06j", fldName, fldVal);
 	}
 
@@ -169,7 +169,7 @@ public class FormatOldTests extends AbstractStanfordTest
 @Test
 	public final void testMusicScore()
 	{
-		String fldVal = Format.MUSIC_SCORE.toString();
+		String fldVal = FormatOld.MUSIC_SCORE.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06c", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06d", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "245hmicroform", fldName, fldVal);
@@ -181,7 +181,7 @@ public class FormatOldTests extends AbstractStanfordTest
 @Test
 	public final void testNewspaper()
 	{
-        String fldVal = Format.NEWSPAPER.toString();
+        String fldVal = FormatOld.NEWSPAPER.toString();
 
 		solrFldMapTest.assertSolrFldValue(testFilePath, "newspaper", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821n", fldName, fldVal);
@@ -197,7 +197,7 @@ public class FormatOldTests extends AbstractStanfordTest
 @Test
 	public final void testThesis()
 	{
-		String fldVal = Format.THESIS.toString();
+		String fldVal = FormatOld.THESIS.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "502", fldName, fldVal);
 	}
 
@@ -207,7 +207,7 @@ public class FormatOldTests extends AbstractStanfordTest
 @Test
 	public final void testVideo()
 	{
-		String fldVal = Format.VIDEO.toString();
+		String fldVal = FormatOld.VIDEO.toString();
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06g00833m", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06g00833v", fldName, fldVal);
 	}
@@ -218,7 +218,7 @@ public class FormatOldTests extends AbstractStanfordTest
 @Test
 	public final void testOtherFormat()
 	{
-        String fldVal = Format.OTHER.toString();
+        String fldVal = FormatOld.OTHER.toString();
 
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06t07b", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06k00833w", fldName, fldVal);
@@ -256,14 +256,14 @@ public class FormatOldTests extends AbstractStanfordTest
 	{
 		String testFilePath = testDataParentPath + File.separator + "callNumberTests.mrc";
 
-		String microVal = Format.MICROFORMAT.toString();
+		String microVal = FormatOld.MICROFORMAT.toString();
 		// 999 ALPHANUM starting with MFLIM
 		solrFldMapTest.assertSolrFldValue(testFilePath, "1261173", fldName, microVal);
 		// 999 ALPHANUM starting with MFICHE
 		solrFldMapTest.assertSolrFldValue(testFilePath, "mfiche", fldName, microVal);
 
 		// 999 ALPHANUM starting with MCD
-		solrFldMapTest.assertSolrFldValue(testFilePath, "1234673", fldName, Format.MUSIC_RECORDING.toString());
+		solrFldMapTest.assertSolrFldValue(testFilePath, "1234673", fldName, FormatOld.MUSIC_RECORDING.toString());
 	}
 
 }
