@@ -284,7 +284,7 @@ public class FormatUtils {
 				case 'l':
 					return "Updating Looseleaf";    // FIXME: temporary format
 				case 'w':
-					return "Updating Website";  // FIXME: temporary format
+					return Format.UPDATING_WEBSITE.toString();  // FIXME: temporary format?
 				default:
 					return "Updating Other";  // FIXME: temporary format
 			}

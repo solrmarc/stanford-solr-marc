@@ -79,8 +79,8 @@ public class FormatMainTests extends AbstractStanfordTest
 @Test
 	public final void testBookSeriesAsJournal()
 	{
-		String fldVal = Format.JOURNAL_PERIODICAL.toString();
-		String tempFldVal = "Book series";
+		String journalFldVal = Format.JOURNAL_PERIODICAL.toString();
+		String bookSeriesFldVal = Format.BOOK_SERIES.toString();
 		// based on 9343812 - SFX link
 		Record record = factory.newRecord();
 		record.setLeader(factory.newLeader("01937cas a2200433 a 4500"));
@@ -88,7 +88,7 @@ public class FormatMainTests extends AbstractStanfordTest
 		cf008.setData("070207c20109999mauqr m o     0   a0eng c");
 		record.addVariableField(cf008);
 		record.addVariableField(df956sfx);
-		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalFldVal);
 
 		// based on 9138750 - no SFX link
 		record = factory.newRecord();
@@ -96,13 +96,13 @@ public class FormatMainTests extends AbstractStanfordTest
 		cf008 = factory.newControlField("008");
 		cf008.setData("101213c20109999dcufr m bs   i0    0eng c");
 		record.addVariableField(cf008);
-		solrFldMapTest.assertSolrFldValue(record, fldName, tempFldVal);
+		solrFldMapTest.assertSolrFldValue(record, fldName, bookSeriesFldVal);
 
 		// monographic series without SFX links
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07s00821m", fldName, tempFldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "5987319", fldName, tempFldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "5598989", fldName, tempFldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "223344", fldName, tempFldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07s00821m", fldName, bookSeriesFldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5987319", fldName, bookSeriesFldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "5598989", fldName, bookSeriesFldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "223344", fldName, bookSeriesFldVal);
 	}
 
 	/**
@@ -326,14 +326,14 @@ public class FormatMainTests extends AbstractStanfordTest
 @Test
 	public final void testOtherContinuingResources()
 	{
-		String fldVal = "Book series";
+		String fldVal = Format.BOOK_SERIES.toString();
 		// monographic series without SFX links
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07s00821m", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "5987319", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "5598989", fldName, fldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "223344", fldName, fldVal);
 
-		fldVal = "Updating Website";
+		fldVal = Format.UPDATING_WEBSITE.toString();
 		// 006/00 s /04 w
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821n", fldName, fldVal);
 		// web site
@@ -527,6 +527,56 @@ public class FormatMainTests extends AbstractStanfordTest
 	{
 		String fldVal = FormatOld.THESIS.toString();
 		solrFldMapTest.assertSolrFldHasNoValue(testFilePath, "502", fldName, fldVal);
+	}
+
+	/**
+	 * Updating Websites can be a serial or integrating resource.
+	 * If they have an SFX url, then we will call them a journal.
+	 */
+	public final void testUpdatingWebsite()
+	{
+		String journalFldVal = Format.JOURNAL_PERIODICAL.toString();
+		String uwebFldVal = Format.UPDATING_WEBSITE.toString();
+
+		// based on 10094805 - integrating, SFX
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("02015cai a2200385 a 4500"));
+		cf008 = factory.newControlField("008");
+		cf008.setData("040730d19uu2012dcuar w os   f0    2eng d");
+		cf008.setData("130110c20139999enk|| woo     0    2eng  ");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalFldVal);
+
+		// based on 8541457 - integrating, no SFX
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01548cai a2200361Ia 4500"));
+		cf008 = factory.newControlField("008");
+		cf008.setData("040730d19uu2012dcuar w os   f0    2eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, uwebFldVal);
+
+		// serial, SFX
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("02015cas a2200385 a 4500"));
+		cf008 = factory.newControlField("008");
+		cf008.setData("040730d19uu2012dcuar w os   f0    2eng d");
+		cf008.setData("130110c20139999enk|| woo     0    2eng  ");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalFldVal);
+
+		// serial, no SFX
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01548cas a2200361Ia 4500"));
+		cf008 = factory.newControlField("008");
+		cf008.setData("040730d19uu2012dcuar w os   f0    2eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, uwebFldVal);
+
+		// 006/00 s /04 w
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821n", fldName, journalFldVal);
+		// web site
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821w", fldName, journalFldVal);
+		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821w", fldName, journalFldVal);
 	}
 
 	/**
