@@ -13,8 +13,9 @@ import edu.stanford.enumValues.FormatPhysical;
  */
 public class FormatPhysicalTests extends AbstractStanfordTest
 {
-	private final String formatFldName = "format_main_ssim";
-	private final String physFormatFldName = "format_physical_ssim";
+	private final static String formatFldName = "format_main_ssim";
+	private final static String musicRecFormatVal = Format.MUSIC_RECORDING.toString();
+	private final static String physFormatFldName = "format_physical_ssim";
 	private final MarcFactory factory = MarcFactory.newInstance();
 	private ControlField cf007 = factory.newControlField("007");
 	private DataField df999atLibrary = factory.newDataField("999", ' ', ' ');
@@ -191,7 +192,7 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		cf007.setData("sd fungnnmmneu");
 		record.addVariableField(cf007);
 		record.addVariableField(df999atLibrary);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, musicRecFormatVal);
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 		// not if online only
@@ -200,7 +201,6 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 0);
 
 		// 007 but byte 3 is z   (Other)  (based on 5665607)    think there are about 1600 of these
-		expVal = expVal + " from 300";
 		record = factory.newRecord();
 		record.setLeader(ldr);
 		cf007.setData("sd zsngnnmmned");
@@ -211,7 +211,7 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		df300.addSubfield(factory.newSubfield('c', "4 3/4 in."));
 		record.addVariableField(df300);
 		record.addVariableField(df999atLibrary);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, musicRecFormatVal);
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 		// not if online only
@@ -227,7 +227,7 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		df300.addSubfield(factory.newSubfield('b', "4 3/4 in."));
 		record.addVariableField(df300);
 		record.addVariableField(df999atLibrary);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, musicRecFormatVal);
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 		// not if online only
@@ -323,7 +323,7 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		cf007.setData("sd dmsdnnmslne");
 		record.addVariableField(cf007);
 		record.addVariableField(df999atLibrary);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, musicRecFormatVal);
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 		// not if online only
@@ -337,7 +337,7 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 //		DataField df300 = factory.newDataField("300", ' ', ' ');
 //		df300.addSubfield(factory.newSubfield('b', "78 rpm ;"));
 //		record.addVariableField(df300);
-//		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+//		solrFldMapTest.assertSolrFldValue(record, formatFldName, musicRecFormatVal);
 //		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 //		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 //		// not if online only
@@ -356,7 +356,7 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		cf007.setData("sdubsmennmplue");
 		record.addVariableField(cf007);
 		record.addVariableField(df999atLibrary);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, musicRecFormatVal);
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 		// not if online only
@@ -367,14 +367,13 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		// around 4000 have no 007 but have a 300  with 33 in it
 
 		// no 007, but 300 (based on 6594)   there are 873 of these, with this exact 300 value
-		expVal = expVal + " from 300";
 		record = factory.newRecord();
 		record.setLeader(ldr);
 		DataField df300 = factory.newDataField("300", ' ', ' ');
 		df300.addSubfield(factory.newSubfield('a', "2s. 12in. 33.3rpm."));
 		record.addVariableField(df300);
 		record.addVariableField(df999atLibrary);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, musicRecFormatVal);
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 		// not if online only
@@ -390,7 +389,7 @@ public class FormatPhysicalTests extends AbstractStanfordTest
 		df300.addSubfield(factory.newSubfield('c', "12 in."));
 		record.addVariableField(df300);
 		record.addVariableField(df999atLibrary);
-		solrFldMapTest.assertSolrFldValue(record, formatFldName, Format.MUSIC_RECORDING.toString());
+		solrFldMapTest.assertSolrFldValue(record, formatFldName, musicRecFormatVal);
 		solrFldMapTest.assertSolrFldHasNumValues(record, physFormatFldName, 1);
 		solrFldMapTest.assertSolrFldValue(record, physFormatFldName, expVal);
 		// not if online only

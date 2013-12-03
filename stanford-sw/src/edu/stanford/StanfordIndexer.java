@@ -442,24 +442,25 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		// check for format information in 300
 
+		// check in all alpha subfields
 		Set<String> df300abcSet = MarcUtils.getAllAlphaSubfields(record, "300");
-
 		for (String df300abc : df300abcSet)
 		{
-// FIXME:  the "from 300" is temporary
 			String CDphysform = FormatPhysical.CD.toString();
 			if (!physicalFormats.contains(CDphysform) && FormatUtils.describesCD(df300abc))
-				physicalFormats.add(CDphysform + " from 300");
+				physicalFormats.add(CDphysform);
 			String vinylPhysform = FormatPhysical.VINYL.toString();
 			if (!physicalFormats.contains(vinylPhysform) && FormatUtils.describesVinyl(df300abc))
-				physicalFormats.add(vinylPhysform + " from 300");
+				physicalFormats.add(vinylPhysform);
 		}
 
+		// check subfield a only
 		for	(Object obj300 : record.getVariableFields("300"))
 		{
 			DataField df300 = (DataField) obj300;
 			for (Object subaObj : df300.getSubfields('a'))
 			{
+// FIXME:  the "from 300" is temporary
 				String subaStr = ((Subfield) subaObj).getData().toLowerCase();
 				if (subaStr.contains("microfiche") && !physicalFormats.contains(mficheValPlain))
 					physicalFormats.add(mficheValPlain + " from 300");
