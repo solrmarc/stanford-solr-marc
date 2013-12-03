@@ -322,7 +322,9 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		String leaderStr = record.getLeader().marshal();
 		main_formats.addAll(FormatUtils.getFormatsPerLdrAnd008(leaderStr, cf008));
 
-		if (main_formats.isEmpty()) {
+		String journalVal = Format.JOURNAL_PERIODICAL.toString();
+		if (main_formats.isEmpty())
+		{
 			// see if it's a serial for format assignment
 			char leaderChar07 = leaderStr.charAt(7);
 			char cf008c21 = '\u0000';
@@ -342,7 +344,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					main_formats.add(integrFormat);
 			}
 
-			// does it need to be revised based on SFX url?
+			// does updating/integrating resource need to be revised based on SFX url?
 			if (sfxUrls.size() > 0)
 			{
 				String bookSerVal = Format.BOOK_SERIES.toString();
@@ -351,17 +353,17 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				if (main_formats.contains(bookSerVal))
 				{
 					main_formats.remove(bookSerVal);
-					main_formats.add(Format.JOURNAL_PERIODICAL.toString());
+					main_formats.add(journalVal);
 				}
 				else if (main_formats.contains(updatingDbVal))
 				{
 					main_formats.remove(updatingDbVal);
-					main_formats.add(Format.JOURNAL_PERIODICAL.toString());
+					main_formats.add(journalVal);
 				}
 				else if (main_formats.contains(updatingWebsiteVal))
 				{
 					main_formats.remove(updatingWebsiteVal);
-					main_formats.add(Format.JOURNAL_PERIODICAL.toString());
+					main_formats.add(journalVal);
 				}
 			}
 		}
@@ -389,7 +391,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		}
 
 		if (FormatUtils.isMarcit(record))
-			main_formats.add(Format.JOURNAL_PERIODICAL.toString());
+			main_formats.add(journalVal);
 
 		// if we still don't have a format, it's an "other"
 		if (main_formats.isEmpty() || main_formats.size() == 0)
