@@ -350,6 +350,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				String bookSerVal = Format.BOOK_SERIES.toString();
 				String updatingDbVal = Format.UPDATING_DATABASE.toString();
 				String updatingWebsiteVal = Format.UPDATING_WEBSITE.toString();
+				String updatingOtherVal = Format.UPDATING_OTHER.toString();
 				if (main_formats.contains(bookSerVal))
 				{
 					main_formats.remove(bookSerVal);
@@ -363,6 +364,11 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				else if (main_formats.contains(updatingWebsiteVal))
 				{
 					main_formats.remove(updatingWebsiteVal);
+					main_formats.add(journalVal);
+				}
+				else if (main_formats.contains(updatingOtherVal))
+				{
+					main_formats.remove(updatingOtherVal);
 					main_formats.add(journalVal);
 				}
 			}

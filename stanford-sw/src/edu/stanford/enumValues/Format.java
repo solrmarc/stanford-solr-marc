@@ -22,6 +22,8 @@ public enum Format {
 	/** @deprecated */
 	UPDATING_DATABASE, // Possibly temporary
 	/** @deprecated */
+	UPDATING_OTHER, // Possibly temporary
+	/** @deprecated */
 	UPDATING_WEBSITE, // Possibly temporary
 	VIDEO,
 	OTHER;
@@ -50,6 +52,8 @@ public enum Format {
 				return "Sound recording";
 			case UPDATING_DATABASE:
 				return "Updating database";
+			case UPDATING_OTHER:
+				return "Updating other";
 			case UPDATING_WEBSITE:
 				return "Updating website";
 			default:
