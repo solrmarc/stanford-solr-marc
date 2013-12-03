@@ -347,9 +347,21 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			if (sfxUrls.size() > 0)
 			{
 				String bookSerVal = Format.BOOK_SERIES.toString();
+				String updatingDbVal = Format.UPDATING_DATABASE.toString();
+				String updatingWebsiteVal = Format.UPDATING_WEBSITE.toString();
 				if (main_formats.contains(bookSerVal))
 				{
 					main_formats.remove(bookSerVal);
+					main_formats.add(Format.JOURNAL_PERIODICAL.toString());
+				}
+				else if (main_formats.contains(updatingDbVal))
+				{
+					main_formats.remove(updatingDbVal);
+					main_formats.add(Format.JOURNAL_PERIODICAL.toString());
+				}
+				else if (main_formats.contains(updatingWebsiteVal))
+				{
+					main_formats.remove(updatingWebsiteVal);
 					main_formats.add(Format.JOURNAL_PERIODICAL.toString());
 				}
 			}
