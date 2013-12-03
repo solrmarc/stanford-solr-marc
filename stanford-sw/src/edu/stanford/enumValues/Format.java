@@ -20,6 +20,8 @@ public enum Format {
 	NEWSPAPER,
 	SOUND_RECORDING,
 	/** @deprecated */
+	UPDATING_DATABASE, // Possibly temporary
+	/** @deprecated */
 	UPDATING_WEBSITE, // Possibly temporary
 	VIDEO,
 	OTHER;
@@ -46,6 +48,8 @@ public enum Format {
 				return "Music score";
 			case SOUND_RECORDING:
 				return "Sound recording";
+			case UPDATING_DATABASE:
+				return "Updating database";
 			case UPDATING_WEBSITE:
 				return "Updating website";
 			default:

@@ -280,7 +280,7 @@ public class FormatUtils {
 		if (ch != '\u0000')
 			switch (ch) {
 				case 'd':
-					return "Updating Database";    // FIXME: temporary format
+					return Format.UPDATING_DATABASE.toString();  // FIXME: temporary format
 				case 'l':
 					return "Updating Looseleaf";    // FIXME: temporary format
 				case 'w':
