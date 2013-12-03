@@ -21,10 +21,8 @@ public class FormatDatabaseTests extends AbstractStanfordTest {
 	String fldName = "format_main_ssim";
 	String dbAZval = Format.DATABASE_A_Z.toString();
 	String otherVal = Format.OTHER.toString();
-	/**
-	 * @deprecated temporary
-	 */
-	String updatingOtherVal = "Updating Other";
+	/** @deprecated temporary */
+	String updatingOtherVal = Format.UPDATING_OTHER.toString();
 
 @Before
 	public final void setup()

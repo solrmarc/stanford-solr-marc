@@ -286,7 +286,7 @@ public class FormatUtils {
 				case 'w':
 					return Format.UPDATING_WEBSITE.toString();  // FIXME: temporary format?
 				default:
-					return "Updating Other";  // FIXME: temporary format
+					return Format.UPDATING_OTHER.toString();  // FIXME: temporary format
 			}
 		return null;
 	}

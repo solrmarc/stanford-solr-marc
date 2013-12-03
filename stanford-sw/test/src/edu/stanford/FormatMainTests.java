@@ -84,7 +84,6 @@ public class FormatMainTests extends AbstractStanfordTest
 		// based on 9343812 - SFX link
 		Record record = factory.newRecord();
 		record.setLeader(factory.newLeader("01937cas a2200433 a 4500"));
-		cf008 = factory.newControlField("008");
 		cf008.setData("070207c20109999mauqr m o     0   a0eng c");
 		record.addVariableField(cf008);
 		record.addVariableField(df956sfx);
@@ -93,7 +92,6 @@ public class FormatMainTests extends AbstractStanfordTest
 		// based on 9138750 - no SFX link
 		record = factory.newRecord();
 		record.setLeader(factory.newLeader("01750cas a2200409 a 4500"));
-		cf008 = factory.newControlField("008");
 		cf008.setData("101213c20109999dcufr m bs   i0    0eng c");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldValue(record, fldName, bookSeriesFldVal);
@@ -185,7 +183,6 @@ public class FormatMainTests extends AbstractStanfordTest
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader06m00826a", fldName, fldVal);
 
 		Leader LEADER = factory.newLeader("01529cmi a2200397Ia 4500");
-		ControlField cf008 = factory.newControlField("008");
 		Record record = factory.newRecord();
 		record.setLeader(LEADER);
 		cf008.setData("081215c200u9999xx         a        eng d");
@@ -342,24 +339,7 @@ public class FormatMainTests extends AbstractStanfordTest
 		// based on 8541457
 		Record record = factory.newRecord();
 		record.setLeader(factory.newLeader("01548cai a2200361Ia 4500"));
-		cf008 = factory.newControlField("008");
 		cf008.setData("040730d19uu2012dcuar w os   f0    2eng d");
-		record.addVariableField(cf008);
-		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
-
-		fldVal = Format.UPDATING_DATABASE.toString();
-		// based on 8541457
-		record = factory.newRecord();
-		record.setLeader(factory.newLeader("02017cai a2200493 a 4500"));
-		cf008 = factory.newControlField("008");
-		cf008.setData("100301c20109999dcu x dss s  f0    2eng c");
-		record.addVariableField(cf008);
-		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
-		// based on 9934879
-		record = factory.newRecord();
-		record.setLeader(factory.newLeader("02198cai a2200421Ii 4500"));
-		cf008 = factory.newControlField("008");
-		cf008.setData("130208c20139999xxcuu doo    s0    2eng d");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 
@@ -367,16 +347,7 @@ public class FormatMainTests extends AbstractStanfordTest
 		// based on 7911837
 		record = factory.newRecord();
 		record.setLeader(factory.newLeader("02444cai a2200433 a 4500"));
-		cf008 = factory.newControlField("008");
 		cf008.setData("090205c20089999nyuuu l   b   0   a2eng c");
-		record.addVariableField(cf008);
-		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
-
-		fldVal = "Updating Other";
-		// based on 10182766
-		record = factory.newRecord();
-		record.setLeader(factory.newLeader("01579cai a2200337Ia 4500"));
-		cf008.setData("081215c200u9999xx         a        eng d");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
 	}
@@ -542,7 +513,6 @@ public class FormatMainTests extends AbstractStanfordTest
 		// based on 9366507 - integrating, SFX
 		Record record = factory.newRecord();
 		record.setLeader(factory.newLeader("02018cai a2200397Ia 4500"));
-		cf008 = factory.newControlField("008");
 		cf008.setData("120203c20089999enkwr d ob    0    2eng d");
 		record.addVariableField(cf008);
 		record.addVariableField(df956sfx);
@@ -551,7 +521,6 @@ public class FormatMainTests extends AbstractStanfordTest
 		// based on 6735313 - integrating, no SFX
 		record = factory.newRecord();
 		record.setLeader(factory.newLeader("01622cai a2200397 a 4500"));
-		cf008 = factory.newControlField("008");
 		cf008.setData("061227c20069999vau x dss    f0    2eng c");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldValue(record, fldName, udbFldVal);
@@ -559,7 +528,6 @@ public class FormatMainTests extends AbstractStanfordTest
 		// based on 8774277 - serial, SFX
 		record = factory.newRecord();
 		record.setLeader(factory.newLeader("02056cas a2200445Ii 4500"));
-		cf008 = factory.newControlField("008");
 		cf008.setData("101110c20099999nz ar d o    f0    0eng d");
 		record.addVariableField(cf008);
 		record.addVariableField(df956sfx);
@@ -568,7 +536,6 @@ public class FormatMainTests extends AbstractStanfordTest
 		// serial, no SFX
 		record = factory.newRecord();
 		record.setLeader(factory.newLeader("01548cas a2200361Ia 4500"));
-		cf008 = factory.newControlField("008");
 		cf008.setData("061227c20069999vau x dss    f0    2eng c");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldValue(record, fldName, udbFldVal);
@@ -587,7 +554,6 @@ public class FormatMainTests extends AbstractStanfordTest
 		// based on 10094805 - integrating, SFX
 		Record record = factory.newRecord();
 		record.setLeader(factory.newLeader("02015cai a2200385 a 4500"));
-		cf008 = factory.newControlField("008");
 		cf008.setData("130110c20139999enk|| woo     0    2eng  ");
 		record.addVariableField(cf008);
 		record.addVariableField(df956sfx);
@@ -596,7 +562,6 @@ public class FormatMainTests extends AbstractStanfordTest
 		// based on 8541457 - integrating, no SFX
 		record = factory.newRecord();
 		record.setLeader(factory.newLeader("01548cai a2200361Ia 4500"));
-		cf008 = factory.newControlField("008");
 		cf008.setData("040730d19uu2012dcuar w os   f0    2eng d");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldValue(record, fldName, uwebFldVal);
@@ -604,7 +569,6 @@ public class FormatMainTests extends AbstractStanfordTest
 		// serial, SFX
 		record = factory.newRecord();
 		record.setLeader(factory.newLeader("02015cas a2200385 a 4500"));
-		cf008 = factory.newControlField("008");
 		cf008.setData("130110c20139999enk|| woo     0    2eng  ");
 		record.addVariableField(cf008);
 		record.addVariableField(df956sfx);
@@ -613,7 +577,6 @@ public class FormatMainTests extends AbstractStanfordTest
 		// serial, no SFX
 		record = factory.newRecord();
 		record.setLeader(factory.newLeader("01548cas a2200361Ia 4500"));
-		cf008 = factory.newControlField("008");
 		cf008.setData("040730d19uu2012dcuar w os   f0    2eng d");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldValue(record, fldName, uwebFldVal);
@@ -623,6 +586,47 @@ public class FormatMainTests extends AbstractStanfordTest
 		// web site
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821w", fldName, uwebFldVal);
 		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821w", fldName, uwebFldVal);
+	}
+
+	/**
+	 * Updating Websites can be a serial or integrating resource.
+	 * If they have an SFX url, then we will call them a journal.
+	 */
+@Test
+	public final void testUpdatingOther()
+	{
+		String journalFldVal = Format.JOURNAL_PERIODICAL.toString();
+		String uOtherFldVal = Format.UPDATING_OTHER.toString();
+
+		// based on 9539608 - integrating, SFX
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("02085cai a2200325 a 4500"));
+		cf008.setData("111014c20119999enk|| p o     |    2eng c");
+		record.addVariableField(cf008);
+		record.addVariableField(df956sfx);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalFldVal);
+
+		// based on 10182766k - integrating, no SFX
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("01579cai a2200337Ia 4500"));
+		cf008.setData("081215c200u9999xx         a        eng d");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, uOtherFldVal);
+
+		// serial, SFX
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("02085cas a2200325 a 4500"));
+		cf008.setData("111014c20119999enk|| p o     |    2eng c");
+		record.addVariableField(cf008);
+		record.addVariableField(df956sfx);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalFldVal);
+
+		// serial, no SFX
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("02085cas a2200325 a 4500"));
+		cf008.setData("111014c20119999enk|| p o     |    2eng c");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, journalFldVal);
 	}
 
 	/**
