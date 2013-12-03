@@ -425,18 +425,16 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		Set<String> physicalFormats = new HashSet<String>();
 		physicalFormats.addAll(FormatUtils.getPhysicalFormatsPer007(record.getVariableFields("007"), accessMethods));
 
-// FIXME:  Plain suffix is temporary
-		String mfilmValPlain = FormatPhysical.MICROFILM.toString();
-		String mficheValPlain = FormatPhysical.MICROFICHE.toString();
+		String mfilmVal = FormatPhysical.MICROFILM.toString();
+		String mficheVal = FormatPhysical.MICROFICHE.toString();
 
-		// check for physical format information from 999 ALPHANUM call numbers
-		// and from itemType (999 subfield t)
+		// check call numbers for physical format information
 		for (Item item : itemSet) {
 			String callnum = item.getCallnum();
-			if (!physicalFormats.contains(mficheValPlain) && callnum.startsWith("MFICHE"))
-				physicalFormats.add(mficheValPlain);
-			if (!physicalFormats.contains(mfilmValPlain) && callnum.startsWith("MFILM"))
-				physicalFormats.add(mfilmValPlain);
+			if (!physicalFormats.contains(mficheVal) && callnum.startsWith("MFICHE"))
+				physicalFormats.add(mficheVal);
+			if (!physicalFormats.contains(mfilmVal) && callnum.startsWith("MFILM"))
+				physicalFormats.add(mfilmVal);
 		}
 
 		// check for format information in 300
@@ -459,12 +457,12 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			DataField df300 = (DataField) obj300;
 			for (Object subaObj : df300.getSubfields('a'))
 			{
-// FIXME:  the "from 300" is temporary
 				String subaStr = ((Subfield) subaObj).getData().toLowerCase();
-				if (subaStr.contains("microfiche") && !physicalFormats.contains(mficheValPlain))
-					physicalFormats.add(mficheValPlain + " from 300");
-				if (subaStr.contains("microfilm") && !physicalFormats.contains(mfilmValPlain))
-					physicalFormats.add(mfilmValPlain + " from 300");
+				if (subaStr.contains("microfiche") && !physicalFormats.contains(mficheVal))
+					physicalFormats.add(mficheVal);
+				if (subaStr.contains("microfilm") && !physicalFormats.contains(mfilmVal))
+					physicalFormats.add(mfilmVal);
+// FIXME:  the "from 300" is temporary
 				String photoValPlain = FormatPhysical.PHOTO.toString();
 				if (subaStr.contains("photograph") && !physicalFormats.contains(photoValPlain))
 					physicalFormats.add(photoValPlain + " from 300");
