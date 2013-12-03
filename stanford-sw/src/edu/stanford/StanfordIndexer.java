@@ -319,6 +319,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 	{
 		main_formats.clear();
 
+		String updatingDbVal = Format.UPDATING_DATABASE.toString();
+		String updatingWebsiteVal = Format.UPDATING_WEBSITE.toString();
+		String updatingOtherVal = Format.UPDATING_OTHER.toString();
+
 		// assign formats based on leader chars 06, 07 and chars in 008
 		String leaderStr = record.getLeader().marshal();
 		main_formats.addAll(FormatUtils.getFormatsPerLdrAnd008(leaderStr, cf008));
@@ -349,9 +353,6 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			if (sfxUrls.size() > 0)
 			{
 				String bookSerVal = Format.BOOK_SERIES.toString();
-				String updatingDbVal = Format.UPDATING_DATABASE.toString();
-				String updatingWebsiteVal = Format.UPDATING_WEBSITE.toString();
-				String updatingOtherVal = Format.UPDATING_OTHER.toString();
 				if (main_formats.contains(bookSerVal))
 				{
 					main_formats.remove(bookSerVal);
@@ -377,6 +378,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 
 		// check for format information from 999 ALPHANUM call numbers
 		// and from itemType (999 subfield t)
+		String dbazVal = Format.DATABASE_A_Z.toString();
 		for (Item item : itemSet) {
 // FIXME:  temporarily not using this
 //			if (item.getCallnumType() == CallNumberType.OTHER) {
@@ -388,7 +390,7 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 //			}
 			if (item.getType().equalsIgnoreCase("DATABASE"))
 			{
-				main_formats.add(Format.DATABASE_A_Z.toString());
+				main_formats.add(dbazVal);
 
 				// if it is a Database and a Computer File, and it is not
 				//  "at the library", then it should only be a Database
@@ -396,6 +398,14 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 				if (main_formats.contains(compFileVal) &&
 					!accessMethods.contains(Access.AT_LIBRARY.toString()))
 					main_formats.remove(compFileVal);
+
+				// remove continuing resource value if it is one of those
+				if (main_formats.contains(updatingDbVal))
+					main_formats.remove(updatingDbVal);
+				else if (main_formats.contains(updatingWebsiteVal))
+					main_formats.remove(updatingWebsiteVal);
+				else if (main_formats.contains(updatingOtherVal))
+					main_formats.remove(updatingOtherVal);
 			}
 		}
 
