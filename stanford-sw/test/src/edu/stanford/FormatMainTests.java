@@ -510,15 +510,22 @@ public class FormatMainTests extends AbstractStanfordTest
 
 	/**
 	 * Updating Looseleaf can be a serial or integrating resource.
-	 * If they have an SFX url, then we will call them a journal.
+	 * Both should be assigned to format Book
 	 */
 @Test
 	public final void testUpdatingLooseleaf()
 	{
-		String fldVal = "Updating Looseleaf";
+		String fldVal = Format.BOOK.toString();
 		// based on 7911837 - integrating
 		Record record = factory.newRecord();
 		record.setLeader(factory.newLeader("02444cai a2200433 a 4500"));
+		cf008.setData("090205c20089999nyuuu l   b   0   a2eng c");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+
+		// serial
+		record = factory.newRecord();
+		record.setLeader(factory.newLeader("02444cas a2200433 a 4500"));
 		cf008.setData("090205c20089999nyuuu l   b   0   a2eng c");
 		record.addVariableField(cf008);
 		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
