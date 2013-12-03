@@ -63,7 +63,7 @@ public enum FormatPhysical
 			case SHELLAC_78:
 				return "78 rpm (shellac)";
 			case CYLINDER:
-				return "Cylinder (Wax)";
+				return "Cylinder (wax)";
 			case INSTANTANEOUS_DISC:
 				return "Instantaneous disc";
 			case CASSETTE:
@@ -73,7 +73,7 @@ public enum FormatPhysical
 			case DAT:
 				return "DAT";
 			case REEL_TO_REEL:
-				return "Reel-toreel tape";
+				return "Reel-to-reel tape";
 			case OTHER_RECORDING:
 				return "Other recording";
 
@@ -111,7 +111,7 @@ public enum FormatPhysical
 			case GLOBE:
 				return "Globe";
 			case OTHER_MAPS:
-				return "Other Maps";
+				return "Other maps";
 
 			// microformats
 			case MICROFILM:
