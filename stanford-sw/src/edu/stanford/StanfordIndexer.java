@@ -426,18 +426,18 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		Set<String> physicalFormats = new HashSet<String>();
 		physicalFormats.addAll(FormatUtils.getPhysicalFormatsPer007(record.getVariableFields("007"), accessMethods));
 
+// FIXME:  Plain suffix is temporary
 		String mfilmValPlain = FormatPhysical.MICROFILM.toString();
 		String mficheValPlain = FormatPhysical.MICROFICHE.toString();
 
 		// check for physical format information from 999 ALPHANUM call numbers
 		// and from itemType (999 subfield t)
 		for (Item item : itemSet) {
-// FIXME:  the "from callnum" is temporary
 			String callnum = item.getCallnum();
 			if (!physicalFormats.contains(mficheValPlain) && callnum.startsWith("MFICHE"))
-				physicalFormats.add(mficheValPlain + " from callnum");
+				physicalFormats.add(mficheValPlain);
 			if (!physicalFormats.contains(mfilmValPlain) && callnum.startsWith("MFILM"))
-				physicalFormats.add(mfilmValPlain + " from callnum");
+				physicalFormats.add(mfilmValPlain);
 		}
 
 		// check for format information in 300
