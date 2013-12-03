@@ -319,39 +319,6 @@ public class FormatMainTests extends AbstractStanfordTest
 	}
 
 
-//FIXME:  temporary during format redo
-@Test
-	public final void testOtherContinuingResources()
-	{
-		String fldVal = Format.BOOK_SERIES.toString();
-		// monographic series without SFX links
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07s00821m", fldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "5987319", fldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "5598989", fldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "223344", fldName, fldVal);
-
-		fldVal = Format.UPDATING_WEBSITE.toString();
-		// 006/00 s /04 w
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821n", fldName, fldVal);
-		// web site
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07sNo00600821w", fldName, fldVal);
-		solrFldMapTest.assertSolrFldValue(testFilePath, "leader07b00600s00821w", fldName, fldVal);
-		// based on 8541457
-		Record record = factory.newRecord();
-		record.setLeader(factory.newLeader("01548cai a2200361Ia 4500"));
-		cf008.setData("040730d19uu2012dcuar w os   f0    2eng d");
-		record.addVariableField(cf008);
-		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
-
-		fldVal = "Updating Looseleaf";
-		// based on 7911837
-		record = factory.newRecord();
-		record.setLeader(factory.newLeader("02444cai a2200433 a 4500"));
-		cf008.setData("090205c20089999nyuuu l   b   0   a2eng c");
-		record.addVariableField(cf008);
-		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
-	}
-
 
 	/**
 	 * Manuscript/Archive format tests
@@ -542,7 +509,23 @@ public class FormatMainTests extends AbstractStanfordTest
 	}
 
 	/**
-	 * Updating Websites can be a serial or integrating resource.
+	 * Updating Looseleaf can be a serial or integrating resource.
+	 * If they have an SFX url, then we will call them a journal.
+	 */
+@Test
+	public final void testUpdatingLooseleaf()
+	{
+		String fldVal = "Updating Looseleaf";
+		// based on 7911837 - integrating
+		Record record = factory.newRecord();
+		record.setLeader(factory.newLeader("02444cai a2200433 a 4500"));
+		cf008.setData("090205c20089999nyuuu l   b   0   a2eng c");
+		record.addVariableField(cf008);
+		solrFldMapTest.assertSolrFldValue(record, fldName, fldVal);
+	}
+
+	/**
+	 * Updating Website can be a serial or integrating resource.
 	 * If they have an SFX url, then we will call them a journal.
 	 */
 @Test
@@ -589,7 +572,7 @@ public class FormatMainTests extends AbstractStanfordTest
 	}
 
 	/**
-	 * Updating Websites can be a serial or integrating resource.
+	 * Updating Other can be a serial or integrating resource.
 	 * If they have an SFX url, then we will call them a journal.
 	 */
 @Test
