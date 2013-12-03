@@ -282,7 +282,7 @@ public class FormatUtils {
 				case 'd':
 					return Format.UPDATING_DATABASE.toString();  // FIXME: temporary format
 				case 'l':
-					return "Updating Looseleaf";    // FIXME: temporary format
+					return Format.BOOK.toString();
 				case 'w':
 					return Format.UPDATING_WEBSITE.toString();  // FIXME: temporary format?
 				default:
