@@ -463,10 +463,10 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 					physicalFormats.add(mficheVal);
 				if (subaStr.contains("microfilm") && !physicalFormats.contains(mfilmVal))
 					physicalFormats.add(mfilmVal);
-// FIXME:  the "from 300" is temporary
 				String photoValPlain = FormatPhysical.PHOTO.toString();
 				if (subaStr.contains("photograph") && !physicalFormats.contains(photoValPlain))
-					physicalFormats.add(photoValPlain + " from 300");
+					physicalFormats.add(photoValPlain);
+// FIXME:  the "from 300" is temporary
 				String rsiValPlain = FormatPhysical.REMOTE_SENSING_IMAGE.toString();
 				if ((subaStr.contains("remote-sensing image") ||	subaStr.contains("remote sensing image"))
 					&& !physicalFormats.contains(rsiValPlain))
