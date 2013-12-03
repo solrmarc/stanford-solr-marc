@@ -389,11 +389,13 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 			if (item.getType().equalsIgnoreCase("DATABASE"))
 			{
 				main_formats.add(Format.DATABASE_A_Z.toString());
+
 				// if it is a Database and a Computer File, and it is not
 				//  "at the library", then it should only be a Database
-				if (main_formats.contains(Format.COMPUTER_FILE.toString()) &&
+				String compFileVal = Format.COMPUTER_FILE.toString();
+				if (main_formats.contains(compFileVal) &&
 					!accessMethods.contains(Access.AT_LIBRARY.toString()))
-					main_formats.remove(Format.COMPUTER_FILE.toString());
+					main_formats.remove(compFileVal);
 			}
 		}
 
