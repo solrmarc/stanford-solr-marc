@@ -462,6 +462,23 @@
 		</junit>
 	</target>
 
+	<target name="site_setup_crez_test_jetty" description="set up jetty with site solr war, conf, lib etc for course reserve testing">
+		<echo message="solr path for SITE testing: ${test.solr.run.dir}" />
+		<!-- set up jetty with solr files, including war, configuration, jars ... -->
+		<mkdir dir="${site.test.jetty.dir}/logs" />
+		<mkdir dir="${site.test.solr.run.dir}" />
+		<copy todir="${site.test.solr.run.dir}">
+			<fileset dir="${core.test.solr.orig.dir}" includes="**/solr.xml,**/conf/**,**/lib/**"/>
+		</copy>
+		<copy todir="${site.test.solr.run.dir}" overwrite="true">
+			<fileset dir="${site.test.solr.orig.dir}" includes="**/solr.xml,**/conf/**,**/lib/**"/>
+		</copy>
+		<copy file="${site.test.solr.orig.dir}/conf/solrconfig-crez-test.xml" tofile="${site.test.solr.run.dir}/conf/solrconfig.xml" overwrite="true"/>
+		<!-- copy over the war file -->
+		<copy file="${site.solr.war.path}" tofile="${test.jetty.dir}/webapps/solr.war" failonerror="false" />
+	</target>
+
+
 
 <!-- ************ SITE continuous integration targets ********** -->
 
