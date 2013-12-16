@@ -462,24 +462,6 @@
 		</junit>
 	</target>
 
-	<target name="site_setup_crez_test_jetty" description="set up jetty with site solr war, conf, lib etc for course reserve testing">
-		<echo message="solr path for SITE testing: ${test.solr.run.dir}" />
-		<!-- set up jetty with solr files, including war, configuration, jars ... -->
-		<mkdir dir="${site.test.jetty.dir}/logs" />
-		<mkdir dir="${site.test.solr.run.dir}" />
-		<copy todir="${site.test.solr.run.dir}">
-			<fileset dir="${core.test.solr.orig.dir}" includes="**/solr.xml,**/conf/**,**/lib/**"/>
-		</copy>
-		<copy todir="${site.test.solr.run.dir}" overwrite="true">
-			<fileset dir="${site.test.solr.orig.dir}" includes="**/solr.xml,**/conf/**,**/lib/**"/>
-		</copy>
-		<copy file="${site.test.solr.orig.dir}/conf/solrconfig-crez-test.xml" tofile="${site.test.solr.run.dir}/conf/solrconfig.xml" overwrite="true"/>
-		<!-- copy over the war file -->
-		<copy file="${site.solr.war.path}" tofile="${test.jetty.dir}/webapps/solr.war" failonerror="false" />
-	</target>
-
-
-
 <!-- ************ SITE continuous integration targets ********** -->
 
 	<!-- NOTE:  this should be used only after a fresh SITE compile -->
@@ -558,6 +540,26 @@
 	</target>
 
 	<target name="ci_site" depends="clean_all,test_site_coverage,javadoc_site" description="SITE Continuous Integration: javadoc and tests with coverage" />
+
+<!-- ************ SITE COURSE RESERVE TESTING targets ***** -->
+
+	<target name="crez_setup_test_jetty" description="set up jetty with site solr war, conf, lib etc for course reserve testing">
+		<echo message="solr path for SITE testing: ${test.solr.run.dir}" />
+		<!-- set up jetty with solr files, including war, configuration, jars ... -->
+		<mkdir dir="${site.test.jetty.dir}/logs" />
+		<mkdir dir="${site.test.solr.run.dir}" />
+		<copy todir="${site.test.solr.run.dir}">
+			<fileset dir="${core.test.solr.orig.dir}" includes="**/solr.xml,**/conf/**,**/lib/**"/>
+		</copy>
+		<copy todir="${site.test.solr.run.dir}" overwrite="true">
+			<fileset dir="${site.test.solr.orig.dir}" includes="**/solr.xml,**/conf/**,**/lib/**"/>
+		</copy>
+		<copy file="${site.test.solr.orig.dir}/conf/solrconfig-crez-test.xml" tofile="${site.test.solr.run.dir}/conf/solrconfig.xml" overwrite="true"/>
+		<!-- copy over the war file -->
+		<copy file="${site.solr.war.path}" tofile="${test.jetty.dir}/webapps/solr.war" failonerror="false" />
+	</target>
+
+	<target name="crez_setup" depends="dist_site,crez_setup_test_jetty" description="get code and jetty ready for course reserve testing" />
 
 
 <!-- ************ CORE and SITE together targets ********** -->
