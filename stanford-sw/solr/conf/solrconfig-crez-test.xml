@@ -37,7 +37,7 @@
   <!-- See docs re: autoCommit -->
   <updateHandler class="solr.DirectUpdateHandler2">
     <updateLog>
-      <str name="dir">/data/solr/logs</str>
+      <str name="dir">${solr.data.dir:/logs}</str>
     </updateLog>
     <autoCommit>
        <maxDocs>20000</maxDocs>
