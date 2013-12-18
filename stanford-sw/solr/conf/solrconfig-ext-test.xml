@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!-- use this SearchWorks solrconfig file to test Course Reserve processing for searchworks (crez-sw-ingest)) -->
+<!-- use this SearchWorks solrconfig file for external testing of SearchWorks (e.g. crez-sw-ingest, merge manager) -->
 <config>
   <!-- NOTE: various comments and unused configuration possibilities have been purged
      from this file.  Please refer to http://wiki.apache.org/solr/SolrConfigXml,
@@ -37,7 +37,7 @@
   <!-- See docs re: autoCommit -->
   <updateHandler class="solr.DirectUpdateHandler2">
     <updateLog>
-      <str name="dir">${solr.data.dir:/logs}</str>
+      <str name="dir">${solr.data.dir:logs}</str>
     </updateLog>
     <autoCommit>
        <maxDocs>20000</maxDocs>
