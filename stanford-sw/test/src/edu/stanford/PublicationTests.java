@@ -688,6 +688,32 @@ public class PublicationTests extends AbstractStanfordTest
 
 
 	/**
+	 * functional test: assure pub_date is assigned from 260c when 008 dates are blank
+	 */
+@Test
+	public void test008BlankDate()
+	{
+		Record record = factory.newRecord();
+		record.addVariableField(factory.newControlField("001", "ablank008"));
+		record.addVariableField(factory.newControlField("008", "131205n        xx |         u||| ||und u"));
+
+		DataField df = factory.newDataField("260", ' ', ' ');
+		df.addSubfield(factory.newSubfield('a', "260a"));
+		df.addSubfield(factory.newSubfield('b', "260b"));
+		df.addSubfield(factory.newSubfield('c', "2014"));
+		record.addVariableField(df);
+
+		solrFldMapTest.assertSolrFldValue(record, "pub_date_sort", "2014");
+		solrFldMapTest.assertSolrFldValue(record, "pub_year_tisim", "2014");
+		solrFldMapTest.assertSolrFldValue(record, "pub_date", "2014");
+
+		// these only are populated from 008 dates
+		solrFldMapTest.assertNoSolrFld(record, "other_year_isi");
+		solrFldMapTest.assertNoSolrFld(record, "publication_year_isi");
+	}
+
+
+	/**
 	 * functional test: assure date slider pub_year_tisim field is populated correctly from single value in single 260c
 	 */
 @Test
@@ -776,6 +802,7 @@ public class PublicationTests extends AbstractStanfordTest
 		// dddd-dddd
 		// [between 1973 and 1975]
 	}
+
 
 	/**
 	 * integration test: assure pub dates later than current year +1 are ignored
