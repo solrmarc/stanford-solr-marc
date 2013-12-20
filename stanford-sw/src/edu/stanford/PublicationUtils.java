@@ -145,6 +145,9 @@ public class PublicationUtils {
 				else
 					logger.error(errmsg);
 			}
+			// 008 is blanks or something like that
+			return getValidPubDateStr(date008, date260c, df264list);
+
 		}
 
 		return null;
