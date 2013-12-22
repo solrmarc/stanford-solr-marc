@@ -9,6 +9,6 @@ LOCAL_DATA_DIR=/data/sirsi
 LATEST_DATA_DIR=$LOCAL_DATA_DIR/latest/updates
 
 #  scp remote files to "latest" preserving timestamps
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/* $LATEST_DATA_DIR/
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/* $LATEST_DATA_DIR/
 
 exit 0

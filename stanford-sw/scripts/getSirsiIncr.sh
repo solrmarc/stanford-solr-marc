@@ -22,8 +22,8 @@ fi
     
 #  sftp remote files with today's datestamp to "latest/updates"
 
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$DEL_KEYS_FNAME $LATEST_DATA_DIR/
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$RECORDS_FNAME $LATEST_DATA_DIR/
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$DEL_KEYS_FNAME $LATEST_DATA_DIR/
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$RECORDS_FNAME $LATEST_DATA_DIR/
 
 exit 0
