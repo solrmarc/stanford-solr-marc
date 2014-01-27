@@ -1545,11 +1545,11 @@ public class PublicationTests extends AbstractStanfordTest
 		Set<String> docIds = new HashSet<String>();
 		docIds.add("zpubDate2014");
 		docIds.add("zpubDate2013");
-		docIds.add("zpubDate2012");
 		assertSearchResults(fldName, "\"" + PubDateGroup.THIS_YEAR.toString() + "\"", docIds);
+		docIds.add("zpubDate2012");
 		docIds.add("zpubDate2011");
-		docIds.add("zpubDate2010");
 		assertSearchResults(fldName, "\"" + PubDateGroup.LAST_3_YEARS.toString() + "\"", docIds);
+		docIds.add("zpubDate2010");
 		docIds.add("z2009");
 		docIds.add("b2008");
 		docIds.add("v2007");
