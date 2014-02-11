@@ -4,9 +4,9 @@ import java.io.*;
 import java.util.*;
 
 import org.marc4j.*;
-import org.marc4j.MarcCombiningReader;
 import org.marc4j.marc.*;
 import org.solrmarc.marc.*;
+import org.solrmarc.marc.MarcCombiningReader;
 import org.solrmarc.marcoverride.MarcSplitStreamWriter;
 
 
