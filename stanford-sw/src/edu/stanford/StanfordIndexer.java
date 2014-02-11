@@ -137,14 +137,15 @@ public class StanfordIndexer extends org.solrmarc.index.SolrIndexer
 		f655suba = MarcUtils.getFieldList(record, "655a");
 		f956subu = MarcUtils.getFieldList(record, "956u");
 
-		List<DataField> list999df = (List<DataField>) record.getVariableFields("999");
+		List<VariableField> list999df = record.getVariableFields("999");
 		has999s = !list999df.isEmpty();
 
 		setId(record);
 		boolean getBrowseCallnumFromBib = true;
 
 		itemSet.clear();
-		for (DataField df999 : list999df) {
+		for (VariableField vf999 : list999df) {
+			DataField df999 = (DataField) vf999;
 			Item item = new Item(df999, id);
 			if (!item.shouldBeSkipped())
 				itemSet.add(item);
