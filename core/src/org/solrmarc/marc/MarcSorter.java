@@ -3,7 +3,8 @@ package org.solrmarc.marc;
 import java.io.*;
 import java.util.TreeMap;
 
-import org.solrmarc.tools.RawRecord;
+import org.marc4j.util.RawRecord;
+import org.marc4j.util.RawRecordReader;
 import org.solrmarc.tools.StringNaturalCompare;
 
 /**
@@ -18,7 +19,7 @@ public class MarcSorter
     static boolean verbose = false;
 	 // Initialize logging category
 	/**
-	 * 
+	 *
 	 * @param args
 	 */
     public static void main(String[] args)
@@ -36,10 +37,10 @@ public class MarcSorter
                 if (verbose)  System.err.println("reading Stdin");
             }
             else
-            {    
+            {
                 input = new FileInputStream(new File(args[offset]));
                 if (verbose)  System.err.println("reading file "+ args[offset]);
-            }            
+            }
             processInput(input);
         }
         catch (FileNotFoundException e)
@@ -55,7 +56,7 @@ public class MarcSorter
 
     }
 
-    static void processInput(InputStream input) 
+    static void processInput(InputStream input)
     {
         RawRecordReader rawReader = new RawRecordReader(input);
         RawRecord rec = rawReader.hasNext() ? rawReader.next() : null;
@@ -95,7 +96,7 @@ public class MarcSorter
             //  e.printStackTrace();
             System.err.println(e.getMessage());
         }
-       
+
     }
-    
+
 }
