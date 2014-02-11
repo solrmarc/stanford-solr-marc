@@ -400,10 +400,10 @@ public class CommandLineUtilTests
             fail("property test.config.file be defined for this test to run");
         ByteArrayOutputStream out1 = new ByteArrayOutputStream();
 
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.RawRecordReader", "main", null, out1, new String[]{testDataParentPath+"/selectedRecs.mrc", "u8" });
+        CommandLineUtils.runCommandLineUtil("org.marc4j.util.RawRecordReader", "main", null, out1, new String[]{testDataParentPath+"/selectedRecs.mrc", "u8" });
 
         ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.RawRecordReader", "main", null, out2, new String[]{testDataParentPath+"/selectedRecs.mrc", testDataParentPath+"/getrecord_select_u8.txt" });
+        CommandLineUtils.runCommandLineUtil("org.marc4j.util.RawRecordReader", "main", null, out2, new String[]{testDataParentPath+"/selectedRecs.mrc", testDataParentPath+"/getrecord_select_u8.txt" });
 
         CommandLineUtils.assertArrayEquals("record via GetRecord with parm, and record via GetRecord with selection file ", out1.toByteArray(), out2.toByteArray());
 

@@ -5,10 +5,7 @@ import java.util.*;
 
 import org.marc4j.*;
 import org.marc4j.marc.*;
-import org.solrmarc.marc.*;
-import org.solrmarc.marc.MarcCombiningReader;
-import org.solrmarc.marcoverride.MarcSplitStreamWriter;
-
+import org.marc4j.util.*;
 
 /**
  * Given a file of MARC bib records and another file of MARC (MHLD) records,

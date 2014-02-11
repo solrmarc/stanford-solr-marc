@@ -7,7 +7,8 @@ import java.util.*;
 
 import org.junit.*;
 import org.marc4j.marc.Record;
-import org.solrmarc.marc.RawRecordReader;
+import org.marc4j.util.RawRecord;
+import org.marc4j.util.RawRecordReader;
 import org.solrmarc.testUtils.*;
 import org.solrmarc.tools.*;
 

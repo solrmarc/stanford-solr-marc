@@ -26,8 +26,9 @@ import org.apache.log4j.Logger;
 import org.marc4j.*;
 import org.marc4j.marc.*;
 import org.marc4j.marc.impl.*;
+import org.marc4j.util.RawRecord;
+import org.marc4j.util.RawRecordReader;
 
-import org.solrmarc.marcoverride.MarcSplitStreamWriter;
 import org.solrmarc.tools.*;
 
 /**
@@ -38,7 +39,7 @@ import org.solrmarc.tools.*;
  *       for each value of that solr field for each marc record in the file.
  *   to_xml - prints out the record as xml
  *   translate - ??
- *   
+ *
  * @author Robert Haschart
  * @version $Id: MarcPrinter.java 1112 2010-03-09 16:33:32Z rh9ec@virginia.edu $
  *
@@ -72,7 +73,7 @@ public class MarcPatcher extends MarcHandler
 //        locationFileName = locationFile;
 //        changedRecordFileName = changedOutputFile;
 //    }
-   
+
     public MarcPatcher(String locationFile, String changedLocationFile, String changedOutputFile, PrintStream out, boolean handleAllLocs)
     {
         super();
@@ -82,23 +83,23 @@ public class MarcPatcher extends MarcHandler
         changedLocationFileName = changedLocationFile;
         this.handleAllLocs = handleAllLocs;
     }
-    
+
     @Override
     public void loadReader(String source, String fName)
-    {       
+    {
         if (source.equals("FILE") || source.equals("STDIN"))
         {
             InputStream is = null;
-            if (source.equals("FILE")) 
+            if (source.equals("FILE"))
             {
                 try {
                     if (showInputFile)
                         logger.info("Attempting to open data file: "+ new File(fName).getAbsolutePath());
-                    else 
+                    else
                         logger.debug("Attempting to open data file: "+ new File(fName).getAbsolutePath());
                     is = new FileInputStream(fName);
-                } 
-                catch (FileNotFoundException e) 
+                }
+                catch (FileNotFoundException e)
                 {
                     logger.error("Fatal error: Unable to open specified MARC data file: " + fName);
                     throw new IllegalArgumentException("Fatal error: Unable to open specified MARC data file: " + fName);
@@ -116,7 +117,7 @@ public class MarcPatcher extends MarcHandler
             reader = null;
         }
     }
-    
+
     @Override
     protected void initLocal()
     {
@@ -148,14 +149,14 @@ public class MarcPatcher extends MarcHandler
 //        }
         compare = new StringNaturalCompare();
     }
-    
+
     @Override
-    protected void processAdditionalArgs() 
+    protected void processAdditionalArgs()
     {
     }
 
     @Override
-    protected void loadLocalProperties() 
+    protected void loadLocalProperties()
     {
         // Specification of how to modify the entries in the delete record file
         // before passing the id onto Solr.   Based on syntax of String.replaceAll
@@ -173,7 +174,7 @@ public class MarcPatcher extends MarcHandler
                     String tested = testID.replaceFirst(mapPattern, mapReplace);
                     logger.info("Valid Regex pattern specified in property: marc.delete_record_id_mapper");
                 }
-                catch (PatternSyntaxException pse)                
+                catch (PatternSyntaxException pse)
                 {
                     locationRecordIDMapper = null;
                     logger.warn("Invalid Regex pattern specified in property: marc.delete_record_id_mapper");
@@ -197,7 +198,7 @@ public class MarcPatcher extends MarcHandler
     }
 
     @Override
-    public int handleAll() 
+    public int handleAll()
     {
         // keep track of record count
         int recordCounter = 0;
@@ -257,17 +258,17 @@ public class MarcPatcher extends MarcHandler
         while(rawReader != null && rawReader.hasNext())
         {
             recordCounter++;
- 
+
             try {
                 RawRecord record = rawReader.next();
                 Record patchedRecord = patchRecord(record, locationReader, changedLocationReader);
-                
+
                 if (writerAll != null)
                 {
                     if (patchedRecord != null) writerAll.write(patchedRecord);
                     else out.write(record.getRecordBytes());
                 }
-                if (patchedRecord != null && writerChanged != null) 
+                if (patchedRecord != null && writerChanged != null)
                 {
                     writerChanged.write(patchedRecord);
                 }
@@ -275,23 +276,23 @@ public class MarcPatcher extends MarcHandler
             }
             catch (MarcException me)
             {
-                System.err.println("Error reading Marc Record: "+ me.getMessage());                                   
+                System.err.println("Error reading Marc Record: "+ me.getMessage());
                 logger.error("Error reading Marc Record: "+ me.getMessage());
                 return(1);
-            }        
+            }
             catch (IOException me)
             {
-                System.err.println("Error Writing Raw Marc Record: "+ me.getMessage());                                   
+                System.err.println("Error Writing Raw Marc Record: "+ me.getMessage());
                 logger.error("Error Writing Raw Marc Record: "+ me.getMessage());
                 return(1);
-            }        
+            }
         }
         if (writerAll != null) { writerAll.close(); }
         if (writerChanged != null) { writerChanged.close(); }
         return 0;
     }
 
-    
+
     private Record patchRecord(RawRecord rawRecord, BufferedReader locationReader, BufferedReader changedlocationReader)
     {
         boolean patched = false;
@@ -334,7 +335,7 @@ public class MarcPatcher extends MarcHandler
     {
         String line = null;
         String result[];
-        do { 
+        do {
             try
             {
                 line = locationReader.readLine();
@@ -366,7 +367,7 @@ public class MarcPatcher extends MarcHandler
                 }
             }
         } while (!result[0].equals(currentLocationID));
-    
+
         result[0] =  result[0].replaceFirst(mapPattern, mapReplace);
         result[1] = result[1].trim();
         return result;
@@ -418,7 +419,7 @@ public class MarcPatcher extends MarcHandler
                 {
                     if (!locationFileLine2[2].equals(locationFileLine2[3]))
                     {
-                        List<Subfield> subfields = (List<Subfield>)df999.getSubfields(); 
+                        List<Subfield> subfields = (List<Subfield>)df999.getSubfields();
                         int index = 0;
                         for (Subfield sf : subfields)
                         {
@@ -429,7 +430,7 @@ public class MarcPatcher extends MarcHandler
                         changed = true;
                     }
                 }
-                else 
+                else
                 {
                     if (!locationFileLine2[2].equals(curLoc.getData()))
                     {
@@ -447,7 +448,7 @@ public class MarcPatcher extends MarcHandler
                 if (homeLoc != null && !locationFileLine2[3].equals(homeLoc.getData()))
                 {
                     Subfield libraryName = df999.getSubfield('m');
-                    String newLibraryName = locationFileLine2[4];                    
+                    String newLibraryName = locationFileLine2[4];
                     homeLoc.setData(locationFileLine2[3]);
                     if (newLibraryName != null && !newLibraryName.equals(libraryName.getData()))
                     {
@@ -489,32 +490,32 @@ public class MarcPatcher extends MarcHandler
         return(changed);
     }
 
-    public static int getLevenshteinDistance (String s, String t) 
+    public static int getLevenshteinDistance (String s, String t)
     {
         if (s == null || t == null) {
           throw new IllegalArgumentException("Strings must not be null");
         }
-              
+
         /*
-          The difference between this impl. and the previous is that, rather 
-           than creating and retaining a matrix of size s.length()+1 by t.length()+1, 
+          The difference between this impl. and the previous is that, rather
+           than creating and retaining a matrix of size s.length()+1 by t.length()+1,
            we maintain two single-dimensional arrays of length s.length()+1.  The first, d,
            is the 'current working' distance array that maintains the newest distance cost
            counts as we iterate through the characters of String s.  Each time we increment
            the index of String t we are comparing, d is copied to p, the second int[].  Doing so
-           allows us to retain the previous cost counts as required by the algorithm (taking 
+           allows us to retain the previous cost counts as required by the algorithm (taking
            the minimum of the cost count to the left, up one, and diagonally up and to the left
-           of the current cost count being calculated).  (Note that the arrays aren't really 
-           copied anymore, just switched...this is clearly much better than cloning an array 
+           of the current cost count being calculated).  (Note that the arrays aren't really
+           copied anymore, just switched...this is clearly much better than cloning an array
            or doing a System.arraycopy() each time  through the outer loop.)
 
-           Effectively, the difference between the two implementations is this one does not 
-           cause an out of memory condition when calculating the LD over two very large strings.          
-        */        
-              
+           Effectively, the difference between the two implementations is this one does not
+           cause an out of memory condition when calculating the LD over two very large strings.
+        */
+
         int n = s.length(); // length of s
         int m = t.length(); // length of t
-              
+
         if (n == 0) {
           return m;
         } else if (m == 0) {
@@ -536,24 +537,24 @@ public class MarcPatcher extends MarcHandler
         for (i = 0; i<=n; i++) {
            p[i] = i;
         }
-              
+
         for (j = 1; j<=m; j++) {
            t_j = t.charAt(j-1);
            d[0] = j;
-              
+
            for (i=1; i<=n; i++) {
               cost = s.charAt(i-1)==t_j ? 0 : 1;
-              // minimum of cell to the left+1, to the top+1, diagonally left and up +cost                
-              d[i] = Math.min(Math.min(d[i-1]+1, p[i]+1),  p[i-1]+cost);  
+              // minimum of cell to the left+1, to the top+1, diagonally left and up +cost
+              d[i] = Math.min(Math.min(d[i-1]+1, p[i]+1),  p[i-1]+cost);
            }
 
            // copy current distance counts to 'previous row' distance counts
            _d = p;
            p = d;
            d = _d;
-        } 
-              
-        // our last action in the above loop was to switch d and p, so p now 
+        }
+
+        // our last action in the above loop was to switch d and p, so p now
         // actually has the most recent cost counts
         return p[n];
       }
@@ -573,7 +574,7 @@ public class MarcPatcher extends MarcHandler
 
     /**
      * @param args
-     * @throws FileNotFoundException 
+     * @throws FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException
     {
@@ -596,7 +597,7 @@ public class MarcPatcher extends MarcHandler
             else if (args[i].endsWith(".mrc") && changedFile == null) changedFile = args[i];
             else if (args[i].endsWith(".mrc") && changedFile != null) outputFile = args[i];
         }
-        
+
         try {
             if (changesOnly)
             {
@@ -622,7 +623,7 @@ public class MarcPatcher extends MarcHandler
             //e.printStackTrace();
             System.exit(1);
         }
-        
+
         int exitCode = marcPatcher.handleAll();
         if (pOut != null) pOut.flush();
         System.exit(exitCode);
