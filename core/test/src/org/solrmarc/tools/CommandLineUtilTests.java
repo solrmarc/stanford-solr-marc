@@ -466,7 +466,7 @@ public class CommandLineUtilTests
 
         // retrieve record u3 from the original input file
         ByteArrayOutputStream out3 = new ByteArrayOutputStream();
-        CommandLineUtils.runCommandLineUtil("org.solrmarc.marc.RawRecordReader", "main", null, out3, new String[]{testDataParentPath+"/mergeInput.mrc", "u3" });
+        CommandLineUtils.runCommandLineUtil("org.marc4j.util.RawRecordReader", "main", null, out3, new String[]{testDataParentPath+"/mergeInput.mrc", "u3" });
 
         // compare the results
         CommandLineUtils.assertArrayEquals("record via GetFromSolr(raw), and record via GetRecord ", out2.toByteArray(), out3.toByteArray());

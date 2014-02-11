@@ -26,7 +26,7 @@ public class HathiJsonReaderTest
     }
 
     /**
-     * unit test for org.solrmarc.marc.RawRecordReader and org.solrmarc.tools.RawRecord
+     * unit test for org.marc4j.util.RawRecordReader and org.solrmarc.tools.RawRecord
      */
 @Test
     public void testHathiJsonRecordReader()
@@ -40,7 +40,7 @@ public class HathiJsonReaderTest
         {
             hathiReader = new HathiJsonToMarc(new FileInputStream(new File(testDataParentPath, "009888737.json")), true);
             reader = new MarcPermissiveStreamReader(new FileInputStream(new File(testDataParentPath, "009888737.mrc")), true, true, "UTF8");
-            
+
             Record hathiRec = null;
             if (hathiReader.hasNext()) hathiRec = hathiReader.next();
             Record rec = null;
@@ -55,7 +55,7 @@ public class HathiJsonReaderTest
     }
 
     /**
-     * unit test for org.solrmarc.marc.RawRecordReader and org.solrmarc.tools.RawRecord
+     * unit test for org.marc4j.util.RawRecordReader and org.solrmarc.tools.RawRecord
      */
 @Test
     public void testHathiPlunderer()
@@ -64,7 +64,7 @@ public class HathiJsonReaderTest
         if (testDataParentPath == null)
             fail("property test.data.path must be defined for the tests to run");
         BufferedReader hathiRecNumList = HathiPlunderer.initReader(new String[]{ testDataParentPath+"/hathi_upd_list.txt", testDataParentPath+"/hathi_upd_20110911.txt", testDataParentPath+"/hathi_upd_20110904.txt.gz"} );
-        
+
         HathiPlunderer hathiPlunderer = new HathiPlunderer(hathiRecNumList, 15, 15, 6);
         MarcReader hathiReader = new HathiJsonToMarc(hathiPlunderer, true);
         int cnt = 0;
@@ -81,7 +81,7 @@ public class HathiJsonReaderTest
     }
 
 //---------------------- private methods ----------------
-    
+
     private void assertRecordsEquals(String message, Record rec1, Record rec2)
     {
         int result = compareRecords(rec1, rec2);
@@ -92,7 +92,7 @@ public class HathiJsonReaderTest
         else if (result == -1) message = "Done with one record but not the other";
         assertEquals(message+" "+messageMore, 0, result);
     }
-        
+
     private int compareRecords(Record rec1, Record rec2)
     {
         List<VariableField> fields1 = (List<VariableField>)rec1.getVariableFields();
@@ -107,7 +107,7 @@ public class HathiJsonReaderTest
             {
                 ControlField cf1 = (ControlField)f1;
                 ControlField cf2 = (ControlField)f2;
-                if (! cf1.getData().equals(cf2.getData()))  
+                if (! cf1.getData().equals(cf2.getData()))
                 	return(1);
             }
             else if (f1 instanceof DataField && f2 instanceof DataField)
@@ -122,11 +122,11 @@ public class HathiJsonReaderTest
                 {
                     Subfield sf1 = iter3.next();
                     Subfield sf2 = iter4.next();
-                    if (! sf1.getData().equals(sf2.getData()))  
+                    if (! sf1.getData().equals(sf2.getData()))
                         return(2);
                 }
             }
-            else 
+            else
                 return(3);
         }
         // if done with one record but not the other

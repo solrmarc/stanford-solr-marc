@@ -11,14 +11,12 @@ import org.marc4j.*;
 import org.marc4j.marc.*;
 import org.marc4j.util.RawRecord;
 import org.marc4j.util.RawRecordReader;
-import org.solrmarc.marcoverride.MarcSplitStreamWriter;
-
 
 public class RecordReaderTest
 {
 
     /**
-     * unit test for org.solrmarc.marc.RawRecordReader and org.solrmarc.tools.RawRecord
+     * unit test for org.marc4j.util.RawRecordReader and org.solrmarc.tools.RawRecord
      */
 @Test
     public void testRawRecordReader()
@@ -61,7 +59,7 @@ public class RecordReaderTest
     }
 
 	/**
-     * unit test for org.solrmarc.marcoverride.MarcSplitStreamWriter and org.solrmarc.marc.MarcCombiningReader
+     * unit test for org.marc4j.MarcSplitStreamWriter and org.marc4j.MarcCombiningReader
      */
 @Test
     public void testCombiningReaderAndSplitStreamWriter()
@@ -104,7 +102,7 @@ public class RecordReaderTest
     }
 
     /**
-     * unit test for org.solrmarc.marcoverride.MarcSplitStreamWriter and org.solrmarc.marc.RawRecordReader
+     * unit test for org.marc4j.MarcSplitStreamWriter and org.solrmarc.marc.RawRecordReader
      */
  @Test
     public void testRawRecordCombiningAndSplitStreamWriter()
