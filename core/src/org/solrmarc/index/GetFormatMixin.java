@@ -8,7 +8,7 @@ import org.solrmarc.tools.MarcUtils;
 
 public class GetFormatMixin extends SolrIndexerMixin
 {
-    
+
     private enum ContentType
     {
         Art,
@@ -192,7 +192,7 @@ public class GetFormatMixin extends SolrIndexerMixin
         VideoSuperVHS,
         VideoTypeC,
         VideoUMatic,
-        VideoVHS, 
+        VideoVHS,
     }
 
     private enum CombinedType
@@ -203,7 +203,7 @@ public class GetFormatMixin extends SolrIndexerMixin
 
     /**
      * Return the content type and media types, plus electronic, for this record
-     * 
+     *
      * @param record   -  MARC Record
      * @return Set of Strings of content types and media types
      */
@@ -211,13 +211,13 @@ public class GetFormatMixin extends SolrIndexerMixin
     {
         Set<String> formats = getContentTypes(record);
         formats.addAll( getMediaTypes(record));
-        formats = addOnlineTypes(record, formats); 
+        formats = addOnlineTypes(record, formats);
         return(formats);
     }
-    
+
     /**
      * Return the primary content type, plus electronic, for this record
-     * 
+     *
      * @param record  -  MARC Record
      * @return String of primary material types
      */
@@ -229,17 +229,17 @@ public class GetFormatMixin extends SolrIndexerMixin
 
         String primaryType = getPrimaryContentType(record);
         format.add(primaryType);
-        
+
         format = addOnlineTypes(record, format);
-        
+
         return format;
     }
 
     /**
      * Add types EBook and Online for electronic items for this record
-     * 
+     *
      * @param record  -  MARC Record
-     * @param formats Set<String>  - the Set of formats to add the types EBook and Online to 
+     * @param formats Set<String>  - the Set of formats to add the types EBook and Online to
      * @return String of primary material types
      */
     public Set<String> addOnlineTypes(final Record record, Set<String> formats)
@@ -261,10 +261,10 @@ public class GetFormatMixin extends SolrIndexerMixin
         }
         return(formats);
     }
-    
+
     /**
      * Return the primary content type for this record
-     * 
+     *
      * @param record MARC Record
      * @return String of primary material types
      */
@@ -285,7 +285,7 @@ public class GetFormatMixin extends SolrIndexerMixin
 
     /**
      * Parse out content types from record
-     * 
+     *
      * @param record MARC Record
      * @return List of material types
      */
@@ -305,7 +305,7 @@ public class GetFormatMixin extends SolrIndexerMixin
 
     /**
      * Parse out content types from record
-     * 
+     *
      * @param record MARC Record
      * @return List of material types
      */
@@ -329,10 +329,11 @@ public class GetFormatMixin extends SolrIndexerMixin
         // so we can iterate over them both
 
         String[] formatTags = { "008", "006" };
-        List<ControlField> fieldsFormat = (List<ControlField>)record.getVariableFields(formatTags);
+        List<VariableField> fieldsFormat = record.getVariableFields(formatTags);
 
-        for (ControlField fieldFormat : fieldsFormat)
+        for (VariableField vf : fieldsFormat)
         {
+        	ControlField fieldFormat = (ControlField) vf;
             String tag = fieldFormat.getTag();
 
             String profile = ""; // we'll use this to determine which
@@ -594,7 +595,7 @@ public class GetFormatMixin extends SolrIndexerMixin
 
                         materialType.add(ContentType.LooseLeaf.toString());
                         break;
-                        
+
                     case 'm': // Monographic series
 
                         materialType.add(ContentType.BookSeries.toString());
@@ -659,7 +660,7 @@ public class GetFormatMixin extends SolrIndexerMixin
 
                         materialType.add(ContentType.Art.toString());
                         break;
-                        
+
                     case 'b': // b - Kit
 
                         materialType.add(ContentType.Kit.toString());
@@ -674,7 +675,7 @@ public class GetFormatMixin extends SolrIndexerMixin
 
                         materialType.add(ContentType.Diorama.toString());
                         break;
-                        
+
                     case 'f': // f - Filmstrip
 
                         materialType.add(ContentType.Filmstrip.toString());
@@ -684,7 +685,7 @@ public class GetFormatMixin extends SolrIndexerMixin
 
                         materialType.add(ContentType.Game.toString());
                         break;
-                        
+
                     case 'i': // i - Picture
 
                         materialType.add(ContentType.Picture.toString());
@@ -820,7 +821,7 @@ public class GetFormatMixin extends SolrIndexerMixin
 
     /**
      * Parse out media / carrier types from record
-     * 
+     *
      * @param record   MARC Record
      * @return List of material types
      */
@@ -845,17 +846,18 @@ public class GetFormatMixin extends SolrIndexerMixin
 
         // // 007 ////
 
-        List<ControlField> fields007 = record.getVariableFields("007");
+        List<VariableField> fields007 = record.getVariableFields("007");
 
-        for (ControlField field007 : fields007)
+        for (VariableField vf007 : fields007)
         {
+        	ControlField field007 = (ControlField) vf007;
             // first, check to make sure this is a post-1981 007 by looking at
             // position 2, which should be undefined
 
             char field007_02 = '?';
-            if (field007.getData().length() <= 2 || 
+            if (field007.getData().length() <= 2 ||
                 (field007_02 = field007.getData().toLowerCase().charAt(2)) != ' ' && field007_02 != '|' && field007_02 != '-')
-            { 
+            {
                 {
                     if (indexer != null && indexer.errors != null)
                     {
@@ -1356,14 +1358,14 @@ public class GetFormatMixin extends SolrIndexerMixin
                         case 'd': // d - Sound disc
 
                             form.add(MediaType.SoundDisc.toString());
-                            
+
                             //  check subtype of sound disc f in 007/03 means CD  one of abde means LP
                             char subSpecific = (field007.getData().length() > 3) ? field007.getData().toLowerCase().charAt(3) : ' ';
                             if (subSpecific == 'f')
                                 form.add(MediaType.SoundDiscCD.toString());
                             else if ("abde".indexOf(subSpecific) != -1)
                                 form.add(MediaType.SoundDiscLP.toString());
-                            
+
                             break;
 
                         case 'c': // c - Cylinder [OBSOLETE]
@@ -1592,10 +1594,11 @@ public class GetFormatMixin extends SolrIndexerMixin
         // parse the form of item indicator from 008 and 006
 
         String[] formatTags = { "008", "006" };
-        List<ControlField> fieldsFormat = record.getVariableFields(formatTags);
+        List<VariableField> fieldsFormat = record.getVariableFields(formatTags);
 
-        for (ControlField fieldFormat : fieldsFormat)
+        for (VariableField vf : fieldsFormat)
         {
+        	ControlField fieldFormat = (ControlField) vf;
             String profile = "";
             int position = 0; // position we'll use
 
@@ -1703,15 +1706,15 @@ public class GetFormatMixin extends SolrIndexerMixin
 
     /**
      * Return the type of video item (cartridge, disc, reel, cassette) given the single letter from 007/01 that encodes this value.
-     * 
-     * @param materialSpecific 
+     *
+     * @param materialSpecific
      *              letter for the form of the video (taken from 007/01)
      * @return string
      */
     private String getVideoMediaForm(char materialSpecific)
     {
         String form = null;
-        switch (materialSpecific) 
+        switch (materialSpecific)
         {
             case 'c': // c - Videocartridge
 
@@ -1749,14 +1752,14 @@ public class GetFormatMixin extends SolrIndexerMixin
     /**
      * Compare the type of video item (cartridge, disc, reel, cassette) with the expected value for the type given the assigned form
      * For instance is the assigned form is DVD and the type if video item is cassette, it's probably an error.
-     * 
+     *
      * @param id
      *              id of the record being processed
-     * @param materialSpecific 
+     * @param materialSpecific
      *              letter for the form of the video (taken from 007/01)
-     * @param expectedVal 
+     * @param expectedVal
      *              letter for expected form of the video (based on the assignedForm)
-     * @param assignedForm 
+     * @param assignedForm
      *              String for the type of video (assigned based on 007/04)
      */
     private void checkTypeOfVideo(String id, char materialSpecific, char expectedVal, String assignedForm)
@@ -1769,13 +1772,13 @@ public class GetFormatMixin extends SolrIndexerMixin
                 String errMsg = "Mismatch between form of video (007/01)" + videoMediaForm + " and type of video (007/04)" + assignedForm;
                 indexer.errors.addError(id, "007", "n/a", ErrorHandler.ERROR_TYPO, errMsg);
             }
-        }      
+        }
     }
 
     /**
      * Return the type based on record type character from either leader or
      * 006/00
-     * 
+     *
      * @param field
      *            leader or 006 as string
      * @param source
@@ -1792,7 +1795,7 @@ public class GetFormatMixin extends SolrIndexerMixin
     /**
      * Return the profile based on record type character from either leader or
      * 006/00
-     * 
+     *
      * @param field
      *            leader or 006 as string
      * @param source
@@ -1809,7 +1812,7 @@ public class GetFormatMixin extends SolrIndexerMixin
     /**
      * Return the profile and type based on record type character from either
      * leader or 006/00
-     * 
+     *
      * @param field
      *            leader or 006 as string
      * @param source
@@ -2013,10 +2016,10 @@ public class GetFormatMixin extends SolrIndexerMixin
         return result;
     }
 
-    
+
     /**
      * Whether the record contains a full-text link
-     * 
+     *
      * @param record
      * @return Boolean
      */
@@ -2055,7 +2058,7 @@ public class GetFormatMixin extends SolrIndexerMixin
             return isFullText;
         }
     }
-    
+
     /**
      * Shift an element to the front of our list
      *

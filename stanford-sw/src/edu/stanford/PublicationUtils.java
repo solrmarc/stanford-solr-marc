@@ -114,18 +114,18 @@ public class PublicationUtils {
      * Side Effects:  errors in pub date are logged
      * @param date008 - characters 7-10 (0 based index) in 008 field
 	 * @param date260c - the date string extracted from the 260c field
-	 * @param df264list  - a List of 264 fields as DataField objects
+	 * @param vf264list  - a List of 264 fields as VariableField objects
 	 * @param id - record id for error messages
 	 * @param logger - the logger for error messages
 	 * @return String containing publication date, or null if none
 	 * @deprecated not using pub_date for facet or display with date slider implemented
 	 */
-	static String getPubDate(final String date008, String date260c, List<DataField> df264list, String id, Logger logger)
+	static String getPubDate(final String date008, String date260c, List<VariableField> vf264list, String id, Logger logger)
 	{
 		if (date008 != null) {
 			String errmsg = "Bad Publication Date in record " + id + " from 008/07-10: " + date008;
 			if (DateUtils.isdddd(date008)) {
-				String result = getValidPubDateStr(date008, date260c, df264list);
+				String result = getValidPubDateStr(date008, date260c, vf264list);
 				if (result != null)
 					return result;
 				else
@@ -146,7 +146,7 @@ public class PublicationUtils {
 					logger.error(errmsg);
 			}
 			// 008 is blanks or something like that
-			return getValidPubDateStr(date008, date260c, df264list);
+			return getValidPubDateStr(date008, date260c, vf264list);
 
 		}
 
@@ -162,17 +162,17 @@ public class PublicationUtils {
      *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
      * @param date008 - characters 7-10 (0 based index) in 008 field
 	 * @param date260c - the date string extracted from the 260c field
-	 * @param df264list  - a List of 264 fields as DataField objects
+	 * @param vf264list  - a List of 264 fields as VariableField objects
 	 * @return String containing publication date, or null if none
 	 * @deprecated handling 008 dates a bit differently now
 	 */
-	static String getPubDateSort(String date008, String date260c, List<DataField> df264list)
+	static String getPubDateSort(String date008, String date260c, List<VariableField> vf264list)
 	{
 		if (date008 != null) {
 			// hyphens sort before 0, so the lexical sorting will be correct. I
 			// think.
 			if (DateUtils.isdddd(date008))
-				return getValidPubDateStr(date008, date260c, df264list);
+				return getValidPubDateStr(date008, date260c, vf264list);
 			else if (DateUtils.isdddu(date008)) {
 				int myFirst3 = Integer.parseInt(date008.substring(0, 3));
 				int currFirst3 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 3));
@@ -208,10 +208,10 @@ public class PublicationUtils {
      *
      * @param cf008 - 008 field as a ControlField object
 	 * @param date260c - the date string extracted from the 260c field
-	 * @param df264list  - a List of 264 fields as DataField objects
+	 * @param vf264list  - a List of 264 fields as VariableField objects
 	 * @return String containing publication date, or null if none
 	 */
-	static String getPubDateSort(ControlField cf008, String date260c, List<DataField> df264list)
+	static String getPubDateSort(ControlField cf008, String date260c, List<VariableField> vf264list)
 	{
 		String possRawDate1 = null;
 		String possRawDate2 = null;
@@ -234,7 +234,7 @@ public class PublicationUtils {
 		}
 
 		// look for a result in 264c and/or 260c
-		String result = getValidPubDateStr(null, date260c, df264list);
+		String result = getValidPubDateStr(null, date260c, vf264list);
 		if (result != null)
 			return result;
 
@@ -395,17 +395,17 @@ public class PublicationUtils {
      *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
      * @param cf008 - 008 field as a ControlField object
 	 * @param date260c - the date string extracted from the 260c field
-	 * @param df264list  - a List of 264 fields as DataField objects
+	 * @param vf264list  - a List of 264 fields as VariableField objects
 	 * @return Set<String> containing publication years, or empty set if none
 	 * @deprecated
 	 */
-	static Set<String> getPubDateSliderVals(ControlField cf008, String date260c, List<DataField> df264list)
+	static Set<String> getPubDateSliderVals(ControlField cf008, String date260c, List<VariableField> vf264list)
 	{
 		Set<String> results = new HashSet<String>();
 		if (cf008 != null && cf008.getData().length() >= 15)
 		{
 			char f008char6 = cf008.getData().charAt(6);
-			String date1Str = getValidPubYearStrOrNull(cf008.getData().substring(7, 11), date260c, df264list);
+			String date1Str = getValidPubYearStrOrNull(cf008.getData().substring(7, 11), date260c, vf264list);
 			int date1Int = -1;
 			if (date1Str != null)
 				date1Int = Integer.valueOf(date1Str);
@@ -479,12 +479,12 @@ public class PublicationUtils {
      *   four digit years < EARLIEST_VALID_YEAR trigger an attempt to get a 4 digit date from 260c
      *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
 	 * @param date260c - the date string extracted from the 260c field
-	 * @param df264list  - a List of 264 fields as DataField objects
+	 * @param vf264list  - a List of 264 fields as VariableField objects
 	 * @return Set of Strings containing the publication date groupings
 	 *         associated with the publish date
 	 * @deprecated not using pub date groups with date slider
 	 */
-	static Set<String> getPubDateGroups(String date008, String date260c, List<DataField> df264list)
+	static Set<String> getPubDateGroups(String date008, String date260c, List<VariableField> vf264list)
 	{
 		Set<String> resultSet = new HashSet<String>();
 
@@ -492,7 +492,7 @@ public class PublicationUtils {
 		if (date008 != null) {
 			if (DateUtils.isdddd(date008)) // exact year
 			{
-				String myDate = getValidPubDateStr(date008, date260c, df264list);
+				String myDate = getValidPubDateStr(date008, date260c, vf264list);
 				if (myDate != null) {
 					int year = Integer.parseInt(myDate);
 					// "this year" and "last three years" are for 4 digits only
@@ -581,14 +581,14 @@ public class PublicationUtils {
      *  NOTE: errors in pub date are not logged;  that is done in getPubDate()
      * @param dateFrom008 - 4 character date from characters 7-10 or 11-14  in 008 field
 	 * @param date260c - the date string extracted from the 260c field
-	 * @param df264list  - a List of 264 fields as DataField objects
+	 * @param vf264list  - a List of 264 fields as VariableField objects
 	 * @return String containing publication date, or null if none
 	 */
-	private static String getValidPubYearStrOrNull(String dateFrom008, String date260c, List<DataField> df264list)
+	private static String getValidPubYearStrOrNull(String dateFrom008, String date260c, List<VariableField> vf264list)
 	{
 		String resultStr = null;
 		if (DateUtils.isdddd(dateFrom008))
-			return getValidPubDateStr(dateFrom008, date260c, df264list);
+			return getValidPubDateStr(dateFrom008, date260c, vf264list);
 		else if (DateUtils.isdddu(dateFrom008)) {
 			int myFirst3 = Integer.parseInt(dateFrom008.substring(0, 3));
 			int currFirst3 = Integer.parseInt(CURRENT_YEAR_AS_STR.substring(0, 3));
@@ -601,7 +601,7 @@ public class PublicationUtils {
 				resultStr = dateFrom008.substring(0, 2) + "00";
 		} else {
 			// last ditch try from 264 and 260c
-			String validDate = getValidPubDateStr("-1", date260c, df264list);
+			String validDate = getValidPubDateStr("-1", date260c, vf264list);
 			if (validDate != null)
 				return validDate;
 		}
@@ -690,12 +690,12 @@ public class PublicationUtils {
      *  If not, take any other usable date in the 264c
 	 * @param dateToCheck - String containing 4 digit date to check
 	 * @param date260c - the date string extracted from the 260c field
-	 * @param df264list  - a List of 264 fields as DataField objects
+	 * @param vf264list  - a List of 264 fields as VariableField objects
 	 * @return String containing a 4 digit valid publication date, or null
 	 */
-	static String getValidPubDateStr(String dateToCheck, String date260c, List<DataField> df264list)
+	static String getValidPubDateStr(String dateToCheck, String date260c, List<VariableField> vf264list)
 	{
-		return getValidPubDateStr(dateToCheck, LATEST_VALID_YEAR, EARLIEST_VALID_YEAR, date260c, df264list);
+		return getValidPubDateStr(dateToCheck, LATEST_VALID_YEAR, EARLIEST_VALID_YEAR, date260c, vf264list);
 	}
 
 	/**
@@ -707,10 +707,10 @@ public class PublicationUtils {
 	 * @param upperLimit - highest valid year (inclusive)
 	 * @param lowerLimit - lowest valid year (inclusive)
 	 * @param date260c - the date string extracted from the 260c field
-	 * @param df264list  - a List of 264 fields as DataField objects
+	 * @param vf264list  - a List of 264 fields as VariableField objects
 	 * @return String containing a 4 digit valid publication date, or null
 	 */
-    static String getValidPubDateStr(String dateToCheck, int upperLimit, int lowerLimit, String date260c, List<DataField> df264list)
+    static String getValidPubDateStr(String dateToCheck, int upperLimit, int lowerLimit, String date260c, List<VariableField> vf264list)
     {
     	try
     	{
@@ -722,10 +722,11 @@ public class PublicationUtils {
 
 		// try to get date from 260 or 264
 		String usable264cdateStr = null;
-		if (df264list != null)
+		if (vf264list != null)
 		{
-			for (DataField df264 : df264list)
+			for (VariableField vf264 : vf264list)
 			{
+				DataField df264 = (DataField) vf264;
 				char ind2 = df264.getIndicator2();
 				List<String> subcList = MarcUtils.getSubfieldStrings(df264, 'c');
 				for (String date264cStr : subcList)

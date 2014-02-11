@@ -25,11 +25,11 @@ public class HathiJsonToMarc implements MarcReader
     {
         this(in, false);
     }
-    
+
     public HathiJsonToMarc(Reader in, boolean add856)
     {
         this.add856 = add856;
-        if (mf == null) 
+        if (mf == null)
         {
             if (System.getProperty("org.marc4j.marc.MarcFactory") == null)
             	System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
@@ -50,16 +50,16 @@ public class HathiJsonToMarc implements MarcReader
             e1.printStackTrace();
         }
     }
-    
+
     public HathiJsonToMarc(InputStream in)
     {
         this(in, false);
     }
-    
+
     public HathiJsonToMarc(InputStream in, boolean add856)
     {
         this.add856 = add856;
-        if (mf == null) 
+        if (mf == null)
         {
             if (System.getProperty("org.marc4j.marc.MarcFactory") == null)
             	System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
@@ -80,11 +80,11 @@ public class HathiJsonToMarc implements MarcReader
             e1.printStackTrace();
         }
     }
-    
+
 //    public HathiJsonToMarc(Reader in, boolean rawXML)
 //    {
-//        
-//        if (mf == null) 
+//
+//        if (mf == null)
 //        {
 //            if (System.getProperty("org.marc4j.marc.MarcFactory") == null)
 //    			System.setProperty("org.marc4j.marc.MarcFactory", "org.marc4j.marc.impl.MarcFactoryImpl");
@@ -105,7 +105,7 @@ public class HathiJsonToMarc implements MarcReader
 //            e1.printStackTrace();
 //        }
 //    }
-    
+
     public boolean hasNext()
     {
         parserCode = parser.getEventCode();
@@ -113,7 +113,7 @@ public class HathiJsonToMarc implements MarcReader
         {
             if (parserCode == 0 || parserCode == JsonParser.EVT_OBJECT_ENDED)
                 parserCode = parser.next();
-            else if (parserCode == JsonParser.EVT_OBJECT_BEGIN) 
+            else if (parserCode == JsonParser.EVT_OBJECT_BEGIN)
             {
                 nextRecord = next();
             }
@@ -122,7 +122,7 @@ public class HathiJsonToMarc implements MarcReader
         {
             return(true);
         }
-        if (parserCode == JsonParser.EVT_INPUT_ENDED)  
+        if (parserCode == JsonParser.EVT_INPUT_ENDED)
         {
             if (toMarcXML != null)
             {
@@ -139,7 +139,7 @@ public class HathiJsonToMarc implements MarcReader
                     e.printStackTrace();
                 }
             }
-            else 
+            else
             {
                 System.out.println("</collection>");
             }
@@ -147,7 +147,7 @@ public class HathiJsonToMarc implements MarcReader
         }
         throw new MarcException("Malformed JSON input");
     }
-    
+
     public Record next()
     {
         if (nextRecord != null)
@@ -162,13 +162,13 @@ public class HathiJsonToMarc implements MarcReader
         String mname = null;
         Record curRecord = null;
         String mnameStack[] = new String[20];
-         
+
         do {
             mname = parser.getMemberName();
             if (parserCode == JsonParser.EVT_OBJECT_BEGIN)
             {
                 mnameStack[level++] = mname;
-                
+
           //      if (level == 3) id = mname;
 //                  if (items != null && itemdata == null && mname.equals("items"))
 //                  {
@@ -177,16 +177,16 @@ public class HathiJsonToMarc implements MarcReader
             }
             else if (parserCode == JsonParser.EVT_OBJECT_ENDED)
             {
-                if (level > 0) 
+                if (level > 0)
                 {
                     level--;
-                    if (mnameStack[level+1] != null && mnameStack[level+1].equals("items"))  
+                    if (mnameStack[level+1] != null && mnameStack[level+1].equals("items"))
                     {
                         if (toMarcXML != null)
                         {
                             return(curRecord);
                         }
-                        else 
+                        else
                         {
                             return null;
                         }
@@ -266,7 +266,7 @@ public class HathiJsonToMarc implements MarcReader
 //                  }
             }
             parserCode = parser.next();
-            
+
         } while (parserCode != JsonParser.EVT_INPUT_ENDED);
         return(null);
     }
@@ -275,10 +275,11 @@ public class HathiJsonToMarc implements MarcReader
 
     private static void make856fields(Record curRecord)
     {
-        List<DataField> dfs = (List<DataField>)curRecord.getVariableFields("974"); 
+        List<VariableField> vfs = curRecord.getVariableFields("974");
         Map<String, String> sortedMap = new TreeMap<String, String>(compare);
-        for (DataField df : dfs)
+        for (VariableField vf : vfs)
         {
+        	DataField df = (DataField) vf;
             Subfield rights = null;
             if ((rights = df.getSubfield('r')) != null && (rights.getData().startsWith("pd") || rights.getData().equals("world")))
             {
@@ -306,11 +307,11 @@ public class HathiJsonToMarc implements MarcReader
             curRecord.addVariableField(newdf);
         }
     }
-    
-    
+
+
     private static void fix880field(Record curRecord)
     {
-        List<DataField> dfs = (List<DataField>)curRecord.getDataFields(); 
+        List<DataField> dfs = (List<DataField>)curRecord.getDataFields();
         List<DataField> todelete = new ArrayList<DataField>();
         for (DataField df : dfs)
         {
@@ -335,7 +336,7 @@ public class HathiJsonToMarc implements MarcReader
                         else // duplicate ? -- delete it
                         {
                             //mark for deletion
-                            todelete.add(dfother); 
+                            todelete.add(dfother);
                         }
                         break;
                     }
@@ -410,8 +411,8 @@ public class HathiJsonToMarc implements MarcReader
             System.arraycopy(args, 1, newArgs, 0, args.length-1);
             args = newArgs;
         }
-        
-        if (args.length == 1) 
+
+        if (args.length == 1)
         {
             try
             {
@@ -451,11 +452,11 @@ public class HathiJsonToMarc implements MarcReader
         {
             in = new BufferedReader(new InputStreamReader(System.in));
         }
-        
+
         HathiJsonToMarc marcreader = null;
         if (rawXML)
         {
-            marcreader =  new HathiJsonToMarc(in, true); 
+            marcreader =  new HathiJsonToMarc(in, true);
             while (marcreader.hasNext())
             {
                 Record rec = marcreader.next();
@@ -467,10 +468,10 @@ public class HathiJsonToMarc implements MarcReader
             }
 
         }
-        else 
+        else
         {
-            marcreader = new HathiJsonToMarc(in); 
-        
+            marcreader = new HathiJsonToMarc(in);
+
             while (marcreader.hasNext())
             {
                 Record rec = marcreader.next();
@@ -497,7 +498,7 @@ public class HathiJsonToMarc implements MarcReader
 //                }
 //                curRecord.addVariableField(df);
 //            }
-//            
+//
 //        }
 
 }

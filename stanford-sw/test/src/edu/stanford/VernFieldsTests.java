@@ -180,7 +180,8 @@ public class VernFieldsTests extends AbstractStanfordTest
         df.addSubfield(factory.newSubfield('6', "666-9"));
         df.addSubfield(factory.newSubfield('m', ""));
         record.addVariableField(df);
-		record = addLinkedField(record, "105", '\u0000', "10"); // no subfield code - ignore
+//		record = addLinkedField(record, "105", '\u0000', "10"); // no subfield code - ignore --> passed with marc-2.5.1-beta; fails with marc-2.6
+		record = addLinkedField(record, "105", ' ', "10"); // blank subfield code - ignore
 
 		solrFldMapTest.assertSolrFldValue(record, fldName, "880a for 010 880a for 024 880a for 100 880b for 245 880c for 782 880a for 946 880a for 650");
 	}

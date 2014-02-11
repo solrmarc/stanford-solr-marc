@@ -835,9 +835,10 @@ public class CallNumUtils
 				if (isGovDoc)
 				{
 					// 086 has no sub b
-					List<DataField> df086List = record.getVariableFields("086");
-					for (DataField df : df086List)
+					List<VariableField> df086List = record.getVariableFields("086");
+					for (VariableField vf : df086List)
 					{
+						DataField df = (DataField) vf;
 						String suba = MarcUtils.getSubfieldData(df, 'a');
 						if (suba != null && suba.length() > 0)
 						{
@@ -895,9 +896,10 @@ public class CallNumUtils
 	{
 		List<String> results = new ArrayList<String>();
 
-		List<DataField> dfList = record.getVariableFields(tag);
-		for (DataField df : dfList)
+		List<VariableField> dfList = record.getVariableFields(tag);
+		for (VariableField vf : dfList)
 		{
+			DataField df = (DataField) vf;
 			String suba = MarcUtils.getSubfieldData(df, 'a');
 			String subb = MarcUtils.getSubfieldData(df, 'b');
 			StringBuffer subab = new StringBuffer();

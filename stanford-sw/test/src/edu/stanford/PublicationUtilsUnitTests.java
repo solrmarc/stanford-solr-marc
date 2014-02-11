@@ -408,7 +408,7 @@ public class PublicationUtilsUnitTests
 @Test
 	public void testGetValidPubDateIgnores264Unknowns()
 	{
-		List<DataField> f264list = new ArrayList<DataField>();
+		List<VariableField> f264list = new ArrayList<VariableField>();
 	    DataField df = factory.newDataField("264", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('c', "[Date of publication not identified] :"));
 	    f264list.add(df);
@@ -431,7 +431,7 @@ public class PublicationUtilsUnitTests
 @Test
 	public void testGetValidPubDateIgnoresTooLate()
 	{
-		List<DataField> f264list = new ArrayList<DataField>();
+		List<VariableField> f264list = new ArrayList<VariableField>();
 	    DataField df = factory.newDataField("264", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('c', "9999"));
 	    f264list.add(df);
@@ -460,7 +460,7 @@ public class PublicationUtilsUnitTests
 @Test
 	public void testGetValidPubDateIgnoresTooEarly()
 	{
-		List<DataField> f264list = new ArrayList<DataField>();
+		List<VariableField> f264list = new ArrayList<VariableField>();
 	    DataField df = factory.newDataField("264", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('c', "0000"));
 	    f264list.add(df);
@@ -541,10 +541,10 @@ public class PublicationUtilsUnitTests
 		Set<String> result = getPubDateSliderVals(f008, null, null);
 		assertEquals("getPubDateSliderVals should have no results if bad 008 and no other options", 0, result.size());
 
-		result = getPubDateSliderVals(f008, "1960", new ArrayList<DataField>());
+		result = getPubDateSliderVals(f008, "1960", new ArrayList<VariableField>());
 		assertEquals("getPubDateSliderVals should get single result from second arg if 008 has bad value", "1960", result.toArray()[0]);
 
-		List<DataField> f264list = new ArrayList<DataField>();
+		List<VariableField> f264list = new ArrayList<VariableField>();
 	    DataField df = factory.newDataField("264", ' ', ' ');
 	    df.addSubfield(factory.newSubfield('c', "1970"));
 	    f264list.add(df);
