@@ -47,7 +47,7 @@ import org.solrmarc.tools.*;
  * - a bib follows an mhld with the same id (fatal error -> upstream sirsi dump issues)
  *
  * @author Naomi Dushay  based on Bob Haschart's MarcCombiningReader
- * @see org.solrmarc.marc.MarcCombiningReader
+ * @see org.marc4j.MarcCombiningReader
  */
 public class CombineMultBibsMhldsReader implements MarcReader
 {

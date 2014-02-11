@@ -218,7 +218,7 @@
 			>
 		    <doctitle><![CDATA[<h1>SolrMarc CORE API (from Stanford Fork)</h1>]]></doctitle>
 				<package name="org.solrmarc.*" />
-	    	<group title="Core Packages" packages="org.solrmarc.index,org.solrmarc.marc,org.solrmarc.marcoverride,org.solrmarc.solr,org.solrmarc.tools"/>
+	    	<group title="Core Packages" packages="org.solrmarc.index,org.solrmarc.marc,org.solrmarc.solr,org.solrmarc.tools"/>
 		    <group title="Test Utility Classes" packages="org.solrmarc.testUtils*"/>
 	    	<group title="Core Test Classes" packages="org.solrmarc.A*,org.solrmarc.tools.*Test*"/>
 	    	<link href="http://docs.oracle.com/javase/6/docs/api/" />

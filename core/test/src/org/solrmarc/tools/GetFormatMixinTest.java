@@ -24,7 +24,7 @@ public class GetFormatMixinTest
     }
 
     /**
-     * unit test for org.solrmarc.marc.RawRecordReader and org.solrmarc.tools.RawRecord
+     * unit test for org.marc4j.util.RawRecordReader and org.solrmarc.tools.RawRecord
      */
     @Test
     public void testGetFormatMixin()
@@ -48,7 +48,7 @@ public class GetFormatMixinTest
             }
             catch (UnsupportedEncodingException e)
             {
-            } 
+            }
         }
 
         String solrmarcCorePath = System.getProperty("solrmarc.path");
@@ -65,13 +65,13 @@ public class GetFormatMixinTest
                 showResults(result, "raw   ", verbose, out, id);
                 result = indexedRecord.get("getformatmixinmapped");
                 showResults(result, "mapped", verbose, out, id);
-                if (verbose) 
+                if (verbose)
                 {
                     if (errors.hasErrors())
                     {
                         for (Object error : errors.getErrors())
                         {
-                            out.println(error.toString());                            
+                            out.println(error.toString());
                         }
                     }
                     out.println(record.toString());
@@ -102,6 +102,6 @@ public class GetFormatMixinTest
                 if (verbose) out.println(id + "("+label+") = " + format);
             }
         }
-        
+
     }
 }

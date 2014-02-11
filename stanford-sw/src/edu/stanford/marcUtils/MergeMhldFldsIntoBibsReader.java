@@ -5,7 +5,6 @@ import java.util.*;
 
 import org.marc4j.*;
 import org.marc4j.marc.*;
-import org.solrmarc.marcoverride.MarcSplitStreamWriter;
 import org.solrmarc.tools.*;
 
 /**
