@@ -6,7 +6,7 @@
 # updated for Naomi's FORK of solrmarc 2011-01-23
 # Naomi Dushay 2010-04-09
 
-REMOTE_DATA_DIR=/s/SUL/Dataload/SearchworksPartday/Output
+REMOTE_DATA_DIR=/s/SUL/Dataload/SearchWorksPartday/Output
 
 LOCAL_DATA_DIR=/data/sirsi
 LATEST_DATA_DIR=$LOCAL_DATA_DIR/latest/updates
@@ -38,7 +38,8 @@ CP=$SITE_JAR:$DIST_DIR:$DIST_DIR/lib
 # create log directory
 LOG_DIR=$LATEST_DATA_DIR/logs
 mkdir -p $LOG_DIR
-LOG_FILE=$LOG_DIR/$RECORDS_FNAME".txt"
+TIMESTAMP=`eval date +%y%m%d_%H%M%S`
+LOG_FILE=$LOG_DIR/$RECORDS_FNAME"_"$TIMESTAMP".txt"
 
 REC_FNAME=$LATEST_DATA_DIR/$RECORDS_FNAME
 DEL_ARG="-Dmarc.ids_to_delete="$LATEST_DATA_DIR/$DEL_KEYS_FNAME
@@ -46,7 +47,7 @@ DEL_ARG="-Dmarc.ids_to_delete="$LATEST_DATA_DIR/$DEL_KEYS_FNAME
 # index the files
 nohup java -Xmx1g -Xms256m $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_FILE
 # email the results
-#mail -s 'pullThenIndexSirsiIncr.sh output' searchworks-reports@lists.stanford.edu, datacontrol@stanford.edu < $LOG_FILE
+#mail -s 'pullThenIndexSirsiIncr.sh sw-solr-sirsi-test output' searchworks-reports@lists.stanford.edu, datacontrol@stanford.edu < $LOG_FILE
 # email the solr log messages
 #$SOLRMARC_BASEDIR/stanford-sw/scripts/grep_and_email_tomcat_log.sh
 
