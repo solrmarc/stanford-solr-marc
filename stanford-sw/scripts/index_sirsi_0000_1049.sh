@@ -14,7 +14,7 @@ SOLRMARC_BASEDIR=$HOMEDIR/solrmarc-sw
 # create fresh dist files
 ant -buildfile $SOLRMARC_BASEDIR/build.xml dist_site
 
-# index the files
+# index the files without commit
 /home/blacklight/solrmarc-sw/stanford-sw/scripts/index_sirsi_0000_0099.sh $LOG_SUBDIR &
 /home/blacklight/solrmarc-sw/stanford-sw/scripts/index_sirsi_0100_0199.sh $LOG_SUBDIR &
 /home/blacklight/solrmarc-sw/stanford-sw/scripts/index_sirsi_0200_0299.sh $LOG_SUBDIR &

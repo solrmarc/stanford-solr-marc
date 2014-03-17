@@ -203,9 +203,10 @@
   <!-- Replication -->
   <requestHandler name="/replication" class="solr.ReplicationHandler" >
     <lst name="slave">
+      <str name="enable">${enable.slave:false}</str>
       <str name="masterUrl">http://sw-solr-m:8983/solr/replication</str>
       <!--Format is HH:mm:ss -->
-      <str name="pollInterval">00:15:00</str>
+      <str name="pollInterval">00:05:00</str>
     </lst>
   </requestHandler>
 
@@ -1119,6 +1120,7 @@
   <requestHandler name="/analysis/field" startup="lazy" class="solr.FieldAnalysisRequestHandler" />
   <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" />
   <requestHandler name="/admin/ping" class="solr.PingRequestHandler">
+    <str name="healthcheckFile">server-enabled.txt</str>
     <lst name="invariants">
       <str name="q">ping test query</str>
       <str name="qt">search</str>

@@ -25,9 +25,8 @@ LOG_PARENT_DIR=$RAW_DATA_DIR/logs
 LOG_DIR=$LOG_PARENT_DIR/$LOG_SUBDIR
 mkdir -p $LOG_DIR
 
-# index the files
+# index the files without commit
 nohup java -Xmx1g -Xms256m -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_07000000_07499999.marc &>$LOG_DIR/log0700-0749.txt
 nohup java -Xmx1g -Xms256m -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_07500000_07999999.marc &>$LOG_DIR/log0750-0799.txt
-#nohup java -Xmx1g -Xms256m -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $RAW_DATA_DIR/uni_10000000_10499999.marc &>$LOG_DIR/log1000-1049.txt
 
 exit 0

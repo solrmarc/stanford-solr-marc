@@ -1,7 +1,6 @@
 #! /bin/bash
-# pullThenIndexSirsiIncr.sh
-# NOTE:  this is deprecated and will be replaced by pullThenIndexBodoniNightly.sh
-# Pull over nightly update files from Sirsi bodoni, then
+# pullThenIndexBodoniNightlyNoEmailNoCrezNoCommit.sh
+# Pull over nightly update files from bodoni Sirsi, then
 #  Remove deleted records (per file of ids) from index and update index (with marc records in file)
 # defaults to most recent; can take a date arg in the form yymmdd
 #
@@ -25,7 +24,7 @@ else
   RECORDS_FNAME=$TODAY"_uni_increment.marc"
 fi
 
-#  sftp remote files with datestamp to "latest/updates"
+# sftp remote files with datestamp to "latest/updates"
 sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
 sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$DEL_KEYS_FNAME $LATEST_DATA_DIR/
 sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$RECORDS_FNAME $LATEST_DATA_DIR/
@@ -53,18 +52,19 @@ REC_FNAME=$LATEST_DATA_DIR/$RECORDS_FNAME
 DEL_ARG="-Dmarc.ids_to_delete="$LATEST_DATA_DIR/$DEL_KEYS_FNAME
 
 # index the files
-nohup java -Xmx1g -Xms256m $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_FILE
+#nohup java -Xmx1g -Xms256m $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_FILE
+nohup java -Xmx1g -Xms256m $DEL_ARG -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_FILE
 # email the results
-mail -s 'pullThenIndexSirsiIncr.sh output' searchworks-reports@lists.stanford.edu, datacontrol@stanford.edu < $LOG_FILE
+#mail -s 'pullThenIndexSirsiIncr.sh output' searchworks-reports@lists.stanford.edu, datacontrol@stanford.edu < $LOG_FILE
 # email the solr log messages
-$SOLRMARC_BASEDIR/stanford-sw/scripts/grep_and_email_tomcat_log.sh
+#$SOLRMARC_BASEDIR/stanford-sw/scripts/grep_and_email_tomcat_log.sh
 
 # include latest course reserves data
-JRUBY_OPTS="--1.9"
-export JRUBY_OPTS
-LANG="en_US.UTF-8"
-export LANG
+#JRUBY_OPTS="--1.9"
+#export JRUBY_OPTS
+#LANG="en_US.UTF-8"
+#export LANG
 
-(source /usr/local/rvm/scripts/rvm && cd /home/blacklight/crez-sw-ingest && source ./.rvmrc && ./bin/index_latest_no_email.sh -s prod)
+#(source /usr/local/rvm/scripts/rvm && cd /home/blacklight/crez-sw-ingest && source ./.rvmrc && ./bin/index_latest_no_email.sh -s prod)
 
 exit 0
