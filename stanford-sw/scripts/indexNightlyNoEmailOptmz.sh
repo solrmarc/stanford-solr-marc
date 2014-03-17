@@ -1,7 +1,8 @@
 #! /bin/bash
-# index_incr_sirsi.sh
-# Remove deleted records (per file of ids) from index and update index (with marc records in file)
-#
+# indexNightlyNoEmailOptmz.sh
+# defaults to today's date; can take a date arg in the form yymmdd
+# Remove deleted records (per file of ids) from index and update index
+#  (with marc records in file), optimizing the index at the end
 # updated for Naomi's FORK of solrmarc 2011-01-23
 # Naomi Dushay 2010-01-08
 
@@ -18,8 +19,8 @@ else
 fi
 
 RAW_DATA_DIR=/data/sirsi/latest/updates
-
 REC_FNAME=$RAW_DATA_DIR/$RECORDS_FNAME
+
 DEL_ARG="-Dmarc.ids_to_delete="$RAW_DATA_DIR/$DEL_KEYS_FNAME
 
 JAVA_HOME=/usr/lib/jvm/java
@@ -34,20 +35,8 @@ CP=$SITE_JAR:$DIST_DIR:$DIST_DIR/lib
 # create log directory
 LOG_DIR=$RAW_DATA_DIR/logs
 mkdir -p $LOG_DIR
-LOG_FILE=$LOG_DIR/$RECORDS_FNAME".txt"
 
 # index the files
-nohup java -Xmx1g -Xms256m $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_FILE
-#mail -s 'pullThenIndexSirsiIncr.sh output' searchworks-reports@lists.stanford.edu, datacontrol@stanford.edu < $LOG_FILE
-# email the solr log messages
-#$SOLRMARC_BASEDIR/stanford-sw/scripts/grep_and_email_tomcat_log.sh
-
-# include latest course reserves data
-JRUBY_OPTS="--1.9"
-export JRUBY_OPTS
-LANG="en_US.UTF-8"
-export LANG
-
-(source /usr/local/rvm/scripts/rvm && cd /home/blacklight/crez-sw-ingest && source ./.rvmrc && ./bin/pull_and_index_latest -s prod )
+nohup java -Xmx1g -Xms256m $DEL_ARG -Dsolr.optimize_at_end="true" -cp $CP -jar $SITE_JAR $REC_FNAME &>$LOG_DIR/$RECORDS_FNAME".txt"
 
 exit 0
