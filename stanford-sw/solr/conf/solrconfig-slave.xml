@@ -203,7 +203,9 @@
   <!-- Replication -->
   <requestHandler name="/replication" class="solr.ReplicationHandler" >
     <lst name="slave">
+<!-- may want to set this to false so we can manually trigger replication and stagger it across slaves
       <str name="enable">${enable.slave:false}</str>
+-->
       <str name="masterUrl">http://sw-solr-m:8983/solr/replication</str>
       <!--Format is HH:mm:ss -->
       <str name="pollInterval">00:05:00</str>
