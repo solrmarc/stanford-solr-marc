@@ -1,7 +1,8 @@
 #! /bin/bash
-# pullThenIndexSirsiIncr.sh
-# Pull over the latest incremental update files from Sirsi, then
+# pullThenIndexMorisonNightlyNoEmailNoCrez.sh
+# Pull over the nightly update files from Sirsi, then
 #  Remove deleted records (per file of ids) from index and update index (with marc records in file)
+# defaults to most recent; can take a date arg in the form yymmdd
 #
 # updated for Naomi's FORK of solrmarc 2011-01-23
 # Naomi Dushay 2010-04-09
@@ -23,8 +24,7 @@ else
   RECORDS_FNAME=$TODAY"_uni_increment.marc"
 fi
 
-#  sftp remote files with today's datestamp to "latest/updates"
-
+# sftp remote files with datestamp to "latest/updates"
 sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
 sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$DEL_KEYS_FNAME $LATEST_DATA_DIR/
 sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$RECORDS_FNAME $LATEST_DATA_DIR/

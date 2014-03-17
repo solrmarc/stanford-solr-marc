@@ -1,9 +1,9 @@
 #! /bin/bash
-# getSirsiIncr.sh
-# Pull over the latest incremental update files from Sirsi.  
+# getMorisonNightly.sh
+# Pull the nightly update files from Sirsi morison
+# defaults to most recent; can take a date arg in the form yymmdd
 #  Naomi Dushay 2010-01-08
 
-#REMOTE_DATA_DIR=/s/Dataload/SearchworkIncrement/Output
 REMOTE_DATA_DIR=/s/SUL/Dataload/SearchWorksIncrement/Output
 
 LOCAL_DATA_DIR=/data/sirsi
@@ -21,8 +21,7 @@ else
   RECORDS_FNAME=$TODAY"_uni_increment.marc"
 fi
     
-#  sftp remote files with today's datestamp to "latest/updates"
-
+# sftp remote files with datestamp to "latest/updates"
 sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
 sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$DEL_KEYS_FNAME $LATEST_DATA_DIR/
 sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$RECORDS_FNAME $LATEST_DATA_DIR/
