@@ -1,6 +1,6 @@
 #! /bin/bash
-# pullThenIndexMorisonHourlyNoEmail.sh
-# Pull over the latest partial day update files from Sirsi morison, then
+# pullThenIndexBodoniHourlyNoEmailNoCrez.sh
+# Pull over the latest partial day update files from Sirsi bodoni, then
 #  Remove deleted records (per file of ids) from index and update index (with marc records in file)
 #
 # updated for Naomi's FORK of solrmarc 2011-01-23
@@ -16,9 +16,9 @@ DEL_KEYS_FNAME="ckeys_delete.del"
 RECORDS_FNAME="uni_partday.marc"
 
 # sftp remote files to "latest/updates"
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$DEL_KEYS_FNAME $LATEST_DATA_DIR/
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$RECORDS_FNAME $LATEST_DATA_DIR/
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$DEL_KEYS_FNAME $LATEST_DATA_DIR/
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$RECORDS_FNAME $LATEST_DATA_DIR/
 
 
 #########
@@ -51,11 +51,11 @@ nohup java -Xmx1g -Xms256m $DEL_ARG -Dsolr.commit_at_end="true" -cp $CP -jar $SI
 #$SOLRMARC_BASEDIR/stanford-sw/scripts/grep_and_email_tomcat_log.sh
 
 # include latest course reserves data
-JRUBY_OPTS="--1.9"
-export JRUBY_OPTS
-LANG="en_US.UTF-8"
-export LANG
+#JRUBY_OPTS="--1.9"
+#export JRUBY_OPTS
+#LANG="en_US.UTF-8"
+#export LANG
 
-(source /usr/local/rvm/scripts/rvm && cd /home/blacklight/crez-sw-ingest && source ./.rvmrc && ./bin/pull_and_index_latest_no_email -s prod)
+#(source /usr/local/rvm/scripts/rvm && cd /home/blacklight/crez-sw-ingest && source ./.rvmrc && ./bin/index_latest_no_email.sh -s prod)
 
 exit 0

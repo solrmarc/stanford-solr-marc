@@ -1,6 +1,6 @@
 #! /bin/bash
-# pullThenIndexMorisonHourlyNoEmail.sh
-# Pull over the latest partial day update files from Sirsi morison, then
+# pullThenIndexBodoniHourlyNoEmail.sh
+# Pull over the latest partial day update files from Sirsi bodoni, then
 #  Remove deleted records (per file of ids) from index and update index (with marc records in file)
 #
 # updated for Naomi's FORK of solrmarc 2011-01-23
@@ -16,9 +16,9 @@ DEL_KEYS_FNAME="ckeys_delete.del"
 RECORDS_FNAME="uni_partday.marc"
 
 # sftp remote files to "latest/updates"
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$DEL_KEYS_FNAME $LATEST_DATA_DIR/
-sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@morison:$REMOTE_DATA_DIR/$RECORDS_FNAME $LATEST_DATA_DIR/
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$COUNTS_FNAME $LOCAL_DATA_DIR
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$DEL_KEYS_FNAME $LATEST_DATA_DIR/
+sftp -o 'IdentityFile=~/.ssh/id_rsa' sirsi@bodoni:$REMOTE_DATA_DIR/$RECORDS_FNAME $LATEST_DATA_DIR/
 
 
 #########

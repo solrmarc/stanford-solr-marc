@@ -1,10 +1,9 @@
 #! /bin/bash
-# getSirsiFullDump.sh
-# Pull over the latest full dump from Sirsi
+# getBodoniFullDump.sh
+# Pull over the latest full dump from Sirsi bodoni
 #  Naomi Dushay 2008-10-12
 
 COUNTS_FNAME=files_counts
-#REMOTE_DATA_DIR=/s/Dataload/VufindDump/Output
 REMOTE_DATA_DIR=/s/SUL/Dataload/SearchWorksDump/Output
 
 LOCAL_DATA_DIR=/data/sirsi
