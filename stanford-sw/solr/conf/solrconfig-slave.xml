@@ -203,12 +203,13 @@
   <!-- Replication -->
   <requestHandler name="/replication" class="solr.ReplicationHandler" >
     <lst name="slave">
-<!-- may want to set this to false so we can manually trigger replication and stagger it across slaves
-      <str name="enable">${enable.slave:false}</str>
--->
       <str name="masterUrl">http://sw-solr-m:8983/solr/replication</str>
-      <!--Format is HH:mm:ss -->
-      <str name="pollInterval">00:05:00</str>
+      <!-- per solr user email thread on Solr user list started by Jonathan Rochkind on Wed, 15 May 2013 12:47:53 -0700
+           http://find.searchhub.org/document/5fbb17c0a0bc0c97#ef3cc593e4355e2c, not setting a pollInterval has the effect
+           of the slave never polling master, but allowing manual replication.  This is what we want - cron jobs issue 
+           http://_slave_host_:_port_/solr/replication?command=fetchindex on the slaves, but stagger them so the
+           replication isn't occurring on all three slaves simultaneously.
+      -->
     </lst>
   </requestHandler>
 
