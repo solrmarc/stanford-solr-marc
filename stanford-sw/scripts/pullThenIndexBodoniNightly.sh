@@ -64,6 +64,6 @@ export JRUBY_OPTS
 LANG="en_US.UTF-8"
 export LANG
 
-(source /usr/local/rvm/scripts/rvm && cd /home/blacklight/crez-sw-ingest && source ./.rvmrc && ./bin/index_latest_no_email.sh -s prod)
+(source /usr/local/rvm/scripts/rvm && cd /home/blacklight/crez-sw-ingest && source ./.rvmrc && ./bin/index_latest.sh -s prod)
 
 exit 0
