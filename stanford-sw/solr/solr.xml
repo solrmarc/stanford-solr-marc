@@ -1,4 +1,7 @@
+<solr persistent="true">
+<!-- java 7 and ICUTokenizer require NO sharedLib declaration here
 <solr persistent="true" sharedLib="lib">
+-->
  <cores adminPath="/admin/cores" defaultCoreName="current">
   <core name="current" instanceDir="." />
  </cores>
